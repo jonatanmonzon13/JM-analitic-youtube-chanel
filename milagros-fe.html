@@ -151,80 +151,316 @@
     <div class="godrays"></div>
     <div class="logo-mark">JM</div>
     <h1>JM<span class="small">Milagros de Fe</span></h1>
-    <p class="tagline">El forastero y la recompensa divina · kits para Veo 3, Whisk &amp; Fish Audio</p>
+    <p class="tagline">El forastero y la recompensa divina · listos para Veo 3, Whisk &amp; Fish Audio</p>
   </header>
 
   <div class="refstrip" id="refStrip"></div>
 
   <section class="panel">
     <div class="panel-title">Conexión</div>
-    <p class="panel-sub">Conecta Gemini para generar cada historia con IA: así <b>nunca se repite nada</b>. Sin conexión, usa el motor local.</p>
+    <p class="panel-sub">Funciona sin conexión con el motor local. Conecta una API para guiones más ricos y variados.</p>
     <div class="grid2">
       <div>
         <label class="fld">Proveedor de IA</label>
         <select id="provider">
-          <option value="gemini">✦ Gemini (Google) — recomendado</option>
-          <option value="claude">✦ Claude (Anthropic)</option>
           <option value="local">⚙ Sin conexión · Motor local</option>
+          <option value="claude">✦ Claude (Anthropic)</option>
+          <option value="gemini">✦ Gemini (Google)</option>
         </select>
-        <div class="hint">Con IA el guion es único cada vez. Sin key, el motor local arma un esquema base.</div>
+        <div class="hint">El modo local nunca falla y no consume créditos.</div>
       </div>
-      <div id="keyBox">
+      <div id="keyBox" class="hidden">
         <label class="fld">API Key</label>
-        <input type="password" id="apiKey" placeholder="AIza… (Gemini) / sk-… (Claude)">
-        <div class="hint">⚠ La clave queda solo en tu navegador. Conseguí la de Gemini gratis en aistudio.google.com/apikey</div>
+        <input type="password" id="apiKey" placeholder="Pega tu clave aquí (sk-... / AIza...)">
+        <div class="hint">⚠ La clave queda solo en tu navegador. Úsala en tu equipo, no publiques la página con la clave dentro.</div>
       </div>
     </div>
     <div style="margin-top:14px">
-      <span class="badge"><span class="status-dot" id="statusDot" style="background:var(--lime)"></span><span id="statusTxt">Gemini (al validar key)</span></span>
+      <span class="badge"><span class="status-dot" id="statusDot" style="background:var(--muted)"></span><span id="statusTxt">Modo local activo</span></span>
     </div>
   </section>
 
   <section class="panel">
-    <div class="panel-title">Generar historia</div>
-    <p class="panel-sub">Un forastero llega a un pueblo, casi todos lo rechazan y solo un alma humilde lo ayuda… el cielo devuelve la bondad multiplicada.</p>
-    <div class="opts-grid">
-      <div style="grid-column:1/-1">
-        <label class="fld">Premisa (o tocá 🎲 para una al azar)</label>
-        <input type="text" id="premisa" placeholder="Ej: un panadero pobre acoge a un forastero rechazado por todo el pueblo">
+    <div class="panel-title">Banco de ideas</div>
+    <p class="panel-sub">Motor combinatorio · 96 arquetipos y miles de tramas distintas (escenario × carencia × milagro × variantes). Eliges cuántas escenas quieres (4–30). Varios personajes por escena, sin narrador, con conversaciones reales y mensajes profundos. Sin repetir jamás.</p>
+    <div class="ideas-toolbar">
+      <div class="btn-row" style="margin:0">
+        <button class="btn btn-gold" id="btnGenerate">⚡ Generar lote de 15</button>
+        <button class="btn btn-ghost" id="btnReset">↻ Reset ideas</button>
+        <button class="btn btn-dark" id="btnResetTotal">⨯ Reset total</button>
       </div>
-      <div>
-        <label class="fld">Escenas (4 a 12)</label>
-        <input type="number" id="sceneCount" min="4" max="12" value="10">
-      </div>
+      <div class="counter">Únicas usadas: <b id="usedCount">0</b> · Restantes: <b id="poolLeft">—</b></div>
     </div>
-    <div class="btn-row">
-      <button class="btn btn-ghost" id="btnRandom">🎲 Premisa al azar</button>
-      <button class="btn btn-gold" id="btnGen">⚡ Generar kit completo</button>
-    </div>
-    <div class="hint">El kit trae: guion escena por escena (sin narrador), prompts de personajes, de escenas y de animación (8s c/u) + SEO.</div>
+    <div id="ideasList"></div>
   </section>
 
-  <section class="panel" id="outPanel">
-    <div class="lote-head">
-      <span class="lote-title">Kit de producción</span>
-      <button class="copy-btn-inline hidden" id="copyOut">⧉ Copiar todo</button>
+  <section class="panel" id="scriptPanel">
+    <div class="panel-title">Guion</div>
+    <p class="panel-sub" id="scriptSub">Elige una idea arriba para empezar.</p>
+
+    <div id="countRow" style="display:none">
+      <div class="opts-grid">
+        <div>
+          <label class="fld">Escenas (4 a 30)</label>
+          <input type="number" id="sceneCount" min="4" max="30" value="10">
+        </div>
+        <div>
+          <label class="fld">Escenario</label>
+          <select id="settingSel">
+            <option value="auto">Automático (según idea)</option>
+            <option value="desert">Desierto</option>
+            <option value="drought">Sequía / campo seco</option>
+            <option value="road">Camino</option>
+            <option value="village">Aldea / pueblo</option>
+            <option value="mountain">Montaña</option>
+            <option value="river">Río</option>
+          </select>
+        </div>
+        <div>
+          <label class="fld">Tipo de milagro</label>
+          <select id="miracleSel">
+            <option value="auto">Automático (según idea)</option>
+            <option value="heal">Sanación del ser querido</option>
+            <option value="debtpaid">Deuda saldada</option>
+            <option value="rain">Lluvia milagrosa</option>
+            <option value="reunion">Regreso del ser querido</option>
+            <option value="provision">Provisión / mesa multiplicada</option>
+            <option value="vindication">Verdad revelada</option>
+          </select>
+        </div>
+      </div>
+      <div class="btn-row">
+        <button class="btn btn-ghost" id="btnRandomTrama">🎲 Aleatorio</button>
+        <button class="btn btn-gold" id="btnBuildScript">📝 Generar guion</button>
+      </div>
+      <div class="hint">Deja "Automático" para que la idea decida, o fija tú el escenario y el milagro. El botón Aleatorio elige una trama al azar. El guion y los lotes se ajustan EXACTAMENTE a la cantidad de escenas.</div>
     </div>
-    <div class="out" id="out"></div>
+
+    <div class="rel">
+      <button class="copy-btn hidden" id="copyScript">⧉ Copiar</button>
+      <div class="out" id="scriptOut"></div>
+    </div>
+
+    <div class="dur-row" id="durRow" style="display:none">
+      <button class="btn btn-gold" id="btnFinal">🎬 Generar entrega completa</button>
+      <div class="hint" style="align-self:center;margin:0">El guion va incrustado dentro de cada clip de 8s · no necesitas el tiempo del audio.</div>
+    </div>
+  </section>
+
+  <section class="panel hidden" id="finalPanel">
+    <div class="panel-title">Entrega final de producción</div>
+    <p class="panel-sub" id="clipInfo"></p>
+    <div class="rel">
+      <div class="out" id="finalOut"></div>
+    </div>
   </section>
 
   <footer>
     <div class="divline" style="margin-bottom:14px"></div>
-    <b>JM</b> · Milagros de Fe — generador de historias de fe y recompensa divina
+    <b>JM</b> · Milagros de Fe — el forastero y la recompensa divina
   </footer>
 </div>
 
 <div class="toast" id="toast"></div>
 
 <script>
-const $=id=>document.getElementById(id);
-function toast(m){const t=$("toast");t.textContent=m;t.classList.add("show");setTimeout(()=>t.classList.remove("show"),1800);}
-function rnd(a){return a[Math.floor(Math.random()*a.length)];}
+/* ============================================================
+   JM BOTS · Historias de Fe  (v4 · motor combinatorio)
+   - Reparto MÚLTIPLE: prot, forastero, ser querido, mensajero,
+     familiar, vecinos -> 2 a 4 personajes nombrados por escena.
+   - 96 arquetipos · 1000+ tramas (escenario × carencia × milagro × ...).
+   - El usuario elige la CANTIDAD DE ESCENAS (4 a 30); guion y lotes
+     salen EXACTOS a ese número.
+   - Continuidad: mismos nombres en LOTE 1 / 2 / 3.
+   - Cada prompt indica quién habla, quién calla y qué hace cada uno.
+   - A veces hablan DOS personajes (conversación) dentro del clip.
+   - Estilo fijo + "sin texto" en escenas y animaciones.
+   ============================================================ */
 
-/* ---------- Imágenes de referencia del nicho ---------- */
-const PHOTO_PROVIDER='pexels';
-const PEXELS_KEY='';
-const UNSPLASH_KEY='';
+/* ---------- NOMBRES (latinos / mexicanos) ---------- */
+const NAMES_M = ["Santiago","Mateo","Leonardo","Matías","Emiliano","Diego","Sebastián","Miguel Ángel","Alejandro","Jesús","Daniel","Luis","José","David","Juan","Eduardo","Fernando","Carlos","Roberto","Jorge","Francisco","Ricardo","Pedro","Hugo","Manuel","Raúl","Javier","Gerardo","Antonio","Arturo","Juan Carlos","José Luis","Víctor","Mario","Óscar","Rubén","Enrique","Ramón","Guillermo","Édgar","Alberto","Héctor","Armando","Julio","Iván","César","Pablo","Sergio","Gustavo","Rodrigo","Alfonso","Tomás","Martín","Joaquín","Felipe","Ignacio","Marcos","Rafael","Andrés","Isaac","Emmanuel","Aarón","Gael","Axel","Julián","Omar","Iker","Ángel","Gabriel","Ezequiel","Bruno","Cristian","Damián","Efraín","Esteban","Fabián","Gilberto","Ismael","Jaime","Lorenzo","Marcelo","Nicolás","Noé","Orlando","Patricio","Saúl","Salvador","Teodoro","Ulises","Valentín","Abelardo","Benjamín","Camilo","Cuauhtémoc","Demetrio","Eleazar","Everardo","Fidel","Florencio","Genaro","Gonzalo","Heriberto","Hilario","Jacinto","Leobardo","Macario","Maximiliano","Nemesio","Pánfilo","Refugio","Rigoberto","Santos","Severiano","Tadeo","Urbano","Venancio","Bartolomé","Bonifacio","Casimiro","Crescencio","Dionisio","Eulogio","Fortunato","Gregorio","Higinio","Isidro","Lázaro","Mariano","Norberto","Pascual","Sabino","Toribio"];
+const NAMES_F = ["Sofía","María José","Valentina","Regina","Camila","Valeria","Ximena","María Fernanda","Victoria","Renata","Ana","Daniela","Natalia","Andrea","Guadalupe","Mariana","Luciana","Isabella","Romina","Fernanda","Samantha","Alejandra","Jazmín","Paulina","Gabriela","Rosa","Elena","Martha","Leticia","Adriana","Juana","Silvia","Josefina","Margarita","Verónica","Rosa María","Teresa","Patricia","Rocío","Laura","Alicia","Blanca","Edith","Karina","Alma","Mónica","Diana","Gloria","Araceli","Carmen","Elizabeth","Beatriz","Norma","Rosalía","Susana","Yolanda","Lorena","Julieta","Carolina","Paola","Fabiola","Estefanía","Fátima","Mía","Melissa","Evelyn","Karla","Sara","Esther","Magdalena","Concepción","Dolores","Esperanza","Soledad","Remedios","Consuelo","Amparo","Altagracia","Petra","Catalina","Cecilia","Clara","Cristina","Delia","Eulalia","Felipa","Genoveva","Herlinda","Inés","Jacinta","Lucía","Manuela","Nicolasa","Obdulia","Otilia","Ramona","Sabina","Tomasa","Bárbara","Bernarda","Domitila","Eugenia","Florentina","Gertrudis","Hortensia","Ignacia","Juliana","Modesta","Natividad","Prudencia","Rita","Serafina","Trinidad","Ofelia","Agustina","Anastasia","Brígida","Eloísa","Ernestina","Filomena","Gregoria","Hermelinda","Leonor","Micaela","Pilar","Apolonia"];
+
+/* ---------- ARQUETIPOS (x3 ≈ 96) · "Una/La" = femenino ---------- */
+const ARQ = [
+ "Una anciana pobre pero profundamente devota","Un anciano humilde que vive solo y reza cada día","Una madre trabajadora de fe inquebrantable","Un padre humilde que nunca pierde la fe","Un campesino pobre que comparte lo poco que tiene","Una viuda piadosa y trabajadora","Un hombre que lo perdió todo menos su fe","Un abuelo bondadoso olvidado por los suyos","Una abuela que crió a sus nietos en la fe","Un mendigo que aún le da gracias a Dios","Un humilde pastor de un pueblo pequeño","Una mujer que perdona a quienes la hirieron","Un trabajador honrado que jamás se queja","Una costurera pobre de corazón generoso","Un buen samaritano que ayuda sin esperar nada","Una familia pobre pero unida en la oración",
+ "Una madre soltera que cría a sus hijos con fe y amor","Un viudo anciano que reparte pan a los más pobres","Una lavandera humilde de manos cansadas y alma noble","Un zapatero pobre que arregla zapatos sin cobrarle a los necesitados","Una curandera del pueblo de corazón puro","Un aguador humilde que da de beber a todo el que pasa","Una abuela casi ciega que reza por todo su pueblo","Un leñador honrado que comparte su última hogaza","Una hilandera devota que nunca le niega ayuda a nadie","Un sepulturero humilde que reza por las almas olvidadas","Una posadera pobre que jamás cierra su puerta a un extraño","Un alfarero anciano que regala vasijas a quien nada tiene","Una madre que perdió a su esposo y aun así da gracias cada día","Un pastor anciano que cuida su rebaño y su fe por igual","Una mujer enferma que reza más por los demás que por sí misma","Un campesino sin tierra que siembra esperanza en los demás",
+ "Una panadera humilde que regala el pan que sobra","Un pescador pobre que reparte su pesca con los hambrientos","Una maestra rural que enseña sin cobrar a los más pobres","Un albañil honrado que levanta casas ajenas y duerme en una choza","Una partera del pueblo que jamás cobra a quien no tiene","Un sereno anciano que vela el pueblo y reza por todos","Una tejedora ciega de manos sabias y alma serena","Un boticario pobre que fía las medicinas a los enfermos","Una cocinera humilde que nunca deja a nadie con hambre","Un herrero honesto que repara herramientas sin cobrar","Una vendedora de flores que regala ramos a los tristes","Un campanero anciano que llama a misa con fe y alegría","Una nodriza bondadosa que amamantó hijos ajenos","Un labrador devoto que comparte su cosecha con el pueblo","Una bordadora pobre que cose mortajas sin pedir nada","Un arriero humilde que carga gratis las cosas de los ancianos",
+ "Una abuela que reparte su pensión entre los más necesitados","Un anciano ciego que guía a otros con su fe","Una madre que ayuna para que sus hijos coman","Un huérfano de buen corazón que cuida a otros huérfanos","Una monja humilde que sirve sopa a los pobres del camino","Un misionero pobre que recorre aldeas a pie","Una sirvienta honrada que reza por la familia que la desprecia","Un mozo de cuadra noble que cuida a los animales heridos","Una recolectora pobre que comparte su agua en la faena","Un cantero anciano que talla cruces para las tumbas pobres","Una vecina bondadosa a la que todos acuden en desgracia","Un mercader arruinado que sigue dando limosna","Una matrona que adopta a todo niño abandonado","Un campesino tullido que reza con una sonrisa","Una anciana que cose ropa para los recién nacidos pobres","Un molinero honrado que regala harina a las viudas",
+ "Una madre que vende sus joyas para alimentar al pueblo","Un anciano que perdona a quien le robó todo","Una mujer estéril que cría como suyos a los hijos de otros","Un soldado retirado que da su ración a los mendigos","Una hilandera viuda que reza por sus hijos lejanos","Un pordiosero que reparte la limosna que recibe","Una sanadora del campo que cura sin pedir paga","Un sacristán humilde que cuida a los enfermos del pueblo","Una mujer que carga agua para los ancianos del cerro","Un pastor que da su abrigo al caminante aterido","Una abuela que reza el rosario por los presos","Un carpintero pobre que hace cunas para los recién nacidos","Una lechera honrada que regala leche a los niños débiles","Un anciano jardinero que cultiva para los hambrientos","Una mujer que acoge a todo viajero perdido","Un campesino que siembra una parcela solo para los pobres",
+ "Una matriarca que sostiene a tres generaciones con su fe","Un hombre justo despreciado por defender a los débiles","Una viuda que reparte su luto en oraciones por otros","Un anciano que enseña a leer a los niños del campo","Una mujer humilde que lava los pies de los enfermos","Un campesino que devuelve lo que encuentra aunque pase hambre","Una abuela que canta nanas a los huérfanos del pueblo","Un alfarero ciego que aún moldea con fe y memoria","Una madre que reza de rodillas toda la noche por su familia","Un anciano que reparte su única manta en el invierno","Una costurera que viste a los niños descalzos","Un labriego que comparte su pozo con toda la aldea"
+];
+
+/* ---------- AMBIENTES (para la idea / SEO) ---------- */
+const AMB = [
+ "en un desierto abrasador","en un camino polvoriento bajo el sol","en una vereda solitaria del campo","en las afueras de un pueblo rural","en una aldea pobre de montaña","en un sendero árido entre cerros","en un paraje seco y olvidado","en un camino real entre aldeas","en los campos resecos de un pueblo","en una llanura polvorienta y vasta","en las afueras de una aldea humilde","en un valle pobre y apartado","en un camino entre dunas y matorrales","en una región castigada por la sequía","en un paraje desértico junto a un viejo pozo",
+ "en un camino pedregoso al amanecer","en una llanura calcinada por el sol","en las orillas de un río seco y olvidado","en un sendero entre olivos resecos","en un páramo silencioso y polvoriento","en un cruce de caminos perdido en el desierto","en una loma árida azotada por el viento","en un campo agrietado por la sequía","en una vereda de tierra al caer la tarde","en un erial vasto bajo un sol implacable","en un camino de cabras entre cerros pelados","en una planicie desolada y sin sombra","en las afueras polvorientas de una aldea perdida","en un paso angosto entre rocas y arena","en un camino real reseco y solitario"
+];
+const CON = [
+ "carga con un ser querido gravemente enfermo y sin recursos para salvarlo","ha sido abandonado por su propia familia","vive en la pobreza más absoluta, contando cada moneda","enfrenta una prueba que pone a prueba toda su fe","es humillado y despreciado por los demás por su humildad","reza por un milagro que el mundo da por imposible","sostiene solo a toda su familia, agotado pero firme","lo perdió todo y solo le queda su fe y su bondad","sufre una injusticia en silencio sin perder la esperanza","se siente solo y olvidado, sin nadie que lo escuche","da hasta lo último que tiene con tal de ayudar a otro","atraviesa la prueba más dura de su vida sin soltar su fe"
+];
+const GIRO = [
+ "un enviado del cielo disfrazado de forastero","la sanación milagrosa del ser querido","una bendición que regresa multiplicada","una noticia imposible que lo cambia todo","la confirmación de que Dios escuchó cada oración","una recompensa del cielo que llega justo a tiempo","una herencia inesperada que cae como del cielo","el regreso de un ser querido que se creía perdido","una puerta que se abre cuando todo parecía cerrado","una lluvia milagrosa tras la larga sequía","un desconocido que salda todas sus deudas","una curación que la ciencia no logra explicar"
+];
+const TONO = ["devoto y conmovedor","esperanzador desde el dolor","íntimo y espiritual","luminoso y sereno","de fe que crece en silencio","de milagro que estremece el alma","cálido y reconfortante","de revelación que toca el corazón","de redención y esperanza","que sana viejas heridas","de gratitud profunda","de amor incondicional"];
+
+const LOVED = [
+ {rel:"mi nieta", g:'f', pron:"ella", ail:"tiene cáncer"},
+ {rel:"mi hija", g:'f', pron:"ella", ail:"está muy enferma"},
+ {rel:"mi hijo", g:'m', pron:"él", ail:"cayó gravemente enfermo"},
+ {rel:"mi nieto", g:'m', pron:"él", ail:"tiene una enfermedad que nadie ha podido curar"},
+ {rel:"mi madre", g:'f', pron:"ella", ail:"se apaga poco a poco en una cama"},
+ {rel:"mi esposo", g:'m', pron:"él", ail:"está postrado y sin esperanza"},
+ {rel:"mi pequeña", g:'f', pron:"ella", ail:"nació muy débil y enfermita"},
+ {rel:"mi hermano", g:'m', pron:"él", ail:"está muy enfermo y no tengo cómo curarlo"}
+];
+const HARD = [
+ "Antes tenía una familia unida, pero los míos se fueron y me dieron la espalda",
+ "Lo perdí todo hace años; me quedé sin nada de un día para otro",
+ "La vida me quitó casi todo, y aprendí a vivir con muy poquito",
+ "Hace mucho que cargo esta soledad, sin nadie que me tienda la mano",
+ "Trabajo de sol a sol y aun así apenas me alcanza para comer",
+ "He llorado muchas noches en silencio, pidiéndole al cielo una señal",
+ "Me abandonaron cuando más los necesitaba, pero nunca guardé rencor",
+ "Tuve que aprender a sostenerme con la fe como único apoyo"
+];
+
+/* ---------- ESCENARIOS (mundo visual) ---------- */
+const SETTINGS = {
+ desert:   "a harsh sunlit desert of cracked earth and distant arid hills",
+ drought:  "a vast drought-stricken field of cracked soil and withered crops",
+ road:     "a dusty country road winding between dry hills",
+ village:  "a poor humble rural village of adobe houses and dusty streets",
+ mountain: "a poor mountain hamlet on rocky terraced slopes",
+ river:    "the dry stony bank of an almost-empty river under a pale sky"
+};
+function settingFromAmb(b){
+  const s=AMB[b]||"";
+  if(/sequía|agrietad|campo/.test(s)) return 'drought';
+  if(/río/.test(s)) return 'river';
+  if(/montaña|cerros|loma|rocas|cabras/.test(s)) return 'mountain';
+  if(/aldea|pueblo/.test(s)) return 'village';
+  if(/desierto|dunas|desértico|erial|árido|reseca|calcinada|implacable|sin sombra|páramo|olivos|pozo/.test(s)) return 'desert';
+  return 'road';
+}
+
+/* ---------- CARENCIAS + MILAGROS (pares coherentes) ---------- */
+const HARDSHIPS = {
+ sick:    { setupLine:["Cada moneda que junto es para los remedios de {rel}.","No me alcanza para curar a {rel}, pero no pierdo la fe.","{rel} {ail}, y solo tengo mis manos y mi fe."],
+            storyLine:["Y ahora {rel} {ail}.","La vida me dejó {aloneWord}, y {rel} {ail}."] },
+ debt:    { setupLine:["Mañana vienen a quitarme la casa por una deuda.","Trabajé toda mi vida y aun así voy a perderlo todo.","Debo más de lo que podré pagar en muchos años."],
+            storyLine:["Mañana pierdo el único techo que tengo.","Me rompe el alma, pero mañana me quitan mi casa."] },
+ drought: { setupLine:["Sin una gota de lluvia, mis cultivos y mi familia morirán.","La sequía mató mi siembra; ya no sé qué darles de comer.","Llevo meses rezando por lluvia sobre esta tierra seca."],
+            storyLine:["Y el cielo no suelta ni una gota.","Mi tierra se muere de sed, y yo con ella."] },
+ lost:    { setupLine:["Hace años que espero el regreso de {rel}.","{rel} se fue lejos y nunca volví a saber de {pron}.","Cada noche dejo la vela encendida por si {rel} vuelve."],
+            storyLine:["{rel} se fue y casi pierdo la esperanza.","Doy casi por perdido a {rel}, pero sigo rezando."] },
+ hunger:  { setupLine:["Hace dos días que en casa no probamos bocado.","Lo poco que tengo no alcanza para tantos platos.","El hambre aprieta, pero la fe me mantiene de pie."],
+            storyLine:["Y el hambre golpea cada noche mi puerta.","Tengo más bocas que pan, pero nunca pierdo la fe."] },
+ injust:  { setupLine:["Me acusaron de algo que no hice, y nadie me cree.","Me humillan por ser pobre, pero guardo silencio.","Perdí mi buen nombre por una mentira ajena."],
+            storyLine:["Cargo en silencio una injusticia que no merezco.","Me señalan sin razón, pero no guardo rencor."] }
+};
+const MIRACLES = {
+ heal:    { kind:'doctor',
+            promise:["Lo que se da con amor, el cielo lo devuelve. {rel} va a sanar.","Seque sus lágrimas: pronto {rel} estará {okWord}."],
+            news:["{docAddr}, {ser} reaccionó de pronto. La enfermedad desapareció. Es un milagro.","{docAddr}, no lo explicamos: {ser} sanó por completo."],
+            result:["¡Mira, ya estoy {okWord}! Ya no me duele nada."] },
+ debtpaid:{ kind:'official',
+            promise:["Quien abre su puerta al cielo, recibe una puerta mayor.","Mañana su deuda quedará saldada; tenga fe."],
+            news:["{docAddr}, alguien pagó toda su deuda. La casa es suya, libre.","{docAddr}, su deuda fue saldada por completo. No debe nada."],
+            result:["¡La casa es nuestra! ¡Dios no nos abandonó!"] },
+ rain:    { kind:'none',
+            promise:["Hoy regó al sediento; el cielo regará su tierra.","La bondad vuelve, a veces como lluvia sobre lo seco."],
+            news:["¡Llueve! ¡Dios mío, por fin llueve sobre mi tierra!","¡El cielo se abrió! ¡La lluvia salvó mis cultivos!"],
+            result:["¡Mira la tierra beber! ¡El cielo nos salvó a todos!"] },
+ reunion: { kind:'ser',
+            promise:["Prepare la mesa: mañana alguien tocará esa puerta.","Quien no pierde la fe, siempre recibe respuesta."],
+            news:["¡Volví! Por fin estoy de regreso en casa.","¡Aquí estoy! El camino me trajo de vuelta a casa."],
+            result:["¡Estás de vuelta! ¡Dios te trajo a casa otra vez!"] },
+ provision:{kind:'vecino',
+            promise:["El que comparte su pan, nunca verá vacía su mesa.","Quien da con amor, jamás conocerá la verdadera hambre."],
+            news:["¡Vecina, dejaron costales de grano y pan en su puerta!","¡Llegó comida para todos! Dejaron provisiones en su nombre."],
+            result:["¡Hay comida para todos! ¡Bendito sea el cielo!"] },
+ vindication:{kind:'official',
+            promise:["La verdad, como el sol, siempre termina saliendo.","Tenga fe: su nombre será limpiado ante todos."],
+            news:["{docAddr}, se supo la verdad. Es usted inocente; todos lo saben.","{docAddr}, su nombre quedó limpio. La verdad salió a la luz."],
+            result:["¡Se supo la verdad! ¡Mi nombre quedó limpio ante todos!"] }
+};
+const PAIRS = [
+ {hardship:'sick',miracle:'heal'},
+ {hardship:'debt',miracle:'debtpaid'},
+ {hardship:'drought',miracle:'rain'},
+ {hardship:'lost',miracle:'reunion'},
+ {hardship:'hunger',miracle:'provision'},
+ {hardship:'injust',miracle:'vindication'},
+ {hardship:'sick',miracle:'heal'},
+ {hardship:'hunger',miracle:'provision'}
+];
+const TRAMA_LABELS = {heal:"La sanación milagrosa", debtpaid:"La deuda saldada", rain:"La lluvia que llegó", reunion:"El que volvió", provision:"La mesa multiplicada", vindication:"La verdad revelada"};
+const HARDSHIP_FOR_MIRACLE = {heal:'sick', debtpaid:'debt', rain:'drought', reunion:'lost', provision:'hunger', vindication:'injust'};
+const HOOK_SCENE = "GANCHO VISUAL (primeros 3 s): encuadre impactante y primer plano emotivo, la imagen más fuerte para frenar el scroll";
+const HOOK_ANIM  = "Apertura de GANCHO (primeros 3 s): arranque visualmente impactante, emoción inmediata, primer plano intenso para retener desde el primer segundo";
+const GIRO_SCENE = "MOMENTO DE GIRO: composición que aumenta la tensión y la expectativa";
+const GIRO_ANIM  = "PUNTO DE GIRO de la historia: sube la tensión emocional, una mirada o gesto que anticipa algo grande; mantén la retención";
+function computeGiro(units){
+  let gi=units.findIndex(u=>u.phase==='promise');
+  if(gi<0) gi=units.findIndex(u=>u.phase==='wisdom');
+  if(gi<0) gi=units.findIndex(u=>u.phase==='miracle');
+  if(gi<0) gi=Math.floor(units.length/2);
+  return gi;
+}
+
+/* ---------- POOLS DE DIÁLOGO ---------- */
+const POOLS = {
+ encounter:["Llevo días caminando sin comer... ¿alguien podría ayudarme?","Tengo hambre y sed, y nadie en el camino se detiene.","Perdone... ¿tendría algo de agua para un pobre viajero?","Ya no puedo más; el camino me ha vencido, {protAddr}."],
+ kindness:["Tenga, hijo, comparta lo poco que tengo.","Venga conmigo; aquí nadie se queda en el suelo.","Tome esto, hijo. Usted lo necesita más que yo.","Acérquese; lo poco mío también es suyo."],
+ kindAskQ:["¿Me da lo único que tiene?","¿Por qué ayuda así a un extraño?","¿No teme quedarse sin nada?","¿De verdad comparte conmigo su última porción?"],
+ kindAns:["Lo que se da con amor jamás se pierde.","Porque yo también supe lo que es no tener a nadie.","Nunca se es pobre cuando se da con el corazón.","El pan se acaba; la bondad, nunca."],
+ mealProt:["Coma tranquilo, hijo. Está hecho con cariño.","Es humilde, pero compartido sabe mejor.","Siéntese; en esta casa nadie come solo."],
+ mealForas:["Hace mucho que nadie me trataba con tanta nobleza.","Su mesa es pobre, pero su corazón es inmenso.","Que Dios le multiplique cada bocado que comparte."],
+ storyExQ:["¿Y aun así me abrió su casa?","¿Y todavía le da gracias a Dios?","¿De dónde saca tanta fe en medio del dolor?"],
+ storyExA:["Sé lo que es sufrir; nunca dejo a nadie atrás.","La fe es lo único que nadie me ha quitado.","Mientras tenga aliento, tendré algo que dar."],
+ wisdom:["La verdadera riqueza no se guarda: se reparte.","Dios no mira tus manos llenas, sino tu corazón abierto.","Quien siembra bondad, tarde o temprano cosecha milagros.","El cielo escucha más fuerte al que da en silencio."],
+ promiseDoubt:["Ay, hijo... ojalá el cielo lo escuche.","Quisiera creerle, pero ya casi no me queda esperanza.","Dios lo oiga, hijo; es lo único que me sostiene."],
+ departure:["Dios nunca abandona a quien ayuda desde el corazón.","Lo que diste hoy, el cielo te lo devolverá multiplicado.","La bondad siempre encuentra el camino de regreso.","No olvides: el cielo ve lo que el mundo ignora."],
+ parting:["Recuerde mis palabras; pronto las entenderá.","Vaya en paz; lo mejor está por llegar.","Guarde la fe; mañana será otro día."],
+ wait:["¿Será verdad lo que dijo aquel hombre?","No he dejado de pensar en sus palabras.","Toda la noche en vela, esperando una señal."],
+ sign:["Algo en el aire se siente distinto esta mañana.","De pronto, una calma extraña llenó la casa.","Siento que hoy algo va a cambiar para siempre."],
+ signRain:["El cielo se nubla de pronto... ¿será posible?","Mira esas nubes, ¡después de tantos meses de sequía!"],
+ reaction:["¿Cómo... cómo es esto posible?","No puedo creerlo... ¡es un milagro!","Dios mío, sus palabras eran verdad."],
+ gratitude:["Dios mío... eras Tú. Gracias, Señor.","Gracias, Señor, por escuchar a esta pobre alma.","De rodillas te doy gracias; nunca me abandonaste."],
+ reflection:["Quien menos tiene es quien más está dispuesto a dar.","Ningún acto de bondad pasa desapercibido ante los ojos de Dios.","A veces, lo que parece el final es el comienzo de un milagro.","El que da sin esperar nada recibe más de lo que imagina."],
+ cta:["Escribe \"Amén\" y comparte si esta historia tocó tu corazón.","Si crees en los milagros, escribe \"Amén\" y comparte este mensaje."],
+ setupExtra:["Otro día más de lucha, pero con la frente en alto.","Dios aprieta, pero nunca ahoga; hoy tampoco me rindo.","La pobreza me acompaña, pero la fe también."],
+ villageA:["Vecina, ¿otra vez repartiendo lo poco que tiene?","Esa familia siempre ayuda, aunque nada les sobre."],
+ villageB:["Que el cielo le pague tanta bondad, vecina.","Ojalá hubiera más corazones como el suyo por aquí."],
+ famConcern:["No te preocupes tanto; Dios proveerá, ya verás.","Aquí estamos contigo, pase lo que pase.","Reza conmigo; juntos saldremos de esta."],
+ famJoy:["¡Es verdad, no estamos soñando! ¡Gracias, Dios!","¡Lo logramos! ¡La fe nunca nos falló!"],
+ prayer:["Señor, no pido riquezas, solo fuerzas para seguir.","Padre, en tus manos dejo todo lo que no puedo cargar.","Dios mío, hágase tu voluntad, no la mía."]
+};
+
+/* ---------- ESTADO ---------- */
+const STATE = {
+  usedIdeas:new Set(),
+  usedNames:new Set(),
+  lastBatch:[],
+  selectedIdea:null,
+  currentScript:"",
+  units:[],
+  _cast:null,
+  _messengerKind:"doctor",
+  poolMax: ARQ.length*AMB.length*CON.length*GIRO.length*TONO.length,
+  tramaSpace: Object.keys(SETTINGS).length * 6 * ARQ.length
+};
+
+/* ---------- UTILIDADES ---------- */
+const $=id=>document.getElementById(id);
+
+/* ---------- Imágenes de referencia del nicho ----------
+   Fotos reales si pegás una API key (opcional). Sin key / sin internet,
+   muestra tarjetas temáticas (nunca se rompe).                          */
+const PHOTO_PROVIDER='pexels';   // 'pexels' | 'unsplash'
+const PEXELS_KEY='';             // ← pegá tu key de Pexels (https://www.pexels.com/api/)
+const UNSPLASH_KEY='';           // ← o tu Access Key de Unsplash
 const REF_CARDS=[
   {q:'rainy street night lonely', cap:'El rechazo', emoji:'🌧️', bg:['#23304a','#0B0E18']},
   {q:'mysterious traveler cloak road', cap:'El forastero', emoji:'🚶', bg:['#3a2a4f','#0B0E18']},
@@ -232,64 +468,333 @@ const REF_CARDS=[
   {q:'bread harvest abundance gift', cap:'La recompensa', emoji:'🌾', bg:['#1f3a2e','#0B0E18']}
 ];
 function renderRefs(){
-  const w=$("refStrip"); if(!w) return;
-  w.innerHTML=REF_CARDS.map((c,i)=>`
+  const wrap=$("refStrip"); if(!wrap) return;
+  wrap.innerHTML=REF_CARDS.map((c,i)=>`
     <div class="refcard" style="background:linear-gradient(160deg,${c.bg[0]},${c.bg[1]})">
       <div class="fallback">${c.emoji}</div>
       <img class="ph" id="phref-${i}" alt="">
-      <div class="scrim"></div><span class="rtag">nicho</span><span class="cap">${c.cap}</span>
+      <div class="scrim"></div>
+      <span class="rtag">nicho</span>
+      <span class="cap">${c.cap}</span>
     </div>`).join('');
   hydrateRefs();
 }
 async function fetchPhoto(q){
   try{
-    if(PHOTO_PROVIDER==='pexels'&&PEXELS_KEY){
+    if(PHOTO_PROVIDER==='pexels' && PEXELS_KEY){
       const r=await fetch('https://api.pexels.com/v1/search?per_page=1&orientation=portrait&query='+encodeURIComponent(q),{headers:{Authorization:PEXELS_KEY}});
-      const d=await r.json();return (d.photos&&d.photos[0])?d.photos[0].src.large:'';
+      const d=await r.json(); return (d.photos&&d.photos[0])?d.photos[0].src.large:'';
     }
-    if(PHOTO_PROVIDER==='unsplash'&&UNSPLASH_KEY){
+    if(PHOTO_PROVIDER==='unsplash' && UNSPLASH_KEY){
       const r=await fetch('https://api.unsplash.com/search/photos?per_page=1&orientation=portrait&query='+encodeURIComponent(q)+'&client_id='+UNSPLASH_KEY);
-      const d=await r.json();return (d.results&&d.results[0])?d.results[0].urls.regular:'';
+      const d=await r.json(); return (d.results&&d.results[0])?d.results[0].urls.regular:'';
     }
   }catch(e){}
   return '';
 }
 async function hydrateRefs(){
   for(let i=0;i<REF_CARDS.length;i++){
-    const u=await fetchPhoto(REF_CARDS[i].q);
-    if(u){const img=$("phref-"+i);if(img){img.onload=()=>img.classList.add('on');img.src=u;}}
+    const url=await fetchPhoto(REF_CARDS[i].q);
+    if(url){ const img=$("phref-"+i); if(img){ img.onload=()=>img.classList.add('on'); img.src=url; } }
   }
 }
 
-/* ---------- Motor local (premisa + esquema base) ---------- */
-const PROT=["un panadero humilde","una viuda bondadosa","un pastor pobre","una costurera de buen corazón","un labrador honrado","una anciana piadosa","un pescador generoso","un herrero noble","una lavandera de manos cansadas","un aguador del camino"];
-const LUGAR=["un pueblo polvoriento","una aldea castigada por la sequía","un caserío de montaña","un villorrio junto al camino real","una aldea de adobe y silencio"];
-const RECOMPENSA=["una bendición que se multiplica","una herencia caída del cielo","una cosecha milagrosa","la salud devuelta a un ser querido","un tesoro escondido revelado","una mesa que nunca se vacía"];
-const NOMB=["Santiago","Mateo","Lucía","Esperanza","Tomás","Catalina","Rafael","Guadalupe","Andrés","Remedios"];
-function randomPremisa(){
-  return `${rnd(PROT)} en ${rnd(LUGAR)} acoge a un forastero al que todos rechazan, y recibe del cielo ${rnd(RECOMPENSA)}`;
+function toast(msg){const t=$("toast");t.textContent=msg;t.classList.add("show");setTimeout(()=>t.classList.remove("show"),1800);}
+function rnd(arr){return arr[Math.floor(Math.random()*arr.length)];}
+function esc(s){return String(s).replace(/"/g,"'");}
+function fill(s,t){return String(s).replace(/\{(\w+)\}/g,(m,k)=> (t[k]!==undefined?t[k]:m));}
+function clampUnitLines(lines){
+  const words=s=>String(s).trim().split(/\s+/).filter(Boolean);
+  if(lines.length===1){
+    const w=words(lines[0].text);
+    if(w.length>20) lines[0].text=w.slice(0,20).join(' ');
+  } else if(lines.length>=2){
+    let a=words(lines[0].text), b=words(lines[1].text);
+    if(a.length+b.length>20){
+      if(a.length>10) a=a.slice(0,10);
+      if(b.length>10) b=b.slice(0,10);
+      while(a.length+b.length>20){ if(b.length>=a.length) b.pop(); else a.pop(); }
+      lines[0].text=a.join(' '); lines[1].text=b.join(' ');
+    }
+  }
+  return lines;
 }
-function localKit(prem,N){
-  const prot=rnd(NOMB);
-  const beats=[
-    "Un forastero harapiento llega al pueblo y todos le cierran la puerta.",
-    `Solo ${prot} se compadece y le ofrece techo y un plato de comida.`,
-    "Los vecinos se burlan de tanta bondad hacia un desconocido.",
-    "Junto al candil, el forastero escucha el dolor de su anfitrión.",
-    "El forastero pronuncia una palabra de fe que estremece el alma.",
-    "Al amanecer parte, dejando una promesa: la bondad será devuelta.",
-    "Pasan los días y la espera pone a prueba la fe.",
-    "De pronto, una señal: algo cambia en el aire del pueblo.",
-    "Llega el milagro: la recompensa del cielo se hace visible.",
-    "Entre lágrimas de gratitud, todos comprenden quién era el forastero."
-  ];
-  let out=`PREMISA: ${prem}\n\nGUION (${N} escenas, español latino, sin narrador):\n`;
-  for(let i=0;i<N;i++){ out+=`\n— Escena ${i+1} —\n${beats[i%beats.length]}\n`; }
-  out+=`\n(Modo local: esquema base. Conectá Gemini para un guion único y completo con prompts de personajes, escenas y animación.)`;
-  return out;
+function freshNameFrom(pool){
+  const avail = pool.filter(n=>!STATE.usedNames.has(n));
+  const pick = avail.length ? rnd(avail) : rnd(pool);
+  STATE.usedNames.add(pick);
+  return pick;
 }
 
-/* ---------- Conexión IA ---------- */
+/* ---------- BANCO DE IDEAS ---------- */
+function genIdeaKey(){
+  let attempts=0;
+  while(attempts<5000){
+    const a=Math.floor(Math.random()*ARQ.length);
+    const b=Math.floor(Math.random()*AMB.length);
+    const c=Math.floor(Math.random()*CON.length);
+    const g=Math.floor(Math.random()*GIRO.length);
+    const t=Math.floor(Math.random()*TONO.length);
+    const key=`${a}-${b}-${c}-${g}-${t}`;
+    if(!STATE.usedIdeas.has(key)) return {key,a,b,c,g,t};
+    attempts++;
+  }
+  return null;
+}
+function ideaText(o){
+  return { title:`${ARQ[o.a]} ${AMB[o.b]} ${CON[o.c]}.`, meta:`Giro: ${GIRO[o.g]} · Tono: ${TONO[o.t]}`, a:o.a,b:o.b,c:o.c,g:o.g,t:o.t,key:o.key };
+}
+function generateBatch(){
+  const batch=[];
+  for(let i=0;i<15;i++){
+    const o=genIdeaKey();
+    if(!o){toast("Pool agotado · usa Reset total");break;}
+    STATE.usedIdeas.add(o.key);
+    batch.push(ideaText(o));
+  }
+  STATE.lastBatch=batch; renderBatch(); updateCounters();
+}
+function renderBatch(){
+  const list=$("ideasList"); list.innerHTML="";
+  STATE.lastBatch.forEach((idea,i)=>{
+    const div=document.createElement("div");
+    div.className="idea";
+    div.innerHTML=`<div class="idea-num">${i+1}</div>
+      <div class="idea-body">
+        <div class="idea-title">${idea.title}</div>
+        <div class="idea-meta">${idea.meta}</div>
+      </div>`;
+    div.onclick=()=>selectIdea(i,div);
+    list.appendChild(div);
+  });
+}
+function selectIdea(i,el){
+  document.querySelectorAll(".idea").forEach(e=>e.classList.remove("sel"));
+  el.classList.add("sel");
+  STATE.selectedIdea=STATE.lastBatch[i];
+  STATE.units=[]; STATE.currentScript="";
+  $("scriptOut").textContent="";
+  $("copyScript").classList.add("hidden");
+  $("durRow").style.display="none";
+  $("finalPanel").classList.add("hidden");
+  $("countRow").style.display="flex";
+  $("scriptSub").textContent="Idea elegida. Indica cuántas escenas quieres (4 a 30) y genera el guion.";
+  $("scriptPanel").scrollIntoView({behavior:"smooth",block:"start"});
+}
+function updateCounters(){
+  $("usedCount").textContent=STATE.usedIdeas.size;
+  $("poolLeft").textContent=(STATE.poolMax-STATE.usedIdeas.size).toLocaleString("es");
+}
+
+/* ---------- CAST ---------- */
+function mkTokens(cast){
+  const L=cast.loved;
+  return {prot:cast.prot, ser:cast.ser, rel:L.rel, pron:L.pron, ail:L.ail, hard:cast.hard,
+    aloneWord:cast.protGender==='f'?"sola":"solo",
+    protAddr:cast.protGender==='f'?"señora":"señor",
+    docAddr:cast.protGender==='f'?"Señora":"Señor",
+    okWord:L.pron==='ella'?"sana":"sano"};
+}
+function buildCast(idea){
+  const protGender = /^(una|la)\b/i.test(ARQ[idea.a])?'f':'m';
+  const prot=freshNameFrom(protGender==='f'?NAMES_F:NAMES_M);
+  const loved=LOVED[idea.c%LOVED.length];
+  const ser=freshNameFrom(loved.g==='f'?NAMES_F:NAMES_M);
+  const mensajero=freshNameFrom(NAMES_M);
+  const familiar=freshNameFrom(Math.random()<0.5?NAMES_F:NAMES_M);
+  const vecino=freshNameFrom(NAMES_M);
+  const vecino2=freshNameFrom(NAMES_F);
+  return {prot,protGender,ser,mensajero,familiar,vecino,vecino2,loved,hard:HARD[idea.c%HARD.length]};
+}
+
+/* ---------- GENERADOR COMBINATORIO DE ESCENAS ---------- */
+function candidateScenes(ctx){
+  const C=ctx.cast, S=ctx.settingEnv, H=ctx.hard, M=ctx.mir, T=ctx.tokens;
+  const L=arr=>fill(rnd(arr),T);
+  const homeEnv="inside a humble rustic home, an old wooden table and a small bed, warm lantern light";
+  const doorEnv="the doorway of a humble rustic home";
+  const cands=[];
+  const add=(order,pri,phase,env,present,lines,action,label)=>{
+    lines=clampUnitLines(lines);
+    cands.push({order,pri,unit:{phase,env,present,speakers:lines.map(l=>l.role),lines,action:action||"",label:label||phase}});
+  };
+  const hasSer = H.key==='sick';
+
+  // SETUP
+  add(10,1,'setup', S+", the protagonist's harsh daily world",
+     ['prot','familiar'].concat(hasSer?['ser']:[]),
+     [{role:'prot',text:L(H.setupLine)}], `(${C.prot} en su dura vida diaria)`, "Mundo del protagonista");
+  add(20,4,'setup', S+", a quiet harsh morning",
+     ['prot','familiar'],
+     [{role:'prot',text:L(POOLS.setupExtra)}], "", "Mundo del protagonista");
+  add(15,5,'setup', S+", neighbors passing by",
+     ['prot','vecino','vecino2'],
+     [{role:'vecino',text:L(POOLS.villageA)},{role:'prot',text:L(POOLS.kindAns)}], "(Los vecinos comentan)", "En el pueblo");
+
+  // ENCOUNTER
+  add(30,2,'encounter', S+", a weary stranger appears on the path",
+     ['prot','forastero','vecino'],
+     [{role:'forastero',text:L(POOLS.encounter)}], `(Aparece el forastero, agotado)`, "El encuentro");
+
+  // KINDNESS
+  add(40,1,'kindness', S+", a moment of unexpected generosity",
+     ['prot','forastero','vecino'],
+     [{role:'prot',text:L(POOLS.kindness)}], `(${C.prot} le da lo poco que tiene)`, "El acto de bondad");
+  add(50,3,'kindness', S+", a tender exchange",
+     ['prot','forastero'],
+     [{role:'forastero',text:L(POOLS.kindAskQ)},{role:'prot',text:L(POOLS.kindAns)}], "", "El acto de bondad");
+
+  // TRAVEL / MEAL
+  add(60,4,'travel', "a dusty path leading toward a humble home at warm golden light",
+     ['prot','forastero'],
+     [{role:'prot',text:"Venga a mi casa, hijo; algo caliente lo repondrá."}], "(Caminan juntos hacia la casa)", "En el camino");
+  add(70,4,'meal', homeEnv,
+     ['prot','forastero','familiar'],
+     [{role:'prot',text:L(POOLS.mealProt)},{role:'forastero',text:L(POOLS.mealForas)}], "(Comparten la comida)", "La comida");
+  add(75,5,'meal', homeEnv,
+     ['prot','forastero','familiar'],
+     [{role:'familiar',text:L(POOLS.famConcern)}], "", "La comida");
+
+  // STORY
+  add(80,2,'story', homeEnv,
+     ['prot','forastero','familiar'],
+     [{role:'prot',text:L(H.storyLine)}], "(Junto al candil)", "La confesión");
+  add(90,3,'story', homeEnv,
+     ['prot','forastero'],
+     [{role:'forastero',text:L(POOLS.storyExQ)},{role:'prot',text:L(POOLS.storyExA)}], "", "La confesión");
+  add(95,5,'story', homeEnv,
+     ['prot','forastero','familiar'],
+     [{role:'prot',text:L(POOLS.prayer)}], "", "La confesión");
+
+  // WISDOM
+  add(110,3,'wisdom', "inside a humble home, soft warm light, a reverent atmosphere",
+     ['prot','forastero','familiar'],
+     [{role:'forastero',text:L(POOLS.wisdom)}], "", "Palabras de fe");
+
+  // PROMISE
+  add(120,2,'promise', "inside a humble home, soft warm light, a solemn moment",
+     ['prot','forastero'],
+     [{role:'forastero',text:L(M.promise)}], "", "La promesa");
+  add(130,4,'promise', "inside a humble home, soft warm light",
+     ['prot','forastero'],
+     [{role:'prot',text:L(POOLS.promiseDoubt)},{role:'forastero',text:L(POOLS.parting)}], "", "La promesa");
+
+  // DEPARTURE
+  add(140,2,'departure', S+" at golden hour, a long open horizon",
+     ['prot','forastero','vecino'],
+     [{role:'forastero',text:L(POOLS.departure)}], `(El forastero se aleja)`, "La despedida");
+  add(145,5,'departure', S+" at golden hour",
+     ['prot','familiar'],
+     [{role:'prot',text:L(POOLS.prayer)}], "", "La despedida");
+
+  // WAIT / SIGN
+  add(160,3,'wait', doorEnv+" at dawn, soft golden light over a long road",
+     ['prot','familiar'],
+     [{role:'prot',text:L(POOLS.wait)}], "(La espera)", "La espera");
+  if(M.key==='rain'){
+    add(170,4,'sign', S+" as dark rain clouds gather dramatically overhead",
+       ['prot','familiar','vecino'],
+       [{role:'prot',text:L(POOLS.signRain)}], "(El cielo se oscurece)", "La señal");
+  } else {
+    add(170,4,'sign', doorEnv+" at first light",
+       ['prot','familiar'],
+       [{role:'prot',text:L(POOLS.sign)}], "(Algo cambia en el aire)", "La señal");
+  }
+
+  // MIRACLE (according to type)
+  let mPres, mSpk, mEnv, mAct;
+  if(M.key==='rain'){ mSpk='prot'; mPres=['prot','familiar','vecino']; mEnv=S+" as a miraculous rain begins to pour, dramatic light breaking through dark clouds"; mAct="(¡Empieza a llover!)"; }
+  else if(M.key==='reunion'){ mSpk='ser'; mPres=['prot','ser','familiar']; mEnv=S+" at dawn, a long open horizon, a beloved figure returning home"; mAct=`(${C.ser} aparece en el camino)`; }
+  else if(M.key==='provision'){ mSpk='vecino'; mPres=['prot','vecino','vecino2','familiar']; mEnv=doorEnv+" at dawn, sacks of grain and baskets of bread left at the door"; mAct="(Llegan provisiones a la puerta)"; }
+  else if(M.key==='heal'){ mSpk='mensajero'; mPres=['prot','mensajero','familiar']; mEnv="a bright clean modern hospital corridor"; mAct="(Suena la noticia del milagro)"; }
+  else { mSpk='mensajero'; mPres=['prot','mensajero','vecino']; mEnv=doorEnv+", soft morning light"; mAct="(Llega el mensajero con la noticia)"; }
+  add(180,1,'miracle', mEnv, mPres, [{role:mSpk,text:L(M.news)}], mAct, "El milagro");
+  add(185,5,'miracle', mEnv, mPres, [{role:'familiar',text:L(POOLS.famJoy)}], "", "El milagro");
+
+  // REACTION
+  add(190,4,'reaction', mEnv, ['prot','familiar'],
+     [{role:'prot',text:L(POOLS.reaction)}], "", "La reacción");
+
+  // GRATITUDE
+  add(200,2,'gratitude', homeEnv, ['prot','familiar'],
+     [{role:'prot',text:L(POOLS.gratitude)}], `(${C.prot} cae de rodillas, llorando)`, "El agradecimiento");
+  add(205,4,'gratitude', homeEnv, ['prot','familiar'],
+     [{role:'prot',text:L(POOLS.prayer)}], "", "El agradecimiento");
+
+  // RESULT
+  let rPres, rSpk, rText, rEnv;
+  if(M.key==='heal'){ rSpk='ser'; rPres=['prot','ser','familiar']; rText=L(M.result); rEnv=homeEnv; }
+  else if(M.key==='reunion'){ rSpk='prot'; rPres=['prot','ser','familiar']; rText=L(M.result); rEnv=homeEnv; }
+  else if(M.key==='rain'){ rSpk='prot'; rPres=['prot','familiar','vecino']; rText=L(M.result); rEnv=S+" under fresh rain, the dry soil drinking at last"; }
+  else { rSpk='prot'; rPres=['prot','familiar','vecino2']; rText=L(M.result); rEnv=doorEnv+", a joyful gathering"; }
+  add(210,3,'result', rEnv, rPres, [{role:rSpk,text:rText}], "(El milagro a la vista)", "El desenlace");
+  add(215,5,'result', rEnv, ['prot','familiar'],
+     [{role:'prot',text:L(POOLS.famJoy)}], "", "El desenlace");
+  add(225,5,'result', S+", neighbors rejoicing together",
+     ['prot','vecino','vecino2','familiar'],
+     [{role:'vecino2',text:L(POOLS.villageB)}], "(El pueblo celebra)", "El desenlace");
+
+  // CLOSING
+  add(240,3,'closing', S+" at golden hour, the village faintly behind",
+     ['forastero','prot'],
+     [{role:'forastero',text:L(POOLS.reflection)}], `(El forastero mira a cámara)`, "Reflexión final");
+  add(250,1,'closing', S+" at golden hour, the village faintly behind",
+     ['forastero','prot'],
+     [{role:'forastero',text:L(POOLS.cta)}], "(Mira a cámara)", "Reflexión final");
+
+  // EXPANSIONES (rellenan hacia 30 escenas, prioridad baja)
+  add(12,5,'setup', S+", soft dawn light", ['prot','familiar'],
+     [{role:'prot',text:L(POOLS.prayer)}], "(Oración al amanecer)", "Mundo del protagonista");
+  add(55,5,'encounter', S, ['prot','forastero','vecino2'],
+     [{role:'vecino2',text:"Pobre hombre, mírenlo, está al borde del camino."}], "", "El encuentro");
+  add(105,5,'meal', homeEnv, ['prot','forastero','familiar'],
+     [{role:'forastero',text:"Bendita la mano que parte el pan con un extraño."}], "", "La comida");
+  add(135,5,'promise', "inside a humble home, soft warm light", ['prot','forastero','familiar'],
+     [{role:'forastero',text:L(POOLS.wisdom)}], "", "La promesa");
+  add(155,5,'wait', doorEnv+" at night, candlelight", ['prot','familiar'],
+     [{role:'familiar',text:L(POOLS.famConcern)}], "", "La espera");
+  add(235,5,'closing', S+" at golden hour, the village faintly behind", ['forastero','prot'],
+     [{role:'forastero',text:L(POOLS.reflection)}], "(Reflexión a cámara)", "Reflexión final");
+
+  return cands;
+}
+
+function buildUnits(ctx,N){
+  const cands=candidateScenes(ctx);
+  const sorted=cands.slice().sort((a,b)=> a.pri-b.pri || a.order-b.order);
+  const chosen=sorted.slice(0, Math.min(N, cands.length));
+  chosen.sort((a,b)=> a.order-b.order);
+  return chosen.map(c=>c.unit);
+}
+
+/* ---------- RENDER DEL GUION ---------- */
+function speakerLabel(role,cast){
+  if(role==='prot') return cast.prot;
+  if(role==='ser') return cast.ser;
+  if(role==='forastero') return "El Forastero";
+  if(role==='mensajero') return "El Mensajero";
+  if(role==='familiar') return cast.familiar;
+  if(role==='vecino') return cast.vecino;
+  if(role==='vecino2') return cast.vecino2;
+  return cast.prot;
+}
+function renderUnits(units,cast,hookIdx,giroIdx){
+  const out=[];
+  units.forEach((u,i)=>{
+    let header=`— Escena ${i+1}: ${u.label} —`;
+    if(i===hookIdx) header=`🪝 GANCHO FUERTE (primeros 3 s) · ${header}`;
+    else if(i===giroIdx) header=`🔄 ESCENA GIRO (retén aquí, no la cortes) · ${header}`;
+    out.push(header);
+    if(u.action) out.push(u.action);
+    u.lines.forEach(l=> out.push(`${speakerLabel(l.role,cast)}: ${l.text}`));
+    out.push("");
+  });
+  return out.join("\n").trim();
+}
+
+/* ---------- CONEXIÓN A IA (Gemini / Claude) ----------
+   Con una API key, el guion se genera con IA y nunca se repite.
+   Sin key, usa el motor local (que igual tiene millones de combinaciones). */
 async function callAPI(prompt){
   const provider=$("provider").value;
   const key=($("apiKey")?$("apiKey").value.trim():"");
@@ -297,51 +802,452 @@ async function callAPI(prompt){
   if(!key){toast("Falta la API key · usando motor local");return null;}
   try{
     if(provider==="claude"){
-      const r=await fetch("https://api.anthropic.com/v1/messages",{method:"POST",
+      const r=await fetch("https://api.anthropic.com/v1/messages",{
+        method:"POST",
         headers:{"Content-Type":"application/json","x-api-key":key,"anthropic-version":"2023-06-01","anthropic-dangerous-direct-browser-access":"true"},
-        body:JSON.stringify({model:"claude-3-5-sonnet-20241022",max_tokens:3000,messages:[{role:"user",content:prompt}]})});
-      const d=await r.json(); if(d.error) throw new Error(d.error.message);
+        body:JSON.stringify({model:"claude-3-5-sonnet-20241022",max_tokens:2000,messages:[{role:"user",content:prompt}]})
+      });
+      const d=await r.json();
+      if(d.error) throw new Error(d.error.message);
       return d.content.map(c=>c.text||"").join("\n");
     } else {
       const r=await fetch("https://generativelanguage.googleapis.com/v1beta/models/gemini-2.0-flash:generateContent?key="+encodeURIComponent(key),{
         method:"POST",headers:{"Content-Type":"application/json"},
-        body:JSON.stringify({contents:[{parts:[{text:prompt}]}],generationConfig:{maxOutputTokens:8192}})});
-      const d=await r.json(); if(d.error) throw new Error(d.error.message);
+        body:JSON.stringify({contents:[{parts:[{text:prompt}]}]})
+      });
+      const d=await r.json();
+      if(d.error) throw new Error(d.error.message);
       return d.candidates[0].content.parts.map(p=>p.text).join("\n");
     }
   }catch(e){toast("API falló: "+e.message+" · motor local");return null;}
 }
 
-async function generate(){
-  let prem=$("premisa").value.trim(); if(!prem){prem=randomPremisa();$("premisa").value=prem;}
-  let N=parseInt($("sceneCount").value,10); if(isNaN(N))N=10; N=Math.max(4,Math.min(12,N)); $("sceneCount").value=N;
-  $("outPanel").scrollIntoView({behavior:"smooth",block:"start"});
-  $("out").innerHTML='<span class="spinner"></span> Generando kit único con IA…';
-  const prompt=`Eres guionista y director de producción de MILAGROS DE FE virales en español latino (un forastero rechazado por el pueblo, una sola alma humilde lo ayuda y el cielo devuelve la bondad multiplicada). Premisa: "${prem}". Genera un KIT COMPLETO en EXACTAMENTE ${N} escenas, listo para Veo 3 / Whisk:\n1) GUION escena por escena: "— Escena N: título —", acotación si hace falta, y diálogos "Nombre: línea" (breves, emotivos, sin narrador; la escena 1 es un gancho fuerte; cierra invitando a escribir "Amén").\n2) LOTE PERSONAJES: prompt en inglés, hiperrealista cinematográfico, para cada personaje recurrente (incluido "el forastero", enviado del cielo), reutilizable para mantener consistencia.\n3) LOTE ESCENAS: un prompt en inglés por escena (sujeto+acción+entorno+luz+cámara), 9:16, sin texto.\n4) LOTE ANIMACIÓN: un prompt por clip de 8s con lip-sync y movimiento de cámara.\n5) SEO: 3 títulos, descripción y hashtags.\nDevuelve todo en texto plano, en ese orden, sin explicaciones extra.`;
-  const api=await callAPI(prompt);
-  const txt = api ? api.trim() : localKit(prem,N);
-  $("out").textContent=txt;
-  $("copyOut").classList.remove("hidden");
-  STATE_OUT=txt;
-}
-let STATE_OUT="";
-function copyAll(){navigator.clipboard.writeText(STATE_OUT).then(()=>toast("Copiado ✓"));}
+/* ---------- BUILD SCRIPT (con cantidad de escenas) ---------- */
+async function buildScript(N){
+  const idea=STATE.selectedIdea;
+  if(!idea){toast("Primero elige una idea");return;}
+  const cast=buildCast(idea);
+  STATE._cast=cast;
 
-/* ---------- Eventos ---------- */
+  // Escenario: manual o automático
+  const selSetting=($("settingSel")||{}).value||'auto';
+  const settingKey=(selSetting!=='auto' && SETTINGS[selSetting]) ? selSetting : settingFromAmb(idea.b);
+  const settingEnv=SETTINGS[settingKey];
+
+  // Milagro: manual (con su carencia coherente) o automático
+  const selMir=($("miracleSel")||{}).value||'auto';
+  let pair;
+  if(selMir!=='auto' && MIRACLES[selMir]) pair={hardship:HARDSHIP_FOR_MIRACLE[selMir], miracle:selMir};
+  else pair=PAIRS[(idea.g+idea.c)%PAIRS.length];
+
+  const hard=Object.assign({key:pair.hardship}, HARDSHIPS[pair.hardship]);
+  const mir=Object.assign({key:pair.miracle}, MIRACLES[pair.miracle]);
+  STATE._messengerKind=(mir.kind==='doctor')?'doctor':'official';
+  const tokens=mkTokens(cast);
+  const ctx={cast,settingEnv,settingKey,hard,mir,tokens};
+
+  const units=buildUnits(ctx,N);
+  STATE.units=units;
+  STATE._tramaLabel=TRAMA_LABELS[pair.miracle]||"Historia de fe";
+  STATE._mirKey=pair.miracle;
+  STATE._hookIdx=0;
+  STATE._giroIdx=computeGiro(units);
+
+  STATE.currentScript=renderUnits(units,cast,STATE._hookIdx,STATE._giroIdx);
+  $("scriptOut").textContent=STATE.currentScript;
+  $("copyScript").classList.remove("hidden");
+  const dobles=units.filter(u=>u.lines.length===2).length;
+  $("scriptSub").textContent=`Guion de ${units.length} escenas · trama: ${STATE._tramaLabel} (${dobles} en conversación) · 🪝 gancho en escena 1 · 🔄 giro en escena ${STATE._giroIdx+1}.`;
+  $("durRow").style.display="flex";
+  $("finalPanel").classList.add("hidden");
+
+  // Con IA conectada, reescribe el guion (texto) para que nunca se repita.
+  // Los LOTES siguen del motor local para mantener los mismos nombres.
+  if($("provider").value!=='local'){
+    const prev=STATE.currentScript;
+    $("scriptOut").innerHTML='<span class="spinner"></span> Generando guion único con IA…';
+    const c=STATE._cast;
+    const prompt=`Eres guionista de HISTORIAS DE FE Y MILAGROS virales en español latino. Escribe SOLO el guion completo en EXACTAMENTE ${units.length} escenas para esta premisa: "${idea.title}". Trama del milagro: ${STATE._tramaLabel}. Usa SIEMPRE estos nombres exactos: protagonista ${c.prot}; ser querido ${c.ser}; un familiar ${c.familiar}; vecinos ${c.vecino} y ${c.vecino2}; un mensajero ${c.mensajero}; y "el forastero" (un enviado del cielo, sin nombre propio). Formato EXACTO por escena: una línea "— Escena N: título —", luego una acotación entre paréntesis si hace falta, y los diálogos como "Nombre: línea". Diálogos breves y emotivos (máximo ~20 palabras por escena), español latino, sin narrador. La escena 1 debe ser un gancho fuerte. Cierra invitando a escribir "Amén". Devuelve solo el guion, sin explicaciones.`;
+    const api=await callAPI(prompt);
+    if(api){ STATE.currentScript=api.trim(); $("scriptOut").textContent=STATE.currentScript; }
+    else { $("scriptOut").textContent=prev; }
+  }
+}
+
+/* ============================================================
+   PERSONAJES (hiperrealista) + BEHAVIORS + LOTES
+   ============================================================ */
+const ROLE_ARCHETYPES = {
+  protagonista: {
+    builds:["frail","worn-down","slender","stout"],
+    ages:["50-year-old","58-year-old","65-year-old","70-year-old","75-year-old"],
+    features:["a deeply wrinkled kind face, warm tired eyes full of faith","sun-weathered skin, a gentle sorrowful but dignified gaze","gray hair tied back, a serene humble expression","calloused hands, a quiet peaceful smile and hopeful eyes"],
+    clothes:["worn simple peasant clothes and a faded shawl","an old patched tunic, clean despite the wear","a humble dress, an apron and a worn headscarf","threadbare rural clothing with a small wooden cross"]
+  },
+  forastero: {
+    builds:["slender","tall and lean","sturdy"],
+    ages:["30-year-old","35-year-old","40-year-old"],
+    features:["long dark hair and a beard, serene compassionate eyes that seem to hold a secret","a calm otherworldly gaze, a gentle knowing expression","a weathered traveler's face, deep peaceful eyes","soft luminous features, a quiet reassuring presence"],
+    clothes:["a tattered ancient beige tunic, dusty from the road","a worn traveler's cloak and simple sandals","humble dust-covered robes, holding a wooden staff","a plain weathered tunic with a rough mantle over the shoulders"]
+  },
+  ser: {
+    builds:["frail","small and fragile","slender"],
+    ages:["6-year-old","8-year-old","10-year-old","70-year-old"],
+    features:["a pale fragile face with big hopeful innocent eyes","a weak but tender smile, soft delicate features","a sickly complexion, eyes still full of gentle light","a trusting tender gaze, a quiet fragile expression"],
+    clothes:["a simple worn nightgown and a thin blanket","humble mended clothes, clean and cared for","a plain pale gown, soft and modest","old but tidy clothing, lovingly kept"]
+  },
+  mensajero: {
+    builds:["sturdy","slender","stout"],
+    ages:["40-year-old","50-year-old","55-year-old"],
+    features:["a kind professional face with glasses and an astonished expression","gray hair, gentle eyes wide with disbelief and emotion","a warm trustworthy face, moved almost to tears","calm composed features with a look of quiet wonder"],
+    clothes:["a white doctor's coat and a stethoscope","clean simple clothes, a humble honest appearance","a modest shirt with a small cross on the chest","neat clinical clothing and an ID badge"]
+  },
+  familiar: {
+    builds:["slender","stout","frail","sturdy"],
+    ages:["12-year-old","18-year-old","30-year-old","45-year-old","60-year-old"],
+    features:["a tender worried face, eyes full of love","a humble gentle expression, quietly devoted","a kind weathered face, supportive and warm","soft caring features, standing close in support"],
+    clothes:["humble mended rural clothes, clean and modest","a simple worn tunic and a small cross","plain country clothing, lovingly kept","a faded dress or shirt, humble and tidy"]
+  },
+  vecino: {
+    builds:["sturdy","stout","slender","weathered"],
+    ages:["35-year-old","45-year-old","55-year-old","65-year-old"],
+    features:["a weathered honest peasant face, kind and curious","sun-darkened skin, a respectful gentle gaze","a humble rural face, warm and unpretentious","work-worn features with friendly eyes"],
+    clothes:["worn peasant clothes, a straw hat, dusty from work","a simple rough tunic and sandals","humble country clothing, patched and faded","plain rural garments with a cloth on the shoulder"]
+  }
+};
+const ROLE_LABEL = {
+  protagonista:"humble faithful soul, the heart of the story",
+  forastero:"mysterious stranger, a messenger from heaven",
+  ser:"the beloved one, the reason to keep praying",
+  mensajero:"the messenger who brings the miracle news",
+  familiar:"a humble relative of the protagonist",
+  vecino:"a humble villager / neighbor"
+};
+const ROLE_TO_ARCH = { prot:'protagonista', forastero:'forastero', ser:'ser', mensajero:'mensajero', familiar:'familiar', vecino:'vecino', vecino2:'vecino' };
+
+const PIPELINE = "art style: hyper-realistic cinematic photography | technique: photorealistic, ultra detailed, 8k | lighting: dramatic natural light, warm golden hour, soft heavenly god rays | color: warm earthy cinematic palette | mood: emotional, spiritual, reverent | composition: shallow depth of field, cinematic framing | environment: humble realistic rural and biblical setting | quality: photorealistic, highly detailed | aspect ratio: 9:16";
+const NO_TEXT = "ABSOLUTELY NO TEXT: no text, no letters, no words, no captions, no subtitles, no title, no speech bubbles, no signs, no posters, no labels, no logos, no watermark, no typography — purely visual scene with no written elements of any kind";
+const SPEAK_MOVES = ["medium close-up, natural lip movement while speaking, subtle head motion","slow push-in while speaking, a gentle hand gesture, emotional expression","static framing, speaking softly, eyes full of feeling","slow gentle pan, talking, warm light moving across the face","close-up, trembling lips while speaking, eyes welling up","calm steady delivery, a faint nod, soft breathing while speaking"];
+
+function refName(role,cast){
+  if(role==='prot') return cast.prot;
+  if(role==='forastero') return 'el forastero';
+  if(role==='ser') return cast.ser;
+  if(role==='mensajero') return cast.mensajero;
+  if(role==='familiar') return cast.familiar;
+  if(role==='vecino') return cast.vecino;
+  if(role==='vecino2') return cast.vecino2;
+  return cast.prot;
+}
+function roleTag(role){
+  if(role==='prot') return "the humble faithful protagonist";
+  if(role==='forastero') return "the mysterious stranger, a messenger from heaven";
+  if(role==='ser') return "the beloved one";
+  if(role==='mensajero') return (STATE._messengerKind==='doctor')?"the doctor who brings the miracle news":"the messenger who brings unexpected good news";
+  if(role==='familiar') return "a humble relative of the protagonist";
+  if(role==='vecino'||role==='vecino2') return "a humble villager / neighbor";
+  return "character";
+}
+const PHASE_ACT={
+ setup:{prot:"in their harsh daily world, weighed down by worry yet dignified"},
+ encounter:{forastero:"weary and weak, appearing on the path asking for help",prot:"noticing the stranger with compassion"},
+ kindness:{prot:"giving away what little they have with open hands",forastero:"receiving the help, weak and deeply grateful"},
+ travel:{prot:"leading the stranger toward home along a dusty path",forastero:"walking beside, listening with calm gratitude"},
+ meal:{prot:"serving a humble meal at the wooden table",forastero:"eating slowly, visibly moved"},
+ story:{prot:"sharing their sorrow by lantern light",forastero:"listening with a calm, compassionate gaze"},
+ wisdom:{forastero:"speaking a profound truth with serene certainty",prot:"listening, touched to the soul"},
+ promise:{forastero:"promising the miracle with quiet authority",prot:"listening with fragile hope, hands over the chest"},
+ departure:{forastero:"walking toward the golden horizon, glancing back serenely",prot:"watching the stranger leave with hope"},
+ wait:{prot:"waiting in stillness, holding on to faith"},
+ sign:{prot:"sensing that something is about to change"},
+ miracle:{mensajero:"delivering astonishing good news, moved to tears",prot:"overwhelmed, a hand over the mouth",ser:"healed and radiant, or returned home full of light",vecino:"bringing wonderful news with joy"},
+ reaction:{prot:"frozen in disbelief, then breaking into tears of joy"},
+ gratitude:{prot:"on the knees, hands over the chest, weeping with gratitude, eyes lifted upward"},
+ result:{ser:"healthy and full of light at last",prot:"embracing their loved one, overflowing with joy"},
+ closing:{forastero:"looking directly into the camera with a serene compassionate expression",prot:"standing quietly beside, hands clasped over the chest, looking on with peace"}
+};
+function behaviorOf(role,phase){
+  const m=PHASE_ACT[phase];
+  if(m&&m[role]) return m[role];
+  switch(role){
+    case 'prot': return "humble and faithful, emotionally engaged in the moment";
+    case 'forastero': return "calm, peaceful, with a quiet knowing presence";
+    case 'ser': return "frail and tender, watched over with love";
+    case 'mensajero': return "astonished and moved by the good news";
+    case 'familiar': return "a humble relative standing close, sharing the emotion";
+    case 'vecino': case 'vecino2': return "a humble villager nearby, watching respectfully";
+  }
+  return "present, reacting with emotion";
+}
+
+function charDescOf(name){
+  const p=STATE._profiles[name];
+  return `${p.build} ${p.age} with ${p.feature}, wearing ${p.clothes}, humble grounded posture`;
+}
+function roleRefLabel(role){
+  if(role==='mensajero'){
+    if(STATE._messengerKind==='doctor') return "the doctor who brings the miracle news";
+    return "a humble neighbor / messenger who brings unexpected good news";
+  }
+  return ROLE_LABEL[ROLE_TO_ARCH[role]] || "character";
+}
+function buildCharacterProfiles(usedRoles){
+  STATE._profiles={};
+  const cast=STATE._cast;
+  usedRoles.forEach(role=>{
+    const arch=ROLE_ARCHETYPES[ROLE_TO_ARCH[role]];
+    let clothes=rnd(arch.clothes);
+    if(role==='mensajero' && STATE._messengerKind!=='doctor') clothes="clean simple humble clothes, an honest trustworthy appearance";
+    STATE._profiles[refName(role,cast)]={role:ROLE_TO_ARCH[role],build:rnd(arch.builds),age:rnd(arch.ages),feature:rnd(arch.features),clothes};
+  });
+}
+function characterPrompts(usedRoles){
+  const cast=STATE._cast;
+  return usedRoles.map(role=>{
+    const n=refName(role,cast);
+    return `${n} (${roleRefLabel(role)}) — full body character reference, front and 3/4 views, neutral grey background, consistent face and wardrobe for video continuity :: ${charDescOf(n)} :: ${PIPELINE}`;
+  });
+}
+
+// LOTE 2 · ESCENAS
+function buildScenePrompts(units){
+  const cast=STATE._cast;
+  const h=STATE._hookIdx, g=STATE._giroIdx;
+  return units.map((u,i)=>{
+    const chars=u.present.map(r=>`${refName(r,cast)} (${roleTag(r)}) ${behaviorOf(r,u.phase)}`).join("; ");
+    const focus=refName(u.speakers[0]||u.present[0],cast);
+    let extra="";
+    if(i===h) extra=` | ${HOOK_SCENE}`;
+    else if(i===g) extra=` | ${GIRO_SCENE}`;
+    return `Escena ${i+1} — Setting: ${u.env}. Personajes presentes (usa EXACTAMENTE estos nombres como referencia, NO agregues personas extra): ${chars}. Foco visual en ${focus}.${extra} | ${PIPELINE} | ${NO_TEXT}`;
+  });
+}
+// LOTE 3 · ANIMACIÓN + DIÁLOGO (1 ó 2 hablantes)
+function buildAnimPrompts(units){
+  const cast=STATE._cast;
+  const h=STATE._hookIdx, g=STATE._giroIdx;
+  return units.map((u,i)=>{
+    const chars=u.present.map(r=>{
+      const nm=refName(r,cast);
+      if(u.speakers.includes(r)) return `${nm} (${roleTag(r)}) ${behaviorOf(r,u.phase)}, habla con sincronía labial (lip-sync)`;
+      return `${nm} (${roleTag(r)}) ${behaviorOf(r,u.phase)}, en silencio, solo reacciona`;
+    }).join("; ");
+    let dlg;
+    if(u.lines.length===2){
+      const A=refName(u.lines[0].role,cast), B=refName(u.lines[1].role,cast);
+      dlg=`Conversación entre dos personajes (lip-sync por turnos; cada uno mueve los labios SOLO en su turno, el otro escucha): primero ${A} dice: "${esc(u.lines[0].text)}"; luego ${B} responde: "${esc(u.lines[1].text)}".`;
+    } else {
+      const A=refName(u.lines[0].role,cast);
+      dlg=`SOLO habla ${A}; los demás permanecen en silencio. Diálogo de ${A} (español latino, lip-sync exacto): "${esc(u.lines[0].text)}".`;
+    }
+    let extra="";
+    if(i===h) extra=` ${HOOK_ANIM}.`;
+    else if(i===g) extra=` ${GIRO_ANIM}.`;
+    return `Clip ${i+1} (8s) — Setting: ${u.env}. Personajes presentes (usa EXACTAMENTE estos nombres de referencia, NO agregues personajes nuevos): ${chars}. ${dlg}${extra} Cámara: ${rnd(SPEAK_MOVES)}. | ${PIPELINE} | ${NO_TEXT}`;
+  });
+}
+
+/* ---------- SEO / CTR / RETENCIÓN ---------- */
+function shuffle(a){a=a.slice();for(let i=a.length-1;i>0;i--){const j=Math.floor(Math.random()*(i+1));const t=a[i];a[i]=a[j];a[j]=t;}return a;}
+function seoTitle(idea){
+  const hooks=["Nadie imaginó lo que el cielo tenía preparado...","Una historia de fe que te hará llorar y creer de nuevo","Lo despreciaron por su humildad, pero Dios tenía otros planes","El pequeño acto de bondad que se convirtió en un milagro","Le abrió la puerta a un extraño sin saber que era un enviado de Dios","Jamás creerás cómo Dios respondió a esta oración"];
+  return `${rnd(hooks)} | ${ARQ[idea.a]} ${AMB[idea.b]} 🙏`;
+}
+function seoTitles(idea){
+  const arq=ARQ[idea.a];
+  const pool=[
+    `Nadie imaginó lo que pasaría cuando ayudó a aquel extraño 🙏`,
+    `Lo despreciaron por ser pobre… pero Dios tenía otros planes 😢`,
+    `Le abrió la puerta a un desconocido sin saber que era un enviado del cielo ✨`,
+    `Un pequeño acto de bondad que se convirtió en un milagro 🕊️`,
+    `Dio lo único que le quedaba… y el cielo le respondió así 💔`,
+    `Esta historia de fe te hará llorar y creer de nuevo 🌅`,
+    `Jamás creerás cómo Dios respondió a esta oración 🙌`,
+    `Lo perdió casi todo, menos su fe… y entonces ocurrió esto 🤍`,
+    `${arq}… y un milagro que nadie vio venir 😮`,
+    `El final de esta historia te va a romper el corazón ❤️`
+  ];
+  return shuffle(pool).slice(0,5);
+}
+const CTAS=[
+ "👉 Escribe \"AMÉN\" si crees en los milagros y comparte para que le llegue a quien lo necesita hoy.",
+ "🙏 Si esta historia te tocó, deja tu \"AMÉN\" y compártela con alguien que necesita fe.",
+ "❤️ Comenta \"AMÉN\", comparte y sigue el canal para más historias que tocan el alma."
+];
+const THUMB_TEXTS={
+ heal:["\"ES UN MILAGRO\"","\"DIOS LA SANÓ\""],
+ debtpaid:["\"PAGÓ TODO\"","\"ERA ÉL\""],
+ rain:["\"POR FIN LLOVIÓ\"","\"EL CIELO RESPONDIÓ\""],
+ reunion:["\"VOLVIÓ A CASA\"","\"ÉL REGRESÓ\""],
+ provision:["\"NO PASARON HAMBRE\"","\"DIOS PROVEYÓ\""],
+ vindication:["\"ERA INOCENTE\"","\"SE SUPO LA VERDAD\""]
+};
+function thumbnailPrompt(cast){
+  return `Primerísimo primer plano del rostro de ${cast.prot} (protagonista) con una emoción intensa —ojos llorosos mirando al cielo, esperanza y asombro—, con el forastero desenfocado al fondo bañado en luz dorada celestial. Alto contraste, colores cálidos saturados, expresión muy legible en pantalla pequeña, deja un espacio libre arriba o a un lado para poner el texto en CapCut. | ${PIPELINE} | ${NO_TEXT}`;
+}
+function seoDesc(idea){
+  const emojiSets=[["💔","🙏","✨"],["😢","❤️","🌅"],["🕊️","💫","🤍"],["🌧️","🙌","🌟"],["😔","🙏","🌈"],["💧","🕯️","💖"]];
+  const e = rnd(emojiSets);
+  let frase = `Una historia de fe que toca el alma. ${ARQ[idea.a]} ${AMB[idea.b]} ${CON[idea.c]}. Una lección sobre la bondad, la humildad y un Dios que nunca abandona a quienes ayudan desde el corazón ${e[0]}. A veces, lo que parece el final es solo el comienzo de un milagro ${e[1]}. Escribe "Amén" y comparte si esta historia te llegó ${e[2]}.`;
+  const palabras = frase.trim().split(/\s+/);
+  if(palabras.length > 60) frase = palabras.slice(0,60).join(" ");
+  const hashtags = "#HistoriasDeFe #Reflexiones #Dios #Milagro #ActosDeBondad #HistoriasConValores #Fe #DiosEsBueno";
+  return `${frase}\n\n${hashtags}`;
+}
+function buildSeoBlock(idea){
+  const cast=STATE._cast;
+  const titles=seoTitles(idea);
+  const cta=rnd(CTAS);
+  const tt=(THUMB_TEXTS[STATE.units && STATE.units.length ? (STATE._mirKey||'heal') : 'heal']||["\"UN MILAGRO\"","\"DIOS LO VIO\""]);
+  const giroN=(STATE._giroIdx||0)+1;
+  return `TÍTULO PRINCIPAL:
+${titles[0]}
+
+TÍTULOS ALTERNATIVOS (para probar CTR):
+- ${titles[1]}
+- ${titles[2]}
+- ${titles[3]}
+- ${titles[4]}
+
+DESCRIPCIÓN:
+${seoDesc(idea)}
+
+CTA (fíjalo como comentario y dilo al final del video):
+${cta}
+
+MINIATURA · PROMPT DE IMAGEN:
+${thumbnailPrompt(cast)}
+
+TEXTO PARA LA MINIATURA (ponlo en CapCut, 2–4 palabras, grande y legible):
+${tt[0]} · ${tt[1]}
+
+RETENCIÓN:
+• Escena 1 = gancho fuerte en los primeros 3 segundos (usa la imagen más impactante y una frase que genere intriga).
+• Escena ${giroN} = giro de la historia: sube la tensión para que el espectador no se caiga a la mitad.
+• Cierra con el CTA hablado + "Amén" en pantalla para disparar comentarios.`;
+}
+
+/* ---------- ENTREGA FINAL ---------- */
+function fmt(secs){const m=Math.floor(secs/60),s=secs%60;return `${m}:${String(s).padStart(2,"0")}`;}
+
+function buildFinal(){
+  if(!STATE.units || !STATE.units.length){toast("Primero genera el guion");return;}
+  const units=STATE.units, idea=STATE.selectedIdea;
+  const nClips=units.length;
+
+  const used=new Set();
+  units.forEach(u=>{u.present.forEach(r=>used.add(r)); u.speakers.forEach(r=>used.add(r));});
+  const order=['prot','forastero','ser','mensajero','familiar','vecino','vecino2'];
+  const usedRoles=order.filter(r=>used.has(r));
+  const dobles=units.filter(u=>u.lines.length===2).length;
+
+  buildCharacterProfiles(usedRoles);
+  $("finalPanel").classList.remove("hidden");
+  $("clipInfo").textContent =
+    `${nClips} escenas → ${nClips} clips de 8s (${dobles} con dos personajes en conversación) · ${usedRoles.length} personajes con referencia · 🪝 gancho en escena 1 · 🔄 giro en escena ${(STATE._giroIdx||0)+1} · duración estimada ${fmt(nClips*8)}`;
+
+  STATE._lote1 = characterPrompts(usedRoles).join("\n");
+  STATE._lote2 = buildScenePrompts(units).join("\n");
+  STATE._lote3 = buildAnimPrompts(units).join("\n");
+  STATE._seo   = buildSeoBlock(idea);
+
+  const finalPanel=$("finalOut");
+  finalPanel.innerHTML=`
+    <div class="lote-block">
+      <div class="lote-head">
+        <span class="lote-title">LOTE 1 · PERSONAJES (${usedRoles.length})</span>
+        <button class="copy-btn-inline" data-lote="1">⧉ Copiar lote 1</button>
+      </div>
+      <div class="lote-body" id="loteBody1"></div>
+    </div>
+    <div class="lote-block">
+      <div class="lote-head">
+        <span class="lote-title">LOTE 2 · ESCENAS / IMÁGENES (${nClips})</span>
+        <button class="copy-btn-inline" data-lote="2">⧉ Copiar lote 2</button>
+      </div>
+      <div class="lote-body" id="loteBody2"></div>
+    </div>
+    <div class="lote-block">
+      <div class="lote-head">
+        <span class="lote-title">LOTE 3 · ANIMACIÓN + DIÁLOGO · 8s c/u (${nClips})</span>
+        <button class="copy-btn-inline" data-lote="3">⧉ Copiar lote 3</button>
+      </div>
+      <div class="lote-body" id="loteBody3"></div>
+    </div>
+    <div class="lote-block">
+      <div class="lote-head">
+        <span class="lote-title">SEO</span>
+        <button class="copy-btn-inline" data-lote="seo">⧉ Copiar SEO</button>
+      </div>
+      <div class="lote-body" id="loteBodySeo"></div>
+    </div>
+  `;
+  $("loteBody1").textContent   = STATE._lote1;
+  $("loteBody2").textContent   = STATE._lote2;
+  $("loteBody3").textContent   = STATE._lote3;
+  $("loteBodySeo").textContent = STATE._seo;
+
+  finalPanel.querySelectorAll(".copy-btn-inline").forEach(btn=>{
+    btn.onclick=()=>{
+      const k=btn.dataset.lote;
+      const map={"1":STATE._lote1,"2":STATE._lote2,"3":STATE._lote3,"seo":STATE._seo};
+      copy(map[k]);
+      const original=btn.textContent;
+      btn.textContent="Copiado ✓"; btn.classList.add("copied");
+      setTimeout(()=>{ btn.textContent=original; btn.classList.remove("copied"); },2000);
+    };
+  });
+  $("finalPanel").scrollIntoView({behavior:"smooth",block:"start"});
+}
+
+/* ---------- COPIAR ---------- */
+function copy(text){navigator.clipboard.writeText(text).then(()=>toast("Copiado ✓"));}
+
+/* ---------- EVENTOS ---------- */
 $("provider").onchange=function(){
   const v=this.value;
   $("keyBox").classList.toggle("hidden",v==="local");
   const dot=$("statusDot"),txt=$("statusTxt");
   if(v==="local"){dot.style.background="var(--muted)";txt.textContent="Modo local activo";}
-  else if(v==="claude"){dot.style.background="var(--lime)";txt.textContent="Claude (al validar key)";}
-  else{dot.style.background="var(--lime)";txt.textContent="Gemini (al validar key)";}
+  else if(v==="claude"){dot.style.background="var(--lime)";txt.textContent="Claude conectado (al validar key)";}
+  else{dot.style.background="var(--lime)";txt.textContent="Gemini conectado (al validar key)";}
 };
-$("btnRandom").onclick=()=>{$("premisa").value=randomPremisa();toast("Premisa nueva 🎲");};
-$("btnGen").onclick=generate;
-$("copyOut").onclick=copyAll;
+$("btnGenerate").onclick=generateBatch;
+$("btnReset").onclick=()=>{generateBatch();toast("Nuevo lote generado");};
+$("btnResetTotal").onclick=()=>{
+  STATE.usedIdeas.clear();STATE.usedNames.clear();STATE.lastBatch=[];STATE.selectedIdea=null;STATE.currentScript="";STATE.units=[];
+  $("ideasList").innerHTML="";$("scriptOut").textContent="";$("copyScript").classList.add("hidden");
+  $("countRow").style.display="none";$("durRow").style.display="none";$("finalPanel").classList.add("hidden");
+  if($("settingSel")) $("settingSel").value="auto";
+  if($("miracleSel")) $("miracleSel").value="auto";
+  $("scriptSub").textContent="Elige una idea arriba para empezar.";
+  updateCounters();toast("Reset total ✓");
+};
+$("btnRandomTrama").onclick=()=>{
+  if(!STATE.selectedIdea){toast("Primero elige una idea");return;}
+  const sKeys=Object.keys(SETTINGS), mKeys=Object.keys(MIRACLES);
+  $("settingSel").value=sKeys[Math.floor(Math.random()*sKeys.length)];
+  $("miracleSel").value=mKeys[Math.floor(Math.random()*mKeys.length)];
+  let n=parseInt($("sceneCount").value,10); if(isNaN(n)) n=10; n=Math.max(4,Math.min(30,n)); $("sceneCount").value=n;
+  buildScript(n);
+  toast("Trama aleatoria generada 🎲");
+  $("scriptPanel").scrollIntoView({behavior:"smooth",block:"start"});
+};
+$("btnBuildScript").onclick=()=>{
+  let n=parseInt($("sceneCount").value,10);
+  if(isNaN(n)) n=10;
+  n=Math.max(4,Math.min(30,n));
+  $("sceneCount").value=n;
+  buildScript(n);
+  $("scriptPanel").scrollIntoView({behavior:"smooth",block:"start"});
+};
+$("btnFinal").onclick=buildFinal;
+$("copyScript").onclick=()=>copy(STATE.currentScript);
 
-/* ---------- Init ---------- */
+/* ---------- INIT ---------- */
 renderRefs();
+updateCounters();
+generateBatch();
 </script>
 <script src="apps-menu.js"></script>
 </body>
