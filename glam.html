@@ -141,199 +141,225 @@
   .refcard .scrim{position:absolute;inset:0;background:linear-gradient(180deg,rgba(5,6,12,.15) 35%,rgba(5,6,12,.9))}
   .refcard .cap{position:absolute;left:0;right:0;bottom:0;padding:11px 12px;font-family:var(--display);font-weight:700;font-size:14px;color:#fff;z-index:2}
   .refcard .rtag{position:absolute;top:9px;left:9px;z-index:2;font-family:var(--mono);font-size:9.5px;letter-spacing:.6px;text-transform:uppercase;color:#0A0D14;background:var(--grad-gold);padding:3px 8px;border-radius:6px;font-weight:700}
+
+  /* ── Formato novela (grilla + reparto + slider + clips) ── */
+  header.brand{text-align:center;padding:26px 0 16px;border-bottom:1px solid var(--line);margin-bottom:22px;position:relative;overflow:hidden}
+  header.brand>*{position:relative;z-index:1}
+  .ribbon{display:inline-block;font-family:var(--mono);font-size:10px;letter-spacing:2px;text-transform:uppercase;color:#0A0D14;background:var(--grad-gold);padding:4px 13px;border-radius:20px;margin-bottom:12px;font-weight:700}
+  .tag{color:var(--muted);font-family:var(--mono);font-size:13px;margin-top:10px}
+  .card{background:linear-gradient(180deg,var(--bg2),var(--bg3));border:1px solid var(--line);border-radius:16px;padding:20px;margin-bottom:18px;box-shadow:0 18px 50px rgba(0,0,0,.45)}
+  .step{display:flex;align-items:center;gap:11px;font-family:var(--display);font-weight:700;font-size:19px;color:var(--ink);margin-bottom:6px}
+  .num{width:30px;height:30px;border-radius:9px;background:var(--grad-hot);color:#0A0D14;display:flex;align-items:center;justify-content:center;font-weight:800;font-size:15px;flex:0 0 auto}
+  .step-sub{color:var(--muted);font-size:13px;margin:0 0 14px 41px}
+  .api-box{display:grid;grid-template-columns:1fr 1fr;gap:12px}
+  @media(max-width:640px){.api-box{grid-template-columns:1fr}}
+  .pill{display:inline-flex;align-items:center;font-size:12px;padding:5px 12px;border-radius:20px;border:1px solid var(--line);background:var(--bg3);color:var(--muted);font-family:var(--mono)}
+  .search-bar{width:100%;background:var(--bg3);border:1px solid var(--line);border-radius:11px;color:var(--ink);padding:11px 14px;font-family:var(--sans);font-size:14px;outline:none;margin-bottom:12px}
+  .search-bar:focus{border-color:var(--cyan);box-shadow:var(--glow-cyan)}
+  .grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(230px,1fr));gap:10px;max-height:360px;overflow:auto;padding:3px}
+  .gidea{background:var(--bg3);border:1px solid var(--line);border-radius:11px;padding:11px 13px;cursor:pointer;transition:.15s;font-size:12.5px;color:var(--body)}
+  .gidea:hover{border-color:var(--pink);transform:translateY(-2px);color:var(--ink)}
+  .gidea.sel{border-color:var(--gold);background:rgba(231,184,92,.08);color:var(--ink)}
+  .gidea b{color:var(--gold2);display:block;font-family:var(--display);font-size:13px;margin-bottom:3px;line-height:1.3}
+  .cast-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:10px}
+  @media(max-width:680px){.cast-grid{grid-template-columns:1fr}}
+  .cast-row{display:flex;align-items:center;gap:8px;background:var(--bg3);border:1px solid var(--line);border-radius:10px;padding:8px 9px}
+  .slot{width:26px;height:26px;border-radius:7px;background:var(--grad-gold);color:#0A0D14;font-weight:800;display:flex;align-items:center;justify-content:center;font-family:var(--display);font-size:13px;flex:0 0 auto}
+  .cast-row select,.cast-row input{padding:7px 8px;font-size:12px;border-radius:8px}
+  .cast-row .nm{flex:1;min-width:50px}
+  .clips-ctrl{display:flex;align-items:center;gap:14px;margin-top:4px}
+  .clips-ctrl input[type=range]{flex:1;accent-color:var(--pink);height:6px}
+  .clips-num{font-family:var(--display);font-weight:800;font-size:24px;color:var(--gold2);min-width:38px;text-align:center}
+  .synopsis{background:rgba(155,92,255,.09);border:1px solid var(--violet);border-radius:12px;padding:14px 16px;margin:0 0 16px;font-size:13.5px;color:var(--ink);line-height:1.6}
+  .synopsis b{color:var(--gold2);font-family:var(--display)}
+  .clip{background:#070912;border:1px solid var(--line);border-radius:12px;padding:14px;margin-bottom:12px}
+  .clip-head{display:flex;align-items:center;justify-content:space-between;gap:10px;margin-bottom:9px;flex-wrap:wrap}
+  .clip-title{font-family:var(--display);font-weight:700;color:var(--gold2);font-size:14.5px;display:flex;align-items:center;gap:9px}
+  .part-badge{font-family:var(--mono);font-size:9px;letter-spacing:.5px;text-transform:uppercase;background:var(--grad-hot);color:#0A0D14;padding:2px 8px;border-radius:6px;font-weight:700}
+  .wc{font-family:var(--mono);font-size:10.5px;color:var(--muted)}
+  .clip-body{white-space:pre-wrap;font-family:var(--mono);font-size:12.5px;line-height:1.65;color:#dfe5f2}
+  .lt{font-family:var(--mono);font-size:9.5px;letter-spacing:1px;text-transform:uppercase;color:var(--cyan);display:block;margin:10px 0 2px}
+  .copy-mini{font-size:10.5px;padding:5px 11px;border-radius:8px;background:var(--bg3);border:1px solid var(--line);color:var(--gold2);cursor:pointer;font-family:var(--mono);font-weight:700}
+  .copy-mini:hover{border-color:var(--gold)}
+  .copy-mini.copied{background:var(--grad-gold);color:#0A0D14;border-color:transparent}
+  .divider{height:1px;background:linear-gradient(90deg,transparent,var(--violet),transparent);margin:16px 0}
+  .footer{text-align:center;color:var(--muted);font-size:12px;margin-top:26px;font-family:var(--mono)}
+  .footer b{color:var(--gold2)}
 </style>
 </head>
 <body>
 <div class="glowfield"><i></i></div>
 <div class="wrap">
 
-  <header class="hero">
+  <header class="brand">
     <div class="godrays"></div>
+    <span class="ribbon">Novelas IA · Veo 3</span>
     <div class="logo-mark">JM</div>
     <h1>JM<span class="small">Glam</span></h1>
-    <p class="tagline">Novelas de productos de belleza · clips de 8s para Veo 3, Whisk &amp; Fish Audio</p>
+    <p class="tag">Novelas de productos de belleza · clips de 8s para Veo 3 &amp; Whisk</p>
   </header>
 
   <div class="refstrip" id="refStrip"></div>
 
-  <section class="panel">
-    <div class="panel-title">Conexión</div>
-    <p class="panel-sub">Funciona con el motor local. Conecta Gemini para guiones únicos que <b>nunca se repiten</b>.</p>
-    <div class="grid2">
+  <section class="card">
+    <div class="step"><span class="num">1</span> Conexión</div>
+    <div class="step-sub">Conecta Gemini para novelas únicas que <b>nunca se repiten</b>. Sin key funciona el motor local.</div>
+    <div class="api-box">
       <div>
-        <label class="fld">Proveedor de IA</label>
+        <label class="fld">Proveedor</label>
         <select id="provider">
           <option value="local">⚙ Sin conexión · Motor local</option>
           <option value="gemini">✦ Gemini (Google)</option>
           <option value="claude">✦ Claude (Anthropic)</option>
         </select>
-        <div class="hint">El modo local nunca falla. Con IA, el guion es único cada vez.</div>
       </div>
-      <div id="keyBox" class="hidden">
+      <div id="modelBox" class="hidden">
+        <label class="fld">Modelo</label>
+        <select id="model">
+          <option value="gemini-2.0-flash">gemini-2.0-flash (rápido)</option>
+          <option value="gemini-2.5-flash">gemini-2.5-flash</option>
+          <option value="gemini-2.5-pro">gemini-2.5-pro (mejor)</option>
+        </select>
+      </div>
+      <div id="keyBox" class="hidden" style="grid-column:1/-1">
         <label class="fld">API Key</label>
         <input type="password" id="apiKey" placeholder="AIza… (Gemini) / sk-… (Claude)">
-        <div class="hint">⚠ La clave queda solo en tu navegador.</div>
+        <div class="hint">⚠ La clave queda solo en tu navegador. Gemini gratis en aistudio.google.com/apikey</div>
       </div>
     </div>
-    <div style="margin-top:14px">
-      <span class="badge"><span class="status-dot" id="statusDot" style="background:var(--muted)"></span><span id="statusTxt">Modo local activo</span></span>
-    </div>
+    <div style="margin-top:12px"><span class="pill"><span class="status-dot" id="statusDot" style="background:var(--muted);margin-right:7px"></span><span id="statusTxt">Modo local activo</span></span></div>
   </section>
 
-  <section class="panel">
-    <div class="panel-title">Banco de ideas</div>
-    <p class="panel-sub">Tus cosméticos cobran vida como personajes de novela. Elegí una idea, definí los clips y obtené el guion + lotes de prompts.</p>
-    <div class="ideas-toolbar">
-      <div class="btn-row" style="margin:0">
-        <button class="btn btn-gold" id="btnGenerate">⚡ Generar lote de 15</button>
-        <button class="btn btn-ghost" id="btnReset">↻ Reset ideas</button>
-        <button class="btn btn-dark" id="btnResetTotal">⨯ Reset total</button>
-      </div>
-      <div class="counter">Únicas usadas: <b id="usedCount">0</b> · Restantes: <b id="poolLeft">—</b></div>
-    </div>
-    <div id="ideasList"></div>
+  <section class="card">
+    <div class="step"><span class="num">2</span> Elegí una idea</div>
+    <div class="step-sub">Miles de combinaciones. Buscá por palabra o tocá una tarjeta. <span id="ideaCount" class="pill" style="margin-left:6px"></span></div>
+    <input class="search-bar" id="search" placeholder="Buscar… (ej: labial, celos, perfume)">
+    <div class="grid" id="ideaGrid"></div>
+    <div class="btn-row" style="margin-top:12px"><button class="btn btn-ghost" id="btnMore">↻ Otras ideas</button></div>
   </section>
 
-  <section class="panel" id="scriptPanel">
-    <div class="panel-title">Guion</div>
-    <p class="panel-sub" id="scriptSub">Elegí una idea arriba para empezar.</p>
-    <div id="countRow" style="display:none">
-      <div class="opts-grid">
-        <div>
-          <label class="fld">Clips de 8s (4 a 12)</label>
-          <input type="number" id="sceneCount" min="4" max="12" value="8">
-        </div>
-      </div>
-      <div class="btn-row">
-        <button class="btn btn-gold" id="btnBuildScript">📝 Generar guion</button>
-      </div>
-      <div class="hint">El guion y los lotes salen EXACTOS a la cantidad de clips.</div>
-    </div>
-    <div class="rel">
-      <button class="copy-btn hidden" id="copyScript">⧉ Copiar</button>
-      <div class="out" id="scriptOut"></div>
-    </div>
-    <div class="dur-row" id="durRow" style="display:none">
-      <button class="btn btn-gold" id="btnFinal">🎬 Generar entrega completa</button>
-      <div class="hint" style="align-self:center;margin:0">Cada clip dura 8s · el guion va incrustado.</div>
-    </div>
+  <section class="card">
+    <div class="step"><span class="num">3</span> Reparto (hasta 6)</div>
+    <div class="step-sub">A y B se completan con tu idea. Sumá hasta 6 personajes (C–F) si querés más drama.</div>
+    <div class="cast-grid" id="castGrid"></div>
   </section>
 
-  <section class="panel hidden" id="finalPanel">
-    <div class="panel-title">Entrega final de producción</div>
-    <p class="panel-sub" id="clipInfo"></p>
-    <div class="rel"><div class="out" id="finalOut"></div></div>
+  <section class="card">
+    <div class="step"><span class="num">4</span> Cantidad de clips (8s c/u)</div>
+    <div class="clips-ctrl">
+      <input type="range" id="clipsRange" min="3" max="20" value="8">
+      <span class="clips-num" id="clipsNum">8</span>
+    </div>
+    <div class="hint" id="durHint">≈ 64 s de novela · 1 parte</div>
   </section>
 
-  <footer>
-    <div class="divline" style="margin-bottom:14px"></div>
-    <b>JM</b> · Glam — generador de novelas de productos de belleza
-  </footer>
+  <section class="card">
+    <div class="step"><span class="num">5</span> Generar novela</div>
+    <div class="step-sub">Sinopsis + clip por clip (diálogo + prompt de imagen + prompt de animación) con conteo de palabras.</div>
+    <div class="btn-row">
+      <button class="btn btn-gold" id="btnGen">⚡ Generar novela</button>
+      <button class="btn btn-dark hidden" id="btnCopyAll">⧉ Copiar todo</button>
+    </div>
+    <div id="synopsis" class="synopsis hidden"></div>
+    <div id="out"></div>
+  </section>
+
+  <div class="footer">
+    <div class="divider"></div>
+    <b>JM</b> · Glam — novelas de productos de belleza
+  </div>
 </div>
 
 <div class="toast" id="toast"></div>
 
 <script>
 const $=id=>document.getElementById(id);
-function toast(m){const t=$("toast");t.textContent=m;t.classList.add("show");setTimeout(()=>t.classList.remove("show"),1800);}
+function toast(m){const t=$("toast");t.textContent=m;t.classList.add("show");setTimeout(()=>t.classList.remove("show"),1700);}
 function rnd(a){return a[Math.floor(Math.random()*a.length)];}
 function esc(s){return String(s).replace(/"/g,"'");}
 function capit(s){return s.charAt(0).toUpperCase()+s.slice(1);}
+function noart(s){return s.replace(/^(una?|unos?|unas?)\s+/i,'');}
+function wc(s){return s.trim().split(/\s+/).filter(Boolean).length;}
 
-/* ---------- Imágenes de referencia del nicho ---------- */
+/* refs */
 const PHOTO_PROVIDER='pexels';const PEXELS_KEY='';const UNSPLASH_KEY='';
 const REF_CARDS=[{q:'makeup cosmetics flatlay luxury',cap:'Maquillaje',emoji:'💄',bg:['#4a2438','#0B0E18']},{q:'red lipstick luxury macro',cap:'Labial',emoji:'💋',bg:['#3a2a4f','#0B0E18']},{q:'perfume bottle elegant gold',cap:'Perfume',emoji:'🧴',bg:['#43391d','#0B0E18']},{q:'glowing skin beauty glam',cap:'Glow',emoji:'✨',bg:['#23304a','#0B0E18']}];
-function renderRefs(){
-  const w=$("refStrip"); if(!w) return;
-  w.innerHTML=REF_CARDS.map((c,i)=>`
-    <div class="refcard" style="background:linear-gradient(160deg,${c.bg[0]},${c.bg[1]})">
-      <div class="fallback">${c.emoji}</div>
-      <img class="ph" id="phref-${i}" alt="">
-      <div class="scrim"></div><span class="rtag">nicho</span><span class="cap">${c.cap}</span>
-    </div>`).join('');
-  hydrateRefs();
-}
-async function fetchPhoto(q){
-  try{
-    if(PHOTO_PROVIDER==='pexels'&&PEXELS_KEY){
-      const r=await fetch('https://api.pexels.com/v1/search?per_page=1&orientation=portrait&query='+encodeURIComponent(q),{headers:{Authorization:PEXELS_KEY}});
-      const d=await r.json();return (d.photos&&d.photos[0])?d.photos[0].src.large:'';
-    }
-    if(PHOTO_PROVIDER==='unsplash'&&UNSPLASH_KEY){
-      const r=await fetch('https://api.unsplash.com/search/photos?per_page=1&orientation=portrait&query='+encodeURIComponent(q)+'&client_id='+UNSPLASH_KEY);
-      const d=await r.json();return (d.results&&d.results[0])?d.results[0].urls.regular:'';
-    }
-  }catch(e){}
-  return '';
-}
-async function hydrateRefs(){
-  for(let i=0;i<REF_CARDS.length;i++){
-    const u=await fetchPhoto(REF_CARDS[i].q);
-    if(u){const img=$("phref-"+i);if(img){img.onload=()=>img.classList.add('on');img.src=u;}}
-  }
-}
+function renderRefs(){const w=$("refStrip");if(!w)return;w.innerHTML=REF_CARDS.map((c,i)=>`<div class="refcard" style="background:linear-gradient(160deg,${c.bg[0]},${c.bg[1]})"><div class="fallback">${c.emoji}</div><img class="ph" id="phref-${i}" alt=""><div class="scrim"></div><span class="rtag">nicho</span><span class="cap">${c.cap}</span></div>`).join('');hydrateRefs();}
+async function fetchPhoto(q){try{if(PHOTO_PROVIDER==='pexels'&&PEXELS_KEY){const r=await fetch('https://api.pexels.com/v1/search?per_page=1&orientation=portrait&query='+encodeURIComponent(q),{headers:{Authorization:PEXELS_KEY}});const d=await r.json();return (d.photos&&d.photos[0])?d.photos[0].src.large:'';}if(PHOTO_PROVIDER==='unsplash'&&UNSPLASH_KEY){const r=await fetch('https://api.unsplash.com/search/photos?per_page=1&orientation=portrait&query='+encodeURIComponent(q)+'&client_id='+UNSPLASH_KEY);const d=await r.json();return (d.results&&d.results[0])?d.results[0].urls.regular:'';}}catch(e){}return '';}
+async function hydrateRefs(){for(let i=0;i<REF_CARDS.length;i++){const u=await fetchPhoto(REF_CARDS[i].q);if(u){const img=$("phref-"+i);if(img){img.onload=()=>img.classList.add('on');img.src=u;}}}}
 
-/* ---------- DOMINIO (novela) ---------- */
+/* dominio */
 const ITEMS=[{es:'un labial rojo',en:'a glossy red lipstick tube'},{es:'un perfume floral',en:'an elegant floral perfume bottle'},{es:'una base mate',en:'a matte foundation bottle'},{es:'una sombra dorada',en:'a golden eyeshadow palette'},{es:'un rubor durazno',en:'a peach blush compact'},{es:'un delineador negro',en:'a sleek black eyeliner pen'},{es:'una crema de noche',en:'a luxe night cream jar'},{es:'un esmalte carmesí',en:'a crimson nail polish bottle'},{es:'un brillo labial',en:'a shimmering lip gloss'},{es:'una máscara de pestañas',en:'a mascara tube'}];
-const TWISTS=[{es:'se enamora de',en:'falls in love with'},{es:'siente celos de',en:'is jealous of'},{es:'traiciona a',en:'betrays'},{es:'compite con',en:'competes against'},{es:'protege a',en:'protects'},{es:'sueña con conquistar a',en:'dreams of winning over'}];
+const TWISTS=[{es:'se enamora de',en:'falls in love with'},{es:'siente celos de',en:'is jealous of'},{es:'traiciona a',en:'betrays'},{es:'compite con',en:'competes against'},{es:'protege a',en:'protects'},{es:'sueña con conquistar a',en:'dreams of winning over'},{es:'se reconcilia con',en:'reconciles with'},{es:'descubre el secreto de',en:'discovers the secret of'}];
 const SETTINGS=[{es:'el tocador',en:'a glamorous vanity table with soft glowing bulbs'},{es:'la pasarela',en:'a glossy fashion runway with spotlights'},{es:'el spa de lujo',en:'a serene luxury spa shelf'},{es:'la vitrina de lujo',en:'a high-end cosmetics store display'}];
-const BEATS=[{label:'Apertura',es:'despiertan con un gran destello dramático',la:'¡Por fin llegó mi momento!',lb:'No tan rápido, querido…'},{label:'Presentación',es:'se presentan y revelan su deseo secreto',la:'Siempre soñé con esto.',lb:'Yo también, pero a mi manera.'},{label:'La chispa',es:'salta la chispa del conflicto',la:'¿Cómo te atreves?',lb:'Atrévete tú a detenerme.'},{label:'El giro',es:'un giro inesperado lo cambia todo',la:'No puede ser… ¿eras tú?',lb:'Siempre fui yo.'},{label:'Tensión',es:'la tensión llega al máximo',la:'Esto se termina aquí.',lb:'O recién empieza.'},{label:'Final',es:'reconciliación y cierre brillante',la:'Tal vez juntos brillemos más.',lb:'Trato hecho.'}];
-const PIPELINE='art style: glossy 3D animation, premium beauty-commercial look | lighting: soft studio glamour light | color: rich saturated cosmetic palette | mood: dramatic, glamorous, playful telenovela | composition: shallow depth of field | quality: ultra detailed render | aspect ratio: 9:16';
+const BEATS=[{label:'Apertura',es:'despiertan con un gran destello dramático',en:'wake up with a dramatic sparkle',la:'¡Por fin llegó mi momento!',lb:'No tan rápido, querido…'},{label:'Presentación',es:'se presentan y revelan un deseo secreto',en:'introduce themselves and reveal a secret desire',la:'Siempre soñé con esto.',lb:'Yo también, pero a mi manera.'},{label:'La chispa',es:'salta la chispa del conflicto',en:'a spark of conflict ignites between them',la:'¿Cómo te atreves?',lb:'Atrévete tú a detenerme.'},{label:'El giro',es:'un giro inesperado lo cambia todo',en:'an unexpected twist changes everything',la:'No puede ser… ¿eras tú?',lb:'Siempre fui yo.'},{label:'Tensión',es:'la tensión llega al máximo',en:'tension reaches its peak',la:'Esto se termina aquí.',lb:'O recién empieza.'},{label:'Final',es:'reconciliación y cierre brillante',en:'reconciliation and a shining finale',la:'Tal vez juntos brillemos más.',lb:'Trato hecho.'}];
+const ROLES=["protagonista","el amor","la rival","la confidente","la villana","secundario"];
+const PIPELINE='art style: glossy 3D animation, premium beauty-commercial look | lighting: soft studio glamour light | color: rich saturated cosmetic palette | mood: dramatic glamorous playful telenovela | composition: shallow depth of field | quality: ultra detailed render | aspect ratio: 9:16';
 const CHARSTYLE='cute glossy 3D character with an expressive face and tiny arms, premium beauty-product design, soft studio lighting';
-const GENRE='novela de productos de belleza';
+const GENRE='novela de belleza';
 const THEMEWORD='belleza';
-const SEO_HASH='#Glam #NovelaDeBelleza #Makeup #Cosméticos #BeautyTok #Veo3 #IA #Telenovela';
+const SEO_HASH='#Glam #NovelaDeBelleza #Makeup #BeautyTok #Veo3 #IA';
 const NO_TEXT="ABSOLUTELY NO TEXT: no text, letters, words, captions, subtitles, logos or watermark — purely visual";
 const MOVES=["slow push-in, expressive faces","gentle dolly, playful motion","soft pan, lively gestures","slow zoom out reveal","handheld subtle, dynamic"];
 
-const STATE={used:new Set(),batch:[],sel:null,cast:null,script:"",clips:[],
-  poolMax:ITEMS.length*TWISTS.length*(ITEMS.length-1)*SETTINGS.length};
-
-function genKey(){
-  let t=0;
-  while(t<6000){
+let POOL=[], SEL=null;
+function buildPool(){
+  const set=new Set(); POOL=[];
+  let guard=0;
+  while(POOL.length<60 && guard<4000){
     const a=Math.floor(Math.random()*ITEMS.length);
-    let b=Math.floor(Math.random()*ITEMS.length); if(b===a){t++;continue;}
-    const w=Math.floor(Math.random()*TWISTS.length);
-    const s=Math.floor(Math.random()*SETTINGS.length);
-    const key=`${a}-${w}-${b}-${s}`;
-    if(!STATE.used.has(key)) return {key,a,b,w,s};
-    t++;
+    let b=Math.floor(Math.random()*ITEMS.length); if(b===a){guard++;continue;}
+    const w=Math.floor(Math.random()*TWISTS.length), s=Math.floor(Math.random()*SETTINGS.length);
+    const k=a+'-'+w+'-'+b+'-'+s; if(set.has(k)){guard++;continue;}
+    set.add(k);
+    POOL.push({a,b,w,s,title:`${capit(ITEMS[a].es)} ${TWISTS[w].es} ${ITEMS[b].es} en ${SETTINGS[s].es}.`});
   }
-  return null;
 }
-function ideaText(o){return {title:`${capit(ITEMS[o.a].es)} ${TWISTS[o.w].es} ${ITEMS[o.b].es} en ${SETTINGS[o.s].es}.`, meta:`Novela · ${GENRE}`, a:o.a,b:o.b,w:o.w,s:o.s,key:o.key};}
-function generateBatch(){
-  const batch=[];
-  for(let i=0;i<15;i++){const o=genKey();if(!o){toast("Pool agotado · Reset total");break;}STATE.used.add(o.key);batch.push(ideaText(o));}
-  STATE.batch=batch; renderBatch(); updateCounters();
+function renderGrid(){
+  const q=($("search").value||'').toLowerCase().trim();
+  const list=POOL.filter(p=>!q||p.title.toLowerCase().includes(q));
+  $("ideaGrid").innerHTML=list.map((p,i)=>`<div class="gidea" data-i="${POOL.indexOf(p)}"><b>Idea ${POOL.indexOf(p)+1}</b>${p.title}</div>`).join('') || '<div class="hint">Sin resultados…</div>';
+  $("ideaCount").textContent=list.length+" ideas";
+  $("ideaGrid").querySelectorAll('.gidea').forEach(el=>el.onclick=()=>selectIdea(parseInt(el.dataset.i,10),el));
 }
-function renderBatch(){
-  const list=$("ideasList"); list.innerHTML="";
-  STATE.batch.forEach((idea,i)=>{
-    const d=document.createElement("div"); d.className="idea";
-    d.innerHTML=`<div class="idea-num">${i+1}</div><div class="idea-body"><div class="idea-title">${idea.title}</div><div class="idea-meta">${idea.meta}</div></div>`;
-    d.onclick=()=>selectIdea(i,d); list.appendChild(d);
+function castRow(letter,itemIdx,role,enabled){
+  const opts=ITEMS.map((it,i)=>`<option value="${i}" ${i===itemIdx?'selected':''}>${it.es}</option>`).join('');
+  const vac=`<option value="" ${itemIdx===null?'selected':''}>— vacío —</option>`;
+  const roleOpts=ROLES.map(r=>`<option ${r===role?'selected':''}>${r}</option>`).join('');
+  const nm=itemIdx!==null?capit(noart(ITEMS[itemIdx].es)):'';
+  return `<div class="cast-row"><span class="slot">${letter}</span>
+    <select class="it" data-l="${letter}">${vac}${opts}</select>
+    <input class="nm" data-l="${letter}" placeholder="nombre" value="${nm}">
+    <select class="rl" data-l="${letter}">${roleOpts}</select></div>`;
+}
+function renderCast(aIdx,bIdx){
+  const rows=[['A',aIdx,'protagonista'],['B',bIdx,'el amor'],['C',null,'la rival'],['D',null,'la confidente'],['E',null,'la villana'],['F',null,'secundario']];
+  $("castGrid").innerHTML=rows.map(r=>castRow(r[0],r[1],r[2])).join('');
+  $("castGrid").querySelectorAll('.it').forEach(s=>s.onchange=()=>{
+    const l=s.dataset.l, nm=$("castGrid").querySelector('.nm[data-l="'+l+'"]');
+    nm.value = s.value!=='' ? capit(noart(ITEMS[+s.value].es)) : '';
   });
 }
-function selectIdea(i,el){
-  document.querySelectorAll(".idea").forEach(e=>e.classList.remove("sel"));
-  el.classList.add("sel");
-  const idea=STATE.batch[i]; STATE.sel=idea;
-  STATE.cast={a:ITEMS[idea.a],b:ITEMS[idea.b],twist:TWISTS[idea.w],setting:SETTINGS[idea.s]};
-  STATE.script="";STATE.clips=[];
-  $("scriptOut").textContent="";$("copyScript").classList.add("hidden");
-  $("durRow").style.display="none";$("finalPanel").classList.add("hidden");
-  $("countRow").style.display="flex";
-  $("scriptSub").textContent="Idea elegida. Indicá cuántos clips de 8s querés y generá el guion.";
-  $("scriptPanel").scrollIntoView({behavior:"smooth",block:"start"});
+function activeCast(){
+  const out=[];
+  ['A','B','C','D','E','F'].forEach(l=>{
+    const it=$("castGrid").querySelector('.it[data-l="'+l+'"]'); if(!it||it.value==='') return;
+    const item=ITEMS[+it.value];
+    const name=($("castGrid").querySelector('.nm[data-l="'+l+'"]').value||capit(noart(item.es))).trim();
+    const role=$("castGrid").querySelector('.rl[data-l="'+l+'"]').value;
+    out.push({letter:l,item,name,role});
+  });
+  return out;
 }
-function updateCounters(){
-  $("usedCount").textContent=STATE.used.size;
-  $("poolLeft").textContent=(STATE.poolMax-STATE.used.size).toLocaleString("es");
+function selectIdea(i,el){
+  SEL=POOL[i];
+  $("ideaGrid").querySelectorAll('.gidea').forEach(e=>e.classList.remove('sel'));
+  if(el) el.classList.add('sel');
+  renderCast(SEL.a,SEL.b);
+  toast("Idea elegida ✓");
 }
 
-/* ---------- Conexión IA ---------- */
+/* IA */
 async function callAPI(prompt){
   const provider=$("provider").value;
   const key=($("apiKey")?$("apiKey").value.trim():"");
@@ -343,11 +369,12 @@ async function callAPI(prompt){
     if(provider==="claude"){
       const r=await fetch("https://api.anthropic.com/v1/messages",{method:"POST",
         headers:{"Content-Type":"application/json","x-api-key":key,"anthropic-version":"2023-06-01","anthropic-dangerous-direct-browser-access":"true"},
-        body:JSON.stringify({model:"claude-3-5-sonnet-20241022",max_tokens:2500,messages:[{role:"user",content:prompt}]})});
+        body:JSON.stringify({model:"claude-3-5-sonnet-20241022",max_tokens:3500,messages:[{role:"user",content:prompt}]})});
       const d=await r.json(); if(d.error) throw new Error(d.error.message);
       return d.content.map(c=>c.text||"").join("\n");
     } else {
-      const r=await fetch("https://generativelanguage.googleapis.com/v1beta/models/gemini-2.0-flash:generateContent?key="+encodeURIComponent(key),{
+      const model=$("model")?$("model").value:"gemini-2.0-flash";
+      const r=await fetch("https://generativelanguage.googleapis.com/v1beta/models/"+model+":generateContent?key="+encodeURIComponent(key),{
         method:"POST",headers:{"Content-Type":"application/json"},
         body:JSON.stringify({contents:[{parts:[{text:prompt}]}],generationConfig:{maxOutputTokens:8192}})});
       const d=await r.json(); if(d.error) throw new Error(d.error.message);
@@ -356,73 +383,88 @@ async function callAPI(prompt){
   }catch(e){toast("API falló: "+e.message+" · motor local");return null;}
 }
 
-/* ---------- Guion ---------- */
-async function buildScript(N){
-  const idea=STATE.sel; if(!idea){toast("Primero elegí una idea");return;}
-  const A=STATE.cast.a,B=STATE.cast.b,S=STATE.cast.setting;
-  const clips=[];
-  for(let i=0;i<N;i++){const bt=BEATS[i%BEATS.length];clips.push({label:bt.label,act:bt.es,env:S.en,la:bt.la,lb:bt.lb});}
-  STATE.clips=clips;
-  STATE.script=clips.map((c,i)=>`— Clip ${i+1}: ${c.label} —\n(${A.es} y ${B.es} ${c.act})\n${capit(A.es)}: ${c.la}\n${capit(B.es)}: ${c.lb}`).join("\n\n");
-  $("scriptOut").textContent=STATE.script;
-  $("copyScript").classList.remove("hidden");
-  $("scriptSub").textContent=`Guion de ${clips.length} clips · ${GENRE}.`;
-  $("durRow").style.display="flex";
-  $("finalPanel").classList.add("hidden");
-  if($("provider").value!=='local'){
-    const prev=STATE.script;
-    $("scriptOut").innerHTML='<span class="spinner"></span> Generando guion único con IA…';
-    const prompt=`Eres guionista de ${GENRE} en español latino, estilo telenovela con personajes de ${THEMEWORD} antropomórficos (con cara y personalidad), en clips de 8 segundos. Premisa: "${idea.title}". Escribe SOLO el guion en EXACTAMENTE ${clips.length} clips. Formato por clip: "— Clip N: título —", una acotación entre paréntesis, y diálogos "Personaje: línea" (cortos, divertidos y con drama, sin narrador; el clip 1 es un gancho fuerte). Personajes principales: ${A.es} y ${B.es}. Devuelve solo el guion.`;
-    const api=await callAPI(prompt);
-    if(api){STATE.script=api.trim();$("scriptOut").textContent=STATE.script;} else {$("scriptOut").textContent=prev;}
-  }
+function buildClipLocal(i,cast,env){
+  const beat=BEATS[i%BEATS.length];
+  const P=cast[i%cast.length], S=cast[(i+1)%cast.length]||P;
+  const two = S!==P;
+  const dlg = two
+    ? `(${P.name} y ${S.name} ${beat.es})\n${P.name}: ${beat.la}\n${S.name}: ${beat.lb}`
+    : `(${P.name} ${beat.es})\n${P.name}: ${beat.la}`;
+  const sceneEN = `Setting: ${env}. ${P.item.en}${two?` and ${S.item.en}`:''} ${beat.en}. | ${PIPELINE} | ${NO_TEXT}`;
+  const animEN = `8s clip — Setting: ${env}. ${P.item.en}${two?` and ${S.item.en}`:''} as characters; ${two?`turn-based lip-sync: ${P.name} says "${esc(beat.la)}", then ${S.name} says "${esc(beat.lb)}"`:`${P.name} speaks with lip-sync: "${esc(beat.la)}"`}. Camera: ${MOVES[i%MOVES.length]}. | ${PIPELINE} | ${NO_TEXT}`;
+  return {label:beat.label, text:`${dlg}\n\n__LT__ESCENA (prompt imagen)\n${sceneEN}\n\n__LT__ANIMACIÓN (prompt 8s)\n${animEN}`};
 }
-
-/* ---------- Entrega final (LOTES) ---------- */
-function copy(text){navigator.clipboard.writeText(text).then(()=>toast("Copiado ✓"));}
-function buildFinal(){
-  if(!STATE.clips.length){toast("Primero generá el guion");return;}
-  const A=STATE.cast.a,B=STATE.cast.b,clips=STATE.clips,idea=STATE.sel;
-  const lote1=[A,B].map(c=>`${capit(c.es)} (personaje de novela) — character reference, front and 3/4 views, neutral grey background, consistent design for video continuity :: ${c.en}, ${CHARSTYLE} :: ${PIPELINE}`).join("\n");
-  const lote2=clips.map((c,i)=>`Clip ${i+1} — Setting: ${c.env}. Personajes presentes (usa SOLO estos): ${A.en} and ${B.en}. ${A.en} and ${B.en} ${c.act}. | ${PIPELINE} | ${NO_TEXT}`).join("\n");
-  const lote3=clips.map((c,i)=>`Clip ${i+1} (8s) — Setting: ${c.env}. ${A.en} and ${B.en} as characters; conversación con lip-sync por turnos: primero ${A.es} dice "${esc(c.la)}", luego ${B.es} responde "${esc(c.lb)}". Cámara: ${MOVES[i%MOVES.length]}. | ${PIPELINE} | ${NO_TEXT}`).join("\n");
-  const seo=`TÍTULOS (probá CTR):\n- ${capit(A.es)} y ${B.es}: la novela que no veías venir 😱\n- ${capit(A.es)} ${idea ? STATE.cast.twist.es : ''} ${B.es}… ¡y todo explota! 🔥\n- La ${GENRE} más vista de la semana\n\nDESCRIPCIÓN:\nUna ${GENRE} cargada de drama y diversión: ${A.es} ${STATE.cast.twist.es} ${B.es} en ${STATE.cast.setting.es}. ¡Mirá cómo termina y escribí tu final en los comentarios!\n\nHASHTAGS:\n${SEO_HASH}`;
-  STATE._l1=lote1;STATE._l2=lote2;STATE._l3=lote3;STATE._seo=seo;
-  $("clipInfo").textContent=`${clips.length} clips de 8s · 2 personajes con referencia · duración estimada ${clips.length*8}s`;
-  $("finalPanel").classList.remove("hidden");
-  $("finalOut").innerHTML=`
-    <div class="lote-block"><div class="lote-head"><span class="lote-title">LOTE 1 · PERSONAJES</span><button class="copy-btn-inline" data-lote="1">⧉ Copiar lote 1</button></div><div class="lote-body" id="lb1"></div></div>
-    <div class="lote-block"><div class="lote-head"><span class="lote-title">LOTE 2 · ESCENAS (${clips.length})</span><button class="copy-btn-inline" data-lote="2">⧉ Copiar lote 2</button></div><div class="lote-body" id="lb2"></div></div>
-    <div class="lote-block"><div class="lote-head"><span class="lote-title">LOTE 3 · ANIMACIÓN · 8s c/u (${clips.length})</span><button class="copy-btn-inline" data-lote="3">⧉ Copiar lote 3</button></div><div class="lote-body" id="lb3"></div></div>
-    <div class="lote-block"><div class="lote-head"><span class="lote-title">SEO</span><button class="copy-btn-inline" data-lote="seo">⧉ Copiar SEO</button></div><div class="lote-body" id="lbseo"></div></div>`;
-  $("lb1").textContent=lote1;$("lb2").textContent=lote2;$("lb3").textContent=lote3;$("lbseo").textContent=seo;
-  $("finalOut").querySelectorAll(".copy-btn-inline").forEach(btn=>{
-    btn.onclick=()=>{const m={"1":STATE._l1,"2":STATE._l2,"3":STATE._l3,"seo":STATE._seo};copy(m[btn.dataset.lote]);
-      const o=btn.textContent;btn.textContent="Copiado ✓";btn.classList.add("copied");setTimeout(()=>{btn.textContent=o;btn.classList.remove("copied");},2000);};
+function renderClips(clips,N){
+  const parts = N>8 ? Math.ceil(N/8) : 1;
+  let html='';
+  clips.forEach((c,i)=>{
+    const part = parts>1 ? `<span class="part-badge">Parte ${Math.floor(i/8)+1}</span>` : '';
+    const bodyHtml = c.text.split('__LT__').map((seg,k)=> k===0? `<span>${seg.replace(/</g,'&lt;')}</span>` : `<span class="lt">${seg.split('\n')[0]}</span>${seg.substring(seg.indexOf('\n')).replace(/</g,'&lt;')}`).join('');
+    html+=`<div class="clip"><div class="clip-head"><span class="clip-title">🎬 Clip ${i+1}: ${c.label} ${part}</span><span class="wc">${wc(c.text.replace(/__LT__/g,''))} palabras <button class="copy-mini" data-i="${i}">⧉</button></span></div><div class="clip-body">${bodyHtml}</div></div>`;
   });
-  $("finalPanel").scrollIntoView({behavior:"smooth",block:"start"});
+  $("out").innerHTML=html;
+  $("out").querySelectorAll('.copy-mini').forEach(b=>b.onclick=()=>{
+    const t=clips[+b.dataset.i].text.replace(/__LT__/g,'');navigator.clipboard.writeText(t).then(()=>toast("Clip copiado ✓"));
+    const o=b.textContent;b.textContent="✓";b.classList.add("copied");setTimeout(()=>{b.textContent=o;b.classList.remove("copied");},1500);
+  });
+}
+let ALLTEXT="";
+async function generate(){
+  if(!SEL){toast("Primero elegí una idea (paso 2)");return;}
+  const cast=activeCast(); if(cast.length<1){toast("Definí al menos 1 personaje");return;}
+  const N=parseInt($("clipsRange").value,10);
+  const env=SETTINGS[SEL.s].en;
+  $("out").innerHTML='<div class="hint"><span class="spinner"></span> Generando…</div>';
+  $("synopsis").classList.add("hidden");
+
+  // sinopsis local
+  const castlist=cast.map(c=>`${c.name} (${c.role})`).join(", ");
+  let syn=`<b>Sinopsis.</b> ${SEL.title} Reparto: ${castlist}. Una ${GENRE} en ${N} clips de 8 s, con gancho, giro y final.`;
+
+  let clips=[]; for(let i=0;i<N;i++) clips.push(buildClipLocal(i,cast,env));
+
+  if($("provider").value!=='local'){
+    const prompt=`Eres guionista de ${GENRE} en español latino, estilo telenovela con personajes de ${THEMEWORD} antropomórficos. Premisa: "${SEL.title}". Reparto (usá estos nombres): ${castlist}. Escribe una NOVELA en EXACTAMENTE ${N} clips de 8 segundos. Primero una línea "SINOPSIS: ..." (1-2 frases). Luego, por cada clip, este formato EXACTO:\n"=== Clip N: título ==="\n(acotación)\nNombre: diálogo corto\nNombre: diálogo corto\nESCENA: prompt de imagen en inglés (sujeto+acción+set+luz+cámara, 9:16, sin texto)\nANIMACIÓN: prompt de animación en inglés de 8s con lip-sync y cámara.\nDevuelve solo eso, sin explicaciones.`;
+    const api=await callAPI(prompt);
+    if(api){
+      const m=api.match(/SINOPSIS:\s*(.*)/i); if(m) syn=`<b>Sinopsis.</b> ${m[1].trim()}`;
+      const blocks=api.split(/===\s*Clip\s*\d+[:\s].*?===/i).slice(1);
+      if(blocks.length>=2){
+        clips=blocks.map((b,i)=>({label:'IA', text:b.trim()}));
+      } else {
+        clips=[{label:'IA', text:api.trim()}];
+      }
+    }
+  }
+  $("synopsis").innerHTML=syn; $("synopsis").classList.remove("hidden");
+  // lote personajes arriba
+  const loteChars = cast.map(c=>`${c.name} (${c.role}) — character reference, front and 3/4 views, neutral grey background, consistent for video :: ${c.item.en}, ${CHARSTYLE} :: ${PIPELINE}`).join("\n");
+  const charClip={label:'Personajes', text:loteChars};
+  renderClips([charClip].concat(clips),N+1);
+  // texto total para copiar todo
+  ALLTEXT = syn.replace(/<[^>]+>/g,'') + "\n\nLOTE PERSONAJES:\n"+loteChars+"\n\n"+clips.map((c,i)=>`=== Clip ${i+1}: ${c.label} ===\n`+c.text.replace(/__LT__/g,'')).join("\n\n");
+  $("btnCopyAll").classList.remove("hidden");
+  $("synopsis").scrollIntoView({behavior:"smooth",block:"start"});
 }
 
-/* ---------- Eventos ---------- */
+/* eventos */
 $("provider").onchange=function(){
-  const v=this.value; $("keyBox").classList.toggle("hidden",v==="local");
+  const v=this.value;
+  $("keyBox").classList.toggle("hidden",v==="local");
+  $("modelBox").classList.toggle("hidden",v!=="gemini");
   const dot=$("statusDot"),txt=$("statusTxt");
   if(v==="local"){dot.style.background="var(--muted)";txt.textContent="Modo local activo";}
   else if(v==="claude"){dot.style.background="var(--lime)";txt.textContent="Claude (al validar key)";}
   else{dot.style.background="var(--lime)";txt.textContent="Gemini (al validar key)";}
 };
-$("btnGenerate").onclick=generateBatch;
-$("btnReset").onclick=()=>{generateBatch();toast("Nuevo lote ✓");};
-$("btnResetTotal").onclick=()=>{STATE.used.clear();STATE.batch=[];STATE.sel=null;STATE.script="";STATE.clips=[];
-  $("ideasList").innerHTML="";$("scriptOut").textContent="";$("copyScript").classList.add("hidden");
-  $("countRow").style.display="none";$("durRow").style.display="none";$("finalPanel").classList.add("hidden");
-  $("scriptSub").textContent="Elegí una idea arriba para empezar.";updateCounters();toast("Reset total ✓");};
-$("btnBuildScript").onclick=()=>{let n=parseInt($("sceneCount").value,10);if(isNaN(n))n=8;n=Math.max(4,Math.min(12,n));$("sceneCount").value=n;buildScript(n);$("scriptPanel").scrollIntoView({behavior:"smooth",block:"start"});};
-$("btnFinal").onclick=buildFinal;
-$("copyScript").onclick=()=>copy(STATE.script);
+$("search").oninput=renderGrid;
+$("btnMore").onclick=()=>{buildPool();renderGrid();toast("Nuevas ideas ✓");};
+$("clipsRange").oninput=function(){const n=+this.value;$("clipsNum").textContent=n;$("durHint").textContent=`≈ ${n*8} s de novela · ${n>8?Math.ceil(n/8):1} parte${n>8?'s':''}`;};
+$("btnGen").onclick=generate;
+$("btnCopyAll").onclick=()=>navigator.clipboard.writeText(ALLTEXT).then(()=>toast("Todo copiado ✓"));
 
-/* ---------- Init ---------- */
-renderRefs(); updateCounters(); generateBatch();
+/* init */
+renderRefs(); buildPool(); renderGrid(); renderCast(0,1);
 </script>
 <script src="apps-menu.js"></script>
 </body>
