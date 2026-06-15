@@ -409,6 +409,63 @@
   .seobox{border-left-color:var(--lime)} .seobox .seoh{color:var(--lime)}
 
   @media (prefers-reduced-motion:reduce){.glowfield::before,.glowfield::after,.glowfield i{animation:none!important}}
+  /* ═══════════ MODO BESTIA + RESULTADOS EN CUADRÍCULA ═══════════ */
+  .beast{font-family:var(--display);font-weight:700;font-size:14px;cursor:pointer;border-radius:11px;
+         padding:13px 18px;color:var(--body);background:var(--bg3);border:1px solid var(--line);
+         transition:color .18s,border-color .18s,box-shadow .2s}
+  .beast:hover{border-color:var(--pink);color:#fff}
+  .beast.on{color:#fff;border-color:transparent;
+    background-image:linear-gradient(var(--bg3),var(--bg3)),var(--grad-fire);
+    background-origin:border-box;background-clip:padding-box,border-box;box-shadow:var(--glow-pink)}
+  .beasthint{font-family:var(--mono);font-size:12px;color:var(--pink);margin-top:12px;
+             display:flex;align-items:center;gap:8px}
+  .searchbar select:disabled{opacity:.38;cursor:not-allowed}
+
+  #results{width:min(1200px,94vw);position:relative;left:50%;transform:translateX(-50%);
+           display:grid;grid-template-columns:repeat(5,1fr);gap:14px;align-items:start}
+  #results .empty{grid-column:1/-1}
+  @media(max-width:1080px){#results{grid-template-columns:repeat(4,1fr)}}
+  @media(max-width:840px){#results{grid-template-columns:repeat(3,1fr)}}
+  @media(max-width:600px){#results{grid-template-columns:repeat(2,1fr);width:94vw}}
+
+  .card{display:flex;flex-direction:column;padding:0;margin:0;gap:0;grid-template-columns:none;
+        border-radius:14px}
+  .card .top{display:flex;flex-direction:column;min-width:0}
+  .card .media{position:relative;width:100%;aspect-ratio:16/9;background:var(--bg3);flex:none}
+  .card .media .thumb{position:absolute;inset:0;width:100%;height:100%;border:0;border-radius:0;aspect-ratio:auto;background:var(--bg3)}
+  .card .media .thumb img{width:100%;height:100%;object-fit:cover}
+  .card .media iframe{position:absolute;inset:0;width:100%;height:100%;border:0;border-radius:0;background:#000}
+  .card .rankbadge{position:absolute;top:8px;left:8px;z-index:3;font-family:var(--mono);font-weight:700;
+    font-size:12px;color:#fff;background:rgba(0,0,0,.72);border-radius:7px;padding:3px 8px}
+  .card .vsrbadge{position:absolute;top:8px;right:8px;z-index:3;font-family:var(--mono);font-weight:700;
+    font-size:13px;color:#0A0D14;background:var(--grad-gold);border-radius:7px;padding:3px 9px;
+    box-shadow:0 4px 12px rgba(231,184,92,.4)}
+  .card .vsrbadge.high{background:var(--grad-fire);color:#fff;box-shadow:var(--glow-pink)}
+  .card .cbody{padding:12px 13px 14px;display:flex;flex-direction:column;gap:9px;min-width:0;flex:1}
+  .card .cbody h3{font-size:14px;line-height:1.3;display:-webkit-box;-webkit-line-clamp:2;
+    -webkit-box-orient:vertical;overflow:hidden}
+  .card .chan{font-size:11.5px;margin-top:0}
+  .card .bars{max-width:none}
+  .card .bar{grid-template-columns:54px 1fr auto;font-size:10px;gap:8px}
+  .card .meta{gap:12px;font-size:11px;margin-top:2px}
+  .card .actions{display:flex;flex-direction:column;gap:7px;margin-top:auto}
+  .card .actions button{width:100%;padding:9px 8px;font-size:12.5px;text-align:center}
+
+  /* tarjeta expandida: análisis a lo ancho de toda la fila */
+  .card.expanded{grid-column:1/-1}
+  .card.expanded .top{flex-direction:row;gap:20px;align-items:flex-start;padding:8px}
+  .card.expanded .media{width:360px;max-width:42%;border-radius:12px;overflow:hidden}
+  .card.expanded .cbody{flex:1;padding:6px 4px 4px}
+  .card.expanded .cbody h3{font-size:19px;-webkit-line-clamp:unset;display:block}
+  .card.expanded .actions{flex-direction:row;max-width:420px}
+  .detailwrap{padding:0 16px 18px}
+  .detailwrap .analysis,.detailwrap .seobox,.detailwrap .masterbox,.detailwrap .scores{grid-column:auto;margin-top:14px}
+  @media(max-width:600px){
+    .card.expanded .top{flex-direction:column;padding:0}
+    .card.expanded .media{width:100%;max-width:none;border-radius:0}
+    .card.expanded .cbody{padding:12px 13px 14px}
+    .card.expanded .actions{flex-direction:column;max-width:none}
+  }
 </style>
 </head>
 <body>
@@ -485,12 +542,14 @@
       <input type="text" id="q" placeholder="nicho o tema — ej: recetas keto"
              onkeydown="if(event.key==='Enter')buscar()">
       <select id="dias">
+        <option value="10">Últimos 10 días</option>
         <option value="30">30 días</option>
         <option value="90" selected>90 días</option>
         <option value="365">1 año</option>
         <option value="0">sin límite</option>
       </select>
       <select id="region" title="País / región de YouTube">
+        <option value="ALL">🌍 Todo el mundo</option>
         <optgroup label="🌎 LATAM + España">
           <option value="ES" selected>España</option>
           <option value="AR">Argentina</option>
@@ -527,10 +586,12 @@
       </select>
       <select id="maxSubs" title="Excluir canales con más suscriptores que esto">
         <option value="0">sin tope de subs</option>
+        <option value="100">≤ 100 subs</option>
+        <option value="500">≤ 500 subs</option>
         <option value="1000">≤ 1K subs</option>
-        <option value="5000">≤ 5K subs</option>
+        <option value="5000" selected>≤ 5K subs</option>
         <option value="10000">≤ 10K subs</option>
-        <option value="50000" selected>≤ 50K subs</option>
+        <option value="50000">≤ 50K subs</option>
         <option value="100000">≤ 100K subs</option>
       </select>
       <select id="minViews" title="Pedir un mínimo de vistas">
@@ -540,8 +601,10 @@
         <option value="100000">≥ 100K vistas</option>
         <option value="500000">≥ 500K vistas</option>
       </select>
+      <button type="button" class="beast" id="beast" onclick="toggleBeast()">🔥 Modo bestia</button>
       <button class="btn-gold" id="go" onclick="buscar()">Buscar outliers</button>
     </div>
+    <div class="beasthint" id="beastHint" hidden>🔥 Modo bestia activado · subs y vistas ignorados · piso 100K vistas</div>
     <div class="chips" id="chips" aria-label="nichos sugeridos"></div>
   </section>
 
@@ -611,6 +674,7 @@ const $ = s => document.querySelector(s);
 const fmt = n => Intl.NumberFormat('es').format(n);
 const YT = 'https://www.googleapis.com/youtube/v3/';
 let RESULTS = [];
+let BEAST = false;   // 🔥 Modo bestia: ignora subs/vistas y va al outlier extremo
 
 let KEYS = {yt:'', an:''};
 try{ KEYS = JSON.parse(localStorage.getItem('jmbots_keys')) || KEYS; }catch{}
@@ -677,6 +741,15 @@ function esperarGoogle(){
 window.addEventListener('DOMContentLoaded', initGate);
 
 function toggleKeys(){ $('#keys').classList.toggle('open'); }
+function toggleBeast(){
+  BEAST = !BEAST;
+  const b = $('#beast');
+  b.classList.toggle('on', BEAST);
+  b.textContent = BEAST ? t('beastOn') : t('beastOff');
+  $('#maxSubs').disabled = BEAST;
+  $('#minViews').disabled = BEAST;
+  const h = $('#beastHint'); if(h) h.hidden = !BEAST;
+}
 function guardarClaves(){
   KEYS.yt = $('#ytKey').value.trim();
   KEYS.an = $('#anKey').value.trim();
@@ -717,15 +790,21 @@ async function buscar(){
   $('#results').innerHTML = ''; $('#status').textContent = t('analizando');
   try{
     const dias = Number($('#dias').value);
+    const region = $('#region').value;
     const order = ORDERS[Math.random()*ORDERS.length|0];   // ← orden rotativo
-    const base = {part:'snippet', q:query, type:'video', maxResults:50,
-                  order, regionCode:$('#region').value};
+    const base = {part:'snippet', q:query, type:'video', maxResults:50, order};
+    if(region && region !== 'ALL') base.regionCode = region;   // "ALL" = sin filtro de país
     if(dias > 0){
-      // ventana temporal desplazada al azar para no traer siempre lo mismo
-      const jitter = Math.random()*0.4;                    // hasta 40% de corrimiento
-      const desde  = dias*(1+jitter);
-      base.publishedAfter = new Date(Date.now() - desde*86400000).toISOString();
-      if(jitter > 0.05) base.publishedBefore = new Date(Date.now() - (desde-dias)*86400000).toISOString();
+      if(dias <= 10){
+        // ventana exacta en tiempo real (ej: últimos 10 días) — sin desplazamiento
+        base.publishedAfter = new Date(Date.now() - dias*86400000).toISOString();
+      }else{
+        // ventana desplazada al azar para diversificar resultados
+        const jitter = Math.random()*0.4;
+        const desde  = dias*(1+jitter);
+        base.publishedAfter = new Date(Date.now() - desde*86400000).toISOString();
+        if(jitter > 0.05) base.publishedBefore = new Date(Date.now() - (desde-dias)*86400000).toISOString();
+      }
     }
 
     // Traer hasta 2 páginas para ampliar el pool (más variedad de canales)
@@ -760,9 +839,17 @@ async function buscar(){
     }).sort((a,b) => b.vsr - a.vsr);
 
     // Filtro: priorizar canales chicos con muchas vistas
-    const maxSubs  = Number($('#maxSubs').value)  || 0;   // 0 = sin tope
-    const minViews = Number($('#minViews').value) || 0;   // 0 = sin mínimo
+    let maxSubs, minViews;
+    if(BEAST){
+      // 🔥 Modo bestia: ignora los selectores. Mínimo de subs + máximo de vistas (piso 100K),
+      // ordenado por el VSR más extremo (ya viene ordenado por VSR arriba).
+      maxSubs = 0; minViews = 100000;
+    }else{
+      maxSubs  = Number($('#maxSubs').value)  || 0;   // 0 = sin tope
+      minViews = Number($('#minViews').value) || 0;   // 0 = sin mínimo
+    }
     let filtrada = list;
+    if(BEAST) filtrada = filtrada.filter(v => v.suscriptores > 0);   // necesita VSR real
     if(maxSubs  > 0) filtrada = filtrada.filter(v => v.suscriptores > 0 && v.suscriptores <= maxSubs);
     if(minViews > 0) filtrada = filtrada.filter(v => v.vistas >= minViews);
 
@@ -775,7 +862,7 @@ async function buscar(){
 function render(list, total){
   RESULTS = list;
   if(!list.length){ $('#status').textContent='';
-    $('#results').innerHTML='<div class="empty">Ningún video pasó el filtro.<br>Probá subir el tope de suscriptores o bajar el mínimo de vistas.</div>'; return; }
+    $('#results').innerHTML='<div class="empty">Ningún video pasó el filtro.<br>Probá subir el tope de suscriptores, bajar el mínimo de vistas o activar el 🔥 Modo bestia.</div>'; return; }
   const extra = (total && total > list.length) ? ' · ' + (total - list.length) + ' descartados por el filtro' : '';
   $('#status').textContent = list.length + ' videos · ordenados por anomalía (VSR)' + extra;
   const maxReach = Math.max(...list.map(v => Math.log10(v.vistas+1)));
@@ -783,25 +870,20 @@ function render(list, total){
     const base = Math.log10(v.suscriptores+1)/maxReach*100;
     const reach = Math.log10(v.vistas+1)/maxReach*100;
     const high = v.vsr >= 10 ? 'high' : '';
-    return `<article class="card" style="animation-delay:${i*40}ms">
-      <div class="rank">${String(i+1).padStart(2,'0')}</div>
-      <div>
-        <div class="titlerow">
+    return `<article class="card" id="card-${i}" style="animation-delay:${i*30}ms">
+      <div class="top">
+        <div class="media" id="media-${i}">
           <a class="thumb" href="${v.url}" target="_blank" rel="noopener" title="Abrir en YouTube">
-            <img src="${v.thumbnail}" loading="lazy" alt="" onerror="this.closest('.thumb').style.display='none'">
+            <img src="${v.thumbnail}" loading="lazy" alt="" onerror="this.style.opacity=.2">
             <div class="ov"></div><div class="pl">▶</div>
           </a>
-          <div class="titletext">
-            <h3>${esc(v.titulo)}</h3>
-            <div class="chan">${esc(v.canal)} · ${fmt(v.suscriptores)} subs ·
-              <a href="${v.url}" target="_blank" rel="noopener">ver ↗</a></div>
-          </div>
+          <span class="rankbadge">${String(i+1).padStart(2,'0')}</span>
+          <span class="vsrbadge ${high}">${v.vsr}×</span>
         </div>
-      </div>
-      <div class="vsr ${high}">${v.vsr}×<small>VSR</small></div>
-
-      <div class="mid">
-        <div class="datacol">
+        <div class="cbody">
+          <h3>${esc(v.titulo)}</h3>
+          <div class="chan">${esc(v.canal)} · ${fmt(v.suscriptores)} subs ·
+            <a href="${v.url}" target="_blank" rel="noopener">ver ↗</a></div>
           <div class="bars">
             <div class="bar"><span>audiencia</span>
               <div class="track"><div class="fill base" style="width:${base}%"></div></div>
@@ -817,7 +899,6 @@ function render(list, total){
             <button class="ghost" onclick="analizar(this, ${i})">${t('analizarIA')}</button>
           </div>
         </div>
-        <div class="playercol" id="player-${i}"></div>
       </div>
     </article>`;
   }).join('');
@@ -825,22 +906,27 @@ function render(list, total){
 
 function reproducir(btn, idx){
   const v = RESULTS[idx];
-  const col = document.getElementById('player-' + idx);
-  if(col.firstChild){           // ya hay reproductor → cerrar
-    col.innerHTML = '';
+  const media = document.getElementById('media-' + idx);
+  if(!media) return;
+  const thumb = media.querySelector('.thumb');
+  const existing = media.querySelector('iframe');
+  if(existing){                       // ya hay reproductor → cerrar y restaurar miniatura
+    existing.remove();
+    if(thumb) thumb.style.display = '';
     btn.textContent = t('reproducir');
     btn.classList.remove('on');
     return;
   }
   const fr = document.createElement('iframe');
-  // dominio nocookie + sin autoplay (aparece listo, solo dar al play) + referrerpolicy = evita el Error 153
-  fr.src = 'https://www.youtube-nocookie.com/embed/' + v.video_id + '?rel=0&playsinline=1';
+  // se reproduce en el lugar de la miniatura; el usuario ya tocó "reproducir" → autoplay
+  fr.src = 'https://www.youtube-nocookie.com/embed/' + v.video_id + '?rel=0&playsinline=1&autoplay=1';
   fr.title = v.titulo;
   fr.loading = 'lazy';
   fr.referrerPolicy = 'strict-origin-when-cross-origin';
   fr.allow = 'accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share';
   fr.setAttribute('allowfullscreen', '');
-  col.appendChild(fr);
+  if(thumb) thumb.style.display = 'none';
+  media.appendChild(fr);
   btn.textContent = t('cerrar');
   btn.classList.add('on');
 }
@@ -1030,19 +1116,22 @@ sin texto extra dentro:
     }
 
     const host = btn.closest('.card');
+    let wrap = host.querySelector('.detailwrap');
+    if(!wrap){ wrap = document.createElement('div'); wrap.className = 'detailwrap'; host.appendChild(wrap); }
+    wrap.innerHTML = '';
 
-    const sr = scoreRow(scores); if(sr) host.appendChild(sr);
+    const sr = scoreRow(scores); if(sr) wrap.appendChild(sr);
 
     const box = document.createElement('div');
     box.className = 'analysis'; box.textContent = analisis;
-    host.appendChild(box);
+    wrap.appendChild(box);
 
     if(seo){
       const sb = document.createElement('div');
       sb.className = 'seobox';
       const sh = document.createElement('div'); sh.className = 'seoh'; sh.textContent = '🔍 SEO Y PUBLICACIÓN';
       sb.appendChild(sh); sb.appendChild(document.createTextNode(seo));
-      host.appendChild(sb);
+      wrap.appendChild(sb);
     }
 
     if(master){
@@ -1060,14 +1149,14 @@ sin texto extra dentro:
       head.appendChild(h4); head.appendChild(cb);
       const pre = document.createElement('pre'); pre.textContent = master;
       mb.appendChild(head); mb.appendChild(pre);
-      host.appendChild(mb);
+      wrap.appendChild(mb);
     }
 
     // Botón: descargar análisis como .MD
     const dl = document.createElement('button');
     dl.className = 'mdbtn'; dl.textContent = '⬇ ' + t('descargarMd');
     dl.onclick = () => descargarMD({video:v, analisis, seo, master, scores});
-    host.appendChild(dl);
+    wrap.appendChild(dl);
 
     // Guardar en el historial (este navegador)
     addHist({
@@ -1077,11 +1166,29 @@ sin texto extra dentro:
       analisis, seo, master, scores
     });
 
-    btn.remove();
+    // Expandir la tarjeta a lo ancho y dejar el botón como interruptor (sin volver a llamar a la IA)
+    host.classList.add('expanded');
+    wrap.hidden = false;
+    btn.disabled = false;
+    btn.textContent = '✕ ' + t('ocultar');
+    btn.classList.add('on');
+    btn.removeAttribute('onclick');
+    btn.onclick = () => toggleDetalle(btn);
   }catch(e){
     btn.disabled = false; btn.textContent = t('analizarIA');
     alert('Error en el análisis: ' + e.message);
   }
+}
+
+/* Mostrar/ocultar el análisis ya generado, expandiendo o contrayendo la tarjeta */
+function toggleDetalle(btn){
+  const host = btn.closest('.card');
+  const wrap = host.querySelector('.detailwrap');
+  const open = !host.classList.contains('expanded');
+  host.classList.toggle('expanded', open);
+  if(wrap) wrap.hidden = !open;
+  btn.classList.toggle('on', open);
+  btn.textContent = open ? ('✕ ' + t('ocultar')) : t('analizarIA');
 }
 
 function esc(s){const d=document.createElement('div');d.textContent=s;return d.innerHTML;}
@@ -1348,7 +1455,9 @@ const I18N = {
     guiTitle:'Mis guiones', guiSub:'Los master prompts que generaste, listos para copiar y pegar en tu IA.',
     keysTitle:'Tus claves de API', save:'Guardar claves',
     analizando:'analizando YouTube…', pegaClaves:'pegá primero tus dos claves ↑',
-    analizarIA:'Analizar con IA', pensando:'pensando…', reproducir:'▶ Reproducir aquí', cerrar:'✕ Cerrar video',
+    analizarIA:'Analizar con IA', pensando:'pensando…', reproducir:'▶ Reproducir', cerrar:'✕ Cerrar',
+    beastOff:'🔥 Modo bestia', beastOn:'🔥 Modo bestia activado',
+    beastHint:'🔥 Modo bestia activado · subs y vistas ignorados · piso 100K vistas',
     verAnalisis:'ver análisis', ocultar:'ocultar', descargarMd:'descargar .MD',
     copiarGuion:'copiar guion', borrar:'borrar',
     inicio:'← inicio', claves:'⚙ claves', salir:'salir',
@@ -1366,7 +1475,9 @@ const I18N = {
     guiTitle:'My scripts', guiSub:'The master prompts you generated, ready to copy and paste into your AI.',
     keysTitle:'Your API keys', save:'Save keys',
     analizando:'analyzing YouTube…', pegaClaves:'paste your two keys first ↑',
-    analizarIA:'Analyze with AI', pensando:'thinking…', reproducir:'▶ Play here', cerrar:'✕ Close video',
+    analizarIA:'Analyze with AI', pensando:'thinking…', reproducir:'▶ Play', cerrar:'✕ Close',
+    beastOff:'🔥 Beast mode', beastOn:'🔥 Beast mode ON',
+    beastHint:'🔥 Beast mode on · subs & views ignored · 100K views floor',
     verAnalisis:'view analysis', ocultar:'hide', descargarMd:'download .MD',
     copiarGuion:'copy script', borrar:'delete',
     inicio:'← home', claves:'⚙ keys', salir:'log out',
@@ -1405,6 +1516,8 @@ function aplicarIdioma(){
   const f = $('footer');
   if(f) f.innerHTML = 'JM<b>-analitic-youtube-chanel</b> · ' + esc(d.footer);
   const lb = $('#langBtn'); if(lb) lb.textContent = (LANG === 'es') ? 'EN' : 'ES';
+  const bb = $('#beast'); if(bb) bb.textContent = BEAST ? d.beastOn : d.beastOff;
+  const bh = $('#beastHint'); if(bh) bh.textContent = d.beastHint;
 }
 function toggleIdioma(){
   LANG = (LANG === 'es') ? 'en' : 'es';
@@ -1424,3 +1537,4 @@ window.addEventListener('DOMContentLoaded', () => {
 </script>
 </body>
 </html>
+
