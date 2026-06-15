@@ -151,61 +151,78 @@
     <div class="godrays"></div>
     <div class="logo-mark">JM</div>
     <h1>JM<span class="small">Frutas</span></h1>
-    <p class="tagline">Novelas de frutas · clips de 8s para Veo 3, Whisk & Fish Audio</p>
+    <p class="tagline">Novelas de frutas · clips de 8s para Veo 3, Whisk &amp; Fish Audio</p>
   </header>
 
   <div class="refstrip" id="refStrip"></div>
 
   <section class="panel">
     <div class="panel-title">Conexión</div>
-    <p class="panel-sub">Conecta Gemini para generar cada historia con IA: así <b>nunca se repite nada</b>. Sin conexión, usa el motor local.</p>
+    <p class="panel-sub">Funciona con el motor local. Conecta Gemini para guiones únicos que <b>nunca se repiten</b>.</p>
     <div class="grid2">
       <div>
         <label class="fld">Proveedor de IA</label>
         <select id="provider">
-          <option value="gemini">✦ Gemini (Google) — recomendado</option>
-          <option value="claude">✦ Claude (Anthropic)</option>
           <option value="local">⚙ Sin conexión · Motor local</option>
+          <option value="gemini">✦ Gemini (Google)</option>
+          <option value="claude">✦ Claude (Anthropic)</option>
         </select>
-        <div class="hint">Con IA el resultado es único cada vez. Sin key, el motor local arma un esquema base.</div>
+        <div class="hint">El modo local nunca falla. Con IA, el guion es único cada vez.</div>
       </div>
-      <div id="keyBox">
+      <div id="keyBox" class="hidden">
         <label class="fld">API Key</label>
         <input type="password" id="apiKey" placeholder="AIza… (Gemini) / sk-… (Claude)">
-        <div class="hint">⚠ La clave queda solo en tu navegador. Gemini gratis en aistudio.google.com/apikey</div>
+        <div class="hint">⚠ La clave queda solo en tu navegador.</div>
       </div>
     </div>
     <div style="margin-top:14px">
-      <span class="badge"><span class="status-dot" id="statusDot" style="background:var(--lime)"></span><span id="statusTxt">Gemini (al validar key)</span></span>
+      <span class="badge"><span class="status-dot" id="statusDot" style="background:var(--muted)"></span><span id="statusTxt">Modo local activo</span></span>
     </div>
   </section>
 
   <section class="panel">
-    <div class="panel-title">Generar</div>
-    <p class="panel-sub">Las frutas cobran vida como personajes de telenovela: amores, traiciones y reconciliaciones con mucho jugo.</p>
-    <div class="opts-grid">
-      <div style="grid-column:1/-1">
-        <label class="fld">Idea / premisa (o tocá 🎲 para una al azar)</label>
-        <input type="text" id="premisa" placeholder="Ej: una fresa enamorada de un mango, con los celos de una banana">
+    <div class="panel-title">Banco de ideas</div>
+    <p class="panel-sub">Las frutas cobran vida como personajes de telenovela. Elegí una idea, definí los clips y obtené el guion + lotes de prompts.</p>
+    <div class="ideas-toolbar">
+      <div class="btn-row" style="margin:0">
+        <button class="btn btn-gold" id="btnGenerate">⚡ Generar lote de 15</button>
+        <button class="btn btn-ghost" id="btnReset">↻ Reset ideas</button>
+        <button class="btn btn-dark" id="btnResetTotal">⨯ Reset total</button>
       </div>
-      <div>
-        <label class="fld">Clips de 8s (4 a 12)</label>
-        <input type="number" id="sceneCount" min="4" max="12" value="8">
-      </div>
+      <div class="counter">Únicas usadas: <b id="usedCount">0</b> · Restantes: <b id="poolLeft">—</b></div>
     </div>
-    <div class="btn-row">
-      <button class="btn btn-ghost" id="btnRandom">🎲 Idea al azar</button>
-      <button class="btn btn-gold" id="btnGen">⚡ Generar kit completo</button>
-    </div>
-    <div class="hint">El kit trae: guion escena por escena, prompts de personajes, de escenas y de animación (8s c/u) + SEO.</div>
+    <div id="ideasList"></div>
   </section>
 
-  <section class="panel" id="outPanel">
-    <div class="lote-head">
-      <span class="lote-title">Kit de producción</span>
-      <button class="copy-btn-inline hidden" id="copyOut">⧉ Copiar todo</button>
+  <section class="panel" id="scriptPanel">
+    <div class="panel-title">Guion</div>
+    <p class="panel-sub" id="scriptSub">Elegí una idea arriba para empezar.</p>
+    <div id="countRow" style="display:none">
+      <div class="opts-grid">
+        <div>
+          <label class="fld">Clips de 8s (4 a 12)</label>
+          <input type="number" id="sceneCount" min="4" max="12" value="8">
+        </div>
+      </div>
+      <div class="btn-row">
+        <button class="btn btn-gold" id="btnBuildScript">📝 Generar guion</button>
+      </div>
+      <div class="hint">El guion y los lotes salen EXACTOS a la cantidad de clips.</div>
     </div>
-    <div class="out" id="out"></div>
+    <div class="rel">
+      <button class="copy-btn hidden" id="copyScript">⧉ Copiar</button>
+      <div class="out" id="scriptOut"></div>
+    </div>
+    <div class="dur-row" id="durRow" style="display:none">
+      <button class="btn btn-gold" id="btnFinal">🎬 Generar entrega completa</button>
+      <div class="hint" style="align-self:center;margin:0">Cada clip dura 8s · el guion va incrustado.</div>
+    </div>
+  </section>
+
+  <section class="panel hidden" id="finalPanel">
+    <div class="panel-title">Entrega final de producción</div>
+    <p class="panel-sub" id="clipInfo"></p>
+    <div class="rel"><div class="out" id="finalOut"></div></div>
   </section>
 
   <footer>
@@ -220,17 +237,12 @@
 const $=id=>document.getElementById(id);
 function toast(m){const t=$("toast");t.textContent=m;t.classList.add("show");setTimeout(()=>t.classList.remove("show"),1800);}
 function rnd(a){return a[Math.floor(Math.random()*a.length)];}
+function esc(s){return String(s).replace(/"/g,"'");}
+function capit(s){return s.charAt(0).toUpperCase()+s.slice(1);}
 
 /* ---------- Imágenes de referencia del nicho ---------- */
-const PHOTO_PROVIDER='pexels';
-const PEXELS_KEY='';
-const UNSPLASH_KEY='';
-const REF_CARDS=[
-  {q:'fresh colorful fruit assortment', cap:'Frescas', emoji:'🍓', bg:['#3a1f2e','#0B0E18']},
-  {q:'tropical fruit mango pineapple', cap:'Tropical', emoji:'🥭', bg:['#43391d','#0B0E18']},
-  {q:'citrus fruit orange lemon', cap:'Cítricos', emoji:'🍊', bg:['#4a3520','#0B0E18']},
-  {q:'berries closeup macro juicy', cap:'Berries', emoji:'🫐', bg:['#23304a','#0B0E18']}
-];
+const PHOTO_PROVIDER='pexels';const PEXELS_KEY='';const UNSPLASH_KEY='';
+const REF_CARDS=[{q:'fresh colorful fruit assortment',cap:'Frescas',emoji:'🍓',bg:['#3a1f2e','#0B0E18']},{q:'tropical fruit mango pineapple',cap:'Tropical',emoji:'🥭',bg:['#43391d','#0B0E18']},{q:'citrus fruit orange lemon',cap:'Cítricos',emoji:'🍊',bg:['#4a3520','#0B0E18']},{q:'berries closeup macro juicy',cap:'Berries',emoji:'🫐',bg:['#23304a','#0B0E18']}];
 function renderRefs(){
   const w=$("refStrip"); if(!w) return;
   w.innerHTML=REF_CARDS.map((c,i)=>`
@@ -261,24 +273,77 @@ async function hydrateRefs(){
   }
 }
 
-/* ---------- Motor local ---------- */
-const FRUITS=["una fresa","un mango","una banana","una naranja","una sandía","unas uvas","un kiwi","una piña","una manzana","una pera","un durazno","unos arándanos"];
-const TW=["se enamora perdidamente","vive un triángulo amoroso","desata celos jugosos","guarda un secreto dulce","busca venganza ácida","sueña con el verano"];
-const BEATS=["Gran apertura en la frutería: las frutas despiertan con vida y color.","Se presenta la fruta protagonista y su deseo.","Aparece el amor o el rival y arranca el drama.","Un giro jugoso lo cambia todo.","Tensión máxima: el corazón a punto de partirse.","Reconciliación dulce y final feliz bajo el sol."];
-function randomPremisa(){return `${rnd(FRUITS)} que ${rnd(TW)}, en una frutería llena de drama y jugo`;}
-function localKit(prem,N){let out=`PREMISA: ${prem}\n\nGUION (${N} clips de 8s, frutas antropomórficas):\n`;for(let i=0;i<N;i++){out+=`\n— Clip ${i+1} —\n${BEATS[i%BEATS.length]}\n`;}out+=`\n(Modo local: esquema base. Conectá Gemini para una novela de frutas única y completa.)`;return out;}
+/* ---------- DOMINIO (novela) ---------- */
+const ITEMS=[{es:'una fresa',en:'a cute strawberry'},{es:'un mango',en:'a cute mango'},{es:'una banana',en:'a cute banana'},{es:'una naranja',en:'a cute orange'},{es:'una sandía',en:'a cute watermelon slice'},{es:'unas uvas',en:'a bunch of cute grapes'},{es:'un kiwi',en:'a cute kiwi'},{es:'una piña',en:'a cute pineapple'},{es:'una manzana',en:'a cute red apple'},{es:'un durazno',en:'a cute peach'},{es:'unos arándanos',en:'cute blueberries'}];
+const TWISTS=[{es:'se enamora de',en:'falls in love with'},{es:'siente celos de',en:'is jealous of'},{es:'traiciona a',en:'betrays'},{es:'compite con',en:'competes against'},{es:'protege a',en:'protects'},{es:'sueña con conquistar a',en:'dreams of winning over'}];
+const SETTINGS=[{es:'la frutería',en:'a colorful fruit shop stall'},{es:'la cocina',en:'a sunny kitchen counter'},{es:'el mercado',en:'a lively farmers market'},{es:'la heladera',en:'inside a bright refrigerator'}];
+const BEATS=[{label:'Apertura',es:'despiertan con un gran destello dramático',la:'¡Por fin llegó mi momento!',lb:'No tan rápido, querido…'},{label:'Presentación',es:'se presentan y revelan su deseo secreto',la:'Siempre soñé con esto.',lb:'Yo también, pero a mi manera.'},{label:'La chispa',es:'salta la chispa del conflicto',la:'¿Cómo te atreves?',lb:'Atrévete tú a detenerme.'},{label:'El giro',es:'un giro inesperado lo cambia todo',la:'No puede ser… ¿eras tú?',lb:'Siempre fui yo.'},{label:'Tensión',es:'la tensión llega al máximo',la:'Esto se termina aquí.',lb:'O recién empieza.'},{label:'Final',es:'reconciliación y cierre brillante',la:'Tal vez juntos brillemos más.',lb:'Trato hecho.'}];
+const PIPELINE='art style: cute glossy 3D Pixar-style animation | lighting: bright cheerful soft light | color: vibrant juicy fruit palette | mood: fun dramatic telenovela, playful | composition: shallow depth of field | quality: ultra detailed render | aspect ratio: 9:16';
+const CHARSTYLE='cute glossy 3D Pixar-style fruit character with big expressive eyes and tiny arms, juicy vibrant look, soft cheerful lighting';
+const GENRE='novela de frutas';
+const THEMEWORD='frutas';
+const SEO_HASH='#Frutas #FrutiNovela #Frutinovelas #Telenovela #Veo3 #IA #ContenidoViral #Animación';
+const NO_TEXT="ABSOLUTELY NO TEXT: no text, letters, words, captions, subtitles, logos or watermark — purely visual";
+const MOVES=["slow push-in, expressive faces","gentle dolly, playful motion","soft pan, lively gestures","slow zoom out reveal","handheld subtle, dynamic"];
+
+const STATE={used:new Set(),batch:[],sel:null,cast:null,script:"",clips:[],
+  poolMax:ITEMS.length*TWISTS.length*(ITEMS.length-1)*SETTINGS.length};
+
+function genKey(){
+  let t=0;
+  while(t<6000){
+    const a=Math.floor(Math.random()*ITEMS.length);
+    let b=Math.floor(Math.random()*ITEMS.length); if(b===a){t++;continue;}
+    const w=Math.floor(Math.random()*TWISTS.length);
+    const s=Math.floor(Math.random()*SETTINGS.length);
+    const key=`${a}-${w}-${b}-${s}`;
+    if(!STATE.used.has(key)) return {key,a,b,w,s};
+    t++;
+  }
+  return null;
+}
+function ideaText(o){return {title:`${capit(ITEMS[o.a].es)} ${TWISTS[o.w].es} ${ITEMS[o.b].es} en ${SETTINGS[o.s].es}.`, meta:`Novela · ${GENRE}`, a:o.a,b:o.b,w:o.w,s:o.s,key:o.key};}
+function generateBatch(){
+  const batch=[];
+  for(let i=0;i<15;i++){const o=genKey();if(!o){toast("Pool agotado · Reset total");break;}STATE.used.add(o.key);batch.push(ideaText(o));}
+  STATE.batch=batch; renderBatch(); updateCounters();
+}
+function renderBatch(){
+  const list=$("ideasList"); list.innerHTML="";
+  STATE.batch.forEach((idea,i)=>{
+    const d=document.createElement("div"); d.className="idea";
+    d.innerHTML=`<div class="idea-num">${i+1}</div><div class="idea-body"><div class="idea-title">${idea.title}</div><div class="idea-meta">${idea.meta}</div></div>`;
+    d.onclick=()=>selectIdea(i,d); list.appendChild(d);
+  });
+}
+function selectIdea(i,el){
+  document.querySelectorAll(".idea").forEach(e=>e.classList.remove("sel"));
+  el.classList.add("sel");
+  const idea=STATE.batch[i]; STATE.sel=idea;
+  STATE.cast={a:ITEMS[idea.a],b:ITEMS[idea.b],twist:TWISTS[idea.w],setting:SETTINGS[idea.s]};
+  STATE.script="";STATE.clips=[];
+  $("scriptOut").textContent="";$("copyScript").classList.add("hidden");
+  $("durRow").style.display="none";$("finalPanel").classList.add("hidden");
+  $("countRow").style.display="flex";
+  $("scriptSub").textContent="Idea elegida. Indicá cuántos clips de 8s querés y generá el guion.";
+  $("scriptPanel").scrollIntoView({behavior:"smooth",block:"start"});
+}
+function updateCounters(){
+  $("usedCount").textContent=STATE.used.size;
+  $("poolLeft").textContent=(STATE.poolMax-STATE.used.size).toLocaleString("es");
+}
 
 /* ---------- Conexión IA ---------- */
 async function callAPI(prompt){
   const provider=$("provider").value;
   const key=($("apiKey")?$("apiKey").value.trim():"");
   if(provider==="local") return null;
-  if(!key){toast("Falta la API key · usando motor local");return null;}
+  if(!key){toast("Falta la API key · motor local");return null;}
   try{
     if(provider==="claude"){
       const r=await fetch("https://api.anthropic.com/v1/messages",{method:"POST",
         headers:{"Content-Type":"application/json","x-api-key":key,"anthropic-version":"2023-06-01","anthropic-dangerous-direct-browser-access":"true"},
-        body:JSON.stringify({model:"claude-3-5-sonnet-20241022",max_tokens:3000,messages:[{role:"user",content:prompt}]})});
+        body:JSON.stringify({model:"claude-3-5-sonnet-20241022",max_tokens:2500,messages:[{role:"user",content:prompt}]})});
       const d=await r.json(); if(d.error) throw new Error(d.error.message);
       return d.content.map(c=>c.text||"").join("\n");
     } else {
@@ -291,35 +356,74 @@ async function callAPI(prompt){
   }catch(e){toast("API falló: "+e.message+" · motor local");return null;}
 }
 
-let STATE_OUT="";
-async function generate(){
-  let prem=$("premisa").value.trim(); if(!prem){prem=randomPremisa();$("premisa").value=prem;}
-  let N=parseInt($("sceneCount").value,10); if(isNaN(N))N=8; N=Math.max(4,Math.min(12,N)); $("sceneCount").value=N;
-  $("outPanel").scrollIntoView({behavior:"smooth",block:"start"});
-  $("out").innerHTML='<span class="spinner"></span> Generando kit único con IA…';
-  const prompt=`Eres guionista y director de FRUTAS: telenovelas de frutas antropomórficas (fresas, mangos, bananas con ojos y personalidad) en español latino, con amores, traiciones y reconciliaciones, mucho jugo y humor, en clips de 8 segundos. Premisa: "${prem}". Genera un KIT COMPLETO en EXACTAMENTE ${N} clips, listo para Veo 3 / Whisk:\n1) GUION por clip: "— Clip N: título —", acotación, diálogos "Fruta: línea" (cortos, telenovela divertida, sin narrador; clip 1 = gancho fuerte).\n2) LOTE PERSONAJES: prompt en inglés (cute glossy 3D fruit characters), reutilizable, para cada fruta-personaje (cara expresiva, estilo Pixar jugoso).\n3) LOTE ESCENAS: un prompt en inglés por clip (fruta+acción+set de cocina/frutería+luz+cámara), 9:16, sin texto.\n4) LOTE ANIMACIÓN: un prompt por clip de 8s con lip-sync y movimiento.\n5) SEO: 3 títulos, descripción y hashtags.\nDevuelve todo en texto plano, en ese orden, sin explicaciones extra.`;
-  const api=await callAPI(prompt);
-  const txt = api ? api.trim() : localKit(prem,N);
-  $("out").textContent=txt;
-  $("copyOut").classList.remove("hidden");
-  STATE_OUT=txt;
+/* ---------- Guion ---------- */
+async function buildScript(N){
+  const idea=STATE.sel; if(!idea){toast("Primero elegí una idea");return;}
+  const A=STATE.cast.a,B=STATE.cast.b,S=STATE.cast.setting;
+  const clips=[];
+  for(let i=0;i<N;i++){const bt=BEATS[i%BEATS.length];clips.push({label:bt.label,act:bt.es,env:S.en,la:bt.la,lb:bt.lb});}
+  STATE.clips=clips;
+  STATE.script=clips.map((c,i)=>`— Clip ${i+1}: ${c.label} —\n(${A.es} y ${B.es} ${c.act})\n${capit(A.es)}: ${c.la}\n${capit(B.es)}: ${c.lb}`).join("\n\n");
+  $("scriptOut").textContent=STATE.script;
+  $("copyScript").classList.remove("hidden");
+  $("scriptSub").textContent=`Guion de ${clips.length} clips · ${GENRE}.`;
+  $("durRow").style.display="flex";
+  $("finalPanel").classList.add("hidden");
+  if($("provider").value!=='local'){
+    const prev=STATE.script;
+    $("scriptOut").innerHTML='<span class="spinner"></span> Generando guion único con IA…';
+    const prompt=`Eres guionista de ${GENRE} en español latino, estilo telenovela con personajes de ${THEMEWORD} antropomórficos (con cara y personalidad), en clips de 8 segundos. Premisa: "${idea.title}". Escribe SOLO el guion en EXACTAMENTE ${clips.length} clips. Formato por clip: "— Clip N: título —", una acotación entre paréntesis, y diálogos "Personaje: línea" (cortos, divertidos y con drama, sin narrador; el clip 1 es un gancho fuerte). Personajes principales: ${A.es} y ${B.es}. Devuelve solo el guion.`;
+    const api=await callAPI(prompt);
+    if(api){STATE.script=api.trim();$("scriptOut").textContent=STATE.script;} else {$("scriptOut").textContent=prev;}
+  }
 }
-function copyAll(){navigator.clipboard.writeText(STATE_OUT).then(()=>toast("Copiado ✓"));}
 
+/* ---------- Entrega final (LOTES) ---------- */
+function copy(text){navigator.clipboard.writeText(text).then(()=>toast("Copiado ✓"));}
+function buildFinal(){
+  if(!STATE.clips.length){toast("Primero generá el guion");return;}
+  const A=STATE.cast.a,B=STATE.cast.b,clips=STATE.clips,idea=STATE.sel;
+  const lote1=[A,B].map(c=>`${capit(c.es)} (personaje de novela) — character reference, front and 3/4 views, neutral grey background, consistent design for video continuity :: ${c.en}, ${CHARSTYLE} :: ${PIPELINE}`).join("\n");
+  const lote2=clips.map((c,i)=>`Clip ${i+1} — Setting: ${c.env}. Personajes presentes (usa SOLO estos): ${A.en} and ${B.en}. ${A.en} and ${B.en} ${c.act}. | ${PIPELINE} | ${NO_TEXT}`).join("\n");
+  const lote3=clips.map((c,i)=>`Clip ${i+1} (8s) — Setting: ${c.env}. ${A.en} and ${B.en} as characters; conversación con lip-sync por turnos: primero ${A.es} dice "${esc(c.la)}", luego ${B.es} responde "${esc(c.lb)}". Cámara: ${MOVES[i%MOVES.length]}. | ${PIPELINE} | ${NO_TEXT}`).join("\n");
+  const seo=`TÍTULOS (probá CTR):\n- ${capit(A.es)} y ${B.es}: la novela que no veías venir 😱\n- ${capit(A.es)} ${idea ? STATE.cast.twist.es : ''} ${B.es}… ¡y todo explota! 🔥\n- La ${GENRE} más vista de la semana\n\nDESCRIPCIÓN:\nUna ${GENRE} cargada de drama y diversión: ${A.es} ${STATE.cast.twist.es} ${B.es} en ${STATE.cast.setting.es}. ¡Mirá cómo termina y escribí tu final en los comentarios!\n\nHASHTAGS:\n${SEO_HASH}`;
+  STATE._l1=lote1;STATE._l2=lote2;STATE._l3=lote3;STATE._seo=seo;
+  $("clipInfo").textContent=`${clips.length} clips de 8s · 2 personajes con referencia · duración estimada ${clips.length*8}s`;
+  $("finalPanel").classList.remove("hidden");
+  $("finalOut").innerHTML=`
+    <div class="lote-block"><div class="lote-head"><span class="lote-title">LOTE 1 · PERSONAJES</span><button class="copy-btn-inline" data-lote="1">⧉ Copiar lote 1</button></div><div class="lote-body" id="lb1"></div></div>
+    <div class="lote-block"><div class="lote-head"><span class="lote-title">LOTE 2 · ESCENAS (${clips.length})</span><button class="copy-btn-inline" data-lote="2">⧉ Copiar lote 2</button></div><div class="lote-body" id="lb2"></div></div>
+    <div class="lote-block"><div class="lote-head"><span class="lote-title">LOTE 3 · ANIMACIÓN · 8s c/u (${clips.length})</span><button class="copy-btn-inline" data-lote="3">⧉ Copiar lote 3</button></div><div class="lote-body" id="lb3"></div></div>
+    <div class="lote-block"><div class="lote-head"><span class="lote-title">SEO</span><button class="copy-btn-inline" data-lote="seo">⧉ Copiar SEO</button></div><div class="lote-body" id="lbseo"></div></div>`;
+  $("lb1").textContent=lote1;$("lb2").textContent=lote2;$("lb3").textContent=lote3;$("lbseo").textContent=seo;
+  $("finalOut").querySelectorAll(".copy-btn-inline").forEach(btn=>{
+    btn.onclick=()=>{const m={"1":STATE._l1,"2":STATE._l2,"3":STATE._l3,"seo":STATE._seo};copy(m[btn.dataset.lote]);
+      const o=btn.textContent;btn.textContent="Copiado ✓";btn.classList.add("copied");setTimeout(()=>{btn.textContent=o;btn.classList.remove("copied");},2000);};
+  });
+  $("finalPanel").scrollIntoView({behavior:"smooth",block:"start"});
+}
+
+/* ---------- Eventos ---------- */
 $("provider").onchange=function(){
-  const v=this.value;
-  $("keyBox").classList.toggle("hidden",v==="local");
+  const v=this.value; $("keyBox").classList.toggle("hidden",v==="local");
   const dot=$("statusDot"),txt=$("statusTxt");
   if(v==="local"){dot.style.background="var(--muted)";txt.textContent="Modo local activo";}
   else if(v==="claude"){dot.style.background="var(--lime)";txt.textContent="Claude (al validar key)";}
   else{dot.style.background="var(--lime)";txt.textContent="Gemini (al validar key)";}
 };
-$("btnRandom").onclick=()=>{$("premisa").value=randomPremisa();toast("Idea nueva 🎲");};
-$("btnGen").onclick=generate;
-$("copyOut").onclick=copyAll;
+$("btnGenerate").onclick=generateBatch;
+$("btnReset").onclick=()=>{generateBatch();toast("Nuevo lote ✓");};
+$("btnResetTotal").onclick=()=>{STATE.used.clear();STATE.batch=[];STATE.sel=null;STATE.script="";STATE.clips=[];
+  $("ideasList").innerHTML="";$("scriptOut").textContent="";$("copyScript").classList.add("hidden");
+  $("countRow").style.display="none";$("durRow").style.display="none";$("finalPanel").classList.add("hidden");
+  $("scriptSub").textContent="Elegí una idea arriba para empezar.";updateCounters();toast("Reset total ✓");};
+$("btnBuildScript").onclick=()=>{let n=parseInt($("sceneCount").value,10);if(isNaN(n))n=8;n=Math.max(4,Math.min(12,n));$("sceneCount").value=n;buildScript(n);$("scriptPanel").scrollIntoView({behavior:"smooth",block:"start"});};
+$("btnFinal").onclick=buildFinal;
+$("copyScript").onclick=()=>copy(STATE.script);
 
-renderRefs();
+/* ---------- Init ---------- */
+renderRefs(); updateCounters(); generateBatch();
 </script>
 <script src="apps-menu.js"></script>
-</body></body>
+</body>
 </html>
