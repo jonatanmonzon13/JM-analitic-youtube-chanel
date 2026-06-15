@@ -1,14 +1,96 @@
 {
   "permitidos": [
-    "jonatanmonzon13@gmail.com"
+    "jonatanmonzon13@gmail.com",
+    "jonatanmonzon1126@gmail.com",
+    "diegoasalazarc70@gmail.com",
+    "joxcimars2016@gmail.com",
+    "ayala.luis@correounivalle.edu.co",
+    "febreromonetiza10@gmail.com",
+    "creadordigital.82ia@gmail.com",
+    "valdesingrid258@gmail.com",
+    "maricuenta727@gmail.com",
+    "libertopiemoran@gmail.com",
+    "alexandersamchez000000@gmail.com",
+    "andresportillo371@gmail.com",
+    "darioperezlindo77@gmail.com",
+    "almareflexiva46@gmail.com",
+    "edison.herrera.m@gmail.com"
   ],
   "apps": [
-    { "id": "outliers", "nombre": "Outliers", "archivo": "app.html" },
-    { "id": "historias", "nombre": "Historias de Fe", "archivo": "historias-fe.html" },
-    { "id": "milagros", "nombre": "Milagros de Fe", "archivo": "milagros-fe.html" },
-    { "id": "relatos", "nombre": "Relatos de Fe", "archivo": "relatos-fe.html" },
-    { "id": "glam", "nombre": "Glam", "archivo": "glam.html" },
-    { "id": "frutas", "nombre": "Frutas", "archivo": "frutas.html" }
+    {
+      "id": "outliers",
+      "nombre": "Outliers",
+      "archivo": "app.html"
+    },
+    {
+      "id": "historias",
+      "nombre": "Historias de Fe",
+      "archivo": "historias-fe.html"
+    },
+    {
+      "id": "milagros",
+      "nombre": "Milagros de Fe",
+      "archivo": "milagros-fe.html"
+    },
+    {
+      "id": "relatos",
+      "nombre": "Relatos de Fe",
+      "archivo": "relatos-fe.html"
+    },
+    {
+      "id": "glam",
+      "nombre": "Glam",
+      "archivo": "glam.html"
+    },
+    {
+      "id": "frutas",
+      "nombre": "Frutas",
+      "archivo": "frutas.html"
+    }
   ],
-  "accesos": {}
+  "accesos": {
+    "jonatanmonzon1126@gmail.com": [
+      "outliers",
+      "historias"
+    ],
+    "diegoasalazarc70@gmail.com": [
+      "outliers"
+    ],
+    "joxcimars2016@gmail.com": [
+      "outliers"
+    ],
+    "ayala.luis@correounivalle.edu.co": [
+      "outliers"
+    ],
+    "febreromonetiza10@gmail.com": [
+      "outliers"
+    ],
+    "creadordigital.82ia@gmail.com": [
+      "outliers"
+    ],
+    "valdesingrid258@gmail.com": [
+      "outliers"
+    ],
+    "maricuenta727@gmail.com": [
+      "outliers"
+    ],
+    "libertopiemoran@gmail.com": [
+      "outliers"
+    ],
+    "alexandersamchez000000@gmail.com": [
+      "outliers"
+    ],
+    "andresportillo371@gmail.com": [
+      "outliers"
+    ],
+    "darioperezlindo77@gmail.com": [
+      "outliers"
+    ],
+    "almareflexiva46@gmail.com": [
+      "outliers"
+    ],
+    "edison.herrera.m@gmail.com": [
+      "outliers"
+    ]
+  }
 }
