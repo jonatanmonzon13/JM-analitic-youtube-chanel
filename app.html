@@ -337,7 +337,8 @@
   @keyframes drift1{0%,100%{transform:translate(0,0) scale(1)}50%{transform:translate(8vw,6vw) scale(1.15)}}
   @keyframes drift2{0%,100%{transform:translate(0,0) scale(1)}50%{transform:translate(-7vw,5vw) scale(1.1)}}
   @keyframes drift3{0%,100%{transform:translate(0,0) scale(1)}50%{transform:translate(5vw,-8vw) scale(1.2)}}
-  header,.wrap{position:relative;z-index:1}
+  header.wrap{position:relative;z-index:40}
+  .wrap{position:relative;z-index:1}
 
   /* eyebrow + título hero con espectro */
   .eyebrow{background:var(--grad-hot);-webkit-background-clip:text;background-clip:text;-webkit-text-fill-color:transparent;font-weight:700}
@@ -480,6 +481,30 @@
     .card.expanded .cbody{padding:12px 13px 14px}
     .card.expanded .actions{flex-direction:column;max-width:none}
   }
+  /* ═══════════ MENÚ "MIS APPS" + ADMIN POR USUARIO ═══════════ */
+  .appsmenu{position:absolute;top:42px;right:0;min-width:220px;background:var(--bg2);
+    border:1px solid var(--line);border-radius:13px;padding:7px;display:none;z-index:60;
+    box-shadow:0 18px 50px rgba(0,0,0,.6)}
+  .appswrap.open .appsmenu{display:block}
+  .appsmenu .amttl{font-size:10.5px;letter-spacing:1.4px;text-transform:uppercase;color:var(--muted);padding:7px 10px 6px}
+  .appsmenu a{display:flex;align-items:center;justify-content:space-between;gap:10px;text-decoration:none;
+    color:var(--ink);font-size:14px;padding:10px 11px;border-radius:9px}
+  .appsmenu a:hover{background:var(--bg3);color:var(--gold2)}
+  .appsmenu a.here{color:var(--gold)}
+  .appsmenu a .dot{font-size:11px;color:var(--lime)}
+  #appsBtn{cursor:pointer}
+
+  .adminh{font-family:var(--display);font-size:15px;color:var(--ink);font-weight:700;margin:20px 0 9px}
+  .adminh:first-child{margin-top:0}
+  .addrow{display:flex;gap:8px;flex-wrap:wrap}
+  .addrow input{flex:1;min-width:150px}
+  .erow code{font-family:var(--mono);font-size:12px;color:var(--muted);background:var(--bg3);
+    padding:1px 7px;border-radius:6px;margin-left:6px}
+  .urow{border:1px solid var(--line);border-radius:11px;padding:11px 13px;margin-bottom:9px;background:var(--bg2)}
+  .uemail{font-size:12.5px;color:var(--gold2);margin-bottom:8px;font-family:var(--mono);word-break:break-all}
+  .uchecks{display:flex;flex-wrap:wrap;gap:9px 18px}
+  .achk{display:inline-flex;align-items:center;gap:6px;font-size:13px;color:var(--body);cursor:pointer}
+  .achk input{accent-color:var(--gold);width:15px;height:15px}
 </style>
 </head>
 <body>
@@ -501,6 +526,10 @@
   <div class="brand">JM<span class="ol">-analitic-youtube-chanel</span></div>
   <div style="display:flex;gap:8px;align-items:center">
     <a class="gear" id="homeBtn" href="./index.html" style="text-decoration:none">← inicio</a>
+    <div class="appswrap" id="appsWrap" style="display:none;position:relative">
+      <div class="gear" id="appsBtn" onclick="toggleApps(event)">⚡ Mis apps ▾</div>
+      <div class="appsmenu" id="appsMenu"></div>
+    </div>
     <div class="gear" id="langBtn" onclick="toggleIdioma()">EN</div>
     <div class="gear" id="keysBtn" onclick="toggleKeys()">⚙ claves</div>
     <div class="gear" id="logout" onclick="salir()">salir</div>
@@ -648,14 +677,29 @@
 
   <div id="view-admin" class="view" hidden>
     <h2 class="vtitle">Panel de administrador</h2>
-    <p class="vsub">Gestioná los correos con acceso. Al terminar, tocá <b>copiar archivo</b> y pegá el contenido en <code>autorizados.json</code> de tu repo; luego hacé commit.</p>
+    <p class="vsub">Gestioná usuarios, las apps del repo y qué apps ve cada usuario. Al terminar tocá <b>copiar archivo</b> y pegá el contenido en <code>autorizados.json</code> de tu repo; luego hacé commit.</p>
     <div class="adminbox">
+      <h3 class="adminh">👤 Usuarios con acceso</h3>
       <div class="addrow">
         <input type="email" id="newEmail" placeholder="[email protected]" autocomplete="off"
                onkeydown="if(event.key==='Enter')adminAdd()">
         <button class="btn-gold" onclick="adminAdd()">Agregar</button>
       </div>
       <div id="emailList" class="emaillist"></div>
+
+      <h3 class="adminh">⚡ Apps del repo</h3>
+      <div class="addrow">
+        <input type="text" id="newAppName" placeholder="Nombre (ej: Guiones)" autocomplete="off">
+        <input type="text" id="newAppFile" placeholder="archivo.html" autocomplete="off"
+               onkeydown="if(event.key==='Enter')adminAppAdd()">
+        <button class="btn-gold" onclick="adminAppAdd()">Agregar app</button>
+      </div>
+      <div id="appList" class="emaillist"></div>
+
+      <h3 class="adminh">🔐 ¿Qué apps ve cada usuario?</h3>
+      <p class="vsub" style="margin-top:-2px">Los administradores ven todas automáticamente. Si no tocás nada, cada usuario ve todas por defecto.</p>
+      <div id="accessGrid"></div>
+
       <div class="jsonout">
         <div class="jsonhead"><span>autorizados.json</span>
           <button class="copybtn" onclick="adminCopy(this)">copiar archivo</button></div>
@@ -682,6 +726,10 @@ const ADMINS = ['jonatanmonzon13@gmail.com'];
 let AUTORIZADOS = [];   // se rellena al cargar desde autorizados.json
 let USER_EMAIL = '';    // correo con el que se inició sesión
 let ADMIN_LIST = [];    // lista editable de permitidos (panel de admin)
+let APPS = [];          // apps del repo (de autorizados.json)
+let ACCESOS = {};       // correo -> [ids de apps que ve]
+let ADMIN_APPS = [];    // copia editable de APPS (panel admin)
+let ADMIN_ACCESOS = {}; // copia editable de ACCESOS (panel admin)
 /* ════════════════════════════════════════════════════════════════ */
 
 const $ = s => document.querySelector(s);
@@ -710,10 +758,21 @@ function onGoogleLogin(resp){
     $('#gate').classList.add('hidden');
     $('#logout').style.display = 'block';
     USER_EMAIL = email;
-    if(ADMINS.map(a => String(a).trim().toLowerCase()).includes(email)){
+    const isAdmin = ADMINS.map(a => String(a).trim().toLowerCase()).includes(email);
+    if(isAdmin){
       $('#tab-admin').style.display = '';
       ADMIN_LIST = AUTORIZADOS.slice();
+      ADMIN_APPS = APPS.map(a => ({id:a.id, nombre:a.nombre, archivo:a.archivo}));
+      ADMIN_ACCESOS = {}; for(const k in ACCESOS) ADMIN_ACCESOS[k] = ACCESOS[k].slice();
     }
+    // Guardar identidad + apps para que las OTRAS apps del repo sepan quién entró y qué puede ver
+    const allIds = APPS.map(a => a.id);
+    try{
+      localStorage.setItem('jm_user', email);
+      localStorage.setItem('jm_apps', JSON.stringify(APPS));
+      localStorage.setItem('jm_access', isAdmin ? 'all' : JSON.stringify(ACCESOS[email] || allIds));
+    }catch{}
+    buildAppsMenu();
   }else{
     $('#gmsg').textContent = 'La cuenta ' + (email || '—') + ' no está autorizada.';
     try{ google.accounts.id.disableAutoSelect(); }catch{}
@@ -721,6 +780,7 @@ function onGoogleLogin(resp){
 }
 
 function salir(){
+  try{ localStorage.removeItem('jm_user'); localStorage.removeItem('jm_apps'); localStorage.removeItem('jm_access'); }catch{}
   try{ google.accounts.id.disableAutoSelect(); }catch{}
   location.reload();
 }
@@ -735,8 +795,13 @@ async function cargarAutorizados(){
     const r = await fetch('autorizados.json?t=' + Date.now());
     const data = await r.json();
     AUTORIZADOS = (data.permitidos || []).map(e => String(e).trim().toLowerCase());
+    APPS = Array.isArray(data.apps) ? data.apps.filter(a => a && a.id && a.archivo) : [];
+    ACCESOS = {};
+    if(data.accesos && typeof data.accesos === 'object'){
+      for(const k in data.accesos) ACCESOS[String(k).trim().toLowerCase()] = (data.accesos[k] || []).slice();
+    }
   }catch(e){
-    AUTORIZADOS = [];   // si falla la carga, por seguridad no entra nadie
+    AUTORIZADOS = []; APPS = []; ACCESOS = {};   // si falla la carga, por seguridad no entra nadie
     console.warn('No se pudo cargar autorizados.json:', e);
   }
 }
@@ -1295,25 +1360,98 @@ function verDetalle(btn, ts){
   card.appendChild(det); btn.textContent = t('ocultar');
 }
 
+/* ═══════════ Menú "Mis apps" (lanzador a las otras apps del repo) ═══════════ */
+function buildAppsMenu(){
+  const wrap = $('#appsWrap'), menu = $('#appsMenu');
+  if(!wrap || !menu) return;
+  if(!APPS.length){ wrap.style.display = 'none'; return; }
+  const isAdmin = ADMINS.map(a => String(a).trim().toLowerCase()).includes(USER_EMAIL);
+  const ids = isAdmin ? null : (ACCESOS[USER_EMAIL] || APPS.map(a => a.id));
+  const vis = APPS.filter(a => !ids || ids.includes(a.id));
+  if(!vis.length){ wrap.style.display = 'none'; return; }
+  const here = (location.pathname.split('/').pop() || 'app.html').toLowerCase();
+  menu.innerHTML = '<div class="amttl">Mis apps</div>' + vis.map(a => {
+    const cur = (a.archivo || '').toLowerCase() === here;
+    return `<a class="${cur ? 'here' : ''}" href="${esc(a.archivo)}">${esc(a.nombre)}${cur ? '<span class="dot">● aquí</span>' : ''}</a>`;
+  }).join('');
+  wrap.style.display = '';
+}
+function toggleApps(e){ e.stopPropagation(); $('#appsWrap').classList.toggle('open'); }
+document.addEventListener('click', () => { const w = $('#appsWrap'); if(w) w.classList.remove('open'); });
+
 /* ═══════════ Panel de administrador (sin servidor) ═══════════ */
+function slugify(s){
+  return String(s).toLowerCase().normalize('NFD').replace(/[\u0300-\u036f]/g,'')
+    .replace(/[^a-z0-9]+/g,'-').replace(/^-+|-+$/g,'').slice(0,24) || ('app' + Date.now());
+}
 function renderAdmin(){
-  const cont = $('#emailList');
   const admins = ADMINS.map(a => String(a).trim().toLowerCase());
-  cont.innerHTML = ADMIN_LIST.length ? ADMIN_LIST.map(e => `
+  // Usuarios
+  $('#emailList').innerHTML = ADMIN_LIST.length ? ADMIN_LIST.map(e => `
     <div class="erow">
       <span>${esc(e)}${admins.includes(e) ? '<span class="adm">ADMIN</span>' : ''}</span>
       <button onclick="adminDel('${esc(e)}')">quitar</button>
     </div>`).join('')
     : '<div class="empty2">La lista está vacía.</div>';
-  $('#jsonPre').textContent = JSON.stringify({permitidos: ADMIN_LIST}, null, 2);
+  // Apps
+  $('#appList').innerHTML = ADMIN_APPS.length ? ADMIN_APPS.map(a => `
+    <div class="erow">
+      <span><b>${esc(a.nombre)}</b><code>${esc(a.archivo)}</code></span>
+      <button onclick="adminAppDel('${esc(a.id)}')">quitar</button>
+    </div>`).join('')
+    : '<div class="empty2">Sin apps todavía. Agregá al menos una.</div>';
+  // Accesos por usuario
+  renderAccess(admins);
+  // JSON de salida
+  const accesos = {};
+  ADMIN_LIST.forEach(e => {
+    if(admins.includes(e)) return;   // los admins ven todas, no hace falta listarlos
+    const ids = (ADMIN_ACCESOS[e] || ADMIN_APPS.map(a => a.id)).filter(id => ADMIN_APPS.some(a => a.id === id));
+    accesos[e] = ids;
+  });
+  $('#jsonPre').textContent = JSON.stringify({ permitidos: ADMIN_LIST, apps: ADMIN_APPS, accesos }, null, 2);
+}
+function renderAccess(admins){
+  const cont = $('#accessGrid');
+  const users = ADMIN_LIST.filter(e => !admins.includes(e));
+  if(!ADMIN_APPS.length){ cont.innerHTML = '<div class="empty2">Agregá apps para poder asignar accesos.</div>'; return; }
+  if(!users.length){ cont.innerHTML = '<div class="empty2">Por ahora solo hay administradores (ven todas las apps).</div>'; return; }
+  cont.innerHTML = users.map(e => {
+    const ids = ADMIN_ACCESOS[e] || ADMIN_APPS.map(a => a.id);
+    const checks = ADMIN_APPS.map(a => `
+      <label class="achk"><input type="checkbox" ${ids.includes(a.id) ? 'checked' : ''}
+        onchange="adminToggleAccess('${esc(e)}','${esc(a.id)}',this.checked)"> ${esc(a.nombre)}</label>`).join('');
+    return `<div class="urow"><div class="uemail">${esc(e)}</div><div class="uchecks">${checks}</div></div>`;
+  }).join('');
 }
 function adminAdd(){
   const inp = $('#newEmail'), e = (inp.value || '').trim().toLowerCase();
   if(!e || !e.includes('@')){ inp.focus(); return; }
-  if(!ADMIN_LIST.includes(e)) ADMIN_LIST.push(e);
+  if(!ADMIN_LIST.includes(e)){ ADMIN_LIST.push(e); ADMIN_ACCESOS[e] = ADMIN_APPS.map(a => a.id); }
   inp.value = ''; renderAdmin();
 }
-function adminDel(e){ ADMIN_LIST = ADMIN_LIST.filter(x => x !== e); renderAdmin(); }
+function adminDel(e){ ADMIN_LIST = ADMIN_LIST.filter(x => x !== e); delete ADMIN_ACCESOS[e]; renderAdmin(); }
+function adminAppAdd(){
+  const n = $('#newAppName'), f = $('#newAppFile');
+  const nombre = (n.value || '').trim(); let archivo = (f.value || '').trim();
+  if(!nombre || !archivo){ (nombre ? f : n).focus(); return; }
+  if(!/\.html?$/i.test(archivo)) archivo += '.html';
+  let id = slugify(nombre); while(ADMIN_APPS.some(a => a.id === id)) id += '2';
+  ADMIN_APPS.push({ id, nombre, archivo });
+  ADMIN_LIST.forEach(e => { if(ADMIN_ACCESOS[e] && !ADMIN_ACCESOS[e].includes(id)) ADMIN_ACCESOS[e].push(id); });
+  n.value = ''; f.value = ''; renderAdmin();
+}
+function adminAppDel(id){
+  ADMIN_APPS = ADMIN_APPS.filter(a => a.id !== id);
+  for(const e in ADMIN_ACCESOS) ADMIN_ACCESOS[e] = ADMIN_ACCESOS[e].filter(x => x !== id);
+  renderAdmin();
+}
+function adminToggleAccess(email, appId, on){
+  let ids = ADMIN_ACCESOS[email] ? ADMIN_ACCESOS[email].slice() : ADMIN_APPS.map(a => a.id);
+  if(on){ if(!ids.includes(appId)) ids.push(appId); }
+  else { ids = ids.filter(x => x !== appId); }
+  ADMIN_ACCESOS[email] = ids; renderAdmin();
+}
 function adminCopy(btn){
   navigator.clipboard.writeText($('#jsonPre').textContent).then(()=>{
     btn.textContent = '✓ copiado'; btn.classList.add('ok');
