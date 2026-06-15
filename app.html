@@ -421,12 +421,26 @@
              display:flex;align-items:center;gap:8px}
   .searchbar select:disabled{opacity:.38;cursor:not-allowed}
 
-  #results{width:min(1200px,94vw);position:relative;left:50%;transform:translateX(-50%);
-           display:grid;grid-template-columns:repeat(5,1fr);gap:14px;align-items:start}
+  #results{width:min(1120px,94vw);position:relative;left:50%;transform:translateX(-50%);
+           display:grid;grid-template-columns:repeat(4,1fr);gap:16px;align-items:stretch}
   #results .empty{grid-column:1/-1}
-  @media(max-width:1080px){#results{grid-template-columns:repeat(4,1fr)}}
-  @media(max-width:840px){#results{grid-template-columns:repeat(3,1fr)}}
-  @media(max-width:600px){#results{grid-template-columns:repeat(2,1fr);width:94vw}}
+  @media(max-width:980px){#results{grid-template-columns:repeat(3,1fr)}}
+  @media(max-width:620px){#results{grid-template-columns:repeat(2,1fr);width:94vw}}
+
+  /* al reproducir: se ocultan las demás y se agranda la seleccionada */
+  #results.solo > .card:not(.playing-card){display:none}
+  .card.playing-card{grid-column:1/-1}
+  .card.playing-card .top{flex-direction:row;gap:22px;align-items:flex-start;padding:8px}
+  .card.playing-card .media{width:min(840px,64%);max-width:none;border-radius:12px;overflow:hidden}
+  .card.playing-card .cbody{flex:1;padding-top:6px}
+  .card.playing-card .cbody h3{font-size:19px;-webkit-line-clamp:unset;display:block}
+  .card.playing-card .actions{flex-direction:row;max-width:420px}
+  @media(max-width:620px){
+    .card.playing-card .top{flex-direction:column;padding:0}
+    .card.playing-card .media{width:100%;border-radius:0}
+    .card.playing-card .cbody{padding:12px 13px 14px}
+    .card.playing-card .actions{flex-direction:column}
+  }
 
   .card{display:flex;flex-direction:column;padding:0;margin:0;gap:0;grid-template-columns:none;
         border-radius:14px}
@@ -586,7 +600,7 @@
       </select>
       <select id="maxSubs" title="Excluir canales con más suscriptores que esto">
         <option value="0">sin tope de subs</option>
-        <option value="100">≤ 100 subs</option>
+        <option value="100">🔻 mínimo de subs (0–100)</option>
         <option value="500">≤ 500 subs</option>
         <option value="1000">≤ 1K subs</option>
         <option value="5000" selected>≤ 5K subs</option>
@@ -599,7 +613,7 @@
         <option value="10000">≥ 10K vistas</option>
         <option value="50000">≥ 50K vistas</option>
         <option value="100000">≥ 100K vistas</option>
-        <option value="500000">≥ 500K vistas</option>
+        <option value="500000">🔺 máximo de vistas (500K+)</option>
       </select>
       <button type="button" class="beast" id="beast" onclick="toggleBeast()">🔥 Modo bestia</button>
       <button class="btn-gold" id="go" onclick="buscar()">Buscar outliers</button>
@@ -906,15 +920,20 @@ function render(list, total){
 
 function reproducir(btn, idx){
   const v = RESULTS[idx];
+  const card = document.getElementById('card-' + idx);
   const media = document.getElementById('media-' + idx);
+  const results = document.getElementById('results');
   if(!media) return;
   const thumb = media.querySelector('.thumb');
   const existing = media.querySelector('iframe');
-  if(existing){                       // ya hay reproductor → cerrar y restaurar miniatura
+  if(existing){                       // ya hay reproductor → cerrar y volver a la cuadrícula
     existing.remove();
     if(thumb) thumb.style.display = '';
+    card.classList.remove('playing-card');
+    results.classList.remove('solo');
     btn.textContent = t('reproducir');
     btn.classList.remove('on');
+    card.scrollIntoView({behavior:'smooth', block:'center'});
     return;
   }
   const fr = document.createElement('iframe');
@@ -927,8 +946,11 @@ function reproducir(btn, idx){
   fr.setAttribute('allowfullscreen', '');
   if(thumb) thumb.style.display = 'none';
   media.appendChild(fr);
+  card.classList.add('playing-card');     // agranda la seleccionada
+  results.classList.add('solo');          // oculta las demás
   btn.textContent = t('cerrar');
   btn.classList.add('on');
+  results.scrollIntoView({behavior:'smooth', block:'start'});
 }
 
 async function thumbBase64(url){
@@ -1537,4 +1559,3 @@ window.addEventListener('DOMContentLoaded', () => {
 </script>
 </body>
 </html>
-
