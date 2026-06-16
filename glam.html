@@ -114,7 +114,7 @@
 
   /* ── Hero llamativo (rayos de luz) + imágenes de referencia del nicho ── */
   header.hero{overflow:hidden}
-  .godrays{position:absolute;left:50%;transform:translateX(-50%);top:-70px;width:760px;max-width:100%;height:560px;z-index:0;pointer-events:none;
+  .godrays{position:absolute;left:50%;transform:translateX(-50%);top:-18px;width:560px;max-width:100%;height:300px;z-index:0;pointer-events:none;
     background:
       radial-gradient(420px 300px at 50% 38%, rgba(248,218,142,.16), transparent 70%),
       conic-gradient(from 0deg at 50% 6%,
@@ -126,7 +126,7 @@
         rgba(155,92,255,.11) 231deg, transparent 240deg, transparent 360deg);
     filter:blur(3px);opacity:.9;animation:sway 16s ease-in-out infinite}
   @keyframes sway{0%,100%{transform:translateX(-50%) rotate(-2.5deg)}50%{transform:translateX(-50%) rotate(2.5deg)}}
-  header.hero>*{position:relative;z-index:1}
+  header.hero>*:not(.godrays){position:relative;z-index:1}
   .logo-mark{box-shadow:0 0 0 1px rgba(248,218,142,.4),0 0 50px rgba(248,218,142,.45)}
   h1{filter:drop-shadow(0 4px 26px rgba(255,61,154,.25))}
 
@@ -144,7 +144,7 @@
 
   /* ── Formato novela (grilla + reparto + slider + clips) ── */
   header.brand{text-align:center;padding:26px 0 16px;border-bottom:1px solid var(--line);margin-bottom:22px;position:relative;overflow:hidden}
-  header.brand>*{position:relative;z-index:1}
+  header.brand>*:not(.godrays){position:relative;z-index:1}
   .ribbon{display:inline-block;font-family:var(--mono);font-size:10px;letter-spacing:2px;text-transform:uppercase;color:#0A0D14;background:var(--grad-gold);padding:4px 13px;border-radius:20px;margin-bottom:12px;font-weight:700}
   .tag{color:var(--muted);font-family:var(--mono);font-size:13px;margin-top:10px}
   .card{background:linear-gradient(180deg,var(--bg2),var(--bg3));border:1px solid var(--line);border-radius:16px;padding:20px;margin-bottom:18px;box-shadow:0 18px 50px rgba(0,0,0,.45)}
@@ -185,6 +185,9 @@
   .divider{height:1px;background:linear-gradient(90deg,transparent,var(--violet),transparent);margin:16px 0}
   .footer{text-align:center;color:var(--muted);font-size:12px;margin-top:26px;font-family:var(--mono)}
   .footer b{color:var(--gold2)}
+  .keyrow{display:flex;gap:8px;flex-wrap:wrap;align-items:stretch}
+  .keyrow input{flex:1;min-width:200px}
+  .keyrow .btn{padding:11px 15px;font-size:13px}
 </style>
 </head>
 <body>
@@ -204,30 +207,15 @@
   <section class="card">
     <div class="step"><span class="num">1</span> Conexión</div>
     <div class="step-sub">Conecta Gemini para novelas únicas que <b>nunca se repiten</b>. Sin key funciona el motor local.</div>
-    <div class="api-box">
-      <div>
-        <label class="fld">Proveedor</label>
-        <select id="provider">
-          <option value="local">⚙ Sin conexión · Motor local</option>
-          <option value="gemini">✦ Gemini (Google)</option>
-          <option value="claude">✦ Claude (Anthropic)</option>
-        </select>
-      </div>
-      <div id="modelBox" class="hidden">
-        <label class="fld">Modelo</label>
-        <select id="model">
-          <option value="gemini-2.0-flash">gemini-2.0-flash (rápido)</option>
-          <option value="gemini-2.5-flash">gemini-2.5-flash</option>
-          <option value="gemini-2.5-pro">gemini-2.5-pro (mejor)</option>
-        </select>
-      </div>
-      <div id="keyBox" class="hidden" style="grid-column:1/-1">
-        <label class="fld">API Key</label>
-        <input type="password" id="apiKey" placeholder="AIza… (Gemini) / sk-… (Claude)">
-        <div class="hint">⚠ La clave queda solo en tu navegador. Gemini gratis en aistudio.google.com/apikey</div>
-      </div>
+    <label class="fld">API Key de Gemini</label>
+    <div class="keyrow">
+      <input type="password" id="apiKey" placeholder="AIza…" autocomplete="off">
+      <button class="btn btn-dark" type="button" id="eye" onclick="toggleEye()" title="Mostrar/ocultar">👁</button>
+      <button class="btn btn-gold" type="button" id="saveKey" onclick="saveKey()">💾 Guardar</button>
+      <button class="btn btn-ghost" type="button" id="replaceKey" onclick="replaceKey()">↻ Reemplazar</button>
     </div>
-    <div style="margin-top:12px"><span class="pill"><span class="status-dot" id="statusDot" style="background:var(--muted);margin-right:7px"></span><span id="statusTxt">Modo local activo</span></span></div>
+    <div class="hint" id="keyHint">⚠ Queda solo en tu navegador · se comparte con la app principal · gratis en aistudio.google.com/apikey</div>
+    <div style="margin-top:12px"><span class="pill"><span class="status-dot" id="statusDot" style="background:var(--muted);margin-right:7px"></span><span id="statusTxt">Motor local</span></span></div>
   </section>
 
   <section class="card">
@@ -361,25 +349,14 @@ function selectIdea(i,el){
 
 /* IA */
 async function callAPI(prompt){
-  const provider=$("provider").value;
   const key=($("apiKey")?$("apiKey").value.trim():"");
-  if(provider==="local") return null;
-  if(!key){toast("Falta la API key · motor local");return null;}
+  if(!key) return null;
   try{
-    if(provider==="claude"){
-      const r=await fetch("https://api.anthropic.com/v1/messages",{method:"POST",
-        headers:{"Content-Type":"application/json","x-api-key":key,"anthropic-version":"2023-06-01","anthropic-dangerous-direct-browser-access":"true"},
-        body:JSON.stringify({model:"claude-3-5-sonnet-20241022",max_tokens:3500,messages:[{role:"user",content:prompt}]})});
-      const d=await r.json(); if(d.error) throw new Error(d.error.message);
-      return d.content.map(c=>c.text||"").join("\n");
-    } else {
-      const model=$("model")?$("model").value:"gemini-2.0-flash";
-      const r=await fetch("https://generativelanguage.googleapis.com/v1beta/models/"+model+":generateContent?key="+encodeURIComponent(key),{
-        method:"POST",headers:{"Content-Type":"application/json"},
-        body:JSON.stringify({contents:[{parts:[{text:prompt}]}],generationConfig:{maxOutputTokens:8192}})});
-      const d=await r.json(); if(d.error) throw new Error(d.error.message);
-      return d.candidates[0].content.parts.map(p=>p.text).join("\n");
-    }
+    const r=await fetch("https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash:generateContent?key="+encodeURIComponent(key),{
+      method:"POST",headers:{"Content-Type":"application/json"},
+      body:JSON.stringify({contents:[{parts:[{text:prompt}]}],generationConfig:{maxOutputTokens:8192}})});
+    const d=await r.json(); if(d.error) throw new Error(d.error.message);
+    return d.candidates[0].content.parts.map(p=>p.text).join("\n");
   }catch(e){toast("API falló: "+e.message+" · motor local");return null;}
 }
 
@@ -423,7 +400,7 @@ async function generate(){
 
   let clips=[]; for(let i=0;i<N;i++) clips.push(buildClipLocal(i,cast,env));
 
-  if($("provider").value!=='local'){
+  if($("apiKey").value.trim()){
     const prompt=`Eres guionista de ${GENRE} en español latino, estilo telenovela con personajes de ${THEMEWORD} antropomórficos. Premisa: "${SEL.title}". Reparto (usá estos nombres): ${castlist}. Escribe una NOVELA en EXACTAMENTE ${N} clips de 8 segundos. Primero una línea "SINOPSIS: ..." (1-2 frases). Luego, por cada clip, este formato EXACTO:\n"=== Clip N: título ==="\n(acotación)\nNombre: diálogo corto\nNombre: diálogo corto\nESCENA: prompt de imagen en inglés (sujeto+acción+set+luz+cámara, 9:16, sin texto)\nANIMACIÓN: prompt de animación en inglés de 8s con lip-sync y cámara.\nDevuelve solo eso, sin explicaciones.`;
     const api=await callAPI(prompt);
     if(api){
@@ -448,15 +425,14 @@ async function generate(){
 }
 
 /* eventos */
-$("provider").onchange=function(){
-  const v=this.value;
-  $("keyBox").classList.toggle("hidden",v==="local");
-  $("modelBox").classList.toggle("hidden",v!=="gemini");
-  const dot=$("statusDot"),txt=$("statusTxt");
-  if(v==="local"){dot.style.background="var(--muted)";txt.textContent="Modo local activo";}
-  else if(v==="claude"){dot.style.background="var(--lime)";txt.textContent="Claude (al validar key)";}
-  else{dot.style.background="var(--lime)";txt.textContent="Gemini (al validar key)";}
-};
+function loadKeys(){ try{ return JSON.parse(localStorage.getItem('jmbots_keys')||'{}'); }catch(e){ return {}; } }
+function keyState(){ const has=$("apiKey").value.trim(); $("statusDot").style.background=has?"var(--lime)":"var(--muted)"; $("statusTxt").textContent=has?"Gemini conectado":"Motor local"; }
+function setKeyHint(m,c){ const hh=$("keyHint"); if(hh){ hh.textContent=m; hh.style.color=c||"var(--muted)"; } }
+(function initKey(){ const ks=loadKeys(); if(ks.an){ $("apiKey").value=ks.an; setKeyHint("✓ Clave del sistema cargada. Tocá Reemplazar para cambiarla.","var(--lime)"); } keyState(); })();
+function saveKey(){ const v=$("apiKey").value.trim(); if(!v){ setKeyHint("Pegá una clave antes de guardar.","var(--pink)"); return; } try{ const ks=loadKeys(); ks.an=v; localStorage.setItem('jmbots_keys',JSON.stringify(ks)); }catch(e){} const b=$("saveKey"); const o=b.textContent; b.textContent="✓ Guardada"; setTimeout(()=>b.textContent=o,1500); setKeyHint("✓ Clave guardada (compartida con la app principal).","var(--lime)"); keyState(); }
+function replaceKey(){ $("apiKey").value=""; $("apiKey").type="text"; $("apiKey").focus(); setKeyHint("Ingresá la nueva clave y tocá Guardar.","var(--gold2)"); keyState(); }
+function toggleEye(){ const i=$("apiKey"); i.type=i.type==='password'?'text':'password'; }
+$("apiKey").addEventListener('input',keyState);
 $("search").oninput=renderGrid;
 $("btnMore").onclick=()=>{buildPool();renderGrid();toast("Nuevas ideas ✓");};
 $("clipsRange").oninput=function(){const n=+this.value;$("clipsNum").textContent=n;$("durHint").textContent=`≈ ${n*8} s de novela · ${n>8?Math.ceil(n/8):1} parte${n>8?'s':''}`;};
