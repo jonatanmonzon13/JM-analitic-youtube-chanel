@@ -1,4 +1,49 @@
 {
+  "permitidos": [
+    "jonatanmonzon13@gmail.com"
+  ],
+  "apps": [
+    {
+      "id": "outliers",
+      "nombre": "Outliers",
+      "archivo": "app.html"
+    },
+    {
+      "id": "historias",
+      "nombre": "Historias de Fe",
+      "archivo": "historias-fe.html"
+    },
+    {
+      "id": "milagros",
+      "nombre": "Milagros de Fe",
+      "archivo": "milagros-fe.html"
+    },
+    {
+      "id": "relatos",
+      "nombre": "Relatos de Fe",
+      "archivo": "relatos-fe.html"
+    },
+    {
+      "id": "glam",
+      "nombre": "Glam",
+      "archivo": "glam.html"
+    },
+    {
+      "id": "frutas",
+      "nombre": "Frutas",
+      "archivo": "frutas.html"
+    },
+    {
+      "id": "novelas",
+      "nombre": "Novelas JMbots",
+      "archivo": "novelas.html"
+    },
+    {
+      "id": "analizador",
+      "nombre": "Analizador de Video",
+      "archivo": "analizador.html"
+    },
+    {
       "id": "mascotas",
       "nombre": "Mascotas Dramáticas",
       "archivo": "mascotas.html"
@@ -38,3 +83,6 @@
       "nombre": "Mitología Dramática",
       "archivo": "mitologia.html"
     }
+  ],
+  "accesos": {}
+}
