@@ -1,0 +1,334 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>JM · Aprende Valores</title>
+<style>
+  :root { 
+    --bg-dark: #0a0514;
+    --glass-bg: rgba(20, 15, 35, 0.7);
+    --glass-border: rgba(255, 255, 255, 0.15);
+    --text: #ffffff; 
+    --muted: rgba(255, 255, 255, 0.7); 
+    --pink: #ff2a6d; 
+    --cyan: #05d9e8; 
+    --gold: #ffd700; 
+    --purple: #9d4edd; 
+    --green: #01ffc3;
+    --shadow: 0 8px 32px rgba(0,0,0,0.5); 
+    --glow-pink: 0 0 20px rgba(255,42,109,0.4);
+    --glow-cyan: 0 0 20px rgba(5,217,232,0.4);
+    --radius: 16px; 
+  }
+  * { box-sizing: border-box; }
+  html { scroll-behavior: smooth; }
+  body { 
+    margin: 0; font-family: Inter, system-ui, sans-serif; 
+    background: linear-gradient(-45deg, #160a2c 0%, #0a0514 40%, #290a1d 100%);
+    background-size: 400% 400%;
+    animation: gradientBG 15s ease infinite;
+    color: var(--text); min-height: 100vh; padding-bottom: 50px;
+  }
+  @keyframes gradientBG {
+    0% { background-position: 0% 50%; }
+    50% { background-position: 100% 50%; }
+    100% { background-position: 0% 50%; }
+  }
+  
+  body::before {
+    content: ""; position: fixed; top: -50%; left: -50%; width: 200%; height: 200%;
+    background: radial-gradient(circle at 50% 50%, rgba(5,217,232,0.08), transparent 60%),
+                radial-gradient(circle at 80% 20%, rgba(255,42,109,0.08), transparent 50%);
+    z-index: -1; pointer-events: none;
+  }
+  .wrap { max-width: 1400px; margin: 0 auto; padding: 40px 20px; }
+  
+  /* Hero / Cabecera */
+  .hero { 
+    text-align: center; padding: 50px 20px; 
+    background: var(--glass-bg); backdrop-filter: blur(15px); -webkit-backdrop-filter: blur(15px);
+    border: 1px solid var(--glass-border); border-radius: 30px; box-shadow: var(--shadow), var(--glow-pink); margin-bottom: 40px; 
+  }
+  .title { 
+    font-size: clamp(2.8rem, 6vw, 5rem); margin: 0 0 10px; font-weight: 1000; letter-spacing: 3px;
+    background: linear-gradient(90deg, var(--cyan), var(--pink), var(--gold)); 
+    -webkit-background-clip: text; background-clip: text; color: transparent; 
+    text-shadow: 0px 4px 15px rgba(255,42,109,0.3);
+  }
+  .subtitle { color: #e0e0ff; font-size: 1.1rem; line-height: 1.6; max-width: 900px; margin: 0 auto 20px; font-weight: 500; }
+  .hero-pills { display: flex; justify-content: center; flex-wrap: wrap; gap: 12px; }
+  .hero-pill { padding: 8px 18px; border-radius: 999px; background: rgba(255,255,255,0.05); border: 1px solid var(--cyan); color: var(--cyan); font-size: 0.85rem; font-weight: 900; text-transform: uppercase; box-shadow: var(--glow-cyan); }
+  .hero-pill:nth-child(even) { border-color: var(--pink); color: var(--pink); box-shadow: var(--glow-pink); }
+  .hero-pill:nth-child(3n) { border-color: var(--gold); color: var(--gold); box-shadow: 0 0 15px rgba(255,215,0,0.3); }
+
+  /* Controles y Selectores Coloridos */
+  .controls-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(260px, 1fr)); gap: 20px; margin-bottom: 40px; }
+  .control { 
+    background: var(--glass-bg); backdrop-filter: blur(10px); border: 1px solid var(--glass-border); 
+    border-radius: var(--radius); padding: 20px; box-shadow: var(--shadow); transition: 0.3s;
+    border-left: 4px solid var(--cyan);
+  }
+  .control:nth-child(even) { border-left-color: var(--pink); }
+  .control:nth-child(3n) { border-left-color: var(--gold); }
+  .control:hover { transform: translateY(-5px); box-shadow: var(--glow-cyan); border-color: var(--cyan); }
+  
+  .control label { display: block; font-size: 0.8rem; text-transform: uppercase; color: #fff; font-weight: 900; margin-bottom: 10px; letter-spacing: 1px; }
+  select { 
+    width: 100%; background: rgba(0,0,0,0.5); color: #fff; border: 1px solid rgba(255,255,255,0.2); 
+    border-radius: 10px; padding: 14px; font-size: 0.95rem; font-weight: 700; outline: none; cursor: pointer; transition: 0.3s;
+  }
+  select:focus { border-color: var(--cyan); box-shadow: 0 0 10px rgba(5,217,232,0.4); }
+  
+  /* Botones Vivos */
+  .cta-row { display: flex; justify-content: center; gap: 20px; flex-wrap: wrap; margin-bottom: 50px; }
+  .btn { 
+    border: none; border-radius: 999px; padding: 18px 36px; font-weight: 900; font-size: 1.1rem; cursor: pointer; 
+    transition: all 0.3s ease; text-transform: uppercase; letter-spacing: 1px;
+  }
+  .btn-main { background: linear-gradient(90deg, var(--pink), var(--purple)); color: #fff; box-shadow: var(--glow-pink); border: 1px solid rgba(255,255,255,0.3); }
+  .btn-main:hover { transform: scale(1.05); box-shadow: 0 0 30px rgba(255,42,109,0.7); }
+  .btn-alt { background: rgba(255,255,255,0.05); color: var(--cyan); border: 2px solid var(--cyan); backdrop-filter: blur(5px); }
+  .btn-alt:hover { background: var(--cyan); color: #000; box-shadow: var(--glow-cyan); transform: translateY(-3px); }
+
+  /* Layout de Salida en Lotes */
+  .output-grid { display: grid; grid-template-columns: 350px 1fr; gap: 30px; align-items: start; display: none; }
+  .output-grid.visible { display: grid; animation: fadeIn 0.5s ease; }
+  .sticky-info { position: sticky; top: 20px; display: flex; flex-direction: column; gap: 20px; }
+
+  /* Cajas de Info */
+  .info-box { background: var(--glass-bg); backdrop-filter: blur(15px); border: 1px solid var(--glass-border); border-radius: var(--radius); padding: 25px; box-shadow: var(--shadow); }
+  .info-title { font-size: 1.2rem; color: var(--gold); font-weight: 900; margin: 0 0 15px 0; text-transform: uppercase; letter-spacing: 1px; }
+  .info-text { color: #fff; font-size: 0.95rem; line-height: 1.6; margin: 0; }
+  
+  .char-preview { background: rgba(0,0,0,0.4); border: 1px solid rgba(255,42,109,0.3); padding: 15px; border-radius: 12px; margin-bottom: 12px; border-left: 4px solid var(--pink); }
+  .char-preview h4 { margin: 0 0 6px 0; color: #fff; font-size: 1.1rem; font-weight: 900;}
+  .char-preview p { margin: 0; font-size: 0.85rem; color: var(--muted); line-height: 1.5; }
+  .summary-row { display: flex; justify-content: space-between; gap: 10px; padding: 8px 0; border-bottom: 1px dashed rgba(255,255,255,0.08); font-size: .88rem; }
+  .summary-row span:first-child { color: var(--muted); }
+
+  /* Pestañas */
+  .tabs { display: flex; flex-wrap: wrap; gap: 12px; margin-bottom: 25px; border-bottom: 2px solid rgba(255,255,255,0.1); padding-bottom: 20px; }
+  .tab { 
+    background: rgba(0,0,0,0.5); color: var(--muted); border: 1px solid rgba(255,255,255,0.2); 
+    padding: 14px 22px; border-radius: 12px; cursor: pointer; font-weight: 900; font-size: 0.9rem; transition: 0.3s; text-transform: uppercase; 
+  }
+  .tab:hover { border-color: var(--cyan); color: #fff; }
+  .tab.active { background: linear-gradient(90deg, var(--cyan), var(--purple)); color: #fff; border: none; box-shadow: var(--glow-cyan); }
+  
+  .tab-panel { display: none; }
+  .tab-panel.visible { display: block; animation: fadeIn 0.4s ease; }
+  @keyframes fadeIn { from { opacity: 0; transform: translateY(15px); } to { opacity: 1; transform: translateY(0); } }
+
+  /* Textareas */
+  .batch-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 15px; flex-wrap: wrap; gap: 10px; }
+  .batch-header h3 { margin: 0; font-size: 1.2rem; font-weight: 900; text-transform: uppercase; letter-spacing: 1px; }
+  
+  textarea { 
+    width: 100%; height: 550px; background: rgba(5,5,10,0.8); color: #e6e6ff; border: 2px solid var(--cyan); 
+    border-radius: 16px; padding: 25px; font-family: monospace; font-size: 0.95rem; line-height: 1.7; resize: vertical; outline: none; box-shadow: inset 0 5px 20px rgba(0,0,0,0.8);
+    transition: 0.3s;
+    white-space: pre-wrap;
+  }
+  
+  #tab-guion h3 { color: var(--gold); }
+  #tab-guion textarea { border-color: var(--gold); color: #fff; }
+  
+  #tab-refs h3 { color: var(--pink); }
+  #tab-refs textarea { border-color: var(--pink); color: #fff; }
+
+  #tab-imgs h3 { color: var(--cyan); }
+  #tab-imgs textarea { border-color: var(--cyan); color: #fff; }
+
+  #tab-anim h3 { color: var(--purple); }
+  #tab-anim textarea { border-color: var(--purple); color: #fff; }
+  
+  .btn-copy-batch { 
+    background: #fff; color: #000; border: none; padding: 12px 24px; font-weight: 900; 
+    border-radius: 10px; cursor: pointer; transition: 0.2s; text-transform: uppercase; font-size: 0.85rem; letter-spacing: 1px; box-shadow: 0 0 15px rgba(255,255,255,0.3);
+  }
+  .btn-copy-batch:hover { background: var(--gold); box-shadow: 0 5px 15px rgba(255,215,0,0.5); transform: translateY(-2px); }
+
+  @media (max-width: 980px) { .output-grid { grid-template-columns: 1fr; } .sticky-info { position: static; } }
+</style>
+</head>
+<body>
+  <div class="wrap">
+    <header class="hero">
+      <h1 class="title">Aprende Valores</h1>
+      <p class="subtitle">Honestidad, respeto, gratitud y más, con moraleja clara para niños. Educativa para Veo 3.</p>
+      <div class="hero-pills"><span class="hero-pill">🤝 Valores con moraleja</span><span class="hero-pill">👶 Family-friendly</span><span class="hero-pill">🎬 Arcos de 15 tomas</span><span class="hero-pill">🗣️ Diálogo y nombres explícitos</span></div>
+    </header>
+    <div class="controls-grid">
+      <div class="control"><label>Cantidad de personajes</label><select id="castCount"></select></div>
+      <div id="castWrap" style="display:contents"></div>
+      <div class="control"><label>Tropo / Lore</label><select id="atmosphere"></select></div>
+      <div class="control"><label>Escenario</label><select id="scenario"></select></div>
+      <div class="control"><label>Conflicto</label><select id="conflict"></select></div>
+      <div class="control"><label>Emoción</label><select id="emotion"></select></div>
+      <div class="control"><label>Twist final</label><select id="ending"></select></div>
+      <div class="control" style="display:none;"><label>Tomas</label><select id="sceneCount"><option value="15" selected>15</option></select></div>
+    </div>
+    <div class="cta-row">
+      <button class="btn btn-main" id="generateBtn">🎬 Generar historia viral</button>
+      <button class="btn btn-alt" id="randomBtn">🔄 Sorpréndeme</button>
+    </div>
+    <div class="output-grid" id="outputPanel">
+      <div><div class="sticky-info">
+        <h2 class="info-title" id="storyTitle" style="color:var(--pink);">Drama</h2>
+        <p class="info-text" id="premiseDesc" style="color:#e0e0ff; margin-bottom:15px;">Resumen…</p>
+        <div class="summary-row"><span>Tropo:</span><span id="sumAtm" style="color:var(--gold); font-weight:bold;">—</span></div>
+        <div class="summary-row"><span>Conflicto:</span><span id="sumCon" style="color:var(--cyan); font-weight:bold; text-align:right;">—</span></div>
+        <div class="summary-row"><span>Emoción:</span><span id="sumEmo" style="color:var(--pink); font-weight:bold;">—</span></div>
+        <div class="summary-row"><span>Twist:</span><span id="sumEnd" style="color:var(--green); font-weight:bold; text-align:right;">—</span></div>
+        <div class="summary-row"><span>Regla:</span><span id="sumSce" style="color:#fff; font-weight:bold;">15 escenas</span></div>
+        <div id="charactersOut"></div>
+      </div></div>
+      <div>
+        <div class="tabs">
+          <button class="tab active" data-tab="tab-guion">📜 1. Guion</button>
+          <button class="tab" data-tab="tab-refs">🧍 2. Personajes (Refs)</button>
+          <button class="tab" data-tab="tab-imgs">📸 3. Keyframes (30x)</button>
+          <button class="tab" data-tab="tab-anim">🚀 4. Animación (15x)</button>
+        </div>
+        <div class="tab-panel visible" id="tab-guion"><div class="batch-header"><span></span><button class="btn-copy-batch" onclick="copyArea('txtGuion', this)">📋 Copiar</button></div><textarea id="txtGuion" readonly></textarea></div>
+        <div class="tab-panel" id="tab-refs"><div class="batch-header"><span></span><button class="btn-copy-batch" onclick="copyArea('txtMoldes', this)">📋 Copiar Lote</button></div><textarea id="txtMoldes" readonly></textarea></div>
+        <div class="tab-panel" id="tab-imgs"><div class="batch-header"><span></span><button class="btn-copy-batch" onclick="copyArea('txtImagenes', this)">📋 Copiar Lote</button></div><textarea id="txtImagenes" readonly></textarea></div>
+        <div class="tab-panel" id="tab-anim"><div class="batch-header"><span></span><button class="btn-copy-batch" onclick="copyArea('txtAnim', this)">📋 Copiar Lote</button></div><p style="color:var(--muted); font-size:0.85rem; margin-top:0;">15 prompts de animación con el diálogo exacto y los nombres propios.</p><textarea id="txtAnim" readonly></textarea></div>
+      </div>
+    </div>
+  </div>
+<script>
+const ATMOSPHERES=["La liebre y la tortuga", "El león y el ratón", "La hormiga y la cigarra", "El pastorcito mentiroso", "El zorro y las uvas", "La gallina de los huevos de oro", "El cuervo vanidoso", "El viento y el sol"];
+const SCENARIOS=["a sunny green meadow", "a peaceful forest clearing", "a cozy burrow under a big tree", "a calm riverbank at dawn", "a golden wheat field", "a quiet little village path", "a blooming flower garden", "the cool shade of an old oak"];
+const CONFLICTS=["la pereza frente al esfuerzo", "la vanidad que ciega", "la mentira que se descubre", "la avaricia que todo lo pierde", "la prisa contra la constancia", "el orgullo antes de la caída", "la envidia entre amigos"];
+const EMOTIONS=["warm and gentle storybook mood", "playful and light", "tender and heartfelt", "hopeful and bright", "calm and cozy", "sweet and uplifting"];
+const ENDINGS=["Moraleja: la constancia vence a la velocidad", "Moraleja: la humildad siempre gana", "Moraleja: una mentira se paga cara", "Moraleja: la ambición desmedida lo pierde todo", "Moraleja: ayudar hoy es ser ayudado mañana", "Moraleja: el esfuerzo siempre da frutos", "Moraleja: la amabilidad es la mayor fuerza"];
+
+const FARC_1=[
+ {action1:"struts proudly flexing",action2:"smiles calmly stretching",action3:"laughs pointing at a far finish flag",speaker:"rival",text:"Soy el más rápido de todos. Tú eres tan lento que da pena verte intentarlo."},
+ {action1:"smiles calmly and humbly",action2:"rolls the eyes arrogantly",action3:"nods accepting the challenge",speaker:"pro",text:"No importa ser veloz, amigo. Importa no rendirse jamás en el camino."},
+ {action1:"laughs loudly very confident",action2:"prepares quietly at the line",action3:"points at the road ahead",speaker:"rival",text:"¿Una carrera? ¡Já! Te ganaré con los ojos cerrados, ya verás."},
+ {action1:"raises a gentle paw to start the race",action2:"both look ahead ready",action3:"waves the start signal kindly",speaker:"pro2",text:"Que comience la carrera. Y recuerden: el camino enseña más que la meta."},
+ {action1:"dashes off leaving a cloud of dust",action2:"starts walking slow and steady",action3:"looks back laughing",speaker:"rival",text:"¡Adiós, lento! Para cuando llegues, yo ya estaré celebrando dormido."},
+ {action1:"walks slowly but never stops",action2:"shrinks far ahead in the distance",action3:"takes one steady step after another",speaker:"pro",text:"Un paso, y otro paso. Mientras avance, sigo en la carrera."},
+ {action1:"yawns lying under a shady tree",action2:"keeps moving in the background",action3:"stretches getting comfortable",speaker:"rival",text:"Tengo tiempo de sobra. Una siestita y luego gano fácil, sin apuro."},
+ {action1:"passes by quietly without stopping",action2:"snores softly under the tree",action3:"tiptoes past carefully",speaker:"pro",text:"No haré ruido. Mejor sigo, cada paso me acerca un poco más."},
+ {action1:"snores deeply dreaming of trophies",action2:"keeps a calm steady pace",action3:"smiles in the sleep",speaker:"rival",text:"Zzz… ya gané… que me traigan la medalla de oro…"},
+ {action1:"watches both with a knowing warm smile",action2:"nods at the steady walker",action3:"gestures toward the finish",speaker:"pro2",text:"Miren cómo el orgulloso descansa, mientras el humilde nunca se detiene."},
+ {action1:"reaches the final stretch breathing steady",action2:"sleeps soundly far behind",action3:"smiles seeing the finish near",speaker:"pro",text:"Ya casi… no corrí, pero tampoco me detuve ni una sola vez."},
+ {action1:"wakes up startled looking around",action2:"crosses calmly toward the line",action3:"rubs the eyes in panic",speaker:"rival",text:"¿Qué hora es? ¡¿Dónde está el lento?! ¡No puede haberme pasado!"},
+ {action1:"sprints desperately far too late",action2:"steps over the finish line gently",action3:"stumbles in a cloud of dust",speaker:"rival",text:"¡Espera! ¡Yo soy el rápido! ¡Esto no es justo, no es posible!"},
+ {action1:"crosses the finish line gently smiling",action2:"arrives panting and ashamed",action3:"raises a humble little fist",speaker:"pro",text:"Llegué. No por veloz, sino por constante y por nunca rendirme."},
+ {action1:"turns to the camera warmly",action2:"both shake hands as friends",action3:"smiles with a gentle wink",speaker:"pro2",text:"Y así, niños, lo lento y constante venció a lo veloz y confiado."}
+];
+const FARC_2=[
+ {action1:"roars looking down at the small one",action2:"bows politely but firmly",action3:"waves a giant paw dismissively",speaker:"rival",text:"¿Tú? ¿Ayudarme a mí? Eres tan pequeño que ni te noto bajo mis pies."},
+ {action1:"bows politely but stands firm",action2:"laughs looking away",action3:"smiles kindly",speaker:"pro",text:"Algún día, hasta el más pequeño puede serte de gran ayuda, ya verás."},
+ {action1:"laughs waving a giant paw",action2:"steps aside calmly",action3:"turns away proudly",speaker:"rival",text:"Já, qué ternura. Anda, vete antes de que te aplaste sin querer."},
+ {action1:"narrates gently gesturing to the sky",action2:"both go their separate ways",action3:"points to the days passing",speaker:"pro2",text:"Pasaron los días… y el destino preparaba una lección de humildad."},
+ {action1:"struggles trapped in a thick net",action2:"hears the cry from afar",action3:"pulls hard but cannot break free",speaker:"rival",text:"¡Auxilio! ¡Estoy atrapado en esta red y nadie viene a salvarme!"},
+ {action1:"hurries toward the net with tiny teeth",action2:"looks up surprised",action3:"starts gnawing the rope",speaker:"pro",text:"Tranquilo, amigo. Yo te oí. Voy a roer la cuerda hasta liberarte."},
+ {action1:"looks down surprised and ashamed",action2:"keeps chewing steadily",action3:"lowers the head humbly",speaker:"rival",text:"¿Tú…? ¿El pequeño al que humillé viene a ayudarme de verdad?"},
+ {action1:"chews the rope steadily and patient",action2:"watches the knot loosen",action3:"smiles while working",speaker:"pro",text:"Un mordisco, y otro más. La fuerza no lo es todo en esta vida."},
+ {action1:"smiles watching the knot loosen",action2:"both pull at the last threads",action3:"nods with approval",speaker:"pro2",text:"Miren cómo la bondad de ayer se convierte en la salvación de hoy."},
+ {action1:"breaks free stretching relieved",action2:"steps back smiling humbly",action3:"shakes off the net",speaker:"rival",text:"¡Soy libre! Jamás pensé que mi salvador sería tan chiquito."},
+ {action1:"dusts off humble and kind",action2:"smiles up at the big one",action3:"offers a tiny friendly hand",speaker:"pro",text:"No es el tamaño lo que vale, sino el corazón con que se ayuda."},
+ {action1:"lowers the head sincerely sorry",action2:"accepts the apology warmly",action3:"bows in gratitude",speaker:"rival",text:"Perdóname por haberte despreciado. Aprendí algo enorme contigo."},
+ {action1:"offers a friendly little hand",action2:"shakes it with a giant paw",action3:"smiles with bright eyes",speaker:"pro",text:"Está olvidado. Ahora somos amigos, grandes y pequeños por igual."},
+ {action1:"walks beside the small one proudly",action2:"strolls along happily",action3:"looks at the new friend",speaker:"rival",text:"Desde hoy, caminaremos juntos. Y contaré a todos lo que hiciste."},
+ {action1:"turns to the camera warmly",action2:"both walk into the sunset",action3:"smiles with a gentle wink",speaker:"pro2",text:"Y así, niños, la amabilidad fue más fuerte que la más grande melena."}
+];
+const ALL_ARCS=[FARC_1,FARC_2];
+
+const CHARACTERS={
+  "honesto": { "emoji": "😇", "name": "Honesto", "desc": "honest kind child" },
+  "mentiroso": { "emoji": "🤥", "name": "Mentiroso", "desc": "little fibber who learns" },
+  "generoso": { "emoji": "🤲", "name": "Generoso", "desc": "giving warm child" },
+  "egoista": { "emoji": "😤", "name": "Egoísta", "desc": "selfish child who changes" },
+  "valiente": { "emoji": "🦁", "name": "Valiente", "desc": "brave little one" },
+  "miedoso": { "emoji": "🙈", "name": "Miedoso", "desc": "shy fearful child" },
+  "respetuoso": { "emoji": "🙇", "name": "Respetuoso", "desc": "respectful kid" },
+  "grunon": { "emoji": "😠", "name": "Gruñón", "desc": "rude grumpy kid" },
+  "amable": { "emoji": "🤗", "name": "Amable", "desc": "kind friendly child" },
+  "envidioso": { "emoji": "😒", "name": "Envidioso", "desc": "envious child who learns" },
+  "paciente": { "emoji": "⏳", "name": "Paciente", "desc": "calm patient child" },
+  "apurado": { "emoji": "⚡", "name": "Apurado", "desc": "rushed impatient kid" },
+  "agradecido": { "emoji": "🙏", "name": "Agradecido", "desc": "grateful child" },
+  "buho": { "emoji": "🦉", "name": "Don Búho", "desc": "wise owl teacher who gives the moral" },
+  "solidario": { "emoji": "🤝", "name": "Solidario", "desc": "helpful child" },
+  "perdon": { "emoji": "🕊️", "name": "Perdón", "desc": "forgiving gentle child" }
+};
+const BASE="a friendly cute storybook child or animal character, warm educational style";
+const STYLE="bright warm storybook lighting, vibrant friendly colors, cute Pixar-like 3D, photorealistic render, Unreal Engine 5, 8K";
+const SHOT="bright cinematic storybook two-shot";
+
+const S={ atm:document.getElementById('atmosphere'), con:document.getElementById('conflict'), sce:document.getElementById('scenario'), emo:document.getElementById('emotion'), end:document.getElementById('ending') };
+const elCount=document.getElementById('castCount');
+const castWrap=document.getElementById('castWrap');
+function getCharacter(val){ return CHARACTERS[val]; }
+function currentCast(){ const n=parseInt(elCount.value); const a=[]; for(let i=0;i<n;i++){ const e=document.getElementById('char'+i); if(e) a.push(e.value); } return a; }
+function renderCastSelects(n, prev){
+  const keys=Object.keys(CHARACTERS); castWrap.innerHTML='';
+  for(let i=0;i<n;i++){
+    const wrap=document.createElement('div'); wrap.className='control';
+    const lab=document.createElement('label');
+    lab.textContent='Personaje '+(i+1)+(i===0?' · principal':(i===1?' · contraparte':(i===2?' · clave':' · secundario')));
+    const sel=document.createElement('select'); sel.id='char'+i;
+    keys.forEach(k=>sel.add(new Option(CHARACTERS[k].emoji+' '+CHARACTERS[k].name, k)));
+    let idx=(prev && prev[i]!=null)?keys.indexOf(prev[i]):(i*2)%keys.length; if(idx<0) idx=Math.min(i,keys.length-1);
+    sel.selectedIndex=idx; wrap.appendChild(lab); wrap.appendChild(sel); castWrap.appendChild(wrap);
+  }
+}
+function initApp(){
+  ATMOSPHERES.forEach(m=>S.atm.add(new Option(m,m))); CONFLICTS.forEach(c=>S.con.add(new Option(c,c)));
+  SCENARIOS.forEach(s=>S.sce.add(new Option(s,s))); EMOTIONS.forEach(e=>S.emo.add(new Option(e,e))); ENDINGS.forEach(e=>S.end.add(new Option(e,e)));
+  [2,3,4,5,6].forEach(n=>elCount.add(new Option(n+' personajes', n))); elCount.value='3'; renderCastSelects(3);
+  elCount.addEventListener('change',()=>{ const prev=currentCast(); renderCastSelects(parseInt(elCount.value), prev); });
+}
+function generateBatches(){
+  const cast=currentCast().map(getCharacter);
+  const pro=cast[0], rival=cast[1]||cast[0], pro2=cast[2]||cast[0];
+  const extras=cast.slice(3); const tData={pro:pro, rival:rival, pro2:pro2};
+  const sce=S.sce.value, emo=S.emo.value;
+  const extrasKey = extras.length ? ' Secondary characters also present (consistent design, no dialogue): '+extras.map(e=>e.name+' ('+BASE+', '+e.desc+')').join('; ')+'.' : '';
+  const extrasAnim = extras.length ? ' Also present in the background reacting silently: '+extras.map(e=>e.name).join(', ')+'.' : '';
+  let bGuion=[],bRefs=[],bImgs=[],bAnim=[];
+  const arc=ALL_ARCS[Math.floor(Math.random()*ALL_ARCS.length)];
+  cast.forEach(c=>{ bRefs.push(`${c.name}, character reference sheet, ${BASE}, ${c.desc}, full-body front/side/back turnaround views, clean grid layout, plain neutral studio background, consistent character design, no text, no words, no logos, ${STYLE}`); });
+  for(let i=0;i<15;i++){
+    const bp=arc[i];
+    let p1=pro,p2=rival; if(bp.speaker==='pro2'){ p1=pro2; p2=rival; }
+    const speaker=tData[bp.speaker]||pro; const reactor=(speaker.name===p1.name)?p2:p1;
+    bGuion.push(`ESCENA ${i+1}\nAcción: ${speaker.name} y ${reactor.name}. ${speaker.name} ${bp.action3}.\n[${speaker.name.toUpperCase()}]: "${bp.text}"\n`);
+    bImgs.push(`${sce}, ${SHOT}, ${p1.name} (${BASE}, ${p1.desc}) and ${p2.name} (${BASE}, ${p2.desc}), ${speaker.name} ${bp.action1}, ${emo}, 35mm lens, dramatic cinematic lighting, no on-screen text, no words, no letters.${extrasKey} ${STYLE}`);
+    bImgs.push(`${sce}, ${SHOT}, ${p1.name} (${BASE}, ${p1.desc}) and ${p2.name} (${BASE}, ${p2.desc}), ${reactor.name} ${bp.action2}, ${emo}, 35mm lens, dramatic cinematic lighting, no on-screen text, no words, no letters.${extrasKey} ${STYLE}`);
+    bAnim.push(`${p1.name} and ${p2.name} (${BASE}). ${p1.name} is ${p1.desc}. ${p2.name} is ${p2.desc}. ${sce}, ${SHOT}, over-the-shoulder angle, 50mm lens, dramatic lighting. Action & Dialogue: ${speaker.name} ${bp.action3} while speaking. ${speaker.name} speaks with high emotion the exact words: "${bp.text}". Perfect lip-sync on ${speaker.name}; ${reactor.name} reacts visually.${extrasAnim} No on-screen text, no subtitles. ${STYLE}`);
+  }
+  bGuion.push(`\n¿Parte 2?`);
+  document.getElementById('sumAtm').textContent=S.atm.value; document.getElementById('sumCon').textContent=S.con.value;
+  document.getElementById('sumEmo').textContent=emo; document.getElementById('sumEnd').textContent=S.end.value;
+  const cOut=document.getElementById('charactersOut'); cOut.innerHTML='';
+  cast.forEach((c,idx)=>{ const role=idx===0?'Principal':(idx===1?'Contraparte':(idx===2?'Clave':'Secundario')); cOut.insertAdjacentHTML('beforeend', `<div class="char-preview"><h4>${c.emoji} ${c.name} · ${role}</h4><p>${c.desc}</p></div>`); });
+  document.getElementById('premiseDesc').innerHTML = `<b>${pro.name}</b> se enfrenta a <b>${rival.name}</b> por <i>${S.con.value.toLowerCase()}</i>.`+(cast.length>2?` <b>${pro2.name}</b> observa y revela la enseñanza.`:``)+` <b>${S.end.value}</b>.`;
+  document.getElementById('txtGuion').value=bGuion.join('\n');
+  document.getElementById('txtMoldes').value=bRefs.join('\n\n');
+  document.getElementById('txtImagenes').value=bImgs.join('\n\n');
+  document.getElementById('txtAnim').value=bAnim.join('\n\n');
+  document.getElementById('outputPanel').classList.add('visible');
+}
+function randomize(){
+  ['atmosphere','scenario','conflict','emotion','ending'].forEach(id=>{ const el=document.getElementById(id); el.selectedIndex=Math.floor(Math.random()*el.options.length); });
+  const n=parseInt(elCount.value), keys=Object.keys(CHARACTERS);
+  for(let i=0;i<n;i++){ const e=document.getElementById('char'+i); if(e) e.selectedIndex=Math.floor(Math.random()*keys.length); }
+  generateBatches();
+}
+function copyArea(id,btn){ const el=document.getElementById(id); el.select(); document.execCommand('copy'); const o=btn.textContent; btn.textContent='✅ ¡COPIADO!'; setTimeout(()=>btn.textContent=o,2000); }
+document.querySelectorAll('.tab').forEach(t=>{ t.addEventListener('click',()=>{ document.querySelectorAll('.tab').forEach(x=>x.classList.remove('active')); t.classList.add('active'); document.querySelectorAll('.tab-panel').forEach(x=>x.classList.remove('visible')); document.getElementById(t.dataset.tab).classList.add('visible'); }); });
+initApp(); generateBatches();
+document.getElementById('generateBtn').addEventListener('click', generateBatches);
+document.getElementById('randomBtn').addEventListener('click', randomize);
+</script>
+<script src="apps-menu.js"></script>
+</body>
+</html>

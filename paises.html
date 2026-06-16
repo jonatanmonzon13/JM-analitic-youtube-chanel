@@ -1,0 +1,351 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>JM · Naciones</title>
+<style>
+  :root { 
+    --bg-dark: #0a0514;
+    --glass-bg: rgba(20, 15, 35, 0.7);
+    --glass-border: rgba(255, 255, 255, 0.15);
+    --text: #ffffff; 
+    --muted: rgba(255, 255, 255, 0.7); 
+    --pink: #ff2a6d; 
+    --cyan: #05d9e8; 
+    --gold: #ffd700; 
+    --purple: #9d4edd; 
+    --green: #01ffc3;
+    --shadow: 0 8px 32px rgba(0,0,0,0.5); 
+    --glow-pink: 0 0 20px rgba(255,42,109,0.4);
+    --glow-cyan: 0 0 20px rgba(5,217,232,0.4);
+    --radius: 16px; 
+  }
+  * { box-sizing: border-box; }
+  html { scroll-behavior: smooth; }
+  body { 
+    margin: 0; font-family: Inter, system-ui, sans-serif; 
+    background: linear-gradient(-45deg, #160a2c 0%, #0a0514 40%, #290a1d 100%);
+    background-size: 400% 400%;
+    animation: gradientBG 15s ease infinite;
+    color: var(--text); min-height: 100vh; padding-bottom: 50px;
+  }
+  @keyframes gradientBG {
+    0% { background-position: 0% 50%; }
+    50% { background-position: 100% 50%; }
+    100% { background-position: 0% 50%; }
+  }
+  
+  body::before {
+    content: ""; position: fixed; top: -50%; left: -50%; width: 200%; height: 200%;
+    background: radial-gradient(circle at 50% 50%, rgba(5,217,232,0.08), transparent 60%),
+                radial-gradient(circle at 80% 20%, rgba(255,42,109,0.08), transparent 50%);
+    z-index: -1; pointer-events: none;
+  }
+  .wrap { max-width: 1400px; margin: 0 auto; padding: 40px 20px; }
+  
+  /* Hero / Cabecera */
+  .hero { 
+    text-align: center; padding: 50px 20px; 
+    background: var(--glass-bg); backdrop-filter: blur(15px); -webkit-backdrop-filter: blur(15px);
+    border: 1px solid var(--glass-border); border-radius: 30px; box-shadow: var(--shadow), var(--glow-pink); margin-bottom: 40px; 
+  }
+  .title { 
+    font-size: clamp(2.8rem, 6vw, 5rem); margin: 0 0 10px; font-weight: 1000; letter-spacing: 3px;
+    background: linear-gradient(90deg, var(--cyan), var(--pink), var(--gold)); 
+    -webkit-background-clip: text; background-clip: text; color: transparent; 
+    text-shadow: 0px 4px 15px rgba(255,42,109,0.3);
+  }
+  .subtitle { color: #e0e0ff; font-size: 1.1rem; line-height: 1.6; max-width: 900px; margin: 0 auto 20px; font-weight: 500; }
+  .hero-pills { display: flex; justify-content: center; flex-wrap: wrap; gap: 12px; }
+  .hero-pill { padding: 8px 18px; border-radius: 999px; background: rgba(255,255,255,0.05); border: 1px solid var(--cyan); color: var(--cyan); font-size: 0.85rem; font-weight: 900; text-transform: uppercase; box-shadow: var(--glow-cyan); }
+  .hero-pill:nth-child(even) { border-color: var(--pink); color: var(--pink); box-shadow: var(--glow-pink); }
+  .hero-pill:nth-child(3n) { border-color: var(--gold); color: var(--gold); box-shadow: 0 0 15px rgba(255,215,0,0.3); }
+
+  /* Controles y Selectores Coloridos */
+  .controls-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(260px, 1fr)); gap: 20px; margin-bottom: 40px; }
+  .control { 
+    background: var(--glass-bg); backdrop-filter: blur(10px); border: 1px solid var(--glass-border); 
+    border-radius: var(--radius); padding: 20px; box-shadow: var(--shadow); transition: 0.3s;
+    border-left: 4px solid var(--cyan);
+  }
+  .control:nth-child(even) { border-left-color: var(--pink); }
+  .control:nth-child(3n) { border-left-color: var(--gold); }
+  .control:hover { transform: translateY(-5px); box-shadow: var(--glow-cyan); border-color: var(--cyan); }
+  
+  .control label { display: block; font-size: 0.8rem; text-transform: uppercase; color: #fff; font-weight: 900; margin-bottom: 10px; letter-spacing: 1px; }
+  select { 
+    width: 100%; background: rgba(0,0,0,0.5); color: #fff; border: 1px solid rgba(255,255,255,0.2); 
+    border-radius: 10px; padding: 14px; font-size: 0.95rem; font-weight: 700; outline: none; cursor: pointer; transition: 0.3s;
+  }
+  select:focus { border-color: var(--cyan); box-shadow: 0 0 10px rgba(5,217,232,0.4); }
+  
+  /* Botones Vivos */
+  .cta-row { display: flex; justify-content: center; gap: 20px; flex-wrap: wrap; margin-bottom: 50px; }
+  .btn { 
+    border: none; border-radius: 999px; padding: 18px 36px; font-weight: 900; font-size: 1.1rem; cursor: pointer; 
+    transition: all 0.3s ease; text-transform: uppercase; letter-spacing: 1px;
+  }
+  .btn-main { background: linear-gradient(90deg, var(--pink), var(--purple)); color: #fff; box-shadow: var(--glow-pink); border: 1px solid rgba(255,255,255,0.3); }
+  .btn-main:hover { transform: scale(1.05); box-shadow: 0 0 30px rgba(255,42,109,0.7); }
+  .btn-alt { background: rgba(255,255,255,0.05); color: var(--cyan); border: 2px solid var(--cyan); backdrop-filter: blur(5px); }
+  .btn-alt:hover { background: var(--cyan); color: #000; box-shadow: var(--glow-cyan); transform: translateY(-3px); }
+
+  /* Layout de Salida en Lotes */
+  .output-grid { display: grid; grid-template-columns: 350px 1fr; gap: 30px; align-items: start; display: none; }
+  .output-grid.visible { display: grid; animation: fadeIn 0.5s ease; }
+  .sticky-info { position: sticky; top: 20px; display: flex; flex-direction: column; gap: 20px; }
+
+  /* Cajas de Info */
+  .info-box { background: var(--glass-bg); backdrop-filter: blur(15px); border: 1px solid var(--glass-border); border-radius: var(--radius); padding: 25px; box-shadow: var(--shadow); }
+  .info-title { font-size: 1.2rem; color: var(--gold); font-weight: 900; margin: 0 0 15px 0; text-transform: uppercase; letter-spacing: 1px; }
+  .info-text { color: #fff; font-size: 0.95rem; line-height: 1.6; margin: 0; }
+  
+  .char-preview { background: rgba(0,0,0,0.4); border: 1px solid rgba(255,42,109,0.3); padding: 15px; border-radius: 12px; margin-bottom: 12px; border-left: 4px solid var(--pink); }
+  .char-preview h4 { margin: 0 0 6px 0; color: #fff; font-size: 1.1rem; font-weight: 900;}
+  .char-preview p { margin: 0; font-size: 0.85rem; color: var(--muted); line-height: 1.5; }
+  .summary-row { display: flex; justify-content: space-between; gap: 10px; padding: 8px 0; border-bottom: 1px dashed rgba(255,255,255,0.08); font-size: .88rem; }
+  .summary-row span:first-child { color: var(--muted); }
+
+  /* Pestañas */
+  .tabs { display: flex; flex-wrap: wrap; gap: 12px; margin-bottom: 25px; border-bottom: 2px solid rgba(255,255,255,0.1); padding-bottom: 20px; }
+  .tab { 
+    background: rgba(0,0,0,0.5); color: var(--muted); border: 1px solid rgba(255,255,255,0.2); 
+    padding: 14px 22px; border-radius: 12px; cursor: pointer; font-weight: 900; font-size: 0.9rem; transition: 0.3s; text-transform: uppercase; 
+  }
+  .tab:hover { border-color: var(--cyan); color: #fff; }
+  .tab.active { background: linear-gradient(90deg, var(--cyan), var(--purple)); color: #fff; border: none; box-shadow: var(--glow-cyan); }
+  
+  .tab-panel { display: none; }
+  .tab-panel.visible { display: block; animation: fadeIn 0.4s ease; }
+  @keyframes fadeIn { from { opacity: 0; transform: translateY(15px); } to { opacity: 1; transform: translateY(0); } }
+
+  /* Textareas */
+  .batch-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 15px; flex-wrap: wrap; gap: 10px; }
+  .batch-header h3 { margin: 0; font-size: 1.2rem; font-weight: 900; text-transform: uppercase; letter-spacing: 1px; }
+  
+  textarea { 
+    width: 100%; height: 550px; background: rgba(5,5,10,0.8); color: #e6e6ff; border: 2px solid var(--cyan); 
+    border-radius: 16px; padding: 25px; font-family: monospace; font-size: 0.95rem; line-height: 1.7; resize: vertical; outline: none; box-shadow: inset 0 5px 20px rgba(0,0,0,0.8);
+    transition: 0.3s;
+    white-space: pre-wrap;
+  }
+  
+  #tab-guion h3 { color: var(--gold); }
+  #tab-guion textarea { border-color: var(--gold); color: #fff; }
+  
+  #tab-refs h3 { color: var(--pink); }
+  #tab-refs textarea { border-color: var(--pink); color: #fff; }
+
+  #tab-imgs h3 { color: var(--cyan); }
+  #tab-imgs textarea { border-color: var(--cyan); color: #fff; }
+
+  #tab-anim h3 { color: var(--purple); }
+  #tab-anim textarea { border-color: var(--purple); color: #fff; }
+  
+  .btn-copy-batch { 
+    background: #fff; color: #000; border: none; padding: 12px 24px; font-weight: 900; 
+    border-radius: 10px; cursor: pointer; transition: 0.2s; text-transform: uppercase; font-size: 0.85rem; letter-spacing: 1px; box-shadow: 0 0 15px rgba(255,255,255,0.3);
+  }
+  .btn-copy-batch:hover { background: var(--gold); box-shadow: 0 5px 15px rgba(255,215,0,0.5); transform: translateY(-2px); }
+
+  @media (max-width: 980px) { .output-grid { grid-template-columns: 1fr; } .sticky-info { position: static; } }
+</style>
+</head>
+<body>
+  <div class="wrap">
+    <header class="hero">
+      <h1 class="title">Naciones</h1>
+      <p class="subtitle">Geopolítica en clave telenovela, con naciones FICTICIAS para divertir sin ofender. Lista para Veo 3.</p>
+      <div class="hero-pills"><span class="hero-pill">🌍 Naciones ficticias</span><span class="hero-pill">🤝 Alianzas y traiciones</span><span class="hero-pill">🎬 Arcos de 15 tomas</span><span class="hero-pill">🗣️ Diálogo y nombres explícitos</span></div>
+    </header>
+    <div class="controls-grid">
+      <div class="control"><label>Cantidad de personajes</label><select id="castCount"></select></div>
+      <div id="castWrap" style="display:contents"></div>
+      <div class="control"><label>Tropo / Lore</label><select id="atmosphere"></select></div>
+      <div class="control"><label>Escenario</label><select id="scenario"></select></div>
+      <div class="control"><label>Conflicto</label><select id="conflict"></select></div>
+      <div class="control"><label>Emoción</label><select id="emotion"></select></div>
+      <div class="control"><label>Twist final</label><select id="ending"></select></div>
+      <div class="control" style="display:none;"><label>Tomas</label><select id="sceneCount"><option value="15" selected>15</option></select></div>
+    </div>
+    <div class="cta-row">
+      <button class="btn btn-main" id="generateBtn">🎬 Generar historia viral</button>
+      <button class="btn btn-alt" id="randomBtn">🔄 Sorpréndeme</button>
+    </div>
+    <div class="output-grid" id="outputPanel">
+      <div><div class="sticky-info">
+        <h2 class="info-title" id="storyTitle" style="color:var(--pink);">Drama</h2>
+        <p class="info-text" id="premiseDesc" style="color:#e0e0ff; margin-bottom:15px;">Resumen…</p>
+        <div class="summary-row"><span>Tropo:</span><span id="sumAtm" style="color:var(--gold); font-weight:bold;">—</span></div>
+        <div class="summary-row"><span>Conflicto:</span><span id="sumCon" style="color:var(--cyan); font-weight:bold; text-align:right;">—</span></div>
+        <div class="summary-row"><span>Emoción:</span><span id="sumEmo" style="color:var(--pink); font-weight:bold;">—</span></div>
+        <div class="summary-row"><span>Twist:</span><span id="sumEnd" style="color:var(--green); font-weight:bold; text-align:right;">—</span></div>
+        <div class="summary-row"><span>Regla:</span><span id="sumSce" style="color:#fff; font-weight:bold;">15 escenas</span></div>
+        <div id="charactersOut"></div>
+      </div></div>
+      <div>
+        <div class="tabs">
+          <button class="tab active" data-tab="tab-guion">📜 1. Guion</button>
+          <button class="tab" data-tab="tab-refs">🧍 2. Personajes (Refs)</button>
+          <button class="tab" data-tab="tab-imgs">📸 3. Keyframes (30x)</button>
+          <button class="tab" data-tab="tab-anim">🚀 4. Animación (15x)</button>
+        </div>
+        <div class="tab-panel visible" id="tab-guion"><div class="batch-header"><span></span><button class="btn-copy-batch" onclick="copyArea('txtGuion', this)">📋 Copiar</button></div><textarea id="txtGuion" readonly></textarea></div>
+        <div class="tab-panel" id="tab-refs"><div class="batch-header"><span></span><button class="btn-copy-batch" onclick="copyArea('txtMoldes', this)">📋 Copiar Lote</button></div><textarea id="txtMoldes" readonly></textarea></div>
+        <div class="tab-panel" id="tab-imgs"><div class="batch-header"><span></span><button class="btn-copy-batch" onclick="copyArea('txtImagenes', this)">📋 Copiar Lote</button></div><textarea id="txtImagenes" readonly></textarea></div>
+        <div class="tab-panel" id="tab-anim"><div class="batch-header"><span></span><button class="btn-copy-batch" onclick="copyArea('txtAnim', this)">📋 Copiar Lote</button></div><p style="color:var(--muted); font-size:0.85rem; margin-top:0;">15 prompts de animación con el diálogo exacto y los nombres propios.</p><textarea id="txtAnim" readonly></textarea></div>
+      </div>
+    </div>
+  </div>
+<script>
+const ATMOSPHERES=["Superación y traición", "Herencia oculta", "Falsa identidad", "Gemelo malvado", "Venganza silenciosa", "Intercambio de roles", "El testamento robado", "Boda arruinada", "Pacto oscuro", "Secreto familiar", "Ascenso y caída", "Amor prohibido"];
+const SCENARIOS=["a lavish golden mansion", "a dark stormy basement", "a televised courtroom set", "a crumbling shack in the rain", "a luxury private hospital room", "a muddy poor neighborhood street", "a glass corporate skyscraper office", "a glamorous red-carpet gala", "a rooftop helipad at night", "a ruined wedding hall", "a humble street market", "a sinking luxury yacht", "a penthouse with a city view", "a dramatic fashion runway", "a foggy cemetery at midnight", "an opulent fine-dining restaurant", "a grand opera house", "a casino at midnight", "a private jet cabin", "a snowy mountain chalet", "a tropical resort pool", "a long courtroom hallway", "a luxury department store", "a backstage dressing room"];
+const CONFLICTS=["una herencia millonaria en disputa", "una traición amorosa", "un fraude descubierto en vivo", "un veneno en la copa", "un hijo secreto", "una estafa de lujo", "una venganza largamente planeada", "un robo de identidad", "una humillación pública", "un chantaje peligroso", "un testamento falsificado", "una boda por interés", "un secreto del pasado", "una rivalidad de toda la vida"];
+const EMOTIONS=["intense dramatic tension", "heartbreaking sorrow", "explosive rage", "cold revenge", "shocking betrayal", "triumphant satisfaction", "desperate pleading", "humiliating defeat", "suspenseful mystery", "bittersweet redemption", "burning jealousy", "scandalous outrage"];
+const ENDINGS=["El villano lo pierde todo y termina en la calle", "Desenmascarado en vivo por televisión", "La verdad sale a la luz y se hace justicia", "Un giro revela al verdadero heredero", "El humillado se convierte en el más poderoso", "Cae fulminado por su propia trampa", "Expulsado para siempre entre abucheos", "Pierde su fortuna y queda en ridículo", "Reconciliación inesperada y lágrimas", "Aparece un personaje misterioso (parte 2)", "Doble traición y final abierto", "El villano jura venganza (continuará)", "Boda cancelada y escándalo total", "Karma instantáneo frente a todos"];
+
+const ARC_1=[
+ {action1:"stands arrogantly throwing money",action2:"kneels begging on the floor",action3:"throws a wad of cash at the other's face",speaker:"rival",text:"¡Lárgate de mi mansión, muerto de hambre! Ahora pertenezco a la alta sociedad."},
+ {action1:"cries desperately holding the knees",action2:"looks down with absolute disgust",action3:"grabs the luxurious clothes crying",speaker:"pro",text:"¡Yo te di todo cuando no tenías nada! ¡Eres un malagradecido!"},
+ {action1:"pushes the other violently",action2:"falls hard against the floor",action3:"dusts off the expensive clothes in disgust",speaker:"rival",text:"¡No me toques, pobre diablo! Me ensucias la ropa de diseñador."},
+ {action1:"struggles to get up weeping",action2:"laughs cruelly at the camera",action3:"points a trembling finger in rage",speaker:"pro",text:"¡Te vas a arrepentir de esto! ¡El destino te lo va a cobrar caro!"},
+ {action1:"gasps in dramatic shock",action2:"sneers showing fake papers",action3:"slaps the papers in the air",speaker:"rival",text:"Aquí está la prueba: no tienes derecho a nada. ¡Estás en la calle!"},
+ {action1:"pulls hair in desperation",action2:"smirks crossing arms",action3:"falls to the knees screaming",speaker:"pro",text:"¡Esos papeles son falsos! ¡Tú lo planeaste todo, infeliz!"},
+ {action1:"snaps fingers calling security",action2:"looks around panicked",action3:"points to the exit aggressively",speaker:"rival",text:"Saquen a esta basura de mi propiedad. Me da vergüenza ajena."},
+ {action1:"bursts through the door dramatically",action2:"turns around shocked dropping papers",action3:"slams a heavy folder on the table",speaker:"pro2",text:"¡Alto ahí! Nadie se va de aquí hasta que se sepa toda la verdad."},
+ {action1:"stammers taking a step back",action2:"stands tall with new hope",action3:"sweats ruining the expensive clothes",speaker:"rival",text:"¿Y usted quién es para entrar así? ¡Todo esto es mío, absolutamente todo!"},
+ {action1:"pulls out a golden glowing document",action2:"gasps covering the mouth",action3:"shoves the golden paper in the face",speaker:"pro2",text:"Te equivocas. El verdadero dueño de esta fortuna es a quien humillaste."},
+ {action1:"looks at the papers wide-eyed",action2:"shakes the head in denial",action3:"grabs the papers trying to rip them",speaker:"rival",text:"¡No! ¡Es imposible! ¡Yo construí este imperio, esto es una trampa!"},
+ {action1:"slaps the rival across the face",action2:"spins from the impact falling",action3:"stands triumphant looking down",speaker:"pro",text:"Esto es por cada lágrima que me hiciste llorar. Ahora el pobre eres tú."},
+ {action1:"crawls on the floor crying real tears",action2:"looks down cold and merciless",action3:"grabs the other's ankle begging",speaker:"rival",text:"¡Perdóname, te lo suplico! ¡No me dejes sin nada, por favor!"},
+ {action1:"throws a bag of belongings at them",action2:"covers the face humiliated",action3:"points to the street without mercy",speaker:"pro2",text:"Firma la renuncia y desaparece, o lo perderás absolutamente todo."},
+ {action1:"stares right into the camera",action2:"is dragged away in the background",action3:"folds arms victorious",speaker:"pro",text:"Hoy se hizo justicia. Y esto… apenas comienza. (cuéntame en los comentarios)"}
+];
+const ARC_2=[
+ {action1:"laughs holding documents",action2:"lies pale in a bed",action3:"tosses a pill bottle mockingly",speaker:"rival",text:"Firma la herencia. Tu tiempo se acaba y toda tu fortuna será mía."},
+ {action1:"coughs violently holding the chest",action2:"smirks crossing arms",action3:"reaches out weakly gripping the sheets",speaker:"pro",text:"Te crié como a mi familia… ¿por qué me haces esto?"},
+ {action1:"leans in whispering cruelly",action2:"gasps for air crying",action3:"unplugs a machine mockingly",speaker:"rival",text:"El cariño no compra mansiones. Adiós para siempre, pobre diablo."},
+ {action1:"presses a button desperately",action2:"walks away slowly",action3:"falls back exhausted",speaker:"pro",text:"¡Ayuda! ¡Que alguien me escuche, por favor, me muero!"},
+ {action1:"kicks the door open dramatically",action2:"stumbles back shocked",action3:"holds up a glowing vial",speaker:"pro2",text:"¡Aléjate de esa cama, víbora! Yo traigo la verdad y la cura."},
+ {action1:"points screaming",action2:"stands firm hiding the vial",action3:"pulls out a fake contract",speaker:"rival",text:"¡Estás despedido! ¡Este lugar me pertenece a mí ahora!"},
+ {action1:"pulls out a hidden recorder",action2:"sweats dropping the papers",action3:"throws the contract to the floor",speaker:"pro2",text:"Grabé cada palabra de tu plan. El mundo entero va a saberlo."},
+ {action1:"sits up suddenly full of strength",action2:"gasps in terror",action3:"rips off the tubes triumphantly",speaker:"pro",text:"El antídoto funcionó… y acabo de cambiar mi testamento por completo."},
+ {action1:"falls to the knees pulling hair",action2:"watches cold and silent",action3:"screams at the ceiling",speaker:"rival",text:"¡No! ¡Lo perdí todo! ¡No puedo volver a ser nadie!"},
+ {action1:"snaps fingers for security",action2:"crawls desperate on the floor",action3:"stands tall and superior",speaker:"pro",text:"Seguridad, saquen a esta rata de mi vista para siempre."},
+ {action1:"begs on the knees crying",action2:"crosses arms refusing to listen",action3:"grabs the other's ankle weeping",speaker:"rival",text:"¡Te lo ruego, fui manipulado! ¡No me quites todo lo que tengo!"},
+ {action1:"laughs confidently",action2:"covers the face in shame",action3:"holds up shiny handcuffs",speaker:"pro2",text:"Se acabó el teatro. La justicia ya viene en camino por ti."},
+ {action1:"lunges in a desperate attack",action2:"dodges elegantly",action3:"trips and falls hard",speaker:"rival",text:"¡Si no es mío, no será de nadie! ¡Los destruiré a todos!"},
+ {action1:"slaps the rival down",action2:"falls hard to the floor",action3:"adjusts the clothes calmly",speaker:"pro",text:"Ni para villano sirves. Patético hasta el final."},
+ {action1:"looks to the camera intensely",action2:"breathes heavily relieved",action3:"narrows the eyes mysteriously",speaker:"pro2",text:"Se salvó de milagro. Pero… ¿quién movió los hilos desde las sombras?"}
+];
+const ARC_3=[
+ {action1:"stands at the altar adjusting clothes",action2:"cries fake tears",action3:"holds up a giant ring smiling",speaker:"rival",text:"Pronto toda su fortuna será mía con este matrimonio. Pobres ilusos."},
+ {action1:"walks down the aisle nervous",action2:"glares whispering",action3:"holds the bouquet tightly",speaker:"pro2",text:"Tengo que hacer esto… o mi familia lo pierde absolutamente todo."},
+ {action1:"grabs the arm whispering",action2:"flinches faking a smile",action3:"smiles wide for the cameras",speaker:"rival",text:"Sonríe. Una sola lágrima y rompo nuestro trato, ¿entendido bien?"},
+ {action1:"bursts through the doors",action2:"drops the ring shocked",action3:"throws a stack of photos",speaker:"pro",text:"¡Paren esta boda! ¡Todo esto es un fraude y un robo descarado!"},
+ {action1:"yells pointing back",action2:"stands firm holding evidence",action3:"signals the guards to attack",speaker:"rival",text:"¡Sáquenlo de aquí! ¡Ese loco está arruinando mi día perfecto!"},
+ {action1:"dodges security running",action2:"sweats trying to hide",action3:"holds up a document high",speaker:"pro",text:"¡Miren todos! ¡No tiene un solo centavo, todo es una vil mentira!"},
+ {action1:"gasps throwing the bouquet",action2:"tries to block the flowers",action3:"steps back disgusted",speaker:"pro2",text:"¡Me mentiste en la cara! ¡Dijiste que de verdad me amabas!"},
+ {action1:"screams at the guests",action2:"laughs with cold revenge",action3:"grabs the scattered photos",speaker:"rival",text:"¡Es falso! ¡Yo soy de cuna de oro, no me miren así!"},
+ {action1:"slaps the rival elegantly",action2:"spins from the impact",action3:"turns away adjusting the clothes",speaker:"pro",text:"Eres puro humo. Tu imperio de mentiras se cae justo hoy."},
+ {action1:"falls to the knees begging",action2:"looks down superior",action3:"reaches out crying",speaker:"pro2",text:"¡Perdóname! Me obligaron, no quería traicionarte por el dinero."},
+ {action1:"pulls the hand away sneering",action2:"weeps on the floor",action3:"points to the exit",speaker:"pro",text:"Demasiado tarde para lágrimas. Ustedes dos están acabados aquí."},
+ {action1:"pushes the altar screaming",action2:"watches without pity",action3:"rips the expensive clothes",speaker:"rival",text:"¡Mi fortuna! ¡Mis planes! ¡Me arruinaron la vida entera!"},
+ {action1:"runs away tripping and crying",action2:"laughs pointing at them",action3:"covers the face ashamed",speaker:"pro2",text:"¡Qué humillación frente a todos! ¡Mi reputación está muerta!"},
+ {action1:"stands victorious at the altar",action2:"crawls in the background",action3:"signals everyone to leave",speaker:"pro",text:"La boda se cancela. Pero la fiesta por su ruina… ¡empieza ahora!"},
+ {action1:"looks up with pure hatred",action2:"celebrates elegantly",action3:"clenches a hidden note staring at the camera",speaker:"rival",text:"Hoy me humillaron… pero mi venganza ya está en marcha. (parte 2)"}
+];
+const ALL_ARCS=[ARC_1,ARC_2,ARC_3];
+
+const CHARACTERS={
+  "norte": { "emoji": "❄️", "name": "Reino del Norte", "desc": "proud cold northern nation, white-blue royal coat and crown" },
+  "sol": { "emoji": "☀️", "name": "Tierra del Sol", "desc": "warm cheerful sunny nation, gold-red festive attire" },
+  "mar": { "emoji": "🌊", "name": "Islas del Mar", "desc": "breezy island nation, turquoise sailor look" },
+  "altozano": { "emoji": "⛰️", "name": "Altozano", "desc": "sturdy mountain nation, earth-tone poncho" },
+  "verdania": { "emoji": "🌴", "name": "Verdania", "desc": "vibrant adventurous jungle nation, green" },
+  "arenia": { "emoji": "🏜️", "name": "Arenia", "desc": "mysterious desert nation, golden robes" },
+  "imperio": { "emoji": "👑", "name": "Gran Imperio", "desc": "arrogant powerful old empire, opulent purple" },
+  "republica": { "emoji": "🗽", "name": "Nueva República", "desc": "ambitious young nation, modern suit" },
+  "glacia": { "emoji": "🏔️", "name": "Glacia", "desc": "fragile tiny icy nation, silver" },
+  "volcania": { "emoji": "🌋", "name": "Volcania", "desc": "hot-tempered fiery volcanic nation, red-orange" },
+  "brisalia": { "emoji": "🌬️", "name": "Brisalia", "desc": "light free windy plains nation" },
+  "pinar": { "emoji": "🌲", "name": "Pinar", "desc": "calm green forest nation" },
+  "ribera": { "emoji": "🏞️", "name": "Ribera", "desc": "peaceful flowing river nation, blue" },
+  "estepa": { "emoji": "🐎", "name": "Estepa", "desc": "nomadic steppe nation, horse rider" },
+  "metropolis": { "emoji": "🏙️", "name": "Metrópolis", "desc": "vain fast-paced big-city nation, neon" },
+  "villa": { "emoji": "🏡", "name": "Villa Pequeña", "desc": "humble warm small nation, simple" }
+};
+const BASE="anthropomorphic fictional-nation character dressed in flag-colored attire, friendly humorous";
+const STYLE="cinematic dramatic lighting, rich fabrics and emblems, editorial look, photorealistic, Unreal Engine 5, 8K";
+const SHOT="wide cinematic dramatic two-shot";
+
+const S={ atm:document.getElementById('atmosphere'), con:document.getElementById('conflict'), sce:document.getElementById('scenario'), emo:document.getElementById('emotion'), end:document.getElementById('ending') };
+const elCount=document.getElementById('castCount');
+const castWrap=document.getElementById('castWrap');
+function getCharacter(val){ return CHARACTERS[val]; }
+function currentCast(){ const n=parseInt(elCount.value); const a=[]; for(let i=0;i<n;i++){ const e=document.getElementById('char'+i); if(e) a.push(e.value); } return a; }
+function renderCastSelects(n, prev){
+  const keys=Object.keys(CHARACTERS); castWrap.innerHTML='';
+  for(let i=0;i<n;i++){
+    const wrap=document.createElement('div'); wrap.className='control';
+    const lab=document.createElement('label');
+    lab.textContent='Personaje '+(i+1)+(i===0?' · principal':(i===1?' · contraparte':(i===2?' · clave':' · secundario')));
+    const sel=document.createElement('select'); sel.id='char'+i;
+    keys.forEach(k=>sel.add(new Option(CHARACTERS[k].emoji+' '+CHARACTERS[k].name, k)));
+    let idx=(prev && prev[i]!=null)?keys.indexOf(prev[i]):(i*2)%keys.length; if(idx<0) idx=Math.min(i,keys.length-1);
+    sel.selectedIndex=idx; wrap.appendChild(lab); wrap.appendChild(sel); castWrap.appendChild(wrap);
+  }
+}
+function initApp(){
+  ATMOSPHERES.forEach(m=>S.atm.add(new Option(m,m))); CONFLICTS.forEach(c=>S.con.add(new Option(c,c)));
+  SCENARIOS.forEach(s=>S.sce.add(new Option(s,s))); EMOTIONS.forEach(e=>S.emo.add(new Option(e,e))); ENDINGS.forEach(e=>S.end.add(new Option(e,e)));
+  [2,3,4,5,6].forEach(n=>elCount.add(new Option(n+' personajes', n))); elCount.value='3'; renderCastSelects(3);
+  elCount.addEventListener('change',()=>{ const prev=currentCast(); renderCastSelects(parseInt(elCount.value), prev); });
+}
+function generateBatches(){
+  const cast=currentCast().map(getCharacter);
+  const pro=cast[0], rival=cast[1]||cast[0], pro2=cast[2]||cast[0];
+  const extras=cast.slice(3); const tData={pro:pro, rival:rival, pro2:pro2};
+  const sce=S.sce.value, emo=S.emo.value;
+  const extrasKey = extras.length ? ' Secondary characters also present (consistent design, no dialogue): '+extras.map(e=>e.name+' ('+BASE+', '+e.desc+')').join('; ')+'.' : '';
+  const extrasAnim = extras.length ? ' Also present in the background reacting silently: '+extras.map(e=>e.name).join(', ')+'.' : '';
+  let bGuion=[],bRefs=[],bImgs=[],bAnim=[];
+  const arc=ALL_ARCS[Math.floor(Math.random()*ALL_ARCS.length)];
+  cast.forEach(c=>{ bRefs.push(`${c.name}, character reference sheet, ${BASE}, ${c.desc}, full-body front/side/back turnaround views, clean grid layout, plain neutral studio background, consistent character design, no text, no words, no logos, ${STYLE}`); });
+  for(let i=0;i<15;i++){
+    const bp=arc[i];
+    let p1=pro,p2=rival; if(bp.speaker==='pro2'){ p1=pro2; p2=rival; }
+    const speaker=tData[bp.speaker]||pro; const reactor=(speaker.name===p1.name)?p2:p1;
+    bGuion.push(`ESCENA ${i+1}\nAcción: ${speaker.name} y ${reactor.name}. ${speaker.name} ${bp.action3}.\n[${speaker.name.toUpperCase()}]: "${bp.text}"\n`);
+    bImgs.push(`${sce}, ${SHOT}, ${p1.name} (${BASE}, ${p1.desc}) and ${p2.name} (${BASE}, ${p2.desc}), ${speaker.name} ${bp.action1}, ${emo}, 35mm lens, dramatic cinematic lighting, no on-screen text, no words, no letters.${extrasKey} ${STYLE}`);
+    bImgs.push(`${sce}, ${SHOT}, ${p1.name} (${BASE}, ${p1.desc}) and ${p2.name} (${BASE}, ${p2.desc}), ${reactor.name} ${bp.action2}, ${emo}, 35mm lens, dramatic cinematic lighting, no on-screen text, no words, no letters.${extrasKey} ${STYLE}`);
+    bAnim.push(`${p1.name} and ${p2.name} (${BASE}). ${p1.name} is ${p1.desc}. ${p2.name} is ${p2.desc}. ${sce}, ${SHOT}, over-the-shoulder angle, 50mm lens, dramatic lighting. Action & Dialogue: ${speaker.name} ${bp.action3} while speaking. ${speaker.name} speaks with high emotion the exact words: "${bp.text}". Perfect lip-sync on ${speaker.name}; ${reactor.name} reacts visually.${extrasAnim} No on-screen text, no subtitles. ${STYLE}`);
+  }
+  bGuion.push(`\n¿Parte 2?`);
+  document.getElementById('sumAtm').textContent=S.atm.value; document.getElementById('sumCon').textContent=S.con.value;
+  document.getElementById('sumEmo').textContent=emo; document.getElementById('sumEnd').textContent=S.end.value;
+  const cOut=document.getElementById('charactersOut'); cOut.innerHTML='';
+  cast.forEach((c,idx)=>{ const role=idx===0?'Principal':(idx===1?'Contraparte':(idx===2?'Clave':'Secundario')); cOut.insertAdjacentHTML('beforeend', `<div class="char-preview"><h4>${c.emoji} ${c.name} · ${role}</h4><p>${c.desc}</p></div>`); });
+  document.getElementById('premiseDesc').innerHTML = `<b>${pro.name}</b> es humillado/a por <b>${rival.name}</b> en medio de <i>${S.con.value.toLowerCase()}</i>.`+(cast.length>2?` Cuando todo parece perdido, <b>${pro2.name}</b> interviene y desata el caos.`:``)+` Final: <b>${S.end.value}</b>.`;
+  document.getElementById('txtGuion').value=bGuion.join('\n');
+  document.getElementById('txtMoldes').value=bRefs.join('\n\n');
+  document.getElementById('txtImagenes').value=bImgs.join('\n\n');
+  document.getElementById('txtAnim').value=bAnim.join('\n\n');
+  document.getElementById('outputPanel').classList.add('visible');
+}
+function randomize(){
+  ['atmosphere','scenario','conflict','emotion','ending'].forEach(id=>{ const el=document.getElementById(id); el.selectedIndex=Math.floor(Math.random()*el.options.length); });
+  const n=parseInt(elCount.value), keys=Object.keys(CHARACTERS);
+  for(let i=0;i<n;i++){ const e=document.getElementById('char'+i); if(e) e.selectedIndex=Math.floor(Math.random()*keys.length); }
+  generateBatches();
+}
+function copyArea(id,btn){ const el=document.getElementById(id); el.select(); document.execCommand('copy'); const o=btn.textContent; btn.textContent='✅ ¡COPIADO!'; setTimeout(()=>btn.textContent=o,2000); }
+document.querySelectorAll('.tab').forEach(t=>{ t.addEventListener('click',()=>{ document.querySelectorAll('.tab').forEach(x=>x.classList.remove('active')); t.classList.add('active'); document.querySelectorAll('.tab-panel').forEach(x=>x.classList.remove('visible')); document.getElementById(t.dataset.tab).classList.add('visible'); }); });
+initApp(); generateBatches();
+document.getElementById('generateBtn').addEventListener('click', generateBatches);
+document.getElementById('randomBtn').addEventListener('click', randomize);
+</script>
+<script src="apps-menu.js"></script>
+</body>
+</html>
