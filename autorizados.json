@@ -109,6 +109,101 @@
       "id": "tentacion",
       "nombre": "Ángel vs. Tentación",
       "archivo": "tentacion.html"
+    },
+    {
+      "id": "autos",
+      "nombre": "Autos con Vida",
+      "archivo": "autos.html"
+    },
+    {
+      "id": "dinosaurios",
+      "nombre": "Dinosaurios Dramáticos",
+      "archivo": "dinosaurios.html"
+    },
+    {
+      "id": "robots",
+      "nombre": "Robots con Sentimientos",
+      "archivo": "robots.html"
+    },
+    {
+      "id": "plantas",
+      "nombre": "Plantas y Flores",
+      "archivo": "plantas.html"
+    },
+    {
+      "id": "insectos",
+      "nombre": "Insectos Dramáticos",
+      "archivo": "insectos.html"
+    },
+    {
+      "id": "paises",
+      "nombre": "Naciones",
+      "archivo": "paises.html"
+    },
+    {
+      "id": "profesiones",
+      "nombre": "Profesiones en Guerra",
+      "archivo": "profesiones.html"
+    },
+    {
+      "id": "utiles",
+      "nombre": "Útiles Escolares",
+      "archivo": "utiles.html"
+    },
+    {
+      "id": "superheroes",
+      "nombre": "Superhéroes Originales",
+      "archivo": "superheroes.html"
+    },
+    {
+      "id": "proverbios",
+      "nombre": "Proverbios del Sabio",
+      "archivo": "proverbios.html"
+    },
+    {
+      "id": "redencion",
+      "nombre": "Cuentos de Redención",
+      "archivo": "redencion.html"
+    },
+    {
+      "id": "viajealma",
+      "nombre": "El Viaje del Alma",
+      "archivo": "viajealma.html"
+    },
+    {
+      "id": "cartas",
+      "nombre": "Cartas al Cielo",
+      "archivo": "cartas.html"
+    },
+    {
+      "id": "buenasnoches",
+      "nombre": "Cuentos de Buenas Noches",
+      "archivo": "buenasnoches.html"
+    },
+    {
+      "id": "valores",
+      "nombre": "Aprende Valores",
+      "archivo": "valores.html"
+    },
+    {
+      "id": "datos",
+      "nombre": "Datos Curiosos",
+      "archivo": "datos.html"
+    },
+    {
+      "id": "trabalenguas",
+      "nombre": "Trabalenguas y Rimas",
+      "archivo": "trabalenguas.html"
+    },
+    {
+      "id": "monstruos",
+      "nombre": "Monstruos Tiernos",
+      "archivo": "monstruos.html"
+    },
+    {
+      "id": "terrorurbano",
+      "nombre": "Terror Urbano",
+      "archivo": "terrorurbano.html"
     }
   ],
   "accesos": {
@@ -130,7 +225,26 @@
       "fabulas",
       "mitologia",
       "parabolas",
-      "tentacion"
+      "tentacion",
+      "autos",
+      "dinosaurios",
+      "robots",
+      "plantas",
+      "insectos",
+      "paises",
+      "profesiones",
+      "utiles",
+      "superheroes",
+      "proverbios",
+      "redencion",
+      "viajealma",
+      "cartas",
+      "buenasnoches",
+      "valores",
+      "datos",
+      "trabalenguas",
+      "monstruos",
+      "terrorurbano"
     ],
     "diegoasalazarc70@gmail.com": [
       "outliers"
