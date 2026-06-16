@@ -4,10 +4,10 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <meta name="referrer" content="strict-origin-when-cross-origin">
-<title>JM-analitic-youtube-chanel — Descifra por qué un video rompió su canal. Replícalo.</title>
-<meta name="description" content="JM-analitic-youtube-chanel detecta los videos que rompieron su propio canal y te da, con IA, el porqué y el kit completo para recrearlos. Hook, miniatura, guion y plan de replicación.">
-<meta property="og:title" content="JM-analitic-youtube-chanel — Descifra por qué un video rompió su canal.">
-<meta property="og:description" content="Detección de anomalías en YouTube + análisis con IA. Encuentra outliers de tu nicho y obtén el kit para replicarlos.">
+<title>JM BOTS — Suite de creación de contenido viral con IA · Jonatan Monzon</title>
+<meta name="description" content="JM BOTS es la suite de Jonatan Monzon para crear contenido viral con IA: analizá videos de YouTube y generá guiones, personajes y prompts para Veo 3 en decenas de nichos.">
+<meta property="og:title" content="JM BOTS — Suite de creación de contenido viral con IA">
+<meta property="og:description" content="Analizá videos y generá guiones, personajes y prompts para Veo 3 en decenas de nichos. Una suite completa, en tu navegador con tus claves.">
 <meta property="og:type" content="website">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -70,6 +70,11 @@
   .brand .ol{background:linear-gradient(100deg,var(--gold),var(--gold2));
              -webkit-background-clip:text;background-clip:text;-webkit-text-fill-color:transparent;font-weight:700}
   .brand .dot{color:var(--gold)}
+  /* marca de dos líneas: JM BOTS + nombre */
+  .brandbox{display:flex;flex-direction:column;line-height:1}
+  .brandbox .bmain{font-family:var(--display);font-weight:800;font-size:21px;letter-spacing:.01em;color:var(--ink)}
+  .brandbox .bmain b{background:linear-gradient(100deg,var(--gold),var(--gold2));-webkit-background-clip:text;background-clip:text;-webkit-text-fill-color:transparent}
+  .brandbox .bname{font-family:var(--mono);font-size:10px;letter-spacing:.18em;text-transform:uppercase;color:var(--muted);margin-top:3px}
   .navlinks{display:flex;align-items:center;gap:8px}
   .navlink{font-size:14px;color:var(--muted);padding:8px 12px;border-radius:8px}
   .navlink:hover{color:var(--ink)}
@@ -556,6 +561,25 @@
     .social .stxt{text-align:center}
   }
   @media (prefers-reduced-motion:reduce){*{animation:none!important;transition:none!important}.reveal{opacity:1;transform:none}}
+
+  /* ───────── GALERÍA DE HERRAMIENTAS ───────── */
+  .toolcat{margin-bottom:34px}
+  .toolcat h3{font-family:var(--display);font-weight:700;font-size:18px;color:var(--ink);margin:0 0 4px;display:flex;align-items:center;gap:10px}
+  .toolcat .ccount{font-family:var(--mono);font-size:11px;color:var(--muted);font-weight:500}
+  .toolcat .cdesc{font-size:13.5px;color:var(--muted);margin:0 0 16px}
+  .toolgrid{display:grid;grid-template-columns:repeat(4,1fr);gap:12px}
+  @media (max-width:900px){.toolgrid{grid-template-columns:repeat(3,1fr)}}
+  @media (max-width:640px){.toolgrid{grid-template-columns:repeat(2,1fr)}}
+  .toolcard{display:flex;align-items:center;gap:11px;background:var(--bg2);border:1px solid var(--line);
+    border-radius:12px;padding:13px 14px;transition:transform .18s,box-shadow .18s,border-color .18s;cursor:pointer}
+  .toolcard:hover{transform:translateY(-3px);border-color:rgba(231,184,92,.45);box-shadow:0 14px 30px rgba(0,0,0,.4)}
+  .toolcard .tico{width:38px;height:38px;border-radius:10px;flex:none;display:flex;align-items:center;justify-content:center;
+    font-size:19px;background:var(--bg3);box-shadow:0 0 0 1px var(--line) inset}
+  .toolcard .tname{font-family:var(--display);font-weight:600;font-size:13.5px;color:var(--ink);line-height:1.25;display:block}
+  .toolcard .ttype{font-family:var(--mono);font-size:9.5px;letter-spacing:.08em;color:var(--muted);margin-top:4px;text-transform:uppercase;display:block}
+  .toolcard.lead{background:linear-gradient(160deg,rgba(231,184,92,.12),var(--bg2));border-color:rgba(231,184,92,.4)}
+  .toolcard.lead .tico{background:var(--grad-gold);color:#0A0D14;box-shadow:none}
+  .toolnote{font-family:var(--mono);font-size:11px;color:var(--muted);text-align:center;margin-top:8px}
 </style>
 </head>
 <body>
@@ -564,8 +588,9 @@
 <!-- ════════ NAV ════════ -->
 <nav>
   <div class="wrap">
-    <div class="brand">JM<span class="ol">-analitic-youtube-chanel</span></div>
+    <div class="brandbox"><span class="bmain">JM <b>BOTS</b></span><span class="bname">Jonatan Monzon</span></div>
     <div class="navlinks">
+      <a class="navlink" href="#herramientas" data-i18n="nav_tools">Herramientas</a>
       <a class="navlink" href="#bloques" data-i18n="nav_how">Cómo funciona</a>
       <a class="navlink" href="#comparativa" data-i18n="nav_cmp">Comparativa</a>
       <a class="navlink" href="#lab" data-i18n="nav_lab">El laboratorio</a>
@@ -590,16 +615,16 @@
   </div>
   <div class="wrap">
     <div class="badges reveal">
-      <span class="badge">🧠 <b data-i18n="b1b">IA</b>&nbsp;<span data-i18n="b1t">que disecciona el video</span></span>
-      <span class="badge">📊 <b data-i18n="b2b">VSR</b>&nbsp;<span data-i18n="b2t">la métrica que delata outliers</span></span>
+      <span class="badge">🧠 <b data-i18n="b1b">IA</b>&nbsp;<span data-i18n="b1t">que analiza y crea</span></span>
+      <span class="badge">🎬 <b data-i18n="b2b">37</b>&nbsp;<span data-i18n="b2t">herramientas en una suite</span></span>
       <span class="badge">✅ <span data-i18n="b3t">Corre en tu navegador · con tus claves</span></span>
     </div>
-    <div class="eyebrow reveal" data-i18n="eyebrow">detección de anomalías · youtube</div>
-    <h1 class="reveal"><span data-i18n="h1a">Descubre el video que</span> <em data-i18n="h1em">rompió</em> <span data-i18n="h1b">su propio canal. Y replícalo.</span></h1>
-    <p class="sub reveal" data-i18n="hsub">JM-analitic-youtube-chanel detecta los videos con muchas más vistas que suscriptores tiene su canal, y luego la IA te explica por qué funcionó y te entrega el kit completo para recrearlo: hook, guion, miniatura y prompts listos para Veo 3 o Grok.</p>
+    <div class="eyebrow reveal" data-i18n="eyebrow">suite de contenido viral · con ia</div>
+    <h1 class="reveal"><span data-i18n="h1a">Analizá lo que</span> <em data-i18n="h1em">funciona</em> <span data-i18n="h1b">y creá tu próximo viral con IA.</span></h1>
+    <p class="sub reveal" data-i18n="hsub">JM BOTS es tu suite completa: detectá los videos que rompieron su canal en YouTube y generá guiones, personajes y prompts listos para Veo 3 en decenas de nichos —drama, reflexivos, infantiles, terror y más.</p>
     <div class="hero-cta reveal">
-      <a class="btn btn-gold" href="./app.html" data-i18n="cta_main">Analizar mi primer nicho →</a>
-      <a class="btn btn-ghost" href="#bloques" data-i18n="cta_sec">Ver cómo funciona</a>
+      <a class="btn btn-gold" href="./app.html" data-i18n="cta_main">Entrar a la suite →</a>
+      <a class="btn btn-ghost" href="#herramientas" data-i18n="cta_sec">Ver las herramientas</a>
     </div>
     <div class="trust reveal">
       <span><svg viewBox="0 0 24 24" fill="none" stroke="#E7B85C" stroke-width="2"><path d="M20 6 9 17l-5-5"/></svg> <span data-i18n="t1">Sin servidores · datos en tu navegador</span></span>
@@ -640,6 +665,17 @@
     </div>
   </div>
 </header>
+
+<!-- ════════ GALERÍA DE HERRAMIENTAS ════════ -->
+<section class="section" id="herramientas" style="padding-top:46px">
+  <div class="wrap">
+    <div class="seclabel reveal" data-i18n="tl_label">la suite completa</div>
+    <h2 class="sectitle reveal" data-i18n="tl_title">Todas las herramientas, en un solo lugar.</h2>
+    <p class="secsub reveal" data-i18n="tl_sub">Un análisis potenciado por IA y decenas de generadores de guiones y prompts para Veo 3, organizados por estilo. Entrá y usá la que necesites.</p>
+    <div id="toolsGallery" class="reveal"></div>
+    <p class="toolnote" data-i18n="tl_note">Acceso según tu cuenta · cada usuario ve las herramientas que tiene habilitadas.</p>
+  </div>
+</section>
 
 <!-- ════════ LIVE FEED ════════ -->
 <section class="section" style="padding-top:40px">
@@ -811,7 +847,7 @@
         <span class="tu">tu_ia · master_prompt.txt</span>
       </div>
       <div class="tbody">
-        <span class="pl">›</span> <span class="cmd" data-i18n="tm1">pegar master prompt de JM-analitic-youtube-chanel</span><br>
+        <span class="pl">›</span> <span class="cmd" data-i18n="tm1">pegar master prompt de JM BOTS</span><br>
         <span class="ok" data-i18n="tm2">✓ formato detectado:</span> <span class="hi" data-i18n="tm3">reflexiones animadas</span><br>
         <span class="ok" data-i18n="tm4">✓ generando kit:</span><br>
         <span class="chip" data-i18n="tm5">guion 8 escenas</span><span class="chip" data-i18n="tm6">prompts de personajes</span><span class="chip" data-i18n="tm7">prompts de escena</span><span class="chip" data-i18n="tm8">animación</span><span class="chip" data-i18n="tm9">plan de montaje</span><br>
@@ -825,7 +861,7 @@
 <section class="section">
   <div class="wrap">
     <div class="seclabel reveal" data-i18n="uc_label">casos de uso</div>
-    <h2 class="sectitle reveal" data-i18n="uc_title">¿Para quién es JM-analitic-youtube-chanel?</h2>
+    <h2 class="sectitle reveal" data-i18n="uc_title">¿Para quién es JM BOTS?</h2>
     <p class="secsub reveal" data-i18n="uc_sub">Para cualquiera que quiera entender por qué un video funciona, con datos y no con intuición.</p>
     <div class="uses">
       <div class="use reveal"><div class="utag">01 · CREATOR</div><h3 data-i18n="uc1t">Creador de contenido</h3><p data-i18n="uc1p">Mira qué técnicas usan los top de tu nicho y replica lo que sí funciona, con datos reales en vez de corazonadas.</p></div>
@@ -840,13 +876,13 @@
 <section class="section" id="comparativa">
   <div class="wrap">
     <div class="seclabel reveal" data-i18n="cm_label">comparativa</div>
-    <h2 class="sectitle reveal" data-i18n="cm_title">JM-analitic-youtube-chanel vs. el resto</h2>
+    <h2 class="sectitle reveal" data-i18n="cm_title">JM BOTS vs. el resto</h2>
     <p class="secsub reveal" data-i18n="cm_sub">Nadie más junta detección de anomalías, disección del hook y un kit de replicación en un solo lugar.</p>
     <div class="cmp reveal">
       <div class="cmp-row cmp-head">
         <div class="cmp-cell feat" style="font-family:var(--display)"></div>
         <div class="cmp-cell them" data-i18n="cm_seo">Herramientas SEO</div>
-        <div class="cmp-cell us col-us" data-i18n="cm_us">JM-analitic-youtube-chanel</div>
+        <div class="cmp-cell us col-us" data-i18n="cm_us">JM BOTS</div>
         <div class="cmp-cell them" data-i18n="cm_ai">IA genérica</div>
       </div>
       <div class="cmp-row"><div class="cmp-cell feat" data-i18n="cm_f1">Detección de outliers por VSR</div><div class="cmp-cell center ico-n">—</div><div class="cmp-cell center ico-y col-us">✓</div><div class="cmp-cell center ico-n">—</div></div>
@@ -856,7 +892,7 @@
       <div class="cmp-row"><div class="cmp-cell feat" data-i18n="cm_f5">Corre con tus propias claves</div><div class="cmp-cell center ico-n">—</div><div class="cmp-cell center ico-y col-us">✓</div><div class="cmp-cell center ico-y">✓</div></div>
       <div class="cmp-row"><div class="cmp-cell feat" data-i18n="cm_f6">Resultado en segundos</div><div class="cmp-cell center ico-y">✓</div><div class="cmp-cell center ico-y col-us">✓</div><div class="cmp-cell center ico-n">—</div></div>
     </div>
-    <p class="cmp-foot reveal" data-i18n="cm_foot">capacidades cubiertas — SEO 1/6 · JM-analitic-youtube-chanel 6/6 · IA genérica 1/6</p>
+    <p class="cmp-foot reveal" data-i18n="cm_foot">capacidades cubiertas — SEO 1/6 · JM BOTS 6/6 · IA genérica 1/6</p>
   </div>
 </section>
 
@@ -954,12 +990,12 @@
       <div class="chathead">
         <div class="chatav">✦</div>
         <div class="ci">
-          <h5>JM-analitic-youtube-chanel</h5>
+          <h5>JM BOTS</h5>
           <div class="on-now"><i></i> <span data-i18n="ch_online">En línea · responde al instante</span></div>
         </div>
       </div>
       <div class="chatbody" id="chatbody">
-        <div class="bubble bot" data-i18n="ch_hi">¡Hola! 👋 Soy el asistente de <b>JM-analitic-youtube-chanel</b>. ¿En qué puedo ayudarte?<span class="ts">14:23 ✓✓</span></div>
+        <div class="bubble bot" data-i18n="ch_hi">¡Hola! 👋 Soy el asistente de <b>JM BOTS</b>. ¿En qué puedo ayudarte?<span class="ts">14:23 ✓✓</span></div>
       </div>
       <div class="chatqs">
         <div class="qlabel" data-i18n="ch_qlabel">Preguntas sugeridas</div>
@@ -985,7 +1021,7 @@
           <span class="av" style="background:linear-gradient(135deg,#b07cff,#d3b0ff)">J</span>
           <span class="av more">+</span>
         </div>
-        <div class="stxt" data-i18n="fc_social"><b>+234 creadores</b> ya están descifrando virales con JM-analitic-youtube-chanel</div>
+        <div class="stxt" data-i18n="fc_social"><b>+234 creadores</b> ya están creando virales con JM BOTS</div>
       </div>
     </div>
   </div>
@@ -995,8 +1031,8 @@
 <footer>
   <div class="wrap">
     <div class="fbrand">
-      <div class="brand">JM<span class="ol">-analitic-youtube-chanel</span></div>
-      <p data-i18n="foot_tag">Motor de detección de anomalías en YouTube + análisis con IA. Corre en tu navegador, con tus propias claves.</p>
+      <div class="brandbox"><span class="bmain">JM <b>BOTS</b></span><span class="bname">Jonatan Monzon</span></div>
+      <p data-i18n="foot_tag">Suite de creación de contenido viral con IA: análisis de YouTube + generación de guiones, personajes y prompts para Veo 3. Corre en tu navegador, con tus claves.</p>
     </div>
     <div class="fcols">
       <div class="fcol">
@@ -1013,7 +1049,7 @@
       </div>
     </div>
   </div>
-  <div class="fbar wrap">JM<b>-analitic-youtube-chanel</b> · 2026 · <span data-i18n="foot_made">datos vía YouTube API · análisis con IA</span></div>
+  <div class="fbar wrap">JM <b>BOTS</b> · Jonatan Monzon · 2026 · <span data-i18n="foot_made">datos vía YouTube API · análisis con IA</span></div>
 </footer>
 
 <script>
@@ -1301,14 +1337,14 @@ function calcVSR(){
 /* ───────── ASISTENTE DE CHAT (simulado) ───────── */
 const FAQ = {
   es:[
-    {q:"¿Qué es JM-analitic-youtube-chanel?", a:"Es un detector de <b>outliers</b> de YouTube: encuentra videos con muchas más vistas que suscriptores tiene su canal y, con IA, te explica por qué funcionaron y cómo replicarlos."},
+    {q:"¿Qué es JM BOTS?", a:"JM BOTS es una suite de creación de contenido viral con IA. Su herramienta de análisis es un detector de <b>outliers</b> de YouTube: encuentra videos con muchas más vistas que suscriptores tiene su canal y, con IA, te explica por qué funcionaron y cómo replicarlos."},
     {q:'¿Qué es un video "outlier"?', a:'Es un video que <b>rompió su propio canal</b>: consiguió muchas más vistas de las que su audiencia habitual explicaría. Lo medimos con el <b>VSR</b> (vistas ÷ suscriptores).'},
     {q:"¿Cómo funciona el acceso?", a:"Corre en tu navegador con tus propias claves de YouTube y de Gemini. Tus datos no salen de tu equipo: no los guardamos en ningún servidor."},
     {q:"¿Cuánto tarda un análisis?", a:"<b>Segundos.</b> Buscás un nicho, elegís un outlier y la IA devuelve el análisis completo más el kit de producción casi al instante."},
     {q:"¿Por qué no usar ChatGPT directo?", a:"ChatGPT no <b>detecta</b> outliers ni mide el VSR de cada canal. Acá ya llega el video filtrado por anomalía y con un master prompt especializado en su formato, listo para pegar."},
   ],
   en:[
-    {q:"What is JM-analitic-youtube-chanel?", a:"It's a YouTube <b>outlier</b> detector: it finds videos with far more views than the channel has subscribers and, with AI, explains why they worked and how to replicate them."},
+    {q:"What is JM BOTS?", a:"JM BOTS is a viral-content creation suite. Its analysis tool is a YouTube <b>outlier</b> detector: it finds videos with far more views than the channel has subscribers and, with AI, explains why they worked and how to replicate them."},
     {q:'What is an "outlier" video?', a:'A video that <b>broke its own channel</b>: it got way more views than its usual audience would explain. We measure it with the <b>VSR</b> (views ÷ subscribers).'},
     {q:"How does access work?", a:"It runs in your browser with your own YouTube and Gemini keys. Your data never leaves your device: we don't store it on any server."},
     {q:"How long does an analysis take?", a:"<b>Seconds.</b> Search a niche, pick an outlier and the AI returns the full analysis plus the production kit almost instantly."},
@@ -1371,13 +1407,16 @@ document.querySelectorAll('[data-count]').forEach(el=>cio.observe(el));
 
 /* ───────── i18n (ES por defecto, EN best-effort) ───────── */
 const EN = {
-  nav_how:"How it works", nav_cmp:"Comparison", nav_lab:"The lab", nav_login:"Sign in",
-  b1b:"AI", b1t:"that dissects the video", b2b:"VSR", b2t:"the metric that flags outliers",
+  nav_tools:"Tools", nav_how:"How it works", nav_cmp:"Comparison", nav_lab:"The lab", nav_login:"Sign in",
+  b1b:"AI", b1t:"that analyzes and creates", b2b:"37", b2t:"tools in one suite",
   b3t:"Runs in your browser · with your keys",
-  eyebrow:"anomaly detection · youtube",
-  h1a:"Find the video that", h1em:"broke", h1b:"its own channel. Then replicate it.",
-  hsub:"JM-analitic-youtube-chanel detects videos with far more views than the channel has subscribers, then the AI explains why it worked and hands you the full kit to recreate it: hook, script, thumbnail and prompts ready for Veo 3 or Grok.",
-  cta_main:"Analyze my first niche →", cta_sec:"See how it works",
+  eyebrow:"viral content suite · with ai",
+  h1a:"Analyze what", h1em:"works", h1b:"and create your next viral with AI.",
+  hsub:"JM BOTS is your complete suite: detect the videos that broke their channel on YouTube and generate scripts, characters and prompts ready for Veo 3 across dozens of niches — drama, reflective, kids, horror and more.",
+  cta_main:"Enter the suite →", cta_sec:"See the tools",
+  tl_label:"the complete suite", tl_title:"Every tool, in one place.",
+  tl_sub:"An AI-powered analysis plus dozens of script and Veo 3 prompt generators, organized by style. Jump in and use what you need.",
+  tl_note:"Access depends on your account · each user sees the tools they're allowed.",
   t1:"No servers · data stays in your browser", t2:"Results in seconds", t3:"YouTube + Gemini keys",
   feed:"LATEST OUTLIERS DETECTED BY THE NETWORK",
   bl_label:"4 layers almost nobody analyzes together", bl_title:"It's not a view count. It's why it broke.",
@@ -1396,18 +1435,18 @@ const EN = {
   oc2t:"Script", oc2p:"Full text with pacing, pauses and micro-hooks.",
   oc3t:"Thumbnail", oc3p:"Suggested composition and a prompt to generate it.",
   oc4t:"Production", oc4p:"Scene and animation prompts for Veo 3 / Grok.",
-  uc_label:"use cases", uc_title:"Who is JM-analitic-youtube-chanel for?",
+  uc_label:"use cases", uc_title:"Who is JM BOTS for?",
   uc_sub:"For anyone who wants to understand why a video works, with data instead of intuition.",
   uc1t:"Content creator", uc1p:"See which techniques the top of your niche use and replicate what works, with real data instead of guesses.",
   uc2t:"Marketing agency", uc2p:"Show clients reports with concrete metrics that explain why a content strategy works.",
   uc3t:"Growth strategist", uc3p:"Spot viral patterns before they trend and find content opportunities with high potential.",
   uc4t:"Video editor", uc4p:"Learn the pacing, cuts and narrative structure behind the best-retention videos in your niche.",
-  cm_label:"comparison", cm_title:"JM-analitic-youtube-chanel vs. the rest",
+  cm_label:"comparison", cm_title:"JM BOTS vs. the rest",
   cm_sub:"Nobody else combines anomaly detection, hook dissection and a replication kit in one place.",
-  cm_seo:"SEO tools", cm_us:"JM-analitic-youtube-chanel", cm_ai:"Generic AI",
+  cm_seo:"SEO tools", cm_us:"JM BOTS", cm_ai:"Generic AI",
   cm_f1:"Outlier detection by VSR", cm_f2:"Hook & thumbnail analysis", cm_f3:"AI production kit",
   cm_f4:"Portable master prompt", cm_f5:"Runs with your own keys", cm_f6:"Results in seconds",
-  cm_foot:"capabilities covered — SEO 1/6 · JM-analitic-youtube-chanel 6/6 · generic AI 1/6",
+  cm_foot:"capabilities covered — SEO 1/6 · JM BOTS 6/6 · generic AI 1/6",
   rag_label:"knowledge base · r.a.g.", rag_title:"Trained on the logic of the best.",
   rag_p:"When you analyze a video, the engine cross-checks the data against proven patterns of hook, packaging, thumbnail and narrative to detect exactly which techniques it used and why they work.",
   rag1:"Hook and retention techniques", rag2:"Packaging and thumbnail patterns",
@@ -1428,11 +1467,11 @@ const EN = {
   ch_label:"live assistant", ch_title:"Got questions? Ask anything",
   ch_sub:"Below is a simulated chat with the most common questions. Tap any bubble to see the answer.",
   ch_online:"Online · replies instantly",
-  ch_hi:"Hi! 👋 I'm the <b>JM-analitic-youtube-chanel</b> assistant. How can I help?",
+  ch_hi:"Hi! 👋 I'm the <b>JM BOTS</b> assistant. How can I help?",
   ch_qlabel:"Suggested questions",
   fc_title:"Ready to understand the viral game?", fc_sub:"Connect your YouTube and Gemini keys, search your niche and let the AI show you the pattern.",
-  fc_cta:"Open the tool →", fc_social:"<b>+234 creators</b> are already decoding virals with JM-analitic-youtube-chanel",
-  foot_tag:"YouTube anomaly-detection engine + AI analysis. Runs in your browser, with your own keys.",
+  fc_cta:"Open the tool →", fc_social:"<b>+234 creators</b> are already creating virals with JM BOTS",
+  foot_tag:"Viral-content creation suite with AI: YouTube analysis + scripts, characters and Veo 3 prompts. Runs in your browser, with your keys.",
   foot_prod:"Product", foot_how:"How it works", foot_cmp:"Comparison", foot_lab:"The lab", foot_app:"Open the app",
   foot_res:"Resources", foot_yt:"YouTube key", foot_gem:"Gemini key",
   foot_made:"data via YouTube API · AI analysis",
@@ -1443,7 +1482,7 @@ const EN = {
   vd_foot:"In the real app this is computed automatically, for every video in the niche you search.",
   wl_label:"the wall", wl_title:"Hundreds of videos that <em>broke</em> their channel.",
   wl_sub:"Every thumbnail is a real outlier detected by the network. The number is its VSR: how many times it multiplied its own audience.",
-  tm1:"paste JM-analitic-youtube-chanel master prompt", tm2:"✓ format detected:", tm3:"animated reflections",
+  tm1:"paste JM BOTS master prompt", tm2:"✓ format detected:", tm3:"animated reflections",
   tm4:"✓ generating kit:", tm5:"8-scene script", tm6:"character prompts", tm7:"scene prompts",
   tm8:"animation", tm9:"edit plan"
 };
@@ -1461,13 +1500,85 @@ function setLang(lang){
   document.querySelectorAll('.lang button').forEach(b=>b.classList.toggle('on', b.dataset.lang===lang));
   renderQs();   // refrescar preguntas del chat en el idioma nuevo
   calcVSR();    // las etiquetas de la demo se reescriben, hay que repintar
+  if(typeof buildGallery==='function') buildGallery(window.__APPS||FALLBACK_APPS);  // galería en el idioma nuevo
 }
 document.querySelectorAll('.lang button').forEach(b=>{
   b.addEventListener('click', ()=>setLang(b.dataset.lang));
 });
 
-/* ───────── ARRANQUE ───────── */
-renderQs();
+/* ───────── GALERÍA DE HERRAMIENTAS (desde autorizados.json) ───────── */
+const TOOL_META = {
+  outliers:{ico:"🔎",cat:"analisis"}, analizador:{ico:"🎬",cat:"analisis"},
+  historias:{ico:"🙏",cat:"reflexivo"}, milagros:{ico:"✨",cat:"reflexivo"}, relatos:{ico:"📖",cat:"reflexivo"},
+  parabolas:{ico:"🕊️",cat:"reflexivo"}, tentacion:{ico:"😇",cat:"reflexivo"}, proverbios:{ico:"🧓",cat:"reflexivo"},
+  redencion:{ico:"🌅",cat:"reflexivo"}, viajealma:{ico:"💫",cat:"reflexivo"}, cartas:{ico:"✉️",cat:"reflexivo"},
+  glam:{ico:"💄",cat:"viral"}, frutas:{ico:"🍓",cat:"viral"}, novelas:{ico:"📺",cat:"viral"},
+  mascotas:{ico:"🐶",cat:"viral"}, comida:{ico:"🍔",cat:"viral"}, zodiaco:{ico:"♌",cat:"viral"},
+  animales:{ico:"🦁",cat:"viral"}, objetos:{ico:"📱",cat:"viral"}, mitologia:{ico:"⚡",cat:"viral"},
+  autos:{ico:"🚗",cat:"viral"}, dinosaurios:{ico:"🦖",cat:"viral"}, robots:{ico:"🤖",cat:"viral"},
+  plantas:{ico:"🌹",cat:"viral"}, insectos:{ico:"🐝",cat:"viral"}, paises:{ico:"🌍",cat:"viral"},
+  profesiones:{ico:"👨‍⚕️",cat:"viral"}, utiles:{ico:"✏️",cat:"viral"}, superheroes:{ico:"🦸",cat:"viral"},
+  buenasnoches:{ico:"🌙",cat:"infantil"}, valores:{ico:"🤝",cat:"infantil"}, datos:{ico:"🧠",cat:"infantil"},
+  trabalenguas:{ico:"🎵",cat:"infantil"}, monstruos:{ico:"👾",cat:"infantil"},
+  terror:{ico:"👻",cat:"terror"}, terrorurbano:{ico:"🌃",cat:"terror"}
+};
+const CATS = {
+  analisis:{es:"Análisis con IA",en:"AI Analysis",icon:"🔎",d_es:"Detectá qué funciona y por qué.",d_en:"Detect what works and why."},
+  viral:{es:"Virales con personajes",en:"Character virals",icon:"🎭",d_es:"Telenovelas y dramas para enganchar.",d_en:"Drama-style stories that hook."},
+  reflexivo:{es:"Reflexivas y espirituales",en:"Reflective & spiritual",icon:"🕊️",d_es:"Historias con moraleja y emoción.",d_en:"Stories with a moral and emotion."},
+  infantil:{es:"Infantil y educativo",en:"Kids & educational",icon:"🧸",d_es:"Family-friendly y monetizable.",d_en:"Family-friendly and monetizable."},
+  terror:{es:"Terror",en:"Horror",icon:"👻",d_es:"Gancho fuerte y giro final.",d_en:"Strong hook and a final twist."}
+};
+const FALLBACK_APPS = [
+  {id:"outliers",nombre:"Outliers",archivo:"app.html"},{id:"analizador",nombre:"Analizador de Video",archivo:"analizador.html"},
+  {id:"historias",nombre:"Historias de Fe",archivo:"historias-fe.html"},{id:"milagros",nombre:"Milagros de Fe",archivo:"milagros-fe.html"},
+  {id:"relatos",nombre:"Relatos de Fe",archivo:"relatos-fe.html"},{id:"glam",nombre:"Glam",archivo:"glam.html"},
+  {id:"frutas",nombre:"Frutas",archivo:"frutas.html"},{id:"novelas",nombre:"Novelas JMbots",archivo:"novelas.html"},
+  {id:"mascotas",nombre:"Mascotas Dramáticas",archivo:"mascotas.html"},{id:"comida",nombre:"Comida Dramática",archivo:"comida.html"},
+  {id:"zodiaco",nombre:"Novelas del Zodíaco",archivo:"zodiaco.html"},{id:"animales",nombre:"Animales Salvajes",archivo:"animales.html"},
+  {id:"objetos",nombre:"POV Objetos con Vida",archivo:"objetos.html"},{id:"terror",nombre:"Micro-Terror",archivo:"terror.html"},
+  {id:"fabulas",nombre:"Fábulas con Moraleja",archivo:"fabulas.html"},{id:"mitologia",nombre:"Mitología Dramática",archivo:"mitologia.html"},
+  {id:"parabolas",nombre:"Parábolas de Luz",archivo:"parabolas.html"},{id:"tentacion",nombre:"Ángel vs. Tentación",archivo:"tentacion.html"},
+  {id:"autos",nombre:"Autos con Vida",archivo:"autos.html"},{id:"dinosaurios",nombre:"Dinosaurios Dramáticos",archivo:"dinosaurios.html"},
+  {id:"robots",nombre:"Robots con Sentimientos",archivo:"robots.html"},{id:"plantas",nombre:"Plantas y Flores",archivo:"plantas.html"},
+  {id:"insectos",nombre:"Insectos Dramáticos",archivo:"insectos.html"},{id:"paises",nombre:"Naciones",archivo:"paises.html"},
+  {id:"profesiones",nombre:"Profesiones en Guerra",archivo:"profesiones.html"},{id:"utiles",nombre:"Útiles Escolares",archivo:"utiles.html"},
+  {id:"superheroes",nombre:"Superhéroes Originales",archivo:"superheroes.html"},{id:"proverbios",nombre:"Proverbios del Sabio",archivo:"proverbios.html"},
+  {id:"redencion",nombre:"Cuentos de Redención",archivo:"redencion.html"},{id:"viajealma",nombre:"El Viaje del Alma",archivo:"viajealma.html"},
+  {id:"cartas",nombre:"Cartas al Cielo",archivo:"cartas.html"},{id:"buenasnoches",nombre:"Cuentos de Buenas Noches",archivo:"buenasnoches.html"},
+  {id:"valores",nombre:"Aprende Valores",archivo:"valores.html"},{id:"datos",nombre:"Datos Curiosos",archivo:"datos.html"},
+  {id:"trabalenguas",nombre:"Trabalenguas y Rimas",archivo:"trabalenguas.html"},{id:"monstruos",nombre:"Monstruos Tiernos",archivo:"monstruos.html"},
+  {id:"terrorurbano",nombre:"Terror Urbano",archivo:"terrorurbano.html"}
+];
+const CAT_ORDER = ["analisis","viral","reflexivo","infantil","terror"];
+function buildGallery(apps){
+  const cont = document.getElementById('toolsGallery'); if(!cont) return;
+  const byCat = {}; CAT_ORDER.forEach(c=>byCat[c]=[]);
+  apps.forEach(a=>{ const m=TOOL_META[a.id]||{ico:"🧩",cat:"viral"}; (byCat[m.cat]||(byCat[m.cat]=[])).push(Object.assign({},a,{ico:m.ico})); });
+  let html='';
+  CAT_ORDER.forEach(cat=>{
+    const list=byCat[cat]; if(!list||!list.length) return;
+    const meta=CATS[cat], lang=(typeof LANG!=='undefined'?LANG:'es');
+    html+=`<div class="toolcat"><h3>${meta.icon} ${lang==='en'?meta.en:meta.es} <span class="ccount">· ${list.length}</span></h3>`
+      +`<p class="cdesc">${lang==='en'?meta.d_en:meta.d_es}</p><div class="toolgrid">`;
+    html+=list.map(a=>{
+      const lead = a.id==='outliers'?' lead':'';
+      const tipo = (CATS[cat]&&(lang==='en'?CATS[cat].en:CATS[cat].es))||'';
+      return `<a class="toolcard${lead}" href="./${a.archivo}"><span class="tico">${a.ico}</span>`
+        +`<span><span class="tname">${a.nombre}</span><span class="ttype">${tipo}</span></span></a>`;
+    }).join('');
+    html+='</div></div>';
+  });
+  cont.innerHTML=html;
+}
+(function initGallery(){
+  buildGallery(FALLBACK_APPS);   // pinta ya (sirve también para file://)
+  fetch('autorizados.json?t='+Date.now())
+    .then(r=>r.json())
+    .then(d=>{ if(d&&Array.isArray(d.apps)&&d.apps.length){ window.__APPS=d.apps; buildGallery(d.apps); } })
+    .catch(()=>{});
+})();
+
 calcVSR();
 // animar la primera pestaña cuando el bloque entra en pantalla
 (function(){
