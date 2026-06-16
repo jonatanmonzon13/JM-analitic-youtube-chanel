@@ -54,6 +54,11 @@
       "id": "novelas",
       "nombre": "Novelas JMbots",
       "archivo": "novelas.html"
+    },
+    {
+      "id": "analizador",
+      "nombre": "analizador",
+      "archivo": "analizador.html"
     }
   ],
   "accesos": {
@@ -64,7 +69,8 @@
       "relatos",
       "glam",
       "frutas",
-      "novelas"
+      "novelas",
+      "analizador"
     ],
     "diegoasalazarc70@gmail.com": [
       "outliers"
