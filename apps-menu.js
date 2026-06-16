@@ -2,10 +2,9 @@
    JM · Menú lanzador para las apps del repo
    Pegá esta línea ANTES de </body> en cada app (no en index.html):
        <script src="apps-menu.js"></script>
-   - Muestra un botón flotante "⚡ Mis apps" con las apps que el
-     usuario tiene habilitadas (según autorizados.json + el panel Admin).
+   - Muestra un botón flotante "⚡ Mis apps" con las apps habilitadas.
+   - Lee la lista SIEMPRE actual desde autorizados.json (y cachea en jm_apps).
    - Candado suave: si nadie inició sesión, vuelve al inicio.
-   La identidad la guarda app.html en el navegador al iniciar sesión.
    ════════════════════════════════════════════════════════════════ */
 (function(){
   var here = (location.pathname.split('/').pop() || 'index.html').toLowerCase();
@@ -21,14 +20,7 @@
 
   // Candado suave: en una sub-app, si no hay sesión iniciada, volver al inicio.
   if(ABIERTAS.indexOf(here) === -1 && !user){ location.replace('index.html'); return; }
-
-  if(!user || !apps.length) return;
-
-  // Apps visibles para este usuario
-  var vis = apps.filter(function(a){
-    return access === 'all' || (Array.isArray(access) && access.indexOf(a.id) >= 0);
-  });
-  if(!vis.length) return;
+  if(!user) return;
 
   // Estilos (propios, no dependen del CSS de la app)
   var css = '#jmlnch{position:fixed;top:14px;right:14px;z-index:99999;'
@@ -38,7 +30,7 @@
     + 'border-radius:999px;padding:9px 15px;font-size:14px;font-weight:600;'
     + '-webkit-backdrop-filter:blur(8px);backdrop-filter:blur(8px);box-shadow:0 6px 22px rgba(0,0,0,.45)}'
     + '#jmlnch .jmbtn:hover{border-color:#E7B85C;color:#F8DA8E}'
-    + '#jmlnch .jmmenu{position:absolute;top:48px;right:0;min-width:220px;background:#0d0f17;'
+    + '#jmlnch .jmmenu{position:absolute;top:48px;right:0;min-width:220px;max-height:70vh;overflow:auto;background:#0d0f17;'
     + 'border:1px solid #2a2f45;border-radius:13px;padding:7px;display:none;'
     + 'box-shadow:0 18px 50px rgba(0,0,0,.6)}'
     + '#jmlnch.open .jmmenu{display:block}'
@@ -55,22 +47,47 @@
 
   function escapeHtml(s){ var d = document.createElement('div'); d.textContent = s; return d.innerHTML; }
 
-  var items = vis.map(function(a){
-    var cur = (a.archivo || '').toLowerCase() === here;
-    return '<a class="jmitem' + (cur ? ' here' : '') + '" href="' + escapeHtml(a.archivo) + '">'
-      + '<span>' + escapeHtml(a.nombre) + '</span>'
-      + (cur ? '<span class="dot">● aquí</span>' : '') + '</a>';
-  }).join('');
+  function build(list){
+    var vis = (list || []).filter(function(a){
+      return a && a.archivo && (access === 'all' || (Array.isArray(access) && access.indexOf(a.id) >= 0));
+    });
+    var old = document.getElementById('jmlnch'); if(old) old.parentNode.removeChild(old);
+    if(!vis.length) return;
 
-  var root = document.createElement('div');
-  root.id = 'jmlnch';
-  root.innerHTML = '<div class="jmbtn" id="jmbtnToggle">⚡ Mis apps ▾</div>'
-    + '<div class="jmmenu"><div class="jmttl">Mis apps</div>' + items
-    + '<a class="jmexit" href="index.html">← salir al inicio</a></div>';
-  document.body.appendChild(root);
+    var items = vis.map(function(a){
+      var cur = (a.archivo || '').toLowerCase() === here;
+      return '<a class="jmitem' + (cur ? ' here' : '') + '" href="' + escapeHtml(a.archivo) + '">'
+        + '<span>' + escapeHtml(a.nombre) + '</span>'
+        + (cur ? '<span class="dot">● aquí</span>' : '') + '</a>';
+    }).join('');
 
-  document.getElementById('jmbtnToggle').addEventListener('click', function(e){
-    e.stopPropagation(); root.classList.toggle('open');
+    var root = document.createElement('div');
+    root.id = 'jmlnch';
+    root.innerHTML = '<div class="jmbtn" id="jmbtnToggle">⚡ Mis apps ▾</div>'
+      + '<div class="jmmenu"><div class="jmttl">Mis apps</div>' + items
+      + '<a class="jmexit" href="index.html">← salir al inicio</a></div>';
+    document.body.appendChild(root);
+    document.getElementById('jmbtnToggle').addEventListener('click', function(e){
+      e.stopPropagation(); root.classList.toggle('open');
+    });
+  }
+
+  document.addEventListener('click', function(){
+    var r = document.getElementById('jmlnch'); if(r) r.classList.remove('open');
   });
-  document.addEventListener('click', function(){ root.classList.remove('open'); });
+
+  // 1) Pinta YA con lo que haya en caché (rápido)
+  if(apps.length) build(apps);
+
+  // 2) Refresca SIEMPRE desde autorizados.json para mostrar la lista actual
+  fetch('autorizados.json?t=' + Date.now())
+    .then(function(r){ return r.json(); })
+    .then(function(d){
+      if(d && Array.isArray(d.apps)){
+        var fresh = d.apps.filter(function(a){ return a && a.id && a.archivo; });
+        try{ localStorage.setItem('jm_apps', JSON.stringify(fresh)); }catch(e){}
+        build(fresh);
+      }
+    })
+    .catch(function(){ /* sin red o file://: queda la lista en caché */ });
 })();
