@@ -1,6 +1,7 @@
 {
   "permitidos": [
-    "jonatanmonzon13@gmail.com"
+    "jonatanmonzon13@gmail.com",
+    "jonatnmonzon1126@gmail.com"
   ],
   "apps": [
     {
@@ -84,5 +85,24 @@
       "archivo": "mitologia.html"
     }
   ],
-  "accesos": {}
+  "accesos": {
+    "jonatnmonzon1126@gmail.com": [
+      "outliers",
+      "historias",
+      "milagros",
+      "relatos",
+      "glam",
+      "frutas",
+      "novelas",
+      "analizador",
+      "mascotas",
+      "comida",
+      "zodiaco",
+      "animales",
+      "objetos",
+      "terror",
+      "fabulas",
+      "mitologia"
+    ]
+  }
 }
