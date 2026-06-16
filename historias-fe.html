@@ -114,7 +114,7 @@
 
   /* ── Hero llamativo (rayos de luz) + imágenes de referencia del nicho ── */
   header.hero{overflow:hidden}
-  .godrays{position:absolute;left:50%;transform:translateX(-50%);top:-70px;width:760px;max-width:100%;height:560px;z-index:0;pointer-events:none;
+  .godrays{position:absolute;left:50%;transform:translateX(-50%);top:-18px;width:560px;max-width:100%;height:300px;z-index:0;pointer-events:none;
     background:
       radial-gradient(420px 300px at 50% 38%, rgba(248,218,142,.16), transparent 70%),
       conic-gradient(from 0deg at 50% 6%,
@@ -126,7 +126,7 @@
         rgba(155,92,255,.11) 231deg, transparent 240deg, transparent 360deg);
     filter:blur(3px);opacity:.9;animation:sway 16s ease-in-out infinite}
   @keyframes sway{0%,100%{transform:translateX(-50%) rotate(-2.5deg)}50%{transform:translateX(-50%) rotate(2.5deg)}}
-  header.hero>*{position:relative;z-index:1}
+  header.hero>*:not(.godrays){position:relative;z-index:1}
   .logo-mark{box-shadow:0 0 0 1px rgba(248,218,142,.4),0 0 50px rgba(248,218,142,.45)}
   h1{filter:drop-shadow(0 4px 26px rgba(255,61,154,.25))}
 
@@ -141,6 +141,9 @@
   .refcard .scrim{position:absolute;inset:0;background:linear-gradient(180deg,rgba(5,6,12,.15) 35%,rgba(5,6,12,.9))}
   .refcard .cap{position:absolute;left:0;right:0;bottom:0;padding:11px 12px;font-family:var(--display);font-weight:700;font-size:14px;color:#fff;z-index:2}
   .refcard .rtag{position:absolute;top:9px;left:9px;z-index:2;font-family:var(--mono);font-size:9.5px;letter-spacing:.6px;text-transform:uppercase;color:#0A0D14;background:var(--grad-gold);padding:3px 8px;border-radius:6px;font-weight:700}
+  .keyrow{display:flex;gap:8px;flex-wrap:wrap;align-items:stretch}
+  .keyrow input{flex:1;min-width:200px}
+  .keyrow .btn{padding:11px 15px;font-size:13px}
 </style>
 </head>
 <body>
@@ -158,25 +161,17 @@
 
   <section class="panel">
     <div class="panel-title">Conexión</div>
-    <p class="panel-sub">Funciona sin conexión con el motor local. Conecta una API para guiones más ricos y variados.</p>
-    <div class="grid2">
-      <div>
-        <label class="fld">Proveedor de IA</label>
-        <select id="provider">
-          <option value="local">⚙ Sin conexión · Motor local</option>
-          <option value="claude">✦ Claude (Anthropic)</option>
-          <option value="gemini">✦ Gemini (Google)</option>
-        </select>
-        <div class="hint">El modo local nunca falla y no consume créditos.</div>
-      </div>
-      <div id="keyBox" class="hidden">
-        <label class="fld">API Key</label>
-        <input type="password" id="apiKey" placeholder="Pega tu clave aquí (sk-... / AIza...)">
-        <div class="hint">⚠ La clave queda solo en tu navegador. Úsala en tu equipo, no publiques la página con la clave dentro.</div>
-      </div>
+    <p class="panel-sub">Usa la misma clave de Gemini del sistema. Si ya la cargaste en la app principal, aparece sola. Sin clave, funciona el motor local.</p>
+    <label class="fld">API Key de Gemini</label>
+    <div class="keyrow">
+      <input type="password" id="apiKey" placeholder="AIza…" autocomplete="off">
+      <button class="btn btn-dark" type="button" id="eye" onclick="toggleEye()" title="Mostrar/ocultar">👁</button>
+      <button class="btn btn-gold" type="button" id="saveKey" onclick="saveKey()">💾 Guardar</button>
+      <button class="btn btn-ghost" type="button" id="replaceKey" onclick="replaceKey()">↻ Reemplazar</button>
     </div>
-    <div style="margin-top:14px">
-      <span class="badge"><span class="status-dot" id="statusDot" style="background:var(--muted)"></span><span id="statusTxt">Modo local activo</span></span>
+    <div class="hint" id="keyHint">⚠ Queda solo en tu navegador · se comparte con la app principal · gratis en aistudio.google.com/apikey</div>
+    <div style="margin-top:12px">
+      <span class="badge"><span class="status-dot" id="statusDot" style="background:var(--muted)"></span><span id="statusTxt">Motor local</span></span>
     </div>
   </section>
 
@@ -796,29 +791,16 @@ function renderUnits(units,cast,hookIdx,giroIdx){
    Con una API key, el guion se genera con IA y nunca se repite.
    Sin key, usa el motor local (que igual tiene millones de combinaciones). */
 async function callAPI(prompt){
-  const provider=$("provider").value;
   const key=($("apiKey")?$("apiKey").value.trim():"");
-  if(provider==="local") return null;
-  if(!key){toast("Falta la API key · usando motor local");return null;}
+  if(!key) return null;
   try{
-    if(provider==="claude"){
-      const r=await fetch("https://api.anthropic.com/v1/messages",{
-        method:"POST",
-        headers:{"Content-Type":"application/json","x-api-key":key,"anthropic-version":"2023-06-01","anthropic-dangerous-direct-browser-access":"true"},
-        body:JSON.stringify({model:"claude-3-5-sonnet-20241022",max_tokens:2000,messages:[{role:"user",content:prompt}]})
-      });
-      const d=await r.json();
-      if(d.error) throw new Error(d.error.message);
-      return d.content.map(c=>c.text||"").join("\n");
-    } else {
-      const r=await fetch("https://generativelanguage.googleapis.com/v1beta/models/gemini-2.0-flash:generateContent?key="+encodeURIComponent(key),{
-        method:"POST",headers:{"Content-Type":"application/json"},
-        body:JSON.stringify({contents:[{parts:[{text:prompt}]}]})
-      });
-      const d=await r.json();
-      if(d.error) throw new Error(d.error.message);
-      return d.candidates[0].content.parts.map(p=>p.text).join("\n");
-    }
+    const r=await fetch("https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash:generateContent?key="+encodeURIComponent(key),{
+      method:"POST",headers:{"Content-Type":"application/json"},
+      body:JSON.stringify({contents:[{parts:[{text:prompt}]}],generationConfig:{maxOutputTokens:8192}})
+    });
+    const d=await r.json();
+    if(d.error) throw new Error(d.error.message);
+    return d.candidates[0].content.parts.map(p=>p.text).join("\n");
   }catch(e){toast("API falló: "+e.message+" · motor local");return null;}
 }
 
@@ -863,7 +845,7 @@ async function buildScript(N){
 
   // Con IA conectada, reescribe el guion (texto) para que nunca se repita.
   // Los LOTES siguen del motor local para mantener los mismos nombres.
-  if($("provider").value!=='local'){
+  if($("apiKey").value.trim()){
     const prev=STATE.currentScript;
     $("scriptOut").innerHTML='<span class="spinner"></span> Generando guion único con IA…';
     const c=STATE._cast;
@@ -1204,14 +1186,14 @@ function buildFinal(){
 function copy(text){navigator.clipboard.writeText(text).then(()=>toast("Copiado ✓"));}
 
 /* ---------- EVENTOS ---------- */
-$("provider").onchange=function(){
-  const v=this.value;
-  $("keyBox").classList.toggle("hidden",v==="local");
-  const dot=$("statusDot"),txt=$("statusTxt");
-  if(v==="local"){dot.style.background="var(--muted)";txt.textContent="Modo local activo";}
-  else if(v==="claude"){dot.style.background="var(--lime)";txt.textContent="Claude conectado (al validar key)";}
-  else{dot.style.background="var(--lime)";txt.textContent="Gemini conectado (al validar key)";}
-};
+function loadKeys(){ try{ return JSON.parse(localStorage.getItem('jmbots_keys')||'{}'); }catch(e){ return {}; } }
+function keyState(){ const has=$("apiKey").value.trim(); $("statusDot").style.background=has?"var(--lime)":"var(--muted)"; $("statusTxt").textContent=has?"Gemini conectado":"Motor local"; }
+function setKeyHint(m,c){ const h=$("keyHint"); if(h){ h.textContent=m; h.style.color=c||"var(--muted)"; } }
+(function initKey(){ const ks=loadKeys(); if(ks.an){ $("apiKey").value=ks.an; setKeyHint("✓ Clave del sistema cargada. Tocá Reemplazar para cambiarla.","var(--lime)"); } keyState(); })();
+function saveKey(){ const v=$("apiKey").value.trim(); if(!v){ setKeyHint("Pegá una clave antes de guardar.","var(--pink)"); return; } try{ const ks=loadKeys(); ks.an=v; localStorage.setItem('jmbots_keys',JSON.stringify(ks)); }catch(e){} const b=$("saveKey"); const o=b.textContent; b.textContent="✓ Guardada"; setTimeout(()=>b.textContent=o,1500); setKeyHint("✓ Clave guardada (compartida con la app principal).","var(--lime)"); keyState(); }
+function replaceKey(){ $("apiKey").value=""; $("apiKey").type="text"; $("apiKey").focus(); setKeyHint("Ingresá la nueva clave y tocá Guardar.","var(--gold2)"); keyState(); }
+function toggleEye(){ const i=$("apiKey"); i.type=i.type==='password'?'text':'password'; }
+$("apiKey").addEventListener('input',keyState);
 $("btnGenerate").onclick=generateBatch;
 $("btnReset").onclick=()=>{generateBatch();toast("Nuevo lote generado");};
 $("btnResetTotal").onclick=()=>{
