@@ -1,0 +1,864 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Novelas JMbots</title>
+<link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;700;800&family=Fira+Code:wght@300;400&display=swap" rel="stylesheet">
+<style>
+:root{
+  --glass-bg:rgba(20,15,35,.7); --glass-border:rgba(255,255,255,.15);
+  --text:#fff; --muted:rgba(255,255,255,.7);
+  --pink:#ff2a6d; --cyan:#05d9e8; --gold:#ffd700; --purple:#9d4edd; --green:#01ffc3;
+  --shadow:0 8px 32px rgba(0,0,0,.5); --glow-pink:0 0 20px rgba(255,42,109,.4); --glow-cyan:0 0 20px rgba(5,217,232,.4);
+  --radius:16px;
+  --json-key:#79c0ff; --json-str:#a5d6ff; --json-num:#f69d50; --json-bool:#ff7b72;
+}
+*{box-sizing:border-box;margin:0;padding:0}
+html{scroll-behavior:smooth}
+body{font-family:'Syne',system-ui,sans-serif;background:linear-gradient(-45deg,#160a2c 0%,#0a0514 40%,#290a1d 100%);background-size:400% 400%;animation:gradientBG 15s ease infinite;color:var(--text);min-height:100vh;padding-bottom:50px;overflow-x:hidden}
+@keyframes gradientBG{0%{background-position:0% 50%}50%{background-position:100% 50%}100%{background-position:0% 50%}}
+body::before{content:"";position:fixed;top:-50%;left:-50%;width:200%;height:200%;background:radial-gradient(circle at 50% 50%,rgba(5,217,232,.08),transparent 60%),radial-gradient(circle at 80% 20%,rgba(255,42,109,.08),transparent 50%);z-index:-1;pointer-events:none}
+.wrap{max-width:1400px;margin:0 auto;padding:40px 20px}
+
+/* Hero */
+.hero{text-align:center;padding:50px 20px;background:var(--glass-bg);backdrop-filter:blur(15px);-webkit-backdrop-filter:blur(15px);border:1px solid var(--glass-border);border-radius:30px;box-shadow:var(--shadow),var(--glow-pink);margin-bottom:40px}
+.title{font-size:clamp(2.8rem,6vw,5rem);margin:0 0 10px;font-weight:800;letter-spacing:2px;background:linear-gradient(90deg,var(--cyan),var(--pink),var(--gold));-webkit-background-clip:text;background-clip:text;color:transparent;text-shadow:0 4px 15px rgba(255,42,109,.3)}
+.subtitle{color:#e0e0ff;font-size:1.1rem;line-height:1.6;max-width:900px;margin:0 auto 20px;font-weight:500}
+.hero-pills{display:flex;justify-content:center;flex-wrap:wrap;gap:12px}
+.hero-pill{padding:8px 18px;border-radius:999px;background:rgba(255,255,255,.05);border:1px solid var(--cyan);color:var(--cyan);font-size:.85rem;font-weight:800;text-transform:uppercase;box-shadow:var(--glow-cyan)}
+.hero-pill:nth-child(even){border-color:var(--pink);color:var(--pink);box-shadow:var(--glow-pink)}
+.hero-pill:nth-child(3n){border-color:var(--gold);color:var(--gold);box-shadow:0 0 15px rgba(255,215,0,.3)}
+
+/* Controles */
+.controls-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(260px,1fr));gap:20px;margin-bottom:30px}
+.control{background:var(--glass-bg);backdrop-filter:blur(10px);border:1px solid var(--glass-border);border-radius:var(--radius);padding:20px;box-shadow:var(--shadow);transition:.3s;border-left:4px solid var(--cyan)}
+.control:nth-child(even){border-left-color:var(--pink)}
+.control:nth-child(3n){border-left-color:var(--gold)}
+.control:hover{transform:translateY(-5px);box-shadow:var(--glow-cyan)}
+.section-title{display:block;font-size:.8rem;text-transform:uppercase;color:#fff;font-weight:800;margin-bottom:8px;letter-spacing:1px}
+.control-group label{display:block;font-size:.7rem;letter-spacing:1px;text-transform:uppercase;color:var(--muted);margin:8px 0 6px}
+select{width:100%;background:rgba(0,0,0,.5);color:#fff;border:1px solid rgba(255,255,255,.2);border-radius:10px;padding:14px;font-size:.95rem;font-weight:700;outline:none;cursor:pointer;font-family:'Syne',sans-serif;appearance:none;background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='10' height='6'%3E%3Cpath d='M0 0l5 6 5-6z' fill='%2305d9e8'/%3E%3C/svg%3E");background-repeat:no-repeat;background-position:right 12px center}
+select:focus{border-color:var(--cyan);box-shadow:0 0 10px rgba(5,217,232,.4)}
+.toggle-group{display:flex;flex-direction:column;gap:8px}
+.toggle{display:flex;align-items:center;justify-content:space-between;padding:10px 12px;background:rgba(0,0,0,.4);border:1px solid var(--glass-border);border-radius:10px;cursor:pointer;font-size:.85rem;font-weight:700;transition:.2s}
+.toggle:hover{border-color:var(--cyan)}
+.toggle input{display:none}
+.toggle-track{width:34px;height:20px;background:rgba(0,0,0,.6);border-radius:10px;border:1px solid rgba(5,217,232,.3);position:relative;transition:background .2s;flex:0 0 auto}
+.toggle input:checked + .toggle-track{background:var(--cyan)}
+.toggle-thumb{position:absolute;top:2px;left:2px;width:14px;height:14px;background:#fff;border-radius:50%;transition:left .2s}
+.toggle input:checked + .toggle-track .toggle-thumb{left:16px}
+
+/* CTA */
+.cta-row{display:flex;justify-content:center;gap:20px;flex-wrap:wrap;margin-bottom:40px}
+.btn-gen{border:1px solid rgba(255,255,255,.3);border-radius:999px;padding:18px 40px;font-weight:800;font-size:1.05rem;cursor:pointer;transition:.3s;text-transform:uppercase;letter-spacing:1px;font-family:'Syne',sans-serif;background:linear-gradient(90deg,var(--pink),var(--purple));color:#fff;box-shadow:var(--glow-pink)}
+.btn-gen:hover{transform:scale(1.04);box-shadow:0 0 30px rgba(255,42,109,.7)}
+
+/* Salida */
+.tabs{display:flex;gap:10px;margin-bottom:24px;flex-wrap:wrap;border-bottom:2px solid rgba(255,255,255,.1);padding-bottom:18px}
+.tab{padding:12px 20px;border-radius:12px;border:1px solid rgba(255,255,255,.2);background:rgba(0,0,0,.5);color:var(--muted);font-family:'Syne',sans-serif;font-size:.8rem;letter-spacing:1px;text-transform:uppercase;cursor:pointer;transition:.3s;font-weight:800}
+.tab:hover{border-color:var(--cyan);color:#fff}
+.tab.active{background:linear-gradient(90deg,var(--cyan),var(--purple));color:#fff;border:none;box-shadow:var(--glow-cyan)}
+.panel{display:none}
+.panel.active{display:block;animation:fadeIn .4s ease}
+@keyframes fadeIn{from{opacity:0;transform:translateY(15px)}to{opacity:1;transform:translateY(0)}}
+
+/* JSON */
+.json-block{background:var(--glass-bg);backdrop-filter:blur(15px);border:1px solid var(--glass-border);border-radius:var(--radius);overflow:hidden;margin-bottom:20px;box-shadow:var(--shadow)}
+.json-block-header{display:flex;align-items:center;justify-content:space-between;padding:14px 18px;border-bottom:1px solid var(--glass-border);background:rgba(0,0,0,.3)}
+.json-block-title{font-size:.9rem;letter-spacing:1px;color:var(--gold);font-weight:800;text-transform:uppercase}
+.copy-btn{background:#fff;color:#000;border:none;padding:8px 16px;border-radius:8px;font-family:'Syne',sans-serif;font-size:.7rem;letter-spacing:1px;text-transform:uppercase;cursor:pointer;font-weight:800;transition:.2s}
+.copy-btn:hover{background:var(--gold)}
+.copy-btn.ok{background:var(--green)}
+.json-pre{padding:20px;font-family:'Fira Code',monospace;font-size:12.5px;line-height:1.8;white-space:pre-wrap;word-break:break-word;overflow-x:auto;max-height:560px;overflow-y:auto;color:#e6e6ff}
+.json-pre::-webkit-scrollbar{width:6px;height:6px}
+.json-pre::-webkit-scrollbar-thumb{background:var(--cyan);border-radius:3px}
+.jk{color:var(--json-key)}.js{color:var(--json-str)}.jn{color:var(--json-num)}.jb{color:var(--json-bool)}.jp{color:var(--muted)}
+
+/* Tarjetas */
+.card-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(280px,1fr));gap:16px;margin-bottom:20px}
+.mini-card{background:var(--glass-bg);backdrop-filter:blur(10px);border:1px solid var(--glass-border);border-radius:12px;padding:16px;transition:.2s;border-left:4px solid var(--pink)}
+.mini-card:hover{border-color:var(--cyan);transform:translateY(-3px)}
+.mini-card-tag{font-size:.6rem;letter-spacing:2px;text-transform:uppercase;color:var(--cyan);margin-bottom:8px;font-weight:800}
+.mini-card-name{font-size:1rem;font-weight:800;margin-bottom:4px;line-height:1.2}
+.mini-card-desc{font-size:.78rem;color:var(--muted);line-height:1.6}
+.mini-card-badge{display:inline-block;margin-top:8px;padding:3px 10px;background:rgba(168,85,247,.15);border:1px solid rgba(168,85,247,.4);border-radius:6px;font-size:.6rem;color:var(--purple);letter-spacing:1px;font-weight:700}
+
+.empty{text-align:center;padding:80px 20px;color:var(--muted)}
+.empty .big{font-size:48px;margin-bottom:12px}
+.empty p{font-size:.9rem}
+
+@media(max-width:900px){.controls-grid{grid-template-columns:1fr}}
+</style>
+</head>
+<body>
+
+<div class="wrap">
+
+  <header class="hero">
+    <h1 class="title">Novelas JMbots</h1>
+    <p class="subtitle">Generador de novelas virales · prompts completos de personaje, escena e imagen · JSON listo para Google Veo 3.</p>
+    <div class="hero-pills">
+      <span class="hero-pill">⚡ JSON listo para Veo 3</span>
+      <span class="hero-pill">🎬 Guion + Escenas + Imágenes</span>
+      <span class="hero-pill">🔥 Giro viral garantizado</span>
+      <span class="hero-pill">📲 Caption + Hashtags</span>
+    </div>
+  </header>
+
+  <div class="controls-grid">
+    <div class="control">
+      <span class="section-title">Personaje principal</span>
+      <div class="control-group">
+        <label>Arquetipo</label>
+        <select id="prot">
+          <option value="nina_huerfana">Niña huérfana</option>
+          <option value="anciana_sabia">Anciana sabia</option>
+          <option value="obrero_digno">Obrero digno</option>
+          <option value="vaquero_solitario">Vaquero solitario</option>
+          <option value="madre_soltera">Madre soltera</option>
+          <option value="mendigo_misterioso">Mendigo misterioso</option>
+          <option value="joven_inmigrante">Joven inmigrante</option>
+          <option value="maestro_rural">Maestro rural</option>
+          <option value="artesana_indigena">Artesana indígena</option>
+          <option value="veterano_olvidado">Veterano olvidado</option>
+          <option value="random">🎲 Aleatorio</option>
+        </select>
+      </div>
+    </div>
+
+    <div class="control">
+      <span class="section-title">Antagonista / Escenario</span>
+      <div class="control-group">
+        <label>Conflicto</label>
+        <select id="ant">
+          <option value="tienda_lujo">Tienda de lujo</option>
+          <option value="tribunal">Sala del tribunal</option>
+          <option value="banco_corporativo">Banco corporativo</option>
+          <option value="boda_gala">Boda de gala</option>
+          <option value="hospital_privado">Hospital privado</option>
+          <option value="restaurante_exclusivo">Restaurante exclusivo</option>
+          <option value="aeropuerto_vip">Sala VIP aeropuerto</option>
+          <option value="subasta_arte">Subasta de arte</option>
+          <option value="club_social">Club social exclusivo</option>
+          <option value="oficinas_corporativas">Oficinas corporativas</option>
+          <option value="random">🎲 Aleatorio</option>
+        </select>
+      </div>
+    </div>
+
+    <div class="control">
+      <span class="section-title">Giro narrativo</span>
+      <div class="control-group">
+        <label>Tipo de resolución</label>
+        <select id="twist">
+          <option value="identidad_secreta">Identidad secreta revelada</option>
+          <option value="herencia_millonaria">Herencia millonaria</option>
+          <option value="venganza_silenciosa">Venganza silenciosa</option>
+          <option value="bondad_recompensada">Bondad recompensada</option>
+          <option value="poder_oculto">Poder oculto / conexiones</option>
+          <option value="inspector_encubierto">Inspector encubierto</option>
+          <option value="donante_anonimo">Donante anónimo</option>
+          <option value="random">🎲 Aleatorio</option>
+        </select>
+      </div>
+    </div>
+
+    <div class="control">
+      <span class="section-title">Opciones de generación</span>
+      <div class="toggle-group">
+        <label class="toggle">
+          <span>Prompts de personaje</span>
+          <input type="checkbox" id="tog_char" checked>
+          <div class="toggle-track"><div class="toggle-thumb"></div></div>
+        </label>
+        <label class="toggle">
+          <span>Prompts de escena</span>
+          <input type="checkbox" id="tog_scene" checked>
+          <div class="toggle-track"><div class="toggle-thumb"></div></div>
+        </label>
+        <label class="toggle">
+          <span>Prompts de imagen</span>
+          <input type="checkbox" id="tog_img" checked>
+          <div class="toggle-track"><div class="toggle-thumb"></div></div>
+        </label>
+        <label class="toggle">
+          <span>Guión completo</span>
+          <input type="checkbox" id="tog_script" checked>
+          <div class="toggle-track"><div class="toggle-thumb"></div></div>
+        </label>
+        <label class="toggle">
+          <span>Caption viral</span>
+          <input type="checkbox" id="tog_caption" checked>
+          <div class="toggle-track"><div class="toggle-thumb"></div></div>
+        </label>
+      </div>
+    </div>
+  </div>
+
+  <div class="cta-row">
+    <button class="btn-gen" onclick="generate()">⚡ Generar JSON Completo</button>
+  </div>
+
+  <div class="output-area">
+    <div class="tabs">
+      <button class="tab active" onclick="switchTab('all')">JSON Completo</button>
+      <button class="tab" onclick="switchTab('chars')">Personajes</button>
+      <button class="tab" onclick="switchTab('scenes')">Escenas</button>
+      <button class="tab" onclick="switchTab('images')">Imágenes</button>
+      <button class="tab" onclick="switchTab('script')">Guión</button>
+    </div>
+
+    <div id="panel_all" class="panel active">
+      <div class="empty"><div class="big">⚡</div><p>Configura y presiona "Generar JSON Completo"</p></div>
+    </div>
+    <div id="panel_chars" class="panel">
+      <div class="empty"><div class="big">👤</div><p>Genera primero para ver personajes</p></div>
+    </div>
+    <div id="panel_scenes" class="panel">
+      <div class="empty"><div class="big">🎬</div><p>Genera primero para ver escenas</p></div>
+    </div>
+    <div id="panel_images" class="panel">
+      <div class="empty"><div class="big">🖼</div><p>Genera primero para ver prompts de imagen</p></div>
+    </div>
+    <div id="panel_script" class="panel">
+      <div class="empty"><div class="big">📝</div><p>Genera primero para ver guión</p></div>
+    </div>
+  </div>
+
+</div>
+
+<script>
+// ═══════════════════════════════════════════════════════
+// DATABASE
+// ═══════════════════════════════════════════════════════
+const DB = {
+  protagonists: {
+    nina_huerfana: {
+      label: "Niña huérfana",
+      names: ["Sofía","Luna","Valentina","Camila","Isabela"],
+      age_range: "7-10 años",
+      appearance: "niña de cabello oscuro y rizado, ojos grandes expresivos, ropa humilde pero limpia, zapatos desgastados, mirada inocente pero profunda",
+      appearance_en: "young girl 8 years old, dark curly hair, big expressive brown eyes, simple worn clothes, small torn shoes, innocent but deep gaze, natural lighting",
+      personality: "silenciosa, observadora, sabia para su edad, no llora ni se queja, actúa con dignidad",
+      backstory: ["perdió a sus padres a los 5 años","creció con su abuela enferma","nunca fue a la escuela pero aprendió sola"],
+      voice_style: "voz suave y pausada, pocas palabras pero cada una pesa",
+      veo_style: "cinematic close-up, warm golden hour light, shallow depth of field, 4K, photorealistic, documentary feel"
+    },
+    anciana_sabia: {
+      label: "Anciana sabia",
+      names: ["Doña Rosa","Doña Carmen","Doña Luz","Doña Esperanza","Abuela Petra"],
+      age_range: "75-85 años",
+      appearance: "mujer anciana de piel morena arrugada, cabello blanco recogido, ropa sencilla y limpia, manos trabajadas, ojos vivos e inteligentes, camina lento pero erguida",
+      appearance_en: "elderly woman 80 years old, dark wrinkled skin, white hair in a bun, simple clean dress, worn working hands, sharp intelligent eyes, walks slowly but upright, dignified posture",
+      personality: "callada, paciente infinita, humor seco, no se deja humillar aunque no pelee",
+      backstory: ["viuda hace 30 años","crió sola a 5 hijos","vendió tamales toda la vida para sacar a sus hijos adelante"],
+      voice_style: "voz tranquila y profunda, habla poco, cuando habla todos se callan",
+      veo_style: "cinematic medium shot, soft natural lighting, muted warm tones, 4K photorealistic, intimate documentary style"
+    },
+    obrero_digno: {
+      label: "Obrero digno",
+      names: ["Miguel","Carlos","Andrés","Tomás","Ernesto"],
+      age_range: "40-50 años",
+      appearance: "hombre de complexión fuerte, manos callosas, ropa de trabajo con manchas de polvo, botas de obrero, cara de cansancio pero ojos orgullosos",
+      appearance_en: "middle-aged man 45 years old, strong build, calloused hands, dusty work clothes, worn steel-toed boots, tired face but proud eyes, five o'clock shadow",
+      personality: "orgulloso de su trabajo, no se humilla, trato directo y honesto",
+      backstory: ["trabajó 20 años en la misma empresa","pagó la universidad de sus hijos a base de horas extra","nunca faltó un día al trabajo"],
+      voice_style: "voz grave y directa, dice lo justo, no adorna",
+      veo_style: "cinematic wide shot transitioning to close-up, industrial ambient light, realistic gritty texture, 4K photorealistic"
+    },
+    vaquero_solitario: {
+      label: "Vaquero solitario",
+      names: ["Don Rodrigo","Santos","Don Aurelio","Jacinto","El Viejo Cruz"],
+      age_range: "55-70 años",
+      appearance: "hombre mayor de sombrero gastado, piel curtida por el sol, bigote canoso, camisa de cuadros desgastada, botas de rancho, mirada serena como el desierto",
+      appearance_en: "old Mexican cowboy 60 years old, weathered skin tanned by sun, gray mustache, worn plaid shirt, old ranch boots, dusty cowboy hat, calm desert eyes",
+      personality: "pocas palabras, hechos no discursos, dignidad inquebrantable",
+      backstory: ["perdió su rancho por deudas","vino a la ciudad por primera vez","no entiende el mundo moderno pero lo maneja mejor que nadie"],
+      voice_style: "habla con acento regional, pausas largas, sabiduría en cada oración",
+      veo_style: "cinematic western-inspired, golden desert light, wide establishing shots, 4K photorealistic, epic atmosphere"
+    },
+    madre_soltera: {
+      label: "Madre soltera",
+      names: ["Andrea","Fernanda","Patricia","Lucía","Mariana"],
+      age_range: "28-38 años",
+      appearance: "mujer joven cansada pero arreglada con lo que tiene, ropa modesta, bolso grande con cosas de su hijo, ojeras de no dormir bien, sonrisa que guarda todo",
+      appearance_en: "young woman 32 years old, tired but put-together, modest clothing, large bag with children's items, dark circles under eyes, worn but genuine smile, strong determined look",
+      personality: "guerrera silenciosa, aguanta pero no traga entero, lucha sin drama",
+      backstory: ["la dejó el padre de su hijo","trabaja dos turnos","no pide ayuda a nadie pero la necesita"],
+      voice_style: "voz firme pero con emoción contenida, directa",
+      veo_style: "cinematic handheld camera feel, natural urban lighting, warm intimate tones, 4K photorealistic"
+    },
+    mendigo_misterioso: {
+      label: "Mendigo misterioso",
+      names: ["El Viejo Ramón","Don Silvio","El Señor Blanco","Lorenzo","El Anciano"],
+      age_range: "60-75 años",
+      appearance: "hombre mayor con ropa rota y sucia, barba larga y descuidada, ojos azules o verdes (contraste con apariencia), habla con vocabulario culto, camina como alguien acostumbrado al poder",
+      appearance_en: "old homeless man 65 years old, torn dirty clothes, long unkempt beard, unexpectedly sharp blue eyes, educated posture and gestures, walks with quiet authority despite appearance",
+      personality: "misterioso, observa todo, habla en metáforas, nadie sospecha quién es",
+      backstory: ["ex empresario que lo perdió todo y lo reconstruyó","ex juez que se retiró a vivir simple","millonario anónimo que prueba a la gente"],
+      voice_style: "voz grave y elegante, vocabulario sofisticado que no encaja con su apariencia",
+      veo_style: "cinematic noir lighting, mysterious shadows, slow reveal shots, 4K photorealistic, high contrast"
+    },
+    joven_inmigrante: {
+      label: "Joven inmigrante",
+      names: ["Diego","Mateo","Emilio","Alejandro","Rafael"],
+      age_range: "18-25 años",
+      appearance: "joven de rasgos mestizos, ropa de segunda mano pero limpia, mochila desgastada, mirada que mezcla miedo e ilusión, habla español con acento regional",
+      appearance_en: "young Latino man 22 years old, mestizo features, secondhand but clean clothes, worn backpack, eyes mixing fear and hope, slim build, nervous but determined hands",
+      personality: "tímido pero decidido, sueña en grande, se humilla para sobrevivir pero tiene límites",
+      backstory: ["llegó sin conocer a nadie","manda dinero a su familia cada semana","estudia de noche mientras trabaja de día"],
+      voice_style: "voz suave con acento regional, mezcla español formal e informal",
+      veo_style: "cinematic urban gritty lighting, wide city shots, close emotional faces, 4K photorealistic"
+    },
+    maestro_rural: {
+      label: "Maestro rural",
+      names: ["Don Roberto","Profe Víctor","Maestro Julián","Don Felipe","Profe Ramírez"],
+      age_range: "50-65 años",
+      appearance: "hombre de lentes gruesos, maletín viejo de cuero, traje viejo pero planchado, zapatos lustrados aunque desgastados, dignidad académica en cada gesto",
+      appearance_en: "older teacher 55 years old, thick glasses, old leather briefcase, worn but pressed suit, polished worn shoes, academic dignity in every gesture, kind wise eyes",
+      personality: "educado y formal, nunca pierde los modales aunque lo provoquen, cita libros sin querer",
+      backstory: ["40 años enseñando en pueblo remoto","sus alumnos son doctores y abogados","viene a la ciudad para resolver algo urgente"],
+      voice_style: "habla perfectamente, cita autores, tono de quien explicó cosas difíciles toda la vida",
+      veo_style: "cinematic warm library tones, soft intellectual atmosphere, close-up on hands and face, 4K photorealistic"
+    },
+    artesana_indigena: {
+      label: "Artesana indígena",
+      names: ["Lupita","Xóchitl","Dolores","Rosario","Ixchel"],
+      age_range: "45-60 años",
+      appearance: "mujer de rasgos indígenas, traje típico regional colorido, trenzas largas, cargando tejidos o artesanías, manos fuertes y ágiles, presencia silenciosa pero poderosa",
+      appearance_en: "indigenous Mexican woman 50 years old, traditional colorful regional dress, long braided hair, carrying handmade textiles, strong agile hands, quiet but powerful presence",
+      personality: "no habla de más, no reacciona a provocaciones, sabiduría antigua",
+      backstory: ["su artesanía vale miles pero la vende en mercados","habla tres idiomas incluyendo lengua nativa","rechazó ofertas de gente que quería explotarla"],
+      voice_style: "habla con acento de lengua nativa, frases cortas y poderosas",
+      veo_style: "cinematic vivid colors, cultural richness, natural mountain or market light, 4K photorealistic, National Geographic feel"
+    },
+    veterano_olvidado: {
+      label: "Veterano olvidado",
+      names: ["Don Héctor","El Sargento","General Cruz","Don Beto","Capitán Torres"],
+      age_range: "65-80 años",
+      appearance: "hombre mayor con postura militar, ropa civil pero impecable, medallas guardadas en bolsillo, mirada fija que ha visto demasiado, una cicatriz que cuenta una historia",
+      appearance_en: "elderly military veteran 70 years old, upright military posture in civilian clothes, neat appearance, hidden medals in pocket, piercing eyes that have seen too much, faint scar on jaw",
+      personality: "disciplinado, no le tiembla la voz ante nadie, honor por encima de todo",
+      backstory: ["sirvió 30 años","no recibe pensión por burocracia","viene a pelear por lo que le pertenece legalmente"],
+      voice_style: "voz firme como orden militar, no levanta el tono pero intimida igual",
+      veo_style: "cinematic dramatic lighting, patriotic atmosphere, close-up on medals and face, 4K photorealistic, epic tone"
+    }
+  },
+
+  antagonists: {
+    tienda_lujo: {
+      label: "Tienda de lujo",
+      location: "boutique de alta costura en centro comercial exclusivo",
+      location_en: "luxury fashion boutique in upscale mall, marble floors, crystal displays, designer bags on pedestals",
+      antagonist_type: "Gerente / empleada arrogante",
+      antagonist_look: "woman in her 30s, impeccable designer outfit, condescending smile, perfect makeup, looking down at protagonist",
+      conflict: "le niegan el acceso, la siguen como si fuera ladrona, la piden que se retire",
+      atmosphere: "fluorescent luxury lighting, polished marble, expensive perfume, classical music playing",
+      camera: "wide shot showing contrast between protagonist and opulent setting, slow zoom to faces"
+    },
+    tribunal: {
+      label: "Sala del tribunal",
+      location: "sala de audiencias de juzgado federal",
+      location_en: "federal courthouse, wood-paneled walls, judge's elevated bench, American flag, rows of seats, fluorescent overhead lighting",
+      antagonist_type: "Juez / abogado contrario",
+      antagonist_look: "judge in black robe, stern expression, looking over glasses at protagonist, dismissive hand gestures",
+      conflict: "el sistema intenta aplastarlo, los abogados ricos creen tener ventaja",
+      atmosphere: "cold institutional lighting, echoing acoustics, tense silence, papers shuffling",
+      camera: "low angle looking up at judge, then high angle showing protagonist small in the room"
+    },
+    banco_corporativo: {
+      label: "Banco corporativo",
+      location: "lobby de banco corporativo de lujo",
+      location_en: "luxury bank lobby, towering glass atrium, marble floors, security guards in suits, bank officers in expensive clothes behind glass desks",
+      antagonist_type: "Ejecutivo bancario",
+      antagonist_look: "bank executive 40s, tailored suit, gold watch, dismissive posture, barely looking at protagonist",
+      conflict: "le niegan un crédito, le dicen que no tiene perfil, lo tratan como invisible",
+      atmosphere: "cold corporate lighting, hum of air conditioning, echoing marble floors, distant phone calls",
+      camera: "tracking shot following protagonist through lobby, close-ups on dismissive faces"
+    },
+    boda_gala: {
+      label: "Boda de gala",
+      location: "recepción de boda en hacienda de lujo",
+      location_en: "grand hacienda wedding reception, crystal chandeliers, white flowers everywhere, guests in designer formal wear, waiters in white gloves, string quartet",
+      antagonist_type: "Familia del novio / anfitriones",
+      antagonist_look: "wealthy wedding host couple, 50s, formal evening wear, pearl necklace, looking horrified at protagonist's presence",
+      conflict: "no fue invitado o fue invitado por error, los ricos no lo quieren ahí",
+      atmosphere: "warm chandelier glow, champagne clinking, whispered shocked conversations, string music",
+      camera: "contrast shots between lavish decor and protagonist's simple clothes, slow motion reactions"
+    },
+    hospital_privado: {
+      label: "Hospital privado",
+      location: "clínica privada de lujo",
+      location_en: "private luxury clinic, spotless white halls, reception desk with fresh flowers, staff in pristine uniforms, private rooms with art on walls",
+      antagonist_type: "Recepcionista / Doctor",
+      antagonist_look: "clinic receptionist 30s, perfect uniform, fake smile disappearing when seeing protagonist's clothes, blocking access",
+      conflict: "le niegan atención por no tener seguro, le piden que vaya a hospital público",
+      atmosphere: "sterile cold lighting, antiseptic smell suggested through visual cues, quiet efficient movement",
+      camera: "close-ups on protagonist's pain, wide shots showing empty private rooms while protagonist is turned away"
+    },
+    restaurante_exclusivo: {
+      label: "Restaurante exclusivo",
+      location: "restaurante de alta cocina con vista a la ciudad",
+      location_en: "Michelin-star rooftop restaurant, floor-to-ceiling windows, city skyline view, white tablecloths, candles, sommelier and maître d' in suits",
+      antagonist_type: "Maître / Gerente",
+      antagonist_look: "maître d' 50s, tuxedo, silver hair, looking protagonist up and down with visible disgust, blocking entrance",
+      conflict: "no lo dejan entrar sin reservación o por su ropa, lo sacan discretamente",
+      atmosphere: "warm amber evening light, murmur of wealthy diners, clink of crystal glasses, jazz in background",
+      camera: "elegant tracking shots through restaurant, close-up on maître d's disdainful expression"
+    },
+    aeropuerto_vip: {
+      label: "Sala VIP aeropuerto",
+      location: "sala VIP de aeropuerto internacional",
+      location_en: "airport VIP lounge, plush seating, free gourmet food, panoramic runway views, business class travelers with laptops, suited lounge staff",
+      antagonist_type: "Personal de sala VIP",
+      antagonist_look: "lounge staff woman 30s, airline uniform, forced professional smile masking contempt, blocking entrance with clipboard",
+      conflict: "le piden el pase VIP, lo ven de arriba abajo, otros pasajeros ricos se quejan",
+      atmosphere: "cool air conditioning, muted luxury ambiance, runway lights visible through windows",
+      camera: "fish-eye lens showing protagonist small against luxury space, then extreme close-up on antagonist's face"
+    },
+    subasta_arte: {
+      label: "Subasta de arte",
+      location: "casa de subastas de arte contemporáneo",
+      location_en: "contemporary art auction house, white walls with million-dollar paintings, paddle numbers in hands, auctioneer at podium, buyers in designer clothes",
+      antagonist_type: "Personal / compradores élite",
+      antagonist_look: "art auction staff 40s, black turtleneck and blazer, looking at protagonist as if they wandered in by mistake",
+      conflict: "lo ignoran, no le dan catálogo, asumen que no puede comprar nada",
+      atmosphere: "gallery white lighting, hushed competitive tension, paddles raised, auctioneer's rapid voice",
+      camera: "slow pans over valuable art, contrast with protagonist's humble appearance, close-ups on shocked faces when protagonist bids"
+    },
+    club_social: {
+      label: "Club social exclusivo",
+      location: "club social de alta sociedad",
+      location_en: "exclusive country club, golf course visible through windows, members in polo shirts and sundresses, drinks at outdoor terrace, staff in red vests",
+      antagonist_type: "Miembros del club / directivo",
+      antagonist_look: "club member couple 50s, tennis whites, tanned wealthy look, approaching protagonist to question their presence",
+      conflict: "lo cuestionan sobre quién lo invitó, implican que no pertenece ahí",
+      atmosphere: "bright afternoon sun, manicured lawns, sound of tennis balls, ice in glasses",
+      camera: "wide pastoral shots of exclusive setting, tight close-ups on social exclusion micro-expressions"
+    },
+    oficinas_corporativas: {
+      label: "Oficinas corporativas",
+      location: "piso 40 de torres corporativas de lujo",
+      location_en: "floor-40 corporate offices, panoramic city views, glass walls, reception with abstract sculpture, executives in suits, assistant guarding access",
+      antagonist_type: "Asistente / Ejecutivo",
+      antagonist_look: "executive assistant 30s, power suit, headset, dismissive and efficient, standing between protagonist and glass-walled offices",
+      conflict: "le dicen que no tiene cita, lo hacen esperar horas, lo tratan como si no importara",
+      atmosphere: "hum of corporate activity, phones ringing, printer sounds, city visible far below",
+      camera: "vertiginous high-angle shots through glass floor, protagonist tiny against city backdrop"
+    }
+  },
+
+  twists: {
+    identidad_secreta: {
+      label: "Identidad secreta revelada",
+      reveal_lines: [
+        "Resulta que {name} era el dueño anónimo del edificio entero, incluyendo esa tienda.",
+        "Nadie sabía que {name} era la CEO fundadora de la empresa más grande del país.",
+        "Lo que no sabían era que {name} tenía en el bolsillo el contrato que los podía cerrar mañana.",
+        "Justo entonces entró su asistente con una tablet: '{name} es la única accionista mayoritaria de esta compañía.'"
+      ],
+      veo_prompt: "slow revelation shot, dramatic music sting, cut to shocked faces, lingering close-up on antagonist's realization, protagonist's calm unchanged expression"
+    },
+    herencia_millonaria: {
+      label: "Herencia millonaria",
+      reveal_lines: [
+        "Tres días después, {name} recibió la llamada: su abuelo desconocido había muerto y le dejó todo.",
+        "Esa misma tarde, un notario llegó con un sobre. Adentro: escrituras valoradas en 8 millones.",
+        "El banco llamó al gerente: la cuenta de {name} acababa de recibir una transferencia de 12 millones de dólares.",
+        "Lo que nadie sabía era que el 'trapo' que cargaba {name} era la firma original de un contrato que valía una fortuna."
+      ],
+      veo_prompt: "extreme close-up on document or phone screen showing large numbers, slow pull back to show protagonist's unchanged expression, antagonist's jaw dropping"
+    },
+    venganza_silenciosa: {
+      label: "Venganza silenciosa",
+      reveal_lines: [
+        "Seis meses después, {name} firmó los papeles de compra. Ese negocio ahora le pertenecía.",
+        "Al mes siguiente, {name} apareció en la portada de la revista. Era la nueva propietaria.",
+        "La carta llegó el lunes: la empresa había sido comprada. La firma al pie era la de {name}.",
+        "Regresaron al año. {name} estaba sentada en el escritorio del director. Porque ahora era el suyo."
+      ],
+      veo_prompt: "time-lapse transition, elegant title card showing time passing, protagonist in position of power, reverse of original humiliation scene"
+    },
+    bondad_recompensada: {
+      label: "Bondad recompensada",
+      reveal_lines: [
+        "Un hombre que lo vio todo desde una esquina pagó la deuda completa. Era el dueño anónimo de la cadena.",
+        "El video se hizo viral. En 48 horas, personas de 30 países donaron lo que {name} necesitaba y más.",
+        "Años después, {name} regresó al mismo lugar. Esta vez para inaugurar la fundación que lleva su nombre.",
+        "Esa niña que miraron con lástima hoy dirige la organización que alimenta a 10,000 familias en esa ciudad."
+      ],
+      veo_prompt: "warm glowing light, montage of good things happening, crowd of helpers, emotional music, protagonist overwhelmed with gratitude"
+    },
+    poder_oculto: {
+      label: "Poder oculto / conexiones",
+      reveal_lines: [
+        "El teléfono del director sonó. Era el gobernador preguntando por {name} personalmente.",
+        "El abogado de {name} entró. Detrás de él, tres senadores. Nadie había imaginado esas conexiones.",
+        "Lo que nadie sabía era que {name} había construido en silencio una red que movía millones sin que nadie lo supiera.",
+        "La llamada del presidente del banco fue breve: 'traten a {name} como a mi socio más importante. Que no se repita.'"
+      ],
+      veo_prompt: "phone call close-up, reactions of shock on antagonist's face, protagonist staying calm and composed throughout"
+    },
+    inspector_encubierto: {
+      label: "Inspector encubierto",
+      reveal_lines: [
+        "Sacó una placa del bolsillo. Era inspector federal de la unidad de fraudes. Llevaba tres meses investigando.",
+        "La identificación que mostró hizo que el gerente palideciera: era auditor de la Secretaría de Hacienda.",
+        "De su bolsillo sacó un cuaderno. Tenía registrado todo: nombres, fechas, montos. Era el investigador encargado del caso.",
+        "Los agentes que entraron después de {name} revelaron lo que había sido invisible: una operación de dos años."
+      ],
+      veo_prompt: "dramatic badge reveal, slow motion badge extraction, freeze frame on badge, cut to antagonist going pale, officers entering scene"
+    },
+    donante_anonimo: {
+      label: "Donante anónimo",
+      reveal_lines: [
+        "El sobre sin nombre que dejaron en la puerta de {name} contenía un cheque que cambiaba todo.",
+        "El notario explicó: un benefactor anónimo había cubierto cada deuda, cada gasto, cada sueño pendiente.",
+        "Nunca supo quién fue. Pero el mensaje decía solo: 'Vi lo que hicieron. Esto es justicia.'",
+        "La cuenta bancaria amaneció con un depósito exacto de lo que {name} necesitaba. El origen: desconocido."
+      ],
+      veo_prompt: "mysterious envelope close-up, protagonist opening it with trembling hands, extreme close-up on amount, tears forming in eyes"
+    }
+  },
+
+  hooks: [
+    "Todos se rieron de ella. Fue el peor error de sus vidas.",
+    "Nadie sabía quién era esa persona. Nadie imaginó lo que vendría.",
+    "La trataron como si no valiera nada. El universo tomó nota.",
+    "Le dijeron que no pertenecía ahí. Tenían razón. Pertenecía a un lugar mucho más alto.",
+    "Solo sonrió. Porque sabía algo que todos ellos ignoraban.",
+    "No dijo nada. Las palabras que importan no se dicen.",
+    "Era la última persona que esperabas. Y la primera que cambió todo.",
+    "Cuarenta años de silencio. Un solo momento de verdad.",
+    "Parecía invisible. Era lo que necesitaba que pensaran.",
+    "Cuando todos miraban hacia arriba, ella ya había llegado.",
+    "Lo más poderoso no siempre se ve. A veces camina descalzo.",
+    "Ese día aprendieron lo que su madre les dijo de niños: nunca juzgues."
+  ],
+
+  captions: [
+    "¿Alguna vez te trataron mal por tu apariencia? 👇 Lee hasta el final",
+    "El que ríe último… 👀 dale play y descubre",
+    "Nunca juzgues un libro por su portada 📖 esto es la prueba",
+    "El karma llegó más rápido de lo esperado 😳",
+    "Cuando crees que ganaste… pero acabas de perder todo 🔄",
+    "Esto pasó de verdad. Y el final nadie lo vio venir 🎬",
+    "¿Qué habrías hecho tú en su lugar? 💬 Comenta abajo",
+    "La dignidad no necesita gritar. Solo esperar. ⏳",
+    "Guardaron silencio. Esa fue su venganza más poderosa. 🤫",
+    "Todo el dinero del mundo no compra lo que ella tenía 💛"
+  ]
+};
+
+// ═══════════════════════════════════════════════════════
+// UTILS
+// ═══════════════════════════════════════════════════════
+function pick(arr){ return arr[Math.floor(Math.random()*arr.length)] }
+function pickKey(obj){ const k=Object.keys(obj); return k[Math.floor(Math.random()*k.length)] }
+
+function resolveKey(val, obj){
+  return val === 'random' ? pickKey(obj) : val;
+}
+
+// ═══════════════════════════════════════════════════════
+// GENERATE
+// ═══════════════════════════════════════════════════════
+let lastJSON = null;
+
+function generate(){
+  const protKey = resolveKey(document.getElementById('prot').value, DB.protagonists);
+  const antKey  = resolveKey(document.getElementById('ant').value, DB.antagonists);
+  const twKey   = resolveKey(document.getElementById('twist').value, DB.twists);
+
+  const prot = DB.protagonists[protKey];
+  const ant  = DB.antagonists[antKey];
+  const tw   = DB.twists[twKey];
+
+  const name = pick(prot.names);
+  const revealRaw = pick(tw.reveal_lines);
+  const reveal = revealRaw.replace(/\{name\}/g, name);
+  const hook = pick(DB.hooks);
+  const caption = pick(DB.captions);
+  const backstory = pick(prot.backstory);
+
+  const tog_char    = document.getElementById('tog_char').checked;
+  const tog_scene   = document.getElementById('tog_scene').checked;
+  const tog_img     = document.getElementById('tog_img').checked;
+  const tog_script  = document.getElementById('tog_script').checked;
+  const tog_caption = document.getElementById('tog_caption').checked;
+
+  // ── CHARACTER PROMPTS ──
+  const charJSON = {
+    character: {
+      id: `char_${Date.now()}`,
+      archetype: prot.label,
+      name: name,
+      age_range: prot.age_range,
+      backstory: backstory,
+      personality: prot.personality,
+      voice_style: prot.voice_style,
+      veo3_character_prompt: {
+        appearance_es: prot.appearance,
+        appearance_en: prot.appearance_en,
+        veo3_style_tags: prot.veo_style,
+        full_veo3_prompt: `${prot.appearance_en}, ${prot.veo_style}, cinematic novela short film, ultra realistic`
+      }
+    }
+  };
+
+  // ── SCENE PROMPTS ──
+  const sceneJSON = {
+    scenes: [
+      {
+        scene_number: 1,
+        name: "Gancho — La llegada",
+        duration_seconds: 8,
+        description: `${name} llega a ${ant.location}. Nadie le presta atención al principio.`,
+        veo3_prompt_en: `${name}-type character (${prot.appearance_en}) walking into ${ant.location_en}, slow cinematic entrance, ${ant.camera}, realistic 4K, dramatic ambient sound, cinematic color grade`,
+        camera_direction: ant.camera,
+        atmosphere: ant.atmosphere,
+        audio: "ambient sound of location, no music yet, distant murmurs"
+      },
+      {
+        scene_number: 2,
+        name: "Conflicto — La humillación",
+        duration_seconds: 12,
+        description: `${ant.antagonist_type} confronta y humilla a ${name}. ${ant.conflict}.`,
+        veo3_prompt_en: `${ant.antagonist_look}, confronting humble protagonist, ${ant.atmosphere}, close-up on condescending expression, crowd watching, silent protagonist maintaining dignity, 4K cinematic, shallow depth of field`,
+        camera_direction: "close-up alternating between antagonist's disdain and protagonist's quiet dignity",
+        atmosphere: ant.atmosphere,
+        audio: "room goes quiet, only their voices audible, tension rising"
+      },
+      {
+        scene_number: 3,
+        name: "Pausa — El silencio poderoso",
+        duration_seconds: 5,
+        description: `${name} no reacciona. Solo respira. La cámara captura ese momento de dignidad silenciosa.`,
+        veo3_prompt_en: `extreme close-up on ${prot.appearance_en} face, dignified silence, slow breathing, eyes steady and calm, dramatic lighting, slow motion, 4K cinematic, profound emotional moment`,
+        camera_direction: "extreme close-up, very slow zoom in, hold for 3 seconds",
+        atmosphere: "absolute silence, all other sounds fade",
+        audio: "dead silence, then single note of piano or cello"
+      },
+      {
+        scene_number: 4,
+        name: "Giro — La revelación",
+        duration_seconds: 10,
+        description: reveal,
+        veo3_prompt_en: `${tw.veo_prompt}, ${ant.atmosphere}, all eyes turning to protagonist, antagonist's expression shifting from contempt to shock, protagonist unchanged and calm, 4K cinematic`,
+        camera_direction: tw.veo_prompt,
+        atmosphere: "collective shock, whispers spreading through room",
+        audio: "dramatic music sting, gasps from crowd, silence falling again"
+      },
+      {
+        scene_number: 5,
+        name: "Cierre — La partida",
+        duration_seconds: 6,
+        description: `${name} se va sin decir más. El silencio lo dice todo.`,
+        veo3_prompt_en: `${prot.appearance_en} walking away slowly from ${ant.location_en}, backs to camera, slow dignified exit, everyone watching in silence, epic wide shot, golden hour lighting, 4K cinematic`,
+        camera_direction: "wide shot, protagonist small against grand space, slow pull back",
+        atmosphere: "aftermath silence, weight of what happened hanging in air",
+        audio: "footsteps fading, then emotional orchestral swell"
+      }
+    ]
+  };
+
+  // ── IMAGE PROMPTS ──
+  const imgJSON = {
+    image_prompts: {
+      thumbnail: {
+        purpose: "Miniatura viral del Reel",
+        prompt_en: `Dramatic split composition: left side shows ${prot.appearance_en} in humble setting, right side shows same person revealed as powerful. Bold contrast lighting, cinematic color grade, no text, emotional impact, ultra realistic 4K`,
+        prompt_es: `Composición dividida dramática: lado izquierdo ${prot.appearance} en entorno humilde, lado derecho la misma persona revelada con poder. Iluminación contrastante, sin texto, impacto emocional`,
+        style: "Cinematic split, hyper-realistic, dramatic lighting",
+        aspect_ratio: "9:16 (vertical Reel)",
+        negative_prompt: "cartoon, anime, text overlay, watermark, blurry, low quality"
+      },
+      scene_establishing: {
+        purpose: "Imagen inicial de escenario",
+        prompt_en: `${ant.location_en}, empty establishing shot before protagonist arrives, ${ant.atmosphere}, ultra realistic, architectural photography style, perfect composition, 4K`,
+        style: "Architectural, establishing shot, realistic",
+        aspect_ratio: "9:16"
+      },
+      character_portrait: {
+        purpose: "Retrato oficial del personaje",
+        prompt_en: `Portrait of ${prot.appearance_en}, ${prot.veo_style}, no background distractions, character study, cinematic lighting, emotional depth, ultra realistic 4K portrait`,
+        style: "Character portrait, cinematic, ultra realistic",
+        aspect_ratio: "1:1 (perfil)"
+      },
+      climax_moment: {
+        purpose: "Momento del giro dramático",
+        prompt_en: `${tw.veo_prompt}, ${prot.appearance_en} at center, ${ant.antagonist_look} in background reacting with shock, dramatic lighting emphasizing protagonist's calm power, ultra realistic 4K cinematic`,
+        style: "Dramatic, high contrast, cinematic still",
+        aspect_ratio: "9:16"
+      },
+      antagonist_reaction: {
+        purpose: "Reacción del antagonista al descubrir la verdad",
+        prompt_en: `${ant.antagonist_look}, expression changing from arrogance to shock and shame, mouth slightly open, eyes wide, pale complexion, dramatic close-up, realistic, 4K`,
+        style: "Emotional close-up, realistic",
+        aspect_ratio: "9:16"
+      }
+    }
+  };
+
+  // ── FULL SCRIPT ──
+  const scriptJSON = {
+    script: {
+      title: `${hook.split('.')[0]}`,
+      hook_line: hook,
+      total_duration: "41 segundos",
+      protagonist: name,
+      archetype: prot.label,
+      location: ant.location,
+      conflict_type: ant.label,
+      resolution: tw.label,
+      full_narration: [
+        { timecode: "00:00", type: "HOOK", text: hook },
+        { timecode: "00:03", type: "ACCIÓN", text: `${name} llegó a ${ant.location}. Ropa sencilla. Paso tranquilo. Nadie la vio llegar.` },
+        { timecode: "00:08", type: "CONFLICTO", text: `${ant.antagonist_type}: "${ant.conflict}." Las palabras cayeron como piedras.` },
+        { timecode: "00:16", type: "SILENCIO", text: `${name} no respondió. Solo los miró. Esa mirada que conoce el precio de todo sin presumirlo.` },
+        { timecode: "00:22", type: "ACCIÓN", text: `Sacó algo. Un papel. Una placa. Un teléfono. Nadie entendió aún.` },
+        { timecode: "00:27", type: "GIRO", text: reveal },
+        { timecode: "00:34", type: "CIERRE", text: `${name} recogió sus cosas y se fue. Sin apresurarse. Sin voltear. Sin decir nada más.` },
+        { timecode: "00:38", type: "EPÍLOGO", text: `Porque las personas que realmente tienen poder no necesitan demostrarlo.` }
+      ]
+    }
+  };
+
+  // ── CAPTION ──
+  const captionJSON = {
+    caption: {
+      main: caption,
+      hashtags: ["#LaVerdadOculta","#NovelasCortas","#HistoriasVirales","#VideoIA","#Veo3","#ReelsVirales","#Shorts","#HistoriasReales","#Dignidad","#Justicia"],
+      call_to_action: "¿Te identificaste con esta historia? 💬 Comenta y comparte",
+      hook_for_caption: hook,
+      full_caption_ready: `${hook}\n\n${caption}\n\n${["#LaVerdadOculta","#NovelasCortas","#HistoriasVirales","#VideoIA","#Veo3","#ReelsVirales","#Shorts","#HistoriasReales"].join(' ')}`
+    }
+  };
+
+  // ── FULL JSON ──
+  const full = {};
+  if(tog_char)    full.character_prompts = charJSON;
+  if(tog_scene)   full.scene_prompts = sceneJSON;
+  if(tog_img)     full.image_prompts = imgJSON;
+  if(tog_script)  full.script = scriptJSON;
+  if(tog_caption) full.caption_and_social = captionJSON;
+
+  lastJSON = full;
+
+  renderAll(full, charJSON, sceneJSON, imgJSON, scriptJSON, captionJSON, tog_char, tog_scene, tog_img, tog_script, tog_caption);
+}
+
+// ═══════════════════════════════════════════════════════
+// RENDER
+// ═══════════════════════════════════════════════════════
+function renderAll(full, char, scene, img, script, caption, tc, ts, ti, tsc, tcap){
+  // ALL tab
+  document.getElementById('panel_all').innerHTML = makeBlock("JSON Completo — listo para copiar", JSON.stringify(full, null, 2));
+
+  // CHARS tab
+  if(tc){
+    const c = char.character;
+    document.getElementById('panel_chars').innerHTML = `
+      <div class="card-grid">
+        <div class="mini-card"><div class="mini-card-tag">Nombre</div><div class="mini-card-name">${c.name}</div><div class="mini-card-desc">${c.archetype} · ${c.age_range}</div></div>
+        <div class="mini-card"><div class="mini-card-tag">Historia</div><div class="mini-card-name" style="font-size:13px;line-height:1.5">${c.backstory}</div></div>
+        <div class="mini-card"><div class="mini-card-tag">Personalidad</div><div class="mini-card-name" style="font-size:13px;line-height:1.5">${c.personality}</div></div>
+        <div class="mini-card"><div class="mini-card-tag">Voz</div><div class="mini-card-name" style="font-size:13px;line-height:1.5">${c.voice_style}</div></div>
+      </div>
+      ${makeBlock("Prompt completo Veo 3 — Personaje", JSON.stringify(char, null, 2))}
+    `;
+  } else {
+    document.getElementById('panel_chars').innerHTML = '<div class="empty"><div class="big">⚠️</div><p>Activa "Prompts de personaje" en el panel izquierdo</p></div>';
+  }
+
+  // SCENES tab
+  if(ts){
+    const cards = scene.scenes.map(s=>`
+      <div class="mini-card">
+        <div class="mini-card-tag">Escena ${s.scene_number} · ${s.duration_seconds}s</div>
+        <div class="mini-card-name">${s.name}</div>
+        <div class="mini-card-desc">${s.description}</div>
+        <div class="mini-card-badge">${s.audio}</div>
+      </div>
+    `).join('');
+    document.getElementById('panel_scenes').innerHTML = `
+      <div class="card-grid">${cards}</div>
+      ${makeBlock("Prompts Veo 3 — Todas las escenas", JSON.stringify(scene, null, 2))}
+    `;
+  } else {
+    document.getElementById('panel_scenes').innerHTML = '<div class="empty"><div class="big">⚠️</div><p>Activa "Prompts de escena"</p></div>';
+  }
+
+  // IMAGES tab
+  if(ti){
+    const imgs = Object.entries(img.image_prompts).map(([k,v])=>`
+      <div class="mini-card">
+        <div class="mini-card-tag">${k}</div>
+        <div class="mini-card-name">${v.purpose}</div>
+        <div class="mini-card-desc" style="margin-top:6px;font-size:11px;color:rgba(205,217,229,.6)">${v.prompt_en.substring(0,120)}…</div>
+        <div class="mini-card-badge">${v.aspect_ratio}</div>
+      </div>
+    `).join('');
+    document.getElementById('panel_images').innerHTML = `
+      <div class="card-grid">${imgs}</div>
+      ${makeBlock("Prompts de imagen completos", JSON.stringify(img, null, 2))}
+    `;
+  } else {
+    document.getElementById('panel_images').innerHTML = '<div class="empty"><div class="big">⚠️</div><p>Activa "Prompts de imagen"</p></div>';
+  }
+
+  // SCRIPT tab
+  let scriptContent = '<div class="empty"><div class="big">⚠️</div><p>Activa "Guión completo" y/o "Caption viral"</p></div>';
+  if(tsc || tcap){
+    const combined = {};
+    if(tsc) combined.script = script;
+    if(tcap) combined.caption = caption;
+    scriptContent = makeBlock("Guión + Caption — Listo para publicar", JSON.stringify(combined, null, 2));
+  }
+  document.getElementById('panel_script').innerHTML = scriptContent;
+}
+
+function makeBlock(title, jsonStr){
+  const id = 'jb_'+Math.random().toString(36).slice(2,8);
+  return `
+    <div class="json-block">
+      <div class="json-block-header">
+        <span class="json-block-title">${title}</span>
+        <button class="copy-btn" onclick="copyJSON('${id}',this)">Copiar</button>
+      </div>
+      <div class="json-pre" id="${id}">${syntaxHL(jsonStr)}</div>
+    </div>
+  `;
+}
+
+function syntaxHL(str){
+  return str
+    .replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;')
+    .replace(/"([^"]+)":/g,'<span class="jk">"$1"</span>:')
+    .replace(/: "([^"]*)"/g,': <span class="js">"$1"</span>')
+    .replace(/: (\d+\.?\d*)/g,': <span class="jn">$1</span>')
+    .replace(/: (true|false|null)/g,': <span class="jb">$1</span>')
+    .replace(/([{}\[\],])/g,'<span class="jp">$1</span>');
+}
+
+function copyJSON(id, btn){
+  const el = document.getElementById(id);
+  const text = el.innerText;
+  navigator.clipboard.writeText(text).then(()=>{
+    btn.textContent = '✓ Copiado';
+    btn.classList.add('ok');
+    setTimeout(()=>{ btn.textContent='Copiar'; btn.classList.remove('ok'); },2000);
+  });
+}
+
+function switchTab(name){
+  document.querySelectorAll('.tab').forEach(t=>t.classList.remove('active'));
+  document.querySelectorAll('.panel').forEach(p=>p.classList.remove('active'));
+  event.target.classList.add('active');
+  document.getElementById('panel_'+name).classList.add('active');
+}
+</script>
+<script src="apps-menu.js"></script>
+</body>
+</html>
