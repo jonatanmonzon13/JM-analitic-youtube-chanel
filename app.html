@@ -784,8 +784,30 @@ function salir(){
   location.reload();
 }
 
+function resumeSession(){
+  let email=''; try{ email=(localStorage.getItem('jm_user')||'').toLowerCase(); }catch(e){}
+  if(!email || !AUTORIZADOS.includes(email)) return false;
+  $('#gate').classList.add('hidden');
+  $('#logout').style.display = 'block';
+  USER_EMAIL = email;
+  const isAdmin = ADMINS.map(a => String(a).trim().toLowerCase()).includes(email);
+  if(isAdmin){
+    $('#tab-admin').style.display = '';
+    ADMIN_LIST = AUTORIZADOS.slice();
+    ADMIN_APPS = APPS.map(a => ({id:a.id, nombre:a.nombre, archivo:a.archivo}));
+    ADMIN_ACCESOS = {}; for(const k in ACCESOS) ADMIN_ACCESOS[k] = ACCESOS[k].slice();
+  }
+  const allIds = APPS.map(a => a.id);
+  try{
+    localStorage.setItem('jm_user', email);
+    localStorage.setItem('jm_apps', JSON.stringify(APPS));
+    localStorage.setItem('jm_access', isAdmin ? 'all' : JSON.stringify(ACCESOS[email] || allIds));
+  }catch{}
+  buildAppsMenu();
+  return true;
+}
 function initGate(){
-  cargarAutorizados().then(esperarGoogle);
+  cargarAutorizados().then(()=>{ const resumed = resumeSession(); esperarGoogle(resumed); });
 }
 
 async function cargarAutorizados(){
@@ -805,8 +827,8 @@ async function cargarAutorizados(){
   }
 }
 
-function esperarGoogle(){
-  if(typeof google === 'undefined' || !google.accounts){ setTimeout(esperarGoogle, 250); return; }
+function esperarGoogle(resumed){
+  if(typeof google === 'undefined' || !google.accounts){ setTimeout(()=>esperarGoogle(resumed), 250); return; }
   google.accounts.id.initialize({
     client_id: GOOGLE_CLIENT_ID,
     callback: onGoogleLogin,
@@ -814,7 +836,7 @@ function esperarGoogle(){
   });
   google.accounts.id.renderButton($('#gbtn'),
     { theme:'filled_black', size:'large', shape:'pill', text:'signin_with', locale:'es' });
-  google.accounts.id.prompt();   // intento de inicio automático para quien ya entró antes
+  if(!resumed) google.accounts.id.prompt();   // solo auto-login si no había sesión guardada
 }
 window.addEventListener('DOMContentLoaded', initGate);
 
