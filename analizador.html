@@ -1,0 +1,345 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>JM · Analizador de Video</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Sora:wght@400;600;700;800&family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@500;700&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --bg:#05060C; --bg2:#0B0E18; --bg3:#11141F; --ink:#F6F8FE; --body:#C7CEDE; --muted:#828DA6;
+    --line:#222842; --gold:#E7B85C; --gold2:#F8DA8E; --blue:#4D8DFF; --pink:#FF3D9A; --violet:#9B5CFF;
+    --cyan:#26D9FF; --lime:#5BF08E; --red:#FF4D5E;
+    --grad-hot:linear-gradient(100deg,#FF3D9A,#9B5CFF 52%,#26D9FF);
+    --grad-gold:linear-gradient(135deg,#F8DA8E,#E7B85C);
+    --glow-pink:0 0 26px rgba(255,61,154,.38); --glow-cyan:0 0 26px rgba(38,217,255,.34);
+    --radius:16px;
+    --display:'Sora',sans-serif; --sans:'Inter',sans-serif; --mono:'JetBrains Mono',monospace;
+  }
+  *{box-sizing:border-box;margin:0;padding:0}
+  html,body{height:100%}
+  body{background:radial-gradient(1200px 700px at 80% -10%,rgba(155,92,255,.10),transparent 60%),radial-gradient(900px 600px at -5% 8%,rgba(38,217,255,.07),transparent 55%),linear-gradient(180deg,var(--bg),#04050A);color:var(--body);font-family:var(--sans);line-height:1.55;min-height:100%;overflow-x:hidden}
+  .glowfield{position:fixed;inset:0;z-index:0;pointer-events:none;overflow:hidden}
+  .glowfield::before,.glowfield::after,.glowfield i{content:"";position:absolute;border-radius:50%;filter:blur(70px);opacity:.5}
+  .glowfield::before{width:46vw;height:46vw;left:-8vw;top:-10vw;background:radial-gradient(circle,rgba(255,61,154,.5),transparent 65%);animation:drift1 26s ease-in-out infinite}
+  .glowfield::after{width:40vw;height:40vw;right:-6vw;top:8vw;background:radial-gradient(circle,rgba(38,217,255,.45),transparent 65%);animation:drift2 30s ease-in-out infinite}
+  .glowfield i{position:absolute;width:38vw;height:38vw;left:30vw;bottom:-12vw;border-radius:50%;filter:blur(70px);opacity:.5;background:radial-gradient(circle,rgba(155,92,255,.5),transparent 65%);animation:drift3 34s ease-in-out infinite}
+  @keyframes drift1{0%,100%{transform:translate(0,0) scale(1)}50%{transform:translate(8vw,6vw) scale(1.15)}}
+  @keyframes drift2{0%,100%{transform:translate(0,0) scale(1)}50%{transform:translate(-7vw,5vw) scale(1.1)}}
+  @keyframes drift3{0%,100%{transform:translate(0,0) scale(1)}50%{transform:translate(5vw,-8vw) scale(1.2)}}
+  @media(prefers-reduced-motion:reduce){.glowfield::before,.glowfield::after,.glowfield i{animation:none}}
+
+  .wrap{position:relative;z-index:1;max-width:1040px;margin:0 auto;padding:30px 20px 80px}
+  header.hero{text-align:center;padding:8px 0 20px;border-bottom:1px solid var(--line);margin-bottom:26px;position:relative;overflow:hidden}
+  .godrays{position:absolute;left:50%;transform:translateX(-50%);top:-18px;width:560px;max-width:100%;height:300px;z-index:0;pointer-events:none;background:radial-gradient(420px 280px at 50% 36%,rgba(38,217,255,.14),transparent 70%),conic-gradient(from 0deg at 50% 6%,transparent 128deg,rgba(248,218,142,.14) 137deg,transparent 145deg,rgba(255,61,154,.12) 156deg,transparent 168deg,rgba(38,217,255,.14) 176deg,transparent 188deg,rgba(155,92,255,.12) 200deg,transparent 212deg,rgba(248,218,142,.12) 222deg,transparent 232deg,transparent 360deg);filter:blur(3px);opacity:.85;animation:sway 16s ease-in-out infinite}
+  @keyframes sway{0%,100%{transform:translateX(-50%) rotate(-2.5deg)}50%{transform:translateX(-50%) rotate(2.5deg)}}
+  header.hero>*:not(.godrays){position:relative;z-index:1}
+  .logo-mark{display:inline-flex;align-items:center;justify-content:center;width:60px;height:60px;border-radius:16px;background:var(--grad-gold);box-shadow:var(--glow-pink);font-family:var(--display);font-weight:800;font-size:22px;color:#0A0D14;margin-bottom:12px;letter-spacing:-1px}
+  .kicker{display:inline-flex;align-items:center;gap:10px;font-family:var(--mono);font-size:11px;letter-spacing:3px;text-transform:uppercase;color:var(--muted);margin-bottom:14px;background:var(--bg3);border:1px solid var(--line);padding:6px 14px 6px 6px;border-radius:30px}
+  .logo-mini{display:inline-flex;align-items:center;justify-content:center;width:28px;height:28px;border-radius:8px;background:var(--grad-gold);color:#0A0D14;font-family:var(--display);font-weight:800;font-size:12px;box-shadow:var(--glow-pink)}
+  .keyrow{display:flex;gap:10px;align-items:stretch;flex-wrap:wrap}
+  .keyrow input{flex:1;min-width:220px}
+  .btn-mini{font-family:var(--display);font-weight:700;font-size:12.5px;border:1px solid var(--line);border-radius:11px;padding:0 18px;cursor:pointer;background:var(--bg3);color:var(--gold2);transition:.16s;white-space:nowrap}
+  .btn-mini:hover{border-color:var(--gold);transform:translateY(-1px)}
+  .btn-mini.gold{background:var(--grad-gold);color:#0A0D14;border-color:transparent}
+  @keyframes rise{from{opacity:0;transform:translateY(14px)}to{opacity:1;transform:translateY(0)}}
+  h1{font-family:var(--display);font-weight:800;font-size:clamp(28px,5.5vw,46px);line-height:1.05;letter-spacing:-.5px;background:var(--grad-hot);-webkit-background-clip:text;background-clip:text;-webkit-text-fill-color:transparent;background-size:200% auto;animation:hue 8s linear infinite}
+  @keyframes hue{to{background-position:200% center}}
+  h1 .small{display:block;font-family:var(--mono);font-size:.30em;letter-spacing:5px;color:var(--gold2);-webkit-text-fill-color:var(--gold2);font-weight:500;text-transform:uppercase;margin-top:9px}
+  .tagline{color:var(--muted);font-size:13.5px;margin-top:11px;max-width:760px;margin-left:auto;margin-right:auto}
+  .pills{display:flex;justify-content:center;flex-wrap:wrap;gap:9px;margin-top:14px}
+  .pill{font-family:var(--mono);font-size:11px;padding:5px 12px;border-radius:20px;border:1px solid var(--line);background:var(--bg3);color:var(--cyan)}
+  .pill:nth-child(even){color:var(--pink)} .pill:nth-child(3n){color:var(--gold2)}
+
+  .panel{background:linear-gradient(180deg,var(--bg2),var(--bg3));border:1px solid var(--line);border-radius:var(--radius);padding:22px;margin-bottom:20px;box-shadow:0 18px 50px rgba(0,0,0,.45);animation:rise .5s ease both}
+  .panel:nth-of-type(2){animation-delay:.07s}
+  .panel:nth-of-type(3){animation-delay:.13s}
+  .panel-title{font-family:var(--display);font-size:19px;font-weight:700;color:var(--ink);display:flex;align-items:center;gap:10px;margin-bottom:6px}
+  .panel-title::before{content:"";width:6px;height:21px;background:var(--grad-hot);border-radius:3px;display:inline-block}
+  .panel-sub{color:var(--muted);font-size:13px;margin-bottom:16px}
+  label.fld{display:block;font-family:var(--mono);font-size:11px;text-transform:uppercase;letter-spacing:1px;color:var(--gold2);margin-bottom:6px;font-weight:700}
+  input[type=text],input[type=password]{width:100%;background:var(--bg3);border:1px solid var(--line);border-radius:11px;color:var(--ink);padding:12px 13px;font-family:var(--sans);font-size:14px;outline:none;transition:.18s}
+  input:focus{border-color:var(--cyan);box-shadow:var(--glow-cyan)}
+  .hint{font-size:11.5px;color:var(--muted);margin-top:6px}
+  .or{text-align:center;color:var(--muted);font-family:var(--mono);font-size:11px;letter-spacing:2px;text-transform:uppercase;margin:14px 0}
+  .drop{display:block;width:100%;border:2px dashed rgba(38,217,255,.4);border-radius:12px;padding:24px;text-align:center;cursor:pointer;transition:.2s;background:rgba(38,217,255,.04)}
+  .drop:hover{border-color:var(--cyan);background:rgba(38,217,255,.08)}
+  .drop input{display:none}
+  .drop .ic{font-size:30px;margin-bottom:6px}
+  .drop .t{color:var(--ink);font-weight:600;font-size:14px}
+  .drop .s{color:var(--muted);font-size:11.5px;margin-top:3px;font-family:var(--mono)}
+  .fname{font-size:12.5px;color:var(--lime);margin-top:10px;font-weight:700;font-family:var(--mono)}
+  .btn{font-family:var(--display);font-weight:700;font-size:14px;border:none;border-radius:11px;padding:14px 22px;cursor:pointer;transition:.16s;display:inline-flex;align-items:center;gap:9px;justify-content:center;width:100%}
+  .btn-gold{background:var(--grad-gold);color:#0A0D14;box-shadow:0 8px 24px rgba(231,184,92,.28)}
+  .btn-gold:hover{transform:translateY(-2px);box-shadow:0 12px 30px rgba(231,184,92,.42)}
+  .btn:disabled{opacity:.45;cursor:not-allowed;transform:none!important}
+  .statusrow{display:flex;align-items:center;gap:9px;margin-bottom:12px;flex-wrap:wrap}
+  .badge{display:inline-flex;align-items:center;gap:8px;font-family:var(--mono);font-size:12px;padding:6px 13px;border-radius:20px;border:1px solid var(--line);background:var(--bg3);color:var(--body)}
+  .dot{width:8px;height:8px;border-radius:50%;background:var(--muted);flex:0 0 auto}
+  .bar{height:6px;background:var(--bg3);border:1px solid var(--line);border-radius:6px;overflow:hidden;margin-top:10px;display:none}
+  .bar > i{display:block;height:100%;width:0;background:var(--grad-hot);transition:width .3s}
+  .spinner{width:15px;height:15px;border:2px solid rgba(255,255,255,.2);border-top-color:var(--cyan);border-radius:50%;animation:spin .7s linear infinite;display:inline-block;vertical-align:middle}
+  @keyframes spin{to{transform:rotate(360deg)}}
+
+  .tabbar{display:flex;gap:8px;flex-wrap:wrap;margin-bottom:18px}
+  .tabbtn{font-family:var(--mono);font-size:11.5px;letter-spacing:.5px;text-transform:uppercase;padding:10px 16px;border-radius:10px;border:1px solid var(--line);background:var(--bg3);color:var(--muted);cursor:pointer;transition:.16s;font-weight:700}
+  .tabbtn:hover{border-color:var(--cyan);color:var(--ink)}
+  .tabbtn.active{background:var(--grad-hot);color:#0A0D14;border-color:transparent}
+  .view{display:none}
+  .view.active{display:block;animation:fade .35s ease}
+  @keyframes fade{from{opacity:0;transform:translateY(10px)}to{opacity:1;transform:translateY(0)}}
+  .block{background:#070912;border:1px solid var(--line);border-radius:var(--radius);overflow:hidden}
+  .block-head{display:flex;align-items:center;justify-content:space-between;padding:12px 16px;border-bottom:1px solid var(--line);background:var(--bg3)}
+  .block-title{font-family:var(--display);font-size:14px;color:var(--gold2);font-weight:700}
+  .copy-btn{font-family:var(--mono);font-size:11px;font-weight:700;padding:6px 13px;border-radius:8px;background:var(--bg3);border:1px solid var(--line);color:var(--gold2);cursor:pointer;transition:.16s}
+  .copy-btn:hover{border-color:var(--gold)}
+  .copy-btn.ok{background:var(--grad-gold);color:#0A0D14;border-color:transparent}
+  .out{padding:18px;font-family:var(--mono);font-size:12.5px;line-height:1.75;white-space:pre-wrap;word-break:break-word;max-height:560px;overflow:auto;color:#dfe5f2}
+  .out::-webkit-scrollbar{width:6px}.out::-webkit-scrollbar-thumb{background:var(--cyan);border-radius:3px}
+  .empty{text-align:center;padding:64px 20px;color:var(--muted)}
+  .empty .big{font-size:42px;margin-bottom:10px}
+  footer{text-align:center;color:var(--muted);font-size:12px;margin-top:28px;font-family:var(--mono)}
+</style>
+</head>
+<body>
+<div class="glowfield"><i></i></div>
+<div class="wrap">
+
+  <header class="hero">
+    <div class="godrays"></div>
+    <div class="kicker"><span class="logo-mini">JM</span> Suite de video · IA</div>
+    <h1>Analizador de Video</h1>
+    <p class="tagline">Subí un video (o pegá un link de YouTube) y obtené su guion exacto + dos master prompts: uno para escribir guiones con la misma estructura y otro para replicar el video.</p>
+    <div class="pills">
+      <span class="pill">📝 Guion exacto</span>
+      <span class="pill">🧬 Master de estructura</span>
+      <span class="pill">🎬 Master para replicar</span>
+      <span class="pill">📥 YouTube · TikTok · IG · Facebook</span>
+    </div>
+  </header>
+
+  <section class="panel">
+    <div class="panel-title">Conexión</div>
+    <p class="panel-sub">Usa la misma clave de Gemini del sistema. Si ya la cargaste en la app principal, aparece sola.</p>
+    <label class="fld">API Key de Gemini</label>
+    <div class="keyrow">
+      <input type="password" id="apiKey" placeholder="AIza…" autocomplete="off">
+      <button class="btn-mini gold" id="saveKey" onclick="saveKey()">💾 Guardar</button>
+      <button class="btn-mini" id="replaceKey" onclick="replaceKey()">↻ Reemplazar</button>
+    </div>
+    <div class="hint" id="keyHint">⚠ Queda solo en tu navegador. Es gratis en aistudio.google.com/apikey · se comparte con la app principal.</div>
+  </section>
+
+  <section class="panel">
+    <div class="panel-title">El video</div>
+    <p class="panel-sub">YouTube: pegá el link. <b>TikTok, Instagram y Facebook</b>: descargá el clip y subilo acá (esas plataformas no se pueden leer por link). Soporta videos pesados.</p>
+    <label class="fld">Link de YouTube</label>
+    <input type="text" id="ytUrl" placeholder="https://www.youtube.com/watch?v=…  o  https://youtu.be/…">
+    <div class="or">— o subí el archivo —</div>
+    <label class="drop" id="drop">
+      <div class="ic">🎞️</div>
+      <div class="t">Tocá para subir un video</div>
+      <div class="s">mp4, mov, webm… · TikTok / Instagram / Facebook / cualquiera</div>
+      <input type="file" id="fileInput" accept="video/*">
+      <div class="fname" id="fname"></div>
+    </label>
+  </section>
+
+  <section class="panel">
+    <div class="panel-title">Analizar</div>
+    <div class="statusrow"><span class="badge"><span class="dot" id="dot"></span><span id="statusTxt">Listo para analizar</span></span></div>
+    <div class="bar" id="bar"><i id="barFill"></i></div>
+    <button class="btn btn-gold" id="btnGo" onclick="analyze()" style="margin-top:12px">⚡ Extraer guion y master prompts</button>
+    <div class="hint">Los videos largos/pesados tardan más (se suben a Gemini y se procesan). No cierres la pestaña.</div>
+  </section>
+
+  <div class="tabbar">
+    <button class="tabbtn active" onclick="switchTab('guion')">📝 Guion exacto</button>
+    <button class="tabbtn" onclick="switchTab('similar')">🧬 Master · guiones similares</button>
+    <button class="tabbtn" onclick="switchTab('replica')">🎬 Master · replicar video</button>
+  </div>
+
+  <div id="view_guion" class="view active"><div class="empty"><div class="big">📝</div><p>Acá aparece la transcripción / guion exacto del video.</p></div></div>
+  <div id="view_similar" class="view"><div class="empty"><div class="big">🧬</div><p>Acá aparece el master prompt para escribir guiones con la misma estructura.</p></div></div>
+  <div id="view_replica" class="view"><div class="empty"><div class="big">🎬</div><p>Acá aparece el master prompt (en inglés) para replicar el video.</p></div></div>
+
+  <footer><b style="color:var(--gold2)">JM</b> · Analizador de Video — guion exacto + master prompts con Gemini</footer>
+</div>
+
+<script>
+const $=id=>document.getElementById(id);
+const MODEL='gemini-2.5-flash';
+const API='https://generativelanguage.googleapis.com';
+const INLINE_MAX=15*1048576; // 15 MB → inline; más grande → Files API
+
+function status(msg,color){ $("statusTxt").textContent=msg; $("dot").style.background=color||"var(--muted)"; }
+function setBar(pct){ const b=$("bar"); if(pct===null){b.style.display="none";return;} b.style.display="block"; $("barFill").style.width=Math.max(2,Math.min(100,pct))+"%"; }
+
+/* ── Clave compartida con la app principal (jmbots_keys.an) ── */
+function loadKeys(){ try{ return JSON.parse(localStorage.getItem('jmbots_keys')||'{}'); }catch(e){ return {}; } }
+function setKeyHint(msg,color){ const h=$("keyHint"); h.textContent=msg; h.style.color=color||"var(--muted)"; }
+(function initKey(){
+  const ks=loadKeys();
+  if(ks.an){ $("apiKey").value=ks.an; setKeyHint("✓ Clave del sistema cargada. Tocá Reemplazar para cambiarla.","var(--lime)"); }
+})();
+function saveKey(){
+  const v=$("apiKey").value.trim();
+  if(!v){ setKeyHint("Pegá una clave antes de guardar.","var(--pink)"); return; }
+  try{ const ks=loadKeys(); ks.an=v; localStorage.setItem('jmbots_keys',JSON.stringify(ks)); }catch(e){}
+  const b=$("saveKey"); const o=b.textContent; b.textContent="✓ Guardada"; setTimeout(()=>b.textContent=o,1600);
+  setKeyHint("✓ Clave guardada en este navegador (y compartida con la app principal).","var(--lime)");
+}
+function replaceKey(){
+  $("apiKey").value=""; $("apiKey").focus();
+  setKeyHint("Ingresá la nueva clave y tocá Guardar.","var(--gold2)");
+}
+
+$("fileInput").addEventListener('change',function(){
+  const f=this.files[0];
+  if(f){ $("fname").textContent="✓ "+f.name+" ("+(f.size/1048576).toFixed(1)+" MB)"; $("ytUrl").value=""; }
+});
+$("ytUrl").addEventListener('input',function(){ if(this.value.trim()){ $("fileInput").value=""; $("fname").textContent=""; } });
+
+function isYouTube(u){ return /youtu\.?be|youtube\.com/i.test(u); }
+function isOtherSocial(u){ return /tiktok\.com|instagram\.com|facebook\.com|fb\.watch|fb\.com/i.test(u); }
+function toBase64(file){ return new Promise((res,rej)=>{ const r=new FileReader(); r.onload=()=>res(r.result.split(',')[1]); r.onerror=rej; r.readAsDataURL(file); }); }
+
+function section(txt,start,ends){
+  const s=txt.indexOf(start); if(s<0) return "";
+  let from=s+start.length, end=txt.length;
+  ends.forEach(t=>{ const e=txt.indexOf(t,from); if(e>=0 && e<end) end=e; });
+  return txt.slice(from,end).trim();
+}
+function showBlock(viewId,title,content){
+  const id='b_'+Math.random().toString(36).slice(2,7);
+  $(viewId).innerHTML=`<div class="block"><div class="block-head"><span class="block-title">${title}</span><button class="copy-btn" onclick="copyBlock('${id}',this)">⧉ Copiar</button></div><div class="out" id="${id}"></div></div>`;
+  $(id).textContent=content||"(El modelo no devolvió esta sección. Probá de nuevo o con otro video.)";
+}
+function copyBlock(id,btn){ navigator.clipboard.writeText($(id).textContent).then(()=>{ btn.textContent='✓ Copiado'; btn.classList.add('ok'); setTimeout(()=>{btn.textContent='⧉ Copiar';btn.classList.remove('ok');},2000); }); }
+function switchTab(name){
+  document.querySelectorAll('.tabbtn').forEach(t=>t.classList.remove('active'));
+  document.querySelectorAll('.view').forEach(p=>p.classList.remove('active'));
+  event.target.classList.add('active');
+  $('view_'+name).classList.add('active');
+}
+
+/* ── Files API (videos pesados) ── */
+async function uploadFile(file,key){
+  const num=file.size;
+  const start=await fetch(API+"/upload/v1beta/files?key="+encodeURIComponent(key),{
+    method:"POST",
+    headers:{
+      "X-Goog-Upload-Protocol":"resumable",
+      "X-Goog-Upload-Command":"start",
+      "X-Goog-Upload-Header-Content-Length":String(num),
+      "X-Goog-Upload-Header-Content-Type":file.type||"video/mp4",
+      "Content-Type":"application/json"
+    },
+    body:JSON.stringify({file:{display_name:file.name||"video"}})
+  });
+  const uploadUrl=start.headers.get("x-goog-upload-url");
+  if(!uploadUrl) throw new Error("No se pudo iniciar la subida (el navegador puede estar bloqueando la Files API por CORS). Probá con un clip más corto o un link de YouTube.");
+  const up=await fetch(uploadUrl,{
+    method:"POST",
+    headers:{ "X-Goog-Upload-Offset":"0", "X-Goog-Upload-Command":"upload, finalize", "Content-Type":file.type||"video/mp4" },
+    body:file
+  });
+  const data=await up.json();
+  if(data.error) throw new Error(data.error.message);
+  return data.file;
+}
+async function waitActive(fileUri,key){
+  for(let i=0;i<80;i++){
+    const r=await fetch(fileUri+"?key="+encodeURIComponent(key));
+    const d=await r.json();
+    if(d.error) throw new Error(d.error.message);
+    if(d.state==="ACTIVE") return d;
+    if(d.state==="FAILED") throw new Error("El procesamiento del video falló en Gemini.");
+    setBar(20+Math.min(70,i*4));
+    await new Promise(res=>setTimeout(res,2500));
+  }
+  throw new Error("El video tardó demasiado en procesarse.");
+}
+
+const INSTRUCTION=`Analizá este video y respondé SOLO en español latino, en TRES secciones separadas EXACTAMENTE por estas etiquetas, cada una en su propia línea:
+
+=== GUION EXACTO ===
+Transcribí textualmente TODO lo que se habla, palabra por palabra, con marcas de tiempo aproximadas [mm:ss]. Si hay varias voces, etiquetá quién habla. Agregá entre paréntesis las acotaciones visuales o de acción más importantes.
+
+=== MASTER PROMPT GUIONES SIMILARES ===
+Escribí un prompt reutilizable (en español) que capture la ESTRUCTURA, el tono, el ritmo, los ganchos y la fórmula del guion, para que una IA pueda escribir guiones NUEVOS con la misma estructura sobre cualquier tema. Detallá las secciones, la duración aproximada de cada bloque, el estilo de diálogo y el tipo de gancho y cierre.
+
+=== MASTER PROMPT REPLICAR VIDEO ===
+Escribí un prompt detallado EN INGLÉS, listo para generadores de video (Veo 3 / Kling), que permita REPLICAR este video lo más fielmente posible: descripción de personajes, vestuario, escenarios, estética visual, paleta de color, tipo de cámara y planos, iluminación, edición, ritmo y una descripción toma por toma.
+
+No escribas nada fuera de esas tres secciones.`;
+
+async function analyze(){
+  const key=$("apiKey").value.trim();
+  if(!key){ status("Pegá tu API key de Gemini","var(--pink)"); return; }
+  const url=$("ytUrl").value.trim();
+  const file=$("fileInput").files[0];
+  if(!url && !file){ status("Pegá un link de YouTube o subí un video","var(--pink)"); return; }
+
+  $("btnGo").disabled=true;
+  let mediaPart;
+  try{
+    if(url){
+      if(isOtherSocial(url)){ throw new Error("TikTok / Instagram / Facebook no se pueden leer por link. Descargá el video y subilo con el botón de archivo."); }
+      if(!isYouTube(url)){ throw new Error("Pegá un link de YouTube válido, o subí el archivo."); }
+      mediaPart={ fileData:{ fileUri:url } };
+    } else {
+      if(file.size <= INLINE_MAX){
+        status("Leyendo el archivo…","var(--gold)"); setBar(15);
+        const b64=await toBase64(file);
+        mediaPart={ inlineData:{ mimeType:file.type||"video/mp4", data:b64 } };
+        setBar(null);
+      } else {
+        status("Subiendo el video a Gemini… (puede tardar)","var(--cyan)"); setBar(10);
+        const f=await uploadFile(file,key);
+        status("Procesando el video en Gemini…","var(--cyan)");
+        const active=await waitActive(f.uri||f.name,key);
+        mediaPart={ fileData:{ fileUri:(active.uri||f.uri), mimeType:(active.mimeType||f.mimeType||file.type) } };
+        setBar(null);
+      }
+    }
+
+    status("Analizando con Gemini…","var(--cyan)");
+    ['guion','similar','replica'].forEach(p=>$('view_'+p).innerHTML='<div class="empty"><div class="big"><span class="spinner"></span></div><p>Analizando…</p></div>');
+
+    const r=await fetch(API+"/v1beta/models/"+MODEL+":generateContent?key="+encodeURIComponent(key),{
+      method:"POST",headers:{"Content-Type":"application/json"},
+      body:JSON.stringify({ contents:[{ parts:[ {text:INSTRUCTION}, mediaPart ] }], generationConfig:{ maxOutputTokens:8192, temperature:0.4 } })
+    });
+    const d=await r.json();
+    if(d.error) throw new Error(d.error.message);
+    if(!d.candidates || !d.candidates[0]) throw new Error("Sin respuesta del modelo. Probá con un clip más corto o un link de YouTube.");
+    const txt=d.candidates[0].content.parts.map(p=>p.text||"").join("\n");
+
+    const g=section(txt,"=== GUION EXACTO ===",["=== MASTER PROMPT GUIONES SIMILARES ===","=== MASTER PROMPT REPLICAR VIDEO ==="]);
+    const s=section(txt,"=== MASTER PROMPT GUIONES SIMILARES ===",["=== MASTER PROMPT REPLICAR VIDEO ==="]);
+    const rep=section(txt,"=== MASTER PROMPT REPLICAR VIDEO ===",[]);
+    if(!g && !s && !rep){
+      showBlock('view_guion','Respuesta completa',txt);
+      showBlock('view_similar','Master · guiones similares','(No se pudo separar; mirá la pestaña Guion.)');
+      showBlock('view_replica','Master · replicar video','(No se pudo separar; mirá la pestaña Guion.)');
+    } else {
+      showBlock('view_guion','Guion exacto (transcripción)',g);
+      showBlock('view_similar','Master prompt — guiones con esta estructura',s);
+      showBlock('view_replica','Master prompt — replicar el video (EN)',rep);
+    }
+    status("Listo ✓","var(--lime)");
+  }catch(e){
+    status("Error: "+e.message,"var(--pink)");
+    ['guion','similar','replica'].forEach(p=>$('view_'+p).innerHTML='<div class="empty"><div class="big">⚠️</div><p>'+e.message+'</p></div>');
+  }finally{
+    setBar(null);
+    $("btnGo").disabled=false;
+  }
+}
+</script>
+<script src="apps-menu.js"></script>
+</body>
+</html>
