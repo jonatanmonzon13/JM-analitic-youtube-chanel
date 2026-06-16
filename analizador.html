@@ -165,6 +165,7 @@
     <label class="fld">Link de YouTube</label>
     <input type="text" id="ytUrl" placeholder="https://www.youtube.com/watch?v=…  o  https://youtu.be/…">
     <div class="hist" id="hist"></div>
+    <div id="urlGoRow" style="display:none;margin-top:12px"><button class="btn-mini cyan" onclick="analyze()">▶ Analizar este enlace</button></div>
     <div class="or">— o subí el archivo —</div>
     <label class="drop" id="drop">
       <div class="ic">🎞️</div>
@@ -182,16 +183,15 @@
   </section>
 
   <section class="panel">
-    <div class="panel-title">Analizar</div>
-    <p class="panel-sub">Idioma de las respuestas:</p>
+    <div class="panel-title">Idioma y estado</div>
+    <p class="panel-sub">Idioma de las respuestas (el diálogo hablado se mantiene en su idioma original):</p>
     <div class="seg" style="margin-bottom:14px">
       <button class="seg-btn active" id="lang_es" onclick="setLang('es',this)">🌎 Español latino</button>
       <button class="seg-btn" id="lang_en" onclick="setLang('en',this)">🌐 English</button>
     </div>
-    <div class="statusrow"><span class="badge"><span class="dot" id="dot"></span><span id="statusTxt">Listo para analizar</span></span></div>
+    <div class="statusrow"><span class="badge"><span class="dot" id="dot"></span><span id="statusTxt">Esperando video o link…</span></span></div>
     <div class="bar" id="bar"><i id="barFill"></i></div>
-    <button class="btn btn-gold" id="btnGo" onclick="analyze()" style="margin-top:12px">⚡ Analizar video</button>
-    <div class="hint">Los videos largos/pesados tardan más (se suben a Gemini y se procesan). No cierres la pestaña.</div>
+    <div class="hint">Cargá un link o un archivo arriba; el botón <b>Analizar</b> aparece junto al video. Los pesados tardan más.</div>
   </section>
 
   <div class="tabbar">
@@ -240,7 +240,7 @@ function saveHist(a){ try{ localStorage.setItem(HKEY,JSON.stringify(a.slice(0,12
 function addHist(u){ if(!u) return; let a=loadHist().filter(x=>x!==u); a.unshift(u); saveHist(a); renderHist(); }
 function delHist(e,i){ e.stopPropagation(); let a=loadHist(); a.splice(i,1); saveHist(a); renderHist(); }
 function clearHist(){ saveHist([]); renderHist(); }
-function useHist(enc){ $("ytUrl").value=decodeURIComponent(enc); $("fileInput").value=""; hideFileCard(); }
+function useHist(enc){ $("ytUrl").value=decodeURIComponent(enc); $("fileInput").value=""; hideFileCard(); $("urlGoRow").style.display='block'; }
 function renderHist(){
   const a=loadHist(), w=$("hist");
   if(!a.length){ w.innerHTML=""; return; }
@@ -254,7 +254,7 @@ function showFileCard(f){ $("fcName").textContent='🎞️ '+f.name+'  ('+(f.siz
 function hideFileCard(){ $("fileCard").style.display='none'; }
 function replaceVideo(){ $("fileInput").value=""; hideFileCard(); $("fileInput").click(); }
 $("fileInput").addEventListener('change',function(){ const f=this.files[0]; if(f){ $("ytUrl").value=""; showFileCard(f); } else hideFileCard(); });
-$("ytUrl").addEventListener('input',function(){ if(this.value.trim()){ $("fileInput").value=""; hideFileCard(); } });
+$("ytUrl").addEventListener('input',function(){ const v=this.value.trim(); if(v){ $("fileInput").value=""; hideFileCard(); } $("urlGoRow").style.display = v ? 'block' : 'none'; });
 $("ytUrl").addEventListener('keydown',function(e){ if(e.key==='Enter') analyze(); });
 
 function isYouTube(u){ return /youtu\.?be|youtube\.com/i.test(u); }
@@ -288,26 +288,28 @@ async function waitActive(fileUri,key){
   throw new Error("El video tardó demasiado en procesarse.");
 }
 
-function buildInstruction(){
-  const L = LANG==='en' ? 'English' : 'español latino (Latin American Spanish)';
-  return `Sos un analista experto de video para producción audiovisual con IA (Google Veo 3). Mirá y escuchá el video con atención. Primero determiná si el video parece GENERADO CON IA, FILMADO REAL, o MIXTO (combina partes con IA y partes reales).
-
-Respondé ÚNICAMENTE con un objeto JSON válido (sin texto adicional, sin markdown, sin comillas triples). Todo el texto debe estar en ${L}, EXCEPTO los diálogos hablados dentro de los prompts de animación, que deben transcribirse EXACTOS en el idioma original hablado en el video. Estructura EXACTA:
+function langWord(){ return LANG==='en' ? 'English' : 'espanol latino (Latin American Spanish)'; }
+function buildGuion(){
+  const L=langWord();
+  return `Sos un analista experto de video. Mira y escucha el video con atencion. Determina si parece GENERADO CON IA, FILMADO REAL o MIXTO (combina ambos).
+Responde UNICAMENTE un objeto JSON valido (sin markdown, sin comillas triples). Todo el texto en ${L}. Estructura EXACTA:
 {
  "tipo": "ia" | "real" | "mixto",
- "tipo_nota": "1-2 frases explicando por qué, y qué conviene hacer para replicarlo",
- "guion_exacto": "transcripción textual COMPLETA, palabra por palabra, con marcas [mm:ss] y etiqueta de quién habla; entre paréntesis las acotaciones visuales/acciones clave",
- "master_similar": "prompt reutilizable que capture estructura, tono, ritmo, ganchos, fórmula y duración de cada bloque, para escribir guiones NUEVOS con la misma estructura sobre cualquier tema",
- "personajes": [
-   { "nombre": "Nombre propio único y memorable del personaje", "prompt": "Character reference sheet / model sheet prompt para Veo 3: el personaje a cuerpo completo, vistas frontal, 3/4, lateral y trasera (turnaround), sobre un fondo VERDE CROMA sólido (chroma key green screen, solid #00b140 green background), diseño consistente para mantener continuidad, máximo detalle de rostro, vestuario, colores y rasgos. SIN texto, SIN palabras, SIN logos, SIN marcas de agua en la imagen." }
- ],
- "escenas": [
-   { "titulo": "Escena N — título corto",
-     "prompt_imagen": "Prompt de imagen para Veo 3 que NOMBRE explícitamente a los personajes presentes por su nombre propio (los mismos de 'personajes'); describí encuadre, acción, escenario, lente/cámara, iluminación, paleta de color y estilo visual igual al del video. PROHIBIDO cualquier texto, palabra, letra o subtítulo dentro de la imagen.",
-     "prompt_animacion": "Prompt de animación de 8s para Veo 3 que NOMBRE a los personajes por su nombre propio; describí el movimiento, gestos y movimiento de cámara; incluí el GUION/diálogo EXACTO de esta escena entre comillas (en el idioma original del video) con lip-sync. Sin texto en pantalla." }
- ]
+ "tipo_nota": "1-2 frases: por que clasificas asi y que conviene para replicarlo",
+ "guion_exacto": "transcripcion textual COMPLETA, palabra por palabra, con marcas [mm:ss] y etiqueta de quien habla; acotaciones visuales/acciones clave entre parentesis",
+ "master_similar": "prompt reutilizable que capture la estructura, el tono, el ritmo, los ganchos, la formula y la duracion de cada bloque, para escribir guiones NUEVOS con la misma estructura sobre cualquier tema"
 }
-Reglas estrictas: (1) Los NOMBRES PROPIOS de los personajes deben ser IDÉNTICOS en 'personajes', en 'escenas.prompt_imagen' y en 'escenas.prompt_animacion'. (2) En las imágenes NUNCA debe haber texto ni palabras. (3) Cubrí TODAS las escenas del video. (4) Devolvé SOLO el JSON, nada más.`;
+Devuelve SOLO el JSON.`;
+}
+function buildKit(){
+  const L=langWord();
+  return `Sos director de produccion para Google Veo 3. Mira el video y arma el KIT COMPLETO para REPLICARLO.
+Responde UNICAMENTE un objeto JSON valido (sin markdown). Todo el texto en ${L}, EXCEPTO los dialogos hablados dentro de 'prompt_animacion', que van EXACTOS en el idioma original del video. Estructura EXACTA:
+{
+ "personajes":[ {"nombre":"Nombre propio unico y memorable","prompt":"Character reference sheet / model sheet para Veo 3: personaje a cuerpo completo, vistas frontal, 3/4, lateral y trasera (turnaround), sobre fondo VERDE CROMA solido (solid chroma key green screen, #00b140), diseno consistente, maximo detalle de rostro, vestuario, colores y rasgos. SIN texto, SIN palabras, SIN logos, SIN marcas de agua en la imagen."} ],
+ "escenas":[ {"titulo":"Escena N - titulo corto","prompt_imagen":"Prompt de imagen para Veo 3 que NOMBRE explicitamente a los personajes presentes por su nombre propio (los mismos de 'personajes'); encuadre, accion, escenario, camara/lente, iluminacion, paleta de color y estilo visual igual al del video. PROHIBIDO cualquier texto, palabra, letra o subtitulo dentro de la imagen.","prompt_animacion":"Prompt de animacion de 8s para Veo 3 que NOMBRE a los personajes por su nombre propio; describi movimiento, gestos y movimiento de camara; inclui el GUION/dialogo EXACTO de la escena entre comillas (idioma original del video) con lip-sync. Sin texto en pantalla."} ]
+}
+Reglas estrictas: (1) los NOMBRES PROPIOS deben ser IDENTICOS en 'personajes' y en cada escena. (2) en las imagenes NUNCA debe haber texto. (3) cubri TODAS las escenas del video. (4) devuelve SOLO el JSON.`;
 }
 
 function parseJSON(txt){
@@ -348,66 +350,78 @@ function renderReplica(data){
   pend.forEach(p=>{ const el=$(p[0]); if(el) el.textContent=p[1]; });
 }
 
+let ANALYZING=false;
+function spin(msg){ return '<div class="empty"><div class="big"><span class="spinner"></span></div><p>'+msg+'</p></div>'; }
+async function callGemini(key,parts){
+  const r=await fetch(API+"/v1beta/models/"+MODEL+":generateContent?key="+encodeURIComponent(key),{
+    method:"POST",headers:{"Content-Type":"application/json"},
+    body:JSON.stringify({ contents:[{ parts }], generationConfig:{ responseMimeType:"application/json", maxOutputTokens:32768, temperature:0.4 } })
+  });
+  const d=await r.json();
+  if(d.error) throw new Error(d.error.message);
+  if(!d.candidates || !d.candidates[0]) throw new Error("Sin respuesta del modelo (puede ser un video no soportado).");
+  const txt=d.candidates[0].content.parts.map(p=>p.text||"").join("\n");
+  return { data:parseJSON(txt), raw:txt };
+}
+async function buildMediaPart(url,file,key){
+  if(url){
+    if(isOtherSocial(url)) throw new Error("TikTok / Instagram / Facebook no se pueden leer por link. Descarga el video y subilo con el boton de archivo.");
+    if(!isYouTube(url)) throw new Error("Pega un link de YouTube valido, o subi el archivo.");
+    addHist(url);
+    return { fileData:{ fileUri:url } };
+  }
+  if(file.size <= INLINE_MAX){
+    status("Leyendo el archivo...","var(--gold)"); setBar(15);
+    const b64=await toBase64(file); setBar(null);
+    return { inlineData:{ mimeType:file.type||"video/mp4", data:b64 } };
+  }
+  status("Subiendo el video a Gemini... (puede tardar)","var(--cyan)"); setBar(10);
+  const f=await uploadFile(file,key);
+  status("Procesando el video en Gemini...","var(--cyan)");
+  const active=await waitActive(f.uri||f.name,key); setBar(null);
+  return { fileData:{ fileUri:(active.uri||f.uri), mimeType:(active.mimeType||f.mimeType||file.type) } };
+}
 async function analyze(){
+  if(ANALYZING) return;
   const key=$("apiKey").value.trim();
-  if(!key){ status("Pegá tu API key de Gemini","var(--pink)"); return; }
+  if(!key){ status("Pega tu API key de Gemini","var(--pink)"); return; }
   const url=$("ytUrl").value.trim();
   const file=$("fileInput").files[0];
-  if(!url && !file){ status("Pegá un link de YouTube o subí un video","var(--pink)"); return; }
-
-  $("btnGo").disabled=true;
-  let mediaPart;
+  if(!url && !file){ status("Pega un link de YouTube o subi un video","var(--pink)"); return; }
+  ANALYZING=true;
+  let tipo='ia', tipoNota='';
   try{
-    if(url){
-      if(isOtherSocial(url)) throw new Error("TikTok / Instagram / Facebook no se pueden leer por link. Descargá el video y subilo con el botón de archivo.");
-      if(!isYouTube(url)) throw new Error("Pegá un link de YouTube válido, o subí el archivo.");
-      mediaPart={ fileData:{ fileUri:url } };
-      addHist(url);
+    const mediaPart=await buildMediaPart(url,file,key);
+
+    status("Paso 1/2 - Guion y estructura...","var(--cyan)");
+    $("view_guion").innerHTML=spin("Extrayendo el guion...");
+    $("view_similar").innerHTML=spin("Generando el master prompt...");
+    $("view_replica").innerHTML=spin("Esperando el paso 2...");
+    const A=await callGemini(key,[{text:buildGuion()},mediaPart]);
+    if(A.data){
+      tipo=A.data.tipo||'ia'; tipoNota=A.data.tipo_nota||'';
+      showSimple('view_guion','Guion exacto (transcripcion)',A.data.guion_exacto);
+      showSimple('view_similar','Master prompt - guiones con esta estructura',A.data.master_similar);
     } else {
-      if(file.size <= INLINE_MAX){
-        status("Leyendo el archivo…","var(--gold)"); setBar(15);
-        const b64=await toBase64(file);
-        mediaPart={ inlineData:{ mimeType:file.type||"video/mp4", data:b64 } };
-        setBar(null);
-      } else {
-        status("Subiendo el video a Gemini… (puede tardar)","var(--cyan)"); setBar(10);
-        const f=await uploadFile(file,key);
-        status("Procesando el video en Gemini…","var(--cyan)");
-        const active=await waitActive(f.uri||f.name,key);
-        mediaPart={ fileData:{ fileUri:(active.uri||f.uri), mimeType:(active.mimeType||f.mimeType||file.type) } };
-        setBar(null);
-      }
+      showSimple('view_guion','Respuesta del modelo (sin estructurar)',A.raw);
+      $("view_similar").innerHTML='<div class="empty"><div class="big">!</div><p>No se pudo estructurar el master. Mira la pestana Guion.</p></div>';
     }
 
-    status("Analizando con Gemini…","var(--cyan)");
-    ['guion','similar','replica'].forEach(p=>$('view_'+p).innerHTML='<div class="empty"><div class="big"><span class="spinner"></span></div><p>Analizando el video…</p></div>');
-
-    const r=await fetch(API+"/v1beta/models/"+MODEL+":generateContent?key="+encodeURIComponent(key),{
-      method:"POST",headers:{"Content-Type":"application/json"},
-      body:JSON.stringify({ contents:[{ parts:[ {text:buildInstruction()}, mediaPart ] }], generationConfig:{ responseMimeType:"application/json", maxOutputTokens:8192, temperature:0.4 } })
-    });
-    const d=await r.json();
-    if(d.error) throw new Error(d.error.message);
-    if(!d.candidates || !d.candidates[0]) throw new Error("Sin respuesta del modelo. Probá un clip más corto o un link de YouTube.");
-    const txt=d.candidates[0].content.parts.map(p=>p.text||"").join("\n");
-    const data=parseJSON(txt);
-
-    if(!data){
-      showSimple('view_guion','Respuesta del modelo',txt);
-      $("view_similar").innerHTML='<div class="empty"><div class="big">⚠️</div><p>No se pudo estructurar la respuesta. Mirá la pestaña Guion.</p></div>';
-      $("view_replica").innerHTML='<div class="empty"><div class="big">⚠️</div><p>No se pudo estructurar la respuesta. Probá de nuevo.</p></div>';
+    status("Paso 2/2 - Kit de replicacion Veo 3...","var(--cyan)");
+    $("view_replica").innerHTML=spin("Armando personajes, escenas y animacion...");
+    const B=await callGemini(key,[{text:buildKit()},mediaPart]);
+    if(B.data && (B.data.personajes || B.data.escenas)){
+      renderReplica({ tipo:tipo, tipo_nota:tipoNota, personajes:B.data.personajes||[], escenas:B.data.escenas||[] });
     } else {
-      showSimple('view_guion','Guion exacto (transcripción)',data.guion_exacto);
-      showSimple('view_similar','Master prompt — guiones con esta estructura',data.master_similar);
-      renderReplica(data);
+      $("view_replica").innerHTML='<div class="block"><div class="block-head"><span class="block-title">Respuesta sin estructurar</span><button class="copy-btn" onclick="copyEl(\'rawrep\',this)">Copiar</button></div><div class="out" id="rawrep"></div></div>';
+      $("rawrep").textContent=B.raw;
     }
-    status("Listo ✓","var(--lime)");
+    status("Listo","var(--lime)");
   }catch(e){
     status("Error: "+e.message,"var(--pink)");
-    ['guion','similar','replica'].forEach(p=>$('view_'+p).innerHTML='<div class="empty"><div class="big">⚠️</div><p>'+e.message+'</p></div>');
+    ['guion','similar','replica'].forEach(p=>{ const v=$('view_'+p); if(v.querySelector('.spinner')) v.innerHTML='<div class="empty"><div class="big">!</div><p>'+e.message+'</p></div>'; });
   }finally{
-    setBar(null);
-    $("btnGo").disabled=false;
+    setBar(null); ANALYZING=false;
   }
 }
 
