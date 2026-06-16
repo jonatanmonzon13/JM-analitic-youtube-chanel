@@ -1,0 +1,269 @@
+<!doctype html>
+<html lang="es">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Reflexiones Animadas — Pipeline Manhwa</title>
+<style>
+  :root{
+    --bg:#070510; --bg2:#0e0a1c; --bg3:#150f29; --ink:#F6F2FF; --body:#D7CFEC; --muted:#9A8FC0;
+    --line:#2a2150; --pink:#FF6FB5; --violet:#9B5CFF; --cyan:#5BC8FF; --gold:#F8DA8E; --lime:#8BF0B0;
+    --grad:linear-gradient(100deg,#FF6FB5,#9B5CFF 55%,#5BC8FF);
+    --soft:rgba(155,92,255,.14); --radius:16px;
+    --display:'Sora',system-ui,sans-serif; --mono:'JetBrains Mono',ui-monospace,monospace;
+  }
+  *{box-sizing:border-box}
+  body{margin:0;background:radial-gradient(1100px 600px at 70% -10%,rgba(155,92,255,.18),transparent 60%),var(--bg);
+       color:var(--body);font-family:var(--display);-webkit-font-smoothing:antialiased;line-height:1.55}
+  a{color:var(--cyan)}
+  .wrap{max-width:980px;margin:0 auto;padding:26px 20px 120px}
+  header.top{text-align:center;margin-bottom:18px}
+  .badge{display:inline-block;font-family:var(--mono);font-size:11px;letter-spacing:.18em;text-transform:uppercase;
+         color:var(--violet);border:1px solid var(--line);border-radius:999px;padding:6px 14px;background:var(--bg2);margin-bottom:14px}
+  h1{font-weight:800;font-size:clamp(26px,5vw,40px);margin:0 0 8px;letter-spacing:-.02em;
+     background:var(--grad);-webkit-background-clip:text;background-clip:text;-webkit-text-fill-color:transparent}
+  .sub{color:var(--muted);max-width:60ch;margin:0 auto;font-size:15px}
+
+  /* clave */
+  .keybar{display:flex;gap:8px;align-items:center;flex-wrap:wrap;background:var(--bg2);border:1px solid var(--line);
+          border-radius:14px;padding:12px;margin:18px 0}
+  .keybar input{flex:1;min-width:200px;background:var(--bg3);border:1px solid var(--line);color:var(--ink);
+                border-radius:10px;padding:11px 13px;font-family:var(--mono);font-size:13px}
+  .btn{cursor:pointer;border:0;border-radius:10px;padding:11px 16px;font-family:var(--display);font-weight:700;font-size:13.5px;
+       transition:transform .08s,box-shadow .18s,opacity .15s;display:inline-flex;align-items:center;gap:7px;white-space:nowrap}
+  .btn-main{color:#1a0b2e;background:var(--grad);box-shadow:0 8px 24px rgba(155,92,255,.34)}
+  .btn-main:hover{transform:translateY(-1px)}
+  .btn-ghost{background:var(--bg3);color:var(--ink);border:1px solid var(--line)}
+  .btn-ghost:hover{border-color:var(--violet)}
+  .btn:disabled{opacity:.5;cursor:not-allowed;transform:none}
+  .keyhint{font-family:var(--mono);font-size:11.5px;color:var(--muted);width:100%}
+
+  /* pasos */
+  .steps{display:flex;gap:8px;justify-content:center;flex-wrap:wrap;margin:6px 0 16px;font-family:var(--mono);font-size:11px}
+  .stp{color:var(--muted);border:1px solid var(--line);border-radius:999px;padding:5px 11px;background:var(--bg2)}
+  .stp.on{color:var(--gold);border-color:rgba(248,218,142,.5);background:rgba(248,218,142,.08)}
+  .stp.done{color:var(--lime);border-color:rgba(139,240,176,.4)}
+
+  /* chat */
+  .chat{background:linear-gradient(180deg,var(--bg2),#0b0818);border:1px solid var(--line);border-radius:18px;
+        padding:18px;min-height:340px;display:flex;flex-direction:column;gap:14px;box-shadow:0 30px 80px rgba(0,0,0,.5)}
+  .msg{max-width:92%;padding:13px 16px;border-radius:14px;font-size:14.5px;animation:rise .3s both}
+  @keyframes rise{from{opacity:0;transform:translateY(8px)}to{opacity:1;transform:none}}
+  .msg.bot{align-self:flex-start;background:var(--bg3);border:1px solid var(--line);border-bottom-left-radius:5px}
+  .msg.me{align-self:flex-end;background:linear-gradient(100deg,var(--violet),var(--pink));color:#fff;border-bottom-right-radius:5px;font-weight:600}
+  .msg.sys{align-self:center;font-family:var(--mono);font-size:11.5px;color:var(--muted);background:transparent;border:1px dashed var(--line);border-radius:10px;padding:7px 12px}
+  .msg h3{margin:.2em 0 .4em;font-size:16px;color:var(--gold)}
+  .msg pre{background:#0a0715;border:1px solid var(--line);border-radius:12px;padding:13px;overflow:auto;
+           font-family:var(--mono);font-size:12.5px;color:#E7E0FF;position:relative;white-space:pre-wrap;word-break:break-word}
+  .msg .copy{position:absolute;top:8px;right:8px;font-family:var(--display);font-weight:700;font-size:11px;cursor:pointer;
+             color:#1a0b2e;background:var(--gold);border:0;border-radius:7px;padding:5px 9px}
+  .msg ol,.msg ul{margin:.3em 0;padding-left:1.3em}
+  .msg li{margin:.25em 0}
+  .typing{align-self:flex-start;display:flex;gap:5px;padding:13px 16px;background:var(--bg3);border:1px solid var(--line);border-radius:14px}
+  .typing i{width:7px;height:7px;border-radius:50%;background:var(--muted);animation:blink 1.2s infinite}
+  .typing i:nth-child(2){animation-delay:.2s}.typing i:nth-child(3){animation-delay:.4s}
+  @keyframes blink{0%,60%,100%{opacity:.3}30%{opacity:1}}
+
+  /* sugerencias / input */
+  .quick{display:flex;gap:8px;flex-wrap:wrap;margin:14px 0 8px}
+  .qbtn{cursor:pointer;font-family:var(--display);font-weight:600;font-size:13px;color:var(--ink);background:var(--bg2);
+        border:1px solid var(--line);border-radius:999px;padding:9px 15px}
+  .qbtn:hover{border-color:var(--gold);color:var(--gold)}
+  .inrow{display:flex;gap:8px;margin-top:8px}
+  .inrow input{flex:1;background:var(--bg3);border:1px solid var(--line);color:var(--ink);border-radius:12px;padding:13px 15px;font-family:var(--display);font-size:14px}
+  .note{font-family:var(--mono);font-size:11px;color:var(--muted);text-align:center;margin-top:10px}
+  .pausebox{background:rgba(248,218,142,.07);border:1px solid rgba(248,218,142,.35);border-radius:12px;padding:12px 14px;font-size:13.5px;color:var(--gold)}
+</style>
+</head>
+<body>
+<div class="wrap">
+  <header class="top">
+    <div class="badge">Pipeline Manhwa · IA</div>
+    <h1>Reflexiones Animadas</h1>
+    <p class="sub">Generador de historias virales estilo <b>pastel romantic manhwa</b>: ideas → guion (4–5 min) → pausa para grabar tu audio → personajes, escenas y animaciones listos para copiar.</p>
+  </header>
+
+  <!-- Clave Gemini compartida -->
+  <div class="keybar">
+    <input id="apiKey" type="password" placeholder="Clave de Gemini (compartida con la suite)">
+    <button class="btn btn-ghost" id="eyeBtn" onclick="toggleEye()">👁</button>
+    <button class="btn btn-ghost" onclick="saveKey()">Guardar</button>
+    <button class="btn btn-ghost" onclick="replaceKey()">Reemplazar</button>
+    <div class="keyhint" id="keyHint">Necesitás tu clave de Gemini para generar. Se guarda solo en este navegador.</div>
+  </div>
+
+  <div class="steps" id="steps">
+    <span class="stp on" data-s="ideas">1 · Ideas</span>
+    <span class="stp" data-s="guion">2 · Guion</span>
+    <span class="stp" data-s="pausa">3 · Grabás audio</span>
+    <span class="stp" data-s="prod">4 · Personajes + Escenas</span>
+  </div>
+
+  <div class="chat" id="chat"></div>
+
+  <div class="quick" id="quick"></div>
+  <div class="inrow">
+    <input id="userIn" placeholder='Escribí "inicio" para empezar…' onkeydown="if(event.key==='Enter')send()">
+    <button class="btn btn-main" id="sendBtn" onclick="send()">Enviar ➤</button>
+  </div>
+  <div class="note">Flujo: <b>inicio</b> → elegís un número (1–15) → copiás el guion y lo grabás en Fish Audio → escribís la duración (ej: <i>el audio duró 4:38</i>) → genera todo el pipeline.</div>
+</div>
+
+<script>
+const $ = id => document.getElementById(id);
+const MODEL='gemini-2.5-flash';
+const API='https://generativelanguage.googleapis.com';
+
+/* ── Clave compartida con la suite (jmbots_keys.an) ── */
+function loadKeys(){ try{ return JSON.parse(localStorage.getItem('jmbots_keys')||'{}'); }catch(e){ return {}; } }
+function setKeyHint(m,c){ $("keyHint").textContent=m; $("keyHint").style.color=c||"var(--muted)"; }
+(function initKey(){ const ks=loadKeys(); if(ks.an){ $("apiKey").value=ks.an; setKeyHint("✓ Clave del sistema cargada. Tocá Reemplazar para cambiarla.","var(--lime)"); } })();
+function saveKey(){ const v=$("apiKey").value.trim(); if(!v){ setKeyHint("Pegá una clave antes de guardar.","var(--pink)"); return; }
+  try{ const ks=loadKeys(); ks.an=v; localStorage.setItem('jmbots_keys',JSON.stringify(ks)); }catch(e){}
+  setKeyHint("✓ Clave guardada (compartida con la suite).","var(--lime)"); }
+function replaceKey(){ $("apiKey").value=""; $("apiKey").type='text'; $("apiKey").focus(); setKeyHint("Ingresá la nueva clave y tocá Guardar.","var(--gold)"); }
+function toggleEye(){ const i=$("apiKey"); i.type = i.type==='password'?'text':'password'; }
+
+/* ── SYSTEM PROMPT (instructivo de la gema) ── */
+const SYSTEM = `Eres "Reflexiones Animadas", un experto en creación de contenido viral, storytelling emocional y generación de pipelines de producción para G-Labs Automation, con estilo visual fijo "pastel romantic manhwa".
+
+REGLAS GENERALES:
+- Respondé en español latino.
+- TODO entregable (lista de ideas, guion, personajes, escenas, animaciones) va DENTRO de un bloque de código markdown (triple backtick) para copiar directo. Fuera del bloque solo explicaciones breves.
+- Estilo visual FIJO en todos los prompts visuales (no preguntar, no cambiar): pastel romantic manhwa, semi-realistic animated fairytale illustration, luxury romance novel cover, soft Disney-like pastel glow, dreamy cinematic lighting.
+
+FLUJO POR PASOS (respetar estrictamente, un paso por turno):
+PASO A — Si el usuario escribe "inicio": generá una lista de 15 ideas irrepetibles, numeradas 1 a 15, cada una con título corto + 1 línea de premisa. Variá el tipo de historia (trabajador honrado recompensado, injusticia social, pobreza y superación, traición, karma, redención, bondad inesperada, reencuentros) y variá los nombres (mezcla latinos/modernos/internacionales, p.ej. Elena, Bruno, Renata, Gael, Ivanna, Damián, Celeste, Adrián, Vera, Tomás). No repitas ideas ya usadas en la conversación. Entregá la lista y esperá a que el usuario elija un número.
+
+PASO B — Cuando el usuario elija un número: generá SOLO el guion completo y detenete.
+GUION: español latino, en un único bloque markdown, texto continuo, SIN [S1], SIN timestamps, SIN cortes. Narrador humano, natural, emocional, en tercera persona, con pausas usando "...". Prohibido lenguaje literario o metáforas exageradas; debe sonar como alguien contando una historia real. Duración objetivo 4 a 5 minutos narrados (~600 a 750 palabras, ritmo tranquilo). Nunca entregar un guion demasiado corto; si la historia es corta, expandir con detalles, emociones, contexto y pausas.
+⚠️ PUNTO DE PAUSA OBLIGATORIO: después del guion NO continúes. Indicá al usuario que cree el audio en Fish Audio (voz Valentino) y que luego te diga la DURACIÓN REAL (ej: "el audio duró 4:38"). No generes personajes, escenas ni animaciones todavía.
+
+PASO C — Cuando el usuario indique la duración real: usala como base. Calculá número de escenas = duración total en segundos ÷ 4 (clips de 4 segundos; típicamente 60 a 75 escenas). Luego generá, en este orden:
+1) PERSONAJES: primero, FUERA del markdown, listá cada personaje con nombre, rol y archivo .png. Después, en bloques de 10, en formato JSON, una línea por personaje, en INGLÉS, con descripción hiper específica (rostro, ojos, ropa, postura) y el estilo fijo. Adaptá cada personaje a la historia (humilde, poderoso, anciano, niño); no hagas a todos modelos perfectos.
+2) ESCENAS: una escena por microacción (no reducir, no resumir). Bloques de 10, JSON, una línea por escena. Cada prompt incluye: nombre (descripción completa) + entorno + acción + cámara + luz + emoción + estilo fijo. Ajustá la cantidad a la duración real.
+3) ANIMACIONES: misma cantidad que escenas, bloques de 10, JSON, una línea. Usar nombre (descripción breve) + movimiento + expresión + cámara.
+
+CONTROL FINAL: verificá estilo pastel romantic manhwa, nombres variados, coherencia, escenas completas, clips de 4 s, guion 4–5 min y número de escenas acorde a la duración real.
+
+No te saltees el punto de pausa ni asumas la duración: siempre esperá el dato del usuario.`;
+
+/* ── Estado / historial de conversación ── */
+let history = [];   // [{role:'user'|'model', text}]
+let phase = 'ideas';
+function setPhase(p){
+  phase=p;
+  const order=['ideas','guion','pausa','prod'];
+  document.querySelectorAll('#steps .stp').forEach(s=>{
+    const i=order.indexOf(s.dataset.s), cur=order.indexOf(p);
+    s.classList.toggle('on', i===cur);
+    s.classList.toggle('done', i<cur);
+  });
+}
+
+/* ── Render de mensajes ── */
+function addMsg(role, html){
+  const d=document.createElement('div'); d.className='msg '+role; d.innerHTML=html;
+  $("chat").appendChild(d); $("chat").scrollTop=$("chat").scrollHeight; return d;
+}
+function esc(s){ const d=document.createElement('div'); d.textContent=s; return d.innerHTML; }
+/* markdown mínimo: bloques ```, **negrita**, listas, saltos */
+function mdToHtml(md){
+  const parts = md.split(/```/);
+  let out='';
+  parts.forEach((chunk,i)=>{
+    if(i%2===1){ // bloque de código → copiable
+      const code=esc(chunk.replace(/^[a-zA-Z]*\n/,'').replace(/^\n/,''));
+      out += `<pre><button class="copy" onclick="copyPre(this)">📋 Copiar</button>${code}</pre>`;
+    } else {
+      let t=esc(chunk);
+      t=t.replace(/\*\*(.+?)\*\*/g,'<b>$1</b>');
+      t=t.replace(/^\s*###\s?(.+)$/gm,'<h3>$1</h3>');
+      // listas numeradas: capturar bloques de líneas "N. ..." consecutivas
+      t=t.replace(/(?:^[ \t]*\d+\.\s.+(?:\n|$))+/gm, block=>{
+        const items=block.trim().split(/\n/).map(l=>l.replace(/^[ \t]*\d+\.\s/,'')).map(x=>'<li>'+x+'</li>').join('');
+        return '<ol>'+items+'</ol>';
+      });
+      t=t.replace(/\n{2,}/g,'<br><br>').replace(/\n/g,'<br>');
+      out += t;
+    }
+  });
+  return out;
+}
+function copyPre(btn){
+  const pre=btn.parentElement, txt=pre.innerText.replace(/^📋 Copiar\n?/,'');
+  navigator.clipboard.writeText(txt).then(()=>{ const o=btn.textContent; btn.textContent='✅ Copiado'; setTimeout(()=>btn.textContent=o,1600); });
+}
+
+/* ── Llamada a Gemini (texto, multi-turno con system) ── */
+async function callGemini(userText){
+  const key=$("apiKey").value.trim();
+  if(!key){ setKeyHint("Falta la clave de Gemini.","var(--pink)"); return null; }
+  history.push({role:'user', text:userText});
+  const contents = history.map(h=>({role:h.role, parts:[{text:h.text}]}));
+  const body = {
+    systemInstruction:{ parts:[{text:SYSTEM}] },
+    contents,
+    generationConfig:{ temperature:0.85, maxOutputTokens:8192 }
+  };
+  const r = await fetch(`${API}/v1beta/models/${MODEL}:generateContent?key=${encodeURIComponent(key)}`,{
+    method:'POST', headers:{'Content-Type':'application/json'}, body:JSON.stringify(body)
+  });
+  if(!r.ok){ const e=await r.text().catch(()=>''); throw new Error('Gemini '+r.status+': '+e.slice(0,200)); }
+  const j=await r.json();
+  const txt=(j.candidates?.[0]?.content?.parts||[]).map(p=>p.text||'').join('').trim();
+  history.push({role:'model', text:txt});
+  return txt;
+}
+
+/* ── Heurística para mover el indicador de pasos ── */
+function guessPhase(userText, botText){
+  const u=userText.toLowerCase();
+  if(/^\s*inicio\s*$/i.test(userText)) return 'guion';            // dio ideas → toca elegir/guion
+  if(/^\s*\d{1,2}\s*$/.test(userText)) return 'pausa';            // eligió número → guion entregado, a grabar
+  if(/\d{1,2}\s*[:.]\s*\d{1,2}|dur[óo]|minut|segund/i.test(u)) return 'prod';  // dio duración → producción
+  return phase;
+}
+
+/* ── Envío ── */
+let busy=false;
+async function send(){
+  if(busy) return;
+  const inp=$("userIn"); const text=inp.value.trim(); if(!text) return;
+  inp.value='';
+  addMsg('me', esc(text));
+  const typing=document.createElement('div'); typing.className='typing'; typing.innerHTML='<i></i><i></i><i></i>';
+  $("chat").appendChild(typing); $("chat").scrollTop=$("chat").scrollHeight;
+  busy=true; $("sendBtn").disabled=true;
+  try{
+    const out=await callGemini(text);
+    typing.remove();
+    if(out===null){ busy=false; $("sendBtn").disabled=false; return; }
+    addMsg('bot', mdToHtml(out));
+    setPhase(guessPhase(text,out));
+    refreshQuick();
+  }catch(err){
+    typing.remove();
+    addMsg('bot', '⚠️ '+esc(err.message)+'<br><span style="color:var(--muted);font-size:12px">Revisá tu clave de Gemini o probá de nuevo.</span>');
+  }
+  busy=false; $("sendBtn").disabled=false; inp.focus();
+}
+function quickSend(t){ $("userIn").value=t; send(); }
+function refreshQuick(){
+  const q=$("quick");
+  let chips=[];
+  if(phase==='ideas') chips=[['inicio','▶ inicio']];
+  else if(phase==='guion') chips=[['1','Elegir 1'],['2','Elegir 2'],['3','Elegir 3']];
+  else if(phase==='pausa') chips=[['el audio duró 4:30','Duró 4:30'],['el audio duró 4:45','Duró 4:45'],['el audio duró 5:00','Duró 5:00']];
+  else chips=[['inicio','🔄 Nueva historia (inicio)']];
+  q.innerHTML=chips.map(c=>`<button class="qbtn" onclick="quickSend('${c[0].replace(/'/g,"\\'")}')">${c[1]}</button>`).join('');
+}
+
+/* ── Arranque ── */
+addMsg('bot', '¡Hola! 👋 Soy <b>Reflexiones Animadas</b>. Generá historias virales estilo <b>pastel romantic manhwa</b> listas para producir.<br><br>Escribí <b>inicio</b> y te doy 15 ideas para elegir. Después: guion → grabás el audio en Fish Audio → me decís la duración → genero personajes, escenas y animaciones.');
+addMsg('sys','Asegurate de tener tu clave de Gemini cargada arriba.');
+refreshQuick();
+</script>
+<script src="apps-menu.js"></script>
+</body>
+</html>
