@@ -18,7 +18,8 @@
     "osmedyalexander@gmail.com",
     "nichomedia3@gmail.com",
     "venturajosee@gmail.com",
-    "edu53554@gmail.com"
+    "edu53554@gmail.com",
+    "damafelicali@gmail.com"
   ],
   "apps": [
     {
@@ -333,6 +334,45 @@
     ],
     "edu53554@gmail.com": [
       "outliers"
+    ],
+    "damafelicali@gmail.com": [
+      "outliers",
+      "historias",
+      "milagros",
+      "relatos",
+      "glam",
+      "frutas",
+      "novelas",
+      "analizador",
+      "mascotas",
+      "comida",
+      "zodiaco",
+      "animales",
+      "objetos",
+      "terror",
+      "fabulas",
+      "mitologia",
+      "parabolas",
+      "tentacion",
+      "autos",
+      "dinosaurios",
+      "robots",
+      "plantas",
+      "insectos",
+      "paises",
+      "profesiones",
+      "utiles",
+      "superheroes",
+      "proverbios",
+      "redencion",
+      "viajealma",
+      "cartas",
+      "buenasnoches",
+      "valores",
+      "datos",
+      "trabalenguas",
+      "monstruos",
+      "terrorurbano"
     ]
   }
 }
