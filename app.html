@@ -1469,8 +1469,8 @@ function mostrarVista(v){
   window.scrollTo({top:0, behavior:'smooth'});
 }
 
-/* ═══════════ Renombrador de miniaturas (solo admin) ═══════════ */
-let MINI_items=[], MINI_inited=false;
+/* ═══════════ Renombrador de miniaturas (solo admin) — optimizado ═══════════ */
+let MINI_items=[], MINI_inited=false, MINI_OPTS='';
 function miniEsc(s){ const d=document.createElement('div'); d.textContent=s; return d.innerHTML; }
 function ensureJSZip(cb){
   if(window.JSZip) return cb();
@@ -1484,18 +1484,19 @@ function miniGuess(name){
   const hit=[...APPS].sort((a,b)=>b.id.length-a.id.length).find(a=>n.includes(a.id));
   return hit?hit.id:'';
 }
-function miniOptions(sel){
+function miniBuildOpts(){          /* las opciones se arman UNA sola vez */
+  if(MINI_OPTS) return MINI_OPTS;
   const groups={};
   APPS.forEach(a=>{ const k=(typeof JM_NICHO!=='undefined'&&JM_NICHO[a.id])||'otras'; (groups[k]=groups[k]||[]).push(a); });
-  let h='<option value="">— elegí la app —</option>';
+  let html='<option value="">— elegí la app —</option>';
   const order=(typeof JM_NICHE_ORDER!=='undefined')?JM_NICHE_ORDER:Object.keys(groups).map(k=>[k,k]);
   order.forEach(n=>{ const arr=groups[n[0]]; if(!arr||!arr.length) return;
-    h+='<optgroup label="'+miniEsc(String(n[1]).replace(/[^\x20-\x7E]/g,'').trim())+'">';
-    arr.forEach(a=>{ h+='<option value="'+a.id+'"'+(a.id===sel?' selected':'')+'>'+miniEsc(a.nombre)+'</option>'; });
-    h+='</optgroup>';
+    html+='<optgroup label="'+miniEsc(String(n[1]).replace(/[^\x20-\x7E]/g,'').trim())+'">';
+    arr.forEach(a=>{ html+='<option value="'+a.id+'">'+miniEsc(a.nombre)+'</option>'; });
+    html+='</optgroup>';
   });
-  if(groups['otras']){ h+='<optgroup label="Otras">'; groups['otras'].forEach(a=>{ h+='<option value="'+a.id+'"'+(a.id===sel?' selected':'')+'>'+miniEsc(a.nombre)+'</option>'; }); h+='</optgroup>'; }
-  return h;
+  if(groups['otras']){ html+='<optgroup label="Otras">'; groups['otras'].forEach(a=>{ html+='<option value="'+a.id+'">'+miniEsc(a.nombre)+'</option>'; }); html+='</optgroup>'; }
+  MINI_OPTS=html; return html;
 }
 function initMini(){
   if(MINI_inited){ miniRender(); return; }
@@ -1511,26 +1512,41 @@ function initMini(){
   miniRender();
 }
 function miniAdd(list){
-  [...list].filter(f=>f.type.startsWith('image/')).forEach(f=>{ MINI_items.push({file:f,url:URL.createObjectURL(f),id:miniGuess(f.name)}); });
-  miniRender();
+  const arr=[...list].filter(f=>f.type.startsWith('image/'));
+  if(!arr.length) return;
+  arr.forEach(f=>{ MINI_items.push({file:f,url:URL.createObjectURL(f),id:miniGuess(f.name)}); });
+  miniRender();                    /* render completo SOLO al cambiar la cantidad */
 }
 function miniRender(){
   const grid=$('#miniGrid');
-  if(!MINI_items.length){ grid.innerHTML='<div class="empty2">Todavía no cargaste imágenes.</div>'; }
-  else{
-    const counts={}; MINI_items.forEach(i=>{ if(i.id) counts[i.id]=(counts[i.id]||0)+1; });
-    grid.innerHTML=MINI_items.map((it,idx)=>{
-      const dup=it.id&&counts[it.id]>1, cls=dup?'dup':(it.id?'ok':'');
-      const res=it.id?(dup?'<span class="mr err">⚠ repetida con otra</span>':'<span class="mr set">→ img/'+it.id+'.jpg</span>'):'<span class="mr">sin asignar</span>';
-      const tag=it.id?'<span class="mt">'+it.id+'.jpg</span>':'';
-      return '<div class="minicard '+cls+'"><div class="minith">'+tag+'<img src="'+it.url+'"></div>'
-        +'<div class="minicb"><div class="mfn" title="'+miniEsc(it.file.name)+'">'+miniEsc(it.file.name)+'</div>'
-        +'<select data-i="'+idx+'">'+miniOptions(it.id)+'</select>'+res+'</div></div>';
-    }).join('');
-    grid.querySelectorAll('select').forEach(s=>{ s.onchange=e=>{ MINI_items[+s.dataset.i].id=e.target.value; miniRender(); }; });
-  }
-  const asign=new Set(MINI_items.filter(i=>i.id).map(i=>i.id)).size;
+  if(!MINI_items.length){ grid.innerHTML='<div class="empty2">Todavía no cargaste imágenes.</div>'; miniStates(); return; }
+  const opts=miniBuildOpts();
+  grid.innerHTML=MINI_items.map((it,i)=>
+    '<div class="minicard" data-i="'+i+'"><div class="minith"><img loading="lazy" decoding="async" src="'+it.url+'"></div>'
+    +'<div class="minicb"><div class="mfn" title="'+miniEsc(it.file.name)+'">'+miniEsc(it.file.name)+'</div>'
+    +'<select data-i="'+i+'">'+opts+'</select><span class="mr"></span></div></div>'
+  ).join('');
+  grid.querySelectorAll('select').forEach(s=>{
+    const i=+s.dataset.i; s.value=MINI_items[i].id||'';
+    s.onchange=e=>{ MINI_items[i].id=e.target.value; miniStates(); };   /* NO re-renderiza imágenes */
+  });
+  miniStates();
+}
+function miniStates(){              /* actualiza clases/etiquetas/contador SIN recrear imágenes ni selects */
   const counts={}; MINI_items.forEach(i=>{ if(i.id) counts[i.id]=(counts[i.id]||0)+1; });
+  const grid=$('#miniGrid');
+  grid.querySelectorAll('.minicard').forEach(card=>{
+    const i=+card.dataset.i, it=MINI_items[i]; if(!it) return;
+    const dup=it.id&&counts[it.id]>1;
+    card.className='minicard'+(dup?' dup':(it.id?' ok':''));
+    const mr=card.querySelector('.mr');
+    if(it.id){ mr.className='mr '+(dup?'err':'set'); mr.textContent=dup?'⚠ repetida con otra':('→ img/'+it.id+'.jpg'); }
+    else { mr.className='mr'; mr.textContent='sin asignar'; }
+    const th=card.querySelector('.minith'); let tag=th.querySelector('.mt');
+    if(it.id){ if(!tag){ tag=document.createElement('span'); tag.className='mt'; th.insertBefore(tag,th.firstChild); } tag.textContent=it.id+'.jpg'; }
+    else if(tag){ tag.remove(); }
+  });
+  const asign=new Set(MINI_items.filter(i=>i.id).map(i=>i.id)).size;
   const dups=Object.values(counts).filter(c=>c>1).length;
   $('#miniCount').innerHTML=MINI_items.length+' imágenes · <b>'+asign+'</b> asignadas';
   $('#miniWarn').textContent=dups?('⚠ '+dups+' app(s) con imagen repetida'):'';
@@ -1556,7 +1572,7 @@ function miniDownload(){
       for(const it of MINI_items){ if(!it.id||seen[it.id]) continue; seen[it.id]=1; folder.file(it.id+'.jpg', await miniToJpg(it.file)); }
       const out=await zip.generateAsync({type:'blob'});
       const a=document.createElement('a'); a.href=URL.createObjectURL(out); a.download='img.zip'; a.click();
-      btn.textContent='✓ Descargado'; setTimeout(()=>{ btn.textContent=o; miniRender(); },1800);
+      btn.textContent='✓ Descargado'; setTimeout(()=>{ btn.textContent=o; miniStates(); },1800);
     }catch(e){ alert('Error: '+e.message); btn.textContent=o; btn.disabled=false; }
   });
 }
