@@ -1,0 +1,261 @@
+<!doctype html>
+<html lang="es">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Cocina Viral 3D · JM BOTS</title>
+<style>
+  :root{
+    --bg:#0c0805; --bg2:#15100a; --bg3:#1f1810; --ink:#FCF3E8; --body:#E0D2C0; --muted:#A8927A;
+    --line:#3a2c1c; --orange:#FF8A3D; --red:#FF5C3D; --amber:#F8B34D; --gold:#F8DA8E; --green:#8BE36A; --violet:#C16BFF;
+    --grad:linear-gradient(100deg,#FF8A3D,#F8B34D 55%,#FFD27A);
+    --radius:16px;
+    --display:'Sora',system-ui,sans-serif; --mono:'JetBrains Mono',ui-monospace,monospace;
+  }
+  *{box-sizing:border-box}
+  body{margin:0;background:radial-gradient(1100px 600px at 70% -10%,rgba(255,138,61,.14),transparent 60%),var(--bg);
+       color:var(--body);font-family:var(--display);-webkit-font-smoothing:antialiased;line-height:1.55}
+  a{color:var(--amber)}
+  .wrap{max-width:980px;margin:0 auto;padding:26px 20px 120px}
+  header.top{text-align:center;margin-bottom:18px}
+  .badge{display:inline-block;font-family:var(--mono);font-size:11px;letter-spacing:.18em;text-transform:uppercase;
+         color:var(--orange);border:1px solid var(--line);border-radius:999px;padding:6px 14px;background:var(--bg2);margin-bottom:14px}
+  h1{font-weight:800;font-size:clamp(26px,5vw,40px);margin:0 0 8px;letter-spacing:-.02em;
+     background:var(--grad);-webkit-background-clip:text;background-clip:text;-webkit-text-fill-color:transparent}
+  .sub{color:var(--muted);max-width:64ch;margin:0 auto;font-size:15px}
+
+  .keybar{display:flex;gap:8px;align-items:center;flex-wrap:wrap;background:var(--bg2);border:1px solid var(--line);
+          border-radius:14px;padding:12px;margin:18px 0}
+  .keybar input{flex:1;min-width:200px;background:var(--bg3);border:1px solid var(--line);color:var(--ink);
+                border-radius:10px;padding:11px 13px;font-family:var(--mono);font-size:13px}
+  .btn{cursor:pointer;border:0;border-radius:10px;padding:11px 16px;font-family:var(--display);font-weight:700;font-size:13.5px;
+       transition:transform .08s,box-shadow .18s,opacity .15s;display:inline-flex;align-items:center;gap:7px;white-space:nowrap}
+  .btn-main{color:#2a1405;background:var(--grad);box-shadow:0 8px 24px rgba(255,138,61,.32)}
+  .btn-main:hover{transform:translateY(-1px)}
+  .btn-ghost{background:var(--bg3);color:var(--ink);border:1px solid var(--line)}
+  .btn-ghost:hover{border-color:var(--orange)}
+  .btn:disabled{opacity:.5;cursor:not-allowed;transform:none}
+  .keyhint{font-family:var(--mono);font-size:11.5px;color:var(--muted);width:100%}
+
+  .steps{display:flex;gap:8px;justify-content:center;flex-wrap:wrap;margin:6px 0 16px;font-family:var(--mono);font-size:11px}
+  .stp{color:var(--muted);border:1px solid var(--line);border-radius:999px;padding:5px 11px;background:var(--bg2)}
+  .stp.on{color:var(--gold);border-color:rgba(248,218,142,.5);background:rgba(248,218,142,.08)}
+  .stp.done{color:var(--green);border-color:rgba(139,227,106,.4)}
+
+  .chat{background:linear-gradient(180deg,var(--bg2),#0c0805);border:1px solid var(--line);border-radius:18px;
+        padding:18px;min-height:340px;display:flex;flex-direction:column;gap:14px;box-shadow:0 30px 80px rgba(0,0,0,.5)}
+  .msg{max-width:92%;padding:13px 16px;border-radius:14px;font-size:14.5px;animation:rise .3s both}
+  @keyframes rise{from{opacity:0;transform:translateY(8px)}to{opacity:1;transform:none}}
+  .msg.bot{align-self:flex-start;background:var(--bg3);border:1px solid var(--line);border-bottom-left-radius:5px}
+  .msg.me{align-self:flex-end;background:linear-gradient(100deg,var(--violet),var(--orange));color:#fff;border-bottom-right-radius:5px;font-weight:600}
+  .msg.sys{align-self:center;font-family:var(--mono);font-size:11.5px;color:var(--muted);background:transparent;border:1px dashed var(--line);border-radius:10px;padding:7px 12px}
+  .msg h3{margin:.2em 0 .4em;font-size:16px;color:var(--gold)}
+  .msg pre{background:#0c0805;border:1px solid var(--line);border-radius:12px;padding:13px;overflow:auto;
+           font-family:var(--mono);font-size:12.5px;color:#F3E6D5;position:relative;white-space:pre-wrap;word-break:break-word}
+  .msg .copy{position:absolute;top:8px;right:8px;font-family:var(--display);font-weight:700;font-size:11px;cursor:pointer;
+             color:#2a1405;background:var(--gold);border:0;border-radius:7px;padding:5px 9px}
+  .msg ol,.msg ul{margin:.3em 0;padding-left:1.3em}
+  .msg li{margin:.25em 0}
+  .typing{align-self:flex-start;display:flex;gap:5px;padding:13px 16px;background:var(--bg3);border:1px solid var(--line);border-radius:14px}
+  .typing i{width:7px;height:7px;border-radius:50%;background:var(--muted);animation:blink 1.2s infinite}
+  .typing i:nth-child(2){animation-delay:.2s}.typing i:nth-child(3){animation-delay:.4s}
+  @keyframes blink{0%,60%,100%{opacity:.3}30%{opacity:1}}
+
+  .quick{display:flex;gap:8px;flex-wrap:wrap;margin:14px 0 8px}
+  .qbtn{cursor:pointer;font-family:var(--display);font-weight:600;font-size:13px;color:var(--ink);background:var(--bg2);
+        border:1px solid var(--line);border-radius:999px;padding:9px 15px}
+  .qbtn:hover{border-color:var(--gold);color:var(--gold)}
+  .inrow{display:flex;gap:8px;margin-top:8px}
+  .inrow input{flex:1;background:var(--bg3);border:1px solid var(--line);color:var(--ink);border-radius:12px;padding:13px 15px;font-family:var(--display);font-size:14px}
+  .note{font-family:var(--mono);font-size:11px;color:var(--muted);text-align:center;margin-top:10px}
+</style>
+</head>
+<body>
+<div class="wrap">
+  <header class="top">
+    <div class="badge">Veo 3 · Pixar 3D Macro · Receta</div>
+    <h1>Cocina Viral 3D</h1>
+    <p class="sub">Reels de cocina con un personaje-ingrediente 3D macro estilo Pixar y un humano gigante desenfocado de fondo. Gancho fuerte, antojo total y la receta real paso a paso en la descripción. Entrega: paquete de historia + personaje + escenas (imagen + video/audio), todo en formato lineal.</p>
+  </header>
+
+  <div class="keybar">
+    <input id="apiKey" type="password" placeholder="Clave de Gemini (compartida con la suite)">
+    <button class="btn btn-ghost" id="eyeBtn" onclick="toggleEye()">👁</button>
+    <button class="btn btn-ghost" onclick="saveKey()">Guardar</button>
+    <button class="btn btn-ghost" onclick="replaceKey()">Reemplazar</button>
+    <div class="keyhint" id="keyHint">Necesitás tu clave de Gemini para generar. Se guarda solo en este navegador.</div>
+  </div>
+
+  <div class="steps" id="steps">
+    <span class="stp on" data-s="ideas">1 · 10 ideas</span>
+    <span class="stp" data-s="historia">2 · Historia + receta</span>
+    <span class="stp" data-s="personaje">3 · Personaje</span>
+    <span class="stp" data-s="imagenes">4 · Imágenes</span>
+    <span class="stp" data-s="video">5 · Video + audio</span>
+  </div>
+
+  <div class="chat" id="chat"></div>
+
+  <div class="quick" id="quick"></div>
+  <div class="inrow">
+    <input id="userIn" placeholder='Escribí “iniciar” para ver 10 ideas…' onkeydown="if(event.key==='Enter')send()">
+    <button class="btn btn-main" id="sendBtn" onclick="send()">Enviar ➤</button>
+  </div>
+  <div class="note">Comandos: <b>iniciar</b> · <b>reiniciar ideas</b> (10 nuevas) · <b>continuar</b> (si se corta) · <b>reset</b>. Cada prompt sale en su bloque con botón 📋.</div>
+</div>
+
+<script>
+const $ = id => document.getElementById(id);
+const MODEL='gemini-2.5-flash';
+const API='https://generativelanguage.googleapis.com';
+
+/* ── Clave compartida ── */
+function loadKeys(){ try{ return JSON.parse(localStorage.getItem('jmbots_keys')||'{}'); }catch(e){ return {}; } }
+function setKeyHint(m,c){ $("keyHint").textContent=m; $("keyHint").style.color=c||"var(--muted)"; }
+(function initKey(){ const ks=loadKeys(); if(ks.an){ $("apiKey").value=ks.an; setKeyHint("✓ Clave del sistema cargada. Tocá Reemplazar para cambiarla.","var(--green)"); } })();
+function saveKey(){ const v=$("apiKey").value.trim(); if(!v){ setKeyHint("Pegá una clave antes de guardar.","var(--amber)"); return; }
+  try{ const ks=loadKeys(); ks.an=v; localStorage.setItem('jmbots_keys',JSON.stringify(ks)); }catch(e){}
+  setKeyHint("✓ Clave guardada (compartida con la suite).","var(--green)"); }
+function replaceKey(){ $("apiKey").value=""; $("apiKey").type='text'; $("apiKey").focus(); setKeyHint("Ingresá la nueva clave y tocá Guardar.","var(--gold)"); }
+function toggleEye(){ const i=$("apiKey"); i.type = i.type==='password'?'text':'password'; }
+
+/* ── SYSTEM PROMPT (Cocina Viral 3D, prompts LINEALES) ── */
+const SYSTEM = `Eres "Cocina Viral 3D", generador de guiones para Reels de cocina de alto rendimiento para IA de video (Veo 3). Creás un personaje-ingrediente orgánico en 3D macro estilo Pixar con un humano gigante desenfocado de fondo. Tono con mucha personalidad y antojo, NUNCA afirmaciones médicas. Diálogo en español latino; los prompts técnicos en español/inglés dentro del bloque.
+
+### FORMATO DE ENTREGA (MUY IMPORTANTE):
+- Cada prompt (personaje, imagen de escena, video/audio de escena) se entrega como UNA SOLA PIEZA en formato LINEAL (texto corrido en una sola línea, sin estructura JSON, sin llaves ni comillas de estructura).
+- Cada prompt va en su PROPIO bloque de código markdown (triple backtick), separado del siguiente por un espacio en blanco. NUNCA agrupes prompts ni uses arrays. Para el diálogo de cada escena, incluí al final del bloque de video el texto del diálogo y su conteo (X/22).
+
+### LÍMITES DE CONTENIDO (OBLIGATORIO):
+- Es contenido de COCINA y entretenimiento, NO médico. PROHIBIDO afirmar que un alimento cura, previene o causa enfermedades; prohibido el tono de miedo sobre la salud, los diagnósticos y las teorías conspirativas ("la industria no quiere que sepas", etc.).
+- El "gancho" se basa en antojo, sabor, sorpresa culinaria o un error común de cocina, NO en asustar con la salud.
+- Las recetas deben ser reales, seguras y preparables. Sin promesas de resultados de salud.
+
+### REGLAS:
+1. ORIGINALIDAD: cruzá [ingrediente o plato interesante] + [técnica o truco de cocina] + [gancho de antojo/curiosidad]. No repitas ideas ni ingredientes en la misma sesión. "reiniciar ideas" = 10 ideas totalmente nuevas (lista negra mental de lo ya usado).
+2. ESTRUCTURA (15–23 escenas): Escena 1–2 gancho de antojo/curiosidad; 3–8 presentación del plato y por qué es irresistible; 9–20 preparación mostrada de forma visual y rápida (generá intriga, NO dictes el paso a paso completo en el audio); 21–23 cierres + CTA a la descripción.
+3. CINEMATOGRAFÍA MACRO (Veo 3): estilo Pixar animado 3D; el personaje-ingrediente es MINÚSCULO con textura fotorrealista; el fondo tiene un humano gigante (enorme, bokeh extremo, desenfocado) cocinando; lente sonda macro 100mm.
+4. TONO: con carácter, divertido y antojadizo; el "dialogue_text" nunca supera 22 palabras (incluí el conteo X/22). Sin afirmaciones de salud.
+5. CONSISTENCIA DE ESCENARIO: definí el [Background_Environment] en la Escena 1 (ej. "mesa de cocina de madera rústica con harina dispersa") y repetilo EXACTAMENTE IGUAL en todas las escenas.
+6. CIERRES: penúltima escena: "Guarda este video para no olvidarlo. Te dejé la receta completa paso a paso en la descripción, andá a leerla ahora". Última: "Saludos a [Nombre y País], contanos desde dónde nos ves para dedicarte el próximo video" (máx 22 palabras).
+
+### FLUJO:
+"iniciar" o "reiniciar ideas" → saludá breve y entregá 10 ideas virales numeradas (no repetidas), cada una con título + gancho de antojo. Esperá la elección numérica.
+Al elegir, entregá en orden:
+1) PAQUETE DE HISTORIA (texto normal, no en bloque de prompt): Título SEO, hashtags, resumen, y el CAPTION para la red social que INCLUYE la receta real paso a paso (ingredientes con cantidades + modo de preparación).
+2) PERSONAJE: un bloque lineal con el prompt del personaje-ingrediente (macro Pixar 3D, hiperdetallado, extremidades diminutas, fondo chroma verde, Unreal Engine 5, 8k, "sin tipografía, texto, letras ni marcas de agua").
+3) IMÁGENES POR ESCENA: un bloque lineal por escena (numerá "Escena N:") con el prompt de imagen (Pixar 3D, lente sonda macro 100mm, primer plano del ingrediente, [Background_Environment] idéntico, humano gigante desenfocado con bokeh extremo).
+4) VIDEO/AUDIO POR ESCENA: un bloque lineal por escena con el prompt de video Veo 3 (movimiento de cámara, micromovimientos del personaje, el gigante cocinando de fondo) + el diálogo de la escena + su conteo (X/22).
+Entregá las escenas en lotes razonables; si se corta, "continuar" retoma exactamente donde quedó sin repetir.
+
+COMANDOS: iniciar, reiniciar ideas, continuar, reset.
+
+REGLAS: nunca rompas el orden; nunca agrupes prompts; formato lineal y un bloque por prompt; escenario idéntico en todas las escenas; diálogos ≤22 palabras con conteo; CTA a la receta en la descripción; sin afirmaciones médicas.`;
+
+let history = [];
+let phase = 'ideas';
+function setPhase(p){
+  phase=p;
+  const order=['ideas','historia','personaje','imagenes','video'];
+  document.querySelectorAll('#steps .stp').forEach(s=>{
+    const i=order.indexOf(s.dataset.s), cur=order.indexOf(p);
+    s.classList.toggle('on', i===cur);
+    s.classList.toggle('done', i<cur);
+  });
+}
+function addMsg(role, html){
+  const d=document.createElement('div'); d.className='msg '+role; d.innerHTML=html;
+  $("chat").appendChild(d); $("chat").scrollTop=$("chat").scrollHeight; return d;
+}
+function esc(s){ const d=document.createElement('div'); d.textContent=s; return d.innerHTML; }
+function mdToHtml(md){
+  const parts = md.split(/```/);
+  let out='';
+  parts.forEach((chunk,i)=>{
+    if(i%2===1){
+      const code=esc(chunk.replace(/^[a-zA-Z]*\n/,'').replace(/^\n/,''));
+      out += `<pre><button class="copy" onclick="copyPre(this)">📋 Copiar</button>${code}</pre>`;
+    } else {
+      let t=esc(chunk);
+      t=t.replace(/\*\*(.+?)\*\*/g,'<b>$1</b>').replace(/\*(.+?)\*/g,'<b>$1</b>');
+      t=t.replace(/^\s*###?\s?(.+)$/gm,'<h3>$1</h3>');
+      t=t.replace(/(?:^[ \t]*\d+[\.\)]\s.+(?:\n|$))+/gm, block=>{
+        const items=block.trim().split(/\n/).map(l=>l.replace(/^[ \t]*\d+[\.\)]\s/,'')).map(x=>'<li>'+x+'</li>').join('');
+        return '<ol>'+items+'</ol>';
+      });
+      t=t.replace(/\n{2,}/g,'<br><br>').replace(/\n/g,'<br>');
+      out += t;
+    }
+  });
+  return out;
+}
+function copyPre(btn){
+  const pre=btn.parentElement, txt=pre.innerText.replace(/^📋 Copiar\n?/,'');
+  navigator.clipboard.writeText(txt).then(()=>{ const o=btn.textContent; btn.textContent='✅ Copiado'; setTimeout(()=>btn.textContent=o,1600); });
+}
+async function callGemini(userText){
+  const key=$("apiKey").value.trim();
+  if(!key){ setKeyHint("Falta la clave de Gemini.","var(--amber)"); return null; }
+  history.push({role:'user', text:userText});
+  const contents = history.map(h=>({role:h.role, parts:[{text:h.text}]}));
+  const body = { systemInstruction:{ parts:[{text:SYSTEM}] }, contents,
+    generationConfig:{ temperature:0.9, maxOutputTokens:8192 } };
+  const r = await fetch(`${API}/v1beta/models/${MODEL}:generateContent?key=${encodeURIComponent(key)}`,{
+    method:'POST', headers:{'Content-Type':'application/json'}, body:JSON.stringify(body) });
+  if(!r.ok){ const e=await r.text().catch(()=>''); throw new Error('Gemini '+r.status+': '+e.slice(0,200)); }
+  const j=await r.json();
+  const txt=(j.candidates?.[0]?.content?.parts||[]).map(p=>p.text||'').join('').trim();
+  history.push({role:'model', text:txt});
+  return txt;
+}
+function guessPhase(userText){
+  const u=userText.toLowerCase();
+  if(/^\s*(iniciar|reset)\s*$/i.test(u) || /reiniciar ideas/i.test(u)) return 'ideas';
+  if(/^\s*\d{1,2}\s*$/.test(userText) && phase==='ideas') return 'historia';
+  if(/personaje/i.test(u)) return 'personaje';
+  if(/im[áa]genes|escenas/i.test(u)) return 'imagenes';
+  if(/video|audio|continuar|siguiente/i.test(u)) return 'video';
+  const order=['ideas','historia','personaje','imagenes','video'];
+  const i=order.indexOf(phase);
+  if(i>=0 && i<order.length-1 && u.length) return order[i+1];
+  return phase;
+}
+let busy=false;
+async function send(){
+  if(busy) return;
+  const inp=$("userIn"); const text=inp.value.trim(); if(!text) return;
+  inp.value='';
+  addMsg('me', esc(text));
+  const typing=document.createElement('div'); typing.className='typing'; typing.innerHTML='<i></i><i></i><i></i>';
+  $("chat").appendChild(typing); $("chat").scrollTop=$("chat").scrollHeight;
+  busy=true; $("sendBtn").disabled=true;
+  try{
+    const out=await callGemini(text);
+    typing.remove();
+    if(out===null){ busy=false; $("sendBtn").disabled=false; return; }
+    addMsg('bot', mdToHtml(out));
+    setPhase(guessPhase(text));
+    refreshQuick();
+  }catch(err){
+    typing.remove();
+    addMsg('bot', '⚠️ '+esc(err.message)+'<br><span style="color:var(--muted);font-size:12px">Revisá tu clave de Gemini o probá de nuevo.</span>');
+  }
+  busy=false; $("sendBtn").disabled=false; inp.focus();
+}
+function quickSend(t){ $("userIn").value=t; send(); }
+function refreshQuick(){
+  const q=$("quick"); let chips=[];
+  if(phase==='ideas') chips=[['iniciar','▶ 10 ideas'],['1','Idea 1'],['2','Idea 2'],['reiniciar ideas','💡 Otras 10']];
+  else if(phase==='historia') chips=[['Generá el personaje','👤 Personaje']];
+  else if(phase==='personaje') chips=[['Generá las imágenes por escena','🖼 Imágenes']];
+  else if(phase==='imagenes') chips=[['Generá los videos y audio','🎬 Video + audio']];
+  else chips=[['continuar','➡ Continuar'],['iniciar','🔄 Nuevo reel']];
+  q.innerHTML=chips.map(c=>`<button class="qbtn" onclick="quickSend('${c[0].replace(/'/g,"\\'")}')">${c[1]}</button>`).join('');
+}
+addMsg('bot', '¡Hola! 👋 Soy <b>Cocina Viral 3D</b>. Creo Reels de cocina con un <b>personaje-ingrediente 3D macro estilo Pixar</b> y un humano gigante desenfocado de fondo.<br><br>Escribí <b>iniciar</b> y te doy 10 ideas virales. Elegís una y armo: paquete de historia con la <b>receta paso a paso</b> para la descripción → personaje → imágenes por escena → video + audio (diálogos ≤22 palabras), todo en bloques para copiar.');
+addMsg('sys','Estilo Pixar 3D macro · humano gigante bokeh · receta real en la descripción · sin afirmaciones de salud.');
+refreshQuick();
+</script>
+<script src="apps-menu.js"></script>
+</body>
+</html>

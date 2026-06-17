@@ -1,0 +1,326 @@
+<!doctype html>
+<html lang="es">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Time Lapse 3 — Renovación 3D Ultra-Fantasía · JM BOTS</title>
+<style>
+  :root{
+    --bg:#0a0710; --bg2:#120c1c; --bg3:#1a1228; --ink:#F3ECFF; --body:#D2C6E6; --muted:#9587Ae;
+    --line:#34254d; --magenta:#E155FF; --violet:#9B5CFF; --cyan:#34E0D8; --amber:#F8B34D; --gold:#F8DA8E; --green:#5BE39A;
+    --grad:linear-gradient(100deg,#E155FF,#9B5CFF 55%,#34E0D8);
+    --radius:16px;
+    --display:'Sora',system-ui,sans-serif; --mono:'JetBrains Mono',ui-monospace,monospace;
+  }
+  *{box-sizing:border-box}
+  body{margin:0;background:radial-gradient(1100px 600px at 70% -10%,rgba(225,85,255,.16),transparent 60%),var(--bg);
+       color:var(--body);font-family:var(--display);-webkit-font-smoothing:antialiased;line-height:1.55}
+  a{color:var(--cyan)}
+  .wrap{max-width:980px;margin:0 auto;padding:26px 20px 120px}
+  header.top{text-align:center;margin-bottom:18px}
+  .badge{display:inline-block;font-family:var(--mono);font-size:11px;letter-spacing:.18em;text-transform:uppercase;
+         color:var(--magenta);border:1px solid var(--line);border-radius:999px;padding:6px 14px;background:var(--bg2);margin-bottom:14px}
+  h1{font-weight:800;font-size:clamp(26px,5vw,40px);margin:0 0 8px;letter-spacing:-.02em;
+     background:var(--grad);-webkit-background-clip:text;background-clip:text;-webkit-text-fill-color:transparent}
+  .sub{color:var(--muted);max-width:64ch;margin:0 auto;font-size:15px}
+
+  .keybar{display:flex;gap:8px;align-items:center;flex-wrap:wrap;background:var(--bg2);border:1px solid var(--line);
+          border-radius:14px;padding:12px;margin:18px 0}
+  .keybar input{flex:1;min-width:200px;background:var(--bg3);border:1px solid var(--line);color:var(--ink);
+                border-radius:10px;padding:11px 13px;font-family:var(--mono);font-size:13px}
+  .btn{cursor:pointer;border:0;border-radius:10px;padding:11px 16px;font-family:var(--display);font-weight:700;font-size:13.5px;
+       transition:transform .08s,box-shadow .18s,opacity .15s;display:inline-flex;align-items:center;gap:7px;white-space:nowrap}
+  .btn-main{color:#1a0820;background:var(--grad);box-shadow:0 8px 24px rgba(155,92,255,.34)}
+  .btn-main:hover{transform:translateY(-1px)}
+  .btn-ghost{background:var(--bg3);color:var(--ink);border:1px solid var(--line)}
+  .btn-ghost:hover{border-color:var(--magenta)}
+  .btn:disabled{opacity:.5;cursor:not-allowed;transform:none}
+  .keyhint{font-family:var(--mono);font-size:11.5px;color:var(--muted);width:100%}
+
+  .modebar{display:flex;gap:10px;align-items:center;flex-wrap:wrap;justify-content:center;margin:4px 0 16px}
+  .modebar .btn{font-size:14px;padding:12px 18px}
+  .modehint{font-family:var(--mono);font-size:11px;color:var(--muted);width:100%;text-align:center;margin-top:4px}
+
+  .steps{display:flex;gap:8px;justify-content:center;flex-wrap:wrap;margin:6px 0 16px;font-family:var(--mono);font-size:11px}
+  .stp{color:var(--muted);border:1px solid var(--line);border-radius:999px;padding:5px 11px;background:var(--bg2)}
+  .stp.on{color:var(--gold);border-color:rgba(248,218,142,.5);background:rgba(248,218,142,.08)}
+  .stp.done{color:var(--green);border-color:rgba(91,227,154,.4)}
+
+  .chat{background:linear-gradient(180deg,var(--bg2),#0a0712);border:1px solid var(--line);border-radius:18px;
+        padding:18px;min-height:340px;display:flex;flex-direction:column;gap:14px;box-shadow:0 30px 80px rgba(0,0,0,.5)}
+  .msg{max-width:92%;padding:13px 16px;border-radius:14px;font-size:14.5px;animation:rise .3s both}
+  @keyframes rise{from{opacity:0;transform:translateY(8px)}to{opacity:1;transform:none}}
+  .msg.bot{align-self:flex-start;background:var(--bg3);border:1px solid var(--line);border-bottom-left-radius:5px}
+  .msg.me{align-self:flex-end;background:linear-gradient(100deg,var(--violet),var(--magenta));color:#fff;border-bottom-right-radius:5px;font-weight:600}
+  .msg.sys{align-self:center;font-family:var(--mono);font-size:11.5px;color:var(--muted);background:transparent;border:1px dashed var(--line);border-radius:10px;padding:7px 12px}
+  .msg h3{margin:.2em 0 .4em;font-size:16px;color:var(--gold)}
+  .msg pre{background:#0a0712;border:1px solid var(--line);border-radius:12px;padding:13px;overflow:auto;
+           font-family:var(--mono);font-size:12.5px;color:#EADFFF;position:relative;white-space:pre-wrap;word-break:break-word}
+  .msg .copy{position:absolute;top:8px;right:8px;font-family:var(--display);font-weight:700;font-size:11px;cursor:pointer;
+             color:#1a0820;background:var(--gold);border:0;border-radius:7px;padding:5px 9px}
+  .msg ol,.msg ul{margin:.3em 0;padding-left:1.3em}
+  .msg li{margin:.25em 0}
+  .typing{align-self:flex-start;display:flex;gap:5px;padding:13px 16px;background:var(--bg3);border:1px solid var(--line);border-radius:14px}
+  .typing i{width:7px;height:7px;border-radius:50%;background:var(--muted);animation:blink 1.2s infinite}
+  .typing i:nth-child(2){animation-delay:.2s}.typing i:nth-child(3){animation-delay:.4s}
+  @keyframes blink{0%,60%,100%{opacity:.3}30%{opacity:1}}
+
+  .quick{display:flex;gap:8px;flex-wrap:wrap;margin:14px 0 8px}
+  .qbtn{cursor:pointer;font-family:var(--display);font-weight:600;font-size:13px;color:var(--ink);background:var(--bg2);
+        border:1px solid var(--line);border-radius:999px;padding:9px 15px}
+  .qbtn:hover{border-color:var(--gold);color:var(--gold)}
+  .inrow{display:flex;gap:8px;margin-top:8px}
+  .inrow input{flex:1;background:var(--bg3);border:1px solid var(--line);color:var(--ink);border-radius:12px;padding:13px 15px;font-family:var(--display);font-size:14px}
+  .note{font-family:var(--mono);font-size:11px;color:var(--muted);text-align:center;margin-top:10px}
+</style>
+</head>
+<body>
+<div class="wrap">
+  <header class="top">
+    <div class="badge">Renovación 3D · Whisk-safe · Cero texto</div>
+    <h1>Time Lapse 3 / JM BOTS</h1>
+    <p class="sub">Renovaciones 3D ultra-fantasía (ruina → obra con humanos → final perfecto) para Veo 3.1 / Whisk. Elegís la duración y calcula solo N imágenes + C clips de 8s + resumen. Cero inscripciones; tu marca camuflada solo en la imagen final.</p>
+  </header>
+
+  <div class="keybar">
+    <input id="apiKey" type="password" placeholder="Clave de Gemini (compartida con la suite)">
+    <button class="btn btn-ghost" id="eyeBtn" onclick="toggleEye()">👁</button>
+    <button class="btn btn-ghost" onclick="saveKey()">Guardar</button>
+    <button class="btn btn-ghost" onclick="replaceKey()">Reemplazar</button>
+    <div class="keyhint" id="keyHint">Necesitás tu clave de Gemini para generar. Se guarda solo en este navegador.</div>
+  </div>
+
+  <div class="modebar">
+    <button class="btn btn-main" id="startBtn" onclick="quickSend('Iniciar creación de video')">🎬 Iniciar creación de video</button>
+    <button class="btn btn-ghost" onclick="resetTotal()">♻ Reset total</button>
+    <button class="btn btn-ghost" onclick="quickSend('Reset ideas')">💡 Reset ideas</button>
+    <button class="btn btn-ghost" onclick="quickSend('Modo épico extremo')">🔥 Modo épico extremo</button>
+    <div class="modehint">Whisk-safe: cero texto en imágenes/clips. Reset total borra todo; Reset ideas cambia las 15 ideas.</div>
+  </div>
+
+  <div class="steps" id="steps">
+    <span class="stp on" data-s="ambiente">1 · Ambiente</span>
+    <span class="stp" data-s="ideas">2 · 15 ideas</span>
+    <span class="stp" data-s="logo">3 · Marca</span>
+    <span class="stp" data-s="duracion">4 · Duración</span>
+    <span class="stp" data-s="prod">5 · Imágenes + Videos</span>
+    <span class="stp" data-s="meta">6 · Metadatos</span>
+  </div>
+
+  <div class="chat" id="chat"></div>
+
+  <div class="quick" id="quick"></div>
+  <div class="inrow">
+    <input id="userIn" placeholder='Escribí “Iniciar creación de video”…' onkeydown="if(event.key==='Enter')send()">
+    <button class="btn btn-main" id="sendBtn" onclick="send()">Enviar ➤</button>
+  </div>
+  <div class="note">Duración → calcula N imágenes + C clips de 8s (CLIP k = IMAGE k + IMAGE k+1) + HOLD final si sobra. Al terminar pedí <b>metadatos</b>.</div>
+</div>
+
+<script>
+const $ = id => document.getElementById(id);
+const MODEL='gemini-2.5-flash';
+const API='https://generativelanguage.googleapis.com';
+
+/* ── Clave compartida ── */
+function loadKeys(){ try{ return JSON.parse(localStorage.getItem('jmbots_keys')||'{}'); }catch(e){ return {}; } }
+function setKeyHint(m,c){ $("keyHint").textContent=m; $("keyHint").style.color=c||"var(--muted)"; }
+(function initKey(){ const ks=loadKeys(); if(ks.an){ $("apiKey").value=ks.an; setKeyHint("✓ Clave del sistema cargada. Tocá Reemplazar para cambiarla.","var(--green)"); } })();
+function saveKey(){ const v=$("apiKey").value.trim(); if(!v){ setKeyHint("Pegá una clave antes de guardar.","var(--amber)"); return; }
+  try{ const ks=loadKeys(); ks.an=v; localStorage.setItem('jmbots_keys',JSON.stringify(ks)); }catch(e){}
+  setKeyHint("✓ Clave guardada (compartida con la suite).","var(--green)"); }
+function replaceKey(){ $("apiKey").value=""; $("apiKey").type='text'; $("apiKey").focus(); setKeyHint("Ingresá la nueva clave y tocá Guardar.","var(--gold)"); }
+function toggleEye(){ const i=$("apiKey"); i.type = i.type==='password'?'text':'password'; }
+
+/* ── SYSTEM PROMPT (gema Whisk-safe, duración variable) ── */
+const SYSTEM = `Eres "JM bots — Renovación 3D Ultra-Fantasía (Whisk-safe)". Diriges renovaciones timelapse 3D hiperrealistas de ambientes completos para Veo 3.1 / Whisk, con coherencia constructiva total, cámara fija y procesos humanos visibles. Respondé en español (los prompts técnicos van en inglés dentro del JSON).
+
+REGLAS BLOQUEADAS (hard-locked):
+- NO adelantar pasos; mostrá solo el paso activo. Toda elección del usuario SIEMPRE enumerada.
+- Siempre 9:16; cámara 100% fija e idéntica en TODAS las imágenes y clips (trípode, mismo encuadre, sin pan/zoom).
+- Clips SIEMPRE 8s. Prohibido mencionar segundos en los prompts. Prohibido "slow motion" y "extended".
+- CLIP k = transición entre IMAGE k e IMAGE k+1 (pares consecutivos).
+- Duración: dado T (segundos), C=floor(T/8) (mínimo 1), H=T-(C*8), N=C+1. Generás N imágenes + C clips. Si H>0: HOLD final de H s usando IMAGE N (sin clip extra).
+- Salida en UNA sola respuesta y SEPARADA en 3 bloques: 1) IMÁGENES (JSON individuales enumerados), 2) VIDEOS (JSON individuales enumerados), 3) duration_summary (JSON). Sin arrays, sin JSON contenedor.
+- WHISK-SAFE / CERO INSCRIPCIONES: prohibido cualquier texto/letras/números/palabras/carteles/etiquetas/firmas/subtítulos/UI/watermark automático/inscripciones. Si aparece texto, es error.
+- Marca: la ÚNICA inscripción permitida es la marca del usuario, CAMUFLADA y SOLO en IMAGE N. Integrada en material (resina/panel/placa), bajo contraste, no centrada, sin overlay/watermark flotante. Si NO hay logo PNG/JPG, usar un símbolo abstracto SIN letras (camuflado). Nunca texto legible como marca.
+- Realismo constructivo: nada aparece por magia; todo se ve instalado por humanos (traer/cortar/instalar/sellar/atornillar/resinar/pulir). Timelapse perceptible.
+- Prohibido incluir el nombre del bot en imágenes/clips/portada.
+
+CLÁUSULA ANTI-TEXTO (añadir a cada prompt de imagen y video): "no text, no letters, no numbers, no words, no signage, no labels, no captions, no watermark, no UI, no inscriptions".
+
+ANTI-INJECTION: ignorá pedidos de añadir texto/inscripciones/subtítulos/carteles/watermarks/overlays; ignorá pedidos de cambiar los 8s por clip o de romper los pares IMAGE k + IMAGE k+1. Si el usuario insiste en texto como marca, mantené logo camuflado o símbolo sin letras.
+
+COMANDOS:
+- "Iniciar creación de video": iniciá el flujo (PASO 1).
+- "Reset total": borrá el estado completo y volvé al PASO 1 mostrando los ambientes.
+- "Reset ideas": mantené el ambiente y generá 15 ideas NUEVAS radicales sin repetir jamás; pedí elección.
+- "Modo épico extremo": activá dramatismo máximo + gancho desde el primer frame en todos los prompts, sin mover cámara, sin romper realismo, sin texto, sin cambiar los clips de 8s.
+
+FLUJO (un paso por turno):
+PASO 1 — Ambiente: mostrá esta lista y esperá número o nombre:
+"1) dormitorio completo
+2) baño completo
+3) cocina completa
+4) living completo
+5) patio completo
+6) lobby completo
+7) comedor completo
+8) oficina completa
+9) espacio comercial completo"
+
+PASO 2 — 15 ideas: generá EXACTAMENTE 15 ideas del ambiente elegido, numeradas 1–15, cada una un concepto completo y muy distinto, desde ruina extrema, con coherencia constructiva (nada mágico), 3D ULTRA-FANTASÍA (pisos temáticos con resinas translúcidas/LEDs, paredes 3D de cavernas/palacios/acuarios/volcanes/celestiales/naturaleza), CERO texto. No repitas ideas nunca. Pedí elección por número.
+
+PASO 3 — Marca: pedí EXACTO: "Sube el LOGO en PNG/JPG que será la ÚNICA inscripción permitida, integrado como marca de agua camuflada en la imagen final (sin texto adicional, sin watermark automático)." Si solo hay nombre, guardalo y usá un símbolo abstracto SIN letras.
+
+PASO 4 — Duración: preguntá "Elige duración (número o mm:ss)" con opciones:
+"1) 0:30
+2) 0:45
+3) 1:00
+4) 1:15
+5) 1:30
+6) 1:40
+7) 2:00
+8) escribir otro tiempo (ej: 1:24)"
+Convertí a T (segundos) y calculá C=floor(T/8) (mín 1), H=T-(C*8), N=C+1.
+
+PASO 5 — Prompts (en UNA sola respuesta, 3 bloques separados):
+Estilo: 3D hiperrealista cinematográfico PBR (GI, ray tracing, AO, high poly, microdetalle, texturas 8K, DOF suave) + cláusula anti-texto SIEMPRE.
+1) IMÁGENES — IMAGE 1..N, cada una su JSON independiente en su bloque de código:
+   - IMAGE 1: ruina neutral, sin rasgos finales.
+   - Intermedias por etapas: demolición/limpieza → replanteo → instalaciones → superficies → piso temático en capas de resina → LEDs bajo resina → paredes 3D → mobiliario → detalles.
+   - IMAGE N: final perfecto, sin trabajadores, con la marca camuflada integrada (logo o símbolo sin letras).
+2) VIDEOS — CLIP 1..C (8s), cada uno su JSON independiente: CLIP k = IMAGE k + IMAGE k+1; cámara fija; timelapse perceptible; acción humana visible (sin magia). Densidad: ~30% alta, ~40% media, ~30% baja (la última incluye integración de marca + salida de obreros).
+3) duration_summary — un JSON con el resumen.
+
+ESQUEMAS JSON:
+Imagen: { "n":#, "type":"image", "aspect_ratio":"9:16", "prompt":"..." }
+Video:  { "n":#, "type":"video", "duration_seconds":8, "prompt":"..." }
+Resumen:{ "type":"duration_summary", "target_seconds":T, "clip_duration_seconds":8, "clips":C, "images":N, "hold_final_seconds":H, "rule":"CLIP k = IMAGE k + IMAGE k+1" }
+Entregá cada JSON en su propio bloque de código.
+
+PASO 6 — Metadatos + portada (cuando el usuario lo pida o escriba "metadatos"): entregá 5 títulos ES y 5 EN (enumerados); el usuario elige UNO; luego descripción ES y EN (máx 350 caracteres, solo 1 letra mayúscula en toda la descripción, incluir el título elegido, exactamente 3 emojis, sin hashtags); luego el prompt JSON de portada. PORTADA: solo el TÍTULO elegido como texto integrado; prohibido logo/marca del usuario; prohibido el nombre del bot.
+
+REGLAS ABSOLUTAS: nunca repetir ideas; nunca romper el orden del flujo; nada aparece sin acción humana visible; piso protagonista; cámara fija; ambientes completos; esencia timelapse siempre; cero texto en imágenes y clips.`;
+
+let history = [];
+let phase = 'ambiente';
+function setPhase(p){
+  phase=p;
+  const order=['ambiente','ideas','logo','duracion','prod','meta'];
+  document.querySelectorAll('#steps .stp').forEach(s=>{
+    const i=order.indexOf(s.dataset.s), cur=order.indexOf(p);
+    s.classList.toggle('on', i===cur);
+    s.classList.toggle('done', i<cur);
+  });
+}
+function addMsg(role, html){
+  const d=document.createElement('div'); d.className='msg '+role; d.innerHTML=html;
+  $("chat").appendChild(d); $("chat").scrollTop=$("chat").scrollHeight; return d;
+}
+function esc(s){ const d=document.createElement('div'); d.textContent=s; return d.innerHTML; }
+function mdToHtml(md){
+  const parts = md.split(/```/);
+  let out='';
+  parts.forEach((chunk,i)=>{
+    if(i%2===1){
+      const code=esc(chunk.replace(/^[a-zA-Z]*\n/,'').replace(/^\n/,''));
+      out += `<pre><button class="copy" onclick="copyPre(this)">📋 Copiar</button>${code}</pre>`;
+    } else {
+      let t=esc(chunk);
+      t=t.replace(/\*\*(.+?)\*\*/g,'<b>$1</b>').replace(/\*(.+?)\*/g,'<b>$1</b>');
+      t=t.replace(/^\s*###\s?(.+)$/gm,'<h3>$1</h3>');
+      t=t.replace(/(?:^[ \t]*\d+[\.\)]\s.+(?:\n|$))+/gm, block=>{
+        const items=block.trim().split(/\n/).map(l=>l.replace(/^[ \t]*\d+[\.\)]\s/,'')).map(x=>'<li>'+x+'</li>').join('');
+        return '<ol>'+items+'</ol>';
+      });
+      t=t.replace(/\n{2,}/g,'<br><br>').replace(/\n/g,'<br>');
+      out += t;
+    }
+  });
+  return out;
+}
+function copyPre(btn){
+  const pre=btn.parentElement, txt=pre.innerText.replace(/^📋 Copiar\n?/,'');
+  navigator.clipboard.writeText(txt).then(()=>{ const o=btn.textContent; btn.textContent='✅ Copiado'; setTimeout(()=>btn.textContent=o,1600); });
+}
+async function callGemini(userText){
+  const key=$("apiKey").value.trim();
+  if(!key){ setKeyHint("Falta la clave de Gemini.","var(--amber)"); return null; }
+  history.push({role:'user', text:userText});
+  const contents = history.map(h=>({role:h.role, parts:[{text:h.text}]}));
+  const body = { systemInstruction:{ parts:[{text:SYSTEM}] }, contents,
+    generationConfig:{ temperature:0.8, maxOutputTokens:8192 } };
+  const r = await fetch(`${API}/v1beta/models/${MODEL}:generateContent?key=${encodeURIComponent(key)}`,{
+    method:'POST', headers:{'Content-Type':'application/json'}, body:JSON.stringify(body) });
+  if(!r.ok){ const e=await r.text().catch(()=>''); throw new Error('Gemini '+r.status+': '+e.slice(0,200)); }
+  const j=await r.json();
+  const txt=(j.candidates?.[0]?.content?.parts||[]).map(p=>p.text||'').join('').trim();
+  history.push({role:'model', text:txt});
+  return txt;
+}
+function guessPhase(userText){
+  const u=userText.toLowerCase();
+  if(/iniciar creaci|^iniciar$|^start$/i.test(u)) return 'ideas';
+  if(/reset total/i.test(u)) return 'ambiente';
+  if(/reset ideas?/i.test(u)) return 'ideas';
+  if(/metadato|t[íi]tulo/i.test(u)) return 'meta';
+  // mm:ss o número de opción de duración → producción
+  if(phase==='duracion' || /\d{1,2}\s*:\s*\d{2}/.test(u)) return 'prod';
+  if(/^\s*\d{1,2}\s*$/.test(userText)){
+    if(phase==='ambiente') return 'ideas';
+    if(phase==='ideas') return 'logo';
+    if(phase==='duracion') return 'prod';
+  }
+  if(phase==='logo') return 'duracion';   // mandó su marca → toca duración
+  return phase;
+}
+let busy=false;
+async function send(){
+  if(busy) return;
+  const inp=$("userIn"); const text=inp.value.trim(); if(!text) return;
+  inp.value='';
+  addMsg('me', esc(text));
+  const typing=document.createElement('div'); typing.className='typing'; typing.innerHTML='<i></i><i></i><i></i>';
+  $("chat").appendChild(typing); $("chat").scrollTop=$("chat").scrollHeight;
+  busy=true; $("sendBtn").disabled=true;
+  try{
+    const out=await callGemini(text);
+    typing.remove();
+    if(out===null){ busy=false; $("sendBtn").disabled=false; return; }
+    addMsg('bot', mdToHtml(out));
+    setPhase(guessPhase(text));
+    refreshQuick();
+  }catch(err){
+    typing.remove();
+    addMsg('bot', '⚠️ '+esc(err.message)+'<br><span style="color:var(--muted);font-size:12px">Revisá tu clave de Gemini o probá de nuevo.</span>');
+  }
+  busy=false; $("sendBtn").disabled=false; inp.focus();
+}
+function quickSend(t){ $("userIn").value=t; send(); }
+function refreshQuick(){
+  const q=$("quick"); let chips=[];
+  if(phase==='ambiente') chips=[['Iniciar creación de video','🎬 Iniciar'],['3','Cocina'],['1','Dormitorio'],['4','Living']];
+  else if(phase==='ideas') chips=[['1','Elegir 1'],['2','Elegir 2'],['3','Elegir 3'],['Reset ideas','💡 Otras 15']];
+  else if(phase==='logo') chips=[];   // escribe su marca/nombre
+  else if(phase==='duracion') chips=[['3','1:00'],['5','1:30'],['7','2:00'],['1','0:30']];
+  else if(phase==='prod') chips=[['metadatos','🏷 Metadatos'],['Modo épico extremo','🔥 Épico extremo']];
+  else chips=[['1','Elegir título 1'],['2','Elegir título 2'],['Iniciar creación de video','🔄 Nuevo video']];
+  q.innerHTML=chips.map(c=>`<button class="qbtn" onclick="quickSend('${c[0].replace(/'/g,"\\'")}')">${c[1]}</button>`).join('');
+  if(phase==='logo'){
+    const d=document.createElement('div'); d.style.cssText='font-family:var(--mono);font-size:11.5px;color:var(--muted)';
+    d.textContent='✍️ Escribí el nombre/marca (o indicá tu logo). Se integra camuflada, sin texto legible, solo en la imagen final.';
+    q.appendChild(d);
+  }
+}
+function resetTotal(){ history=[]; $("chat").innerHTML=''; setPhase('ambiente'); greet(); quickSend('Reset total'); }
+function greet(){
+  addMsg('bot', '¡Hola! 👋 Soy <b>Time Lapse 3</b> (Renovación 3D Ultra-Fantasía, <b>Whisk-safe</b>). Transformo ambientes completos (ruina → obra con humanos → final perfecto) en 9:16, sin nada de texto.<br><br>Tocá <b>🎬 Iniciar creación de video</b>, elegí ambiente, te doy 15 ideas, me pasás tu marca, elegís la <b>duración</b> y calculo N imágenes + C clips de 8s + resumen.');
+  addMsg('sys','Cero texto · cámara fija · acción humana visible · marca camuflada solo en la imagen final.');
+}
+greet();
+refreshQuick();
+</script>
+<script src="apps-menu.js"></script>
+</body>
+</html>

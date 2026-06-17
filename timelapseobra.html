@@ -1,0 +1,171 @@
+<!doctype html>
+<html lang="es">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Timelapse Construcción · JM BOTS</title>
+<style>
+  :root{
+    --bg:#0a0b0d; --bg2:#101216; --bg3:#171b21; --ink:#F0F4F8; --body:#C2CCD8; --muted:#7E8A99;
+    --line:#242c36; --c1:#D9A441; --c2:#5B9BD1; --c3:#9AA7B5; --gold:#F8DA8E; --green:#5BE39A;
+    --grad:linear-gradient(100deg,#D9A441,#9AA7B5 55%,#5B9BD1);
+    --display:'Sora',system-ui,sans-serif; --mono:'JetBrains Mono',ui-monospace,monospace;
+  }
+  *{box-sizing:border-box}
+  body{margin:0;background:radial-gradient(1100px 600px at 70% -10%,rgba(217,164,65,.13),transparent 60%),var(--bg);
+       color:var(--body);font-family:var(--display);-webkit-font-smoothing:antialiased;line-height:1.55}
+  a{color:var(--c1)}
+  .wrap{max-width:980px;margin:0 auto;padding:26px 20px 120px}
+  header.top{text-align:center;margin-bottom:18px}
+  .badge{display:inline-block;font-family:var(--mono);font-size:11px;letter-spacing:.18em;text-transform:uppercase;
+         color:var(--c1);border:1px solid var(--line);border-radius:999px;padding:6px 14px;background:var(--bg2);margin-bottom:14px}
+  h1{font-weight:800;font-size:clamp(26px,5vw,40px);margin:0 0 8px;letter-spacing:-.02em;
+     background:var(--grad);-webkit-background-clip:text;background-clip:text;-webkit-text-fill-color:transparent}
+  .sub{color:var(--muted);max-width:64ch;margin:0 auto;font-size:15px}
+  .keybar{display:flex;gap:8px;align-items:center;flex-wrap:wrap;background:var(--bg2);border:1px solid var(--line);border-radius:14px;padding:12px;margin:18px 0}
+  .keybar input{flex:1;min-width:200px;background:var(--bg3);border:1px solid var(--line);color:var(--ink);border-radius:10px;padding:11px 13px;font-family:var(--mono);font-size:13px}
+  .btn{cursor:pointer;border:0;border-radius:10px;padding:11px 16px;font-family:var(--display);font-weight:700;font-size:13.5px;transition:transform .08s,box-shadow .18s,opacity .15s;display:inline-flex;align-items:center;gap:7px;white-space:nowrap}
+  .btn-main{color:#1a1304;background:var(--grad);box-shadow:0 8px 24px rgba(217,164,65,.30)}
+  .btn-main:hover{transform:translateY(-1px)}
+  .btn-ghost{background:var(--bg3);color:var(--ink);border:1px solid var(--line)}
+  .btn-ghost:hover{border-color:var(--c1)}
+  .btn:disabled{opacity:.5;cursor:not-allowed;transform:none}
+  .keyhint{font-family:var(--mono);font-size:11.5px;color:var(--muted);width:100%}
+  .steps{display:flex;gap:8px;justify-content:center;flex-wrap:wrap;margin:6px 0 16px;font-family:var(--mono);font-size:11px}
+  .stp{color:var(--muted);border:1px solid var(--line);border-radius:999px;padding:5px 11px;background:var(--bg2)}
+  .stp.on{color:var(--gold);border-color:rgba(248,218,142,.5);background:rgba(248,218,142,.08)}
+  .stp.done{color:var(--green);border-color:rgba(91,227,154,.4)}
+  .chat{background:linear-gradient(180deg,var(--bg2),var(--bg));border:1px solid var(--line);border-radius:18px;padding:18px;min-height:340px;display:flex;flex-direction:column;gap:14px;box-shadow:0 30px 80px rgba(0,0,0,.5)}
+  .msg{max-width:92%;padding:13px 16px;border-radius:14px;font-size:14.5px;animation:rise .3s both}
+  @keyframes rise{from{opacity:0;transform:translateY(8px)}to{opacity:1;transform:none}}
+  .msg.bot{align-self:flex-start;background:var(--bg3);border:1px solid var(--line);border-bottom-left-radius:5px}
+  .msg.me{align-self:flex-end;background:linear-gradient(100deg,var(--c1),var(--c2));color:#1a1304;border-bottom-right-radius:5px;font-weight:600}
+  .msg.sys{align-self:center;font-family:var(--mono);font-size:11.5px;color:var(--muted);background:transparent;border:1px dashed var(--line);border-radius:10px;padding:7px 12px}
+  .msg h3{margin:.2em 0 .4em;font-size:16px;color:var(--gold)}
+  .msg pre{background:var(--bg);border:1px solid var(--line);border-radius:12px;padding:13px;overflow:auto;font-family:var(--mono);font-size:12.5px;color:#EAF1F7;position:relative;white-space:pre-wrap;word-break:break-word}
+  .msg .copy{position:absolute;top:8px;right:8px;font-family:var(--display);font-weight:700;font-size:11px;cursor:pointer;color:#1a1304;background:var(--gold);border:0;border-radius:7px;padding:5px 9px}
+  .msg ol,.msg ul{margin:.3em 0;padding-left:1.3em}.msg li{margin:.25em 0}
+  .typing{align-self:flex-start;display:flex;gap:5px;padding:13px 16px;background:var(--bg3);border:1px solid var(--line);border-radius:14px}
+  .typing i{width:7px;height:7px;border-radius:50%;background:var(--muted);animation:blink 1.2s infinite}
+  .typing i:nth-child(2){animation-delay:.2s}.typing i:nth-child(3){animation-delay:.4s}
+  @keyframes blink{0%,60%,100%{opacity:.3}30%{opacity:1}}
+  .quick{display:flex;gap:8px;flex-wrap:wrap;margin:14px 0 8px}
+  .qbtn{cursor:pointer;font-family:var(--display);font-weight:600;font-size:13px;color:var(--ink);background:var(--bg2);border:1px solid var(--line);border-radius:999px;padding:9px 15px}
+  .qbtn:hover{border-color:var(--gold);color:var(--gold)}
+  .inrow{display:flex;gap:8px;margin-top:8px}
+  .inrow input{flex:1;background:var(--bg3);border:1px solid var(--line);color:var(--ink);border-radius:12px;padding:13px 15px;font-family:var(--display);font-size:14px}
+  .note{font-family:var(--mono);font-size:11px;color:var(--muted);text-align:center;margin-top:10px}
+</style>
+</head>
+<body>
+<div class="wrap">
+  <header class="top">
+    <div class="badge">Timelapse · Construcción · Piso Epoxy</div>
+    <h1>Timelapse Construcción</h1>
+    <p class="sub">Genera timelapses de construcción con reveal de antes y después y piso de epoxy artístico de lujo. Te doy ideas de espacios; al elegir uno, armo las imágenes por etapas (vacío → obra → epoxy → amueblado) con cámara estática, y luego los videos que encadenan cada par de frames. Prompts en inglés, listos para copiar.</p>
+  </header>
+
+  <div class="keybar">
+    <input id="apiKey" type="password" placeholder="Clave de Gemini (compartida con la suite)">
+    <button class="btn btn-ghost" id="eyeBtn" onclick="toggleEye()">👁</button>
+    <button class="btn btn-ghost" onclick="saveKey()">Guardar</button>
+    <button class="btn btn-ghost" onclick="replaceKey()">Reemplazar</button>
+    <div class="keyhint" id="keyHint">Necesitás tu clave de Gemini para generar. Se guarda solo en este navegador.</div>
+  </div>
+
+  <div class="steps" id="steps">
+    <span class="stp on" data-s="p1">1 · Espacios</span>
+    <span class="stp" data-s="p2">2 · Imágenes (etapas)</span>
+    <span class="stp" data-s="p3">3 · Videos (encadenados)</span>
+  </div>
+
+  <div class="chat" id="chat"></div>
+
+  <div class="quick" id="quick"></div>
+  <div class="inrow">
+    <input id="userIn" placeholder='Escribí “iniciar” para generar espacios…' onkeydown="if(event.key==='Enter')send()">
+    <button class="btn btn-main" id="sendBtn" onclick="send()">Enviar ➤</button>
+  </div>
+  <div class="note">Comandos: <b>iniciar</b> · <b>N espacios</b> · <b>1-N</b> (elegir) · <b>videos</b> (encadenar frames) · <b>otro espacio</b> · <b>reset</b>. Cada prompt tiene botón 📋.</div>
+</div>
+
+<script>
+const $ = id => document.getElementById(id);
+const MODEL='gemini-2.5-flash';
+const API='https://generativelanguage.googleapis.com';
+
+function loadKeys(){ try{ return JSON.parse(localStorage.getItem('jmbots_keys')||'{}'); }catch(e){ return {}; } }
+function setKeyHint(m,c){ $("keyHint").textContent=m; $("keyHint").style.color=c||"var(--muted)"; }
+(function initKey(){ const ks=loadKeys(); if(ks.an){ $("apiKey").value=ks.an; setKeyHint("✓ Clave del sistema cargada. Tocá Reemplazar para cambiarla.","var(--green)"); } })();
+function saveKey(){ const v=$("apiKey").value.trim(); if(!v){ setKeyHint("Pegá una clave antes de guardar.","var(--gold)"); return; } try{ const ks=loadKeys(); ks.an=v; localStorage.setItem('jmbots_keys',JSON.stringify(ks)); }catch(e){} setKeyHint("✓ Clave guardada (compartida con la suite).","var(--green)"); }
+function replaceKey(){ $("apiKey").value=""; $("apiKey").type='text'; $("apiKey").focus(); setKeyHint("Ingresá la nueva clave y tocá Guardar.","var(--gold)"); }
+function toggleEye(){ const i=$("apiKey"); i.type = i.type==='password'?'text':'password'; }
+
+const SYSTEM = `Eres un visualizador arquitectónico profesional, director de time-lapse de construcción e ingeniero de prompts de IA ultra-realista. Generás timelapses de construcción con reveal de antes/después y piso de EPOXY ARTÍSTICO DE LUJO. Conversás con el usuario en español. Los PROMPTS de imagen y video van en INGLÉS (mejor render).
+
+### PASO 1 — TOPIC (cuando el usuario inicia o pide espacios):
+Generá la cantidad pedida de ideas de espacios residenciales o comerciales que funcionen muy bien para transformaciones de construcción y proyectos de piso epoxy (por defecto 10). Cada idea: nombre del espacio + 1 línea de por qué luce dramático en before/after. Ejemplos de categorías: Garage, Living, Interior de tienda, Dormitorio, Home office, Showroom de lujo, Cocina, Baño, Monoambiente, Comedor, Restaurante, Café, Gimnasio, Salón/Spa, Depósito industrial. Variedad amplia. ⚠️ NO generes prompts todavía. Esperá a que el usuario elija un espacio (número). "más espacios" = nuevas ideas.
+
+### PASO 2 — IMAGE PROMPTS (cuando el usuario elige un espacio):
+Generá los image prompts de una secuencia de time-lapse del MISMO cuarto exacto, capturado desde el MISMO ángulo y perspectiva de cámara (cámara 100% estática). Por defecto 4 etapas (4 imágenes), cada una en su propio bloque de código, en INGLÉS, fotorrealista ultra-detallado 8K, sin texto/logos/marcas de agua. Etapas obligatorias:
+IMAGE 1 — Empty / Under-Construction Room: piso de concreto mate desnudo con polvo, escombros de obra, sin muebles, fase temprana, iluminación natural realista, estructura arquitectónica clara.
+IMAGE 2 — Mid-Construction: obreros trabajando con equipo de seguridad, algunas paredes terminadas y otras no, herramientas/escaleras/materiales, preparación del piso para epoxy (pulido, nivelado, capa base), entorno realista y desordenado.
+IMAGE 3 — Construction Completed (High-End Epoxy Floor): obra terminada, cuarto limpio y vacío, piso con acabado epoxy metálico artístico premium, epoxy grueso vertido con patrones orgánicos estilo mármol, vetas de pigmento (plata, charcoal, azul profundo, dorado cálido), profundidad líquida, ultra brillante con reflejos espejo de luces y ventanas.
+IMAGE 4 — Final Room with Furniture: mismo cuarto totalmente amueblado, diseño interior completo, muebles ubicados natural y realista, el piso epoxy artístico sigue visible y brillante bajo los muebles, luz ambiente cálida, look final premium y habitado.
+REGLAS DE PISO (críticas): el piso DEBE verse como epoxy art de lujo; NO baldosas de cerámica; NO placas de mármol; NO piso blanco brillante liso.
+REGLAS GLOBALES: mismo cuarto, misma posición y perspectiva de cámara en todas; visual real, cinematográfico y tipo time-lapse; actividad de construcción realista (sin transformaciones mágicas); obreros realistas con equipo de seguridad; cámara completamente estática. Si el usuario pide más etapas/imágenes, generá esa cantidad (intermedias coherentes).
+Al terminar las imágenes, escribí: "Escribí «videos» para encadenar los frames en clips."
+
+### PASO 3 — VIDEO PROMPTS (cuando el usuario escribe "videos"):
+Generá video prompts que animen las imágenes en time-lapses realistas, encadenando pares de frames consecutivos. REGLA DE CANTIDAD: la cantidad de video prompts = (cantidad de imágenes − 1). Con 4 imágenes → 3 videos; con 5 imágenes → 4 videos; con 6 → 5. Cada video en su propio bloque de código, en INGLÉS. Formato por clip:
+"N — [etapa A] → [etapa B] / Frames: IMAGE X (first) + IMAGE Y (second)" y la descripción detallada. Cámara estática y perspectiva consistente en TODOS. Progresión continua y creíble dentro del mismo cuarto, sin transformaciones repentinas. Descripciones por etapa (no las acortes ni resumas):
+- Empty → Mid-Construction: progreso de obra de vacío a fase activa; obreros rompiendo, perforando y construyendo; partículas de polvo en el aire; preparación del piso (pulido, nivelado, tratamiento); progreso gradual y realista.
+- Mid-Construction → Completed Epoxy Floor: proceso de epoxy en curso; obreros vertiendo epoxy líquido sobre el piso preparado; pigmentos metálicos esparciéndose y arremolinándose natural; epoxy auto-nivelándose con física de líquido realista; superficie volviéndose lisa, brillante y muy reflejante con el tiempo.
+- Completed Floor → Fully Furnished Room: proceso de amueblado y terminación interior; muebles apareciendo y ubicándose natural; iluminación interior volviéndose más cálida y acogedora; reveal final de interior de lujo terminado; momento de cierre calmo y satisfactorio.
+Si hay más de 4 etapas, describí transiciones intermedias coherentes con el mismo criterio. NO acortes ni resumas ninguna sección. NO cambies el ángulo ni la perspectiva entre escenas.
+
+COMANDOS: iniciar, N espacios, videos, otro espacio, reset.`;
+
+let history = [];
+let phase = 'p1';
+function setPhase(p){ phase=p; const order=['p1','p2','p3']; document.querySelectorAll('#steps .stp').forEach(s=>{ const i=order.indexOf(s.dataset.s), cur=order.indexOf(p); s.classList.toggle('on', i===cur); s.classList.toggle('done', i<cur); }); }
+function addMsg(role, html){ const d=document.createElement('div'); d.className='msg '+role; d.innerHTML=html; $("chat").appendChild(d); $("chat").scrollTop=$("chat").scrollHeight; return d; }
+function esc(s){ const d=document.createElement('div'); d.textContent=s; return d.innerHTML; }
+function mdToHtml(md){ const parts = md.split(/```/); let out='';
+  parts.forEach((chunk,i)=>{ if(i%2===1){ const code=esc(chunk.replace(/^[a-zA-Z]*\n/,'').replace(/^\n/,'')); out += '<pre><button class="copy" onclick="copyPre(this)">📋 Copiar</button>'+code+'</pre>'; }
+    else { let t=esc(chunk); t=t.replace(/\*\*(.+?)\*\*/g,'<b>$1</b>').replace(/\*(.+?)\*/g,'<b>$1</b>'); t=t.replace(/^\s*###?\s?(.+)$/gm,'<h3>$1</h3>');
+      t=t.replace(/(?:^[ \t]*\d+[\.\)]\s.+(?:\n|$))+/gm, block=>{ const items=block.trim().split(/\n/).map(l=>l.replace(/^[ \t]*\d+[\.\)]\s/,'')).map(x=>'<li>'+x+'</li>').join(''); return '<ol>'+items+'</ol>'; });
+      t=t.replace(/\n{2,}/g,'<br><br>').replace(/\n/g,'<br>'); out += t; } });
+  return out; }
+function copyPre(btn){ const pre=btn.parentElement, txt=pre.innerText.replace(/^📋 Copiar\n?/,''); navigator.clipboard.writeText(txt).then(()=>{ const o=btn.textContent; btn.textContent='✅ Copiado'; setTimeout(()=>btn.textContent=o,1600); }); }
+async function callGemini(userText){ const key=$("apiKey").value.trim(); if(!key){ setKeyHint("Falta la clave de Gemini.","var(--gold)"); return null; }
+  history.push({role:'user', text:userText}); const contents = history.map(h=>({role:h.role, parts:[{text:h.text}]}));
+  const body = { systemInstruction:{ parts:[{text:SYSTEM}] }, contents, generationConfig:{ temperature:0.82, maxOutputTokens:8192 } };
+  const r = await fetch(API+'/v1beta/models/'+MODEL+':generateContent?key='+encodeURIComponent(key),{ method:'POST', headers:{'Content-Type':'application/json'}, body:JSON.stringify(body) });
+  if(!r.ok){ const e=await r.text().catch(()=>''); throw new Error('Gemini '+r.status+': '+e.slice(0,200)); }
+  const j=await r.json(); const txt=(j.candidates?.[0]?.content?.parts||[]).map(p=>p.text||'').join('').trim(); history.push({role:'model', text:txt}); return txt; }
+function guessPhase(u){ u=u.toLowerCase();
+  if(/^\s*(iniciar|reset)\s*$/.test(u) || /espacios|m[áa]s espacios|otro espacio/.test(u)) return 'p1';
+  if(/videos|clips|encadenar/.test(u)) return 'p3';
+  if(/^\s*([1-9]|1[0-9]|20)\s*$/.test(u) && phase==='p1') return 'p2';
+  const order=['p1','p2','p3']; const i=order.indexOf(phase); if(i>=0&&i<2&&u.length) return order[i+1]; return phase; }
+let busy=false;
+async function send(){ if(busy) return; const inp=$("userIn"); const text=inp.value.trim(); if(!text) return; inp.value='';
+  addMsg('me', esc(text)); const typing=document.createElement('div'); typing.className='typing'; typing.innerHTML='<i></i><i></i><i></i>'; $("chat").appendChild(typing); $("chat").scrollTop=$("chat").scrollHeight;
+  busy=true; $("sendBtn").disabled=true;
+  try{ const out=await callGemini(text); typing.remove(); if(out===null){ busy=false; $("sendBtn").disabled=false; return; } addMsg('bot', mdToHtml(out)); setPhase(guessPhase(text)); refreshQuick(); }
+  catch(err){ typing.remove(); addMsg('bot', '⚠️ '+esc(err.message)+'<br><span style="color:var(--muted);font-size:12px">Revisá tu clave de Gemini o probá de nuevo.</span>'); }
+  busy=false; $("sendBtn").disabled=false; inp.focus(); }
+function quickSend(t){ $("userIn").value=t; send(); }
+function refreshQuick(){ const q=$("quick"); let chips=[];
+  if(phase==='p1') chips=[['iniciar','▶ 10 espacios'],['1','Espacio 1'],['más espacios','🎲 Más']];
+  else if(phase==='p2') chips=[['videos','🎬 Encadenar videos'],['otro espacio','🔄 Otro espacio']];
+  else chips=[['otro espacio','🔄 Otro espacio'],['iniciar','🔄 Nuevos espacios']];
+  q.innerHTML=chips.map(c=>'<button class="qbtn" onclick="quickSend(\''+c[0].replace(/'/g,"\\'")+'\')">'+c[1]+'</button>').join(''); }
+addMsg('bot', '¡Hola! 👋 Soy <b>Timelapse Construcción</b>. Armo timelapses de obra con reveal de antes/después y <b>piso de epoxy artístico de lujo</b>, con cámara 100% estática.<br><br>Escribí <b>iniciar</b> (o <b>"15 espacios"</b>) para las ideas de espacios. Elegís uno (número) y te doy las <b>imágenes por etapas</b> (vacío → obra → epoxy → amueblado); después escribí <b>videos</b> y encadeno cada par de frames en clips (N imágenes = N-1 videos).');
+addMsg('sys','Mismo cuarto · cámara estática · piso epoxy de lujo (no cerámica/mármol) · prompts en inglés.');
+refreshQuick();
+</script>
+<script src="apps-menu.js"></script>
+</body>
+</html>

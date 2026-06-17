@@ -1,0 +1,269 @@
+<!doctype html>
+<html lang="es">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Podcast Hiperrealistas · JM BOTS</title>
+<style>
+  :root{
+    --bg:#08090c; --bg2:#0e1016; --bg3:#151821; --ink:#EEF2FA; --body:#C7CEDC; --muted:#8590A3;
+    --line:#262c3a; --orange:#FF7A3D; --amber:#F8B34D; --gold:#F8DA8E; --cyan:#34D0E0; --green:#5BE39A; --violet:#7C5CFF;
+    --grad:linear-gradient(100deg,#FF7A3D,#F8B34D 55%,#FFD27A);
+    --radius:16px;
+    --display:'Sora',system-ui,sans-serif; --mono:'JetBrains Mono',ui-monospace,monospace;
+  }
+  *{box-sizing:border-box}
+  body{margin:0;background:radial-gradient(1100px 600px at 70% -10%,rgba(255,122,61,.13),transparent 60%),var(--bg);
+       color:var(--body);font-family:var(--display);-webkit-font-smoothing:antialiased;line-height:1.55}
+  a{color:var(--cyan)}
+  .wrap{max-width:980px;margin:0 auto;padding:26px 20px 120px}
+  header.top{text-align:center;margin-bottom:18px}
+  .badge{display:inline-block;font-family:var(--mono);font-size:11px;letter-spacing:.18em;text-transform:uppercase;
+         color:var(--orange);border:1px solid var(--line);border-radius:999px;padding:6px 14px;background:var(--bg2);margin-bottom:14px}
+  h1{font-weight:800;font-size:clamp(26px,5vw,40px);margin:0 0 8px;letter-spacing:-.02em;
+     background:var(--grad);-webkit-background-clip:text;background-clip:text;-webkit-text-fill-color:transparent}
+  .sub{color:var(--muted);max-width:64ch;margin:0 auto;font-size:15px}
+
+  .keybar{display:flex;gap:8px;align-items:center;flex-wrap:wrap;background:var(--bg2);border:1px solid var(--line);
+          border-radius:14px;padding:12px;margin:18px 0}
+  .keybar input{flex:1;min-width:200px;background:var(--bg3);border:1px solid var(--line);color:var(--ink);
+                border-radius:10px;padding:11px 13px;font-family:var(--mono);font-size:13px}
+  .btn{cursor:pointer;border:0;border-radius:10px;padding:11px 16px;font-family:var(--display);font-weight:700;font-size:13.5px;
+       transition:transform .08s,box-shadow .18s,opacity .15s;display:inline-flex;align-items:center;gap:7px;white-space:nowrap}
+  .btn-main{color:#26120a;background:var(--grad);box-shadow:0 8px 24px rgba(255,122,61,.32)}
+  .btn-main:hover{transform:translateY(-1px)}
+  .btn-ghost{background:var(--bg3);color:var(--ink);border:1px solid var(--line)}
+  .btn-ghost:hover{border-color:var(--orange)}
+  .btn:disabled{opacity:.5;cursor:not-allowed;transform:none}
+  .keyhint{font-family:var(--mono);font-size:11.5px;color:var(--muted);width:100%}
+
+  .steps{display:flex;gap:8px;justify-content:center;flex-wrap:wrap;margin:6px 0 16px;font-family:var(--mono);font-size:11px}
+  .stp{color:var(--muted);border:1px solid var(--line);border-radius:999px;padding:5px 11px;background:var(--bg2)}
+  .stp.on{color:var(--gold);border-color:rgba(248,218,142,.5);background:rgba(248,218,142,.08)}
+  .stp.done{color:var(--green);border-color:rgba(91,227,154,.4)}
+
+  .chat{background:linear-gradient(180deg,var(--bg2),#090a0e);border:1px solid var(--line);border-radius:18px;
+        padding:18px;min-height:340px;display:flex;flex-direction:column;gap:14px;box-shadow:0 30px 80px rgba(0,0,0,.5)}
+  .msg{max-width:92%;padding:13px 16px;border-radius:14px;font-size:14.5px;animation:rise .3s both}
+  @keyframes rise{from{opacity:0;transform:translateY(8px)}to{opacity:1;transform:none}}
+  .msg.bot{align-self:flex-start;background:var(--bg3);border:1px solid var(--line);border-bottom-left-radius:5px}
+  .msg.me{align-self:flex-end;background:linear-gradient(100deg,var(--violet),var(--orange));color:#fff;border-bottom-right-radius:5px;font-weight:600}
+  .msg.sys{align-self:center;font-family:var(--mono);font-size:11.5px;color:var(--muted);background:transparent;border:1px dashed var(--line);border-radius:10px;padding:7px 12px}
+  .msg h3{margin:.2em 0 .4em;font-size:16px;color:var(--gold)}
+  .msg pre{background:#0a0b0f;border:1px solid var(--line);border-radius:12px;padding:13px;overflow:auto;
+           font-family:var(--mono);font-size:12.5px;color:#E7ECF7;position:relative;white-space:pre-wrap;word-break:break-word}
+  .msg .copy{position:absolute;top:8px;right:8px;font-family:var(--display);font-weight:700;font-size:11px;cursor:pointer;
+             color:#26120a;background:var(--gold);border:0;border-radius:7px;padding:5px 9px}
+  .msg ol,.msg ul{margin:.3em 0;padding-left:1.3em}
+  .msg li{margin:.25em 0}
+  .typing{align-self:flex-start;display:flex;gap:5px;padding:13px 16px;background:var(--bg3);border:1px solid var(--line);border-radius:14px}
+  .typing i{width:7px;height:7px;border-radius:50%;background:var(--muted);animation:blink 1.2s infinite}
+  .typing i:nth-child(2){animation-delay:.2s}.typing i:nth-child(3){animation-delay:.4s}
+  @keyframes blink{0%,60%,100%{opacity:.3}30%{opacity:1}}
+
+  .quick{display:flex;gap:8px;flex-wrap:wrap;margin:14px 0 8px}
+  .qbtn{cursor:pointer;font-family:var(--display);font-weight:600;font-size:13px;color:var(--ink);background:var(--bg2);
+        border:1px solid var(--line);border-radius:999px;padding:9px 15px}
+  .qbtn:hover{border-color:var(--gold);color:var(--gold)}
+  .inrow{display:flex;gap:8px;margin-top:8px}
+  .inrow input{flex:1;background:var(--bg3);border:1px solid var(--line);color:var(--ink);border-radius:12px;padding:13px 15px;font-family:var(--display);font-size:14px}
+  .note{font-family:var(--mono);font-size:11px;color:var(--muted);text-align:center;margin-top:10px}
+</style>
+</head>
+<body>
+<div class="wrap">
+  <header class="top">
+    <div class="badge">Podcast · Veo 3.1 · Estética iPhone</div>
+    <h1>Podcast Hiperrealistas</h1>
+    <p class="sub">Videos virales de motivación tipo podcast hiperrealista para Veo 3.1, estética iPhone. Flujo: 15 ganchos → clips → idioma/acento → guion → avatar → formato → prompts listos para copiar (uno por clip).</p>
+  </header>
+
+  <div class="keybar">
+    <input id="apiKey" type="password" placeholder="Clave de Gemini (compartida con la suite)">
+    <button class="btn btn-ghost" id="eyeBtn" onclick="toggleEye()">👁</button>
+    <button class="btn btn-ghost" onclick="saveKey()">Guardar</button>
+    <button class="btn btn-ghost" onclick="replaceKey()">Reemplazar</button>
+    <div class="keyhint" id="keyHint">Necesitás tu clave de Gemini para generar. Se guarda solo en este navegador.</div>
+  </div>
+
+  <div class="steps" id="steps">
+    <span class="stp on" data-s="ideas">1 · Ideas</span>
+    <span class="stp" data-s="clips">2 · Clips</span>
+    <span class="stp" data-s="idioma">3 · Idioma/Acento</span>
+    <span class="stp" data-s="guion">4 · Guion</span>
+    <span class="stp" data-s="avatar">5 · Avatar</span>
+    <span class="stp" data-s="formato">6 · Formato</span>
+    <span class="stp" data-s="prod">7 · Prompts</span>
+  </div>
+
+  <div class="chat" id="chat"></div>
+
+  <div class="quick" id="quick"></div>
+  <div class="inrow">
+    <input id="userIn" placeholder='Escribí “inicio” para ver las 15 ideas…' onkeydown="if(event.key==='Enter')send()">
+    <button class="btn btn-main" id="sendBtn" onclick="send()">Enviar ➤</button>
+  </div>
+  <div class="note">Comandos: <b>reset ideas</b> (15 nuevas), <b>reset guion</b> (rehace el guion). Cada prompt sale en su bloque con botón 📋.</div>
+</div>
+
+<script>
+const $ = id => document.getElementById(id);
+const MODEL='gemini-2.5-flash';
+const API='https://generativelanguage.googleapis.com';
+
+/* ── Clave compartida ── */
+function loadKeys(){ try{ return JSON.parse(localStorage.getItem('jmbots_keys')||'{}'); }catch(e){ return {}; } }
+function setKeyHint(m,c){ $("keyHint").textContent=m; $("keyHint").style.color=c||"var(--muted)"; }
+(function initKey(){ const ks=loadKeys(); if(ks.an){ $("apiKey").value=ks.an; setKeyHint("✓ Clave del sistema cargada. Tocá Reemplazar para cambiarla.","var(--green)"); } })();
+function saveKey(){ const v=$("apiKey").value.trim(); if(!v){ setKeyHint("Pegá una clave antes de guardar.","var(--amber)"); return; }
+  try{ const ks=loadKeys(); ks.an=v; localStorage.setItem('jmbots_keys',JSON.stringify(ks)); }catch(e){}
+  setKeyHint("✓ Clave guardada (compartida con la suite).","var(--green)"); }
+function replaceKey(){ $("apiKey").value=""; $("apiKey").type='text'; $("apiKey").focus(); setKeyHint("Ingresá la nueva clave y tocá Guardar.","var(--gold)"); }
+function toggleEye(){ const i=$("apiKey"); i.type = i.type==='password'?'text':'password'; }
+
+/* ── SYSTEM PROMPT (gema Podcast, adaptada a prompts LINEALES) ── */
+const SYSTEM = `Eres un 'Content Automation Bot' y Director de Fotografía experto en Veo 3.1, especializado en videos virales de motivación tipo podcast hiperrealista con estética de iPhone. Guías al usuario en un flujo estricto.
+
+### FORMATO DE ENTREGA (MUY IMPORTANTE):
+- Cada prompt técnico se entrega como UNA SOLA PIEZA en formato LINEAL (texto corrido en una sola línea, NO en JSON ni multilínea, sin llaves ni comillas de estructura).
+- Cada prompt va en su PROPIO bloque de código markdown (triple backtick), separado del siguiente por un espacio en blanco. NUNCA agrupes varios prompts en un mismo bloque ni en una lista [].
+- Para los clips, cada bloque contiene en una sola pieza corrida: la instrucción visual de movimiento + la instrucción de voz fija + el guion a narrar (TTS), todo seguido, sin saltos de línea internos.
+
+### REGLAS DE ORO (ESTRICTAS):
+1. NUNCA generes imágenes directamente; entregá siempre prompts técnicos (en bloques individuales, formato lineal).
+2. IDIOMA: el diálogo con el usuario en español latino. Los prompts visuales y de voz, en inglés dentro del bloque.
+3. RESTRICCIÓN VISUAL: prohibido leyendas, subtítulos o texto en los prompts visuales (incluí siempre "no text, no subtitles").
+4. LONGITUD: cada clip del guion tiene entre 18 y 22 palabras (máximo 22). Verificá el conteo.
+5. VOZ FIJA: usá siempre el prompt de voz pausada, serena y segura especificado abajo.
+
+### PROMPT DE VOZ ESTÁNDAR (insertar en cada clip, completando género y acento):
+"Generate speech acting as a 28-year-old [Gender] professional podcaster. Accent: [Accent Selected]. Tone: Warm, confident, calm, articulate, highly secure and engaging. Emotion: Empathetic and inspiring."
+
+### FLUJO DE TRABAJO SECUENCIAL (un paso por turno):
+[PASO 1] IDEAS: al iniciar (o si el usuario escribe "inicio"), entregá directamente 15 ideas de ganchos virales en lista vertical enumerada (1–15). El comando "reset ideas" genera 15 nuevas sin repetir.
+[PASO 2] CANTIDAD DE CLIPS: tras elegir la idea, preguntá: "¿Cuántos clips (8s c/u) deseas para este video?"
+[PASO 3] IDIOMA Y ACENTO: preguntá primero el idioma (lista enumerada). Luego, en un MENSAJE SEPARADO, preguntá el acento/jerga (lista enumerada).
+[PASO 4] GUION: generá el guion dividido en la cantidad de clips elegida; cada clip 18–22 palabras; verificá el conteo. Esperá confirmación o "reset guion".
+[PASO 5] AVATAR (interactivo, uno por uno, esperando respuesta entre cada uno): 1) Género (Masculino/Femenino), 2) Color de pelo, 3) Largo/Estilo de pelo, 4) Color de ojos, 5) Etnia, 6) Tono de piel, 7) Rasgos adicionales (barba, gafas, etc.).
+[PASO 6] FORMATO DE IMAGEN: presentá los 3 formatos iPhone (1) 0.5x ultra gran angular, 2) 1x estilo influencer, 3) Selfie frontal) y esperá elección.
+[PASO 7] ENTREGA TÉCNICA (bloques individuales, formato LINEAL):
+   - Bloque 1: Prompt de Imagen Maestra (formato iPhone elegido + todos los atributos del avatar + "no text, no subtitles"), en una sola pieza lineal.
+   - Bloques 2 a N: un bloque independiente por cada clip, en una sola pieza lineal que incluya seguido: la instrucción visual de movimiento (cámara/gesto, "no text, no subtitles"), luego el prompt de voz estándar completado, y luego el guion a narrar de ese clip.
+
+REGLAS: nunca rompas el orden del flujo; nunca agrupes prompts; siempre formato lineal y un bloque por prompt; respetá el límite de 22 palabras por clip.`;
+
+let history = [];
+let phase = 'ideas';
+function setPhase(p){
+  phase=p;
+  const order=['ideas','clips','idioma','guion','avatar','formato','prod'];
+  document.querySelectorAll('#steps .stp').forEach(s=>{
+    const i=order.indexOf(s.dataset.s), cur=order.indexOf(p);
+    s.classList.toggle('on', i===cur);
+    s.classList.toggle('done', i<cur);
+  });
+}
+function addMsg(role, html){
+  const d=document.createElement('div'); d.className='msg '+role; d.innerHTML=html;
+  $("chat").appendChild(d); $("chat").scrollTop=$("chat").scrollHeight; return d;
+}
+function esc(s){ const d=document.createElement('div'); d.textContent=s; return d.innerHTML; }
+function mdToHtml(md){
+  const parts = md.split(/```/);
+  let out='';
+  parts.forEach((chunk,i)=>{
+    if(i%2===1){
+      const code=esc(chunk.replace(/^[a-zA-Z]*\n/,'').replace(/^\n/,''));
+      out += `<pre><button class="copy" onclick="copyPre(this)">📋 Copiar</button>${code}</pre>`;
+    } else {
+      let t=esc(chunk);
+      t=t.replace(/\*\*(.+?)\*\*/g,'<b>$1</b>').replace(/\*(.+?)\*/g,'<b>$1</b>');
+      t=t.replace(/^\s*###?\s?(.+)$/gm,'<h3>$1</h3>');
+      t=t.replace(/(?:^[ \t]*\d+[\.\)]\s.+(?:\n|$))+/gm, block=>{
+        const items=block.trim().split(/\n/).map(l=>l.replace(/^[ \t]*\d+[\.\)]\s/,'')).map(x=>'<li>'+x+'</li>').join('');
+        return '<ol>'+items+'</ol>';
+      });
+      t=t.replace(/\n{2,}/g,'<br><br>').replace(/\n/g,'<br>');
+      out += t;
+    }
+  });
+  return out;
+}
+function copyPre(btn){
+  const pre=btn.parentElement, txt=pre.innerText.replace(/^📋 Copiar\n?/,'');
+  navigator.clipboard.writeText(txt).then(()=>{ const o=btn.textContent; btn.textContent='✅ Copiado'; setTimeout(()=>btn.textContent=o,1600); });
+}
+async function callGemini(userText){
+  const key=$("apiKey").value.trim();
+  if(!key){ setKeyHint("Falta la clave de Gemini.","var(--amber)"); return null; }
+  history.push({role:'user', text:userText});
+  const contents = history.map(h=>({role:h.role, parts:[{text:h.text}]}));
+  const body = { systemInstruction:{ parts:[{text:SYSTEM}] }, contents,
+    generationConfig:{ temperature:0.85, maxOutputTokens:8192 } };
+  const r = await fetch(`${API}/v1beta/models/${MODEL}:generateContent?key=${encodeURIComponent(key)}`,{
+    method:'POST', headers:{'Content-Type':'application/json'}, body:JSON.stringify(body) });
+  if(!r.ok){ const e=await r.text().catch(()=>''); throw new Error('Gemini '+r.status+': '+e.slice(0,200)); }
+  const j=await r.json();
+  const txt=(j.candidates?.[0]?.content?.parts||[]).map(p=>p.text||'').join('').trim();
+  history.push({role:'model', text:txt});
+  return txt;
+}
+function guessPhase(userText){
+  const u=userText.toLowerCase();
+  if(/^\s*inicio\s*$/i.test(userText) || /reset ideas/i.test(u)) return 'ideas';
+  if(/reset guion/i.test(u)) return 'guion';
+  if(/formato|0\.5x|selfie|influencer/i.test(u)) return 'prod';
+  // avanzar por orden cuando el usuario responde una opción
+  const order=['ideas','clips','idioma','guion','avatar','formato','prod'];
+  if(/^\s*\d{1,2}\s*$/.test(userText) || u.length){
+    const i=order.indexOf(phase);
+    if(i>=0 && i<order.length-1) return order[i+1];
+  }
+  return phase;
+}
+let busy=false;
+async function send(){
+  if(busy) return;
+  const inp=$("userIn"); const text=inp.value.trim(); if(!text) return;
+  inp.value='';
+  addMsg('me', esc(text));
+  const typing=document.createElement('div'); typing.className='typing'; typing.innerHTML='<i></i><i></i><i></i>';
+  $("chat").appendChild(typing); $("chat").scrollTop=$("chat").scrollHeight;
+  busy=true; $("sendBtn").disabled=true;
+  try{
+    const out=await callGemini(text);
+    typing.remove();
+    if(out===null){ busy=false; $("sendBtn").disabled=false; return; }
+    addMsg('bot', mdToHtml(out));
+    setPhase(guessPhase(text));
+    refreshQuick();
+  }catch(err){
+    typing.remove();
+    addMsg('bot', '⚠️ '+esc(err.message)+'<br><span style="color:var(--muted);font-size:12px">Revisá tu clave de Gemini o probá de nuevo.</span>');
+  }
+  busy=false; $("sendBtn").disabled=false; inp.focus();
+}
+function quickSend(t){ $("userIn").value=t; send(); }
+function refreshQuick(){
+  const q=$("quick"); let chips=[];
+  if(phase==='ideas') chips=[['inicio','▶ Ver 15 ideas'],['1','Elegir 1'],['2','Elegir 2'],['reset ideas','💡 Otras 15']];
+  else if(phase==='clips') chips=[['4','4 clips'],['6','6 clips'],['8','8 clips']];
+  else if(phase==='idioma') chips=[['1','Opción 1'],['2','Opción 2'],['3','Opción 3']];
+  else if(phase==='guion') chips=[['Confirmar','✅ Confirmar guion'],['reset guion','🔄 Rehacer guion']];
+  else if(phase==='avatar') chips=[];
+  else if(phase==='formato') chips=[['1','0.5x'],['2','1x Influencer'],['3','Selfie Frontal']];
+  else chips=[['inicio','🔄 Nuevo video']];
+  q.innerHTML=chips.map(c=>`<button class="qbtn" onclick="quickSend('${c[0].replace(/'/g,"\\'")}')">${c[1]}</button>`).join('');
+  if(phase==='avatar'){
+    const d=document.createElement('div'); d.style.cssText='font-family:var(--mono);font-size:11.5px;color:var(--muted)';
+    d.textContent='✍️ Respondé cada característica del avatar a medida que te la pida (una por una).';
+    q.appendChild(d);
+  }
+}
+addMsg('bot', '¡Hola! 👋 Soy <b>Podcast Hiperrealistas</b>. Creo videos virales de motivación tipo podcast (estética iPhone) para Veo 3.1.<br><br>Escribí <b>inicio</b> y te doy 15 ganchos virales. Después: cantidad de clips → idioma y acento → guion (18–22 palabras por clip) → avatar paso a paso → formato iPhone → <b>prompts listos para copiar</b> (uno por clip, en una sola pieza).');
+addMsg('sys','Prompts en formato lineal · sin texto en imagen · voz pausada y segura.');
+refreshQuick();
+</script>
+<script src="apps-menu.js"></script>
+</body>
+</html>

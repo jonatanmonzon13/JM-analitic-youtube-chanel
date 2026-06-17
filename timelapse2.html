@@ -1,0 +1,311 @@
+<!doctype html>
+<html lang="es">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Time Lapse 2 — Transformaciones de Ambientes · JM BOTS</title>
+<style>
+  :root{
+    --bg:#070a06; --bg2:#0d130c; --bg3:#141d12; --ink:#EEFBE9; --body:#CADBC4; --muted:#8AA082;
+    --line:#28401f; --lime:#7BE34D; --green:#34D17A; --amber:#F8B34D; --gold:#F8DA8E; --cyan:#34E0D8; --violet:#7C5CFF;
+    --grad:linear-gradient(100deg,#7BE34D,#34D17A 55%,#34E0D8);
+    --radius:16px;
+    --display:'Sora',system-ui,sans-serif; --mono:'JetBrains Mono',ui-monospace,monospace;
+  }
+  *{box-sizing:border-box}
+  body{margin:0;background:radial-gradient(1100px 600px at 30% -10%,rgba(123,227,77,.14),transparent 60%),var(--bg);
+       color:var(--body);font-family:var(--display);-webkit-font-smoothing:antialiased;line-height:1.55}
+  a{color:var(--cyan)}
+  .wrap{max-width:980px;margin:0 auto;padding:26px 20px 120px}
+  header.top{text-align:center;margin-bottom:18px}
+  .badge{display:inline-block;font-family:var(--mono);font-size:11px;letter-spacing:.18em;text-transform:uppercase;
+         color:var(--green);border:1px solid var(--line);border-radius:999px;padding:6px 14px;background:var(--bg2);margin-bottom:14px}
+  h1{font-weight:800;font-size:clamp(26px,5vw,40px);margin:0 0 8px;letter-spacing:-.02em;
+     background:var(--grad);-webkit-background-clip:text;background-clip:text;-webkit-text-fill-color:transparent}
+  .sub{color:var(--muted);max-width:64ch;margin:0 auto;font-size:15px}
+
+  .keybar{display:flex;gap:8px;align-items:center;flex-wrap:wrap;background:var(--bg2);border:1px solid var(--line);
+          border-radius:14px;padding:12px;margin:18px 0}
+  .keybar input{flex:1;min-width:200px;background:var(--bg3);border:1px solid var(--line);color:var(--ink);
+                border-radius:10px;padding:11px 13px;font-family:var(--mono);font-size:13px}
+  .btn{cursor:pointer;border:0;border-radius:10px;padding:11px 16px;font-family:var(--display);font-weight:700;font-size:13.5px;
+       transition:transform .08s,box-shadow .18s,opacity .15s;display:inline-flex;align-items:center;gap:7px;white-space:nowrap}
+  .btn-main{color:#06210f;background:var(--grad);box-shadow:0 8px 24px rgba(52,209,122,.34)}
+  .btn-main:hover{transform:translateY(-1px)}
+  .btn-ghost{background:var(--bg3);color:var(--ink);border:1px solid var(--line)}
+  .btn-ghost:hover{border-color:var(--violet)}
+  .btn:disabled{opacity:.5;cursor:not-allowed;transform:none}
+  .keyhint{font-family:var(--mono);font-size:11.5px;color:var(--muted);width:100%}
+
+  .modebar{display:flex;gap:10px;align-items:center;flex-wrap:wrap;justify-content:center;margin:4px 0 16px}
+  .modebar .btn{font-size:14px;padding:12px 18px}
+  .modehint{font-family:var(--mono);font-size:11px;color:var(--muted);width:100%;text-align:center;margin-top:4px}
+
+  .steps{display:flex;gap:8px;justify-content:center;flex-wrap:wrap;margin:6px 0 16px;font-family:var(--mono);font-size:11px}
+  .stp{color:var(--muted);border:1px solid var(--line);border-radius:999px;padding:5px 11px;background:var(--bg2)}
+  .stp.on{color:var(--gold);border-color:rgba(248,218,142,.5);background:rgba(248,218,142,.08)}
+  .stp.done{color:var(--lime);border-color:rgba(123,227,77,.4)}
+
+  .chat{background:linear-gradient(180deg,var(--bg2),#080c07);border:1px solid var(--line);border-radius:18px;
+        padding:18px;min-height:340px;display:flex;flex-direction:column;gap:14px;box-shadow:0 30px 80px rgba(0,0,0,.5)}
+  .msg{max-width:92%;padding:13px 16px;border-radius:14px;font-size:14.5px;animation:rise .3s both}
+  @keyframes rise{from{opacity:0;transform:translateY(8px)}to{opacity:1;transform:none}}
+  .msg.bot{align-self:flex-start;background:var(--bg3);border:1px solid var(--line);border-bottom-left-radius:5px}
+  .msg.me{align-self:flex-end;background:linear-gradient(100deg,var(--violet),var(--green));color:#fff;border-bottom-right-radius:5px;font-weight:600}
+  .msg.sys{align-self:center;font-family:var(--mono);font-size:11.5px;color:var(--muted);background:transparent;border:1px dashed var(--line);border-radius:10px;padding:7px 12px}
+  .msg h3{margin:.2em 0 .4em;font-size:16px;color:var(--gold)}
+  .msg pre{background:#070b06;border:1px solid var(--line);border-radius:12px;padding:13px;overflow:auto;
+           font-family:var(--mono);font-size:12.5px;color:#E1F5DC;position:relative;white-space:pre-wrap;word-break:break-word}
+  .msg .copy{position:absolute;top:8px;right:8px;font-family:var(--display);font-weight:700;font-size:11px;cursor:pointer;
+             color:#06210f;background:var(--gold);border:0;border-radius:7px;padding:5px 9px}
+  .msg ol,.msg ul{margin:.3em 0;padding-left:1.3em}
+  .msg li{margin:.25em 0}
+  .typing{align-self:flex-start;display:flex;gap:5px;padding:13px 16px;background:var(--bg3);border:1px solid var(--line);border-radius:14px}
+  .typing i{width:7px;height:7px;border-radius:50%;background:var(--muted);animation:blink 1.2s infinite}
+  .typing i:nth-child(2){animation-delay:.2s}.typing i:nth-child(3){animation-delay:.4s}
+  @keyframes blink{0%,60%,100%{opacity:.3}30%{opacity:1}}
+
+  .quick{display:flex;gap:8px;flex-wrap:wrap;margin:14px 0 8px}
+  .qbtn{cursor:pointer;font-family:var(--display);font-weight:600;font-size:13px;color:var(--ink);background:var(--bg2);
+        border:1px solid var(--line);border-radius:999px;padding:9px 15px}
+  .qbtn:hover{border-color:var(--gold);color:var(--gold)}
+  .inrow{display:flex;gap:8px;margin-top:8px}
+  .inrow input{flex:1;background:var(--bg3);border:1px solid var(--line);color:var(--ink);border-radius:12px;padding:13px 15px;font-family:var(--display);font-size:14px}
+  .note{font-family:var(--mono);font-size:11px;color:var(--muted);text-align:center;margin-top:10px}
+</style>
+</head>
+<body>
+<div class="wrap">
+  <header class="top">
+    <div class="badge">Timelapse · Veo 3.1 · Marca propia</div>
+    <h1>Time Lapse 2 / JM BOTS</h1>
+    <p class="sub">Transformaciones de ambientes lujosos (ruina → obra con trabajadores → final asombroso) para Veo 3.1. Piso protagonista, acción humana visible, 7 JSON independientes (4 imágenes + 3 clips de 8s) + portada + metadatos. Tu marca se integra en IMAGE 4.</p>
+  </header>
+
+  <div class="keybar">
+    <input id="apiKey" type="password" placeholder="Clave de Gemini (compartida con la suite)">
+    <button class="btn btn-ghost" id="eyeBtn" onclick="toggleEye()">👁</button>
+    <button class="btn btn-ghost" onclick="saveKey()">Guardar</button>
+    <button class="btn btn-ghost" onclick="replaceKey()">Reemplazar</button>
+    <div class="keyhint" id="keyHint">Necesitás tu clave de Gemini para generar. Se guarda solo en este navegador.</div>
+  </div>
+
+  <div class="modebar">
+    <button class="btn btn-main" id="startBtn" onclick="quickSend('Iniciar creación de video')">🎬 Iniciar creación de video</button>
+    <button class="btn btn-ghost" onclick="resetTotal()">♻ Reset total</button>
+    <button class="btn btn-ghost" onclick="quickSend('Reset de idea')">💡 Reset de idea</button>
+    <button class="btn btn-ghost" onclick="quickSend('Modo épico extremo')">🔥 Modo épico extremo</button>
+    <div class="modehint">Empezá con “Iniciar creación de video”. Reset total borra todo; Reset de idea cambia las 15 ideas del mismo ambiente.</div>
+  </div>
+
+  <div class="steps" id="steps">
+    <span class="stp on" data-s="ambiente">1 · Ambiente</span>
+    <span class="stp" data-s="ideas">2 · 15 ideas</span>
+    <span class="stp" data-s="logo">3 · Tu marca</span>
+    <span class="stp" data-s="prod">4 · 4 imágenes + 3 clips</span>
+    <span class="stp" data-s="meta">5 · Metadatos</span>
+  </div>
+
+  <div class="chat" id="chat"></div>
+
+  <div class="quick" id="quick"></div>
+  <div class="inrow">
+    <input id="userIn" placeholder='Escribí “Iniciar creación de video”…' onkeydown="if(event.key==='Enter')send()">
+    <button class="btn btn-main" id="sendBtn" onclick="send()">Enviar ➤</button>
+  </div>
+  <div class="note">Tu logo/nombre se integra <b>dentro de la arquitectura</b> y debe verse en IMAGE 4. Al final pedí <b>metadatos</b> para títulos + descripción + portada.</div>
+</div>
+
+<script>
+const $ = id => document.getElementById(id);
+const MODEL='gemini-2.5-flash';
+const API='https://generativelanguage.googleapis.com';
+
+/* ── Clave compartida ── */
+function loadKeys(){ try{ return JSON.parse(localStorage.getItem('jmbots_keys')||'{}'); }catch(e){ return {}; } }
+function setKeyHint(m,c){ $("keyHint").textContent=m; $("keyHint").style.color=c||"var(--muted)"; }
+(function initKey(){ const ks=loadKeys(); if(ks.an){ $("apiKey").value=ks.an; setKeyHint("✓ Clave del sistema cargada. Tocá Reemplazar para cambiarla.","var(--lime)"); } })();
+function saveKey(){ const v=$("apiKey").value.trim(); if(!v){ setKeyHint("Pegá una clave antes de guardar.","var(--amber)"); return; }
+  try{ const ks=loadKeys(); ks.an=v; localStorage.setItem('jmbots_keys',JSON.stringify(ks)); }catch(e){}
+  setKeyHint("✓ Clave guardada (compartida con la suite).","var(--lime)"); }
+function replaceKey(){ $("apiKey").value=""; $("apiKey").type='text'; $("apiKey").focus(); setKeyHint("Ingresá la nueva clave y tocá Guardar.","var(--gold)"); }
+function toggleEye(){ const i=$("apiKey"); i.type = i.type==='password'?'text':'password'; }
+
+/* ── SYSTEM PROMPT (gema mejorada) ── */
+const SYSTEM = `Eres "transformación timelapse JM" (este nombre es SOLO identificativo del bot). Eres un director creativo y arquitectónico especializado en videos de transformación de ambientes completos, optimizado para Veo 3.1 / Flow. Creas transformaciones timelapse reales donde mucho trabajo ocurre en poco tiempo, con coherencia visual absoluta, lógica constructiva estricta, cámara fija y procesos humanos visibles. Nada aparece por arte de magia: todo cambio debe ser ejecutado por trabajadores en escena.
+
+Respondé en español (los prompts técnicos van en inglés dentro del JSON).
+
+⚠️ PROHIBICIÓN ABSOLUTA: está TERMINANTEMENTE PROHIBIDO usar el nombre del bot ("transformación timelapse JM") dentro de cualquier imagen, clip o portada.
+
+COMANDOS:
+- "Iniciar creación de video": iniciá el flujo (PASO 1).
+- "Reset total": borra absolutamente todo, reinicia el flujo desde cero y volvé a mostrar la lista de ambientes.
+- "Reset de idea" / "reset ideas": mantené el último ambiente elegido y generá 15 ideas completamente nuevas; nunca repitas ideas anteriores; el cambio entre ideas debe ser radical y notorio.
+- "Modo épico extremo": activá dramatismo máximo + modo viral agresivo, con gancho visual obligatorio en los primeros 0–2 segundos (acción ya en progreso desde el primer frame). No cambia estructura, duración ni cámara fija.
+
+FLUJO PRINCIPAL:
+PASO 1 — SELECCIÓN DE AMBIENTE: cuando el usuario escriba "Iniciar creación de video", mostrá EXACTAMENTE esta lista numerada y esperá la elección:
+"Elige el ambiente completo que deseas crear (puedes responder con el número o el nombre):
+1. dormitorio completo
+2. baño completo
+3. cocina completa
+4. living completo
+5. patio completo
+6. lobby completo
+7. comedor completo
+8. oficina completa
+9. espacio comercial completo"
+
+PASO 2 — GENERACIÓN DE IDEAS: tras elegir el ambiente, generá EXACTAMENTE 15 ideas, numeradas 1 a 15. Cada idea es un concepto espacial completo, altamente visual, lujoso y memorable, y DEBE implicar: atmósfera dominante cinematográfica; elemento fantástico o natural protagonista (lava, luz, resina, energía, agua, cristal, etc.); el PISO como pieza central del impacto visual; combinación audaz de mínimo 3 materiales (resina, piedra, metal, vidrio, luz integrada, lava contenida, etc.); estructuras arquitectónicas sorprendentes con sensación 3D; iluminación como elemento estructural (no solo decorativo); emoción principal fuerte (asombro, poder, lujo extremo). Las 15 deben sentirse radicalmente distintas entre sí.
+
+PASO 3 — ELECCIÓN DE IDEA: el usuario elige una idea por número. Luego pedí SOLO esto: "Envíame el logo o el nombre EXACTO de la página que debe integrarse dentro del video".
+
+PASO 4 — INTEGRACIÓN OBLIGATORIA DE LA MARCA DEL USUARIO: el logo o nombre que dé el usuario es la ÚNICA marca que puede aparecer dentro del video. Prohibido usar el nombre del bot. La integración es OBLIGATORIA, VISIBLE y VERIFICABLE, y debe verse claramente en IMAGE 4, como parte real de la arquitectura (grabado, relieve, incrustado, tallado, placa física, textura constructiva). Nunca flotante, superpuesto ni watermark. Si IMAGE 4 no muestra claramente la marca del usuario integrada, la salida es inválida.
+
+ESTRUCTURA VISUAL OBLIGATORIA — KEYFRAMES, 4 IMÁGENES (9:16, cámara idéntica):
+- IMAGE 1 — Ruina extrema: espacio común, genérico y neutral. PROHIBIDO incluir cualquier rasgo del concepto final o de fantasía; solo materiales reales y neutros.
+- IMAGE 2 — Inicio de construcción: trabajadores visibles ejecutando acciones reales; el concepto creativo COMIENZA a emerger.
+- IMAGE 3 — Construcción avanzada: fantasía lujosa claramente visible; pisos, muros y techos impactantes.
+- IMAGE 4 — Final perfecto: sin trabajadores, resultado asombroso, CON EL LOGO/NOMBRE DEL USUARIO INTEGRADO en la arquitectura.
+
+CAPA DE CREATIVIDAD (DESDE IMAGE 2): diseño asombroso de fantasía lujosa; el piso es el protagonista absoluto (resinas artísticas profundas, translúcidas, encapsuladas, con capas visibles; lava contenida, luz interna, canales luminosos, efectos ópticos, sensación 3D); mezcla audaz pero coherente de estilos y materiales; estructuras que se sientan imposibles pero claramente construidas por obreros; la luz forma parte de la arquitectura (pisos, muros, techos).
+
+REGLA ABSOLUTA DE ACCIÓN HUMANA: todo elemento nuevo (pisos, muebles, almohadas, luces, paneles, decoraciones, objetos) DEBE ser colocado, instalado o manipulado visualmente por trabajadores. Prohibido que cualquier objeto aparezca sin acción humana visible.
+
+ANIMACIONES — 3 CLIPS (VEO 3.1): exactamente 8 segundos cada uno, cámara completamente fija, timelapse siempre perceptible.
+- Clip 1 (IMAGE 1 ➜ IMAGE 2): HIGH DENSITY — demolición, base estructural, inicio creativo del piso.
+- Clip 2 (IMAGE 2 ➜ IMAGE 3): MEDIUM DENSITY — construcción avanzada, capas de resina, luz, lava contenida, estructuras 3D.
+- Clip 3 (IMAGE 3 ➜ IMAGE 4): LOW DENSITY — refinamiento final, pulido, colocación final de muebles por trabajadores, integración visible del logo/nombre del usuario, salida de obreros.
+Nunca menciones segundos dentro del texto del prompt. Nunca uses "slow motion" ni "extended".
+
+SALIDA TÉCNICA — FORMATO DE ENTREGA: TODOS los prompts técnicos en JSON, pero cada prompt en un JSON INDEPENDIENTE. PROHIBIDO agrupar prompts, PROHIBIDO usar arrays (images[], videos[]), NO entregar un solo JSON contenedor. Entregá cada JSON en su propio bloque de código.
+ORDEN OBLIGATORIO: IMAGE 1, IMAGE 2, IMAGE 3, IMAGE 4, VIDEO CLIP 1, VIDEO CLIP 2, VIDEO CLIP 3 (cada uno su propio JSON independiente, en ese orden).
+
+METADATOS DE PUBLICACIÓN (cuando el usuario lo pida o escriba "metadatos"), ORDEN ESTRICTO:
+1. Entregá 5 títulos en español y 5 en inglés.
+2. El usuario elige UNO.
+3. Luego entregá la descripción basada en el título elegido, en español y en inglés: máximo 350 caracteres, solo 1 letra mayúscula en toda la descripción, el título elegido incluido dentro de la descripción, exactamente 3 emojis, sin hashtags.
+4. SOLO DESPUÉS de elegir el título, generá el prompt JSON de la imagen de portada.
+REGLA DE PORTADA: la portada incluye ÚNICAMENTE el TÍTULO elegido como texto integrado en la imagen. PROHIBIDO incluir el nombre del bot. PROHIBIDO incluir el logo o nombre de la página en la portada.
+
+FORMATO PERMITIDO:
+Imagen: { "type": "image", "aspect_ratio": "9:16", "prompt": "..." }
+Video:  { "type": "video", "duration_seconds": 8, "prompt": "..." }
+
+REGLAS ABSOLUTAS: nunca repetir ideas; nunca romper el orden del flujo; nada aparece sin acción humana visible; fantasía alta permitida desde IMAGE 2 en adelante; piso siempre protagonista; cámara fija siempre; ambientes completos siempre; mantener esencia timelapse siempre; PROHIBIDO usar el nombre del bot dentro de cualquier imagen o clip. Prompts técnicos en inglés (dentro del JSON); títulos y descripciones en español + inglés.`;
+
+let history = [];
+let phase = 'ambiente';
+function setPhase(p){
+  phase=p;
+  const order=['ambiente','ideas','logo','prod','meta'];
+  document.querySelectorAll('#steps .stp').forEach(s=>{
+    const i=order.indexOf(s.dataset.s), cur=order.indexOf(p);
+    s.classList.toggle('on', i===cur);
+    s.classList.toggle('done', i<cur);
+  });
+}
+function addMsg(role, html){
+  const d=document.createElement('div'); d.className='msg '+role; d.innerHTML=html;
+  $("chat").appendChild(d); $("chat").scrollTop=$("chat").scrollHeight; return d;
+}
+function esc(s){ const d=document.createElement('div'); d.textContent=s; return d.innerHTML; }
+function mdToHtml(md){
+  const parts = md.split(/```/);
+  let out='';
+  parts.forEach((chunk,i)=>{
+    if(i%2===1){
+      const code=esc(chunk.replace(/^[a-zA-Z]*\n/,'').replace(/^\n/,''));
+      out += `<pre><button class="copy" onclick="copyPre(this)">📋 Copiar</button>${code}</pre>`;
+    } else {
+      let t=esc(chunk);
+      t=t.replace(/\*\*(.+?)\*\*/g,'<b>$1</b>').replace(/\*(.+?)\*/g,'<b>$1</b>');
+      t=t.replace(/^\s*###\s?(.+)$/gm,'<h3>$1</h3>');
+      t=t.replace(/(?:^[ \t]*\d+\.\s.+(?:\n|$))+/gm, block=>{
+        const items=block.trim().split(/\n/).map(l=>l.replace(/^[ \t]*\d+\.\s/,'')).map(x=>'<li>'+x+'</li>').join('');
+        return '<ol>'+items+'</ol>';
+      });
+      t=t.replace(/\n{2,}/g,'<br><br>').replace(/\n/g,'<br>');
+      out += t;
+    }
+  });
+  return out;
+}
+function copyPre(btn){
+  const pre=btn.parentElement, txt=pre.innerText.replace(/^📋 Copiar\n?/,'');
+  navigator.clipboard.writeText(txt).then(()=>{ const o=btn.textContent; btn.textContent='✅ Copiado'; setTimeout(()=>btn.textContent=o,1600); });
+}
+async function callGemini(userText){
+  const key=$("apiKey").value.trim();
+  if(!key){ setKeyHint("Falta la clave de Gemini.","var(--amber)"); return null; }
+  history.push({role:'user', text:userText});
+  const contents = history.map(h=>({role:h.role, parts:[{text:h.text}]}));
+  const body = { systemInstruction:{ parts:[{text:SYSTEM}] }, contents,
+    generationConfig:{ temperature:0.85, maxOutputTokens:8192 } };
+  const r = await fetch(`${API}/v1beta/models/${MODEL}:generateContent?key=${encodeURIComponent(key)}`,{
+    method:'POST', headers:{'Content-Type':'application/json'}, body:JSON.stringify(body) });
+  if(!r.ok){ const e=await r.text().catch(()=>''); throw new Error('Gemini '+r.status+': '+e.slice(0,200)); }
+  const j=await r.json();
+  const txt=(j.candidates?.[0]?.content?.parts||[]).map(p=>p.text||'').join('').trim();
+  history.push({role:'model', text:txt});
+  return txt;
+}
+function guessPhase(userText){
+  const u=userText.toLowerCase();
+  if(/iniciar creaci/i.test(u)) return 'ideas';
+  if(/reset total/i.test(u)) return 'ambiente';
+  if(/reset de idea|reset ideas/i.test(u)) return 'ideas';
+  if(/^\s*\d{1,2}\s*$/.test(userText)) return phase==='ideas' ? 'logo' : (phase==='ambiente' ? 'ideas' : phase);
+  if(/metadato|t[íi]tulo/i.test(u)) return 'meta';
+  if(phase==='logo') return 'prod';   // mandó su marca
+  return phase;
+}
+let busy=false;
+async function send(){
+  if(busy) return;
+  const inp=$("userIn"); const text=inp.value.trim(); if(!text) return;
+  inp.value='';
+  addMsg('me', esc(text));
+  const typing=document.createElement('div'); typing.className='typing'; typing.innerHTML='<i></i><i></i><i></i>';
+  $("chat").appendChild(typing); $("chat").scrollTop=$("chat").scrollHeight;
+  busy=true; $("sendBtn").disabled=true;
+  try{
+    const out=await callGemini(text);
+    typing.remove();
+    if(out===null){ busy=false; $("sendBtn").disabled=false; return; }
+    addMsg('bot', mdToHtml(out));
+    setPhase(guessPhase(text));
+    refreshQuick();
+  }catch(err){
+    typing.remove();
+    addMsg('bot', '⚠️ '+esc(err.message)+'<br><span style="color:var(--muted);font-size:12px">Revisá tu clave de Gemini o probá de nuevo.</span>');
+  }
+  busy=false; $("sendBtn").disabled=false; inp.focus();
+}
+function quickSend(t){ $("userIn").value=t; send(); }
+function refreshQuick(){
+  const q=$("quick"); let chips=[];
+  if(phase==='ambiente') chips=[['Iniciar creación de video','🎬 Iniciar'],['3','Cocina'],['1','Dormitorio'],['4','Living']];
+  else if(phase==='ideas') chips=[['1','Elegir 1'],['2','Elegir 2'],['3','Elegir 3'],['Reset de idea','💡 Otras 15']];
+  else if(phase==='logo') chips=[];   // acá escribe su marca a mano
+  else if(phase==='prod') chips=[['metadatos','🏷 Metadatos'],['Modo épico extremo','🔥 Épico extremo']];
+  else chips=[['1','Elegir título 1'],['2','Elegir título 2'],['Iniciar creación de video','🔄 Nuevo video']];
+  q.innerHTML=chips.map(c=>`<button class="qbtn" onclick="quickSend('${c[0].replace(/'/g,"\\'")}')">${c[1]}</button>`).join('');
+  if(phase==='logo'){
+    const d=document.createElement('div'); d.style.cssText='font-family:var(--mono);font-size:11.5px;color:var(--muted)';
+    d.textContent='✍️ Escribí el nombre o marca EXACTA de tu página para integrarla en el video.';
+    q.appendChild(d);
+  }
+}
+function resetTotal(){ history=[]; $("chat").innerHTML=''; setPhase('ambiente'); greet(); quickSend('Reset total'); }
+function greet(){
+  addMsg('bot', '¡Hola! 👋 Soy <b>Time Lapse 2</b>. Creo transformaciones de <b>ambientes lujosos</b> (ruina → obra con trabajadores → final asombroso) para Veo 3.1, en 9:16.<br><br>Tocá <b>🎬 Iniciar creación de video</b>, elegí uno de los 9 ambientes, te doy 15 ideas, me pasás <b>tu marca</b> (se integra en la arquitectura), y genero 7 JSON independientes (4 imágenes + 3 clips de 8s) + portada + metadatos.');
+  addMsg('sys','Piso protagonista · acción humana visible · cámara fija · tu marca solo en IMAGE 4.');
+}
+greet();
+refreshQuick();
+</script>
+<script src="apps-menu.js"></script>
+</body>
+</html>

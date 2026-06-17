@@ -1,0 +1,321 @@
+<!doctype html>
+<html lang="es">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Wooden Hands v2.6 · JM BOTS</title>
+<style>
+  :root{
+    --bg:#070d08; --bg2:#0c150d; --bg3:#121f13; --ink:#ECFBE9; --body:#C5DDC0; --muted:#86A37E;
+    --line:#234021; --green:#3FD17A; --leaf:#A8E34D; --amber:#F8B34D; --gold:#F8DA8E; --cyan:#34E0C8; --violet:#7C5CFF;
+    --grad:linear-gradient(100deg,#3FD17A,#A8E34D 55%,#F8DA8E);
+    --radius:16px;
+    --display:'Sora',system-ui,sans-serif; --mono:'JetBrains Mono',ui-monospace,monospace;
+  }
+  *{box-sizing:border-box}
+  body{margin:0;background:radial-gradient(1100px 600px at 70% -10%,rgba(168,227,77,.13),transparent 60%),var(--bg);
+       color:var(--body);font-family:var(--display);-webkit-font-smoothing:antialiased;line-height:1.55}
+  a{color:var(--cyan)}
+  .wrap{max-width:980px;margin:0 auto;padding:26px 20px 120px}
+  header.top{text-align:center;margin-bottom:18px}
+  .badge{display:inline-block;font-family:var(--mono);font-size:11px;letter-spacing:.18em;text-transform:uppercase;
+         color:var(--green);border:1px solid var(--line);border-radius:999px;padding:6px 14px;background:var(--bg2);margin-bottom:14px}
+  h1{font-weight:800;font-size:clamp(26px,5vw,40px);margin:0 0 8px;letter-spacing:-.02em;
+     background:var(--grad);-webkit-background-clip:text;background-clip:text;-webkit-text-fill-color:transparent}
+  .sub{color:var(--muted);max-width:64ch;margin:0 auto;font-size:15px}
+
+  .keybar{display:flex;gap:8px;align-items:center;flex-wrap:wrap;background:var(--bg2);border:1px solid var(--line);
+          border-radius:14px;padding:12px;margin:18px 0}
+  .keybar input{flex:1;min-width:200px;background:var(--bg3);border:1px solid var(--line);color:var(--ink);
+                border-radius:10px;padding:11px 13px;font-family:var(--mono);font-size:13px}
+  .btn{cursor:pointer;border:0;border-radius:10px;padding:11px 16px;font-family:var(--display);font-weight:700;font-size:13.5px;
+       transition:transform .08s,box-shadow .18s,opacity .15s;display:inline-flex;align-items:center;gap:7px;white-space:nowrap}
+  .btn-main{color:#06210f;background:var(--grad);box-shadow:0 8px 24px rgba(77,227,106,.32)}
+  .btn-main:hover{transform:translateY(-1px)}
+  .btn-ghost{background:var(--bg3);color:var(--ink);border:1px solid var(--line)}
+  .btn-ghost:hover{border-color:var(--green)}
+  .btn:disabled{opacity:.5;cursor:not-allowed;transform:none}
+  .keyhint{font-family:var(--mono);font-size:11.5px;color:var(--muted);width:100%}
+
+  .steps{display:flex;gap:8px;justify-content:center;flex-wrap:wrap;margin:6px 0 16px;font-family:var(--mono);font-size:11px}
+  .stp{color:var(--muted);border:1px solid var(--line);border-radius:999px;padding:5px 11px;background:var(--bg2)}
+  .stp.on{color:var(--gold);border-color:rgba(248,218,142,.5);background:rgba(248,218,142,.08)}
+  .stp.done{color:var(--leaf);border-color:rgba(123,227,77,.4)}
+
+  .chat{background:linear-gradient(180deg,var(--bg2),#080d08);border:1px solid var(--line);border-radius:18px;
+        padding:18px;min-height:340px;display:flex;flex-direction:column;gap:14px;box-shadow:0 30px 80px rgba(0,0,0,.5)}
+  .msg{max-width:92%;padding:13px 16px;border-radius:14px;font-size:14.5px;animation:rise .3s both}
+  @keyframes rise{from{opacity:0;transform:translateY(8px)}to{opacity:1;transform:none}}
+  .msg.bot{align-self:flex-start;background:var(--bg3);border:1px solid var(--line);border-bottom-left-radius:5px}
+  .msg.me{align-self:flex-end;background:linear-gradient(100deg,var(--violet),var(--green));color:#fff;border-bottom-right-radius:5px;font-weight:600}
+  .msg.sys{align-self:center;font-family:var(--mono);font-size:11.5px;color:var(--muted);background:transparent;border:1px dashed var(--line);border-radius:10px;padding:7px 12px}
+  .msg h3{margin:.2em 0 .4em;font-size:16px;color:var(--gold)}
+  .msg pre{background:#070d07;border:1px solid var(--line);border-radius:12px;padding:13px;overflow:auto;
+           font-family:var(--mono);font-size:12.5px;color:#E1F5DC;position:relative;white-space:pre-wrap;word-break:break-word}
+  .msg .copy{position:absolute;top:8px;right:8px;font-family:var(--display);font-weight:700;font-size:11px;cursor:pointer;
+             color:#06210f;background:var(--gold);border:0;border-radius:7px;padding:5px 9px}
+  .msg ol,.msg ul{margin:.3em 0;padding-left:1.3em}
+  .msg li{margin:.25em 0}
+  .typing{align-self:flex-start;display:flex;gap:5px;padding:13px 16px;background:var(--bg3);border:1px solid var(--line);border-radius:14px}
+  .typing i{width:7px;height:7px;border-radius:50%;background:var(--muted);animation:blink 1.2s infinite}
+  .typing i:nth-child(2){animation-delay:.2s}.typing i:nth-child(3){animation-delay:.4s}
+  @keyframes blink{0%,60%,100%{opacity:.3}30%{opacity:1}}
+
+  .quick{display:flex;gap:8px;flex-wrap:wrap;margin:14px 0 8px}
+  .qbtn{cursor:pointer;font-family:var(--display);font-weight:600;font-size:13px;color:var(--ink);background:var(--bg2);
+        border:1px solid var(--line);border-radius:999px;padding:9px 15px}
+  .qbtn:hover{border-color:var(--gold);color:var(--gold)}
+  .inrow{display:flex;gap:8px;margin-top:8px}
+  .inrow input{flex:1;background:var(--bg3);border:1px solid var(--line);color:var(--ink);border-radius:12px;padding:13px 15px;font-family:var(--display);font-size:14px}
+  .note{font-family:var(--mono);font-size:11px;color:var(--muted);text-align:center;margin-top:10px}
+</style>
+</head>
+<body>
+<div class="wrap">
+  <header class="top">
+    <div class="badge">Grok · Palma · 4K · 60in · 42s</div>
+    <h1>Wooden Hands v2.6</h1>
+    <p class="sub">Wooden Hands v2.6: esculturas de hojas de palma VERDES (El Baba) para Grok, 4K 9:16, build de 60". 42s = 7 partes de 6s. Entrega <b>6 imágenes (P1–P6) + 7 movimientos (P1–P7)</b> en formato lineal + SEO. Marca: REACCIONES ÉPICAS JM.</p>
+  </header>
+
+  <div class="keybar">
+    <input id="apiKey" type="password" placeholder="Clave de Gemini (compartida con la suite)">
+    <button class="btn btn-ghost" id="eyeBtn" onclick="toggleEye()">👁</button>
+    <button class="btn btn-ghost" onclick="saveKey()">Guardar</button>
+    <button class="btn btn-ghost" onclick="replaceKey()">Reemplazar</button>
+    <div class="keyhint" id="keyHint">Necesitás tu clave de Gemini para generar. Se guarda solo en este navegador.</div>
+  </div>
+
+  <div class="steps" id="steps">
+    <span class="stp on" data-s="menu">1 · Categoría</span>
+    <span class="stp" data-s="ideas">2 · Ideas</span>
+    <span class="stp" data-s="confirma">3 · Confirma</span>
+    <span class="stp" data-s="arq">4 · Arquitectura</span>
+    <span class="stp" data-s="img">5 · 6 imágenes</span>
+    <span class="stp" data-s="mov">6 · 7 movimientos</span>
+    <span class="stp" data-s="seo">7 · SEO</span>
+  </div>
+
+  <div class="chat" id="chat"></div>
+
+  <div class="quick" id="quick"></div>
+  <div class="inrow">
+    <input id="userIn" placeholder='Escribí “INICIAR” para ver las 18 categorías…' onkeydown="if(event.key==='Enter')send()">
+    <button class="btn btn-main" id="sendBtn" onclick="send()">Enviar ➤</button>
+  </div>
+  <div class="note">Comandos: <b>MENÚ</b> · <b>TOP 5</b> · <b>SIGUIENTE</b> (movimientos) · <b>SEO</b> · <b>RESET</b>. Cada prompt sale en su bloque con botón 📋.</div>
+</div>
+
+<script>
+const $ = id => document.getElementById(id);
+const MODEL='gemini-2.5-flash';
+const API='https://generativelanguage.googleapis.com';
+
+/* ── Clave compartida ── */
+function loadKeys(){ try{ return JSON.parse(localStorage.getItem('jmbots_keys')||'{}'); }catch(e){ return {}; } }
+function setKeyHint(m,c){ $("keyHint").textContent=m; $("keyHint").style.color=c||"var(--muted)"; }
+(function initKey(){ const ks=loadKeys(); if(ks.an){ $("apiKey").value=ks.an; setKeyHint("✓ Clave del sistema cargada. Tocá Reemplazar para cambiarla.","var(--leaf)"); } })();
+function saveKey(){ const v=$("apiKey").value.trim(); if(!v){ setKeyHint("Pegá una clave antes de guardar.","var(--amber)"); return; }
+  try{ const ks=loadKeys(); ks.an=v; localStorage.setItem('jmbots_keys',JSON.stringify(ks)); }catch(e){}
+  setKeyHint("✓ Clave guardada (compartida con la suite).","var(--leaf)"); }
+function replaceKey(){ $("apiKey").value=""; $("apiKey").type='text'; $("apiKey").focus(); setKeyHint("Ingresá la nueva clave y tocá Guardar.","var(--gold)"); }
+function toggleEye(){ const i=$("apiKey"); i.type = i.type==='password'?'text':'password'; }
+
+/* ── SYSTEM PROMPT (gema Wooden Hands, adaptada a prompts LINEALES) ── */
+const SYSTEM = `Eres "Wooden Hands PRO v2.6", ingeniero de prompts para Grok, especializado en videos virales verticales de esculturas hechas 100% con HOJAS DE PALMA VERDES frescas, estilo documental "Wooden Hands". Diálogo en español latino; los prompts técnicos en INGLÉS. Canal/marca: REACCIONES EPICAS JM.
+
+### FORMATO DE ENTREGA (MUY IMPORTANTE):
+- Cada prompt (imagen o movimiento) se entrega como UNA SOLA PIEZA en formato LINEAL (texto corrido en una sola línea, NO en JSON, sin llaves ni comillas de estructura).
+- Cada prompt va en su PROPIO bloque de código markdown (triple backtick), separado del siguiente por un espacio en blanco. NUNCA agrupes varios prompts ni uses listas/arrays.
+
+### REGLAS DURAS:
+- CALIDAD: incluí SIEMPRE "4K UHD 2160p vertical 9:16" en CADA prompt de imagen Y de movimiento.
+- MATERIAL: 100% hojas de palma VERDES frescas y brillantes; handcrafted; basket-weave visible; luz natural; taller de aldea rural.
+- PERSONAS: solo adultos; CERO niños; sin marcas/logos/texto en pantalla.
+- ARTESANO FIJO: El Baba SIEMPRE (indio de 70 años, MISMA cara y tono de piel, barba blanca, chaleco blanco, lungi beige). Nunca cambies el artesano.
+- REALISMO: NADA de magia, NADA de morphing, ninguna parte aparece de la nada. Solo simulación de terminación: pequeños cortes, acomodar/entrelazar puntas sueltas existentes, presionar costuras. Los objetos son inanimados (no abren ojos ni gesticulan).
+- TIMING siempre con los tramos: 0-1.5s / 1.5-3.5s / 3.5-5s / 5-6s.
+
+### NOMBRE DEL PERSONAJE/CREACIÓN (IMÁGENES):
+- Cada prompt de imagen DEBE nombrar explícitamente la creación exacta ("THE FLASH", "BATMAN", "IRON MAN", o el nombre exacto del objeto). Usá el MISMO nombre en P1–P6.
+
+### EL BABA DEBE APARECER EN P1–P6:
+- P1–P4 (close-ups): mostrá las MANOS de El Baba trabajando + al menos una señal de identidad (borde de barba, o chaleco blanco, o tela del lungi beige).
+- P5–P6 (planos abiertos): El Baba claramente visible al lado del build (preferible cuerpo entero). Nunca lo ocultes detrás del objeto.
+
+### ESCALA (EN CADA PROMPT DE IMAGEN):
+- Incluí: "FINAL BUILD SIZE: exactly 5 feet tall (1.52m) / 60 inches."
+- P5–P6 agregá: "El Baba stands beside it; his height reaches slightly below the build's shoulder."
+- P6 agregá: "El Baba is fully visible standing beside the 5-foot build for scale."
+
+### SIN MINIATURAS (P1–P4):
+- P1–P4 deben verse LIFE-SIZE y proporcionales al mismo build final de 60 pulgadas. Incluí en P1–P4: "PART SIZE: life-size, proportional to the same 60-inch final build (no miniatures)."
+- La parte debe ser grande respecto a las manos/antebrazos de El Baba y ocupar buena parte del banco; nunca tamaño juguete.
+- Guías por defecto (salvo override del usuario): torso ~22–26in; brazo ~18–22in; casco/parte superior ~10–12in; piernas/base ~28–34in. Builds no humanoides: 60in = la dimensión más larga, en módulos proporcionales.
+
+### 7 PARTES (VISUALES):
+P1: SOLO módulo CORE (por defecto solo torso). Sin otros módulos en cuadro.
+P2: SOLO módulo lateral (por defecto solo brazo). Sin otros módulos.
+P3: SOLO módulo superior/frontal (por defecto solo casco para personajes). Inanimado. Sin partes del cuerpo en cuadro.
+P4: SOLO módulo base (por defecto solo piernas). Primer plano; fondo opcional desenfocado con otros módulos a un lado.
+P5: build COMPLETO vista trasera, simulación de terminación.
+P6: SHOWCASE del build completo (escala visible).
+P7: SOLO CTA (NO hay Image 7). P7 usa la MISMA imagen de P6.
+
+### MENÚ (UI en español):
+PASO 1: mostrá 18 categorías (1–18). Acepta: número | IDEA:[nombre] | TOP 5.
+"1. SUPERHÉROES Y VILLANOS 🦸
+2. VEHÍCULOS LEGENDARIOS 🏎️
+3. ANIMALES SALVAJES 🦁
+4. PELÍCULAS ICÓNICAS 🎬
+5. SERIES Y TV 📺
+6. ANIME Y MANGA ⚡
+7. VIDEOJUEGOS 🎮
+8. EDIFICIOS Y MONUMENTOS 🏛️
+9. TECNOLOGÍA Y AI 🤖
+10. INSTRUMENTOS MUSICALES 🎸
+11. DEPORTES Y ATLETAS ⚽
+12. COMIDA GIGANTE 🍕
+13. ARMAS Y ARMADURAS ⚔️
+14. MITOLOGÍA MUNDIAL 🐉
+15. PERSONAJES VIRALES 2026 🔥
+16. MEMES Y CULTURA POP 😂
+17. NATURALEZA Y PAISAJES 🌋
+18. OBJETOS COTIDIANOS XXL 📱"
+PASO 2: subcategorías A–E. PASO 3: TOP 10 ideas con puntajes TikTok/Shorts/Reels + hooks. PASO 4: confirmar.
+
+### ENTREGA (FIJA) Y MÁQUINA DE ESTADOS:
+- "GENERAR" o "GENERAR PROMPTS" -> mostrá SOLO el BLOQUE 1 = 6 prompts de IMAGEN (P1..P6), cada uno en su bloque, formato lineal. Luego escribí: "Escribe SIGUIENTE".
+- "SIGUIENTE" -> mostrá SOLO el BLOQUE 2 = 7 prompts de MOVIMIENTO (P1..P7), cada uno en su bloque, formato lineal. Luego escribí: "Escribe SEO".
+- "MOVIMIENTOS" -> mostrá el BLOQUE 2 de inmediato.
+- "SEO" -> mostrá SOLO el paquete SEO.
+- IMPORTANTE: NO hay Image 7. El movimiento P7 se aparea con la Imagen P6. Nunca te saltees el BLOQUE 2.
+
+### TEXTOS BASE DE MOVIMIENTO (mantené el significado; adaptá solo el sujeto/parte; en P1–P5 SIN música, SIN diálogo, cámara ESTÁTICA, audio = ASMR de hojas/cortes + pájaros, sin voces; incluí "4K UHD 2160p vertical 9:16. STATIC camera." + los tramos de TIMING):
+P1: recrea el ensamblaje de este torso, con sonidos ASMR y de pájaros; la persona no habla, solo se oyen los sonidos.
+P2: recrea el ensamblaje de este brazo, con ASMR y pájaros; la persona no habla.
+P3: recrea el ensamblaje de este casco con ASMR y pájaros; la persona no habla; el casco no abre ojos ni gesticula (objeto inanimado); sin transformaciones, solo el artesano simulando ajustes.
+P4: recrea el ensamblaje de estas piernas, con ASMR y pájaros; la persona no habla; la pieza no se modifica, es estática; el artesano solo simula ajustes sin transformarla.
+P5: recrea el ensamblaje de esta figura con ASMR y pájaros; la persona no habla; la pieza permanece igual, estática; el artesano solo simula ajustes sin alterarla.
+P6 (CANÓNICO, solo la cámara orbita, set estático, sin voces): "4K UHD 2160p vertical 9:16. Pan camera, 6 s. TIMING: 0-1.5 s: starts at the front emblem and begins a smooth orbit; 1.5-3.5 s: continues with a 360° pan around the [CHARACTER] sculpture, gimbal fixed; 3.5-5 s: passes in profile showing the figure and suit panels; 5-6 s: ends front-facing, centered, held. Only the camera rotates; the craftsman, the figure and the set remain static." Audio: soft adult 'wow' + birds; Music Celebration 115 BPM triunfal; no voices.
+P7 (CANÓNICO, usa Imagen P6, CTA + diálogo, zoom mínimo permitido): "4K UHD 2160p vertical 9:16. Medium camera, 6 s. TIME: 0-1.5 s: minimum zoom of El Baba towards the camera; 1.5-3.5 s: the sculpture in the frame; 3.5-5 s: zoom of Baba preparing dialogue; keep a close frame of El Baba and the general panoramic area." Audio: workshop ambience (adults) + soft rustling leaves; Music Dhol 120 BPM energetic; Dialogue (4-6 s): 'Friends, a like for my hard work.'
+
+### LÍMITES: prompt de imagen 400–600 caracteres; prompt de movimiento 300–400 caracteres; duración siempre 6s.
+
+### SEO: hashtags #Shorts #PalmLeafArt #TraditionalCraft #HandmadeArt #ViralCraft #GreenArt #WoodenHands #ReaccionesEpicasJM #GrokGenerated; keywords: palm leaf art, traditional craft, handmade, green, Grok, 42s; horarios (NY): TikTok 6-9AM/12-1PM/7-9PM, Shorts 12-3PM/7-10PM, Reels 6-9AM/12-2PM/6-9PM.
+
+COMANDOS: INICIAR, MENU, RESET, IDEA:[nombre], TOP 5, SIGUIENTE, SEO, CONTINUAR, VER PREVIEW, MODIFICAR, OTRA, VOLVER.
+
+REGLAS: nunca rompas el orden ni la máquina de estados; nunca agrupes prompts; siempre formato lineal y un bloque por prompt; 6 imágenes (P1–P6) + 7 movimientos (P1–P7); El Baba en todas las imágenes; 100% hojas verdes; cero niños; build de 60in; 4K 9:16 en todo.`;
+
+let history = [];
+let phase = 'menu';
+function setPhase(p){
+  phase=p;
+  const order=['menu','ideas','confirma','arq','img','mov','seo'];
+  document.querySelectorAll('#steps .stp').forEach(s=>{
+    const i=order.indexOf(s.dataset.s), cur=order.indexOf(p);
+    s.classList.toggle('on', i===cur);
+    s.classList.toggle('done', i<cur);
+  });
+}
+function addMsg(role, html){
+  const d=document.createElement('div'); d.className='msg '+role; d.innerHTML=html;
+  $("chat").appendChild(d); $("chat").scrollTop=$("chat").scrollHeight; return d;
+}
+function esc(s){ const d=document.createElement('div'); d.textContent=s; return d.innerHTML; }
+function mdToHtml(md){
+  const parts = md.split(/```/);
+  let out='';
+  parts.forEach((chunk,i)=>{
+    if(i%2===1){
+      const code=esc(chunk.replace(/^[a-zA-Z]*\n/,'').replace(/^\n/,''));
+      out += `<pre><button class="copy" onclick="copyPre(this)">📋 Copiar</button>${code}</pre>`;
+    } else {
+      let t=esc(chunk);
+      t=t.replace(/\*\*(.+?)\*\*/g,'<b>$1</b>').replace(/\*(.+?)\*/g,'<b>$1</b>');
+      t=t.replace(/^\s*###?\s?(.+)$/gm,'<h3>$1</h3>');
+      t=t.replace(/(?:^[ \t]*\d+[\.\)]\s.+(?:\n|$))+/gm, block=>{
+        const items=block.trim().split(/\n/).map(l=>l.replace(/^[ \t]*\d+[\.\)]\s/,'')).map(x=>'<li>'+x+'</li>').join('');
+        return '<ol>'+items+'</ol>';
+      });
+      t=t.replace(/\n{2,}/g,'<br><br>').replace(/\n/g,'<br>');
+      out += t;
+    }
+  });
+  return out;
+}
+function copyPre(btn){
+  const pre=btn.parentElement, txt=pre.innerText.replace(/^📋 Copiar\n?/,'');
+  navigator.clipboard.writeText(txt).then(()=>{ const o=btn.textContent; btn.textContent='✅ Copiado'; setTimeout(()=>btn.textContent=o,1600); });
+}
+async function callGemini(userText){
+  const key=$("apiKey").value.trim();
+  if(!key){ setKeyHint("Falta la clave de Gemini.","var(--amber)"); return null; }
+  history.push({role:'user', text:userText});
+  const contents = history.map(h=>({role:h.role, parts:[{text:h.text}]}));
+  const body = { systemInstruction:{ parts:[{text:SYSTEM}] }, contents,
+    generationConfig:{ temperature:0.85, maxOutputTokens:8192 } };
+  const r = await fetch(`${API}/v1beta/models/${MODEL}:generateContent?key=${encodeURIComponent(key)}`,{
+    method:'POST', headers:{'Content-Type':'application/json'}, body:JSON.stringify(body) });
+  if(!r.ok){ const e=await r.text().catch(()=>''); throw new Error('Gemini '+r.status+': '+e.slice(0,200)); }
+  const j=await r.json();
+  const txt=(j.candidates?.[0]?.content?.parts||[]).map(p=>p.text||'').join('').trim();
+  history.push({role:'model', text:txt});
+  return txt;
+}
+function guessPhase(userText){
+  const u=userText.toLowerCase();
+  if(/^\s*(iniciar|menú|menu)\s*$/i.test(u)) return 'menu';
+  if(/^\s*reset\s*$/i.test(u)) return 'menu';
+  if(/^\s*seo\s*$/i.test(u)) return 'seo';
+  if(/^\s*siguiente\s*$/i.test(u)) return 'mov';
+  if(/generar prompts|ver preview/i.test(u)) return 'img';
+  if(/continuar/i.test(u)) return 'arq';
+  if(/^\s*\d{1,2}\s*$/.test(userText) && phase==='menu') return 'ideas';
+  if(/^[a-eA-E]$/.test(userText) && phase==='ideas') return 'ideas';
+  if(/^\s*([1-9]|10)\s*$/.test(userText) && phase==='ideas') return 'confirma';
+  if(/idea\s*:/i.test(u)) return 'confirma';
+  return phase;
+}
+let busy=false;
+async function send(){
+  if(busy) return;
+  const inp=$("userIn"); const text=inp.value.trim(); if(!text) return;
+  inp.value='';
+  addMsg('me', esc(text));
+  const typing=document.createElement('div'); typing.className='typing'; typing.innerHTML='<i></i><i></i><i></i>';
+  $("chat").appendChild(typing); $("chat").scrollTop=$("chat").scrollHeight;
+  busy=true; $("sendBtn").disabled=true;
+  try{
+    const out=await callGemini(text);
+    typing.remove();
+    if(out===null){ busy=false; $("sendBtn").disabled=false; return; }
+    addMsg('bot', mdToHtml(out));
+    setPhase(guessPhase(text));
+    refreshQuick();
+  }catch(err){
+    typing.remove();
+    addMsg('bot', '⚠️ '+esc(err.message)+'<br><span style="color:var(--muted);font-size:12px">Revisá tu clave de Gemini o probá de nuevo.</span>');
+  }
+  busy=false; $("sendBtn").disabled=false; inp.focus();
+}
+function quickSend(t){ $("userIn").value=t; send(); }
+function refreshQuick(){
+  const q=$("quick"); let chips=[];
+  if(phase==='menu') chips=[['INICIAR','▶ Ver categorías'],['1','1 · Superhéroes'],['TOP 5','🔥 TOP 5']];
+  else if(phase==='ideas') chips=[['A','Sub A'],['B','Sub B'],['1','Idea 1'],['MENÚ','☰ Menú']];
+  else if(phase==='confirma') chips=[['CONTINUAR','✅ Continuar'],['VER VARIACIONES','🔄 Variaciones'],['OTRA','Otra idea']];
+  else if(phase==='arq') chips=[['GENERAR PROMPTS','🎬 Generar prompts'],['VER PREVIEW','👁 Preview']];
+  else if(phase==='img') chips=[['SIGUIENTE','➡ 7 movimientos']];
+  else if(phase==='mov') chips=[['SEO','🏷 SEO']];
+  else chips=[['INICIAR','🔄 Nuevo video']];
+  q.innerHTML=chips.map(c=>`<button class="qbtn" onclick="quickSend('${c[0].replace(/'/g,"\\'")}')">${c[1]}</button>`).join('');
+}
+addMsg('bot', '¡Hola! 👋 Soy <b>Wooden Hands v2.6</b>. Esculturas de <b>hojas de palma verdes</b> (El Baba) para <b>Grok</b>, en 4K 9:16, build de 60": 42s en 7 partes de 6s.<br><br>Escribí <b>INICIAR</b> y elegí una de las 18 categorías. Después: subcategoría → 10 ideas → confirmás → <b>6 prompts de imagen (P1–P6) + 7 de movimiento (P1–P7)</b>, uno por bloque, formato lineal → SEO.');
+addMsg('sys','6 imágenes + 7 movimientos · El Baba siempre · 60in · 4K 9:16 · sin magia · marca solo en SEO.');
+refreshQuick();
+</script>
+<script src="apps-menu.js"></script>
+</body>
+</html>

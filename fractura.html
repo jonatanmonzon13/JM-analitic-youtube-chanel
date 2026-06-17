@@ -1,0 +1,196 @@
+<!doctype html>
+<html lang="es">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Fractura · JM BOTS</title>
+<style>
+  :root{
+    --bg:#070910; --bg2:#0c1018; --bg3:#131826; --ink:#F2F5FF; --body:#C3CCE2; --muted:#7E89A6;
+    --line:#222a3d; --c1:#E7B85C; --c2:#4D7CFF; --c3:#E5556B; --gold:#F8DA8E; --green:#5BE39A;
+    --grad:linear-gradient(100deg,#E7B85C,#E5556B 55%,#4D7CFF);
+    --display:'Sora',system-ui,sans-serif; --mono:'JetBrains Mono',ui-monospace,monospace;
+  }
+  *{box-sizing:border-box}
+  body{margin:0;background:radial-gradient(1100px 600px at 70% -10%,rgba(231,184,92,.13),transparent 60%),var(--bg);
+       color:var(--body);font-family:var(--display);-webkit-font-smoothing:antialiased;line-height:1.55}
+  a{color:var(--c1)}
+  .wrap{max-width:980px;margin:0 auto;padding:26px 20px 120px}
+  header.top{text-align:center;margin-bottom:18px}
+  .badge{display:inline-block;font-family:var(--mono);font-size:11px;letter-spacing:.18em;text-transform:uppercase;
+         color:var(--c1);border:1px solid var(--line);border-radius:999px;padding:6px 14px;background:var(--bg2);margin-bottom:14px}
+  h1{font-weight:800;font-size:clamp(26px,5vw,40px);margin:0 0 8px;letter-spacing:-.02em;
+     background:var(--grad);-webkit-background-clip:text;background-clip:text;-webkit-text-fill-color:transparent}
+  .sub{color:var(--muted);max-width:64ch;margin:0 auto;font-size:15px}
+  .keybar{display:flex;gap:8px;align-items:center;flex-wrap:wrap;background:var(--bg2);border:1px solid var(--line);border-radius:14px;padding:12px;margin:18px 0}
+  .keybar input{flex:1;min-width:200px;background:var(--bg3);border:1px solid var(--line);color:var(--ink);border-radius:10px;padding:11px 13px;font-family:var(--mono);font-size:13px}
+  .btn{cursor:pointer;border:0;border-radius:10px;padding:11px 16px;font-family:var(--display);font-weight:700;font-size:13.5px;transition:transform .08s,box-shadow .18s,opacity .15s;display:inline-flex;align-items:center;gap:7px;white-space:nowrap}
+  .btn-main{color:#1a1206;background:var(--grad);box-shadow:0 8px 24px rgba(231,184,92,.30)}
+  .btn-main:hover{transform:translateY(-1px)}
+  .btn-ghost{background:var(--bg3);color:var(--ink);border:1px solid var(--line)}
+  .btn-ghost:hover{border-color:var(--c1)}
+  .btn:disabled{opacity:.5;cursor:not-allowed;transform:none}
+  .keyhint{font-family:var(--mono);font-size:11.5px;color:var(--muted);width:100%}
+  .steps{display:flex;gap:8px;justify-content:center;flex-wrap:wrap;margin:6px 0 16px;font-family:var(--mono);font-size:11px}
+  .stp{color:var(--muted);border:1px solid var(--line);border-radius:999px;padding:5px 11px;background:var(--bg2)}
+  .stp.on{color:var(--gold);border-color:rgba(248,218,142,.5);background:rgba(248,218,142,.08)}
+  .stp.done{color:var(--green);border-color:rgba(91,227,154,.4)}
+  .chat{background:linear-gradient(180deg,var(--bg2),var(--bg));border:1px solid var(--line);border-radius:18px;padding:18px;min-height:340px;display:flex;flex-direction:column;gap:14px;box-shadow:0 30px 80px rgba(0,0,0,.5)}
+  .msg{max-width:92%;padding:13px 16px;border-radius:14px;font-size:14.5px;animation:rise .3s both}
+  @keyframes rise{from{opacity:0;transform:translateY(8px)}to{opacity:1;transform:none}}
+  .msg.bot{align-self:flex-start;background:var(--bg3);border:1px solid var(--line);border-bottom-left-radius:5px}
+  .msg.me{align-self:flex-end;background:linear-gradient(100deg,var(--c2),var(--c3));color:#fff;border-bottom-right-radius:5px;font-weight:600}
+  .msg.sys{align-self:center;font-family:var(--mono);font-size:11.5px;color:var(--muted);background:transparent;border:1px dashed var(--line);border-radius:10px;padding:7px 12px}
+  .msg h3{margin:.2em 0 .4em;font-size:16px;color:var(--gold)}
+  .msg pre{background:var(--bg);border:1px solid var(--line);border-radius:12px;padding:13px;overflow:auto;font-family:var(--mono);font-size:12.5px;color:#E8EEFA;position:relative;white-space:pre-wrap;word-break:break-word}
+  .msg .copy{position:absolute;top:8px;right:8px;font-family:var(--display);font-weight:700;font-size:11px;cursor:pointer;color:#1a1206;background:var(--gold);border:0;border-radius:7px;padding:5px 9px}
+  .msg ol,.msg ul{margin:.3em 0;padding-left:1.3em}.msg li{margin:.25em 0}
+  .typing{align-self:flex-start;display:flex;gap:5px;padding:13px 16px;background:var(--bg3);border:1px solid var(--line);border-radius:14px}
+  .typing i{width:7px;height:7px;border-radius:50%;background:var(--muted);animation:blink 1.2s infinite}
+  .typing i:nth-child(2){animation-delay:.2s}.typing i:nth-child(3){animation-delay:.4s}
+  @keyframes blink{0%,60%,100%{opacity:.3}30%{opacity:1}}
+  .quick{display:flex;gap:8px;flex-wrap:wrap;margin:14px 0 8px}
+  .qbtn{cursor:pointer;font-family:var(--display);font-weight:600;font-size:13px;color:var(--ink);background:var(--bg2);border:1px solid var(--line);border-radius:999px;padding:9px 15px}
+  .qbtn:hover{border-color:var(--gold);color:var(--gold)}
+  .inrow{display:flex;gap:8px;margin-top:8px}
+  .inrow input{flex:1;background:var(--bg3);border:1px solid var(--line);color:var(--ink);border-radius:12px;padding:13px 15px;font-family:var(--display);font-size:14px}
+  .note{font-family:var(--mono);font-size:11px;color:var(--muted);text-align:center;margin-top:10px}
+</style>
+</head>
+<body>
+<div class="wrap">
+  <header class="top">
+    <div class="badge">Grok · CGI Pixar · Drama serializado</div>
+    <h1>Fractura</h1>
+    <p class="sub">Mini-serie de drama emocional en CGI Pixar con un elenco fijo de personajes. Generá videos de 6 escenas (8s c/u) con traiciones, mentiras y lealtad, en el formato exacto para Grok: línea de PERSONAJES, base de estilo, 3 tomas por escena y frase final. Apto para todo público.</p>
+  </header>
+
+  <div class="keybar">
+    <input id="apiKey" type="password" placeholder="Clave de Gemini (compartida con la suite)">
+    <button class="btn btn-ghost" id="eyeBtn" onclick="toggleEye()">👁</button>
+    <button class="btn btn-ghost" onclick="saveKey()">Guardar</button>
+    <button class="btn btn-ghost" onclick="replaceKey()">Reemplazar</button>
+    <div class="keyhint" id="keyHint">Necesitás tu clave de Gemini para generar. Se guarda solo en este navegador.</div>
+  </div>
+
+  <div class="steps" id="steps">
+    <span class="stp on" data-s="p1">1 · Elenco / Modo</span>
+    <span class="stp" data-s="p2">2 · Conflicto</span>
+    <span class="stp" data-s="p3">3 · 6 Escenas</span>
+    <span class="stp" data-s="p4">4 · A Grok</span>
+  </div>
+
+  <div class="chat" id="chat"></div>
+
+  <div class="quick" id="quick"></div>
+  <div class="inrow">
+    <input id="userIn" placeholder='Escribí “iniciar” para empezar…' onkeydown="if(event.key==='Enter')send()">
+    <button class="btn btn-main" id="sendBtn" onclick="send()">Enviar ➤</button>
+  </div>
+  <div class="note">Comandos: <b>iniciar</b> · <b>elenco</b> (genera las caras) · <b>historia</b> · <b>otro video</b> · <b>reset</b>. Cada escena sale en su bloque con botón 📋.</div>
+</div>
+
+<script>
+const $ = id => document.getElementById(id);
+const MODEL='gemini-2.5-flash';
+const API='https://generativelanguage.googleapis.com';
+
+function loadKeys(){ try{ return JSON.parse(localStorage.getItem('jmbots_keys')||'{}'); }catch(e){ return {}; } }
+function setKeyHint(m,c){ $("keyHint").textContent=m; $("keyHint").style.color=c||"var(--muted)"; }
+(function initKey(){ const ks=loadKeys(); if(ks.an){ $("apiKey").value=ks.an; setKeyHint("✓ Clave del sistema cargada. Tocá Reemplazar para cambiarla.","var(--green)"); } })();
+function saveKey(){ const v=$("apiKey").value.trim(); if(!v){ setKeyHint("Pegá una clave antes de guardar.","var(--gold)"); return; } try{ const ks=loadKeys(); ks.an=v; localStorage.setItem('jmbots_keys',JSON.stringify(ks)); }catch(e){} setKeyHint("✓ Clave guardada (compartida con la suite).","var(--green)"); }
+function replaceKey(){ $("apiKey").value=""; $("apiKey").type='text'; $("apiKey").focus(); setKeyHint("Ingresá la nueva clave y tocá Guardar.","var(--gold)"); }
+function toggleEye(){ const i=$("apiKey"); i.type = i.type==='password'?'text':'password'; }
+
+const SYSTEM = `Eres "Fractura", generador de guiones de una mini-serie de DRAMA EMOCIONAL en CGI Pixar para la IA de video Grok. Replicas EXACTAMENTE el formato del proyecto base. Conversás en español latino.
+
+### ELENCO FIJO (apariencia CONSISTENTE en todas las historias):
+- LUCA: hombre, ~28 años, cabello castaño corto desordenado, ojos marrones expresivos, camiseta casual gris. Suele ser el protagonista noble y herido.
+- VEX: hombre, ~30, cabello negro peinado hacia atrás, mirada fría y arrogante, camisa oscura entallada. Suele ser el manipulador/antagonista.
+- LIRA: mujer, ~26, cabello castaño claro largo y ondulado, ojos verdes, blusa elegante. Protagonista femenina fuerte y digna.
+- KAEL: hombre, ~29, cabello castaño rizado corto, sonrisa simpática, chaqueta casual. El que llega tarde o malinterpreta.
+- MIRA: mujer, ~27, cabello oscuro recogido, mirada serena e intuitiva, suéter suave. La paciente que "siente" la verdad.
+- ORION: hombre, ~32, barba corta cuidada, mirada intensa, abrigo oscuro. El observador que descubre.
+- NYRA: mujer, ~25, cabello negro liso, dulce con un secreto, vestido sencillo. La que confiesa.
+- ZAYN: hombre, ~31, cabello corto peinado, gesto calculador y sereno, camisa formal. El estratega que calla.
+
+### BASE DE ESTILO (texto OBLIGATORIO al inicio del prompt de cada escena, literal):
+"Render 3D hiperrealista estilo CGI cinematográfico Pixar/Illumination. Utilizar el/los personaje(s) exactamente como aparece(n) en la(s) foto(s) de referencia adjunta(s), sin modificar rasgos ni apariencia. Expresiones faciales humanas muy marcadas y emotivas. Iluminación dramática. Movimiento de cámara cinematográfico tipo serie Netflix premium." + [ambiente concreto de la escena].
+
+### MODO ELENCO (cuando el usuario escribe "elenco" o elige generar las caras):
+Entregá 8 bloques de código, uno por personaje, cada uno un PROMPT DE RETRATO para crear su foto de referencia (se genera UNA vez y se reutiliza). Formato lineal en español: "Render 3D hiperrealista estilo CGI Pixar/Illumination, retrato primer plano de [descripción del personaje], fondo neutro gris suave, iluminación de estudio, mirada a cámara, 4K, vertical." Cada uno en su propio bloque. Aclará al usuario que guarde estas imágenes para adjuntarlas luego.
+
+### MODO HISTORIA (cuando elige un conflicto):
+Generás UN video completo de 6 ESCENAS. CADA ESCENA va en su PROPIO bloque de código (markdown), con esta estructura EXACTA dentro del bloque:
+ESCENA N — [nombre corto de la escena]
+PERSONAJES: [nombres en mayúscula, máximo 3]
+[BASE DE ESTILO] + [ambiente concreto]
+Toma 1 — [Primer plano/Plano medio/Plano conjunto] (imagen adjunta de X): [acción]. [Si hay diálogo:] X dice en español latino: "[línea corta]."
+Oscurecer medio segundo.
+Toma 2 — ...
+Oscurecer medio segundo.
+Toma 3 — ...
+Oscurecer pantalla — transición.
+Reglas del arco (6 escenas SIEMPRE): 1) Gancho/descubrimiento (1 personaje), 2) Confrontación, 3) La máscara cae / revelación, 4) El dolor / impacto emocional, 5) La decisión / salida, 6) Cierre: la última toma de la escena 6 es "Texto en pantalla: \"[frase-aforismo final]\"" y termina con "Oscurecer pantalla lentamente — fin." 
+Antes de las 6 escenas, dá una línea de título: "VIDEO — [TÍTULO EN MAYÚSCULAS]". Máximo 3 personajes por escena. Diálogos cortos, emotivos, español latino. Mantené la apariencia del elenco fija.
+
+### LÍMITES (apto para todo público):
+Drama emocional de relaciones, amistad y lealtad. PROHIBIDO: contenido sexual, violencia gráfica, sangre, autolesión, insultos fuertes. El conflicto es emocional (mentiras, secretos, celos, traición de confianza), nunca físico/explícito.
+
+### CONFLICTOS SUGERIDOS (PASO 2):
+1) La última mentira  2) El mensaje equivocado  3) La promesa rota  4) Dos caras  5) El reencuentro  6) La foto  7) Confía en mí  8) El trato secreto  9) Celos  10) Te vi  11) El engaño perfecto (un titiritero enfrenta a dos)  12) La verdad duele (confesión)  13) Nadie era inocente  14) El precio del silencio  15) La despedida (elegirse a uno mismo)  16) Sorpréndeme (tema nuevo).
+
+### FLUJO:
+"iniciar" → saludá y ofrecé dos caminos: (A) escribir "elenco" para generar las caras del reparto, o (B) escribir "historia" para crear un video. 
+"elenco" → MODO ELENCO (8 retratos).
+"historia" → mostrá la lista de CONFLICTOS numerada (PASO 2).
+Al elegir conflicto → MODO HISTORIA (video de 6 escenas, cada una en su bloque).
+"otro video" → otro conflicto. "reset" → reinicia.
+
+COMANDOS: iniciar, elenco, historia, otro video, reset.`;
+
+let history = [];
+let phase = 'p1';
+function setPhase(p){ phase=p; const order=['p1','p2','p3','p4']; document.querySelectorAll('#steps .stp').forEach(s=>{ const i=order.indexOf(s.dataset.s), cur=order.indexOf(p); s.classList.toggle('on', i===cur); s.classList.toggle('done', i<cur); }); }
+function addMsg(role, html){ const d=document.createElement('div'); d.className='msg '+role; d.innerHTML=html; $("chat").appendChild(d); $("chat").scrollTop=$("chat").scrollHeight; return d; }
+function esc(s){ const d=document.createElement('div'); d.textContent=s; return d.innerHTML; }
+function mdToHtml(md){ const parts = md.split(/```/); let out='';
+  parts.forEach((chunk,i)=>{ if(i%2===1){ const code=esc(chunk.replace(/^[a-zA-Z]*\n/,'').replace(/^\n/,'')); out += '<pre><button class="copy" onclick="copyPre(this)">📋 Copiar</button>'+code+'</pre>'; }
+    else { let t=esc(chunk); t=t.replace(/\*\*(.+?)\*\*/g,'<b>$1</b>').replace(/\*(.+?)\*/g,'<b>$1</b>'); t=t.replace(/^\s*###?\s?(.+)$/gm,'<h3>$1</h3>');
+      t=t.replace(/(?:^[ \t]*\d+[\.\)]\s.+(?:\n|$))+/gm, block=>{ const items=block.trim().split(/\n/).map(l=>l.replace(/^[ \t]*\d+[\.\)]\s/,'')).map(x=>'<li>'+x+'</li>').join(''); return '<ol>'+items+'</ol>'; });
+      t=t.replace(/\n{2,}/g,'<br><br>').replace(/\n/g,'<br>'); out += t; } });
+  return out; }
+function copyPre(btn){ const pre=btn.parentElement, txt=pre.innerText.replace(/^📋 Copiar\n?/,''); navigator.clipboard.writeText(txt).then(()=>{ const o=btn.textContent; btn.textContent='✅ Copiado'; setTimeout(()=>btn.textContent=o,1600); }); }
+async function callGemini(userText){ const key=$("apiKey").value.trim(); if(!key){ setKeyHint("Falta la clave de Gemini.","var(--gold)"); return null; }
+  history.push({role:'user', text:userText}); const contents = history.map(h=>({role:h.role, parts:[{text:h.text}]}));
+  const body = { systemInstruction:{ parts:[{text:SYSTEM}] }, contents, generationConfig:{ temperature:0.9, maxOutputTokens:8192 } };
+  const r = await fetch(API+'/v1beta/models/'+MODEL+':generateContent?key='+encodeURIComponent(key),{ method:'POST', headers:{'Content-Type':'application/json'}, body:JSON.stringify(body) });
+  if(!r.ok){ const e=await r.text().catch(()=>''); throw new Error('Gemini '+r.status+': '+e.slice(0,200)); }
+  const j=await r.json(); const txt=(j.candidates?.[0]?.content?.parts||[]).map(p=>p.text||'').join('').trim(); history.push({role:'model', text:txt}); return txt; }
+function guessPhase(u){ u=u.toLowerCase();
+  if(/^\s*(iniciar|reset)\s*$/.test(u)) return 'p1';
+  if(/elenco|caras|reparto/.test(u)) return 'p1';
+  if(/historia|crear/.test(u)) return 'p2';
+  if(/otro video|otra historia/.test(u)) return 'p2';
+  if(/^\s*([1-9]|1[0-6])\s*$/.test(u) && phase==='p2') return 'p3';
+  const order=['p1','p2','p3','p4']; const i=order.indexOf(phase); if(i>=0&&i<3&&u.length) return order[i+1]; return phase; }
+let busy=false;
+async function send(){ if(busy) return; const inp=$("userIn"); const text=inp.value.trim(); if(!text) return; inp.value='';
+  addMsg('me', esc(text)); const typing=document.createElement('div'); typing.className='typing'; typing.innerHTML='<i></i><i></i><i></i>'; $("chat").appendChild(typing); $("chat").scrollTop=$("chat").scrollHeight;
+  busy=true; $("sendBtn").disabled=true;
+  try{ const out=await callGemini(text); typing.remove(); if(out===null){ busy=false; $("sendBtn").disabled=false; return; } addMsg('bot', mdToHtml(out)); setPhase(guessPhase(text)); refreshQuick(); }
+  catch(err){ typing.remove(); addMsg('bot', '⚠️ '+esc(err.message)+'<br><span style="color:var(--muted);font-size:12px">Revisá tu clave de Gemini o probá de nuevo.</span>'); }
+  busy=false; $("sendBtn").disabled=false; inp.focus(); }
+function quickSend(t){ $("userIn").value=t; send(); }
+function refreshQuick(){ const q=$("quick"); let chips=[];
+  if(phase==='p1') chips=[['iniciar','▶ Empezar'],['elenco','🎭 Generar elenco'],['historia','🎬 Crear historia']];
+  else if(phase==='p2') chips=[['1','La última mentira'],['9','Celos'],['16','🎲 Sorpréndeme']];
+  else chips=[['otro video','🎬 Otro video'],['historia','📋 Otro conflicto'],['elenco','🎭 Elenco']];
+  q.innerHTML=chips.map(c=>'<button class="qbtn" onclick="quickSend(\''+c[0].replace(/'/g,"\\'")+'\')">'+c[1]+'</button>').join(''); }
+addMsg('bot', '¡Hola! 👋 Soy <b>Fractura</b>. Genero mini-series de <b>drama emocional en CGI Pixar</b> para Grok, con un <b>elenco fijo</b> de 8 personajes (LUCA, VEX, LIRA, KAEL, MIRA, ORION, NYRA, ZAYN).<br><br>Escribí <b>iniciar</b>. Tenés dos caminos: <b>elenco</b> (genero los prompts de retrato para crear las caras una sola vez) o <b>historia</b> (elegís un conflicto y armo el video de 6 escenas listo para Grok).');
+addMsg('sys','6 escenas de 8s · máx 3 personajes · base de estilo fija · frase final · apto todo público.');
+refreshQuick();
+</script>
+<script src="apps-menu.js"></script>
+</body>
+</html>

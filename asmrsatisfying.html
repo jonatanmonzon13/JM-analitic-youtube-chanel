@@ -1,0 +1,252 @@
+<!doctype html>
+<html lang="es">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>ASMR Satisfying · JM BOTS</title>
+<style>
+  :root{
+    --bg:#060a0f; --bg2:#0b1118; --bg3:#121a24; --ink:#EAF7FF; --body:#BCD4E2; --muted:#728799;
+    --line:#1d2c3a; --cyan:#34E0E8; --teal:#3DF5C8; --blue:#4DA6FF; --gold:#F8DA8E; --pink:#FF6FB5; --green:#5BE39A;
+    --grad:linear-gradient(100deg,#34E0E8,#3DF5C8 55%,#7DF5D8);
+    --radius:16px;
+    --display:'Sora',system-ui,sans-serif; --mono:'JetBrains Mono',ui-monospace,monospace;
+  }
+  *{box-sizing:border-box}
+  body{margin:0;background:radial-gradient(1100px 600px at 70% -10%,rgba(52,224,232,.13),transparent 60%),var(--bg);
+       color:var(--body);font-family:var(--display);-webkit-font-smoothing:antialiased;line-height:1.55}
+  a{color:var(--cyan)}
+  .wrap{max-width:980px;margin:0 auto;padding:26px 20px 120px}
+  header.top{text-align:center;margin-bottom:18px}
+  .badge{display:inline-block;font-family:var(--mono);font-size:11px;letter-spacing:.18em;text-transform:uppercase;
+         color:var(--cyan);border:1px solid var(--line);border-radius:999px;padding:6px 14px;background:var(--bg2);margin-bottom:14px}
+  h1{font-weight:800;font-size:clamp(26px,5vw,40px);margin:0 0 8px;letter-spacing:-.02em;
+     background:var(--grad);-webkit-background-clip:text;background-clip:text;-webkit-text-fill-color:transparent}
+  .sub{color:var(--muted);max-width:64ch;margin:0 auto;font-size:15px}
+
+  .keybar{display:flex;gap:8px;align-items:center;flex-wrap:wrap;background:var(--bg2);border:1px solid var(--line);
+          border-radius:14px;padding:12px;margin:18px 0}
+  .keybar input{flex:1;min-width:200px;background:var(--bg3);border:1px solid var(--line);color:var(--ink);
+                border-radius:10px;padding:11px 13px;font-family:var(--mono);font-size:13px}
+  .btn{cursor:pointer;border:0;border-radius:10px;padding:11px 16px;font-family:var(--display);font-weight:700;font-size:13.5px;
+       transition:transform .08s,box-shadow .18s,opacity .15s;display:inline-flex;align-items:center;gap:7px;white-space:nowrap}
+  .btn-main{color:#04201f;background:var(--grad);box-shadow:0 8px 24px rgba(52,224,232,.30)}
+  .btn-main:hover{transform:translateY(-1px)}
+  .btn-ghost{background:var(--bg3);color:var(--ink);border:1px solid var(--line)}
+  .btn-ghost:hover{border-color:var(--cyan)}
+  .btn:disabled{opacity:.5;cursor:not-allowed;transform:none}
+  .keyhint{font-family:var(--mono);font-size:11.5px;color:var(--muted);width:100%}
+
+  .steps{display:flex;gap:8px;justify-content:center;flex-wrap:wrap;margin:6px 0 16px;font-family:var(--mono);font-size:11px}
+  .stp{color:var(--muted);border:1px solid var(--line);border-radius:999px;padding:5px 11px;background:var(--bg2)}
+  .stp.on{color:var(--gold);border-color:rgba(248,218,142,.5);background:rgba(248,218,142,.08)}
+  .stp.done{color:var(--green);border-color:rgba(91,227,154,.4)}
+
+  .chat{background:linear-gradient(180deg,var(--bg2),#060a0f);border:1px solid var(--line);border-radius:18px;
+        padding:18px;min-height:340px;display:flex;flex-direction:column;gap:14px;box-shadow:0 30px 80px rgba(0,0,0,.5)}
+  .msg{max-width:92%;padding:13px 16px;border-radius:14px;font-size:14.5px;animation:rise .3s both}
+  @keyframes rise{from{opacity:0;transform:translateY(8px)}to{opacity:1;transform:none}}
+  .msg.bot{align-self:flex-start;background:var(--bg3);border:1px solid var(--line);border-bottom-left-radius:5px}
+  .msg.me{align-self:flex-end;background:linear-gradient(100deg,var(--blue),var(--teal));color:#04201f;border-bottom-right-radius:5px;font-weight:600}
+  .msg.sys{align-self:center;font-family:var(--mono);font-size:11.5px;color:var(--muted);background:transparent;border:1px dashed var(--line);border-radius:10px;padding:7px 12px}
+  .msg h3{margin:.2em 0 .4em;font-size:16px;color:var(--gold)}
+  .msg pre{background:#060a0f;border:1px solid var(--line);border-radius:12px;padding:13px;overflow:auto;
+           font-family:var(--mono);font-size:12.5px;color:#DFF6FA;position:relative;white-space:pre-wrap;word-break:break-word}
+  .msg .copy{position:absolute;top:8px;right:8px;font-family:var(--display);font-weight:700;font-size:11px;cursor:pointer;
+             color:#04201f;background:var(--gold);border:0;border-radius:7px;padding:5px 9px}
+  .msg ol,.msg ul{margin:.3em 0;padding-left:1.3em}
+  .msg li{margin:.25em 0}
+  .typing{align-self:flex-start;display:flex;gap:5px;padding:13px 16px;background:var(--bg3);border:1px solid var(--line);border-radius:14px}
+  .typing i{width:7px;height:7px;border-radius:50%;background:var(--muted);animation:blink 1.2s infinite}
+  .typing i:nth-child(2){animation-delay:.2s}.typing i:nth-child(3){animation-delay:.4s}
+  @keyframes blink{0%,60%,100%{opacity:.3}30%{opacity:1}}
+
+  .quick{display:flex;gap:8px;flex-wrap:wrap;margin:14px 0 8px}
+  .qbtn{cursor:pointer;font-family:var(--display);font-weight:600;font-size:13px;color:var(--ink);background:var(--bg2);
+        border:1px solid var(--line);border-radius:999px;padding:9px 15px}
+  .qbtn:hover{border-color:var(--gold);color:var(--gold)}
+  .inrow{display:flex;gap:8px;margin-top:8px}
+  .inrow input{flex:1;background:var(--bg3);border:1px solid var(--line);color:var(--ink);border-radius:12px;padding:13px 15px;font-family:var(--display);font-size:14px}
+  .note{font-family:var(--mono);font-size:11px;color:var(--muted);text-align:center;margin-top:10px}
+</style>
+</head>
+<body>
+<div class="wrap">
+  <header class="top">
+    <div class="badge">Veo 3 · ASMR · Loop 9:16</div>
+    <h1>ASMR Satisfying</h1>
+    <p class="sub">Genera prompts de cortes oddly satisfying en cámara lenta: fruta de cristal, jabón, arena cinética, vidrio, miel… con audio ASMR sincronizado de Veo 3. Loop perfecto, vertical 9:16, sin cara. Cada prompt sale en formato lineal listo para copiar.</p>
+  </header>
+
+  <div class="keybar">
+    <input id="apiKey" type="password" placeholder="Clave de Gemini (compartida con la suite)">
+    <button class="btn btn-ghost" id="eyeBtn" onclick="toggleEye()">👁</button>
+    <button class="btn btn-ghost" onclick="saveKey()">Guardar</button>
+    <button class="btn btn-ghost" onclick="replaceKey()">Reemplazar</button>
+    <div class="keyhint" id="keyHint">Necesitás tu clave de Gemini para generar. Se guarda solo en este navegador.</div>
+  </div>
+
+  <div class="steps" id="steps">
+    <span class="stp on" data-s="material">1 · Material</span>
+    <span class="stp" data-s="ideas">2 · 10 ideas</span>
+    <span class="stp" data-s="duracion">3 · Duración</span>
+    <span class="stp" data-s="prompts">4 · Prompts (imagen + clip)</span>
+  </div>
+
+  <div class="chat" id="chat"></div>
+
+  <div class="quick" id="quick"></div>
+  <div class="inrow">
+    <input id="userIn" placeholder='Escribí “iniciar” para elegir el material…' onkeydown="if(event.key==='Enter')send()">
+    <button class="btn btn-main" id="sendBtn" onclick="send()">Enviar ➤</button>
+  </div>
+  <div class="note">Comandos: <b>iniciar</b> · <b>reiniciar ideas</b> (10 nuevas) · <b>continuar</b> · <b>reset</b>. Cada prompt sale en su bloque con botón 📋.</div>
+</div>
+
+<script>
+const $ = id => document.getElementById(id);
+const MODEL='gemini-2.5-flash';
+const API='https://generativelanguage.googleapis.com';
+
+/* ── Clave compartida ── */
+function loadKeys(){ try{ return JSON.parse(localStorage.getItem('jmbots_keys')||'{}'); }catch(e){ return {}; } }
+function setKeyHint(m,c){ $("keyHint").textContent=m; $("keyHint").style.color=c||"var(--muted)"; }
+(function initKey(){ const ks=loadKeys(); if(ks.an){ $("apiKey").value=ks.an; setKeyHint("✓ Clave del sistema cargada. Tocá Reemplazar para cambiarla.","var(--green)"); } })();
+function saveKey(){ const v=$("apiKey").value.trim(); if(!v){ setKeyHint("Pegá una clave antes de guardar.","var(--gold)"); return; }
+  try{ const ks=loadKeys(); ks.an=v; localStorage.setItem('jmbots_keys',JSON.stringify(ks)); }catch(e){}
+  setKeyHint("✓ Clave guardada (compartida con la suite).","var(--green)"); }
+function replaceKey(){ $("apiKey").value=""; $("apiKey").type='text'; $("apiKey").focus(); setKeyHint("Ingresá la nueva clave y tocá Guardar.","var(--gold)"); }
+function toggleEye(){ const i=$("apiKey"); i.type = i.type==='password'?'text':'password'; }
+
+/* ── SYSTEM PROMPT (ASMR Satisfying, prompts LINEALES) ── */
+const SYSTEM = `Eres "ASMR Satisfying", generador de prompts para videos ASMR "oddly satisfying" hechos con IA de video (Veo 3, que genera audio sincronizado). El contenido es vertical 9:16, sin personas ni rostros, pensado para loop corto en TikTok/Reels/Shorts. Conversás con el usuario en español; los prompts técnicos van en inglés dentro del bloque.
+
+### FORMATO DE ENTREGA (MUY IMPORTANTE):
+- Por cada escena entregás DOS bloques lineales independientes: (1) PROMPT DE IMAGEN inicial (keyframe) y (2) PROMPT DE VIDEO/ASMR para Veo 3.
+- Cada prompt es UNA SOLA PIEZA en formato LINEAL (texto corrido en una línea, sin estructura JSON, sin llaves ni comillas de estructura), en su PROPIO bloque de código markdown, separado del siguiente por un espacio. NUNCA agrupes prompts ni uses arrays.
+
+### REGLAS DE ESTILO Y AUDIO:
+- Estética: hiperrealista o "glass/crystal" según el material; macro extremo, cámara lenta, profundidad de campo, iluminación de estudio suave, fondo limpio (mesa neutra o degradé), 4K, 9:16 vertical, 60fps.
+- Audio SIEMPRE descrito en el prompt de video: "No music. Crisp ASMR sound" + el sonido específico del material (ej. clean knife slicing, glass cracking, soft squish, sand crumbling). Veo 3 genera el audio sincronizado.
+- Movimiento: corte/rebanada/aplastado/derrame lento y satisfactorio; el cuchillo o herramienta entra, corta limpio, y las piezas caen/separan en cámara lenta. Loop: que el final encadene con el inicio.
+- Sin texto en pantalla, sin marcas de agua, sin logos, sin personas ni manos humanas realistas salvo que el usuario lo pida (preferí herramienta flotante o vista cenital de manos neutras con guante si hace falta).
+
+### MATERIALES (PASO 1) — el usuario elige uno:
+1) 🍓 Fruta de cristal (glass fruit cutting)  2) 🧼 Jabón (soap cutting)  3) ⏳ Arena cinética (kinetic sand)  4) 🔷 Vidrio/cristal (glass/crystal)  5) 🍯 Miel/gel (honey/gel)  6) 🧊 Hielo  7) 🪨 Piedra/geoda (geode)  8) 🎨 Pintura/acrílico (paint mixing)  9) 🧀 Queso/comida satisfying  10) 🌀 Sorpréndeme (mezcla inusual).
+
+### FLUJO:
+"iniciar" → saludá breve y mostrá la lista de MATERIALES numerada. Esperá elección.
+Al elegir material → entregá 10 IDEAS numeradas de escenas satisfying con ese material (variadas, específicas, con el gancho visual). "reiniciar ideas" = 10 nuevas no repetidas (lista negra mental).
+Al elegir una idea → preguntá DURACIÓN: 1) 8s (un clip / loop)  2) 16s (2 clips)  3) 24s (3 clips). 
+Con la duración → por cada clip de 8s entregá su par de bloques lineales: PROMPT DE IMAGEN (keyframe inicial, en inglés) y PROMPT DE VIDEO Veo 3 (en inglés, con el movimiento del corte + la línea de audio ASMR + "9:16, 4K, 60fps, slow motion, seamless loop"). Numerá "Clip N".
+"continuar" retoma si se cortó. "reset" reinicia.
+
+COMANDOS: iniciar, reiniciar ideas, continuar, reset.
+
+REGLAS: nunca agrupes prompts; formato lineal y un bloque por prompt; sin texto/marcas/logos en el video; siempre incluí la descripción de audio ASMR; vertical 9:16; pensado para loop.`;
+
+let history = [];
+let phase = 'material';
+function setPhase(p){
+  phase=p;
+  const order=['material','ideas','duracion','prompts'];
+  document.querySelectorAll('#steps .stp').forEach(s=>{
+    const i=order.indexOf(s.dataset.s), cur=order.indexOf(p);
+    s.classList.toggle('on', i===cur);
+    s.classList.toggle('done', i<cur);
+  });
+}
+function addMsg(role, html){
+  const d=document.createElement('div'); d.className='msg '+role; d.innerHTML=html;
+  $("chat").appendChild(d); $("chat").scrollTop=$("chat").scrollHeight; return d;
+}
+function esc(s){ const d=document.createElement('div'); d.textContent=s; return d.innerHTML; }
+function mdToHtml(md){
+  const parts = md.split(/```/);
+  let out='';
+  parts.forEach((chunk,i)=>{
+    if(i%2===1){
+      const code=esc(chunk.replace(/^[a-zA-Z]*\n/,'').replace(/^\n/,''));
+      out += `<pre><button class="copy" onclick="copyPre(this)">📋 Copiar</button>${code}</pre>`;
+    } else {
+      let t=esc(chunk);
+      t=t.replace(/\*\*(.+?)\*\*/g,'<b>$1</b>').replace(/\*(.+?)\*/g,'<b>$1</b>');
+      t=t.replace(/^\s*###?\s?(.+)$/gm,'<h3>$1</h3>');
+      t=t.replace(/(?:^[ \t]*\d+[\.\)]\s.+(?:\n|$))+/gm, block=>{
+        const items=block.trim().split(/\n/).map(l=>l.replace(/^[ \t]*\d+[\.\)]\s/,'')).map(x=>'<li>'+x+'</li>').join('');
+        return '<ol>'+items+'</ol>';
+      });
+      t=t.replace(/\n{2,}/g,'<br><br>').replace(/\n/g,'<br>');
+      out += t;
+    }
+  });
+  return out;
+}
+function copyPre(btn){
+  const pre=btn.parentElement, txt=pre.innerText.replace(/^📋 Copiar\n?/,'');
+  navigator.clipboard.writeText(txt).then(()=>{ const o=btn.textContent; btn.textContent='✅ Copiado'; setTimeout(()=>btn.textContent=o,1600); });
+}
+async function callGemini(userText){
+  const key=$("apiKey").value.trim();
+  if(!key){ setKeyHint("Falta la clave de Gemini.","var(--gold)"); return null; }
+  history.push({role:'user', text:userText});
+  const contents = history.map(h=>({role:h.role, parts:[{text:h.text}]}));
+  const body = { systemInstruction:{ parts:[{text:SYSTEM}] }, contents,
+    generationConfig:{ temperature:0.9, maxOutputTokens:8192 } };
+  const r = await fetch(`${API}/v1beta/models/${MODEL}:generateContent?key=${encodeURIComponent(key)}`,{
+    method:'POST', headers:{'Content-Type':'application/json'}, body:JSON.stringify(body) });
+  if(!r.ok){ const e=await r.text().catch(()=>''); throw new Error('Gemini '+r.status+': '+e.slice(0,200)); }
+  const j=await r.json();
+  const txt=(j.candidates?.[0]?.content?.parts||[]).map(p=>p.text||'').join('').trim();
+  history.push({role:'model', text:txt});
+  return txt;
+}
+function guessPhase(userText){
+  const u=userText.toLowerCase();
+  if(/^\s*(iniciar|reset)\s*$/i.test(u) || /reiniciar ideas/i.test(u)) return u.includes('iniciar')||u.includes('reset')&&!u.includes('ideas')?'material':'ideas';
+  if(/^\s*([1-9]|10)\s*$/.test(userText) && phase==='material') return 'ideas';
+  if(/^\s*([1-9]|10)\s*$/.test(userText) && phase==='ideas') return 'duracion';
+  if(/8s|16s|24s|continuar|clip/i.test(u)) return 'prompts';
+  const order=['material','ideas','duracion','prompts'];
+  const i=order.indexOf(phase);
+  if(i>=0 && i<order.length-1 && u.length) return order[i+1];
+  return phase;
+}
+let busy=false;
+async function send(){
+  if(busy) return;
+  const inp=$("userIn"); const text=inp.value.trim(); if(!text) return;
+  inp.value='';
+  addMsg('me', esc(text));
+  const typing=document.createElement('div'); typing.className='typing'; typing.innerHTML='<i></i><i></i><i></i>';
+  $("chat").appendChild(typing); $("chat").scrollTop=$("chat").scrollHeight;
+  busy=true; $("sendBtn").disabled=true;
+  try{
+    const out=await callGemini(text);
+    typing.remove();
+    if(out===null){ busy=false; $("sendBtn").disabled=false; return; }
+    addMsg('bot', mdToHtml(out));
+    setPhase(guessPhase(text));
+    refreshQuick();
+  }catch(err){
+    typing.remove();
+    addMsg('bot', '⚠️ '+esc(err.message)+'<br><span style="color:var(--muted);font-size:12px">Revisá tu clave de Gemini o probá de nuevo.</span>');
+  }
+  busy=false; $("sendBtn").disabled=false; inp.focus();
+}
+function quickSend(t){ $("userIn").value=t; send(); }
+function refreshQuick(){
+  const q=$("quick"); let chips=[];
+  if(phase==='material') chips=[['iniciar','▶ Elegir material'],['1','🍓 Fruta cristal'],['2','🧼 Jabón'],['3','⏳ Arena']];
+  else if(phase==='ideas') chips=[['1','Idea 1'],['2','Idea 2'],['reiniciar ideas','💡 Otras 10']];
+  else if(phase==='duracion') chips=[['1','8s'],['2','16s'],['3','24s']];
+  else chips=[['continuar','➡ Continuar'],['iniciar','🔄 Nuevo material']];
+  q.innerHTML=chips.map(c=>`<button class="qbtn" onclick="quickSend('${c[0].replace(/'/g,"\\'")}')">${c[1]}</button>`).join('');
+}
+addMsg('bot', '¡Hola! 👋 Soy <b>ASMR Satisfying</b>. Genero prompts para videos ASMR <b>oddly satisfying</b> con Veo 3 (audio sincronizado), vertical 9:16, sin cara, ideales para loop.<br><br>Escribí <b>iniciar</b> y elegís el material (fruta de cristal, jabón, arena, vidrio, miel…). Te doy 10 ideas, elegís una y la duración, y armo el <b>prompt de imagen + el prompt de video ASMR</b> de cada clip, en bloques para copiar.');
+addMsg('sys','Macro · cámara lenta · audio ASMR de Veo 3 · sin texto/marcas · loop 9:16.');
+refreshQuick();
+</script>
+<script src="apps-menu.js"></script>
+</body>
+</html>

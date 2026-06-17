@@ -1,0 +1,170 @@
+<!doctype html>
+<html lang="es">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Montaña Rusa POV · JM BOTS</title>
+<style>
+  :root{
+    --bg:#0c0705; --bg2:#150c08; --bg3:#1f130c; --ink:#FFF2EA; --body:#E4CBBC; --muted:#A8866F;
+    --line:#352013; --c1:#FF7A3D; --c2:#3BC5FF; --c3:#FF4D8D; --gold:#F8DA8E; --green:#5BE39A;
+    --grad:linear-gradient(100deg,#FF7A3D,#FF4D8D 55%,#3BC5FF);
+    --display:'Sora',system-ui,sans-serif; --mono:'JetBrains Mono',ui-monospace,monospace;
+  }
+  *{box-sizing:border-box}
+  body{margin:0;background:radial-gradient(1100px 600px at 70% -10%,rgba(255,122,61,.15),transparent 60%),var(--bg);
+       color:var(--body);font-family:var(--display);-webkit-font-smoothing:antialiased;line-height:1.55}
+  a{color:var(--c1)}
+  .wrap{max-width:980px;margin:0 auto;padding:26px 20px 120px}
+  header.top{text-align:center;margin-bottom:18px}
+  .badge{display:inline-block;font-family:var(--mono);font-size:11px;letter-spacing:.18em;text-transform:uppercase;
+         color:var(--c1);border:1px solid var(--line);border-radius:999px;padding:6px 14px;background:var(--bg2);margin-bottom:14px}
+  h1{font-weight:800;font-size:clamp(26px,5vw,40px);margin:0 0 8px;letter-spacing:-.02em;
+     background:var(--grad);-webkit-background-clip:text;background-clip:text;-webkit-text-fill-color:transparent}
+  .sub{color:var(--muted);max-width:64ch;margin:0 auto;font-size:15px}
+  .keybar{display:flex;gap:8px;align-items:center;flex-wrap:wrap;background:var(--bg2);border:1px solid var(--line);border-radius:14px;padding:12px;margin:18px 0}
+  .keybar input{flex:1;min-width:200px;background:var(--bg3);border:1px solid var(--line);color:var(--ink);border-radius:10px;padding:11px 13px;font-family:var(--mono);font-size:13px}
+  .btn{cursor:pointer;border:0;border-radius:10px;padding:11px 16px;font-family:var(--display);font-weight:700;font-size:13.5px;transition:transform .08s,box-shadow .18s,opacity .15s;display:inline-flex;align-items:center;gap:7px;white-space:nowrap}
+  .btn-main{color:#2a1206;background:var(--grad);box-shadow:0 8px 24px rgba(255,122,61,.30)}
+  .btn-main:hover{transform:translateY(-1px)}
+  .btn-ghost{background:var(--bg3);color:var(--ink);border:1px solid var(--line)}
+  .btn-ghost:hover{border-color:var(--c1)}
+  .btn:disabled{opacity:.5;cursor:not-allowed;transform:none}
+  .keyhint{font-family:var(--mono);font-size:11.5px;color:var(--muted);width:100%}
+  .steps{display:flex;gap:8px;justify-content:center;flex-wrap:wrap;margin:6px 0 16px;font-family:var(--mono);font-size:11px}
+  .stp{color:var(--muted);border:1px solid var(--line);border-radius:999px;padding:5px 11px;background:var(--bg2)}
+  .stp.on{color:var(--gold);border-color:rgba(248,218,142,.5);background:rgba(248,218,142,.08)}
+  .stp.done{color:var(--green);border-color:rgba(91,227,154,.4)}
+  .chat{background:linear-gradient(180deg,var(--bg2),var(--bg));border:1px solid var(--line);border-radius:18px;padding:18px;min-height:340px;display:flex;flex-direction:column;gap:14px;box-shadow:0 30px 80px rgba(0,0,0,.5)}
+  .msg{max-width:92%;padding:13px 16px;border-radius:14px;font-size:14.5px;animation:rise .3s both}
+  @keyframes rise{from{opacity:0;transform:translateY(8px)}to{opacity:1;transform:none}}
+  .msg.bot{align-self:flex-start;background:var(--bg3);border:1px solid var(--line);border-bottom-left-radius:5px}
+  .msg.me{align-self:flex-end;background:linear-gradient(100deg,var(--c1),var(--c3));color:#2a1206;border-bottom-right-radius:5px;font-weight:600}
+  .msg.sys{align-self:center;font-family:var(--mono);font-size:11.5px;color:var(--muted);background:transparent;border:1px dashed var(--line);border-radius:10px;padding:7px 12px}
+  .msg h3{margin:.2em 0 .4em;font-size:16px;color:var(--gold)}
+  .msg pre{background:var(--bg);border:1px solid var(--line);border-radius:12px;padding:13px;overflow:auto;font-family:var(--mono);font-size:12.5px;color:#FAEDE4;position:relative;white-space:pre-wrap;word-break:break-word}
+  .msg .copy{position:absolute;top:8px;right:8px;font-family:var(--display);font-weight:700;font-size:11px;cursor:pointer;color:#2a1206;background:var(--gold);border:0;border-radius:7px;padding:5px 9px}
+  .msg ol,.msg ul{margin:.3em 0;padding-left:1.3em}.msg li{margin:.25em 0}
+  .typing{align-self:flex-start;display:flex;gap:5px;padding:13px 16px;background:var(--bg3);border:1px solid var(--line);border-radius:14px}
+  .typing i{width:7px;height:7px;border-radius:50%;background:var(--muted);animation:blink 1.2s infinite}
+  .typing i:nth-child(2){animation-delay:.2s}.typing i:nth-child(3){animation-delay:.4s}
+  @keyframes blink{0%,60%,100%{opacity:.3}30%{opacity:1}}
+  .quick{display:flex;gap:8px;flex-wrap:wrap;margin:14px 0 8px}
+  .qbtn{cursor:pointer;font-family:var(--display);font-weight:600;font-size:13px;color:var(--ink);background:var(--bg2);border:1px solid var(--line);border-radius:999px;padding:9px 15px}
+  .qbtn:hover{border-color:var(--gold);color:var(--gold)}
+  .inrow{display:flex;gap:8px;margin-top:8px}
+  .inrow input{flex:1;background:var(--bg3);border:1px solid var(--line);color:var(--ink);border-radius:12px;padding:13px 15px;font-family:var(--display);font-size:14px}
+  .note{font-family:var(--mono);font-size:11px;color:var(--muted);text-align:center;margin-top:10px}
+</style>
+</head>
+<body>
+<div class="wrap">
+  <header class="top">
+    <div class="badge">POV · Adrenalina · 9:16</div>
+    <h1>Montaña Rusa POV</h1>
+    <p class="sub">Experiencias POV de montaña rusa ultra-realistas y cinematográficas para TikTok, Shorts y Reels: entornos imposibles, vértigo y adrenalina. Te doy 5 conceptos con score viral; al elegir uno, armo el prompt de imagen y el de video (cámara al pecho) con los gritos del rider en mexicano. Prompts en inglés, listos para copiar.</p>
+  </header>
+
+  <div class="keybar">
+    <input id="apiKey" type="password" placeholder="Clave de Gemini (compartida con la suite)">
+    <button class="btn btn-ghost" id="eyeBtn" onclick="toggleEye()">👁</button>
+    <button class="btn btn-ghost" onclick="saveKey()">Guardar</button>
+    <button class="btn btn-ghost" onclick="replaceKey()">Reemplazar</button>
+    <div class="keyhint" id="keyHint">Necesitás tu clave de Gemini para generar. Se guarda solo en este navegador.</div>
+  </div>
+
+  <div class="steps" id="steps">
+    <span class="stp on" data-s="p1">1 · 5 Conceptos</span>
+    <span class="stp" data-s="p2">2 · Prompt Imagen</span>
+    <span class="stp" data-s="p3">3 · Prompt Video</span>
+  </div>
+
+  <div class="chat" id="chat"></div>
+
+  <div class="quick" id="quick"></div>
+  <div class="inrow">
+    <input id="userIn" placeholder='Escribí “iniciar” para los 5 conceptos…' onkeydown="if(event.key==='Enter')send()">
+    <button class="btn btn-main" id="sendBtn" onclick="send()">Enviar ➤</button>
+  </div>
+  <div class="note">Comandos: <b>iniciar</b> · <b>otros conceptos</b> · <b>1-5</b> (elegir) · <b>otra montaña</b> · <b>reset</b>. Cada prompt tiene botón 📋.</div>
+</div>
+
+<script>
+const $ = id => document.getElementById(id);
+const MODEL='gemini-2.5-flash';
+const API='https://generativelanguage.googleapis.com';
+
+function loadKeys(){ try{ return JSON.parse(localStorage.getItem('jmbots_keys')||'{}'); }catch(e){ return {}; } }
+function setKeyHint(m,c){ $("keyHint").textContent=m; $("keyHint").style.color=c||"var(--muted)"; }
+(function initKey(){ const ks=loadKeys(); if(ks.an){ $("apiKey").value=ks.an; setKeyHint("✓ Clave del sistema cargada. Tocá Reemplazar para cambiarla.","var(--green)"); } })();
+function saveKey(){ const v=$("apiKey").value.trim(); if(!v){ setKeyHint("Pegá una clave antes de guardar.","var(--gold)"); return; } try{ const ks=loadKeys(); ks.an=v; localStorage.setItem('jmbots_keys',JSON.stringify(ks)); }catch(e){} setKeyHint("✓ Clave guardada (compartida con la suite).","var(--green)"); }
+function replaceKey(){ $("apiKey").value=""; $("apiKey").type='text'; $("apiKey").focus(); setKeyHint("Ingresá la nueva clave y tocá Guardar.","var(--gold)"); }
+function toggleEye(){ const i=$("apiKey"); i.type = i.type==='password'?'text':'password'; }
+
+const SYSTEM = `Eres un experto generador de contenido de MONTAÑA RUSA con IA, especializado en videos virales para TikTok, YouTube Shorts, Instagram Reels y Facebook Reels. Tu objetivo: crear experiencias POV de montaña rusa ultra-realistas, cinematográficas y llenas de adrenalina, que se sientan imposibles, oníricas y súper adictivas de ver. Conversás con el usuario en ESPAÑOL LATINO MEXICANO (cálido, natural, con expresiones mexicanas suaves). Los PROMPTS de imagen y video van en INGLÉS (mejor render), PERO los diálogos/gritos del rider van en ESPAÑOL MEXICANO.
+
+### PASO 1 — CONCEPTOS:
+Cuando el usuario inicie, generá 5 conceptos de video de montaña rusa COMPLETAMENTE únicos. Cada concepto incluye, en texto claro (no en bloque de código):
+🎢 Título
+🌍 Entorno
+🔥 Qué lo hace aterrador o emocionante
+📈 Potencial viral (1-10)
+Deben ser visualmente espectaculares e intensos. Ejemplos de entornos: sobre las nubes, a través de dragones gigantes, dentro de un volcán, ciudad cyberpunk de neón, cascadas imposibles, anillos de Saturno, etc. Después de los 5 conceptos, PARÁ y preguntá: "¿Cuál montaña rusa querés generar?" NO generes prompts hasta que elija uno. "otros conceptos" = 5 nuevos distintos.
+
+### PASO 2 — AL ELEGIR UN CONCEPTO, generá EXACTAMENTE esto (nunca más de un prompt de imagen ni más de uno de video):
+
+Primero un bloque de código titulado IMAGE PROMPT con un único prompt de imagen en INGLÉS, no demasiado largo, con estos requisitos: first-person POV, legs visible, realistic boots, roller coaster track visible, extreme height, cinematic lighting, photorealistic, unreal scale, hyper detailed, 8K quality, HDR, volumetric lighting, atmospheric perspective, wide-angle lens, adrenaline-inducing, viral TikTok style, no text, no watermark, no logo.
+
+Luego un bloque de código titulado VIDEO ANIMATION PROMPT con un único prompt de video en INGLÉS para animar esa imagen, con: camera attached to rider's chest, realistic roller coaster movement, track shaking naturally, wind simulation, clothing reacting to speed, environmental effects, dynamic lighting, motion blur, cinematic realism, rollercoaster riding forward, immersive POV. Regla obligatoria: en ningún momento la persona se cae de la montaña ni la montaña se sale de los rieles; es un recorrido continuo del rider sobre la montaña, que avanza realista por el entorno. Dentro del prompt de video incluí estas secciones rotuladas:
+🎬 Camera Movement: (describe el movimiento en detalle)
+🌎 Environment Motion: (qué se mueve alrededor del rider)
+🎢 Roller Coaster Motion: (aceleración, caídas, vueltas, giros, clavados)
+🎵 Audio: (sonidos ambiente)
+🗣 Rider Dialogue: 3 opciones de diálogo CORTAS y naturales EN ESPAÑOL MEXICANO (ej: "¡Órale!", "¡No manches!", "¡Vámonos recio!", "¡Aguanta!", "¡Está de locos!", "¡Nooo, qué onda!", "¡Ayayay!", "¡Eso, eso, eso!"). Solo reacciones cortas y naturales.
+
+### IMPORTANTE:
+Toda respuesta futura sigue este formato exacto. Nunca generes más de un prompt de imagen ni más de uno de video. Siempre esperá a que el usuario elija un concepto antes de generar prompts. "otra montaña" = volvé a pedir cuál de los conceptos o generá 5 nuevos si lo pide.
+
+COMANDOS: iniciar, otros conceptos, otra montaña, reset.`;
+
+let history = [];
+let phase = 'p1';
+function setPhase(p){ phase=p; const order=['p1','p2','p3']; document.querySelectorAll('#steps .stp').forEach(s=>{ const i=order.indexOf(s.dataset.s), cur=order.indexOf(p); s.classList.toggle('on', i===cur); s.classList.toggle('done', i<cur); }); }
+function addMsg(role, html){ const d=document.createElement('div'); d.className='msg '+role; d.innerHTML=html; $("chat").appendChild(d); $("chat").scrollTop=$("chat").scrollHeight; return d; }
+function esc(s){ const d=document.createElement('div'); d.textContent=s; return d.innerHTML; }
+function mdToHtml(md){ const parts = md.split(/```/); let out='';
+  parts.forEach((chunk,i)=>{ if(i%2===1){ const code=esc(chunk.replace(/^[a-zA-Z]*\n/,'').replace(/^\n/,'')); out += '<pre><button class="copy" onclick="copyPre(this)">📋 Copiar</button>'+code+'</pre>'; }
+    else { let t=esc(chunk); t=t.replace(/\*\*(.+?)\*\*/g,'<b>$1</b>').replace(/\*(.+?)\*/g,'<b>$1</b>'); t=t.replace(/^\s*###?\s?(.+)$/gm,'<h3>$1</h3>');
+      t=t.replace(/(?:^[ \t]*\d+[\.\)]\s.+(?:\n|$))+/gm, block=>{ const items=block.trim().split(/\n/).map(l=>l.replace(/^[ \t]*\d+[\.\)]\s/,'')).map(x=>'<li>'+x+'</li>').join(''); return '<ol>'+items+'</ol>'; });
+      t=t.replace(/\n{2,}/g,'<br><br>').replace(/\n/g,'<br>'); out += t; } });
+  return out; }
+function copyPre(btn){ const pre=btn.parentElement, txt=pre.innerText.replace(/^📋 Copiar\n?/,''); navigator.clipboard.writeText(txt).then(()=>{ const o=btn.textContent; btn.textContent='✅ Copiado'; setTimeout(()=>btn.textContent=o,1600); }); }
+async function callGemini(userText){ const key=$("apiKey").value.trim(); if(!key){ setKeyHint("Falta la clave de Gemini.","var(--gold)"); return null; }
+  history.push({role:'user', text:userText}); const contents = history.map(h=>({role:h.role, parts:[{text:h.text}]}));
+  const body = { systemInstruction:{ parts:[{text:SYSTEM}] }, contents, generationConfig:{ temperature:0.9, maxOutputTokens:8192 } };
+  const r = await fetch(API+'/v1beta/models/'+MODEL+':generateContent?key='+encodeURIComponent(key),{ method:'POST', headers:{'Content-Type':'application/json'}, body:JSON.stringify(body) });
+  if(!r.ok){ const e=await r.text().catch(()=>''); throw new Error('Gemini '+r.status+': '+e.slice(0,200)); }
+  const j=await r.json(); const txt=(j.candidates?.[0]?.content?.parts||[]).map(p=>p.text||'').join('').trim(); history.push({role:'model', text:txt}); return txt; }
+function guessPhase(u){ u=u.toLowerCase();
+  if(/^\s*(iniciar|reset)\s*$/.test(u) || /otros conceptos|otra montaña/.test(u)) return 'p1';
+  if(/^\s*[1-5]\s*$/.test(u) && phase==='p1') return 'p3';
+  const order=['p1','p2','p3']; const i=order.indexOf(phase); if(i>=0&&i<2&&u.length) return order[i+1]; return phase; }
+let busy=false;
+async function send(){ if(busy) return; const inp=$("userIn"); const text=inp.value.trim(); if(!text) return; inp.value='';
+  addMsg('me', esc(text)); const typing=document.createElement('div'); typing.className='typing'; typing.innerHTML='<i></i><i></i><i></i>'; $("chat").appendChild(typing); $("chat").scrollTop=$("chat").scrollHeight;
+  busy=true; $("sendBtn").disabled=true;
+  try{ const out=await callGemini(text); typing.remove(); if(out===null){ busy=false; $("sendBtn").disabled=false; return; } addMsg('bot', mdToHtml(out)); setPhase(guessPhase(text)); refreshQuick(); }
+  catch(err){ typing.remove(); addMsg('bot', '⚠️ '+esc(err.message)+'<br><span style="color:var(--muted);font-size:12px">Revisá tu clave de Gemini o probá de nuevo.</span>'); }
+  busy=false; $("sendBtn").disabled=false; inp.focus(); }
+function quickSend(t){ $("userIn").value=t; send(); }
+function refreshQuick(){ const q=$("quick"); let chips=[];
+  if(phase==='p1') chips=[['iniciar','▶ 5 conceptos'],['1','🎢 Concepto 1'],['otros conceptos','🎲 Otros 5']];
+  else chips=[['otra montaña','🎢 Otra montaña'],['iniciar','🔄 Nuevos conceptos']];
+  q.innerHTML=chips.map(c=>'<button class="qbtn" onclick="quickSend(\''+c[0].replace(/'/g,"\\'")+'\')">'+c[1]+'</button>').join(''); }
+addMsg('bot', '¡Qué onda! 👋 Soy <b>Montaña Rusa POV</b>. Armo experiencias POV de montaña rusa ultra-realistas para TikTok, Shorts y Reels.<br><br>Escribí <b>iniciar</b> y te tiro <b>5 conceptos</b> con su entorno y score viral. Elegís uno (1 a 5) y te armo el <b>prompt de imagen</b> y el <b>prompt de video</b> (cámara al pecho, viento, caídas) con los <b>gritos del rider en mexicano</b>. Los prompts salen en inglés, listos para copiar.');
+addMsg('sys','POV primera persona · botas y riel · cámara al pecho · gritos en mexicano · prompts en inglés.');
+refreshQuick();
+</script>
+<script src="apps-menu.js"></script>
+</body>
+</html>

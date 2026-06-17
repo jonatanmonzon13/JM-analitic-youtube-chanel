@@ -1,0 +1,298 @@
+<!doctype html>
+<html lang="es">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Wooden Hands · JM BOTS</title>
+<style>
+  :root{
+    --bg:#070d08; --bg2:#0c150d; --bg3:#121f13; --ink:#ECFBE9; --body:#C5DDC0; --muted:#86A37E;
+    --line:#234021; --green:#4DE36A; --leaf:#7BE34D; --amber:#F8B34D; --gold:#F8DA8E; --cyan:#34E0C8; --violet:#7C5CFF;
+    --grad:linear-gradient(100deg,#4DE36A,#7BE34D 55%,#C2F08E);
+    --radius:16px;
+    --display:'Sora',system-ui,sans-serif; --mono:'JetBrains Mono',ui-monospace,monospace;
+  }
+  *{box-sizing:border-box}
+  body{margin:0;background:radial-gradient(1100px 600px at 70% -10%,rgba(77,227,106,.13),transparent 60%),var(--bg);
+       color:var(--body);font-family:var(--display);-webkit-font-smoothing:antialiased;line-height:1.55}
+  a{color:var(--cyan)}
+  .wrap{max-width:980px;margin:0 auto;padding:26px 20px 120px}
+  header.top{text-align:center;margin-bottom:18px}
+  .badge{display:inline-block;font-family:var(--mono);font-size:11px;letter-spacing:.18em;text-transform:uppercase;
+         color:var(--green);border:1px solid var(--line);border-radius:999px;padding:6px 14px;background:var(--bg2);margin-bottom:14px}
+  h1{font-weight:800;font-size:clamp(26px,5vw,40px);margin:0 0 8px;letter-spacing:-.02em;
+     background:var(--grad);-webkit-background-clip:text;background-clip:text;-webkit-text-fill-color:transparent}
+  .sub{color:var(--muted);max-width:64ch;margin:0 auto;font-size:15px}
+
+  .keybar{display:flex;gap:8px;align-items:center;flex-wrap:wrap;background:var(--bg2);border:1px solid var(--line);
+          border-radius:14px;padding:12px;margin:18px 0}
+  .keybar input{flex:1;min-width:200px;background:var(--bg3);border:1px solid var(--line);color:var(--ink);
+                border-radius:10px;padding:11px 13px;font-family:var(--mono);font-size:13px}
+  .btn{cursor:pointer;border:0;border-radius:10px;padding:11px 16px;font-family:var(--display);font-weight:700;font-size:13.5px;
+       transition:transform .08s,box-shadow .18s,opacity .15s;display:inline-flex;align-items:center;gap:7px;white-space:nowrap}
+  .btn-main{color:#06210f;background:var(--grad);box-shadow:0 8px 24px rgba(77,227,106,.32)}
+  .btn-main:hover{transform:translateY(-1px)}
+  .btn-ghost{background:var(--bg3);color:var(--ink);border:1px solid var(--line)}
+  .btn-ghost:hover{border-color:var(--green)}
+  .btn:disabled{opacity:.5;cursor:not-allowed;transform:none}
+  .keyhint{font-family:var(--mono);font-size:11.5px;color:var(--muted);width:100%}
+
+  .steps{display:flex;gap:8px;justify-content:center;flex-wrap:wrap;margin:6px 0 16px;font-family:var(--mono);font-size:11px}
+  .stp{color:var(--muted);border:1px solid var(--line);border-radius:999px;padding:5px 11px;background:var(--bg2)}
+  .stp.on{color:var(--gold);border-color:rgba(248,218,142,.5);background:rgba(248,218,142,.08)}
+  .stp.done{color:var(--leaf);border-color:rgba(123,227,77,.4)}
+
+  .chat{background:linear-gradient(180deg,var(--bg2),#080d08);border:1px solid var(--line);border-radius:18px;
+        padding:18px;min-height:340px;display:flex;flex-direction:column;gap:14px;box-shadow:0 30px 80px rgba(0,0,0,.5)}
+  .msg{max-width:92%;padding:13px 16px;border-radius:14px;font-size:14.5px;animation:rise .3s both}
+  @keyframes rise{from{opacity:0;transform:translateY(8px)}to{opacity:1;transform:none}}
+  .msg.bot{align-self:flex-start;background:var(--bg3);border:1px solid var(--line);border-bottom-left-radius:5px}
+  .msg.me{align-self:flex-end;background:linear-gradient(100deg,var(--violet),var(--green));color:#fff;border-bottom-right-radius:5px;font-weight:600}
+  .msg.sys{align-self:center;font-family:var(--mono);font-size:11.5px;color:var(--muted);background:transparent;border:1px dashed var(--line);border-radius:10px;padding:7px 12px}
+  .msg h3{margin:.2em 0 .4em;font-size:16px;color:var(--gold)}
+  .msg pre{background:#070d07;border:1px solid var(--line);border-radius:12px;padding:13px;overflow:auto;
+           font-family:var(--mono);font-size:12.5px;color:#E1F5DC;position:relative;white-space:pre-wrap;word-break:break-word}
+  .msg .copy{position:absolute;top:8px;right:8px;font-family:var(--display);font-weight:700;font-size:11px;cursor:pointer;
+             color:#06210f;background:var(--gold);border:0;border-radius:7px;padding:5px 9px}
+  .msg ol,.msg ul{margin:.3em 0;padding-left:1.3em}
+  .msg li{margin:.25em 0}
+  .typing{align-self:flex-start;display:flex;gap:5px;padding:13px 16px;background:var(--bg3);border:1px solid var(--line);border-radius:14px}
+  .typing i{width:7px;height:7px;border-radius:50%;background:var(--muted);animation:blink 1.2s infinite}
+  .typing i:nth-child(2){animation-delay:.2s}.typing i:nth-child(3){animation-delay:.4s}
+  @keyframes blink{0%,60%,100%{opacity:.3}30%{opacity:1}}
+
+  .quick{display:flex;gap:8px;flex-wrap:wrap;margin:14px 0 8px}
+  .qbtn{cursor:pointer;font-family:var(--display);font-weight:600;font-size:13px;color:var(--ink);background:var(--bg2);
+        border:1px solid var(--line);border-radius:999px;padding:9px 15px}
+  .qbtn:hover{border-color:var(--gold);color:var(--gold)}
+  .inrow{display:flex;gap:8px;margin-top:8px}
+  .inrow input{flex:1;background:var(--bg3);border:1px solid var(--line);color:var(--ink);border-radius:12px;padding:13px 15px;font-family:var(--display);font-size:14px}
+  .note{font-family:var(--mono);font-size:11px;color:var(--muted);text-align:center;margin-top:10px}
+</style>
+</head>
+<body>
+<div class="wrap">
+  <header class="top">
+    <div class="badge">Grok · Hojas de palma · 42s</div>
+    <h1>Wooden Hands</h1>
+    <p class="sub">Videos virales de esculturas de hojas de palma VERDES (estilo artesano El Baba) para Grok: 42s en 7 partes de 6s. Menú de 18 categorías → idea → arquitectura → 7 prompts de imagen + 7 de movimiento (formato lineal) + SEO. Marca: REACCIONES ÉPICAS JM.</p>
+  </header>
+
+  <div class="keybar">
+    <input id="apiKey" type="password" placeholder="Clave de Gemini (compartida con la suite)">
+    <button class="btn btn-ghost" id="eyeBtn" onclick="toggleEye()">👁</button>
+    <button class="btn btn-ghost" onclick="saveKey()">Guardar</button>
+    <button class="btn btn-ghost" onclick="replaceKey()">Reemplazar</button>
+    <div class="keyhint" id="keyHint">Necesitás tu clave de Gemini para generar. Se guarda solo en este navegador.</div>
+  </div>
+
+  <div class="steps" id="steps">
+    <span class="stp on" data-s="menu">1 · Categoría</span>
+    <span class="stp" data-s="ideas">2 · Ideas</span>
+    <span class="stp" data-s="confirma">3 · Confirma</span>
+    <span class="stp" data-s="arq">4 · Arquitectura</span>
+    <span class="stp" data-s="img">5 · 7 imágenes</span>
+    <span class="stp" data-s="mov">6 · 7 movimientos</span>
+    <span class="stp" data-s="seo">7 · SEO</span>
+  </div>
+
+  <div class="chat" id="chat"></div>
+
+  <div class="quick" id="quick"></div>
+  <div class="inrow">
+    <input id="userIn" placeholder='Escribí “INICIAR” para ver las 18 categorías…' onkeydown="if(event.key==='Enter')send()">
+    <button class="btn btn-main" id="sendBtn" onclick="send()">Enviar ➤</button>
+  </div>
+  <div class="note">Comandos: <b>MENÚ</b> · <b>TOP 5</b> · <b>SIGUIENTE</b> (movimientos) · <b>SEO</b> · <b>RESET</b>. Cada prompt sale en su bloque con botón 📋.</div>
+</div>
+
+<script>
+const $ = id => document.getElementById(id);
+const MODEL='gemini-2.5-flash';
+const API='https://generativelanguage.googleapis.com';
+
+/* ── Clave compartida ── */
+function loadKeys(){ try{ return JSON.parse(localStorage.getItem('jmbots_keys')||'{}'); }catch(e){ return {}; } }
+function setKeyHint(m,c){ $("keyHint").textContent=m; $("keyHint").style.color=c||"var(--muted)"; }
+(function initKey(){ const ks=loadKeys(); if(ks.an){ $("apiKey").value=ks.an; setKeyHint("✓ Clave del sistema cargada. Tocá Reemplazar para cambiarla.","var(--leaf)"); } })();
+function saveKey(){ const v=$("apiKey").value.trim(); if(!v){ setKeyHint("Pegá una clave antes de guardar.","var(--amber)"); return; }
+  try{ const ks=loadKeys(); ks.an=v; localStorage.setItem('jmbots_keys',JSON.stringify(ks)); }catch(e){}
+  setKeyHint("✓ Clave guardada (compartida con la suite).","var(--leaf)"); }
+function replaceKey(){ $("apiKey").value=""; $("apiKey").type='text'; $("apiKey").focus(); setKeyHint("Ingresá la nueva clave y tocá Guardar.","var(--gold)"); }
+function toggleEye(){ const i=$("apiKey"); i.type = i.type==='password'?'text':'password'; }
+
+/* ── SYSTEM PROMPT (gema Wooden Hands, adaptada a prompts LINEALES) ── */
+const SYSTEM = `Eres "Wooden Hands PRO", ingeniero de prompts para Grok, especializado en videos virales de esculturas hechas con HOJAS DE PALMA VERDES, estilo "Wooden Hands". Guías al usuario en un flujo estricto. Diálogo en español latino; los prompts técnicos en INGLÉS.
+
+### FORMATO DE ENTREGA (MUY IMPORTANTE):
+- Cada prompt (de imagen o de movimiento) se entrega como UNA SOLA PIEZA en formato LINEAL (texto corrido en una sola línea, NO en JSON, sin llaves ni comillas de estructura).
+- Cada prompt va en su PROPIO bloque de código markdown (triple backtick), separado del siguiente por un espacio en blanco. NUNCA agrupes varios prompts en un mismo bloque ni en una lista.
+
+### REGLAS DURAS:
+- 100% hojas de palma VERDES frescas y brillantes ("bright fresh green" repetido). CERO niños. CERO marcas comerciales reales.
+- Video total 42s = 7 partes de 6s EXACTOS cada una. Plataforma: Grok.
+- Artesano fijo: "El Baba" (hombre mayor de 70 años, barba blanca, vestimenta blanca, lungi beige), aldea, solo adultos, luz natural, estilo documental.
+- Canal/marca: REACCIONES ÉPICAS JM (solo se menciona en SEO, nunca como texto dentro de la imagen).
+- Prompt de imagen: ~400–600 caracteres. Prompt de movimiento: ~300–400 caracteres.
+- Incluí siempre detalles: "handcrafted", "basket-weave visible", luz natural, documental.
+
+### ESTRUCTURA 7 PARTES (cada una 6s):
+P1 (0-6s): Torso terminado — ajustando hojitas (close-up).
+P2 (6-12s): Brazo terminado — ajustando hojitas (close-up).
+P3 (12-18s): Torso+brazo+cabeza — ajustando hojitas de la cabeza (medium).
+P4 (18-24s): Piernas (fondo: lo ensamblado) — ajustando hojitas (medium-wide).
+P5 (24-30s): Figura completa — ajustando reverso/capa (wide).
+P6 (30-36s): Muestra el arte — paneo 360° (wide).
+P7 (36-42s): Acerca cámara + diálogo 4–6s "Friends, one like for my hard work" (medium).
+
+### MOVIMIENTO (timing fijo dentro de cada prompt de movimiento): "0-1.5s: [acción], 1.5-3.5s: [acción], 3.5-5s: [acción], 5-6s: [acción]" + audio (sonidos + instrumento + BPM + mood). Audio por parte sugerido: P1 sitar 90 BPM, P2 tabla 95, P3 building 100, P4 percussion 105, P5 intensifies 110, P6 celebration 115, P7 dhol 120 + diálogo. Nunca uses "slow motion".
+
+### FLUJO (un paso por turno):
+PASO 1 — MENÚ: al iniciar (o "INICIAR"/"MENÚ"), mostrá las 18 categorías en lista vertical:
+"1. SUPERHÉROES Y VILLANOS 🦸
+2. VEHÍCULOS LEGENDARIOS 🏎️
+3. ANIMALES SALVAJES 🦁
+4. PELÍCULAS ICÓNICAS 🎬
+5. SERIES Y TV 📺
+6. ANIME Y MANGA ⚡
+7. VIDEOJUEGOS 🎮
+8. EDIFICIOS Y MONUMENTOS 🏛️
+9. TECNOLOGÍA Y AI 🤖
+10. INSTRUMENTOS MUSICALES 🎸
+11. DEPORTES Y ATLETAS ⚽
+12. COMIDA GIGANTE 🍕
+13. ARMAS Y ARMADURAS ⚔️
+14. MITOLOGÍA MUNDIAL 🐉
+15. PERSONAJES VIRALES 2026 🔥
+16. MEMES Y CULTURA POP 😂
+17. NATURALEZA Y PAISAJES 🌋
+18. OBJETOS COTIDIANOS XXL 📱"
+El usuario responde con número, "IDEA:[nombre]" o "TOP 5".
+
+PASO 2 — SUBCATEGORÍAS: tras elegir categoría, mostrá 5 subcategorías (A–E) en vertical. El usuario elige letra, o "IDEA:[nombre]", "MENÚ", "ATRÁS".
+
+PASO 3 — 10 IDEAS: mostrá 10 ideas en vertical, cada una con: nombre - pose, puntajes (TikTok X/10, Shorts X/10, Reels X/10), un Hook entre comillas y la mejor plataforma. Opciones: 1–10 elegir, 11 RESET, 12 CAMBIAR SUB, 13 TOP 5 TRENDING, 14 MENÚ.
+
+PASO 4 — CONFIRMA: mostrá la idea elegida con viralidad (TikTok/Shorts/Reels/Engagement), recordá 42s (7×6s) y las 7 partes, y 3 hooks. Opciones: 1 CONTINUAR, 2 VER VARIACIONES, 3 MODIFICAR, 4 OTRA IDEA, 5 MENÚ.
+
+PASO 5 — ARQUITECTURA: detallá las 7 partes (encuadre, acción "ajustando hojitas", audio con BPM). Luego "VER PREVIEW" o "GENERAR PROMPTS".
+
+PASO 6 — ENTREGA: primero el BLOQUE 1 = 7 prompts de IMAGEN (uno por parte, cada uno en su bloque, formato lineal, en inglés, 400–600 chars, con El Baba + "bright fresh green palm leaves" + basket-weave + village adults only + documental). Indicá "Escribí SIGUIENTE para los 7 movimientos". Con "SIGUIENTE", entregá el BLOQUE 2 = 7 prompts de MOVIMIENTO (uno por parte, cada uno en su bloque, formato lineal, 300–400 chars, con el timing fijo + audio). Indicá "Escribí SEO".
+
+PASO 7 — SEO: con "SEO", entregá título (~70 chars con emojis), descripción (200–250 palabras: hook → proceso → especial → detalles → CTA → hashtags), keywords, tags, hashtags (incluí #ReaccionesEpicasJM #WoodenHands #PalmLeafArt #GrokGenerated) y mejores horarios 2026.
+
+COMANDOS: INICIAR, MENÚ, RESET, IDEA:[nombre], TOP 5, SIGUIENTE, SEO, CONTINUAR, VER VARIACIONES, VER PREVIEW, MODIFICAR, OTRA, VOLVER, [número], [letra].
+
+REGLAS: nunca rompas el orden del flujo; nunca agrupes prompts; siempre formato lineal y un bloque por prompt; 100% hojas verdes; cero niños; 6s exactos por parte.`;
+
+let history = [];
+let phase = 'menu';
+function setPhase(p){
+  phase=p;
+  const order=['menu','ideas','confirma','arq','img','mov','seo'];
+  document.querySelectorAll('#steps .stp').forEach(s=>{
+    const i=order.indexOf(s.dataset.s), cur=order.indexOf(p);
+    s.classList.toggle('on', i===cur);
+    s.classList.toggle('done', i<cur);
+  });
+}
+function addMsg(role, html){
+  const d=document.createElement('div'); d.className='msg '+role; d.innerHTML=html;
+  $("chat").appendChild(d); $("chat").scrollTop=$("chat").scrollHeight; return d;
+}
+function esc(s){ const d=document.createElement('div'); d.textContent=s; return d.innerHTML; }
+function mdToHtml(md){
+  const parts = md.split(/```/);
+  let out='';
+  parts.forEach((chunk,i)=>{
+    if(i%2===1){
+      const code=esc(chunk.replace(/^[a-zA-Z]*\n/,'').replace(/^\n/,''));
+      out += `<pre><button class="copy" onclick="copyPre(this)">📋 Copiar</button>${code}</pre>`;
+    } else {
+      let t=esc(chunk);
+      t=t.replace(/\*\*(.+?)\*\*/g,'<b>$1</b>').replace(/\*(.+?)\*/g,'<b>$1</b>');
+      t=t.replace(/^\s*###?\s?(.+)$/gm,'<h3>$1</h3>');
+      t=t.replace(/(?:^[ \t]*\d+[\.\)]\s.+(?:\n|$))+/gm, block=>{
+        const items=block.trim().split(/\n/).map(l=>l.replace(/^[ \t]*\d+[\.\)]\s/,'')).map(x=>'<li>'+x+'</li>').join('');
+        return '<ol>'+items+'</ol>';
+      });
+      t=t.replace(/\n{2,}/g,'<br><br>').replace(/\n/g,'<br>');
+      out += t;
+    }
+  });
+  return out;
+}
+function copyPre(btn){
+  const pre=btn.parentElement, txt=pre.innerText.replace(/^📋 Copiar\n?/,'');
+  navigator.clipboard.writeText(txt).then(()=>{ const o=btn.textContent; btn.textContent='✅ Copiado'; setTimeout(()=>btn.textContent=o,1600); });
+}
+async function callGemini(userText){
+  const key=$("apiKey").value.trim();
+  if(!key){ setKeyHint("Falta la clave de Gemini.","var(--amber)"); return null; }
+  history.push({role:'user', text:userText});
+  const contents = history.map(h=>({role:h.role, parts:[{text:h.text}]}));
+  const body = { systemInstruction:{ parts:[{text:SYSTEM}] }, contents,
+    generationConfig:{ temperature:0.85, maxOutputTokens:8192 } };
+  const r = await fetch(`${API}/v1beta/models/${MODEL}:generateContent?key=${encodeURIComponent(key)}`,{
+    method:'POST', headers:{'Content-Type':'application/json'}, body:JSON.stringify(body) });
+  if(!r.ok){ const e=await r.text().catch(()=>''); throw new Error('Gemini '+r.status+': '+e.slice(0,200)); }
+  const j=await r.json();
+  const txt=(j.candidates?.[0]?.content?.parts||[]).map(p=>p.text||'').join('').trim();
+  history.push({role:'model', text:txt});
+  return txt;
+}
+function guessPhase(userText){
+  const u=userText.toLowerCase();
+  if(/^\s*(iniciar|menú|menu)\s*$/i.test(u)) return 'menu';
+  if(/^\s*reset\s*$/i.test(u)) return 'menu';
+  if(/^\s*seo\s*$/i.test(u)) return 'seo';
+  if(/^\s*siguiente\s*$/i.test(u)) return 'mov';
+  if(/generar prompts|ver preview/i.test(u)) return 'img';
+  if(/continuar/i.test(u)) return 'arq';
+  if(/^\s*\d{1,2}\s*$/.test(userText) && phase==='menu') return 'ideas';
+  if(/^[a-eA-E]$/.test(userText) && phase==='ideas') return 'ideas';
+  if(/^\s*([1-9]|10)\s*$/.test(userText) && phase==='ideas') return 'confirma';
+  if(/idea\s*:/i.test(u)) return 'confirma';
+  return phase;
+}
+let busy=false;
+async function send(){
+  if(busy) return;
+  const inp=$("userIn"); const text=inp.value.trim(); if(!text) return;
+  inp.value='';
+  addMsg('me', esc(text));
+  const typing=document.createElement('div'); typing.className='typing'; typing.innerHTML='<i></i><i></i><i></i>';
+  $("chat").appendChild(typing); $("chat").scrollTop=$("chat").scrollHeight;
+  busy=true; $("sendBtn").disabled=true;
+  try{
+    const out=await callGemini(text);
+    typing.remove();
+    if(out===null){ busy=false; $("sendBtn").disabled=false; return; }
+    addMsg('bot', mdToHtml(out));
+    setPhase(guessPhase(text));
+    refreshQuick();
+  }catch(err){
+    typing.remove();
+    addMsg('bot', '⚠️ '+esc(err.message)+'<br><span style="color:var(--muted);font-size:12px">Revisá tu clave de Gemini o probá de nuevo.</span>');
+  }
+  busy=false; $("sendBtn").disabled=false; inp.focus();
+}
+function quickSend(t){ $("userIn").value=t; send(); }
+function refreshQuick(){
+  const q=$("quick"); let chips=[];
+  if(phase==='menu') chips=[['INICIAR','▶ Ver categorías'],['1','1 · Superhéroes'],['TOP 5','🔥 TOP 5']];
+  else if(phase==='ideas') chips=[['A','Sub A'],['B','Sub B'],['1','Idea 1'],['MENÚ','☰ Menú']];
+  else if(phase==='confirma') chips=[['CONTINUAR','✅ Continuar'],['VER VARIACIONES','🔄 Variaciones'],['OTRA','Otra idea']];
+  else if(phase==='arq') chips=[['GENERAR PROMPTS','🎬 Generar prompts'],['VER PREVIEW','👁 Preview']];
+  else if(phase==='img') chips=[['SIGUIENTE','➡ 7 movimientos']];
+  else if(phase==='mov') chips=[['SEO','🏷 SEO']];
+  else chips=[['INICIAR','🔄 Nuevo video']];
+  q.innerHTML=chips.map(c=>`<button class="qbtn" onclick="quickSend('${c[0].replace(/'/g,"\\'")}')">${c[1]}</button>`).join('');
+}
+addMsg('bot', '¡Hola! 👋 Soy <b>Wooden Hands</b>. Creo videos virales de esculturas de <b>hojas de palma verdes</b> (artesano El Baba) para <b>Grok</b>: 42s en 7 partes de 6s.<br><br>Escribí <b>INICIAR</b> y elegí una de las 18 categorías. Después: subcategoría → 10 ideas → confirmás → arquitectura → <b>7 prompts de imagen + 7 de movimiento</b> (uno por bloque, formato lineal) → SEO.');
+addMsg('sys','100% hojas verdes · cero niños · 6s por parte · marca solo en SEO (REACCIONES ÉPICAS JM).');
+refreshQuick();
+</script>
+<script src="apps-menu.js"></script>
+</body>
+</html>
