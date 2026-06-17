@@ -1,0 +1,394 @@
+<!doctype html>
+<html lang="es">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Datos que dan miedo — Creepypasta Pipeline</title>
+<style>
+  :root{
+    --bg:#060509; --bg2:#0e0b14; --bg3:#16111f; --ink:#F4EFFA; --body:#CFC6DE; --muted:#8E83A6;
+    --line:#2a2138; --red:#FF4D5E; --amber:#F8B34D; --gold:#F8DA8E; --green:#6BE39A; --violet:#9B5CFF;
+    --grad:linear-gradient(100deg,#FF4D5E,#9B5CFF 60%,#F8B34D);
+    --soft:rgba(155,92,255,.14); --radius:16px;
+    --display:'Sora',system-ui,sans-serif; --mono:'JetBrains Mono',ui-monospace,monospace;
+  }
+  *{box-sizing:border-box}
+  body{margin:0;background:radial-gradient(1100px 600px at 30% -10%,rgba(255,77,94,.14),transparent 60%),var(--bg);
+       color:var(--body);font-family:var(--display);-webkit-font-smoothing:antialiased;line-height:1.55}
+  a{color:var(--amber)}
+  .wrap{max-width:980px;margin:0 auto;padding:26px 20px 120px}
+  header.top{text-align:center;margin-bottom:18px}
+  .badge{display:inline-block;font-family:var(--mono);font-size:11px;letter-spacing:.18em;text-transform:uppercase;
+         color:var(--red);border:1px solid var(--line);border-radius:999px;padding:6px 14px;background:var(--bg2);margin-bottom:14px}
+  h1{font-weight:800;font-size:clamp(26px,5vw,40px);margin:0 0 8px;letter-spacing:-.02em;
+     background:var(--grad);-webkit-background-clip:text;background-clip:text;-webkit-text-fill-color:transparent}
+  .sub{color:var(--muted);max-width:62ch;margin:0 auto;font-size:15px}
+
+  .keybar{display:flex;gap:8px;align-items:center;flex-wrap:wrap;background:var(--bg2);border:1px solid var(--line);
+          border-radius:14px;padding:12px;margin:18px 0}
+  .keybar input{flex:1;min-width:200px;background:var(--bg3);border:1px solid var(--line);color:var(--ink);
+                border-radius:10px;padding:11px 13px;font-family:var(--mono);font-size:13px}
+  .btn{cursor:pointer;border:0;border-radius:10px;padding:11px 16px;font-family:var(--display);font-weight:700;font-size:13.5px;
+       transition:transform .08s,box-shadow .18s,opacity .15s;display:inline-flex;align-items:center;gap:7px;white-space:nowrap}
+  .btn-main{color:#1a0b14;background:var(--grad);box-shadow:0 8px 24px rgba(255,77,94,.32)}
+  .btn-main:hover{transform:translateY(-1px)}
+  .btn-ghost{background:var(--bg3);color:var(--ink);border:1px solid var(--line)}
+  .btn-ghost:hover{border-color:var(--violet)}
+  .btn:disabled{opacity:.5;cursor:not-allowed;transform:none}
+  .keyhint{font-family:var(--mono);font-size:11.5px;color:var(--muted);width:100%}
+
+  .steps{display:flex;gap:8px;justify-content:center;flex-wrap:wrap;margin:6px 0 16px;font-family:var(--mono);font-size:11px}
+  .stp{color:var(--muted);border:1px solid var(--line);border-radius:999px;padding:5px 11px;background:var(--bg2)}
+  .stp.on{color:var(--gold);border-color:rgba(248,218,142,.5);background:rgba(248,218,142,.08)}
+  .stp.done{color:var(--green);border-color:rgba(107,227,154,.4)}
+
+  .chat{background:linear-gradient(180deg,var(--bg2),#0a0710);border:1px solid var(--line);border-radius:18px;
+        padding:18px;min-height:340px;display:flex;flex-direction:column;gap:14px;box-shadow:0 30px 80px rgba(0,0,0,.5)}
+  .msg{max-width:92%;padding:13px 16px;border-radius:14px;font-size:14.5px;animation:rise .3s both}
+  @keyframes rise{from{opacity:0;transform:translateY(8px)}to{opacity:1;transform:none}}
+  .msg.bot{align-self:flex-start;background:var(--bg3);border:1px solid var(--line);border-bottom-left-radius:5px}
+  .msg.me{align-self:flex-end;background:linear-gradient(100deg,var(--violet),var(--red));color:#fff;border-bottom-right-radius:5px;font-weight:600}
+  .msg.sys{align-self:center;font-family:var(--mono);font-size:11.5px;color:var(--muted);background:transparent;border:1px dashed var(--line);border-radius:10px;padding:7px 12px}
+  .msg h3{margin:.2em 0 .4em;font-size:16px;color:var(--gold)}
+  .msg pre{background:#090611;border:1px solid var(--line);border-radius:12px;padding:13px;overflow:auto;
+           font-family:var(--mono);font-size:12.5px;color:#E7E0FF;position:relative;white-space:pre-wrap;word-break:break-word}
+  .msg .copy{position:absolute;top:8px;right:8px;font-family:var(--display);font-weight:700;font-size:11px;cursor:pointer;
+             color:#1a0b14;background:var(--gold);border:0;border-radius:7px;padding:5px 9px}
+  .msg ol,.msg ul{margin:.3em 0;padding-left:1.3em}
+  .msg li{margin:.25em 0}
+  .typing{align-self:flex-start;display:flex;gap:5px;padding:13px 16px;background:var(--bg3);border:1px solid var(--line);border-radius:14px}
+  .typing i{width:7px;height:7px;border-radius:50%;background:var(--muted);animation:blink 1.2s infinite}
+  .typing i:nth-child(2){animation-delay:.2s}.typing i:nth-child(3){animation-delay:.4s}
+  @keyframes blink{0%,60%,100%{opacity:.3}30%{opacity:1}}
+
+  .quick{display:flex;gap:8px;flex-wrap:wrap;margin:14px 0 8px}
+  .qbtn{cursor:pointer;font-family:var(--display);font-weight:600;font-size:13px;color:var(--ink);background:var(--bg2);
+        border:1px solid var(--line);border-radius:999px;padding:9px 15px}
+  .qbtn:hover{border-color:var(--gold);color:var(--gold)}
+  .inrow{display:flex;gap:8px;margin-top:8px}
+  .inrow input{flex:1;background:var(--bg3);border:1px solid var(--line);color:var(--ink);border-radius:12px;padding:13px 15px;font-family:var(--display);font-size:14px}
+  .note{font-family:var(--mono);font-size:11px;color:var(--muted);text-align:center;margin-top:10px}
+  .modebar{display:flex;gap:10px;align-items:center;flex-wrap:wrap;justify-content:center;margin:4px 0 16px}
+  .modebar .btn{font-size:14px;padding:13px 20px}
+  .modehint{font-family:var(--mono);font-size:11px;color:var(--muted);width:100%;text-align:center;margin-top:4px}
+  .exprogress{align-self:center;font-family:var(--mono);font-size:12px;color:var(--amber);background:rgba(248,179,77,.08);
+              border:1px solid rgba(248,179,77,.35);border-radius:10px;padding:8px 14px;display:flex;align-items:center;gap:8px}
+  .exprogress .spin{width:12px;height:12px;border:2px solid rgba(248,179,77,.3);border-top-color:var(--amber);border-radius:50%;animation:sp .8s linear infinite}
+  @keyframes sp{to{transform:rotate(360deg)}}
+</style>
+</head>
+<body>
+<div class="wrap">
+  <header class="top">
+    <div class="badge">Creepypasta · Dato real · 9:16</div>
+    <h1>Datos que dan miedo</h1>
+    <p class="sub">Generá creepypastas de <b>body-horror basadas en un dato real</b>, estilo Pixar hiperrealista, en clips de ~2s para Shorts/Reels/TikTok. Flujo: ideas → guion (para Fish Audio) → pausa → personajes y clips listos para Freepik + VEO 3.</p>
+  </header>
+
+  <div class="keybar">
+    <input id="apiKey" type="password" placeholder="Clave de Gemini (compartida con la suite)">
+    <button class="btn btn-ghost" id="eyeBtn" onclick="toggleEye()">👁</button>
+    <button class="btn btn-ghost" onclick="saveKey()">Guardar</button>
+    <button class="btn btn-ghost" onclick="replaceKey()">Reemplazar</button>
+    <div class="keyhint" id="keyHint">Necesitás tu clave de Gemini para generar. Se guarda solo en este navegador.</div>
+  </div>
+
+  <div class="modebar">
+    <button class="btn btn-main" id="expressBtn" onclick="startExpress()">⚡ Generar todo (Express)</button>
+    <button class="btn btn-ghost" id="copyAllBtn" onclick="copyAll()" style="display:none">📋 Copiar TODO el pipeline</button>
+    <div class="modehint" id="modeHint">Express: elegís una idea y la app genera guion + personajes + todos los clips sola. O usá el chat de abajo para el flujo con pausa (sincronía exacta con tu audio).</div>
+  </div>
+
+  <div class="steps" id="steps">
+    <span class="stp on" data-s="ideas">1 · Datos reales</span>
+    <span class="stp" data-s="guion">2 · Guion</span>
+    <span class="stp" data-s="pausa">3 · Grabás audio</span>
+    <span class="stp" data-s="prod">4 · Personajes + Clips</span>
+  </div>
+
+  <div class="chat" id="chat"></div>
+
+  <div class="quick" id="quick"></div>
+  <div class="inrow">
+    <input id="userIn" placeholder='Escribí "inicio" para empezar…' onkeydown="if(event.key==='Enter')send()">
+    <button class="btn btn-main" id="sendBtn" onclick="send()">Enviar ➤</button>
+  </div>
+  <div class="note">Flujo: <b>inicio</b> → elegís un dato (1–15) → copiás el guion y lo grabás en Fish Audio → escribís la duración (ej: <i>duró 1:04</i>) → genera personajes y todos los clips. Pedí los lotes con <b>siguiente</b>.</div>
+</div>
+
+<script>
+const $ = id => document.getElementById(id);
+const MODEL='gemini-2.5-flash';
+const API='https://generativelanguage.googleapis.com';
+
+/* ── Clave compartida con la suite ── */
+function loadKeys(){ try{ return JSON.parse(localStorage.getItem('jmbots_keys')||'{}'); }catch(e){ return {}; } }
+function setKeyHint(m,c){ $("keyHint").textContent=m; $("keyHint").style.color=c||"var(--muted)"; }
+(function initKey(){ const ks=loadKeys(); if(ks.an){ $("apiKey").value=ks.an; setKeyHint("✓ Clave del sistema cargada. Tocá Reemplazar para cambiarla.","var(--green)"); } })();
+function saveKey(){ const v=$("apiKey").value.trim(); if(!v){ setKeyHint("Pegá una clave antes de guardar.","var(--red)"); return; }
+  try{ const ks=loadKeys(); ks.an=v; localStorage.setItem('jmbots_keys',JSON.stringify(ks)); }catch(e){}
+  setKeyHint("✓ Clave guardada (compartida con la suite).","var(--green)"); }
+function replaceKey(){ $("apiKey").value=""; $("apiKey").type='text'; $("apiKey").focus(); setKeyHint("Ingresá la nueva clave y tocá Guardar.","var(--gold)"); }
+function toggleEye(){ const i=$("apiKey"); i.type = i.type==='password'?'text':'password'; }
+
+/* ── SYSTEM PROMPT — replica el formato del guion del búho ── */
+const STYLE_BLOCK = "Render 3D cinematográfico ultra detallado estilo Pixar Disney, cartoon 3D moderno, personajes con ojos grandes expresivos y rostros estilizados redondeados, emociones exageradas, texturas hiperrealistas, piel con subsurface scattering realista, gotas de sudor y lágrimas con reflejos húmedos muy detallados, superficies con reflejos realistas, obra maestra, mejor calidad, iluminación cinematográfica, profundidad de campo, colores vibrantes, render de alta gama, enfoque nítido, 4k, composición vertical 9:16, sombras suaves dramáticas, rostro detallado.";
+const NEG_BLOCK = "anime, manhwa, ilustración 2D, dibujo plano, sketch, lineart, fotografía de persona real, rostro de muñeca, piel plástica, rostro feo, mala anatomía, manos deformadas, dedos extra, borroso, baja calidad, marca de agua, logotipo, texto, firma, siluetas borrosas, personas borrosas, caras inventadas, gente extra, multitudes borrosas, otras personas en el fondo, personas desenfocadas, espectadores, audiencia, público en el fondo, gente de fondo, figuras humanas desenfocadas, siluetas humanas, gente caminando, personas de relleno.";
+
+const SYSTEM = `Eres "Datos que dan miedo", un guionista experto en creepypastas virales de body-horror para Shorts/Reels/TikTok, en formato vertical 9:16, estilo visual fijo Pixar/Disney 3D hiperrealista. Replicás EXACTAMENTE el formato de pipeline clip a clip del usuario (referencia: el guion "Se inyectó ojos de búho").
+
+REGLAS GENERALES:
+- Respondé en español latino.
+- TODO entregable (lista de datos, guion, personajes, clips) va DENTRO de un bloque de código markdown (triple backtick) para copiar directo. Fuera del bloque, solo explicaciones breves.
+- Cada historia parte de un DATO REAL y verificable (biología, cuerpo humano, animales, espacio, historia) que sea inquietante. La mutación/transformación y cualquier "suero", "ritual" o "objeto" son FICCIÓN obvia (mágica/inventada), NUNCA instrucciones reales de drogas, autolesión o procedimientos replicables. El terror es SUGERIDO, no gráfico: sin sangre ni gore (incluí "sangre, gore" en el prompt negativo de los clips fuertes).
+- Estilo visual FIJO en todos los prompts de imagen (no preguntar, no cambiar). Bloque de estilo a anexar al final de cada prompt de imagen: "${STYLE_BLOCK}". Prompt negativo a anexar al final de cada prompt de imagen: "Prompt negativo: ${NEG_BLOCK}".
+- Formato siempre vertical 9:16. Clips cortos de ~2 segundos (edición rápida). Cámara casi quieta. Cero personas de fondo.
+
+FLUJO POR PASOS (un paso por turno, respetar estrictamente):
+
+PASO A — Si el usuario escribe "inicio": generá una lista de 15 ideas, numeradas 1 a 15. Cada idea: título en mayúsculas + el DATO REAL en que se basa + 1 línea de premisa de la creepypasta. Variá el dato (animales, cuerpo humano, sueño, ojos, huesos, sangre, cerebro, espacio, océano, insectos). No repitas datos ya usados en la conversación. Entregá la lista y esperá que el usuario elija un número (o que proponga su propio dato).
+
+PASO B — Cuando el usuario elija: generá SOLO el GUION NARRADO COMPLETO y detenete.
+GUION: español latino, un único bloque markdown, texto corrido (sin números de clip, sin timestamps), tono de narrador de creepypasta, frases cortas e impactantes, tercera persona, con pausas con "...". Empezá con un gancho fortísimo en la primera frase. Cerrá SIEMPRE con la fórmula viral: invitar a buscar el dato real ("Si no me crees, busca...") + un remate inquietante. Apuntá a ~150–230 palabras (para ~1 a 1:10 narrado). Optimizado para voz IA (Fish Audio).
+Después del guion, agregá FUERA del bloque una línea "📌 Dato real:" explicando brevemente el dato verídico y la búsqueda sugerida, y aclarando que la mutación es ficción.
+⚠️ PUNTO DE PAUSA OBLIGATORIO: NO continúes. Indicá al usuario que grabe el audio en Fish Audio y que luego te diga la DURACIÓN REAL (ej: "duró 1:04"). No generes personajes ni clips todavía.
+
+PASO C — Cuando el usuario indique la duración real: usala como base. Calculá número de clips = duración total en segundos ÷ 2 (clips de ~2s). Repartí la narración del guion en ese número de clips.
+Primero generá un encabezado FUERA del markdown con: título del video, dato real, total de clips, duración, formato 9:16, pipeline (Freepik/Nano Banana → VEO 3 Frames-to-Video → Fish Audio → CapCut).
+Luego, dentro de bloques markdown:
+1) IDENTIFICACIÓN VISUAL: lista breve de cada personaje (nombre + descripción corta de consistencia) y su archivo .jpg (ej: BRUNO.jpg).
+2) PERSONAJES DE REFERENCIA: por cada personaje, un PROMPT DE IMAGEN completo (en español, hiper específico: rostro, ojos, ropa, postura, iluminación, toma) + el bloque de estilo + el prompt negativo. Indicá "Guardar como: NOMBRE.jpg".
+3) CLIPS: numerados (CLIP 01, 02, …). Cada clip incluye EXACTAMENTE estos campos:
+   - Tiempo (0:00 – 0:02) y Duración (~2s)
+   - Personajes en escena + Referencias a subir (NOMBRE.jpg, o "ninguna")
+   - Composición (encuadre, sujeto CENTRADO, 9:16)
+   - Acción (microacción, una sola)
+   - Narración (la frase de ese clip)
+   - Prompt de imagen (Freepik): descripción completa + "USAR REFERENCIA X" cuando aplique + bloque de estilo + prompt negativo
+   - Prompt de animación VEO 3 (seguro): "Clip corto (~2s, genera 8s y recorta). Cámara casi quieta." + movimiento/expresión/cámara mínimos.
+   Regla de oro: UNA microacción por clip; si una acción dura más de 2s, dividila. Nunca condensar.
+   En los clips de mayor fricción con filtros (inyecciones, cuello girando, cuerpo cambiando), redactá versión SEGURA y agregá "sangre, gore" al negativo de ese clip.
+
+ENTREGA POR LOTES: generá los clips en lotes de 8 a 10 por mensaje para que salgan completos. Al final de cada lote, indicá "Escribí *siguiente* para los próximos clips". Cuando termines todos, hacé un CONTROL FINAL (estilo fijo, 9:16, clips ~2s, gancho de 2s, cierre viral, dato real correcto).
+
+No te saltees el punto de pausa ni asumas la duración: siempre esperá el dato del usuario.`;
+
+let history = [];
+let phase = 'ideas';
+function setPhase(p){
+  phase=p;
+  const order=['ideas','guion','pausa','prod'];
+  document.querySelectorAll('#steps .stp').forEach(s=>{
+    const i=order.indexOf(s.dataset.s), cur=order.indexOf(p);
+    s.classList.toggle('on', i===cur);
+    s.classList.toggle('done', i<cur);
+  });
+}
+function addMsg(role, html){
+  const d=document.createElement('div'); d.className='msg '+role; d.innerHTML=html;
+  $("chat").appendChild(d); $("chat").scrollTop=$("chat").scrollHeight; return d;
+}
+function esc(s){ const d=document.createElement('div'); d.textContent=s; return d.innerHTML; }
+function mdToHtml(md){
+  const parts = md.split(/```/);
+  let out='';
+  parts.forEach((chunk,i)=>{
+    if(i%2===1){
+      const code=esc(chunk.replace(/^[a-zA-Z]*\n/,'').replace(/^\n/,''));
+      out += `<pre><button class="copy" onclick="copyPre(this)">📋 Copiar</button>${code}</pre>`;
+    } else {
+      let t=esc(chunk);
+      t=t.replace(/\*\*(.+?)\*\*/g,'<b>$1</b>').replace(/\*(.+?)\*/g,'<b>$1</b>');
+      t=t.replace(/^\s*###\s?(.+)$/gm,'<h3>$1</h3>');
+      t=t.replace(/(?:^[ \t]*\d+\.\s.+(?:\n|$))+/gm, block=>{
+        const items=block.trim().split(/\n/).map(l=>l.replace(/^[ \t]*\d+\.\s/,'')).map(x=>'<li>'+x+'</li>').join('');
+        return '<ol>'+items+'</ol>';
+      });
+      t=t.replace(/\n{2,}/g,'<br><br>').replace(/\n/g,'<br>');
+      out += t;
+    }
+  });
+  return out;
+}
+function copyPre(btn){
+  const pre=btn.parentElement, txt=pre.innerText.replace(/^📋 Copiar\n?/,'');
+  navigator.clipboard.writeText(txt).then(()=>{ const o=btn.textContent; btn.textContent='✅ Copiado'; setTimeout(()=>btn.textContent=o,1600); });
+}
+async function callGemini(userText){
+  const key=$("apiKey").value.trim();
+  if(!key){ setKeyHint("Falta la clave de Gemini.","var(--red)"); return null; }
+  history.push({role:'user', text:userText});
+  const contents = history.map(h=>({role:h.role, parts:[{text:h.text}]}));
+  const body = { systemInstruction:{ parts:[{text:SYSTEM}] }, contents,
+    generationConfig:{ temperature:0.9, maxOutputTokens:8192 } };
+  const r = await fetch(`${API}/v1beta/models/${MODEL}:generateContent?key=${encodeURIComponent(key)}`,{
+    method:'POST', headers:{'Content-Type':'application/json'}, body:JSON.stringify(body) });
+  if(!r.ok){ const e=await r.text().catch(()=>''); throw new Error('Gemini '+r.status+': '+e.slice(0,200)); }
+  const j=await r.json();
+  const txt=(j.candidates?.[0]?.content?.parts||[]).map(p=>p.text||'').join('').trim();
+  history.push({role:'model', text:txt});
+  return txt;
+}
+function guessPhase(userText){
+  const u=userText.toLowerCase();
+  if(/^\s*inicio\s*$/i.test(userText)) return 'guion';
+  if(/^\s*\d{1,2}\s*$/.test(userText)) return 'pausa';
+  if(/\d{1,2}\s*[:.]\s*\d{1,2}|dur[óo]|minut|segund/i.test(u)) return 'prod';
+  return phase;
+}
+let busy=false;
+async function send(){
+  if(busy) return;
+  const inp=$("userIn"); const text=inp.value.trim(); if(!text) return;
+  inp.value='';
+  addMsg('me', esc(text));
+  const typing=document.createElement('div'); typing.className='typing'; typing.innerHTML='<i></i><i></i><i></i>';
+  $("chat").appendChild(typing); $("chat").scrollTop=$("chat").scrollHeight;
+  busy=true; $("sendBtn").disabled=true;
+  try{
+    const out=await callGemini(text);
+    typing.remove();
+    if(out===null){ busy=false; $("sendBtn").disabled=false; return; }
+    addMsg('bot', mdToHtml(out));
+    setPhase(guessPhase(text));
+    // acumular para Copiar TODO cuando ya hay contenido de producción/guion
+    if(phase==='pausa' || phase==='prod') pushPipeline(out);
+    refreshQuick();
+  }catch(err){
+    typing.remove();
+    addMsg('bot', '⚠️ '+esc(err.message)+'<br><span style="color:var(--muted);font-size:12px">Revisá tu clave de Gemini o probá de nuevo.</span>');
+  }
+  busy=false; $("sendBtn").disabled=false; inp.focus();
+}
+function quickSend(t){ $("userIn").value=t; send(); }
+function refreshQuick(){
+  const q=$("quick"); let chips=[];
+  if(phase==='ideas') chips=[['inicio','▶ inicio']];
+  else if(phase==='guion') chips=[['1','Elegir 1'],['2','Elegir 2'],['3','Elegir 3']];
+  else if(phase==='pausa') chips=[['duró 1:00','Duró 1:00'],['duró 1:04','Duró 1:04'],['duró 1:30','Duró 1:30']];
+  else chips=[['siguiente','➡ siguiente'],['__allclips__','⏩ Generar todos los clips'],['inicio','🔄 Nueva historia']];
+  q.innerHTML=chips.map(c=> c[0]==='__allclips__'
+      ? `<button class="qbtn" onclick="allClips()">${c[1]}</button>`
+      : `<button class="qbtn" onclick="quickSend('${c[0].replace(/'/g,"\\'")}')">${c[1]}</button>`).join('');
+}
+
+/* Trae todos los lotes de clips restantes de una (flujo manual) */
+async function allClips(){
+  if(busy) return;
+  busy=true; $("sendBtn").disabled=true; $("quick").innerHTML='';
+  try{
+    let guard=0, out='';
+    do{
+      guard++;
+      progress('Generando clips… (lote '+guard+')');
+      out = await callSilent('siguiente');
+      progressDone(); addMsg('bot', mdToHtml(out)); pushPipeline(out);
+    } while(/siguiente/i.test(out) && guard<10);
+    addMsg('sys','✅ Listo. Usá “📋 Copiar TODO el pipeline” arriba.');
+  }catch(err){ progressDone(); addMsg('bot','⚠️ '+esc(err.message)); }
+  busy=false; $("sendBtn").disabled=false; refreshQuick();
+}
+/* ── Acumulador para "Copiar TODO" ── */
+let PIPELINE = [];   // textos crudos (markdown) de guion + personajes + clips
+function pushPipeline(txt){ if(txt && txt.trim()){ PIPELINE.push(txt.trim()); $("copyAllBtn").style.display=''; } }
+function copyAll(){
+  if(!PIPELINE.length) return;
+  const all = PIPELINE.join('\n\n──────────\n\n');
+  navigator.clipboard.writeText(all).then(()=>{
+    const b=$("copyAllBtn"), o=b.textContent; b.textContent='✅ ¡Pipeline copiado!'; setTimeout(()=>b.textContent=o,1800);
+  });
+}
+
+/* ── Llamada a Gemini SIN pintar en el chat (para Express) ── */
+async function callSilent(userText){
+  const key=$("apiKey").value.trim();
+  if(!key) throw new Error('Falta la clave de Gemini.');
+  history.push({role:'user', text:userText});
+  const contents = history.map(h=>({role:h.role, parts:[{text:h.text}]}));
+  const body = { systemInstruction:{ parts:[{text:SYSTEM}] }, contents,
+    generationConfig:{ temperature:0.9, maxOutputTokens:8192 } };
+  const r = await fetch(`${API}/v1beta/models/${MODEL}:generateContent?key=${encodeURIComponent(key)}`,{
+    method:'POST', headers:{'Content-Type':'application/json'}, body:JSON.stringify(body) });
+  if(!r.ok){ const e=await r.text().catch(()=>''); throw new Error('Gemini '+r.status+': '+e.slice(0,200)); }
+  const j=await r.json();
+  const txt=(j.candidates?.[0]?.content?.parts||[]).map(p=>p.text||'').join('').trim();
+  history.push({role:'model', text:txt});
+  return txt;
+}
+function looksLikeEnd(t){ return /control final|fin del pipeline|\bclip\b[^]*\bfin\b/i.test(t) || !/siguiente/i.test(t); }
+
+/* ── MODO EXPRESS: idea → (al elegir) genera todo solo ── */
+let expressOn = false;
+function progress(msg){
+  let p=document.getElementById('exprog');
+  if(!p){ p=document.createElement('div'); p.id='exprog'; p.className='exprogress';
+          $("chat").appendChild(p); }
+  p.innerHTML='<span class="spin"></span> '+esc(msg);
+  $("chat").scrollTop=$("chat").scrollHeight;
+}
+function progressDone(){ const p=document.getElementById('exprog'); if(p) p.remove(); }
+
+async function startExpress(){
+  if(busy) return;
+  if(!$("apiKey").value.trim()){ setKeyHint("Pegá tu clave de Gemini para usar Express.","var(--red)"); return; }
+  expressOn = true;
+  PIPELINE = []; $("copyAllBtn").style.display='none';
+  $("expressBtn").disabled=true; $("sendBtn").disabled=true; busy=true;
+  addMsg('sys','⚡ Modo Express: elegí una idea y genero todo solo.');
+  try{
+    progress('Buscando 15 datos reales escalofriantes…');
+    const ideas = await callSilent('inicio');
+    progressDone();
+    addMsg('bot', mdToHtml(ideas));
+    setPhase('guion');
+    // botones para elegir idea → al tocar, sigue solo
+    const q=$("quick");
+    q.innerHTML = Array.from({length:10},(_,i)=>`<button class="qbtn" onclick="expressPick(${i+1})">Generar #${i+1}</button>`).join('')
+      + `<button class="qbtn" onclick="expressPick('random')">🎲 Al azar</button>`;
+  }catch(err){
+    progressDone(); addMsg('bot','⚠️ '+esc(err.message));
+    expressOn=false;
+  }
+  busy=false; $("expressBtn").disabled=false; $("sendBtn").disabled=false;
+}
+
+async function expressPick(n){
+  if(busy) return;
+  busy=true; $("sendBtn").disabled=true; $("quick").innerHTML='';
+  const choice = n==='random' ? ('elige tú una de las 15 ideas, la que tenga más potencial viral, y dámela') : String(n);
+  addMsg('me', n==='random' ? '🎲 Al azar' : ('Generar #'+n));
+  try{
+    // 1) Guion
+    progress('Escribiendo el guion para Fish Audio…');
+    const guion = await callSilent(choice);
+    progressDone(); addMsg('bot', mdToHtml(guion)); pushPipeline(guion); setPhase('pausa');
+
+    // 2) Saltar la pausa con duración estimada (~1:00 → 30 clips)
+    progress('Estimando duración (~1:00) y armando personajes + clips…');
+    let out = await callSilent('El audio duró aproximadamente 1:00 (estimado). Genera ahora la identificación visual, los prompts de personaje y el PRIMER lote de clips.');
+    progressDone(); addMsg('bot', mdToHtml(out)); pushPipeline(out); setPhase('prod');
+
+    // 3) Encadenar lotes "siguiente" hasta terminar
+    let guard=0;
+    while(/siguiente/i.test(out) && guard<8){
+      guard++;
+      progress('Generando más clips… (lote '+(guard+1)+')');
+      out = await callSilent('siguiente');
+      progressDone(); addMsg('bot', mdToHtml(out)); pushPipeline(out);
+      if(!/siguiente/i.test(out)) break;
+    }
+    addMsg('sys','✅ Pipeline completo. Usá “📋 Copiar TODO el pipeline” arriba.');
+    refreshQuick();
+  }catch(err){
+    progressDone(); addMsg('bot','⚠️ '+esc(err.message)+'<br><span style="color:var(--muted);font-size:12px">Podés continuar manualmente escribiendo “siguiente”.</span>');
+  }
+  expressOn=false; busy=false; $("sendBtn").disabled=false;
+}
+
+
+addMsg('sys','Terror sugerido, no gráfico. El dato es real; la transformación es ficción.');
+refreshQuick();
+</script>
+<script src="apps-menu.js"></script>
+</body>
+</html>
