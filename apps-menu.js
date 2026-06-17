@@ -34,7 +34,7 @@
     profesiones:["OFICIOS",["#1c2740","#3d1f2f"]], utiles:["ESCUELA",["#1f2a3d","#2a2410"]], superheroes:["HÉROES",["#10243a","#3d1f2f"]],
     buenasnoches:["DORMIR",["#0e1430","#241a33"]], valores:["VALORES",["#1f3d2f","#10243a"]], datos:["CURIOSO",["#10243a","#1f2a3d"]],
     trabalenguas:["RIMAS",["#2a1f3d","#1f3d2f"]], monstruos:["TIERNO",["#2a1f3d","#10243a"]],
-    terror:["TERROR",["#1a1320","#0a0c14"]], terrorurbano:["URBANO",["#13161f","#1a1320"]], fabulas:["FÁBULA",["#1f3d2f","#2a2410"]], reflexiones:["MANHWA",["#3d1f3a","#241a40"]], datosmiedo:["CREEPYPASTA",["#1a1320","#3d1f2f"]], timelapse:["TIMELAPSE",["#0b1f33","#10243a"]], timelapse2:["TIMELAPSE 2",["#0f2913","#10243a"]], timelapse3:["TIMELAPSE 3",["#2a1140","#10243a"]], podcast:["PODCAST",["#3a2410","#2a1f10"]], podfitness:["FITNESS",["#3a1010","#3a2410"]], podmujeres:["MINDSET",["#3a1030","#241a40"]], podfe:["FE",["#3a2e10","#2a2410"]], poddating:["AMOR",["#3a1020","#3a1030"]], podnegocios:["NEGOCIOS",["#0b1f33","#10243a"]], abuelo:["CONSEJOS",["#2a2410","#3a2e10"]], ninogenio:["NIÑO",["#0b2933","#0f2913"]], atleta:["ÉPICO",["#3a2e0a","#3a1010"]], entrevista:["PODCAST",["#241a40","#10243a"]], streetint:["CALLE",["#0a2e28","#0f2913"]], storytime:["STORYTIME",["#2a1140","#3a1030"]], datoshablados:["DATOS",["#0b2933","#10243a"]], woodenhands:["WOODEN HANDS",["#0f2913","#1a2410"]], woodenhands2:["WOODEN v2.6",["#1a2410","#0f2913"]], xray:["3D X-RAY",["#0b1f33","#10243a"]], cocinaviral:["COCINA 3D",["#2a1408","#1f1810"]], narekart:["POWERFLOW",["#2a0f24","#241040"]], venganza:["VENGANZA",["#2a0f12","#1f0c0e"]], asmrsatisfying:["ASMR",["#06222a","#0b2a30"]], aifruit:["FRUIT",["#2a1208","#20120c"]], surreal:["🪐",["#1a0f2e","#241040"]], miniaturas:["🏠",["#0a1f16","#0e2a1e"]], animalessurreal:["🦄",["#0a1f1d","#102a28"]], finanzas:["💰",["#0a1f14","#0e2a1c"]], techia:["📱",["#0a142a","#0e1d3a"]], saludbienestar:["🧘",["#0a1f1c","#0e2a26"]], negociosfaceless:["🚀",["#0a1226","#0e1a36"]], reddit:["👽",["#2a1408","#3a1d0c"]], truecrime:["🕵️",["#2a0e0f","#1f0c0d"]], povcine:["🎬",["#2a1c08","#1f150c"]], tiendashop:["🛒",["#2a0e1d","#1f0c16"]], streetpro:["🎤",["#0a1d2a","#0e2433"]], criaturas:["🦶",["#0e2a10","#0a1f0c"]], motivacion:["🔥",["#2a1c08","#1f150c"]], procesos:["🧽",["#0a1f2a","#0e2733"]], historiacuriosa:["🗺️",["#2a200c","#1f1808"]]
+    terror:["TERROR",["#1a1320","#0a0c14"]], terrorurbano:["URBANO",["#13161f","#1a1320"]], fabulas:["FÁBULA",["#1f3d2f","#2a2410"]], reflexiones:["MANHWA",["#3d1f3a","#241a40"]], datosmiedo:["CREEPYPASTA",["#1a1320","#3d1f2f"]], timelapse:["TIMELAPSE",["#0b1f33","#10243a"]], timelapse2:["TIMELAPSE 2",["#0f2913","#10243a"]], timelapse3:["TIMELAPSE 3",["#2a1140","#10243a"]], podcast:["PODCAST",["#3a2410","#2a1f10"]], podfitness:["FITNESS",["#3a1010","#3a2410"]], podmujeres:["MINDSET",["#3a1030","#241a40"]], podfe:["FE",["#3a2e10","#2a2410"]], poddating:["AMOR",["#3a1020","#3a1030"]], podnegocios:["NEGOCIOS",["#0b1f33","#10243a"]], abuelo:["CONSEJOS",["#2a2410","#3a2e10"]], ninogenio:["NIÑO",["#0b2933","#0f2913"]], atleta:["ÉPICO",["#3a2e0a","#3a1010"]], entrevista:["PODCAST",["#241a40","#10243a"]], streetint:["CALLE",["#0a2e28","#0f2913"]], storytime:["STORYTIME",["#2a1140","#3a1030"]], datoshablados:["DATOS",["#0b2933","#10243a"]], woodenhands:["WOODEN HANDS",["#0f2913","#1a2410"]], woodenhands2:["WOODEN v2.6",["#1a2410","#0f2913"]], xray:["3D X-RAY",["#0b1f33","#10243a"]], cocinaviral:["COCINA 3D",["#2a1408","#1f1810"]], narekart:["POWERFLOW",["#2a0f24","#241040"]], venganza:["VENGANZA",["#2a0f12","#1f0c0e"]], asmrsatisfying:["ASMR",["#06222a","#0b2a30"]], aifruit:["FRUIT",["#2a1208","#20120c"]], surreal:["🪐",["#1a0f2e","#241040"]], miniaturas:["🏠",["#0a1f16","#0e2a1e"]], animalessurreal:["🦄",["#0a1f1d","#102a28"]], finanzas:["💰",["#0a1f14","#0e2a1c"]], techia:["📱",["#0a142a","#0e1d3a"]], saludbienestar:["🧘",["#0a1f1c","#0e2a26"]], negociosfaceless:["🚀",["#0a1226","#0e1a36"]], reddit:["👽",["#2a1408","#3a1d0c"]], truecrime:["🕵️",["#2a0e0f","#1f0c0d"]], povcine:["🎬",["#2a1c08","#1f150c"]], tiendashop:["🛒",["#2a0e1d","#1f0c16"]], streetpro:["🎤",["#0a1d2a","#0e2433"]], criaturas:["🦶",["#0e2a10","#0a1f0c"]], motivacion:["🔥",["#2a1c08","#1f150c"]], procesos:["🧽",["#0a1f2a","#0e2733"]], historiacuriosa:["🗺️",["#2a200c","#1f1808"]], fractura:["FRACTURA",["#1a1206","#2a0f14"]], explainer:["EXPLAINER",["#06131f","#0b1019"]], montanarusa:["POV",["#2a1206","#1f130c"]], mundovegetal:["VEGETAL",["#0a1f0a","#121d12"]], resinadiy:["RESINA·DIY",["#1f1408","#1c1810"]], timelapseobra:["OBRA·EPOXY",["#1a1304","#171b21"]], dreamnostalgia:["DREAM",["#2a1226","#1b1626"]], cartoonkids:["KIDS",["#2a2206","#1c1d12"]], rescateanimal:["RESCATE",["#2a1804","#1c1910"]], junglabunker:["JUNGLA",["#08210f","#121d12"]]
   };
   function meta(id){ return META[id] || ["APP",["#1c2740","#2a1f3d"]]; }
   /* nicho por app + orden de secciones */
@@ -50,7 +50,7 @@
     historias:"fe",milagros:"fe",relatos:"fe",parabolas:"fe",tentacion:"fe",proverbios:"fe",redencion:"fe",viajealma:"fe",cartas:"fe",valores:"fe",reflexiones:"fe",
     novelas:"cuentos",fabulas:"cuentos",mitologia:"cuentos",glam:"cuentos",frutas:"cuentos",monstruos:"cuentos",trabalenguas:"cuentos",superheroes:"cuentos",zodiaco:"cuentos",
     buenasnoches:"infantil",utiles:"infantil",animales:"infantil",dinosaurios:"infantil",insectos:"infantil",plantas:"infantil",paises:"infantil",profesiones:"infantil",robots:"infantil",autos:"infantil",
-    mascotas:"pov",comida:"pov",objetos:"pov"};
+    fractura:"viralia",explainer:"educa",montanarusa:"viralia",mundovegetal:"viralia",resinadiy:"asmr",timelapseobra:"viralia",dreamnostalgia:"viralia",cartoonkids:"infantil",rescateanimal:"infantil",junglabunker:"viralia",mascotas:"pov",comida:"pov",objetos:"pov"};
   var INSTR={}, APPS_VIS=[];
 
   /* mini-portada SVG: degradado + viñeta + título grande con borde, + acento dorado */
@@ -96,10 +96,10 @@
     + 'background:rgba(13,15,23,.9);color:'+GOLD2+';border-radius:999px;padding:9px 16px;font-size:14px;font-weight:700;'
     + '-webkit-backdrop-filter:blur(8px);backdrop-filter:blur(8px);box-shadow:0 6px 22px rgba(0,0,0,.5)}'
     + '#jmlnch .jmbtn:hover{border-color:'+GOLD+';background:rgba(231,184,92,.12)}'
-    + '#jmov{position:fixed;inset:0;z-index:100000;display:none;align-items:center;justify-content:center;'
+    + '#jmov{position:fixed;inset:0;z-index:100000;display:none;align-items:stretch;justify-content:stretch;'
     + 'background:rgba(3,4,8,.78);-webkit-backdrop-filter:blur(7px);backdrop-filter:blur(7px);padding:18px}'
     + '#jmov.open{display:flex}'
-    + '#jmpanel{width:100%;max-width:820px;max-height:86vh;display:flex;flex-direction:column;'
+    + '#jmpanel{width:100%;max-width:100%;height:100%;max-height:100%;display:flex;flex-direction:column;'
     + 'background:linear-gradient(180deg,#0d1018,#080a11);border:1px solid #2a2f45;border-radius:18px;'
     + 'box-shadow:0 40px 110px rgba(0,0,0,.75);overflow:hidden;animation:jmpop .22s ease}'
     + '@keyframes jmpop{from{opacity:0;transform:translateY(14px) scale(.985)}to{opacity:1;transform:none}}'
@@ -111,7 +111,7 @@
     + '#jmpanel .jmx{cursor:pointer;border:1px solid #2a2f45;background:#11141f;color:#C7CEDE;border-radius:9px;'
     + 'width:34px;height:34px;display:flex;align-items:center;justify-content:center;font-size:15px;transition:.15s}'
     + '#jmpanel .jmx:hover{border-color:#FF7A9C;color:#FF7A9C}'
-    + '#jmscroll{overflow:auto;padding:18px 20px 8px}'
+    + '#jmscroll{flex:1;overflow:auto;padding:22px 30px 14px}'
     + '#jmgrid{display:grid;grid-template-columns:repeat(4,1fr);gap:14px}'
     + '@media (max-width:680px){#jmgrid{grid-template-columns:repeat(3,1fr)}}'
     + '@media (max-width:440px){#jmgrid{grid-template-columns:repeat(2,1fr)}}'
@@ -132,9 +132,9 @@
     + '#jmpanel .jmfoot a{color:#828DA6;text-decoration:none;font-family:JetBrains Mono,monospace;font-size:12px}'
     + '#jmpanel .jmfoot a:hover{color:#FF7A9C}'
     + '#jmgrid{display:block}'
-    + '.secgrid{display:grid;grid-template-columns:repeat(4,1fr);gap:14px}'
-    + '@media (max-width:680px){.secgrid{grid-template-columns:repeat(3,1fr)}}'
-    + '@media (max-width:440px){.secgrid{grid-template-columns:repeat(2,1fr)}}'
+    + '.secgrid{display:grid;grid-template-columns:repeat(4,1fr);gap:20px}'
+    + '@media (max-width:1100px){.secgrid{grid-template-columns:repeat(3,1fr)}}'
+    + '@media (max-width:700px){.secgrid{grid-template-columns:repeat(2,1fr)}}'
     + '#jmfilters{display:flex;gap:7px;flex-wrap:wrap;padding:2px 20px 12px}'
     + '#jmfilters .fchip{cursor:pointer;font-family:JetBrains Mono,monospace;font-size:11px;color:#C7CEDE;background:#11141f;border:1px solid #2a2f45;border-radius:999px;padding:6px 11px}'
     + '#jmfilters .fchip:hover{border-color:'+GOLD+'}'
