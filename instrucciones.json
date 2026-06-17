@@ -1,635 +1,672 @@
 {
  "outliers": {
-  "que": "Detecta videos outlier de YouTube (mucho más vistos que el promedio del canal, alto VSR) en tu nicho y te arma el kit para replicarlos con IA.",
+  "que": "Buscador de videos 'outliers' del sistema: encuentra videos que se dispararon muy por encima de lo normal de su canal en el nicho que le indiques, para detectar ideas y formatos con alto potencial viral antes de producir. Resultado: una lista de videos con su rendimiento (vistas frente a lo esperable del canal) y un score.",
   "pasos": [
-   "Iniciá sesión con Google en la pantalla de entrada.",
-   "Cargá tus claves (YouTube y Gemini) en los ajustes de la app.",
-   "Buscá tu nicho o pegá el canal/video a analizar.",
-   "Revisá los videos outlier detectados por su VSR y generá el kit de contenido con IA."
+   "Cargá tu API Key de YouTube en ajustes (y la de Gemini para el análisis con IA).",
+   "Escribí un nicho o tema en el buscador, o tocá un chip sugerido.",
+   "Revisá los resultados: van ordenados por rendimiento (vistas vs. lo normal del canal) con un score.",
+   "Abrí un video para ver el detalle; activá «modo bestia» para ir a los outliers más extremos.",
+   "Usá esas ideas ya validadas como base para tu próximo video."
   ],
-  "tip": "Necesitás tu propia clave de la API de YouTube y de Gemini. Los cambios de acceso requieren cerrar sesión y volver a entrar."
+  "tip": "Necesita tu API Key de YouTube. Un score alto = el video tuvo muchas más vistas de las esperables para el tamaño de ese canal: ahí están las mejores ideas."
  },
  "historias": {
-  "que": "Genera historias de fe para video, listas para narrar.",
+  "que": "Crea historias de fe emotivas para narrar, con enseñanza espiritual y estructura de gancho–desarrollo–cierre. Resultado: el relato listo para locutar (y, según la app, cuadros para ilustrarlo).",
   "pasos": [
-   "Pegá tu clave de Gemini arriba y tocá Guardar.",
-   "Escribí «iniciar» y seguí los pasos en pantalla (tema, idioma o duración según la app).",
-   "Esperá la generación y copiá el resultado con el botón 📋.",
-   "Pedí otra versión cuando quieras."
+   "Pegá tu clave de Gemini arriba y tocá Guardar (la misma sirve para toda la suite).",
+   "Escribí «iniciar» (o tocá un botón sugerido) para ver las ideas/temas; pedí más si querés otras.",
+   "Elegí una idea por su número y el bot desarrolla la historia escena por escena.",
+   "Copiá con 📋 cada bloque: el guion/diálogo y, según la app, los prompts de imagen y video de cada escena.",
+   "Escribí «continuar» para seguir y «reset» para empezar de nuevo."
   ],
-  "tip": "La clave de Gemini se comparte con todas las apps. Si una opción no avanza, volvé a escribir «iniciar»."
+  "tip": "Mantené el mismo personaje/estilo en todas las escenas para que el video se vea consistente. Si se corta, escribí «continuar»."
  },
  "milagros": {
-  "que": "Crea relatos de milagros y testimonios de fe para contenido inspirador.",
+  "que": "Genera relatos de milagros y testimonios de fe con fuerte carga emocional para canal cristiano. Resultado: el guion/relato listo para narrar.",
   "pasos": [
-   "Pegá tu clave de Gemini arriba y tocá Guardar.",
-   "Escribí «iniciar» y seguí los pasos en pantalla (tema, idioma o duración según la app).",
-   "Esperá la generación y copiá el resultado con el botón 📋.",
-   "Pedí otra versión cuando quieras."
+   "Pegá tu clave de Gemini arriba y tocá Guardar (la misma sirve para toda la suite).",
+   "Escribí «iniciar» (o tocá un botón sugerido) para ver las ideas/temas; pedí más si querés otras.",
+   "Elegí una idea por su número y el bot desarrolla la historia escena por escena.",
+   "Copiá con 📋 cada bloque: el guion/diálogo y, según la app, los prompts de imagen y video de cada escena.",
+   "Escribí «continuar» para seguir y «reset» para empezar de nuevo."
   ],
-  "tip": "La clave de Gemini se comparte con todas las apps. Si una opción no avanza, volvé a escribir «iniciar»."
+  "tip": "Mantené el mismo personaje/estilo en todas las escenas para que el video se vea consistente. Si se corta, escribí «continuar»."
  },
  "relatos": {
-  "que": "Escribe relatos de fe y enseñanza para tus videos.",
+  "que": "Arma relatos de fe y reflexión con moraleja, para shorts o videos largos narrados. Resultado: el texto del relato listo para grabar.",
   "pasos": [
-   "Pegá tu clave de Gemini arriba y tocá Guardar.",
-   "Escribí «iniciar» y seguí los pasos en pantalla (tema, idioma o duración según la app).",
-   "Esperá la generación y copiá el resultado con el botón 📋.",
-   "Pedí otra versión cuando quieras."
+   "Pegá tu clave de Gemini arriba y tocá Guardar (la misma sirve para toda la suite).",
+   "Escribí «iniciar» (o tocá un botón sugerido) para ver las ideas/temas; pedí más si querés otras.",
+   "Elegí una idea por su número y el bot desarrolla la historia escena por escena.",
+   "Copiá con 📋 cada bloque: el guion/diálogo y, según la app, los prompts de imagen y video de cada escena.",
+   "Escribí «continuar» para seguir y «reset» para empezar de nuevo."
   ],
-  "tip": "La clave de Gemini se comparte con todas las apps. Si una opción no avanza, volvé a escribir «iniciar»."
+  "tip": "Mantené el mismo personaje/estilo en todas las escenas para que el video se vea consistente. Si se corta, escribí «continuar»."
  },
  "glam": {
-  "que": "Genera historias de transformación y glamour.",
+  "que": "Genera ideas y guiones de contenido de estética y transformación 'glam' para video viral. Resultado: ideas desarrolladas listas para producir.",
   "pasos": [
-   "Pegá tu clave de Gemini arriba y tocá Guardar.",
-   "Escribí «iniciar» y seguí los pasos en pantalla (tema, idioma o duración según la app).",
-   "Esperá la generación y copiá el resultado con el botón 📋.",
-   "Pedí otra versión cuando quieras."
+   "Pegá tu clave de Gemini arriba y tocá Guardar (la misma sirve para toda la suite).",
+   "Escribí «iniciar» (o tocá un botón sugerido) para ver las ideas/temas; pedí más si querés otras.",
+   "Elegí una idea por su número y el bot desarrolla la historia escena por escena.",
+   "Copiá con 📋 cada bloque: el guion/diálogo y, según la app, los prompts de imagen y video de cada escena.",
+   "Escribí «continuar» para seguir y «reset» para empezar de nuevo."
   ],
-  "tip": "La clave de Gemini se comparte con todas las apps. Si una opción no avanza, volvé a escribir «iniciar»."
+  "tip": "Mantené el mismo personaje/estilo en todas las escenas para que el video se vea consistente. Si se corta, escribí «continuar»."
  },
  "frutas": {
-  "que": "Crea contenido temático de frutas (cuentos/POV) para video.",
+  "que": "Crea personajes 3D de frutas con cara y personalidad para historias tiernas estilo Pixar. Resultado: ideas + descripciones y prompts para animar a los personajes-fruta.",
   "pasos": [
-   "Pegá tu clave de Gemini arriba y tocá Guardar.",
-   "Escribí «iniciar» y seguí los pasos en pantalla (tema, idioma o duración según la app).",
-   "Esperá la generación y copiá el resultado con el botón 📋.",
-   "Pedí otra versión cuando quieras."
+   "Pegá tu clave de Gemini arriba y tocá Guardar (la misma sirve para toda la suite).",
+   "Escribí «iniciar» (o tocá un botón sugerido) para ver las ideas/temas; pedí más si querés otras.",
+   "Elegí una idea por su número y el bot desarrolla la historia escena por escena.",
+   "Copiá con 📋 cada bloque: el guion/diálogo y, según la app, los prompts de imagen y video de cada escena.",
+   "Escribí «continuar» para seguir y «reset» para empezar de nuevo."
   ],
-  "tip": "La clave de Gemini se comparte con todas las apps. Si una opción no avanza, volvé a escribir «iniciar»."
+  "tip": "Mantené el mismo personaje/estilo en todas las escenas para que el video se vea consistente. Si se corta, escribí «continuar»."
  },
  "novelas": {
-  "que": "Genera capítulos de novela para narrar por entregas.",
+  "que": "Genera mini-telenovelas dramáticas (capítulos cortos con giros) para enganchar. Resultado: la trama y las escenas listas para guionar.",
   "pasos": [
-   "Pegá tu clave de Gemini arriba y tocá Guardar.",
-   "Escribí «iniciar» y seguí los pasos en pantalla (tema, idioma o duración según la app).",
-   "Esperá la generación y copiá el resultado con el botón 📋.",
-   "Pedí otra versión cuando quieras."
+   "Pegá tu clave de Gemini arriba y tocá Guardar (la misma sirve para toda la suite).",
+   "Escribí «iniciar» (o tocá un botón sugerido) para ver las ideas/temas; pedí más si querés otras.",
+   "Elegí una idea por su número y el bot desarrolla la historia escena por escena.",
+   "Copiá con 📋 cada bloque: el guion/diálogo y, según la app, los prompts de imagen y video de cada escena.",
+   "Escribí «continuar» para seguir y «reset» para empezar de nuevo."
   ],
-  "tip": "La clave de Gemini se comparte con todas las apps. Si una opción no avanza, volvé a escribir «iniciar»."
+  "tip": "Mantené el mismo personaje/estilo en todas las escenas para que el video se vea consistente. Si se corta, escribí «continuar»."
  },
  "analizador": {
-  "que": "Analiza un canal o video de YouTube con IA para entender por qué funciona y qué podés replicar.",
+  "que": "Analiza un video de YouTube que le pegues y explica por qué funciona: gancho, estructura, ritmo, título y miniatura, con recomendaciones para replicar la fórmula. Resultado: un informe accionable para tu propio guion y portada.",
   "pasos": [
-   "Iniciá sesión con Google en la pantalla de entrada.",
-   "Cargá tus claves (YouTube y Gemini) en los ajustes de la app.",
-   "Buscá tu nicho o pegá el canal/video a analizar.",
-   "Revisá los videos outlier detectados por su VSR y generá el kit de contenido con IA."
+   "Cargá tu API Key de YouTube y la de Gemini.",
+   "Pegá el enlace del video de YouTube que querés analizar.",
+   "Esperá el análisis: gancho, estructura, ritmo, título y miniatura.",
+   "Aplicá las recomendaciones a tu propio guion y a tu portada."
   ],
-  "tip": "Necesitás tu propia clave de la API de YouTube y de Gemini. Los cambios de acceso requieren cerrar sesión y volver a entrar."
+  "tip": "Cuanto más completo el video (con buen rendimiento), más útil el análisis. Usá las conclusiones para tu hook y tu miniatura."
  },
  "mascotas": {
-  "que": "Crea historias dramáticas y emotivas con mascotas como protagonistas.",
+  "que": "Crea historias dramáticas de mascotas (perros, gatos) con emociones fuertes estilo CGI Pixar. Resultado: la historia escena por escena con prompts para generar imágenes y clips.",
   "pasos": [
-   "Pegá tu clave de Gemini arriba y tocá Guardar.",
-   "Escribí «iniciar» y seguí los pasos en pantalla (tema, idioma o duración según la app).",
-   "Esperá la generación y copiá el resultado con el botón 📋.",
-   "Pedí otra versión cuando quieras."
+   "Pegá tu clave de Gemini arriba y tocá Guardar (la misma sirve para toda la suite).",
+   "Escribí «iniciar» (o tocá un botón sugerido) para ver las ideas/temas; pedí más si querés otras.",
+   "Elegí una idea por su número y el bot desarrolla la historia escena por escena.",
+   "Copiá con 📋 cada bloque: el guion/diálogo y, según la app, los prompts de imagen y video de cada escena.",
+   "Escribí «continuar» para seguir y «reset» para empezar de nuevo."
   ],
-  "tip": "La clave de Gemini se comparte con todas las apps. Si una opción no avanza, volvé a escribir «iniciar»."
+  "tip": "Mantené el mismo personaje/estilo en todas las escenas para que el video se vea consistente. Si se corta, escribí «continuar»."
  },
  "comida": {
-  "que": "Genera dramas y POV con la comida como protagonista.",
+  "que": "Da vida a comidas con cara y drama (estilo CGI) para historias virales y tiernas. Resultado: la historia + prompts visuales de los personajes-comida.",
   "pasos": [
-   "Pegá tu clave de Gemini arriba y tocá Guardar.",
-   "Escribí «iniciar» y seguí los pasos en pantalla (tema, idioma o duración según la app).",
-   "Esperá la generación y copiá el resultado con el botón 📋.",
-   "Pedí otra versión cuando quieras."
+   "Pegá tu clave de Gemini arriba y tocá Guardar (la misma sirve para toda la suite).",
+   "Escribí «iniciar» (o tocá un botón sugerido) para ver las ideas/temas; pedí más si querés otras.",
+   "Elegí una idea por su número y el bot desarrolla la historia escena por escena.",
+   "Copiá con 📋 cada bloque: el guion/diálogo y, según la app, los prompts de imagen y video de cada escena.",
+   "Escribí «continuar» para seguir y «reset» para empezar de nuevo."
   ],
-  "tip": "La clave de Gemini se comparte con todas las apps. Si una opción no avanza, volvé a escribir «iniciar»."
+  "tip": "Mantené el mismo personaje/estilo en todas las escenas para que el video se vea consistente. Si se corta, escribí «continuar»."
  },
  "zodiaco": {
-  "que": "Crea contenido por signo del zodíaco.",
+  "que": "Convierte los 12 signos del zodíaco en personajes de novela dramática con sus conflictos. Resultado: ideas y escenas por signo listas para producir.",
   "pasos": [
-   "Pegá tu clave de Gemini arriba y tocá Guardar.",
-   "Escribí «iniciar» y seguí los pasos en pantalla (tema, idioma o duración según la app).",
-   "Esperá la generación y copiá el resultado con el botón 📋.",
-   "Pedí otra versión cuando quieras."
+   "Pegá tu clave de Gemini arriba y tocá Guardar (la misma sirve para toda la suite).",
+   "Escribí «iniciar» (o tocá un botón sugerido) para ver las ideas/temas; pedí más si querés otras.",
+   "Elegí una idea por su número y el bot desarrolla la historia escena por escena.",
+   "Copiá con 📋 cada bloque: el guion/diálogo y, según la app, los prompts de imagen y video de cada escena.",
+   "Escribí «continuar» para seguir y «reset» para empezar de nuevo."
   ],
-  "tip": "La clave de Gemini se comparte con todas las apps. Si una opción no avanza, volvé a escribir «iniciar»."
+  "tip": "Mantené el mismo personaje/estilo en todas las escenas para que el video se vea consistente. Si se corta, escribí «continuar»."
  },
  "animales": {
-  "que": "Genera contenido sobre animales salvajes y datos curiosos en formato relato.",
+  "que": "Genera historias de animales salvajes con drama y naturaleza épica. Resultado: el relato escena por escena con prompts visuales.",
   "pasos": [
-   "Pegá tu clave de Gemini arriba y tocá Guardar.",
-   "Escribí «iniciar» y seguí los pasos en pantalla (tema, idioma o duración según la app).",
-   "Esperá la generación y copiá el resultado con el botón 📋.",
-   "Pedí otra versión cuando quieras."
+   "Pegá tu clave de Gemini arriba y tocá Guardar (la misma sirve para toda la suite).",
+   "Escribí «iniciar» (o tocá un botón sugerido) para ver las ideas/temas; pedí más si querés otras.",
+   "Elegí una idea por su número y el bot desarrolla la historia escena por escena.",
+   "Copiá con 📋 cada bloque: el guion/diálogo y, según la app, los prompts de imagen y video de cada escena.",
+   "Escribí «continuar» para seguir y «reset» para empezar de nuevo."
   ],
-  "tip": "La clave de Gemini se comparte con todas las apps. Si una opción no avanza, volvé a escribir «iniciar»."
+  "tip": "Mantené el mismo personaje/estilo en todas las escenas para que el video se vea consistente. Si se corta, escribí «continuar»."
  },
  "objetos": {
-  "que": "Crea historias en POV de objetos cotidianos.",
+  "que": "Historias POV de objetos cotidianos que cobran vida con personalidad. Resultado: el guion POV + prompts para animar los objetos.",
   "pasos": [
-   "Pegá tu clave de Gemini arriba y tocá Guardar.",
-   "Escribí «iniciar» y seguí los pasos en pantalla (tema, idioma o duración según la app).",
-   "Esperá la generación y copiá el resultado con el botón 📋.",
-   "Pedí otra versión cuando quieras."
+   "Pegá tu clave de Gemini arriba y tocá Guardar (la misma sirve para toda la suite).",
+   "Escribí «iniciar» (o tocá un botón sugerido) para ver las ideas/temas; pedí más si querés otras.",
+   "Elegí una idea por su número y el bot desarrolla la historia escena por escena.",
+   "Copiá con 📋 cada bloque: el guion/diálogo y, según la app, los prompts de imagen y video de cada escena.",
+   "Escribí «continuar» para seguir y «reset» para empezar de nuevo."
   ],
-  "tip": "La clave de Gemini se comparte con todas las apps. Si una opción no avanza, volvé a escribir «iniciar»."
+  "tip": "Mantené el mismo personaje/estilo en todas las escenas para que el video se vea consistente. Si se corta, escribí «continuar»."
  },
  "terror": {
-  "que": "Genera historias de terror sugerente (no gráfico) para narrar.",
+  "que": "Crea micro-historias de terror con giro y suspenso para shorts. Resultado: el guion corto + el clima/escenas para producir.",
   "pasos": [
-   "Pegá tu clave de Gemini arriba y tocá Guardar.",
-   "Escribí «iniciar» y seguí los pasos en pantalla (tema, idioma o duración según la app).",
-   "Esperá la generación y copiá el resultado con el botón 📋.",
-   "Pedí otra versión cuando quieras."
+   "Pegá tu clave de Gemini arriba y tocá Guardar (la misma sirve para toda la suite).",
+   "Escribí «iniciar» (o tocá un botón sugerido) para ver las ideas/temas; pedí más si querés otras.",
+   "Elegí una idea por su número y el bot desarrolla la historia escena por escena.",
+   "Copiá con 📋 cada bloque: el guion/diálogo y, según la app, los prompts de imagen y video de cada escena.",
+   "Escribí «continuar» para seguir y «reset» para empezar de nuevo."
   ],
-  "tip": "La clave de Gemini se comparte con todas las apps. Si una opción no avanza, volvé a escribir «iniciar»."
+  "tip": "Mantené el mismo personaje/estilo en todas las escenas para que el video se vea consistente. Si se corta, escribí «continuar»."
  },
  "fabulas": {
-  "que": "Crea fábulas con moraleja al estilo clásico.",
+  "que": "Genera fábulas con moraleja (cuento clásico con animales) para público familiar. Resultado: la fábula completa + escenas para ilustrarla.",
   "pasos": [
-   "Pegá tu clave de Gemini arriba y tocá Guardar.",
-   "Escribí «iniciar» y seguí los pasos en pantalla (tema, idioma o duración según la app).",
-   "Esperá la generación y copiá el resultado con el botón 📋.",
-   "Pedí otra versión cuando quieras."
+   "Pegá tu clave de Gemini arriba y tocá Guardar (la misma sirve para toda la suite).",
+   "Escribí «iniciar» (o tocá un botón sugerido) para ver las ideas/temas; pedí más si querés otras.",
+   "Elegí una idea por su número y el bot desarrolla la historia escena por escena.",
+   "Copiá con 📋 cada bloque: el guion/diálogo y, según la app, los prompts de imagen y video de cada escena.",
+   "Escribí «continuar» para seguir y «reset» para empezar de nuevo."
   ],
-  "tip": "La clave de Gemini se comparte con todas las apps. Si una opción no avanza, volvé a escribir «iniciar»."
+  "tip": "Mantené el mismo personaje/estilo en todas las escenas para que el video se vea consistente. Si se corta, escribí «continuar»."
  },
  "mitologia": {
-  "que": "Genera relatos de mitología y leyendas.",
+  "que": "Relatos dramáticos de mitología (dioses, héroes, leyendas) con épica visual. Resultado: el relato + escenas/prompts visuales.",
   "pasos": [
-   "Pegá tu clave de Gemini arriba y tocá Guardar.",
-   "Escribí «iniciar» y seguí los pasos en pantalla (tema, idioma o duración según la app).",
-   "Esperá la generación y copiá el resultado con el botón 📋.",
-   "Pedí otra versión cuando quieras."
+   "Pegá tu clave de Gemini arriba y tocá Guardar (la misma sirve para toda la suite).",
+   "Escribí «iniciar» (o tocá un botón sugerido) para ver las ideas/temas; pedí más si querés otras.",
+   "Elegí una idea por su número y el bot desarrolla la historia escena por escena.",
+   "Copiá con 📋 cada bloque: el guion/diálogo y, según la app, los prompts de imagen y video de cada escena.",
+   "Escribí «continuar» para seguir y «reset» para empezar de nuevo."
   ],
-  "tip": "La clave de Gemini se comparte con todas las apps. Si una opción no avanza, volvé a escribir «iniciar»."
+  "tip": "Mantené el mismo personaje/estilo en todas las escenas para que el video se vea consistente. Si se corta, escribí «continuar»."
  },
  "parabolas": {
-  "que": "Genera parábolas con moraleja, al estilo de las enseñanzas clásicas.",
+  "que": "Crea parábolas con enseñanza espiritual y simbolismo de luz para video reflexivo. Resultado: la parábola lista para narrar + clima visual.",
   "pasos": [
-   "Pegá tu clave de Gemini arriba y tocá Guardar.",
-   "Escribí «iniciar» y seguí los pasos en pantalla (tema, idioma o duración según la app).",
-   "Esperá la generación y copiá el resultado con el botón 📋.",
-   "Pedí otra versión cuando quieras."
+   "Pegá tu clave de Gemini arriba y tocá Guardar (la misma sirve para toda la suite).",
+   "Escribí «iniciar» (o tocá un botón sugerido) para ver las ideas/temas; pedí más si querés otras.",
+   "Elegí una idea por su número y el bot desarrolla la historia escena por escena.",
+   "Copiá con 📋 cada bloque: el guion/diálogo y, según la app, los prompts de imagen y video de cada escena.",
+   "Escribí «continuar» para seguir y «reset» para empezar de nuevo."
   ],
-  "tip": "La clave de Gemini se comparte con todas las apps. Si una opción no avanza, volvé a escribir «iniciar»."
+  "tip": "Mantené el mismo personaje/estilo en todas las escenas para que el video se vea consistente. Si se corta, escribí «continuar»."
  },
  "tentacion": {
-  "que": "Crea historias de dilemas morales y tentación con un mensaje final.",
+  "que": "Historias de 'ángel vs. tentación': dilemas morales con dualidad bien/mal. Resultado: el guion con la lucha interna + escenas visuales.",
   "pasos": [
-   "Pegá tu clave de Gemini arriba y tocá Guardar.",
-   "Escribí «iniciar» y seguí los pasos en pantalla (tema, idioma o duración según la app).",
-   "Esperá la generación y copiá el resultado con el botón 📋.",
-   "Pedí otra versión cuando quieras."
+   "Pegá tu clave de Gemini arriba y tocá Guardar (la misma sirve para toda la suite).",
+   "Escribí «iniciar» (o tocá un botón sugerido) para ver las ideas/temas; pedí más si querés otras.",
+   "Elegí una idea por su número y el bot desarrolla la historia escena por escena.",
+   "Copiá con 📋 cada bloque: el guion/diálogo y, según la app, los prompts de imagen y video de cada escena.",
+   "Escribí «continuar» para seguir y «reset» para empezar de nuevo."
   ],
-  "tip": "La clave de Gemini se comparte con todas las apps. Si una opción no avanza, volvé a escribir «iniciar»."
+  "tip": "Mantené el mismo personaje/estilo en todas las escenas para que el video se vea consistente. Si se corta, escribí «continuar»."
  },
  "autos": {
-  "que": "Crea contenido sobre autos y máquinas.",
+  "que": "Da vida a autos con cara y personalidad para historias divertidas. Resultado: ideas + prompts para animar a los autos-personaje.",
   "pasos": [
-   "Pegá tu clave de Gemini arriba y tocá Guardar.",
-   "Escribí «iniciar» y seguí los pasos en pantalla (tema, idioma o duración según la app).",
-   "Esperá la generación y copiá el resultado con el botón 📋.",
-   "Pedí otra versión cuando quieras."
+   "Pegá tu clave de Gemini arriba y tocá Guardar (la misma sirve para toda la suite).",
+   "Escribí «iniciar» (o tocá un botón sugerido) para ver las ideas/temas; pedí más si querés otras.",
+   "Elegí una idea por su número y el bot desarrolla la historia escena por escena.",
+   "Copiá con 📋 cada bloque: el guion/diálogo y, según la app, los prompts de imagen y video de cada escena.",
+   "Escribí «continuar» para seguir y «reset» para empezar de nuevo."
   ],
-  "tip": "La clave de Gemini se comparte con todas las apps. Si una opción no avanza, volvé a escribir «iniciar»."
+  "tip": "Mantené el mismo personaje/estilo en todas las escenas para que el video se vea consistente. Si se corta, escribí «continuar»."
  },
  "dinosaurios": {
-  "que": "Genera contenido jurásico sobre dinosaurios.",
+  "que": "Historias dramáticas de dinosaurios con emoción y mundo prehistórico. Resultado: el relato escena por escena + prompts visuales.",
   "pasos": [
-   "Pegá tu clave de Gemini arriba y tocá Guardar.",
-   "Escribí «iniciar» y seguí los pasos en pantalla (tema, idioma o duración según la app).",
-   "Esperá la generación y copiá el resultado con el botón 📋.",
-   "Pedí otra versión cuando quieras."
+   "Pegá tu clave de Gemini arriba y tocá Guardar (la misma sirve para toda la suite).",
+   "Escribí «iniciar» (o tocá un botón sugerido) para ver las ideas/temas; pedí más si querés otras.",
+   "Elegí una idea por su número y el bot desarrolla la historia escena por escena.",
+   "Copiá con 📋 cada bloque: el guion/diálogo y, según la app, los prompts de imagen y video de cada escena.",
+   "Escribí «continuar» para seguir y «reset» para empezar de nuevo."
   ],
-  "tip": "La clave de Gemini se comparte con todas las apps. Si una opción no avanza, volvé a escribir «iniciar»."
+  "tip": "Mantené el mismo personaje/estilo en todas las escenas para que el video se vea consistente. Si se corta, escribí «continuar»."
  },
  "robots": {
-  "que": "Crea historias de robots y ciencia ficción.",
+  "que": "Robots con sentimientos: historias tiernas y emotivas de máquinas e IA. Resultado: el guion + prompts para los personajes-robot.",
   "pasos": [
-   "Pegá tu clave de Gemini arriba y tocá Guardar.",
-   "Escribí «iniciar» y seguí los pasos en pantalla (tema, idioma o duración según la app).",
-   "Esperá la generación y copiá el resultado con el botón 📋.",
-   "Pedí otra versión cuando quieras."
+   "Pegá tu clave de Gemini arriba y tocá Guardar (la misma sirve para toda la suite).",
+   "Escribí «iniciar» (o tocá un botón sugerido) para ver las ideas/temas; pedí más si querés otras.",
+   "Elegí una idea por su número y el bot desarrolla la historia escena por escena.",
+   "Copiá con 📋 cada bloque: el guion/diálogo y, según la app, los prompts de imagen y video de cada escena.",
+   "Escribí «continuar» para seguir y «reset» para empezar de nuevo."
   ],
-  "tip": "La clave de Gemini se comparte con todas las apps. Si una opción no avanza, volvé a escribir «iniciar»."
+  "tip": "Mantené el mismo personaje/estilo en todas las escenas para que el video se vea consistente. Si se corta, escribí «continuar»."
  },
  "plantas": {
-  "que": "Genera contenido sobre el mundo de las plantas y el jardín.",
+  "que": "Plantas y flores con cara y personalidad en un mundo mágico. Resultado: ideas + prompts visuales de los personajes-planta.",
   "pasos": [
-   "Pegá tu clave de Gemini arriba y tocá Guardar.",
-   "Escribí «iniciar» y seguí los pasos en pantalla (tema, idioma o duración según la app).",
-   "Esperá la generación y copiá el resultado con el botón 📋.",
-   "Pedí otra versión cuando quieras."
+   "Pegá tu clave de Gemini arriba y tocá Guardar (la misma sirve para toda la suite).",
+   "Escribí «iniciar» (o tocá un botón sugerido) para ver las ideas/temas; pedí más si querés otras.",
+   "Elegí una idea por su número y el bot desarrolla la historia escena por escena.",
+   "Copiá con 📋 cada bloque: el guion/diálogo y, según la app, los prompts de imagen y video de cada escena.",
+   "Escribí «continuar» para seguir y «reset» para empezar de nuevo."
   ],
-  "tip": "La clave de Gemini se comparte con todas las apps. Si una opción no avanza, volvé a escribir «iniciar»."
+  "tip": "Mantené el mismo personaje/estilo en todas las escenas para que el video se vea consistente. Si se corta, escribí «continuar»."
  },
  "insectos": {
-  "que": "Crea contenido curioso sobre insectos.",
+  "que": "Insectos dramáticos en un mundo macro gigante, con emoción. Resultado: la historia + prompts visuales de los insectos.",
   "pasos": [
-   "Pegá tu clave de Gemini arriba y tocá Guardar.",
-   "Escribí «iniciar» y seguí los pasos en pantalla (tema, idioma o duración según la app).",
-   "Esperá la generación y copiá el resultado con el botón 📋.",
-   "Pedí otra versión cuando quieras."
+   "Pegá tu clave de Gemini arriba y tocá Guardar (la misma sirve para toda la suite).",
+   "Escribí «iniciar» (o tocá un botón sugerido) para ver las ideas/temas; pedí más si querés otras.",
+   "Elegí una idea por su número y el bot desarrolla la historia escena por escena.",
+   "Copiá con 📋 cada bloque: el guion/diálogo y, según la app, los prompts de imagen y video de cada escena.",
+   "Escribí «continuar» para seguir y «reset» para empezar de nuevo."
   ],
-  "tip": "La clave de Gemini se comparte con todas las apps. Si una opción no avanza, volvé a escribir «iniciar»."
+  "tip": "Mantené el mismo personaje/estilo en todas las escenas para que el video se vea consistente. Si se corta, escribí «continuar»."
  },
  "paises": {
-  "que": "Genera contenido sobre países y naciones.",
+  "que": "Convierte naciones en personajes que se enfrentan (geopolítica gamificada y épica). Resultado: ideas y escenas de la 'guerra' de naciones.",
   "pasos": [
-   "Pegá tu clave de Gemini arriba y tocá Guardar.",
-   "Escribí «iniciar» y seguí los pasos en pantalla (tema, idioma o duración según la app).",
-   "Esperá la generación y copiá el resultado con el botón 📋.",
-   "Pedí otra versión cuando quieras."
+   "Pegá tu clave de Gemini arriba y tocá Guardar (la misma sirve para toda la suite).",
+   "Escribí «iniciar» (o tocá un botón sugerido) para ver las ideas/temas; pedí más si querés otras.",
+   "Elegí una idea por su número y el bot desarrolla la historia escena por escena.",
+   "Copiá con 📋 cada bloque: el guion/diálogo y, según la app, los prompts de imagen y video de cada escena.",
+   "Escribí «continuar» para seguir y «reset» para empezar de nuevo."
   ],
-  "tip": "La clave de Gemini se comparte con todas las apps. Si una opción no avanza, volvé a escribir «iniciar»."
+  "tip": "Mantené el mismo personaje/estilo en todas las escenas para que el video se vea consistente. Si se corta, escribí «continuar»."
  },
  "profesiones": {
-  "que": "Crea contenido sobre oficios y profesiones.",
+  "que": "Profesiones enfrentadas en historias épicas (doctor, chef, bombero…). Resultado: ideas + escenas para producir.",
   "pasos": [
-   "Pegá tu clave de Gemini arriba y tocá Guardar.",
-   "Escribí «iniciar» y seguí los pasos en pantalla (tema, idioma o duración según la app).",
-   "Esperá la generación y copiá el resultado con el botón 📋.",
-   "Pedí otra versión cuando quieras."
+   "Pegá tu clave de Gemini arriba y tocá Guardar (la misma sirve para toda la suite).",
+   "Escribí «iniciar» (o tocá un botón sugerido) para ver las ideas/temas; pedí más si querés otras.",
+   "Elegí una idea por su número y el bot desarrolla la historia escena por escena.",
+   "Copiá con 📋 cada bloque: el guion/diálogo y, según la app, los prompts de imagen y video de cada escena.",
+   "Escribí «continuar» para seguir y «reset» para empezar de nuevo."
   ],
-  "tip": "La clave de Gemini se comparte con todas las apps. Si una opción no avanza, volvé a escribir «iniciar»."
+  "tip": "Mantené el mismo personaje/estilo en todas las escenas para que el video se vea consistente. Si se corta, escribí «continuar»."
  },
  "utiles": {
-  "que": "Genera contenido escolar y de útiles para chicos.",
+  "que": "Útiles escolares con vida que protagonizan historias divertidas. Resultado: el guion + prompts visuales de los útiles-personaje.",
   "pasos": [
-   "Pegá tu clave de Gemini arriba y tocá Guardar.",
-   "Escribí «iniciar» y seguí los pasos en pantalla (tema, idioma o duración según la app).",
-   "Esperá la generación y copiá el resultado con el botón 📋.",
-   "Pedí otra versión cuando quieras."
+   "Pegá tu clave de Gemini arriba y tocá Guardar (la misma sirve para toda la suite).",
+   "Escribí «iniciar» (o tocá un botón sugerido) para ver las ideas/temas; pedí más si querés otras.",
+   "Elegí una idea por su número y el bot desarrolla la historia escena por escena.",
+   "Copiá con 📋 cada bloque: el guion/diálogo y, según la app, los prompts de imagen y video de cada escena.",
+   "Escribí «continuar» para seguir y «reset» para empezar de nuevo."
   ],
-  "tip": "La clave de Gemini se comparte con todas las apps. Si una opción no avanza, volvé a escribir «iniciar»."
+  "tip": "Mantené el mismo personaje/estilo en todas las escenas para que el video se vea consistente. Si se corta, escribí «continuar»."
  },
  "superheroes": {
-  "que": "Crea historias de superhéroes.",
+  "que": "Crea superhéroes originales con poderes e historia para contenido de acción. Resultado: el diseño del héroe + escenas/prompts.",
   "pasos": [
-   "Pegá tu clave de Gemini arriba y tocá Guardar.",
-   "Escribí «iniciar» y seguí los pasos en pantalla (tema, idioma o duración según la app).",
-   "Esperá la generación y copiá el resultado con el botón 📋.",
-   "Pedí otra versión cuando quieras."
+   "Pegá tu clave de Gemini arriba y tocá Guardar (la misma sirve para toda la suite).",
+   "Escribí «iniciar» (o tocá un botón sugerido) para ver las ideas/temas; pedí más si querés otras.",
+   "Elegí una idea por su número y el bot desarrolla la historia escena por escena.",
+   "Copiá con 📋 cada bloque: el guion/diálogo y, según la app, los prompts de imagen y video de cada escena.",
+   "Escribí «continuar» para seguir y «reset» para empezar de nuevo."
   ],
-  "tip": "La clave de Gemini se comparte con todas las apps. Si una opción no avanza, volvé a escribir «iniciar»."
+  "tip": "Mantené el mismo personaje/estilo en todas las escenas para que el video se vea consistente. Si se corta, escribí «continuar»."
  },
  "proverbios": {
-  "que": "Genera contenido de sabiduría y proverbios para reflexión.",
+  "que": "Proverbios y sabiduría del 'sabio' para video reflexivo. Resultado: el texto/guion con la enseñanza listo para narrar.",
   "pasos": [
-   "Pegá tu clave de Gemini arriba y tocá Guardar.",
-   "Escribí «iniciar» y seguí los pasos en pantalla (tema, idioma o duración según la app).",
-   "Esperá la generación y copiá el resultado con el botón 📋.",
-   "Pedí otra versión cuando quieras."
+   "Pegá tu clave de Gemini arriba y tocá Guardar (la misma sirve para toda la suite).",
+   "Escribí «iniciar» (o tocá un botón sugerido) para ver las ideas/temas; pedí más si querés otras.",
+   "Elegí una idea por su número y el bot desarrolla la historia escena por escena.",
+   "Copiá con 📋 cada bloque: el guion/diálogo y, según la app, los prompts de imagen y video de cada escena.",
+   "Escribí «continuar» para seguir y «reset» para empezar de nuevo."
   ],
-  "tip": "La clave de Gemini se comparte con todas las apps. Si una opción no avanza, volvé a escribir «iniciar»."
+  "tip": "Mantené el mismo personaje/estilo en todas las escenas para que el video se vea consistente. Si se corta, escribí «continuar»."
  },
  "redencion": {
-  "que": "Escribe historias de redención y segundas oportunidades.",
+  "que": "Cuentos de redención: historias emotivas de cambio y segunda oportunidad. Resultado: el relato completo para narrar + escenas.",
   "pasos": [
-   "Pegá tu clave de Gemini arriba y tocá Guardar.",
-   "Escribí «iniciar» y seguí los pasos en pantalla (tema, idioma o duración según la app).",
-   "Esperá la generación y copiá el resultado con el botón 📋.",
-   "Pedí otra versión cuando quieras."
+   "Pegá tu clave de Gemini arriba y tocá Guardar (la misma sirve para toda la suite).",
+   "Escribí «iniciar» (o tocá un botón sugerido) para ver las ideas/temas; pedí más si querés otras.",
+   "Elegí una idea por su número y el bot desarrolla la historia escena por escena.",
+   "Copiá con 📋 cada bloque: el guion/diálogo y, según la app, los prompts de imagen y video de cada escena.",
+   "Escribí «continuar» para seguir y «reset» para empezar de nuevo."
   ],
-  "tip": "La clave de Gemini se comparte con todas las apps. Si una opción no avanza, volvé a escribir «iniciar»."
+  "tip": "Mantené el mismo personaje/estilo en todas las escenas para que el video se vea consistente. Si se corta, escribí «continuar»."
  },
  "viajealma": {
-  "que": "Crea contenido reflexivo sobre el alma y el crecimiento interior.",
+  "que": "Relatos introspectivos sobre 'el viaje del alma' (espiritual y filosófico). Resultado: el guion reflexivo listo para narrar.",
   "pasos": [
-   "Pegá tu clave de Gemini arriba y tocá Guardar.",
-   "Escribí «iniciar» y seguí los pasos en pantalla (tema, idioma o duración según la app).",
-   "Esperá la generación y copiá el resultado con el botón 📋.",
-   "Pedí otra versión cuando quieras."
+   "Pegá tu clave de Gemini arriba y tocá Guardar (la misma sirve para toda la suite).",
+   "Escribí «iniciar» (o tocá un botón sugerido) para ver las ideas/temas; pedí más si querés otras.",
+   "Elegí una idea por su número y el bot desarrolla la historia escena por escena.",
+   "Copiá con 📋 cada bloque: el guion/diálogo y, según la app, los prompts de imagen y video de cada escena.",
+   "Escribí «continuar» para seguir y «reset» para empezar de nuevo."
   ],
-  "tip": "La clave de Gemini se comparte con todas las apps. Si una opción no avanza, volvé a escribir «iniciar»."
+  "tip": "Mantené el mismo personaje/estilo en todas las escenas para que el video se vea consistente. Si se corta, escribí «continuar»."
  },
  "cartas": {
-  "que": "Genera cartas emotivas para leer en video (a un ser querido, a tu yo del pasado, etc.).",
+  "que": "Cartas al cielo: mensajes emotivos a seres queridos o a Dios, para video sentido. Resultado: el texto de la carta listo para locutar.",
   "pasos": [
-   "Pegá tu clave de Gemini arriba y tocá Guardar.",
-   "Escribí «iniciar» y seguí los pasos en pantalla (tema, idioma o duración según la app).",
-   "Esperá la generación y copiá el resultado con el botón 📋.",
-   "Pedí otra versión cuando quieras."
+   "Pegá tu clave de Gemini arriba y tocá Guardar (la misma sirve para toda la suite).",
+   "Escribí «iniciar» (o tocá un botón sugerido) para ver las ideas/temas; pedí más si querés otras.",
+   "Elegí una idea por su número y el bot desarrolla la historia escena por escena.",
+   "Copiá con 📋 cada bloque: el guion/diálogo y, según la app, los prompts de imagen y video de cada escena.",
+   "Escribí «continuar» para seguir y «reset» para empezar de nuevo."
   ],
-  "tip": "La clave de Gemini se comparte con todas las apps. Si una opción no avanza, volvé a escribir «iniciar»."
+  "tip": "Mantené el mismo personaje/estilo en todas las escenas para que el video se vea consistente. Si se corta, escribí «continuar»."
  },
  "buenasnoches": {
-  "que": "Crea cuentos para dormir, suaves y relajantes para niños.",
+  "que": "Cuentos de buenas noches suaves y tiernos para dormir (niños y familia). Resultado: el cuento calmado listo para narrar + clima visual.",
   "pasos": [
-   "Pegá tu clave de Gemini arriba y tocá Guardar.",
-   "Escribí «iniciar» y seguí los pasos en pantalla (tema, idioma o duración según la app).",
-   "Esperá la generación y copiá el resultado con el botón 📋.",
-   "Pedí otra versión cuando quieras."
+   "Pegá tu clave de Gemini arriba y tocá Guardar (la misma sirve para toda la suite).",
+   "Escribí «iniciar» (o tocá un botón sugerido) para ver las ideas/temas; pedí más si querés otras.",
+   "Elegí una idea por su número y el bot desarrolla la historia escena por escena.",
+   "Copiá con 📋 cada bloque: el guion/diálogo y, según la app, los prompts de imagen y video de cada escena.",
+   "Escribí «continuar» para seguir y «reset» para empezar de nuevo."
   ],
-  "tip": "La clave de Gemini se comparte con todas las apps. Si una opción no avanza, volvé a escribir «iniciar»."
+  "tip": "Mantené el mismo personaje/estilo en todas las escenas para que el video se vea consistente. Si se corta, escribí «continuar»."
  },
  "valores": {
-  "que": "Crea historias cortas que enseñan valores.",
+  "que": "Cuentos que enseñan valores (respeto, honestidad, gratitud…) para niños. Resultado: la historia con la enseñanza + escenas para ilustrar.",
   "pasos": [
-   "Pegá tu clave de Gemini arriba y tocá Guardar.",
-   "Escribí «iniciar» y seguí los pasos en pantalla (tema, idioma o duración según la app).",
-   "Esperá la generación y copiá el resultado con el botón 📋.",
-   "Pedí otra versión cuando quieras."
+   "Pegá tu clave de Gemini arriba y tocá Guardar (la misma sirve para toda la suite).",
+   "Escribí «iniciar» (o tocá un botón sugerido) para ver las ideas/temas; pedí más si querés otras.",
+   "Elegí una idea por su número y el bot desarrolla la historia escena por escena.",
+   "Copiá con 📋 cada bloque: el guion/diálogo y, según la app, los prompts de imagen y video de cada escena.",
+   "Escribí «continuar» para seguir y «reset» para empezar de nuevo."
   ],
-  "tip": "La clave de Gemini se comparte con todas las apps. Si una opción no avanza, volvé a escribir «iniciar»."
+  "tip": "Mantené el mismo personaje/estilo en todas las escenas para que el video se vea consistente. Si se corta, escribí «continuar»."
  },
  "datos": {
-  "que": "Genera datos curiosos y sorprendentes para video.",
+  "que": "Genera datos curiosos sorprendentes para shorts de '¿sabías que…?'. Resultado: el guion con los datos listo para narrar.",
   "pasos": [
-   "Pegá tu clave de Gemini arriba y tocá Guardar.",
-   "Escribí «iniciar» y seguí los pasos en pantalla (tema, idioma o duración según la app).",
-   "Esperá la generación y copiá el resultado con el botón 📋.",
-   "Pedí otra versión cuando quieras."
+   "Pegá tu clave de Gemini arriba y tocá Guardar (la misma sirve para toda la suite).",
+   "Escribí «iniciar» (o tocá un botón sugerido) para ver las ideas/temas; pedí más si querés otras.",
+   "Elegí una idea por su número y el bot desarrolla la historia escena por escena.",
+   "Copiá con 📋 cada bloque: el guion/diálogo y, según la app, los prompts de imagen y video de cada escena.",
+   "Escribí «continuar» para seguir y «reset» para empezar de nuevo."
   ],
-  "tip": "La clave de Gemini se comparte con todas las apps. Si una opción no avanza, volvé a escribir «iniciar»."
+  "tip": "Mantené el mismo personaje/estilo en todas las escenas para que el video se vea consistente. Si se corta, escribí «continuar»."
  },
  "trabalenguas": {
-  "que": "Crea trabalenguas y rimas para contenido infantil.",
+  "que": "Trabalenguas y rimas divertidas para contenido infantil y de juego. Resultado: el texto rítmico listo para usar.",
   "pasos": [
-   "Pegá tu clave de Gemini arriba y tocá Guardar.",
-   "Escribí «iniciar» y seguí los pasos en pantalla (tema, idioma o duración según la app).",
-   "Esperá la generación y copiá el resultado con el botón 📋.",
-   "Pedí otra versión cuando quieras."
+   "Pegá tu clave de Gemini arriba y tocá Guardar (la misma sirve para toda la suite).",
+   "Escribí «iniciar» (o tocá un botón sugerido) para ver las ideas/temas; pedí más si querés otras.",
+   "Elegí una idea por su número y el bot desarrolla la historia escena por escena.",
+   "Copiá con 📋 cada bloque: el guion/diálogo y, según la app, los prompts de imagen y video de cada escena.",
+   "Escribí «continuar» para seguir y «reset» para empezar de nuevo."
   ],
-  "tip": "La clave de Gemini se comparte con todas las apps. Si una opción no avanza, volvé a escribir «iniciar»."
+  "tip": "Mantené el mismo personaje/estilo en todas las escenas para que el video se vea consistente. Si se corta, escribí «continuar»."
  },
  "monstruos": {
-  "que": "Genera monstruos tiernos y simpáticos para chicos.",
+  "que": "Monstruos tiernos (cute) con historias para niños, sin miedo. Resultado: el cuento + prompts visuales de los monstruitos.",
   "pasos": [
-   "Pegá tu clave de Gemini arriba y tocá Guardar.",
-   "Escribí «iniciar» y seguí los pasos en pantalla (tema, idioma o duración según la app).",
-   "Esperá la generación y copiá el resultado con el botón 📋.",
-   "Pedí otra versión cuando quieras."
+   "Pegá tu clave de Gemini arriba y tocá Guardar (la misma sirve para toda la suite).",
+   "Escribí «iniciar» (o tocá un botón sugerido) para ver las ideas/temas; pedí más si querés otras.",
+   "Elegí una idea por su número y el bot desarrolla la historia escena por escena.",
+   "Copiá con 📋 cada bloque: el guion/diálogo y, según la app, los prompts de imagen y video de cada escena.",
+   "Escribí «continuar» para seguir y «reset» para empezar de nuevo."
   ],
-  "tip": "La clave de Gemini se comparte con todas las apps. Si una opción no avanza, volvé a escribir «iniciar»."
+  "tip": "Mantené el mismo personaje/estilo en todas las escenas para que el video se vea consistente. Si se corta, escribí «continuar»."
  },
  "terrorurbano": {
-  "que": "Crea leyendas urbanas y terror cotidiano.",
+  "que": "Leyendas de terror urbano y creepypastas para video de misterio. Resultado: el relato con clima de terror listo para narrar.",
   "pasos": [
-   "Pegá tu clave de Gemini arriba y tocá Guardar.",
-   "Escribí «iniciar» y seguí los pasos en pantalla (tema, idioma o duración según la app).",
-   "Esperá la generación y copiá el resultado con el botón 📋.",
-   "Pedí otra versión cuando quieras."
+   "Pegá tu clave de Gemini arriba y tocá Guardar (la misma sirve para toda la suite).",
+   "Escribí «iniciar» (o tocá un botón sugerido) para ver las ideas/temas; pedí más si querés otras.",
+   "Elegí una idea por su número y el bot desarrolla la historia escena por escena.",
+   "Copiá con 📋 cada bloque: el guion/diálogo y, según la app, los prompts de imagen y video de cada escena.",
+   "Escribí «continuar» para seguir y «reset» para empezar de nuevo."
   ],
-  "tip": "La clave de Gemini se comparte con todas las apps. Si una opción no avanza, volvé a escribir «iniciar»."
+  "tip": "Mantené el mismo personaje/estilo en todas las escenas para que el video se vea consistente. Si se corta, escribí «continuar»."
  },
  "reflexiones": {
-  "que": "Genera guiones de reflexión estilo manhwa con guion + escenas, listos para producir.",
+  "que": "Genera reflexiones animadas: primero el guion reflexivo y, tras grabarlo, los prompts de los clips sincronizados con la duración real de tu audio. Resultado: guion + prompts de video que calzan con tu locución.",
   "pasos": [
-   "Pegá tu clave de Gemini arriba y tocá Guardar.",
-   "Escribí «iniciar» y seguí los pasos en pantalla (tema, idioma o duración según la app).",
-   "Esperá la generación y copiá el resultado con el botón 📋.",
-   "Pedí otra versión cuando quieras."
+   "Pegá tu clave de Gemini arriba y tocá Guardar (la misma sirve para toda la suite).",
+   "Escribí «inicio» y elegí un número de la lista (1–15).",
+   "Copiá el GUION con 📋 y grabá la locución (por ejemplo en Fish Audio).",
+   "Escribí la duración real del audio (ej: «el audio duró 4:38»).",
+   "El bot genera los prompts de los clips/personajes sincronizados con esa duración; copialos con 📋."
   ],
-  "tip": "La clave de Gemini se comparte con todas las apps. Si una opción no avanza, volvé a escribir «iniciar»."
+  "tip": "El orden importa: primero el guion, después grabás y recién ahí das la duración para que los clips queden sincronizados."
  },
  "datosmiedo": {
-  "que": "Genera datos perturbadores estilo creepypasta, con guion y escenas (modo Express disponible).",
+  "que": "Datos escalofriantes con guion + personajes/clips sincronizados a tu audio. Resultado: guion narrado + prompts de clips que cuadran con la duración real.",
   "pasos": [
-   "Pegá tu clave de Gemini arriba y tocá Guardar.",
-   "Escribí «iniciar» y seguí los pasos en pantalla (tema, idioma o duración según la app).",
-   "Esperá la generación y copiá el resultado con el botón 📋.",
-   "Pedí otra versión cuando quieras."
+   "Pegá tu clave de Gemini arriba y tocá Guardar (la misma sirve para toda la suite).",
+   "Escribí «inicio» y elegí un número de la lista (1–15).",
+   "Copiá el GUION con 📋 y grabá la locución (por ejemplo en Fish Audio).",
+   "Escribí la duración real del audio (ej: «el audio duró 4:38»).",
+   "El bot genera los prompts de los clips/personajes sincronizados con esa duración; copialos con 📋."
   ],
-  "tip": "La clave de Gemini se comparte con todas las apps. Si una opción no avanza, volvé a escribir «iniciar»."
+  "tip": "Da la duración exacta de tu audio para que los personajes y clips calcen con la narración. Tono de misterio, sin imágenes perturbadoras."
  },
  "timelapse": {
-  "que": "Genera prompts de transformaciones de ambientes (ruina → obra → final) para Veo 3.1, con keyframes y clips en JSON.",
+  "que": "Transformaciones tipo time lapse (antes → después): prompts de las imágenes de cada etapa y los clips, más metadatos. Resultado: imágenes + clips + SEO (títulos, descripción, portada).",
   "pasos": [
-   "Pegá tu clave de Gemini en el campo de arriba y tocá Guardar (se comparte con toda la suite).",
-   "Escribí «iniciar» y elegí la categoría o material que te ofrece.",
-   "Pedí las 10 ideas y elegí una por número (o «reiniciar ideas» para 10 nuevas).",
-   "Elegí la duración (8/16/24s) o la cantidad de clips.",
-   "Copiá con el botón 📋 cada prompt: primero el de IMAGEN (keyframe) y luego el de VIDEO para tu generador (Veo 3 / Grok)."
+   "Pegá tu clave de Gemini arriba y tocá Guardar (la misma sirve para toda la suite).",
+   "Escribí «iniciar» y definí el espacio/objeto a transformar.",
+   "Copiá con 📋 los IMAGE PROMPT de cada etapa (vacío → proceso → resultado).",
+   "Pedí los clips de video: encadenan los frames (N imágenes → N-1 clips de 8s; HOLD final si sobra tiempo).",
+   "Al terminar pedí «metadatos» para títulos, descripción y portada JSON."
   ],
-  "tip": "Los prompts salen en formato lineal, listos para pegar. Si se corta, escribí «continuar». La clave de Gemini es la misma para toda la suite."
+  "tip": "Mantené la cámara fija entre etapas para que la transformación se vea limpia. Al final pedí los metadatos para subir más rápido."
  },
  "timelapse2": {
-  "que": "Versión mejorada de timelapse con 9 ambientes y tu marca grabada en la imagen, en JSON.",
+  "que": "Time Lapse 2: transformación con tu logo integrado en la arquitectura (visible en la IMAGE 4) + metadatos. Resultado: imágenes + clips + SEO.",
   "pasos": [
-   "Pegá tu clave de Gemini en el campo de arriba y tocá Guardar (se comparte con toda la suite).",
-   "Escribí «iniciar» y elegí la categoría o material que te ofrece.",
-   "Pedí las 10 ideas y elegí una por número (o «reiniciar ideas» para 10 nuevas).",
-   "Elegí la duración (8/16/24s) o la cantidad de clips.",
-   "Copiá con el botón 📋 cada prompt: primero el de IMAGEN (keyframe) y luego el de VIDEO para tu generador (Veo 3 / Grok)."
+   "Pegá tu clave de Gemini arriba y tocá Guardar (la misma sirve para toda la suite).",
+   "Escribí «iniciar» y definí el espacio/objeto a transformar.",
+   "Copiá con 📋 los IMAGE PROMPT de cada etapa (vacío → proceso → resultado).",
+   "Pedí los clips de video: encadenan los frames (N imágenes → N-1 clips de 8s; HOLD final si sobra tiempo).",
+   "Al terminar pedí «metadatos» para títulos, descripción y portada JSON."
   ],
-  "tip": "Los prompts salen en formato lineal, listos para pegar. Si se corta, escribí «continuar». La clave de Gemini es la misma para toda la suite."
+  "tip": "Tu logo/nombre se integra en la arquitectura y debe verse en la IMAGE 4. Revisá ese cuadro antes de animar."
  },
  "timelapse3": {
-  "que": "Renovación 3D ultra-fantasía con duración variable y salida Whisk-safe (sin texto), en bloques.",
+  "que": "Time Lapse 3: por la duración calcula cuántas imágenes y clips de 8s necesitás (CLIP k = IMAGE k + IMAGE k+1, con HOLD final si sobra) + metadatos. Resultado: secuencia exacta + SEO.",
   "pasos": [
-   "Pegá tu clave de Gemini en el campo de arriba y tocá Guardar (se comparte con toda la suite).",
-   "Escribí «iniciar» y elegí la categoría o material que te ofrece.",
-   "Pedí las 10 ideas y elegí una por número (o «reiniciar ideas» para 10 nuevas).",
-   "Elegí la duración (8/16/24s) o la cantidad de clips.",
-   "Copiá con el botón 📋 cada prompt: primero el de IMAGEN (keyframe) y luego el de VIDEO para tu generador (Veo 3 / Grok)."
+   "Pegá tu clave de Gemini arriba y tocá Guardar (la misma sirve para toda la suite).",
+   "Escribí «iniciar» y definí el espacio/objeto a transformar.",
+   "Copiá con 📋 los IMAGE PROMPT de cada etapa (vacío → proceso → resultado).",
+   "Pedí los clips de video: encadenan los frames (N imágenes → N-1 clips de 8s; HOLD final si sobra tiempo).",
+   "Al terminar pedí «metadatos» para títulos, descripción y portada JSON."
   ],
-  "tip": "Los prompts salen en formato lineal, listos para pegar. Si se corta, escribí «continuar». La clave de Gemini es la misma para toda la suite."
+  "tip": "Regla clave: N imágenes generan N-1 clips de 8s; si sobra tiempo, agrega un HOLD final. Por eso primero definís la duración."
  },
  "podcast": {
-  "que": "Genera prompts de un podcast hiperrealista a cámara (estética iPhone): imagen maestra + un prompt lineal por clip de 8s.",
+  "que": "Crea podcasts hiperrealistas a cámara: 15 ideas, el guion del episodio y un prompt por clip, con la imagen maestra de los presentadores. Resultado: imagen del set + prompts de cada clip de 8s con diálogo.",
   "pasos": [
-   "Pegá tu clave de Gemini en el campo de arriba y tocá Guardar (se comparte con toda la suite).",
-   "Escribí «iniciar» y elegí la categoría o material que te ofrece.",
-   "Pedí las 10 ideas y elegí una por número (o «reiniciar ideas» para 10 nuevas).",
-   "Elegí la duración (8/16/24s) o la cantidad de clips.",
-   "Copiá con el botón 📋 cada prompt: primero el de IMAGEN (keyframe) y luego el de VIDEO para tu generador (Veo 3 / Grok)."
+   "Pegá tu clave de Gemini arriba y tocá Guardar (la misma sirve para toda la suite).",
+   "Escribí «iniciar»: te da 15 ideas de episodio («reset ideas» trae 15 nuevas).",
+   "Elegí una; el bot escribe el guion completo («reset guion» lo rehace).",
+   "Generá primero la IMAGEN MAESTRA de los presentadores (fija las caras) y después copiá en orden el prompt de cada clip de ~8s con su diálogo.",
+   "Llevá cada prompt a tu generador de video; cada bloque tiene su botón 📋."
   ],
-  "tip": "Los prompts salen en formato lineal, listos para pegar. Si se corta, escribí «continuar». La clave de Gemini es la misma para toda la suite."
+  "tip": "Generá primero la imagen maestra para fijar las caras de los presentadores; así todos los clips mantienen los mismos personajes."
  },
  "podfitness": {
-  "que": "Variante del podcast enfocada en fitness y entrenamiento.",
+  "que": "Podcast hiperrealista con enfoque fitness/gym: 15 ideas, guion y prompts de clips con la imagen maestra. Resultado: imagen del set + prompts de clips de 8s.",
   "pasos": [
-   "Pegá tu clave de Gemini en el campo de arriba y tocá Guardar (se comparte con toda la suite).",
-   "Escribí «iniciar» y elegí la categoría o material que te ofrece.",
-   "Pedí las 10 ideas y elegí una por número (o «reiniciar ideas» para 10 nuevas).",
-   "Elegí la duración (8/16/24s) o la cantidad de clips.",
-   "Copiá con el botón 📋 cada prompt: primero el de IMAGEN (keyframe) y luego el de VIDEO para tu generador (Veo 3 / Grok)."
+   "Pegá tu clave de Gemini arriba y tocá Guardar (la misma sirve para toda la suite).",
+   "Escribí «iniciar»: te da 15 ideas de episodio («reset ideas» trae 15 nuevas).",
+   "Elegí una; el bot escribe el guion completo («reset guion» lo rehace).",
+   "Generá primero la IMAGEN MAESTRA de los presentadores (fija las caras) y después copiá en orden el prompt de cada clip de ~8s con su diálogo.",
+   "Llevá cada prompt a tu generador de video; cada bloque tiene su botón 📋."
   ],
-  "tip": "Los prompts salen en formato lineal, listos para pegar. Si se corta, escribí «continuar». La clave de Gemini es la misma para toda la suite."
+  "tip": "Generá primero la imagen maestra para fijar las caras; así todos los clips mantienen los mismos presentadores."
  },
  "podmujeres": {
-  "que": "Variante del podcast con enfoque de mindset para mujeres.",
+  "que": "Podcast hiperrealista con enfoque femenino/lifestyle: 15 ideas, guion y prompts de clips. Resultado: imagen del set + prompts de clips de 8s.",
   "pasos": [
-   "Pegá tu clave de Gemini en el campo de arriba y tocá Guardar (se comparte con toda la suite).",
-   "Escribí «iniciar» y elegí la categoría o material que te ofrece.",
-   "Pedí las 10 ideas y elegí una por número (o «reiniciar ideas» para 10 nuevas).",
-   "Elegí la duración (8/16/24s) o la cantidad de clips.",
-   "Copiá con el botón 📋 cada prompt: primero el de IMAGEN (keyframe) y luego el de VIDEO para tu generador (Veo 3 / Grok)."
+   "Pegá tu clave de Gemini arriba y tocá Guardar (la misma sirve para toda la suite).",
+   "Escribí «iniciar»: te da 15 ideas de episodio («reset ideas» trae 15 nuevas).",
+   "Elegí una; el bot escribe el guion completo («reset guion» lo rehace).",
+   "Generá primero la IMAGEN MAESTRA de los presentadores (fija las caras) y después copiá en orden el prompt de cada clip de ~8s con su diálogo.",
+   "Llevá cada prompt a tu generador de video; cada bloque tiene su botón 📋."
   ],
-  "tip": "Los prompts salen en formato lineal, listos para pegar. Si se corta, escribí «continuar». La clave de Gemini es la misma para toda la suite."
+  "tip": "Generá primero la imagen maestra para fijar las caras; así todos los clips mantienen los mismos presentadores."
  },
  "podfe": {
-  "que": "Variante del podcast con enfoque de fe y reflexión.",
+  "que": "Podcast hiperrealista de fe/cristiano: 15 ideas, guion y prompts de clips. Resultado: imagen del set + prompts de clips de 8s.",
   "pasos": [
-   "Pegá tu clave de Gemini en el campo de arriba y tocá Guardar (se comparte con toda la suite).",
-   "Escribí «iniciar» y elegí la categoría o material que te ofrece.",
-   "Pedí las 10 ideas y elegí una por número (o «reiniciar ideas» para 10 nuevas).",
-   "Elegí la duración (8/16/24s) o la cantidad de clips.",
-   "Copiá con el botón 📋 cada prompt: primero el de IMAGEN (keyframe) y luego el de VIDEO para tu generador (Veo 3 / Grok)."
+   "Pegá tu clave de Gemini arriba y tocá Guardar (la misma sirve para toda la suite).",
+   "Escribí «iniciar»: te da 15 ideas de episodio («reset ideas» trae 15 nuevas).",
+   "Elegí una; el bot escribe el guion completo («reset guion» lo rehace).",
+   "Generá primero la IMAGEN MAESTRA de los presentadores (fija las caras) y después copiá en orden el prompt de cada clip de ~8s con su diálogo.",
+   "Llevá cada prompt a tu generador de video; cada bloque tiene su botón 📋."
   ],
-  "tip": "Los prompts salen en formato lineal, listos para pegar. Si se corta, escribí «continuar». La clave de Gemini es la misma para toda la suite."
+  "tip": "Generá primero la imagen maestra para fijar las caras; así todos los clips mantienen los mismos presentadores."
  },
  "poddating": {
-  "que": "Variante del podcast sobre relaciones y amor.",
+  "que": "Podcast hiperrealista de relaciones y citas: 15 ideas, guion y prompts de clips. Resultado: imagen del set + prompts de clips de 8s.",
   "pasos": [
-   "Pegá tu clave de Gemini en el campo de arriba y tocá Guardar (se comparte con toda la suite).",
-   "Escribí «iniciar» y elegí la categoría o material que te ofrece.",
-   "Pedí las 10 ideas y elegí una por número (o «reiniciar ideas» para 10 nuevas).",
-   "Elegí la duración (8/16/24s) o la cantidad de clips.",
-   "Copiá con el botón 📋 cada prompt: primero el de IMAGEN (keyframe) y luego el de VIDEO para tu generador (Veo 3 / Grok)."
+   "Pegá tu clave de Gemini arriba y tocá Guardar (la misma sirve para toda la suite).",
+   "Escribí «iniciar»: te da 15 ideas de episodio («reset ideas» trae 15 nuevas).",
+   "Elegí una; el bot escribe el guion completo («reset guion» lo rehace).",
+   "Generá primero la IMAGEN MAESTRA de los presentadores (fija las caras) y después copiá en orden el prompt de cada clip de ~8s con su diálogo.",
+   "Llevá cada prompt a tu generador de video; cada bloque tiene su botón 📋."
   ],
-  "tip": "Los prompts salen en formato lineal, listos para pegar. Si se corta, escribí «continuar». La clave de Gemini es la misma para toda la suite."
+  "tip": "Generá primero la imagen maestra para fijar las caras; así todos los clips mantienen los mismos presentadores."
  },
  "podnegocios": {
-  "que": "Variante del podcast sobre negocios y emprendimiento.",
+  "que": "Podcast hiperrealista de negocios y emprendimiento: 15 ideas, guion y prompts de clips. Resultado: imagen del set + prompts de clips de 8s.",
   "pasos": [
-   "Pegá tu clave de Gemini en el campo de arriba y tocá Guardar (se comparte con toda la suite).",
-   "Escribí «iniciar» y elegí la categoría o material que te ofrece.",
-   "Pedí las 10 ideas y elegí una por número (o «reiniciar ideas» para 10 nuevas).",
-   "Elegí la duración (8/16/24s) o la cantidad de clips.",
-   "Copiá con el botón 📋 cada prompt: primero el de IMAGEN (keyframe) y luego el de VIDEO para tu generador (Veo 3 / Grok)."
+   "Pegá tu clave de Gemini arriba y tocá Guardar (la misma sirve para toda la suite).",
+   "Escribí «iniciar»: te da 15 ideas de episodio («reset ideas» trae 15 nuevas).",
+   "Elegí una; el bot escribe el guion completo («reset guion» lo rehace).",
+   "Generá primero la IMAGEN MAESTRA de los presentadores (fija las caras) y después copiá en orden el prompt de cada clip de ~8s con su diálogo.",
+   "Llevá cada prompt a tu generador de video; cada bloque tiene su botón 📋."
   ],
-  "tip": "Los prompts salen en formato lineal, listos para pegar. Si se corta, escribí «continuar». La clave de Gemini es la misma para toda la suite."
+  "tip": "Generá primero la imagen maestra para fijar las caras; así todos los clips mantienen los mismos presentadores."
  },
  "abuelo": {
-  "que": "Podcast con un abuelo sabio dando consejos.",
+  "que": "Monólogos del 'abuelo sabio' a cámara: 15 ideas, guion y prompts de los clips del personaje hablando. Resultado: prompts de video del abuelo dando consejos.",
   "pasos": [
-   "Pegá tu clave de Gemini en el campo de arriba y tocá Guardar (se comparte con toda la suite).",
-   "Escribí «iniciar» y elegí la categoría o material que te ofrece.",
-   "Pedí las 10 ideas y elegí una por número (o «reiniciar ideas» para 10 nuevas).",
-   "Elegí la duración (8/16/24s) o la cantidad de clips.",
-   "Copiá con el botón 📋 cada prompt: primero el de IMAGEN (keyframe) y luego el de VIDEO para tu generador (Veo 3 / Grok)."
+   "Pegá tu clave de Gemini arriba y tocá Guardar (la misma sirve para toda la suite).",
+   "Escribí «iniciar»: te da 15 ideas de episodio («reset ideas» trae 15 nuevas).",
+   "Elegí una; el bot escribe el guion completo («reset guion» lo rehace).",
+   "Generá primero la IMAGEN MAESTRA de los presentadores (fija las caras) y después copiá en orden el prompt de cada clip de ~8s con su diálogo.",
+   "Llevá cada prompt a tu generador de video; cada bloque tiene su botón 📋."
   ],
-  "tip": "Los prompts salen en formato lineal, listos para pegar. Si se corta, escribí «continuar». La clave de Gemini es la misma para toda la suite."
+  "tip": "Generá primero la imagen maestra para fijar las caras; así todos los clips mantienen los mismos presentadores."
  },
  "ninogenio": {
-  "que": "Podcast con un niño genio explicando cosas (tono infantil).",
+  "que": "El 'niño genio' explicando cosas a cámara: 15 ideas, guion y prompts de clips. Resultado: prompts de video del personaje explicando.",
   "pasos": [
-   "Pegá tu clave de Gemini en el campo de arriba y tocá Guardar (se comparte con toda la suite).",
-   "Escribí «iniciar» y elegí la categoría o material que te ofrece.",
-   "Pedí las 10 ideas y elegí una por número (o «reiniciar ideas» para 10 nuevas).",
-   "Elegí la duración (8/16/24s) o la cantidad de clips.",
-   "Copiá con el botón 📋 cada prompt: primero el de IMAGEN (keyframe) y luego el de VIDEO para tu generador (Veo 3 / Grok)."
+   "Pegá tu clave de Gemini arriba y tocá Guardar (la misma sirve para toda la suite).",
+   "Escribí «iniciar»: te da 15 ideas de episodio («reset ideas» trae 15 nuevas).",
+   "Elegí una; el bot escribe el guion completo («reset guion» lo rehace).",
+   "Generá primero la IMAGEN MAESTRA de los presentadores (fija las caras) y después copiá en orden el prompt de cada clip de ~8s con su diálogo.",
+   "Llevá cada prompt a tu generador de video; cada bloque tiene su botón 📋."
   ],
-  "tip": "Los prompts salen en formato lineal, listos para pegar. Si se corta, escribí «continuar». La clave de Gemini es la misma para toda la suite."
+  "tip": "Generá primero la imagen maestra para fijar las caras; así todos los clips mantienen los mismos presentadores."
  },
  "atleta": {
-  "que": "Podcast épico con un atleta motivador.",
+  "que": "El 'atleta/guerrero' con mensajes de esfuerzo a cámara: 15 ideas, guion y prompts de clips. Resultado: prompts de video del personaje motivando.",
   "pasos": [
-   "Pegá tu clave de Gemini en el campo de arriba y tocá Guardar (se comparte con toda la suite).",
-   "Escribí «iniciar» y elegí la categoría o material que te ofrece.",
-   "Pedí las 10 ideas y elegí una por número (o «reiniciar ideas» para 10 nuevas).",
-   "Elegí la duración (8/16/24s) o la cantidad de clips.",
-   "Copiá con el botón 📋 cada prompt: primero el de IMAGEN (keyframe) y luego el de VIDEO para tu generador (Veo 3 / Grok)."
+   "Pegá tu clave de Gemini arriba y tocá Guardar (la misma sirve para toda la suite).",
+   "Escribí «iniciar»: te da 15 ideas de episodio («reset ideas» trae 15 nuevas).",
+   "Elegí una; el bot escribe el guion completo («reset guion» lo rehace).",
+   "Generá primero la IMAGEN MAESTRA de los presentadores (fija las caras) y después copiá en orden el prompt de cada clip de ~8s con su diálogo.",
+   "Llevá cada prompt a tu generador de video; cada bloque tiene su botón 📋."
   ],
-  "tip": "Los prompts salen en formato lineal, listos para pegar. Si se corta, escribí «continuar». La clave de Gemini es la misma para toda la suite."
+  "tip": "Generá primero la imagen maestra para fijar las caras; así todos los clips mantienen los mismos presentadores."
  },
  "entrevista": {
-  "que": "Genera prompts de una entrevista entre dos personas (dos avatares).",
+  "que": "Entrevista de 2 personas: 15 ideas, guion del diálogo y prompts de los clips. Resultado: prompts de video de la entrevista.",
   "pasos": [
-   "Pegá tu clave de Gemini en el campo de arriba y tocá Guardar (se comparte con toda la suite).",
-   "Escribí «iniciar» y elegí la categoría o material que te ofrece.",
-   "Pedí las 10 ideas y elegí una por número (o «reiniciar ideas» para 10 nuevas).",
-   "Elegí la duración (8/16/24s) o la cantidad de clips.",
-   "Copiá con el botón 📋 cada prompt: primero el de IMAGEN (keyframe) y luego el de VIDEO para tu generador (Veo 3 / Grok)."
+   "Pegá tu clave de Gemini arriba y tocá Guardar (la misma sirve para toda la suite).",
+   "Escribí «iniciar»: te da 15 ideas de episodio («reset ideas» trae 15 nuevas).",
+   "Elegí una; el bot escribe el guion completo («reset guion» lo rehace).",
+   "Generá primero la IMAGEN MAESTRA de los presentadores (fija las caras) y después copiá en orden el prompt de cada clip de ~8s con su diálogo.",
+   "Llevá cada prompt a tu generador de video; cada bloque tiene su botón 📋."
   ],
-  "tip": "Los prompts salen en formato lineal, listos para pegar. Si se corta, escribí «continuar». La clave de Gemini es la misma para toda la suite."
+  "tip": "Generá primero la imagen maestra para fijar las caras; así todos los clips mantienen los mismos presentadores."
  },
  "streetint": {
-  "que": "Genera prompts de entrevista en la calle (entrevistador + transeúntes).",
+  "que": "Street interview (entrevistas en la calle): ideas, guion de preguntas/respuestas y prompts de clips. Resultado: prompts de video del formato calle.",
   "pasos": [
-   "Pegá tu clave de Gemini en el campo de arriba y tocá Guardar (se comparte con toda la suite).",
-   "Escribí «iniciar» y elegí la categoría o material que te ofrece.",
-   "Pedí las 10 ideas y elegí una por número (o «reiniciar ideas» para 10 nuevas).",
-   "Elegí la duración (8/16/24s) o la cantidad de clips.",
-   "Copiá con el botón 📋 cada prompt: primero el de IMAGEN (keyframe) y luego el de VIDEO para tu generador (Veo 3 / Grok)."
+   "Pegá tu clave de Gemini arriba y tocá Guardar (la misma sirve para toda la suite).",
+   "Escribí «iniciar»: te da 15 ideas de episodio («reset ideas» trae 15 nuevas).",
+   "Elegí una; el bot escribe el guion completo («reset guion» lo rehace).",
+   "Generá primero la IMAGEN MAESTRA de los presentadores (fija las caras) y después copiá en orden el prompt de cada clip de ~8s con su diálogo.",
+   "Llevá cada prompt a tu generador de video; cada bloque tiene su botón 📋."
   ],
-  "tip": "Los prompts salen en formato lineal, listos para pegar. Si se corta, escribí «continuar». La clave de Gemini es la misma para toda la suite."
+  "tip": "Generá primero la imagen maestra para fijar las caras; así todos los clips mantienen los mismos presentadores."
  },
  "storytime": {
-  "que": "Podcast tipo storytime: una persona cuenta una historia a cámara.",
+  "que": "Storytime a cámara: 15 ideas, el guion de la historia y prompts de los clips. Resultado: prompts de video del narrador contando.",
   "pasos": [
-   "Pegá tu clave de Gemini en el campo de arriba y tocá Guardar (se comparte con toda la suite).",
-   "Escribí «iniciar» y elegí la categoría o material que te ofrece.",
-   "Pedí las 10 ideas y elegí una por número (o «reiniciar ideas» para 10 nuevas).",
-   "Elegí la duración (8/16/24s) o la cantidad de clips.",
-   "Copiá con el botón 📋 cada prompt: primero el de IMAGEN (keyframe) y luego el de VIDEO para tu generador (Veo 3 / Grok)."
+   "Pegá tu clave de Gemini arriba y tocá Guardar (la misma sirve para toda la suite).",
+   "Escribí «iniciar»: te da 15 ideas de episodio («reset ideas» trae 15 nuevas).",
+   "Elegí una; el bot escribe el guion completo («reset guion» lo rehace).",
+   "Generá primero la IMAGEN MAESTRA de los presentadores (fija las caras) y después copiá en orden el prompt de cada clip de ~8s con su diálogo.",
+   "Llevá cada prompt a tu generador de video; cada bloque tiene su botón 📋."
   ],
-  "tip": "Los prompts salen en formato lineal, listos para pegar. Si se corta, escribí «continuar». La clave de Gemini es la misma para toda la suite."
+  "tip": "Generá primero la imagen maestra para fijar las caras; así todos los clips mantienen los mismos presentadores."
  },
  "datoshablados": {
-  "que": "Una persona a cámara cuenta datos curiosos.",
+  "que": "Datos curiosos contados a cámara: 15 ideas, guion y prompts de clips. Resultado: prompts de video del presentador soltando el dato.",
   "pasos": [
-   "Pegá tu clave de Gemini en el campo de arriba y tocá Guardar (se comparte con toda la suite).",
-   "Escribí «iniciar» y elegí la categoría o material que te ofrece.",
-   "Pedí las 10 ideas y elegí una por número (o «reiniciar ideas» para 10 nuevas).",
-   "Elegí la duración (8/16/24s) o la cantidad de clips.",
-   "Copiá con el botón 📋 cada prompt: primero el de IMAGEN (keyframe) y luego el de VIDEO para tu generador (Veo 3 / Grok)."
+   "Pegá tu clave de Gemini arriba y tocá Guardar (la misma sirve para toda la suite).",
+   "Escribí «iniciar»: te da 15 ideas de episodio («reset ideas» trae 15 nuevas).",
+   "Elegí una; el bot escribe el guion completo («reset guion» lo rehace).",
+   "Generá primero la IMAGEN MAESTRA de los presentadores (fija las caras) y después copiá en orden el prompt de cada clip de ~8s con su diálogo.",
+   "Llevá cada prompt a tu generador de video; cada bloque tiene su botón 📋."
   ],
-  "tip": "Los prompts salen en formato lineal, listos para pegar. Si se corta, escribí «continuar». La clave de Gemini es la misma para toda la suite."
+  "tip": "Generá primero la imagen maestra para fijar las caras; así todos los clips mantienen los mismos presentadores."
  },
  "woodenhands": {
-  "que": "Genera prompts de esculturas de hojas de palma verdes (artesano El Baba) con imagen + movimiento + SEO, para Grok.",
+  "que": "Prompts ASMR de manos de madera tallando (carpintería satisfying): menú, top 5 ideas, movimientos paso a paso y SEO. Resultado: prompts de imagen/clip + metadatos.",
   "pasos": [
-   "Pegá tu clave de Gemini en el campo de arriba y tocá Guardar (se comparte con toda la suite).",
-   "Escribí «iniciar» y elegí la categoría o material que te ofrece.",
-   "Pedí las 10 ideas y elegí una por número (o «reiniciar ideas» para 10 nuevas).",
-   "Elegí la duración (8/16/24s) o la cantidad de clips.",
-   "Copiá con el botón 📋 cada prompt: primero el de IMAGEN (keyframe) y luego el de VIDEO para tu generador (Veo 3 / Grok)."
+   "Pegá tu clave de Gemini arriba y tocá Guardar (la misma sirve para toda la suite).",
+   "Escribí «MENÚ» para ver las opciones y «TOP 5» para las mejores ideas.",
+   "Elegí una y usá «SIGUIENTE» para ir pidiendo los movimientos (tomas) uno por uno.",
+   "Copiá cada prompt de imagen/clip con 📋 para tu generador.",
+   "Pedí «SEO» para títulos y descripción. «RESET» reinicia."
   ],
-  "tip": "Los prompts salen en formato lineal, listos para pegar. Si se corta, escribí «continuar». La clave de Gemini es la misma para toda la suite."
+  "tip": "Usá «SIGUIENTE» para ir sumando movimientos de tallado y mantené el mismo objeto para que el ASMR sea consistente. Pedí «SEO» al final."
  },
  "woodenhands2": {
-  "que": "Versión 2.6 de Wooden Hands: 6 imágenes + 7 movimientos en 4K, más realista.",
+  "que": "Wooden Hands v2.6, con más control de los movimientos de tallado. Resultado: prompts ASMR de carpintería + SEO.",
   "pasos": [
-   "Pegá tu clave de Gemini en el campo de arriba y tocá Guardar (se comparte con toda la suite).",
-   "Escribí «iniciar» y elegí la categoría o material que te ofrece.",
-   "Pedí las 10 ideas y elegí una por número (o «reiniciar ideas» para 10 nuevas).",
-   "Elegí la duración (8/16/24s) o la cantidad de clips.",
-   "Copiá con el botón 📋 cada prompt: primero el de IMAGEN (keyframe) y luego el de VIDEO para tu generador (Veo 3 / Grok)."
+   "Pegá tu clave de Gemini arriba y tocá Guardar (la misma sirve para toda la suite).",
+   "Escribí «MENÚ» para ver las opciones y «TOP 5» para las mejores ideas.",
+   "Elegí una y usá «SIGUIENTE» para ir pidiendo los movimientos (tomas) uno por uno.",
+   "Copiá cada prompt de imagen/clip con 📋 para tu generador.",
+   "Pedí «SEO» para títulos y descripción. «RESET» reinicia."
   ],
-  "tip": "Los prompts salen en formato lineal, listos para pegar. Si se corta, escribí «continuar». La clave de Gemini es la misma para toda la suite."
+  "tip": "Versión con más control de movimientos: ideal si querés tallados más largos y detallados. No olvides el «SEO»."
  },
  "xray": {
-  "que": "Genera prompts de videos de salud documental estilo 3D x-ray (educativo), con guion ES/EN para Fish Audio + imagen Freepik + clip Grok.",
+  "que": "Contenido '3D X-Ray' (revelar el interior de objetos) con guion y clips sincronizados a tu audio. Resultado: guion + prompts de los clips de 8s.",
   "pasos": [
-   "Pegá tu clave de Gemini en el campo de arriba y tocá Guardar (se comparte con toda la suite).",
-   "Escribí «iniciar» y elegí la categoría o material que te ofrece.",
-   "Pedí las 10 ideas y elegí una por número (o «reiniciar ideas» para 10 nuevas).",
-   "Elegí la duración (8/16/24s) o la cantidad de clips.",
-   "Copiá con el botón 📋 cada prompt: primero el de IMAGEN (keyframe) y luego el de VIDEO para tu generador (Veo 3 / Grok)."
+   "Pegá tu clave de Gemini arriba y tocá Guardar (la misma sirve para toda la suite).",
+   "Escribí «inicio» y elegí un número de la lista (1–15).",
+   "Copiá el GUION con 📋 y grabá la locución (por ejemplo en Fish Audio).",
+   "Escribí la duración real del audio (ej: «el audio duró 4:38»).",
+   "El bot genera los prompts de los clips/personajes sincronizados con esa duración; copialos con 📋."
   ],
-  "tip": "Los prompts salen en formato lineal, listos para pegar. Si se corta, escribí «continuar». La clave de Gemini es la misma para toda la suite."
+  "tip": "Tras el guion, grabá la voz y escribí la duración real (ej: 1:30) para que el bot calcule los clips de 8s."
  },
  "cocinaviral": {
-  "que": "Genera Reels de cocina con un personaje-ingrediente 3D Pixar macro y humano gigante de fondo; receta real en la descripción.",
+  "que": "Recetas y escenas de cocina viral en 3D hiperreal: 10 ideas y, al elegir, los prompts de imagen y video del plato. Resultado: prompts listos para Veo 3 / Grok.",
   "pasos": [
-   "Pegá tu clave de Gemini en el campo de arriba y tocá Guardar (se comparte con toda la suite).",
-   "Escribí «iniciar» y elegí la categoría o material que te ofrece.",
-   "Pedí las 10 ideas y elegí una por número (o «reiniciar ideas» para 10 nuevas).",
-   "Elegí la duración (8/16/24s) o la cantidad de clips.",
-   "Copiá con el botón 📋 cada prompt: primero el de IMAGEN (keyframe) y luego el de VIDEO para tu generador (Veo 3 / Grok)."
+   "Pegá tu clave de Gemini arriba y tocá Guardar (la misma sirve para toda la suite).",
+   "Escribí «iniciar»: te entrega 10 ideas. Para ver otras, escribí «reiniciar ideas».",
+   "Elegí una idea por su número; el bot arma la secuencia con sus prompts.",
+   "En cada escena copiá con 📋 el IMAGE PROMPT (para generar el cuadro) y el VIDEO PROMPT (para animarlo en Veo 3 / Grok / Kling).",
+   "Si la respuesta se corta, escribí «continuar». «reset» empieza de cero."
   ],
-  "tip": "Los prompts salen en formato lineal, listos para pegar. Si se corta, escribí «continuar». La clave de Gemini es la misma para toda la suite."
+  "tip": "Los prompts salen en formato lineal listos para pegar. Si se corta, escribí «continuar». La clave de Gemini es la misma para toda la suite."
  },
  "narekart": {
-  "que": "Genera videos de pareja webcomic con humor de conflicto (TikTok): anchors + keyframes (start/end) + prompts Veo 3 con actuación.",
+  "que": "NarekART PowerFlow: arte de flujos y líquidos en movimiento. Da ideas y luego anchors, keyframes y prompts para Veo 3 (o todos juntos). Resultado: prompts encadenados para clips de arte fluido.",
   "pasos": [
-   "Pegá tu clave de Gemini en el campo de arriba y tocá Guardar (se comparte con toda la suite).",
-   "Escribí «iniciar» y elegí la categoría o material que te ofrece.",
-   "Pedí las 10 ideas y elegí una por número (o «reiniciar ideas» para 10 nuevas).",
-   "Elegí la duración (8/16/24s) o la cantidad de clips.",
-   "Copiá con el botón 📋 cada prompt: primero el de IMAGEN (keyframe) y luego el de VIDEO para tu generador (Veo 3 / Grok)."
+   "Pegá tu clave de Gemini arriba y tocá Guardar (la misma sirve para toda la suite).",
+   "Escribí «iniciar» para las ideas («reset ideas» para nuevas).",
+   "Elegí una; en generación pedí «anchors», «keyframes» y «prompts Veo 3» (o «dámelos todos»).",
+   "Copiá cada bloque con 📋 y armá el clip en tu generador.",
+   "«reset total» reinicia todo."
   ],
-  "tip": "Los prompts salen en formato lineal, listos para pegar. Si se corta, escribí «continuar». La clave de Gemini es la misma para toda la suite."
+  "tip": "Si tenés apuro, pedí «dámelos todos» y copiás anchors, keyframes y prompts de una sola vez."
  },
  "venganza": {
-  "que": "Escribe guiones largos de 'Revenge Stories' para YouTube: 4 actos, 1.800-2.500 palabras, con título optimizado para CTR.",
+  "que": "Historias de venganza: genera el guion completo con giro. Resultado: el guion listo para narrar/producir, ajustable por actos.",
   "pasos": [
-   "Pegá tu clave de Gemini arriba y tocá Guardar.",
-   "Escribí «iniciar» o contá directamente el tema.",
-   "Elegí el enfoque/formato y la duración que te ofrece.",
-   "Copiá el guion con el botón 📋 (trae título-gancho, cuerpo y CTA, listo para voz en off).",
-   "Usá «otro» para una versión nueva o «más largo» para extenderlo."
+   "Pegá tu clave de Gemini arriba y tocá Guardar (la misma sirve para toda la suite).",
+   "Escribí «iniciar» (o el tema): el bot redacta la historia completa.",
+   "Copiá el guion con 📋.",
+   "Pedí «más largo» o «reescribir acto X» para ajustar; «otro» para una historia nueva."
   ],
-  "tip": "Pensado para TikTok 9:16: gancho en los primeros 2 segundos y subtítulos en pantalla. La clave de Gemini es la misma para toda la suite."
+  "tip": "Si la historia te gusta pero querés más tensión, pedí «reescribir acto 2» o «más largo» en vez de empezar de cero."
  },
  "asmrsatisfying": {
   "que": "Genera prompts de cortes ASMR oddly-satisfying (fruta de cristal, jabón, arena…) con audio sincronizado de Veo 3, en loop 9:16.",
@@ -643,190 +680,300 @@
   "tip": "Los prompts salen en formato lineal, listos para pegar. Si se corta, escribí «continuar». La clave de Gemini es la misma para toda la suite."
  },
  "aifruit": {
-  "que": "Genera prompts del nicho de fruta IA en 5 estilos: comiendo, glass cutting, fruit baby, dramas y frutas cómicas.",
+  "que": "Universo de frutas IA surreal y satisfying: ideas + prompts de imagen y video. Resultado: prompts para clips vibrantes de fruta-mundo.",
   "pasos": [
-   "Pegá tu clave de Gemini en el campo de arriba y tocá Guardar (se comparte con toda la suite).",
-   "Escribí «iniciar» y elegí la categoría o material que te ofrece.",
-   "Pedí las 10 ideas y elegí una por número (o «reiniciar ideas» para 10 nuevas).",
-   "Elegí la duración (8/16/24s) o la cantidad de clips.",
-   "Copiá con el botón 📋 cada prompt: primero el de IMAGEN (keyframe) y luego el de VIDEO para tu generador (Veo 3 / Grok)."
+   "Pegá tu clave de Gemini arriba y tocá Guardar (la misma sirve para toda la suite).",
+   "Escribí «iniciar»: te entrega 10 ideas. Para ver otras, escribí «reiniciar ideas».",
+   "Elegí una idea por su número; el bot arma la secuencia con sus prompts.",
+   "En cada escena copiá con 📋 el IMAGE PROMPT (para generar el cuadro) y el VIDEO PROMPT (para animarlo en Veo 3 / Grok / Kling).",
+   "Si la respuesta se corta, escribí «continuar». «reset» empieza de cero."
   ],
-  "tip": "Los prompts salen en formato lineal, listos para pegar. Si se corta, escribí «continuar». La clave de Gemini es la misma para toda la suite."
+  "tip": "Los prompts salen en formato lineal listos para pegar. Si se corta, escribí «continuar». La clave de Gemini es la misma para toda la suite."
  },
  "surreal": {
-  "que": "Genera prompts de mundos surreales y ASMR cósmico: planetas que se cortan, mundos de pastel, paisajes imposibles.",
+  "que": "Mundos surreales e imposibles: ideas + prompts de imagen y video oníricos. Resultado: prompts para clips de fantasía visual.",
   "pasos": [
-   "Pegá tu clave de Gemini en el campo de arriba y tocá Guardar (se comparte con toda la suite).",
-   "Escribí «iniciar» y elegí la categoría o material que te ofrece.",
-   "Pedí las 10 ideas y elegí una por número (o «reiniciar ideas» para 10 nuevas).",
-   "Elegí la duración (8/16/24s) o la cantidad de clips.",
-   "Copiá con el botón 📋 cada prompt: primero el de IMAGEN (keyframe) y luego el de VIDEO para tu generador (Veo 3 / Grok)."
+   "Pegá tu clave de Gemini arriba y tocá Guardar (la misma sirve para toda la suite).",
+   "Escribí «iniciar»: te entrega 10 ideas. Para ver otras, escribí «reiniciar ideas».",
+   "Elegí una idea por su número; el bot arma la secuencia con sus prompts.",
+   "En cada escena copiá con 📋 el IMAGE PROMPT (para generar el cuadro) y el VIDEO PROMPT (para animarlo en Veo 3 / Grok / Kling).",
+   "Si la respuesta se corta, escribí «continuar». «reset» empieza de cero."
   ],
-  "tip": "Los prompts salen en formato lineal, listos para pegar. Si se corta, escribí «continuar». La clave de Gemini es la misma para toda la suite."
+  "tip": "Los prompts salen en formato lineal listos para pegar. Si se corta, escribí «continuar». La clave de Gemini es la misma para toda la suite."
  },
  "miniaturas": {
-  "que": "Genera prompts de escenas en miniatura y cocina diminuta (tilt-shift macro), con audio ASMR.",
+  "que": "Mundos en miniatura (tilt-shift, dioramas tiernos): ideas + prompts de imagen y video. Resultado: prompts de clips de miniatura.",
   "pasos": [
-   "Pegá tu clave de Gemini en el campo de arriba y tocá Guardar (se comparte con toda la suite).",
-   "Escribí «iniciar» y elegí la categoría o material que te ofrece.",
-   "Pedí las 10 ideas y elegí una por número (o «reiniciar ideas» para 10 nuevas).",
-   "Elegí la duración (8/16/24s) o la cantidad de clips.",
-   "Copiá con el botón 📋 cada prompt: primero el de IMAGEN (keyframe) y luego el de VIDEO para tu generador (Veo 3 / Grok)."
+   "Pegá tu clave de Gemini arriba y tocá Guardar (la misma sirve para toda la suite).",
+   "Escribí «iniciar»: te entrega 10 ideas. Para ver otras, escribí «reiniciar ideas».",
+   "Elegí una idea por su número; el bot arma la secuencia con sus prompts.",
+   "En cada escena copiá con 📋 el IMAGE PROMPT (para generar el cuadro) y el VIDEO PROMPT (para animarlo en Veo 3 / Grok / Kling).",
+   "Si la respuesta se corta, escribí «continuar». «reset» empieza de cero."
   ],
-  "tip": "Los prompts salen en formato lineal, listos para pegar. Si se corta, escribí «continuar». La clave de Gemini es la misma para toda la suite."
+  "tip": "Los prompts salen en formato lineal listos para pegar. Si se corta, escribí «continuar». La clave de Gemini es la misma para toda la suite."
  },
  "animalessurreal": {
-  "que": "Genera prompts de animales surreales y criaturas imposibles estilo IA, cinematográficos.",
+  "que": "Animales surreales con colores imposibles: ideas + prompts de imagen y video. Resultado: prompts para clips de animal-fantasía.",
   "pasos": [
-   "Pegá tu clave de Gemini en el campo de arriba y tocá Guardar (se comparte con toda la suite).",
-   "Escribí «iniciar» y elegí la categoría o material que te ofrece.",
-   "Pedí las 10 ideas y elegí una por número (o «reiniciar ideas» para 10 nuevas).",
-   "Elegí la duración (8/16/24s) o la cantidad de clips.",
-   "Copiá con el botón 📋 cada prompt: primero el de IMAGEN (keyframe) y luego el de VIDEO para tu generador (Veo 3 / Grok)."
+   "Pegá tu clave de Gemini arriba y tocá Guardar (la misma sirve para toda la suite).",
+   "Escribí «iniciar»: te entrega 10 ideas. Para ver otras, escribí «reiniciar ideas».",
+   "Elegí una idea por su número; el bot arma la secuencia con sus prompts.",
+   "En cada escena copiá con 📋 el IMAGE PROMPT (para generar el cuadro) y el VIDEO PROMPT (para animarlo en Veo 3 / Grok / Kling).",
+   "Si la respuesta se corta, escribí «continuar». «reset» empieza de cero."
   ],
-  "tip": "Los prompts salen en formato lineal, listos para pegar. Si se corta, escribí «continuar». La clave de Gemini es la misma para toda la suite."
+  "tip": "Los prompts salen en formato lineal listos para pegar. Si se corta, escribí «continuar». La clave de Gemini es la misma para toda la suite."
  },
  "finanzas": {
-  "que": "Escribe guiones faceless de finanzas personales para TikTok (ahorro, deudas, presupuesto). Educativo, no es asesoramiento financiero.",
+  "que": "Contenido faceless de finanzas y dinero: ideas + prompts de imagen y video (o guion) para video viral del nicho. Resultado: material listo para producir. Nota: es contenido educativo/de entretenimiento, no asesoramiento financiero.",
   "pasos": [
-   "Pegá tu clave de Gemini arriba y tocá Guardar.",
-   "Escribí «iniciar» o contá directamente el tema.",
-   "Elegí el enfoque/formato y la duración que te ofrece.",
-   "Copiá el guion con el botón 📋 (trae título-gancho, cuerpo y CTA, listo para voz en off).",
-   "Usá «otro» para una versión nueva o «más largo» para extenderlo."
+   "Pegá tu clave de Gemini arriba y tocá Guardar (la misma sirve para toda la suite).",
+   "Escribí «iniciar»: te entrega 10 ideas. Para ver otras, escribí «reiniciar ideas».",
+   "Elegí una idea por su número; el bot arma la secuencia con sus prompts.",
+   "En cada escena copiá con 📋 el IMAGE PROMPT (para generar el cuadro) y el VIDEO PROMPT (para animarlo en Veo 3 / Grok / Kling).",
+   "Si la respuesta se corta, escribí «continuar». «reset» empieza de cero."
   ],
-  "tip": "Pensado para TikTok 9:16: gancho en los primeros 2 segundos y subtítulos en pantalla. La clave de Gemini es la misma para toda la suite."
+  "tip": "Los prompts salen en formato lineal listos para pegar. Si se corta, escribí «continuar». La clave de Gemini es la misma para toda la suite."
  },
  "techia": {
-  "que": "Escribe guiones faceless de tecnología e IA para TikTok (trucos, apps, comparaciones).",
+  "que": "Tech & IA: ideas + prompts de imagen y video para video de tecnología e inteligencia artificial. Resultado: prompts listos para producir.",
   "pasos": [
-   "Pegá tu clave de Gemini arriba y tocá Guardar.",
-   "Escribí «iniciar» o contá directamente el tema.",
-   "Elegí el enfoque/formato y la duración que te ofrece.",
-   "Copiá el guion con el botón 📋 (trae título-gancho, cuerpo y CTA, listo para voz en off).",
-   "Usá «otro» para una versión nueva o «más largo» para extenderlo."
+   "Pegá tu clave de Gemini arriba y tocá Guardar (la misma sirve para toda la suite).",
+   "Escribí «iniciar»: te entrega 10 ideas. Para ver otras, escribí «reiniciar ideas».",
+   "Elegí una idea por su número; el bot arma la secuencia con sus prompts.",
+   "En cada escena copiá con 📋 el IMAGE PROMPT (para generar el cuadro) y el VIDEO PROMPT (para animarlo en Veo 3 / Grok / Kling).",
+   "Si la respuesta se corta, escribí «continuar». «reset» empieza de cero."
   ],
-  "tip": "Pensado para TikTok 9:16: gancho en los primeros 2 segundos y subtítulos en pantalla. La clave de Gemini es la misma para toda la suite."
+  "tip": "Los prompts salen en formato lineal listos para pegar. Si se corta, escribí «continuar». La clave de Gemini es la misma para toda la suite."
  },
  "saludbienestar": {
-  "que": "Escribe guiones faceless de bienestar para TikTok (hábitos, sueño, estrés). General, no reemplaza consejo médico.",
+  "que": "Salud y bienestar: ideas + prompts visuales para contenido de hábitos saludables. Resultado: prompts/guion. Nota: es informativo, no reemplaza el consejo de un profesional de la salud.",
   "pasos": [
-   "Pegá tu clave de Gemini arriba y tocá Guardar.",
-   "Escribí «iniciar» o contá directamente el tema.",
-   "Elegí el enfoque/formato y la duración que te ofrece.",
-   "Copiá el guion con el botón 📋 (trae título-gancho, cuerpo y CTA, listo para voz en off).",
-   "Usá «otro» para una versión nueva o «más largo» para extenderlo."
+   "Pegá tu clave de Gemini arriba y tocá Guardar (la misma sirve para toda la suite).",
+   "Escribí «iniciar»: te entrega 10 ideas. Para ver otras, escribí «reiniciar ideas».",
+   "Elegí una idea por su número; el bot arma la secuencia con sus prompts.",
+   "En cada escena copiá con 📋 el IMAGE PROMPT (para generar el cuadro) y el VIDEO PROMPT (para animarlo en Veo 3 / Grok / Kling).",
+   "Si la respuesta se corta, escribí «continuar». «reset» empieza de cero."
   ],
-  "tip": "Pensado para TikTok 9:16: gancho en los primeros 2 segundos y subtítulos en pantalla. La clave de Gemini es la misma para toda la suite."
+  "tip": "Los prompts salen en formato lineal listos para pegar. Si se corta, escribí «continuar». La clave de Gemini es la misma para toda la suite."
  },
  "negociosfaceless": {
-  "que": "Escribe guiones faceless de negocios y emprendimiento para TikTok.",
+  "que": "Negocios y emprendimiento faceless: ideas + prompts/guion para video motivacional del nicho. Resultado: material listo para producir.",
   "pasos": [
-   "Pegá tu clave de Gemini arriba y tocá Guardar.",
-   "Escribí «iniciar» o contá directamente el tema.",
-   "Elegí el enfoque/formato y la duración que te ofrece.",
-   "Copiá el guion con el botón 📋 (trae título-gancho, cuerpo y CTA, listo para voz en off).",
-   "Usá «otro» para una versión nueva o «más largo» para extenderlo."
+   "Pegá tu clave de Gemini arriba y tocá Guardar (la misma sirve para toda la suite).",
+   "Escribí «iniciar»: te entrega 10 ideas. Para ver otras, escribí «reiniciar ideas».",
+   "Elegí una idea por su número; el bot arma la secuencia con sus prompts.",
+   "En cada escena copiá con 📋 el IMAGE PROMPT (para generar el cuadro) y el VIDEO PROMPT (para animarlo en Veo 3 / Grok / Kling).",
+   "Si la respuesta se corta, escribí «continuar». «reset» empieza de cero."
   ],
-  "tip": "Pensado para TikTok 9:16: gancho en los primeros 2 segundos y subtítulos en pantalla. La clave de Gemini es la misma para toda la suite."
+  "tip": "Los prompts salen en formato lineal listos para pegar. Si se corta, escribí «continuar». La clave de Gemini es la misma para toda la suite."
  },
  "reddit": {
-  "que": "Genera historias ficticias estilo Reddit (AITA, confesiones, drama) para narrar en TikTok faceless.",
+  "que": "Reddit Stories: convierte historias tipo Reddit (AITA y similares) en guion + prompts visuales. Resultado: el relato + clips para el formato.",
   "pasos": [
-   "Pegá tu clave de Gemini arriba y tocá Guardar.",
-   "Escribí «iniciar» o contá directamente el tema.",
-   "Elegí el enfoque/formato y la duración que te ofrece.",
-   "Copiá el guion con el botón 📋 (trae título-gancho, cuerpo y CTA, listo para voz en off).",
-   "Usá «otro» para una versión nueva o «más largo» para extenderlo."
+   "Pegá tu clave de Gemini arriba y tocá Guardar (la misma sirve para toda la suite).",
+   "Escribí «iniciar»: te entrega 10 ideas. Para ver otras, escribí «reiniciar ideas».",
+   "Elegí una idea por su número; el bot arma la secuencia con sus prompts.",
+   "En cada escena copiá con 📋 el IMAGE PROMPT (para generar el cuadro) y el VIDEO PROMPT (para animarlo en Veo 3 / Grok / Kling).",
+   "Si la respuesta se corta, escribí «continuar». «reset» empieza de cero."
   ],
-  "tip": "Pensado para TikTok 9:16: gancho en los primeros 2 segundos y subtítulos en pantalla. La clave de Gemini es la misma para toda la suite."
+  "tip": "Los prompts salen en formato lineal listos para pegar. Si se corta, escribí «continuar». La clave de Gemini es la misma para toda la suite."
  },
  "truecrime": {
-  "que": "Escribe guiones faceless de misterios y casos estilo true crime, con tono documental y sin gore.",
+  "que": "True crime y misterios: ideas + guion/prompts con clima de investigación, sin violencia gráfica. Resultado: el caso narrado + escenas.",
   "pasos": [
-   "Pegá tu clave de Gemini arriba y tocá Guardar.",
-   "Escribí «iniciar» o contá directamente el tema.",
-   "Elegí el enfoque/formato y la duración que te ofrece.",
-   "Copiá el guion con el botón 📋 (trae título-gancho, cuerpo y CTA, listo para voz en off).",
-   "Usá «otro» para una versión nueva o «más largo» para extenderlo."
+   "Pegá tu clave de Gemini arriba y tocá Guardar (la misma sirve para toda la suite).",
+   "Escribí «iniciar»: te entrega 10 ideas. Para ver otras, escribí «reiniciar ideas».",
+   "Elegí una idea por su número; el bot arma la secuencia con sus prompts.",
+   "En cada escena copiá con 📋 el IMAGE PROMPT (para generar el cuadro) y el VIDEO PROMPT (para animarlo en Veo 3 / Grok / Kling).",
+   "Si la respuesta se corta, escribí «continuar». «reset» empieza de cero."
   ],
-  "tip": "Pensado para TikTok 9:16: gancho en los primeros 2 segundos y subtítulos en pantalla. La clave de Gemini es la misma para toda la suite."
+  "tip": "Los prompts salen en formato lineal listos para pegar. Si se corta, escribí «continuar». La clave de Gemini es la misma para toda la suite."
  },
  "povcine": {
-  "que": "Escribe micro-historias POV en primera persona para TikTok, que arrancan en el momento y cierran con un giro.",
+  "que": "POV cinematográfico: ideas + prompts de imagen y video en primera persona con look de cine. Resultado: prompts para clips POV.",
   "pasos": [
-   "Pegá tu clave de Gemini arriba y tocá Guardar.",
-   "Escribí «iniciar» o contá directamente el tema.",
-   "Elegí el enfoque/formato y la duración que te ofrece.",
-   "Copiá el guion con el botón 📋 (trae título-gancho, cuerpo y CTA, listo para voz en off).",
-   "Usá «otro» para una versión nueva o «más largo» para extenderlo."
+   "Pegá tu clave de Gemini arriba y tocá Guardar (la misma sirve para toda la suite).",
+   "Escribí «iniciar»: te entrega 10 ideas. Para ver otras, escribí «reiniciar ideas».",
+   "Elegí una idea por su número; el bot arma la secuencia con sus prompts.",
+   "En cada escena copiá con 📋 el IMAGE PROMPT (para generar el cuadro) y el VIDEO PROMPT (para animarlo en Veo 3 / Grok / Kling).",
+   "Si la respuesta se corta, escribí «continuar». «reset» empieza de cero."
   ],
-  "tip": "Pensado para TikTok 9:16: gancho en los primeros 2 segundos y subtítulos en pantalla. La clave de Gemini es la misma para toda la suite."
+  "tip": "Los prompts salen en formato lineal listos para pegar. Si se corta, escribí «continuar». La clave de Gemini es la misma para toda la suite."
  },
  "tiendashop": {
-  "que": "Genera prompts de video de producto para TikTok Shop/afiliados: reveals en cámara lenta, antes/después, unboxing.",
+  "que": "Producto y shop: ideas + prompts de imagen y video para mostrar productos (e-commerce/ads). Resultado: prompts para clips de producto.",
   "pasos": [
-   "Pegá tu clave de Gemini en el campo de arriba y tocá Guardar (se comparte con toda la suite).",
-   "Escribí «iniciar» y elegí la categoría o material que te ofrece.",
-   "Pedí las 10 ideas y elegí una por número (o «reiniciar ideas» para 10 nuevas).",
-   "Elegí la duración (8/16/24s) o la cantidad de clips.",
-   "Copiá con el botón 📋 cada prompt: primero el de IMAGEN (keyframe) y luego el de VIDEO para tu generador (Veo 3 / Grok)."
+   "Pegá tu clave de Gemini arriba y tocá Guardar (la misma sirve para toda la suite).",
+   "Escribí «iniciar»: te entrega 10 ideas. Para ver otras, escribí «reiniciar ideas».",
+   "Elegí una idea por su número; el bot arma la secuencia con sus prompts.",
+   "En cada escena copiá con 📋 el IMAGE PROMPT (para generar el cuadro) y el VIDEO PROMPT (para animarlo en Veo 3 / Grok / Kling).",
+   "Si la respuesta se corta, escribí «continuar». «reset» empieza de cero."
   ],
-  "tip": "Los prompts salen en formato lineal, listos para pegar. Si se corta, escribí «continuar». La clave de Gemini es la misma para toda la suite."
+  "tip": "Los prompts salen en formato lineal listos para pegar. Si se corta, escribí «continuar». La clave de Gemini es la misma para toda la suite."
  },
  "streetpro": {
-  "que": "Genera entrevistas IA en la calle con look cinematográfico: una pregunta viral + reacciones.",
+  "que": "Street Interview Pro: versión avanzada de entrevistas en la calle: ideas + prompts de clips. Resultado: prompts de video del formato.",
   "pasos": [
-   "Pegá tu clave de Gemini en el campo de arriba y tocá Guardar (se comparte con toda la suite).",
-   "Escribí «iniciar» y elegí la categoría o material que te ofrece.",
-   "Pedí las 10 ideas y elegí una por número (o «reiniciar ideas» para 10 nuevas).",
-   "Elegí la duración (8/16/24s) o la cantidad de clips.",
-   "Copiá con el botón 📋 cada prompt: primero el de IMAGEN (keyframe) y luego el de VIDEO para tu generador (Veo 3 / Grok)."
+   "Pegá tu clave de Gemini arriba y tocá Guardar (la misma sirve para toda la suite).",
+   "Escribí «iniciar»: te entrega 10 ideas. Para ver otras, escribí «reiniciar ideas».",
+   "Elegí una idea por su número; el bot arma la secuencia con sus prompts.",
+   "En cada escena copiá con 📋 el IMAGE PROMPT (para generar el cuadro) y el VIDEO PROMPT (para animarlo en Veo 3 / Grok / Kling).",
+   "Si la respuesta se corta, escribí «continuar». «reset» empieza de cero."
   ],
-  "tip": "Los prompts salen en formato lineal, listos para pegar. Si se corta, escribí «continuar». La clave de Gemini es la misma para toda la suite."
+  "tip": "Los prompts salen en formato lineal listos para pegar. Si se corta, escribí «continuar». La clave de Gemini es la misma para toda la suite."
  },
  "criaturas": {
-  "que": "Genera vlogs POV de criaturas míticas (Bigfoot, Yeti, sirena…) con humor.",
+  "que": "Vlogs de criaturas (cryptids tipo bigfoot vlogueando): ideas + prompts de imagen y video divertidos. Resultado: prompts para clips found-footage.",
   "pasos": [
-   "Pegá tu clave de Gemini en el campo de arriba y tocá Guardar (se comparte con toda la suite).",
-   "Escribí «iniciar» y elegí la categoría o material que te ofrece.",
-   "Pedí las 10 ideas y elegí una por número (o «reiniciar ideas» para 10 nuevas).",
-   "Elegí la duración (8/16/24s) o la cantidad de clips.",
-   "Copiá con el botón 📋 cada prompt: primero el de IMAGEN (keyframe) y luego el de VIDEO para tu generador (Veo 3 / Grok)."
+   "Pegá tu clave de Gemini arriba y tocá Guardar (la misma sirve para toda la suite).",
+   "Escribí «iniciar»: te entrega 10 ideas. Para ver otras, escribí «reiniciar ideas».",
+   "Elegí una idea por su número; el bot arma la secuencia con sus prompts.",
+   "En cada escena copiá con 📋 el IMAGE PROMPT (para generar el cuadro) y el VIDEO PROMPT (para animarlo en Veo 3 / Grok / Kling).",
+   "Si la respuesta se corta, escribí «continuar». «reset» empieza de cero."
   ],
-  "tip": "Los prompts salen en formato lineal, listos para pegar. Si se corta, escribí «continuar». La clave de Gemini es la misma para toda la suite."
+  "tip": "Los prompts salen en formato lineal listos para pegar. Si se corta, escribí «continuar». La clave de Gemini es la misma para toda la suite."
  },
  "motivacion": {
-  "que": "Escribe guiones de mentalidad estilo estoico/disciplina para TikTok, con sugerencias de B-roll.",
+  "que": "Motivación y disciplina: ideas + prompts/guion para video motivacional épico. Resultado: el guion + escenas listas para producir.",
   "pasos": [
-   "Pegá tu clave de Gemini arriba y tocá Guardar.",
-   "Escribí «iniciar» o contá directamente el tema.",
-   "Elegí el enfoque/formato y la duración que te ofrece.",
-   "Copiá el guion con el botón 📋 (trae título-gancho, cuerpo y CTA, listo para voz en off).",
-   "Usá «otro» para una versión nueva o «más largo» para extenderlo."
+   "Pegá tu clave de Gemini arriba y tocá Guardar (la misma sirve para toda la suite).",
+   "Escribí «iniciar»: te entrega 10 ideas. Para ver otras, escribí «reiniciar ideas».",
+   "Elegí una idea por su número; el bot arma la secuencia con sus prompts.",
+   "En cada escena copiá con 📋 el IMAGE PROMPT (para generar el cuadro) y el VIDEO PROMPT (para animarlo en Veo 3 / Grok / Kling).",
+   "Si la respuesta se corta, escribí «continuar». «reset» empieza de cero."
   ],
-  "tip": "Pensado para TikTok 9:16: gancho en los primeros 2 segundos y subtítulos en pantalla. La clave de Gemini es la misma para toda la suite."
+  "tip": "Los prompts salen en formato lineal listos para pegar. Si se corta, escribí «continuar». La clave de Gemini es la misma para toda la suite."
  },
  "procesos": {
-  "que": "Genera contenido para tus videos.",
+  "que": "Procesos satisfying (cómo se hace algo, oddly satisfying): ideas + prompts de imagen y video. Resultado: prompts de clips satisfying.",
   "pasos": [
-   "Pegá tu clave de Gemini en el campo de arriba y tocá Guardar (se comparte con toda la suite).",
-   "Escribí «iniciar» y elegí la categoría o material que te ofrece.",
-   "Pedí las 10 ideas y elegí una por número (o «reiniciar ideas» para 10 nuevas).",
-   "Elegí la duración (8/16/24s) o la cantidad de clips.",
-   "Copiá con el botón 📋 cada prompt: primero el de IMAGEN (keyframe) y luego el de VIDEO para tu generador (Veo 3 / Grok)."
+   "Pegá tu clave de Gemini arriba y tocá Guardar (la misma sirve para toda la suite).",
+   "Escribí «iniciar»: te entrega 10 ideas. Para ver otras, escribí «reiniciar ideas».",
+   "Elegí una idea por su número; el bot arma la secuencia con sus prompts.",
+   "En cada escena copiá con 📋 el IMAGE PROMPT (para generar el cuadro) y el VIDEO PROMPT (para animarlo en Veo 3 / Grok / Kling).",
+   "Si la respuesta se corta, escribí «continuar». «reset» empieza de cero."
   ],
-  "tip": "Los prompts salen en formato lineal, listos para pegar. Si se corta, escribí «continuar». La clave de Gemini es la misma para toda la suite."
+  "tip": "Los prompts salen en formato lineal listos para pegar. Si se corta, escribí «continuar». La clave de Gemini es la misma para toda la suite."
  },
  "historiacuriosa": {
-  "que": "Escribe guiones faceless de historia, geografía y curiosidades para TikTok ('sabías que', mini-documentales).",
+  "que": "Historia y curiosidades: ideas + guion/prompts para video educativo de historia. Resultado: el contenido listo para producir.",
+  "pasos": [
+   "Pegá tu clave de Gemini arriba y tocá Guardar (la misma sirve para toda la suite).",
+   "Escribí «iniciar»: te entrega 10 ideas. Para ver otras, escribí «reiniciar ideas».",
+   "Elegí una idea por su número; el bot arma la secuencia con sus prompts.",
+   "En cada escena copiá con 📋 el IMAGE PROMPT (para generar el cuadro) y el VIDEO PROMPT (para animarlo en Veo 3 / Grok / Kling).",
+   "Si la respuesta se corta, escribí «continuar». «reset» empieza de cero."
+  ],
+  "tip": "Los prompts salen en formato lineal listos para pegar. Si se corta, escribí «continuar». La clave de Gemini es la misma para toda la suite."
+ },
+ "fractura": {
+  "que": "Genera mini-series de drama emocional en CGI Pixar para Grok, con un elenco fijo de 8 personajes: cada video son 6 escenas de 8s con traición/mentiras/lealtad y frase final. Apto para todo público.",
   "pasos": [
    "Pegá tu clave de Gemini arriba y tocá Guardar.",
-   "Escribí «iniciar» o contá directamente el tema.",
-   "Elegí el enfoque/formato y la duración que te ofrece.",
-   "Copiá el guion con el botón 📋 (trae título-gancho, cuerpo y CTA, listo para voz en off).",
-   "Usá «otro» para una versión nueva o «más largo» para extenderlo."
+   "La primera vez escribí «elenco»: copiá los 8 prompts de retrato, generá las caras en tu IA de imagen y guardalas (se reutilizan siempre).",
+   "Escribí «historia» y elegí un conflicto (mentira, celos, secreto…).",
+   "Copiá cada ESCENA con 📋 y pegala en Grok adjuntando SOLO las fotos de los personajes que indica la línea PERSONAJES.",
+   "Usá «otro video» para una historia nueva con el mismo elenco."
   ],
-  "tip": "Pensado para TikTok 9:16: gancho en los primeros 2 segundos y subtítulos en pantalla. La clave de Gemini es la misma para toda la suite."
+  "tip": "El elenco se genera una sola vez: esas mismas caras dan continuidad de «serie». Cada escena es un clip de 8s; un video son 6 escenas (~48s)."
+ },
+ "explainer": {
+  "que": "Pipeline para un canal faceless que explica el deporte simple y visual (foco Mundial 2026). Tres modos: genera 5 ideas de video con score de viralidad, escribe el guion explainer de 3-5 min, y convierte el guion en prompts de imagen Google Nano Banana estilo stickman.",
+  "pasos": [
+   "Pegá tu clave de Gemini arriba y tocá Guardar.",
+   "Escribí «ideas» para 5 conceptos de video (título, gancho, confusión, miniatura, score).",
+   "Escribí «guion» y el tema/título elegido: te da el guion narrado completo (hook, cuerpo, cierre y CTA) en un bloque.",
+   "Escribí «storyboard» y pegá el guion: devuelve prompts Nano Banana stickman de a 5 escenas; escribí «NEXT 5» para las siguientes hasta terminar.",
+   "Copiá cada bloque con 📋 y pegalo donde corresponda (guion al teleprompter/voz IA, prompts a Google Nano Banana)."
+  ],
+  "tip": "El guion sale en español; los prompts de imagen en inglés (Nano Banana rinde mejor) con el texto en pantalla en español. Ideal ahora: el Mundial está en vivo (11 jun–19 jul)."
+ },
+ "montanarusa": {
+  "que": "Genera experiencias POV de montaña rusa ultra-realistas para TikTok/Shorts/Reels: primero 5 conceptos con entorno y score viral, y al elegir uno arma el prompt de imagen y el de video (cámara al pecho) con los gritos del rider en español mexicano.",
+  "pasos": [
+   "Pegá tu clave de Gemini arriba y tocá Guardar.",
+   "Escribí «iniciar»: te da 5 conceptos (título, entorno, qué lo hace intenso, score viral) y se frena.",
+   "Elegí uno escribiendo su número (1 a 5). Usá «otros conceptos» si querés 5 nuevos.",
+   "Copiá con 📋 el IMAGE PROMPT (para tu IA de imagen) y luego el VIDEO ANIMATION PROMPT (para animarla en Veo/Grok).",
+   "Usá «otra montaña» para generar otra experiencia."
+  ],
+  "tip": "Los prompts salen en inglés (mejor render) y los gritos del rider en mexicano. POV en primera persona con piernas/botas, cámara al pecho y recorrido continuo (el rider nunca se cae). Vertical 9:16."
+ },
+ "mundovegetal": {
+  "que": "Genera historias animadas estilo Pixar/DreamWorks con un elenco fijo de verduras (Tomato Girl, Potato Man, Onion Woman, Eggplant Villain, Green Chilli Man, Pumpkin Elder), en 10 escenas con arco emocional. Por escena: IMAGE PROMPT con character lock, VIDEO PROMPT y CHARACTER DIALOGUES.",
+  "pasos": [
+   "Pegá tu clave de Gemini arriba y tocá Guardar.",
+   "Escribí «iniciar» para la historia clásica de la aldea, o «tema: tu idea» para un conflicto propio.",
+   "Te entrega las escenas de a 2; copiá cada bloque con 📋 (IMAGE PROMPT, VIDEO PROMPT y CHARACTER DIALOGUES).",
+   "Escribí «continuar» para las siguientes escenas, hasta completar las 10.",
+   "Para la imagen de cada escena, el character lock ya viene pegado: NO lo modifiques (mantiene los personajes idénticos)."
+  ],
+  "tip": "Prompts de imagen/video en inglés (mejor render), diálogos en español latino. El character lock es la clave para que las verduras se vean iguales en las 10 escenas. Apto para todo público."
+ },
+ "resinadiy": {
+  "que": "Generador de YouTube Shorts satisfying de manualidades y transformaciones (resina epoxi, madera, décor). Genera ideas con potencial de vistas y, al elegir una, arma las 6 imágenes (materiales→proceso→reveal) y los 6 clips de video, en formato vertical 9:16 sin voz.",
+  "pasos": [
+   "Pegá tu clave de Gemini arriba y tocá Guardar.",
+   "Escribí «iniciar» (o «10 ideas») para los conceptos: cada uno con materiales, secuencia, momento wow, paleta y potencial de vistas.",
+   "Elegí una idea por su número.",
+   "Copiá con 📋 los 6 IMAGE PROMPTS de la Section A (para tu IA de imagen).",
+   "Escribí «videos» y copiá los 6 VIDEO CLIPS de la Section B (para animar cada imagen en Veo/Grok)."
+  ],
+  "tip": "Vertical 9:16, sin narración, con reveal de antes/después. Prompts en inglés (mejor render). Usá las 6 imágenes como frames de referencia para los 6 clips."
+ },
+ "timelapseobra": {
+  "que": "Genera timelapses de construcción con reveal de antes/después y piso de epoxy artístico de lujo. Da ideas de espacios y, al elegir uno, arma las imágenes por etapas (vacío→obra→epoxy→amueblado) con cámara estática, y luego los videos que encadenan cada par de frames.",
+  "pasos": [
+   "Pegá tu clave de Gemini arriba y tocá Guardar.",
+   "Escribí «iniciar» (o «15 espacios») para las ideas de espacios (garage, showroom, café, gimnasio…).",
+   "Elegí un espacio por su número.",
+   "Copiá con 📋 los IMAGE PROMPTS de cada etapa (misma cámara estática) para tu IA de imagen.",
+   "Escribí «videos»: encadena los frames en clips (N imágenes = N-1 videos) para animar en Veo/Grok."
+  ],
+  "tip": "Mismo cuarto y cámara 100% estática en todas las etapas = efecto time-lapse real. El piso debe verse como epoxy de lujo (no cerámica ni mármol). Prompts en inglés."
+ },
+ "dreamnostalgia": {
+  "que": "Generador de espacios liminales oníricos y nostálgicos (dreamcore): interiores inundados, pasillos infinitos, arquitectura pastel, malls abandonados, cuartos de nubes. Te da 10 escenarios y, al elegir uno, arma el IMAGE PROMPT y el VIDEO PROMPT cinematográficos en primera persona.",
+  "pasos": [
+   "Pegá tu clave de Gemini arriba y tocá Guardar.",
+   "Escribí «iniciar» para ver los 10 escenarios oníricos.",
+   "Elegí un número, o describí tu propio escenario.",
+   "Copiá con 📋 el IMAGE PROMPT (para tu IA de imagen) y el VIDEO PROMPT (para animarlo).",
+   "Decí «más» para una tanda nueva de 10 escenarios."
+  ],
+  "tip": "Estética dreamcore: POV primera persona, paleta pastel, 35mm, sin gente ni texto. El video usa solo sonido ambiente (sin música). Prompts en inglés (mejor render)."
+ },
+ "cartoonkids": {
+  "que": "Generador de caricaturas infantiles para YouTube Shorts (menores de 13), estilo Pixar 3D y family-friendly. Te da 10 ideas y, al elegir una, arma la ficha de personajes (apariencia que nunca cambia) y el guion escena por escena de 6 segundos con descripción visual y diálogos.",
+  "pasos": [
+   "Pegá tu clave de Gemini arriba y tocá Guardar.",
+   "Escribí «iniciar» para ver 10 ideas de historias infantiles.",
+   "Elegí una por su número.",
+   "Copiá con 📋 la CHARACTER SECTION y cada escena (Visual Description para la imagen/video, Dialogue para las voces).",
+   "Escribí «continuar» para las siguientes escenas hasta completar la historia."
+  ],
+  "tip": "Apto para niños: amistad, aventura y final feliz, sin violencia ni terror. Las descripciones de escena van en inglés (mejor render) y los diálogos en español latino simple. La apariencia de cada personaje se repite igual en todas las escenas."
+ },
+ "rescateanimal": {
+  "que": "Generador de historias virales de rescate de animales en 2D cartoon (kids/family), sin voz, contadas solo con acciones y emociones, con final feliz. Da 10 ideas, luego la historia escena por escena, y después el storyboard con ficha de personajes y prompts de imagen y video (6s c/u).",
+  "pasos": [
+   "Pegá tu clave de Gemini arriba y tocá Guardar.",
+   "Escribí «iniciar» para ver 10 ideas de historias de rescate.",
+   "Escribí «STORY 1» (o el número) para la historia completa escena por escena (visual, sin diálogos).",
+   "Escribí «prompts»: arma el MAIN CHARACTER SHEET y el storyboard con IMAGE PROMPT y VIDEO PROMPT por escena.",
+   "Escribí «continuar» para seguir generando escenas hasta terminar."
+  ],
+  "tip": "Historia y títulos de escena en español; los prompts de imagen/video en inglés (mejor render). Personajes consistentes en todas las escenas, cada una de 6s. Apto para niños, con final feliz."
+ },
+ "junglabunker": {
+  "que": "Generador de videos cinematográficos de supervivencia en jungla: un sobreviviente escapa de animales y se refugia en un búnker secreto de bambú verde. Definís el animal y la edad del personaje; da 10 ideas y, al elegir una, las 6 escenas con IMAGE PROMPT y VIDEO PROMPT (6s) y locks de consistencia.",
+  "pasos": [
+   "Pegá tu clave de Gemini arriba y tocá Guardar.",
+   "Escribí «animal: tigres edad: 35» (o «iniciar») para definir la amenaza y el personaje.",
+   "Mirá las 10 ideas y elegí una por su número.",
+   "Copiá con 📋 la IMAGE PROMPT y la VIDEO PROMPT de cada escena (las 6 siguen la estructura fija: puerta+ataque, hall, pileta, cocina, dormitorio, baño).",
+   "Escribí «continuar» para las siguientes escenas. Usá «personaje» para el prompt de referencia frontal del sobreviviente."
+  ],
+  "tip": "Locks de consistencia: el sobreviviente siempre de espaldas con la misma ropa/mochila, búnker 100% de bambú verde fresco, jungla de día. Prompts en inglés, escenas de 6s con acción desde el primer segundo."
  }
 }
