@@ -34,9 +34,24 @@
     profesiones:["OFICIOS",["#1c2740","#3d1f2f"]], utiles:["ESCUELA",["#1f2a3d","#2a2410"]], superheroes:["HÉROES",["#10243a","#3d1f2f"]],
     buenasnoches:["DORMIR",["#0e1430","#241a33"]], valores:["VALORES",["#1f3d2f","#10243a"]], datos:["CURIOSO",["#10243a","#1f2a3d"]],
     trabalenguas:["RIMAS",["#2a1f3d","#1f3d2f"]], monstruos:["TIERNO",["#2a1f3d","#10243a"]],
-    terror:["TERROR",["#1a1320","#0a0c14"]], terrorurbano:["URBANO",["#13161f","#1a1320"]], fabulas:["FÁBULA",["#1f3d2f","#2a2410"]], reflexiones:["MANHWA",["#3d1f3a","#241a40"]], datosmiedo:["CREEPYPASTA",["#1a1320","#3d1f2f"]]
+    terror:["TERROR",["#1a1320","#0a0c14"]], terrorurbano:["URBANO",["#13161f","#1a1320"]], fabulas:["FÁBULA",["#1f3d2f","#2a2410"]], reflexiones:["MANHWA",["#3d1f3a","#241a40"]], datosmiedo:["CREEPYPASTA",["#1a1320","#3d1f2f"]], timelapse:["TIMELAPSE",["#0b1f33","#10243a"]], timelapse2:["TIMELAPSE 2",["#0f2913","#10243a"]], timelapse3:["TIMELAPSE 3",["#2a1140","#10243a"]], podcast:["PODCAST",["#3a2410","#2a1f10"]], podfitness:["FITNESS",["#3a1010","#3a2410"]], podmujeres:["MINDSET",["#3a1030","#241a40"]], podfe:["FE",["#3a2e10","#2a2410"]], poddating:["AMOR",["#3a1020","#3a1030"]], podnegocios:["NEGOCIOS",["#0b1f33","#10243a"]], abuelo:["CONSEJOS",["#2a2410","#3a2e10"]], ninogenio:["NIÑO",["#0b2933","#0f2913"]], atleta:["ÉPICO",["#3a2e0a","#3a1010"]], entrevista:["PODCAST",["#241a40","#10243a"]], streetint:["CALLE",["#0a2e28","#0f2913"]], storytime:["STORYTIME",["#2a1140","#3a1030"]], datoshablados:["DATOS",["#0b2933","#10243a"]], woodenhands:["WOODEN HANDS",["#0f2913","#1a2410"]], woodenhands2:["WOODEN v2.6",["#1a2410","#0f2913"]], xray:["3D X-RAY",["#0b1f33","#10243a"]], cocinaviral:["COCINA 3D",["#2a1408","#1f1810"]], narekart:["POWERFLOW",["#2a0f24","#241040"]], venganza:["VENGANZA",["#2a0f12","#1f0c0e"]], asmrsatisfying:["ASMR",["#06222a","#0b2a30"]], aifruit:["FRUIT",["#2a1208","#20120c"]], surreal:["🪐",["#1a0f2e","#241040"]], miniaturas:["🏠",["#0a1f16","#0e2a1e"]], animalessurreal:["🦄",["#0a1f1d","#102a28"]], finanzas:["💰",["#0a1f14","#0e2a1c"]], techia:["📱",["#0a142a","#0e1d3a"]], saludbienestar:["🧘",["#0a1f1c","#0e2a26"]], negociosfaceless:["🚀",["#0a1226","#0e1a36"]], reddit:["👽",["#2a1408","#3a1d0c"]], truecrime:["🕵️",["#2a0e0f","#1f0c0d"]], povcine:["🎬",["#2a1c08","#1f150c"]], tiendashop:["🛒",["#2a0e1d","#1f0c16"]], streetpro:["🎤",["#0a1d2a","#0e2433"]], criaturas:["🦶",["#0e2a10","#0a1f0c"]], motivacion:["🔥",["#2a1c08","#1f150c"]], procesos:["🧽",["#0a1f2a","#0e2733"]], historiacuriosa:["🗺️",["#2a200c","#1f1808"]]
   };
   function meta(id){ return META[id] || ["APP",["#1c2740","#2a1f3d"]]; }
+  /* nicho por app + orden de secciones */
+  var NICHE_ORDER=[["viralia","🎥 Video Viral IA"],["asmr","🔪 ASMR y Satisfying"],["podcast","🎙️ Podcast y Personas"],["dinero","💰 Finanzas y Negocios"],["educa","📱 Tech, Salud y Datos"],["story","📝 Storytelling y Drama"],["terror","👻 Terror y Misterio"],["fe","🙏 Fe y Reflexión"],["cuentos","📖 Cuentos y Fábulas"],["infantil","🧒 Infantil y Escolar"],["pov","🎭 Historias POV"],["analisis","📊 Análisis YouTube"]];
+  var NICHO={outliers:"analisis",analizador:"analisis",
+    timelapse:"viralia",timelapse2:"viralia",timelapse3:"viralia",cocinaviral:"viralia",narekart:"viralia",surreal:"viralia",miniaturas:"viralia",animalessurreal:"viralia",criaturas:"viralia",tiendashop:"viralia",streetpro:"viralia",xray:"viralia",
+    woodenhands:"asmr",woodenhands2:"asmr",asmrsatisfying:"asmr",aifruit:"asmr",procesos:"asmr",
+    podcast:"podcast",podfitness:"podcast",podmujeres:"podcast",podfe:"podcast",poddating:"podcast",podnegocios:"podcast",abuelo:"podcast",ninogenio:"podcast",atleta:"podcast",entrevista:"podcast",streetint:"podcast",storytime:"podcast",datoshablados:"podcast",
+    finanzas:"dinero",negociosfaceless:"dinero",
+    techia:"educa",saludbienestar:"educa",historiacuriosa:"educa",datos:"educa",
+    venganza:"story",reddit:"story",povcine:"story",motivacion:"story",
+    terror:"terror",terrorurbano:"terror",datosmiedo:"terror",truecrime:"terror",
+    historias:"fe",milagros:"fe",relatos:"fe",parabolas:"fe",tentacion:"fe",proverbios:"fe",redencion:"fe",viajealma:"fe",cartas:"fe",valores:"fe",reflexiones:"fe",
+    novelas:"cuentos",fabulas:"cuentos",mitologia:"cuentos",glam:"cuentos",frutas:"cuentos",monstruos:"cuentos",trabalenguas:"cuentos",superheroes:"cuentos",zodiaco:"cuentos",
+    buenasnoches:"infantil",utiles:"infantil",animales:"infantil",dinosaurios:"infantil",insectos:"infantil",plantas:"infantil",paises:"infantil",profesiones:"infantil",robots:"infantil",autos:"infantil",
+    mascotas:"pov",comida:"pov",objetos:"pov"};
+  var INSTR={}, APPS_VIS=[];
 
   /* mini-portada SVG: degradado + viñeta + título grande con borde, + acento dorado */
   function poster(a){
@@ -115,7 +130,34 @@
     + '#jmgrid .jmcap .here-dot{margin-left:auto;font-family:JetBrains Mono,monospace;font-size:9px;color:'+GOLD+';white-space:nowrap}'
     + '#jmpanel .jmfoot{padding:12px 20px;border-top:1px solid #1c2238;text-align:center}'
     + '#jmpanel .jmfoot a{color:#828DA6;text-decoration:none;font-family:JetBrains Mono,monospace;font-size:12px}'
-    + '#jmpanel .jmfoot a:hover{color:#FF7A9C}';
+    + '#jmpanel .jmfoot a:hover{color:#FF7A9C}'
+    + '#jmgrid{display:block}'
+    + '.secgrid{display:grid;grid-template-columns:repeat(4,1fr);gap:14px}'
+    + '@media (max-width:680px){.secgrid{grid-template-columns:repeat(3,1fr)}}'
+    + '@media (max-width:440px){.secgrid{grid-template-columns:repeat(2,1fr)}}'
+    + '#jmfilters{display:flex;gap:7px;flex-wrap:wrap;padding:2px 20px 12px}'
+    + '#jmfilters .fchip{cursor:pointer;font-family:JetBrains Mono,monospace;font-size:11px;color:#C7CEDE;background:#11141f;border:1px solid #2a2f45;border-radius:999px;padding:6px 11px}'
+    + '#jmfilters .fchip:hover{border-color:'+GOLD+'}'
+    + '#jmfilters .fchip.on{background:rgba(231,184,92,.14);border-color:'+GOLD+';color:'+GOLD2+'}'
+    + '.jmsec .jmsh{font-family:Sora,system-ui,sans-serif;font-weight:700;font-size:13px;color:#EAF0FF;margin:16px 2px 11px;display:flex;align-items:center;gap:8px}'
+    + '.jmsec .jmsh .ct{font-family:JetBrains Mono,monospace;font-size:10px;color:#828DA6;font-weight:500}'
+    + '#jmgrid .jmth .info{position:absolute;top:7px;right:7px;z-index:3;width:24px;height:24px;border-radius:50%;background:rgba(13,16,24,.82);border:1px solid rgba(231,184,92,.55);color:'+GOLD2+';display:flex;align-items:center;justify-content:center;font-size:13px;font-weight:800;font-family:Georgia,serif}'
+    + '#jmgrid .jmth .info:hover{background:'+GOLD+';color:#0A0D14}'
+    + '#jmgrid .jmth img.jmimg{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;display:block;z-index:1}'
+    + '#jmfi{position:fixed;inset:0;z-index:100001;display:none;align-items:center;justify-content:center;background:rgba(3,4,8,.82);-webkit-backdrop-filter:blur(7px);backdrop-filter:blur(7px);padding:18px}'
+    + '#jmfi.open{display:flex}'
+    + '#jmficard{width:100%;max-width:460px;background:linear-gradient(180deg,#0d1018,#080a11);border:1px solid #2a2f45;border-radius:16px;box-shadow:0 40px 110px rgba(0,0,0,.75);overflow:hidden;animation:jmpop .2s ease}'
+    + '#jmficard .fh{padding:15px 18px;border-bottom:1px solid #1c2238;display:flex;align-items:center;justify-content:space-between;background:rgba(231,184,92,.05)}'
+    + '#jmficard .fh b{font-family:Sora,system-ui,sans-serif;font-size:15px;color:#F6F8FE}'
+    + '#jmficard .fb{padding:16px 18px;max-height:58vh;overflow:auto}'
+    + '#jmficard .fb h5{margin:0 0 7px;font-family:JetBrains Mono,monospace;font-size:11px;letter-spacing:.12em;text-transform:uppercase;color:'+GOLD+'}'
+    + '#jmficard .fb p.q{margin:0 0 14px;font-size:13.5px;color:#C7CEDE;line-height:1.5}'
+    + '#jmficard .fb ol{margin:0 0 14px;padding-left:18px}#jmficard .fb li{margin:6px 0;font-size:13.5px;color:#EAF0FF;line-height:1.45}'
+    + '#jmficard .fb .tip{font-size:12.5px;color:#9aa6c0;background:rgba(124,140,180,.08);border:1px dashed #2a2f45;border-radius:9px;padding:9px 11px;line-height:1.45}'
+    + '#jmficard .ff{padding:12px 18px;border-top:1px solid #1c2238;display:flex;gap:8px}'
+    + '#jmficard .ff a,#jmficard .ff .cl{flex:1;text-align:center;text-decoration:none;cursor:pointer;border-radius:10px;padding:11px;font-family:Sora,system-ui,sans-serif;font-weight:700;font-size:13px}'
+    + '#jmficard .ff a{background:linear-gradient(100deg,'+GOLD+','+GOLD2+');color:#0A0D14}'
+    + '#jmficard .ff .cl{background:#11141f;border:1px solid #2a2f45;color:#C7CEDE}';
   var st=document.createElement('style'); st.textContent=css; document.head.appendChild(st);
 
   function escapeHtml(s){ var d=document.createElement('div'); d.textContent=s; return d.innerHTML; }
@@ -128,22 +170,51 @@
   ov.innerHTML='<div id="jmpanel">'
     + '<div class="jmhead"><div class="jmttl">⚡ Mis <span class="sp">apps</span> <small id="jmcount"></small></div>'
     + '<div class="jmx" id="jmclose">✕</div></div>'
+    + '<div id="jmfilters"></div>'
     + '<div id="jmscroll"><div id="jmgrid"></div></div>'
     + '<div class="jmfoot"><a href="index.html">← salir al inicio</a></div></div>';
   document.body.appendChild(ov);
 
+  function tileHtml(a){
+    var cur=(a.archivo||'').toLowerCase()===here;
+    var thumb=(a.img?('<img class="jmimg" src="'+escapeHtml(a.img)+'" alt="" onerror="this.remove()">'):'')+poster(a);
+    return '<a class="jmtile'+(cur?' here':'')+'" href="'+escapeHtml(a.archivo)+'">'
+      + '<span class="jmth">'+thumb+'<span class="sh"></span>'
+      + '<span class="info" data-info="'+escapeHtml(a.id)+'" title="Cómo se usa">i</span></span>'
+      + '<span class="jmcap"><span class="nm">'+escapeHtml(a.nombre)+'</span>'
+      + (cur?'<span class="here-dot">● aquí</span>':'')+'</span></a>';
+  }
   function buildGrid(list){
     var vis=(list||[]).filter(function(a){
       return a && a.archivo && (access==='all' || (Array.isArray(access) && access.indexOf(a.id)>=0));
     });
+    APPS_VIS=vis;
     document.getElementById('jmcount').textContent = vis.length ? '· '+vis.length+' herramientas' : '';
-    document.getElementById('jmgrid').innerHTML = vis.map(function(a){
-      var cur=(a.archivo||'').toLowerCase()===here;
-      return '<a class="jmtile'+(cur?' here':'')+'" href="'+escapeHtml(a.archivo)+'">'
-        + '<span class="jmth">'+poster(a)+'<span class="sh"></span></span>'
-        + '<span class="jmcap"><span class="nm">'+escapeHtml(a.nombre)+'</span>'
-        + (cur?'<span class="here-dot">● aquí</span>':'')+'</span></a>';
-    }).join('');
+    var groups={}; vis.forEach(function(a){ var k=NICHO[a.id]||'otras'; (groups[k]=groups[k]||[]).push(a); });
+    var present=NICHE_ORDER.filter(function(n){ return groups[n[0]] && groups[n[0]].length; });
+    var fil=document.getElementById('jmfilters');
+    fil.innerHTML='<span class="fchip on" data-f="all">Todas</span>'
+      + present.map(function(n){ return '<span class="fchip" data-f="'+n[0]+'">'+n[1]+'</span>'; }).join('');
+    var secs=present.map(function(n){
+      var arr=groups[n[0]];
+      return '<div class="jmsec" data-sec="'+n[0]+'"><div class="jmsh">'+n[1]+' <span class="ct">'+arr.length+'</span></div><div class="secgrid">'+arr.map(tileHtml).join('')+'</div></div>';
+    });
+    if(groups['otras'] && groups['otras'].length){
+      secs.push('<div class="jmsec" data-sec="otras"><div class="jmsh">✨ Otras <span class="ct">'+groups['otras'].length+'</span></div><div class="secgrid">'+groups['otras'].map(tileHtml).join('')+'</div></div>');
+    }
+    document.getElementById('jmgrid').innerHTML=secs.join('');
+  }
+  function openFicha(id){
+    var a=null,i; for(i=0;i<APPS_VIS.length;i++){ if(APPS_VIS[i].id===id){ a=APPS_VIS[i]; break; } }
+    if(!a) return;
+    var ins=INSTR[id]||{};
+    var pasos=ins.pasos||['Pegá tu clave de Gemini arriba y tocá Guardar.','Escribí «iniciar» y seguí los pasos en pantalla.','Copiá el resultado con el botón 📋.'];
+    document.getElementById('jmfiName').textContent=a.nombre;
+    document.getElementById('jmfiBody').innerHTML='<h5>Qué hace</h5><p class="q">'+escapeHtml(ins.que||a.nombre)+'</p>'
+      + '<h5>Cómo se usa</h5><ol>'+pasos.map(function(p){return '<li>'+escapeHtml(p)+'</li>';}).join('')+'</ol>'
+      + '<div class="tip">💡 '+escapeHtml(ins.tip||'La clave de Gemini se comparte con todas las apps de la suite.')+'</div>';
+    document.getElementById('jmfiOpen').setAttribute('href', a.archivo);
+    document.getElementById('jmfi').classList.add('open');
   }
   function openP(){ ov.classList.add('open'); }
   function closeP(){ ov.classList.remove('open'); }
@@ -152,6 +223,27 @@
   document.getElementById('jmclose').addEventListener('click', closeP);
   ov.addEventListener('click', function(e){ if(e.target===ov) closeP(); });
   document.addEventListener('keydown', function(e){ if(e.key==='Escape') closeP(); });
+
+  var fi=document.createElement('div'); fi.id='jmfi';
+  fi.innerHTML='<div id="jmficard"><div class="fh"><b id="jmfiName"></b><div class="jmx" id="jmfiClose">✕</div></div>'
+    + '<div class="fb" id="jmfiBody"></div>'
+    + '<div class="ff"><a id="jmfiOpen" href="#">Abrir app ↗</a><div class="cl" id="jmfiCl">Cerrar</div></div></div>';
+  document.body.appendChild(fi);
+  function closeFi(){ fi.classList.remove('open'); }
+  document.getElementById('jmfiClose').addEventListener('click', closeFi);
+  document.getElementById('jmfiCl').addEventListener('click', closeFi);
+  fi.addEventListener('click', function(e){ if(e.target===fi) closeFi(); });
+  document.getElementById('jmgrid').addEventListener('click', function(e){
+    var t=e.target, inf=(t.classList&&t.classList.contains('info'))?t:(t.closest?t.closest('.info'):null);
+    if(inf){ e.preventDefault(); e.stopPropagation(); openFicha(inf.getAttribute('data-info')); }
+  });
+  document.getElementById('jmfilters').addEventListener('click', function(e){
+    var c=(e.target.classList&&e.target.classList.contains('fchip'))?e.target:(e.target.closest?e.target.closest('.fchip'):null);
+    if(!c) return; var f=c.getAttribute('data-f');
+    Array.prototype.forEach.call(this.querySelectorAll('.fchip'),function(x){ x.classList.toggle('on', x===c); });
+    Array.prototype.forEach.call(document.querySelectorAll('#jmgrid .jmsec'),function(sx){ sx.style.display=(f==='all'||sx.getAttribute('data-sec')===f)?'':'none'; });
+  });
+  fetch('instrucciones.json?t='+Date.now()).then(function(r){return r.json();}).then(function(d){ INSTR=d||{}; }).catch(function(){});
 
   if(apps.length) buildGrid(apps);
   fetch('autorizados.json?t='+Date.now())
