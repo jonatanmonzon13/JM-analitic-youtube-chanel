@@ -214,6 +214,11 @@
       "id": "reflexiones",
       "nombre": "Reflexiones Animadas",
       "archivo": "reflexiones.html"
+    },
+    {
+      "id": "datosmiedo",
+      "nombre": "Datos que dan miedo",
+      "archivo": "datosmiedo.html"
     }
   ],
   "accesos": {
@@ -255,7 +260,8 @@
       "trabalenguas",
       "monstruos",
       "terrorurbano",
-      "reflexiones"
+      "reflexiones",
+      "datosmiedo"
     ],
     "diegoasalazarc70@gmail.com": [
       "outliers",
@@ -326,7 +332,8 @@
       "superheroes",
       "viajealma",
       "datos",
-      "terrorurbano"
+      "terrorurbano",
+      "datosmiedo"
     ],
     "ayala.luis@correounivalle.edu.co": [
       "outliers",
@@ -362,7 +369,8 @@
       "paises",
       "cartas",
       "animales",
-      "zodiaco"
+      "zodiaco",
+      "datosmiedo"
     ],
     "febreromonetiza10@gmail.com": [
       "outliers",
@@ -538,7 +546,8 @@
       "profesiones",
       "buenasnoches",
       "trabalenguas",
-      "reflexiones"
+      "reflexiones",
+      "datosmiedo"
     ],
     "alexandersamchez000000@gmail.com": [
       "outliers",
@@ -608,7 +617,8 @@
       "trabalenguas",
       "buenasnoches",
       "reflexiones",
-      "mascotas"
+      "mascotas",
+      "datosmiedo"
     ],
     "darioperezlindo77@gmail.com": [
       "outliers",
@@ -714,7 +724,8 @@
       "mitologia",
       "dinosaurios",
       "paises",
-      "cartas"
+      "cartas",
+      "datosmiedo"
     ],
     "osmedyalexander@gmail.com": [
       "outliers",
@@ -750,7 +761,8 @@
       "dinosaurios",
       "paises",
       "cartas",
-      "reflexiones"
+      "reflexiones",
+      "datosmiedo"
     ],
     "nichomedia3@gmail.com": [
       "outliers",
@@ -926,7 +938,8 @@
       "analizador",
       "glam",
       "paises",
-      "reflexiones"
+      "reflexiones",
+      "datosmiedo"
     ],
     "patchmx@gmail.com": [
       "outliers",
@@ -962,7 +975,8 @@
       "cartas",
       "autos",
       "terror",
-      "reflexiones"
+      "reflexiones",
+      "datosmiedo"
     ],
     "miguelyfer1985@gmail.com": [
       "outliers",
@@ -998,7 +1012,8 @@
       "trabalenguas",
       "monstruos",
       "terrorurbano",
-      "reflexiones"
+      "reflexiones",
+      "datosmiedo"
     ]
   }
 }
