@@ -28,278 +28,539 @@
     {
       "id": "outliers",
       "nombre": "Outliers",
-      "archivo": "app.html"
+      "archivo": "app.html",
+      "img": "img/outliers.jpg"
     },
     {
       "id": "historias",
       "nombre": "Historias de Fe",
-      "archivo": "historias-fe.html"
+      "archivo": "historias-fe.html",
+      "img": "img/historias.jpg"
     },
     {
       "id": "milagros",
       "nombre": "Milagros de Fe",
-      "archivo": "milagros-fe.html"
+      "archivo": "milagros-fe.html",
+      "img": "img/milagros.jpg"
     },
     {
       "id": "relatos",
       "nombre": "Relatos de Fe",
-      "archivo": "relatos-fe.html"
+      "archivo": "relatos-fe.html",
+      "img": "img/relatos.jpg"
     },
     {
       "id": "glam",
       "nombre": "Glam",
-      "archivo": "glam.html"
+      "archivo": "glam.html",
+      "img": "img/glam.jpg"
     },
     {
       "id": "frutas",
       "nombre": "Frutas",
-      "archivo": "frutas.html"
+      "archivo": "frutas.html",
+      "img": "img/frutas.jpg"
     },
     {
       "id": "novelas",
       "nombre": "Novelas JMbots",
-      "archivo": "novelas.html"
+      "archivo": "novelas.html",
+      "img": "img/novelas.jpg"
     },
     {
       "id": "analizador",
       "nombre": "Analizador de Video",
-      "archivo": "analizador.html"
+      "archivo": "analizador.html",
+      "img": "img/analizador.jpg"
     },
     {
       "id": "mascotas",
       "nombre": "Mascotas Dramáticas",
-      "archivo": "mascotas.html"
+      "archivo": "mascotas.html",
+      "img": "img/mascotas.jpg"
     },
     {
       "id": "comida",
       "nombre": "Comida Dramática",
-      "archivo": "comida.html"
+      "archivo": "comida.html",
+      "img": "img/comida.jpg"
     },
     {
       "id": "zodiaco",
       "nombre": "Novelas del Zodíaco",
-      "archivo": "zodiaco.html"
+      "archivo": "zodiaco.html",
+      "img": "img/zodiaco.jpg"
     },
     {
       "id": "animales",
       "nombre": "Animales Salvajes",
-      "archivo": "animales.html"
+      "archivo": "animales.html",
+      "img": "img/animales.jpg"
     },
     {
       "id": "objetos",
       "nombre": "POV Objetos con Vida",
-      "archivo": "objetos.html"
+      "archivo": "objetos.html",
+      "img": "img/objetos.jpg"
     },
     {
       "id": "terror",
       "nombre": "Micro-Terror",
-      "archivo": "terror.html"
+      "archivo": "terror.html",
+      "img": "img/terror.jpg"
     },
     {
       "id": "fabulas",
       "nombre": "Fábulas con Moraleja",
-      "archivo": "fabulas.html"
+      "archivo": "fabulas.html",
+      "img": "img/fabulas.jpg"
     },
     {
       "id": "mitologia",
       "nombre": "Mitología Dramática",
-      "archivo": "mitologia.html"
+      "archivo": "mitologia.html",
+      "img": "img/mitologia.jpg"
     },
     {
       "id": "parabolas",
       "nombre": "Parábolas de Luz",
-      "archivo": "parabolas.html"
+      "archivo": "parabolas.html",
+      "img": "img/parabolas.jpg"
     },
     {
       "id": "tentacion",
       "nombre": "Ángel vs. Tentación",
-      "archivo": "tentacion.html"
+      "archivo": "tentacion.html",
+      "img": "img/tentacion.jpg"
     },
     {
       "id": "autos",
       "nombre": "Autos con Vida",
-      "archivo": "autos.html"
+      "archivo": "autos.html",
+      "img": "img/autos.jpg"
     },
     {
       "id": "dinosaurios",
       "nombre": "Dinosaurios Dramáticos",
-      "archivo": "dinosaurios.html"
+      "archivo": "dinosaurios.html",
+      "img": "img/dinosaurios.jpg"
     },
     {
       "id": "robots",
       "nombre": "Robots con Sentimientos",
-      "archivo": "robots.html"
+      "archivo": "robots.html",
+      "img": "img/robots.jpg"
     },
     {
       "id": "plantas",
       "nombre": "Plantas y Flores",
-      "archivo": "plantas.html"
+      "archivo": "plantas.html",
+      "img": "img/plantas.jpg"
     },
     {
       "id": "insectos",
       "nombre": "Insectos Dramáticos",
-      "archivo": "insectos.html"
+      "archivo": "insectos.html",
+      "img": "img/insectos.jpg"
     },
     {
       "id": "paises",
       "nombre": "Naciones",
-      "archivo": "paises.html"
+      "archivo": "paises.html",
+      "img": "img/paises.jpg"
     },
     {
       "id": "profesiones",
       "nombre": "Profesiones en Guerra",
-      "archivo": "profesiones.html"
+      "archivo": "profesiones.html",
+      "img": "img/profesiones.jpg"
     },
     {
       "id": "utiles",
       "nombre": "Útiles Escolares",
-      "archivo": "utiles.html"
+      "archivo": "utiles.html",
+      "img": "img/utiles.jpg"
     },
     {
       "id": "superheroes",
       "nombre": "Superhéroes Originales",
-      "archivo": "superheroes.html"
+      "archivo": "superheroes.html",
+      "img": "img/superheroes.jpg"
     },
     {
       "id": "proverbios",
       "nombre": "Proverbios del Sabio",
-      "archivo": "proverbios.html"
+      "archivo": "proverbios.html",
+      "img": "img/proverbios.jpg"
     },
     {
       "id": "redencion",
       "nombre": "Cuentos de Redención",
-      "archivo": "redencion.html"
+      "archivo": "redencion.html",
+      "img": "img/redencion.jpg"
     },
     {
       "id": "viajealma",
       "nombre": "El Viaje del Alma",
-      "archivo": "viajealma.html"
+      "archivo": "viajealma.html",
+      "img": "img/viajealma.jpg"
     },
     {
       "id": "cartas",
       "nombre": "Cartas al Cielo",
-      "archivo": "cartas.html"
+      "archivo": "cartas.html",
+      "img": "img/cartas.jpg"
     },
     {
       "id": "buenasnoches",
       "nombre": "Cuentos de Buenas Noches",
-      "archivo": "buenasnoches.html"
+      "archivo": "buenasnoches.html",
+      "img": "img/buenasnoches.jpg"
     },
     {
       "id": "valores",
       "nombre": "Aprende Valores",
-      "archivo": "valores.html"
+      "archivo": "valores.html",
+      "img": "img/valores.jpg"
     },
     {
       "id": "datos",
       "nombre": "Datos Curiosos",
-      "archivo": "datos.html"
+      "archivo": "datos.html",
+      "img": "img/datos.jpg"
     },
     {
       "id": "trabalenguas",
       "nombre": "Trabalenguas y Rimas",
-      "archivo": "trabalenguas.html"
+      "archivo": "trabalenguas.html",
+      "img": "img/trabalenguas.jpg"
     },
     {
       "id": "monstruos",
       "nombre": "Monstruos Tiernos",
-      "archivo": "monstruos.html"
+      "archivo": "monstruos.html",
+      "img": "img/monstruos.jpg"
     },
     {
       "id": "terrorurbano",
       "nombre": "Terror Urbano",
-      "archivo": "terrorurbano.html"
+      "archivo": "terrorurbano.html",
+      "img": "img/terrorurbano.jpg"
     },
     {
       "id": "reflexiones",
       "nombre": "Reflexiones Animadas",
-      "archivo": "reflexiones.html"
+      "archivo": "reflexiones.html",
+      "img": "img/reflexiones.jpg"
     },
     {
       "id": "datosmiedo",
       "nombre": "Datos que dan miedo",
-      "archivo": "datosmiedo.html"
+      "archivo": "datosmiedo.html",
+      "img": "img/datosmiedo.jpg"
+    },
+    {
+      "id": "timelapse",
+      "nombre": "Time Lapse 1 / JM BOTS",
+      "archivo": "timelapse.html",
+      "img": "img/timelapse.jpg"
+    },
+    {
+      "id": "timelapse2",
+      "nombre": "Time Lapse 2 / JM BOTS",
+      "archivo": "timelapse2.html",
+      "img": "img/timelapse2.jpg"
+    },
+    {
+      "id": "timelapse3",
+      "nombre": "Time Lapse 3 / JM BOTS",
+      "archivo": "timelapse3.html",
+      "img": "img/timelapse3.jpg"
+    },
+    {
+      "id": "podcast",
+      "nombre": "Podcast Hiperrealistas",
+      "archivo": "podcast.html",
+      "img": "img/podcast.jpg"
+    },
+    {
+      "id": "podfitness",
+      "nombre": "Podcast Fitness",
+      "archivo": "podfitness.html",
+      "img": "img/podfitness.jpg"
+    },
+    {
+      "id": "podmujeres",
+      "nombre": "Podcast Mujeres",
+      "archivo": "podmujeres.html",
+      "img": "img/podmujeres.jpg"
+    },
+    {
+      "id": "podfe",
+      "nombre": "Podcast Fe",
+      "archivo": "podfe.html",
+      "img": "img/podfe.jpg"
+    },
+    {
+      "id": "poddating",
+      "nombre": "Podcast Relaciones",
+      "archivo": "poddating.html",
+      "img": "img/poddating.jpg"
+    },
+    {
+      "id": "podnegocios",
+      "nombre": "Podcast Negocios",
+      "archivo": "podnegocios.html",
+      "img": "img/podnegocios.jpg"
+    },
+    {
+      "id": "abuelo",
+      "nombre": "Abuelo Sabio",
+      "archivo": "abuelo.html",
+      "img": "img/abuelo.jpg"
+    },
+    {
+      "id": "ninogenio",
+      "nombre": "Niño Genio",
+      "archivo": "ninogenio.html",
+      "img": "img/ninogenio.jpg"
+    },
+    {
+      "id": "atleta",
+      "nombre": "Atleta / Guerrero",
+      "archivo": "atleta.html",
+      "img": "img/atleta.jpg"
+    },
+    {
+      "id": "entrevista",
+      "nombre": "Entrevista 2 Personas",
+      "archivo": "entrevista.html",
+      "img": "img/entrevista.jpg"
+    },
+    {
+      "id": "streetint",
+      "nombre": "Street Interview",
+      "archivo": "streetint.html",
+      "img": "img/streetint.jpg"
+    },
+    {
+      "id": "storytime",
+      "nombre": "Storytime",
+      "archivo": "storytime.html",
+      "img": "img/storytime.jpg"
+    },
+    {
+      "id": "datoshablados",
+      "nombre": "Datos Curiosos Hablados",
+      "archivo": "datoshablados.html",
+      "img": "img/datoshablados.jpg"
+    },
+    {
+      "id": "woodenhands",
+      "nombre": "Wooden Hands / JM BOTS",
+      "archivo": "woodenhands.html",
+      "img": "img/woodenhands.jpg"
+    },
+    {
+      "id": "woodenhands2",
+      "nombre": "Wooden Hands v2.6 / JM BOTS",
+      "archivo": "woodenhands2.html",
+      "img": "img/woodenhands2.jpg"
+    },
+    {
+      "id": "xray",
+      "nombre": "3D X-Ray / JM BOTS",
+      "archivo": "xray.html",
+      "img": "img/xray.jpg"
+    },
+    {
+      "id": "cocinaviral",
+      "nombre": "Cocina Viral 3D / JM BOTS",
+      "archivo": "cocinaviral.html",
+      "img": "img/cocinaviral.jpg"
+    },
+    {
+      "id": "narekart",
+      "nombre": "NarekART PowerFlow / JM BOTS",
+      "archivo": "narekart.html",
+      "img": "img/narekart.jpg"
+    },
+    {
+      "id": "venganza",
+      "nombre": "Historias de Venganza / JM BOTS",
+      "archivo": "venganza.html",
+      "img": "img/venganza.jpg"
+    },
+    {
+      "id": "asmrsatisfying",
+      "nombre": "ASMR Satisfying / JM BOTS",
+      "archivo": "asmrsatisfying.html",
+      "img": "img/asmrsatisfying.jpg"
+    },
+    {
+      "id": "aifruit",
+      "nombre": "AI Fruit Universe / JM BOTS",
+      "archivo": "aifruit.html",
+      "img": "img/aifruit.jpg"
+    },
+    {
+      "id": "surreal",
+      "nombre": "Mundos Surreales / JM BOTS",
+      "archivo": "surreal.html",
+      "img": "img/surreal.jpg"
+    },
+    {
+      "id": "miniaturas",
+      "nombre": "Miniaturas / JM BOTS",
+      "archivo": "miniaturas.html",
+      "img": "img/miniaturas.jpg"
+    },
+    {
+      "id": "animalessurreal",
+      "nombre": "Animales Surreales / JM BOTS",
+      "archivo": "animalessurreal.html",
+      "img": "img/animalessurreal.jpg"
+    },
+    {
+      "id": "finanzas",
+      "nombre": "Finanzas y Dinero / JM BOTS",
+      "archivo": "finanzas.html",
+      "img": "img/finanzas.jpg"
+    },
+    {
+      "id": "techia",
+      "nombre": "Tech & IA / JM BOTS",
+      "archivo": "techia.html",
+      "img": "img/techia.jpg"
+    },
+    {
+      "id": "saludbienestar",
+      "nombre": "Salud & Bienestar / JM BOTS",
+      "archivo": "saludbienestar.html",
+      "img": "img/saludbienestar.jpg"
+    },
+    {
+      "id": "negociosfaceless",
+      "nombre": "Negocios y Emprender / JM BOTS",
+      "archivo": "negociosfaceless.html",
+      "img": "img/negociosfaceless.jpg"
+    },
+    {
+      "id": "reddit",
+      "nombre": "Reddit Stories / JM BOTS",
+      "archivo": "reddit.html",
+      "img": "img/reddit.jpg"
+    },
+    {
+      "id": "truecrime",
+      "nombre": "True Crime y Misterios / JM BOTS",
+      "archivo": "truecrime.html",
+      "img": "img/truecrime.jpg"
+    },
+    {
+      "id": "povcine",
+      "nombre": "POV Cinematográfico / JM BOTS",
+      "archivo": "povcine.html",
+      "img": "img/povcine.jpg"
+    },
+    {
+      "id": "tiendashop",
+      "nombre": "Producto y Shop / JM BOTS",
+      "archivo": "tiendashop.html",
+      "img": "img/tiendashop.jpg"
+    },
+    {
+      "id": "streetpro",
+      "nombre": "Street Interview Pro / JM BOTS",
+      "archivo": "streetpro.html",
+      "img": "img/streetpro.jpg"
+    },
+    {
+      "id": "criaturas",
+      "nombre": "Vlogs de Criaturas / JM BOTS",
+      "archivo": "criaturas.html",
+      "img": "img/criaturas.jpg"
+    },
+    {
+      "id": "motivacion",
+      "nombre": "Motivación y Disciplina / JM BOTS",
+      "archivo": "motivacion.html",
+      "img": "img/motivacion.jpg"
+    },
+    {
+      "id": "procesos",
+      "nombre": "Procesos Satisfying / JM BOTS",
+      "archivo": "procesos.html",
+      "img": "img/procesos.jpg"
+    },
+    {
+      "id": "historiacuriosa",
+      "nombre": "Historia y Curiosidades / JM BOTS",
+      "archivo": "historiacuriosa.html",
+      "img": "img/historiacuriosa.jpg"
+    },
+    {
+      "id": "fractura",
+      "nombre": "Fractura / JM BOTS",
+      "archivo": "fractura.html",
+      "img": "img/fractura.jpg"
+    },
+    {
+      "id": "explainer",
+      "nombre": "Explainer Deportivo / JM BOTS",
+      "archivo": "explainer.html",
+      "img": "img/explainer.jpg"
+    },
+    {
+      "id": "montanarusa",
+      "nombre": "Montaña Rusa POV / JM BOTS",
+      "archivo": "montanarusa.html",
+      "img": "img/montanarusa.jpg"
+    },
+    {
+      "id": "mundovegetal",
+      "nombre": "Mundo Vegetal / JM BOTS",
+      "archivo": "mundovegetal.html",
+      "img": "img/mundovegetal.jpg"
+    },
+    {
+      "id": "resinadiy",
+      "nombre": "Resina y DIY / JM BOTS",
+      "archivo": "resinadiy.html",
+      "img": "img/resinadiy.jpg"
+    },
+    {
+      "id": "timelapseobra",
+      "nombre": "Timelapse Construcción / JM BOTS",
+      "archivo": "timelapseobra.html",
+      "img": "img/timelapseobra.jpg"
+    },
+    {
+      "id": "dreamnostalgia",
+      "nombre": "Dream Nostalgia / JM BOTS",
+      "archivo": "dreamnostalgia.html",
+      "img": "img/dreamnostalgia.jpg"
+    },
+    {
+      "id": "cartoonkids",
+      "nombre": "Cartoon Kids / JM BOTS",
+      "archivo": "cartoonkids.html",
+      "img": "img/cartoonkids.jpg"
+    },
+    {
+      "id": "rescateanimal",
+      "nombre": "Rescate Animal / JM BOTS",
+      "archivo": "rescateanimal.html",
+      "img": "img/rescateanimal.jpg"
+    },
+    {
+      "id": "junglabunker",
+      "nombre": "Supervivencia Jungla / JM BOTS",
+      "archivo": "junglabunker.html",
+      "img": "img/junglabunker.jpg"
     }
   ],
   "accesos": {
-    "jonatanmonzon1126@gmail.com": [
-      "outliers",
-      "historias",
-      "milagros",
-      "relatos",
-      "glam",
-      "frutas",
-      "novelas",
-      "analizador",
-      "mascotas",
-      "comida",
-      "zodiaco",
-      "animales",
-      "objetos",
-      "terror",
-      "fabulas",
-      "mitologia",
-      "parabolas",
-      "tentacion",
-      "autos",
-      "dinosaurios",
-      "robots",
-      "plantas",
-      "insectos",
-      "paises",
-      "profesiones",
-      "utiles",
-      "superheroes",
-      "proverbios",
-      "redencion",
-      "viajealma",
-      "cartas",
-      "buenasnoches",
-      "valores",
-      "datos",
-      "trabalenguas",
-      "monstruos",
-      "terrorurbano",
-      "reflexiones",
-      "datosmiedo"
-    ],
-    "diegoasalazarc70@gmail.com": [
-      "outliers",
-      "mascotas",
-      "analizador",
-      "zodiaco",
-      "animales",
-      "fabulas",
-      "mitologia",
-      "glam",
-      "frutas",
-      "comida",
-      "objetos",
-      "parabolas",
-      "robots",
-      "profesiones",
-      "proverbios",
-      "buenasnoches",
-      "trabalenguas",
-      "monstruos",
-      "valores",
-      "redencion",
-      "utiles",
-      "plantas",
-      "tentacion",
-      "terror",
-      "autos",
-      "insectos",
-      "superheroes",
-      "viajealma",
-      "datos",
-      "terrorurbano",
-      "cartas",
-      "paises",
-      "dinosaurios",
-      "datosmiedo",
-      "reflexiones"
-    ],
     "joxcimars2016@gmail.com": [
       "outliers",
       "glam",
@@ -335,7 +596,57 @@
       "viajealma",
       "datos",
       "terrorurbano",
-      "datosmiedo"
+      "datosmiedo",
+      "timelapse",
+      "timelapse2",
+      "timelapse3",
+      "podcast",
+      "podfitness",
+      "podmujeres",
+      "podfe",
+      "poddating",
+      "podnegocios",
+      "abuelo",
+      "ninogenio",
+      "atleta",
+      "entrevista",
+      "streetint",
+      "storytime",
+      "datoshablados",
+      "woodenhands",
+      "woodenhands2",
+      "xray",
+      "cocinaviral",
+      "narekart",
+      "venganza",
+      "asmrsatisfying",
+      "aifruit",
+      "surreal",
+      "miniaturas",
+      "animalessurreal",
+      "finanzas",
+      "techia",
+      "saludbienestar",
+      "negociosfaceless",
+      "reddit",
+      "truecrime",
+      "povcine",
+      "tiendashop",
+      "streetpro",
+      "criaturas",
+      "motivacion",
+      "procesos",
+      "historiacuriosa",
+      "fractura",
+      "explainer",
+      "montanarusa",
+      "mundovegetal",
+      "resinadiy",
+      "timelapseobra",
+      "dreamnostalgia",
+      "cartoonkids",
+      "rescateanimal",
+      "junglabunker"
     ],
     "ayala.luis@correounivalle.edu.co": [
       "outliers",
@@ -372,7 +683,57 @@
       "cartas",
       "animales",
       "zodiaco",
-      "datosmiedo"
+      "datosmiedo",
+      "timelapse",
+      "timelapse2",
+      "timelapse3",
+      "podcast",
+      "podfitness",
+      "podmujeres",
+      "podfe",
+      "poddating",
+      "podnegocios",
+      "abuelo",
+      "ninogenio",
+      "atleta",
+      "entrevista",
+      "streetint",
+      "storytime",
+      "datoshablados",
+      "woodenhands",
+      "woodenhands2",
+      "xray",
+      "cocinaviral",
+      "narekart",
+      "venganza",
+      "asmrsatisfying",
+      "aifruit",
+      "surreal",
+      "miniaturas",
+      "animalessurreal",
+      "finanzas",
+      "techia",
+      "saludbienestar",
+      "negociosfaceless",
+      "reddit",
+      "truecrime",
+      "povcine",
+      "tiendashop",
+      "streetpro",
+      "criaturas",
+      "motivacion",
+      "procesos",
+      "historiacuriosa",
+      "fractura",
+      "explainer",
+      "montanarusa",
+      "mundovegetal",
+      "resinadiy",
+      "timelapseobra",
+      "dreamnostalgia",
+      "cartoonkids",
+      "rescateanimal",
+      "junglabunker"
     ],
     "febreromonetiza10@gmail.com": [
       "outliers",
@@ -442,9 +803,7 @@
       "cartas",
       "paises",
       "dinosaurios",
-      "mitologia",
-      "datosmiedo",
-      "reflexiones"
+      "mitologia"
     ],
     "valdesingrid258@gmail.com": [
       "outliers",
@@ -479,9 +838,7 @@
       "cartas",
       "paises",
       "dinosaurios",
-      "mitologia",
-      "datosmiedo",
-      "reflexiones"
+      "mitologia"
     ],
     "maricuenta727@gmail.com": [
       "outliers",
@@ -516,9 +873,7 @@
       "monstruos",
       "buenasnoches",
       "trabalenguas",
-      "objetos",
-      "datosmiedo",
-      "reflexiones"
+      "objetos"
     ],
     "libertopiemoran@gmail.com": [
       "outliers",
@@ -555,7 +910,57 @@
       "buenasnoches",
       "trabalenguas",
       "reflexiones",
-      "datosmiedo"
+      "datosmiedo",
+      "timelapse",
+      "timelapse2",
+      "timelapse3",
+      "podcast",
+      "podfitness",
+      "podmujeres",
+      "podfe",
+      "poddating",
+      "podnegocios",
+      "abuelo",
+      "ninogenio",
+      "atleta",
+      "entrevista",
+      "streetint",
+      "storytime",
+      "datoshablados",
+      "woodenhands",
+      "woodenhands2",
+      "xray",
+      "cocinaviral",
+      "narekart",
+      "venganza",
+      "asmrsatisfying",
+      "aifruit",
+      "surreal",
+      "miniaturas",
+      "animalessurreal",
+      "finanzas",
+      "techia",
+      "saludbienestar",
+      "negociosfaceless",
+      "reddit",
+      "truecrime",
+      "povcine",
+      "tiendashop",
+      "streetpro",
+      "criaturas",
+      "motivacion",
+      "procesos",
+      "historiacuriosa",
+      "fractura",
+      "explainer",
+      "montanarusa",
+      "mundovegetal",
+      "resinadiy",
+      "timelapseobra",
+      "dreamnostalgia",
+      "cartoonkids",
+      "rescateanimal",
+      "junglabunker"
     ],
     "alexandersamchez000000@gmail.com": [
       "outliers",
@@ -590,9 +995,7 @@
       "cartas",
       "tentacion",
       "zodiaco",
-      "paises",
-      "datosmiedo",
-      "reflexiones"
+      "paises"
     ],
     "andresportillo371@gmail.com": [
       "outliers",
@@ -628,7 +1031,57 @@
       "buenasnoches",
       "reflexiones",
       "mascotas",
-      "datosmiedo"
+      "datosmiedo",
+      "timelapse",
+      "timelapse2",
+      "timelapse3",
+      "podcast",
+      "podfitness",
+      "podmujeres",
+      "podfe",
+      "poddating",
+      "podnegocios",
+      "abuelo",
+      "ninogenio",
+      "atleta",
+      "entrevista",
+      "streetint",
+      "storytime",
+      "datoshablados",
+      "woodenhands",
+      "woodenhands2",
+      "xray",
+      "cocinaviral",
+      "narekart",
+      "venganza",
+      "asmrsatisfying",
+      "aifruit",
+      "surreal",
+      "miniaturas",
+      "animalessurreal",
+      "finanzas",
+      "techia",
+      "saludbienestar",
+      "negociosfaceless",
+      "reddit",
+      "truecrime",
+      "povcine",
+      "tiendashop",
+      "streetpro",
+      "criaturas",
+      "motivacion",
+      "procesos",
+      "historiacuriosa",
+      "fractura",
+      "explainer",
+      "montanarusa",
+      "mundovegetal",
+      "resinadiy",
+      "timelapseobra",
+      "dreamnostalgia",
+      "cartoonkids",
+      "rescateanimal",
+      "junglabunker"
     ],
     "darioperezlindo77@gmail.com": [
       "outliers",
@@ -663,9 +1116,7 @@
       "proverbios",
       "buenasnoches",
       "trabalenguas",
-      "glam",
-      "datosmiedo",
-      "reflexiones"
+      "glam"
     ],
     "almareflexiva46@gmail.com": [
       "outliers",
@@ -700,9 +1151,7 @@
       "cartas",
       "terror",
       "zodiaco",
-      "analizador",
-      "datosmiedo",
-      "reflexiones"
+      "analizador"
     ],
     "edison.herrera.m@gmail.com": [
       "outliers",
@@ -739,7 +1188,57 @@
       "dinosaurios",
       "paises",
       "cartas",
-      "datosmiedo"
+      "datosmiedo",
+      "timelapse",
+      "timelapse2",
+      "timelapse3",
+      "podcast",
+      "podfitness",
+      "podmujeres",
+      "podfe",
+      "poddating",
+      "podnegocios",
+      "abuelo",
+      "ninogenio",
+      "atleta",
+      "entrevista",
+      "streetint",
+      "storytime",
+      "datoshablados",
+      "woodenhands",
+      "woodenhands2",
+      "xray",
+      "cocinaviral",
+      "narekart",
+      "venganza",
+      "asmrsatisfying",
+      "aifruit",
+      "surreal",
+      "miniaturas",
+      "animalessurreal",
+      "finanzas",
+      "techia",
+      "saludbienestar",
+      "negociosfaceless",
+      "reddit",
+      "truecrime",
+      "povcine",
+      "tiendashop",
+      "streetpro",
+      "criaturas",
+      "motivacion",
+      "procesos",
+      "historiacuriosa",
+      "fractura",
+      "explainer",
+      "montanarusa",
+      "mundovegetal",
+      "resinadiy",
+      "timelapseobra",
+      "dreamnostalgia",
+      "cartoonkids",
+      "rescateanimal",
+      "junglabunker"
     ],
     "osmedyalexander@gmail.com": [
       "outliers",
@@ -776,7 +1275,57 @@
       "paises",
       "cartas",
       "reflexiones",
-      "datosmiedo"
+      "datosmiedo",
+      "timelapse",
+      "timelapse2",
+      "timelapse3",
+      "podcast",
+      "podfitness",
+      "podmujeres",
+      "podfe",
+      "poddating",
+      "podnegocios",
+      "abuelo",
+      "ninogenio",
+      "atleta",
+      "entrevista",
+      "streetint",
+      "storytime",
+      "datoshablados",
+      "woodenhands",
+      "woodenhands2",
+      "xray",
+      "cocinaviral",
+      "narekart",
+      "venganza",
+      "asmrsatisfying",
+      "aifruit",
+      "surreal",
+      "miniaturas",
+      "animalessurreal",
+      "finanzas",
+      "techia",
+      "saludbienestar",
+      "negociosfaceless",
+      "reddit",
+      "truecrime",
+      "povcine",
+      "tiendashop",
+      "streetpro",
+      "criaturas",
+      "motivacion",
+      "procesos",
+      "historiacuriosa",
+      "fractura",
+      "explainer",
+      "montanarusa",
+      "mundovegetal",
+      "resinadiy",
+      "timelapseobra",
+      "dreamnostalgia",
+      "cartoonkids",
+      "rescateanimal",
+      "junglabunker"
     ],
     "nichomedia3@gmail.com": [
       "outliers",
@@ -811,9 +1360,7 @@
       "profesiones",
       "proverbios",
       "buenasnoches",
-      "trabalenguas",
-      "datosmiedo",
-      "reflexiones"
+      "trabalenguas"
     ],
     "venturajosee@gmail.com": [
       "outliers",
@@ -848,9 +1395,7 @@
       "tentacion",
       "terror",
       "zodiaco",
-      "analizador",
-      "datosmiedo",
-      "reflexiones"
+      "analizador"
     ],
     "edu53554@gmail.com": [
       "outliers",
@@ -885,9 +1430,7 @@
       "cartas",
       "terrorurbano",
       "animales",
-      "glam",
-      "datosmiedo",
-      "reflexiones"
+      "glam"
     ],
     "pomam7073@gmail.com": [
       "outliers",
@@ -922,46 +1465,7 @@
       "parabolas",
       "objetos",
       "comida",
-      "frutas",
-      "datosmiedo",
-      "reflexiones"
-    ],
-    "damafelicali@gmail.com": [
-      "outliers",
-      "monstruos",
-      "valores",
-      "redencion",
-      "utiles",
-      "plantas",
-      "tentacion",
-      "terror",
-      "zodiaco",
-      "terrorurbano",
-      "datos",
-      "viajealma",
-      "superheroes",
-      "insectos",
-      "autos",
-      "fabulas",
-      "animales",
-      "mascotas",
-      "mitologia",
-      "dinosaurios",
-      "cartas",
-      "trabalenguas",
-      "buenasnoches",
-      "proverbios",
-      "profesiones",
-      "robots",
-      "parabolas",
-      "objetos",
-      "comida",
-      "frutas",
-      "analizador",
-      "glam",
-      "paises",
-      "reflexiones",
-      "datosmiedo"
+      "frutas"
     ],
     "patchmx@gmail.com": [
       "outliers",
@@ -998,7 +1502,57 @@
       "autos",
       "terror",
       "reflexiones",
-      "datosmiedo"
+      "datosmiedo",
+      "timelapse",
+      "timelapse2",
+      "timelapse3",
+      "podcast",
+      "podfitness",
+      "podmujeres",
+      "podfe",
+      "poddating",
+      "podnegocios",
+      "abuelo",
+      "ninogenio",
+      "atleta",
+      "entrevista",
+      "streetint",
+      "storytime",
+      "datoshablados",
+      "woodenhands",
+      "woodenhands2",
+      "xray",
+      "cocinaviral",
+      "narekart",
+      "venganza",
+      "asmrsatisfying",
+      "aifruit",
+      "surreal",
+      "miniaturas",
+      "animalessurreal",
+      "finanzas",
+      "techia",
+      "saludbienestar",
+      "negociosfaceless",
+      "reddit",
+      "truecrime",
+      "povcine",
+      "tiendashop",
+      "streetpro",
+      "criaturas",
+      "motivacion",
+      "procesos",
+      "historiacuriosa",
+      "fractura",
+      "explainer",
+      "montanarusa",
+      "mundovegetal",
+      "resinadiy",
+      "timelapseobra",
+      "dreamnostalgia",
+      "cartoonkids",
+      "rescateanimal",
+      "junglabunker"
     ],
     "miguelyfer1985@gmail.com": [
       "outliers",
@@ -1035,7 +1589,57 @@
       "monstruos",
       "terrorurbano",
       "reflexiones",
-      "datosmiedo"
+      "datosmiedo",
+      "timelapse",
+      "timelapse2",
+      "timelapse3",
+      "podcast",
+      "podfitness",
+      "podmujeres",
+      "podfe",
+      "poddating",
+      "podnegocios",
+      "abuelo",
+      "ninogenio",
+      "atleta",
+      "entrevista",
+      "streetint",
+      "storytime",
+      "datoshablados",
+      "woodenhands",
+      "woodenhands2",
+      "xray",
+      "cocinaviral",
+      "narekart",
+      "venganza",
+      "asmrsatisfying",
+      "aifruit",
+      "surreal",
+      "miniaturas",
+      "animalessurreal",
+      "finanzas",
+      "techia",
+      "saludbienestar",
+      "negociosfaceless",
+      "reddit",
+      "truecrime",
+      "povcine",
+      "tiendashop",
+      "streetpro",
+      "criaturas",
+      "motivacion",
+      "procesos",
+      "historiacuriosa",
+      "fractura",
+      "explainer",
+      "montanarusa",
+      "mundovegetal",
+      "resinadiy",
+      "timelapseobra",
+      "dreamnostalgia",
+      "cartoonkids",
+      "rescateanimal",
+      "junglabunker"
     ]
   }
 }
