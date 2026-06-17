@@ -186,15 +186,16 @@
   @media (prefers-reduced-motion:reduce){*{animation:none!important;transition:none!important}}
 
   /* Pantalla de acceso (login con Google) */
-  .gate{position:fixed;inset:0;z-index:1000;display:flex;align-items:center;justify-content:center;padding:22px;
+  .gate{position:fixed;inset:0;z-index:1000;display:flex;align-items:center;justify-content:center;padding:22px;overflow:hidden;
         background:
           radial-gradient(1100px 520px at 50% -8%, rgba(77,141,255,.12), transparent 62%),
           radial-gradient(900px 480px at 88% 8%, rgba(231,184,92,.08), transparent 60%),
           var(--bg)}
   .gate.hidden{display:none}
-  .gatebox{max-width:380px;width:100%;text-align:center;background:var(--bg2);
-           border:1px solid var(--line);border-radius:var(--radius);padding:34px 28px;
-           box-shadow:0 30px 70px rgba(0,0,0,.55)}
+  .gatebox{position:relative;z-index:3;max-width:400px;width:100%;text-align:center;
+           background:rgba(12,15,23,.74);-webkit-backdrop-filter:blur(16px) saturate(1.2);backdrop-filter:blur(16px) saturate(1.2);
+           border:1px solid rgba(231,184,92,.22);border-radius:var(--radius);padding:36px 30px;
+           box-shadow:0 40px 90px rgba(0,0,0,.7),0 0 0 1px rgba(255,255,255,.03) inset}
   .gatebox .brand{font-size:22px;margin-bottom:4px}
   .gatebox h2{font-family:var(--display);color:var(--ink);margin:16px 0 8px;font-size:22px;font-weight:700}
   .gatebox p{color:var(--muted);font-size:14px;margin:0 0 22px}
@@ -203,6 +204,36 @@
   .gfeats span{font-family:var(--mono);font-size:10.5px;color:var(--muted);border:1px solid var(--line);border-radius:20px;padding:5px 11px;background:var(--bg3)}
   #gbtn{display:flex;justify-content:center;min-height:44px}
   .gmsg{color:var(--gold);font-family:var(--mono);font-size:12.5px;margin:18px 0 0!important;min-height:18px}
+  /* ░░ Mosaico cinematográfico del login ░░ */
+  @property --gang{syntax:"<angle>";initial-value:0deg;inherits:false}
+  #gatebg{position:absolute;inset:-14%;z-index:0;display:flex;flex-direction:column;justify-content:center;gap:18px;transform:rotate(-4deg) scale(1.32);opacity:.62;filter:saturate(1.15);pointer-events:none}
+  #gatebg .grow{display:flex;gap:18px;width:max-content;flex:0 0 auto;will-change:transform}
+  #gatebg .grow.r0{animation:gslideA 86s linear infinite}
+  #gatebg .grow.r1{animation:gslideB 118s linear infinite}
+  #gatebg .grow.r2{animation:gslideA 99s linear infinite}
+  #gatebg .grow.r3{animation:gslideB 132s linear infinite}
+  #gatebg .grow.r4{animation:gslideA 92s linear infinite}
+  @keyframes gslideA{from{transform:translateX(0)}to{transform:translateX(-50%)}}
+  @keyframes gslideB{from{transform:translateX(-50%)}to{transform:translateX(0)}}
+  #gatebg .gtile{position:relative;flex:0 0 auto;width:248px;height:139px;border-radius:14px;overflow:hidden;border:1px solid rgba(255,255,255,.07);box-shadow:0 10px 34px rgba(0,0,0,.45)}
+  #gatebg .gtile .gt-bg{position:absolute;inset:0}
+  #gatebg .gtile::after{content:"";position:absolute;inset:0;z-index:1;background:linear-gradient(180deg,rgba(0,0,0,0) 42%,rgba(0,0,0,.55))}
+  #gatebg .gtile img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;display:block}
+  #gatebg .gtile .gt-nm{position:absolute;left:10px;right:10px;bottom:8px;z-index:2;font-family:var(--display,Sora,sans-serif);font-weight:800;font-size:12px;color:#fff;line-height:1.12;text-shadow:0 2px 6px rgba(0,0,0,.85)}
+  .gateveil{position:absolute;inset:0;z-index:1;pointer-events:none;background:radial-gradient(78% 72% at 50% 46%, rgba(6,8,13,.20), rgba(6,8,13,.74) 58%, rgba(4,5,10,.97) 100%),linear-gradient(180deg, rgba(77,141,255,.07), transparent 26%, transparent 72%, rgba(231,184,92,.07))}
+  .gateglow{position:absolute;z-index:2;width:640px;height:640px;left:50%;top:50%;transform:translate(-50%,-50%);pointer-events:none;background:radial-gradient(circle, rgba(231,184,92,.18), rgba(122,90,248,.12) 38%, transparent 68%);filter:blur(28px)}
+  .gatebox{animation:gIn .75s cubic-bezier(.2,.8,.2,1) both}
+  .gatebox::before{content:"";position:absolute;inset:-6px;border-radius:calc(var(--radius) + 8px);z-index:-1;background:conic-gradient(from var(--gang), #E7B85C, #7A5AF8, #4D8DFF, #2BD4A8, #E7B85C);filter:blur(16px);opacity:.5;animation:gang 9s linear infinite}
+  @keyframes gang{to{--gang:360deg}}
+  @keyframes gIn{from{opacity:0;transform:translateY(20px) scale(.965)}to{opacity:1;transform:none}}
+  .gpill{display:inline-block;font-family:var(--mono);font-size:10px;letter-spacing:.14em;text-transform:uppercase;color:var(--gold2);background:rgba(231,184,92,.09);border:1px solid rgba(231,184,92,.30);border-radius:999px;padding:6px 13px;margin-bottom:15px}
+  .gpill #gcount{color:#fff;font-weight:700}
+  .gbrand{font-size:30px!important;font-weight:800;letter-spacing:-.02em;margin-bottom:4px!important}
+  .gbrand .ol{background:linear-gradient(100deg,#E7B85C,#F8DA8E 42%,#E7B85C 84%);-webkit-background-clip:text;background-clip:text;-webkit-text-fill-color:transparent;background-size:200% auto;animation:shine 5s linear infinite}
+  @keyframes shine{to{background-position:200% center}}
+  .gfeats span{transition:border-color .15s,color .15s}
+  .gfeats span:hover{border-color:rgba(231,184,92,.45);color:var(--ink)}
+  @media (prefers-reduced-motion:reduce){#gatebg .grow,.gatebox::before,.gbrand .ol,.gatebox{animation:none}}
   #logout{display:none}
   /* ═══ Pestañas y vistas ═══ */
   .tabs{display:flex;gap:8px;flex-wrap:wrap;margin:24px 0 4px}
@@ -497,9 +528,9 @@
   .appsmenu a .dot{font-size:11px;color:var(--lime)}
   #appsBtn{cursor:pointer}
   /* ── Panel flotante "Mis apps" (igual que las sub-apps) ── */
-  #jmov{position:fixed;inset:0;z-index:100000;display:none;align-items:center;justify-content:center;background:rgba(3,4,8,.78);-webkit-backdrop-filter:blur(7px);backdrop-filter:blur(7px);padding:18px}
+  #jmov{position:fixed;inset:0;z-index:100000;display:none;align-items:stretch;justify-content:stretch;background:rgba(3,4,8,.92);-webkit-backdrop-filter:blur(7px);backdrop-filter:blur(7px);padding:0}
   #jmov.open{display:flex}
-  #jmpanel{width:100%;max-width:820px;max-height:86vh;display:flex;flex-direction:column;background:linear-gradient(180deg,#0d1018,#080a11);border:1px solid #2a2f45;border-radius:18px;box-shadow:0 40px 110px rgba(0,0,0,.75);overflow:hidden;animation:jmpop .22s ease}
+  #jmpanel{width:100%;max-width:100%;height:100%;max-height:100%;display:flex;flex-direction:column;background:linear-gradient(180deg,#0d1018,#080a11);border:0;border-radius:0;box-shadow:none;overflow:hidden;animation:jmpop .22s ease}
   @keyframes jmpop{from{opacity:0;transform:translateY(14px) scale(.985)}to{opacity:1;transform:none}}
   #jmpanel .jmhead{display:flex;align-items:center;justify-content:space-between;padding:18px 20px 14px;border-bottom:1px solid #1c2238;background:rgba(231,184,92,.04)}
   #jmpanel .jmttl{font-family:var(--display,Sora,system-ui,sans-serif);font-weight:800;font-size:17px;color:#F6F8FE;display:flex;align-items:center;gap:9px}
@@ -507,7 +538,7 @@
   #jmpanel .jmttl small{font-family:var(--mono,monospace);font-size:11px;color:#828DA6;font-weight:500}
   #jmpanel .jmx{cursor:pointer;border:1px solid #2a2f45;background:#11141f;color:#C7CEDE;border-radius:9px;width:34px;height:34px;display:flex;align-items:center;justify-content:center;font-size:15px;transition:.15s}
   #jmpanel .jmx:hover{border-color:#FF7A9C;color:#FF7A9C}
-  #jmscroll{overflow:auto;padding:18px 20px 8px}
+  #jmscroll{flex:1;overflow:auto;padding:22px 30px 14px}
   #jmgrid{display:grid;grid-template-columns:repeat(4,1fr);gap:14px}
   @media (max-width:680px){#jmgrid{grid-template-columns:repeat(3,1fr)}}
   @media (max-width:440px){#jmgrid{grid-template-columns:repeat(2,1fr)}}
@@ -526,8 +557,9 @@
   #jmpanel .jmfoot a{color:#828DA6;text-decoration:none;font-family:var(--mono,monospace);font-size:12px}
   #jmpanel .jmfoot a:hover{color:#FF7A9C}
   #jmgrid{display:block}
-  .secgrid{display:grid;grid-template-columns:repeat(4,1fr);gap:14px}
-  @media (max-width:680px){.secgrid{grid-template-columns:repeat(3,1fr)}}
+  .secgrid{display:grid;grid-template-columns:repeat(4,1fr);gap:20px}
+  @media (max-width:1100px){.secgrid{grid-template-columns:repeat(3,1fr)}}
+  @media (max-width:700px){.secgrid{grid-template-columns:repeat(2,1fr)}}
   @media (max-width:440px){.secgrid{grid-template-columns:repeat(2,1fr)}}
   #jmfilters{display:flex;gap:7px;flex-wrap:wrap;padding:2px 20px 12px}
   #jmfilters .fchip{cursor:pointer;font-family:var(--mono,monospace);font-size:11px;color:#C7CEDE;background:#11141f;border:1px solid #2a2f45;border-radius:999px;padding:6px 11px}
@@ -570,6 +602,22 @@
   .uchecks{display:flex;flex-wrap:wrap;gap:9px 18px}
   .achk{display:inline-flex;align-items:center;gap:6px;font-size:13px;color:var(--body);cursor:pointer}
   .achk input{accent-color:var(--gold);width:15px;height:15px}
+  /* ░░ Renombrador de miniaturas (solo admin) ░░ */
+  .minidrop{border:2px dashed var(--line);border-radius:14px;padding:28px 18px;text-align:center;background:var(--bg2);cursor:pointer;transition:.15s;margin-top:6px}
+  .minidrop:hover,.minidrop.over{border-color:var(--gold);background:var(--bg3)}
+  .minidrop b{color:var(--ink)} .minidrop small{display:block;color:var(--muted);font-family:var(--mono);font-size:11px;margin-top:7px}
+  .minibar{display:flex;gap:12px;align-items:center;flex-wrap:wrap;background:var(--bg2);border:1px solid var(--line);border-radius:12px;padding:11px 13px;margin:14px 0}
+  .minibar .mc{font-family:var(--mono);font-size:13px} .minibar .mc b{color:var(--gold2)} .minibar .mw{color:var(--gold);font-family:var(--mono);font-size:12px}
+  .mbtn:disabled{opacity:.45;cursor:not-allowed}
+  .minigrid{display:grid;grid-template-columns:repeat(auto-fill,minmax(210px,1fr));gap:13px}
+  .minicard{background:var(--bg2);border:1px solid var(--line);border-radius:13px;overflow:hidden}
+  .minicard.ok{border-color:rgba(91,227,154,.5)} .minicard.dup{border-color:#FF7A9C}
+  .minith{position:relative;width:100%;aspect-ratio:16/9;background:var(--bg3);overflow:hidden}
+  .minith img{width:100%;height:100%;object-fit:cover;display:block}
+  .minith .mt{position:absolute;top:6px;left:6px;font-family:var(--mono);font-size:9px;color:#0a0d14;background:var(--gold);border-radius:5px;padding:2px 6px;max-width:90%;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+  .minicb{padding:9px} .minicb .mfn{font-family:var(--mono);font-size:10px;color:var(--muted);white-space:nowrap;overflow:hidden;text-overflow:ellipsis;margin-bottom:7px}
+  .minicb select{width:100%;background:var(--bg3);border:1px solid var(--line);color:var(--ink);border-radius:8px;padding:8px;font-family:var(--display);font-size:12.5px}
+  .minicb .mr{font-family:var(--mono);font-size:11px;margin-top:6px;min-height:13px;color:var(--muted)} .minicb .mr.set{color:#5BE39A} .minicb .mr.err{color:#FF7A9C}
 </style>
 </head>
 <body>
@@ -578,8 +626,12 @@
 
 <!-- Pantalla de acceso: cubre todo hasta que entres con un Google autorizado -->
 <div class="gate" id="gate">
+  <div id="gatebg" aria-hidden="true"></div>
+  <div class="gateveil" aria-hidden="true"></div>
+  <div class="gateglow" aria-hidden="true"></div>
   <div class="gatebox">
-    <div class="brand">JM<span class="ol"> Studio</span></div>
+    <div class="gpill">✦ Suite privada · <span id="gcount">89</span> herramientas con IA</div>
+    <div class="brand gbrand">JM<span class="ol"> Studio</span></div>
     <div class="gtag">Suite de creación de contenido viral con IA</div>
     <h2>Acceso privado</h2>
     <p>Analizá videos y generá guiones, personajes y prompts para Veo 3 en decenas de nichos. Iniciá sesión con tu cuenta de Google autorizada.</p>
@@ -629,6 +681,7 @@
     <button class="tab" data-view="historial" onclick="mostrarVista('historial')">🕘 Historial</button>
     <button class="tab" data-view="guiones" onclick="mostrarVista('guiones')">📝 Mis guiones</button>
     <button class="tab" id="tab-admin" data-view="admin" onclick="mostrarVista('admin')" style="display:none">🛡 Admin</button>
+    <button class="tab" id="tab-mini" data-view="mini" onclick="mostrarVista('mini')" style="display:none">🖼 Miniaturas</button>
   </nav>
 
   <div id="view-buscar" class="view">
@@ -778,6 +831,14 @@
     </div>
   </div>
 
+  <div id="view-mini" class="view" hidden>
+    <h2 class="vtitle">🖼 Renombrar miniaturas</h2>
+    <p class="vsub">Arrastrá las imágenes que generaste, elegí a qué app es cada una y descargá la carpeta <b>img</b> con todo renombrado a <code>&lt;id&gt;.jpg</code>, lista para subir al repo. Todo pasa en tu navegador: las imágenes no se suben a ningún lado.</p>
+    <div class="minidrop" id="miniDrop"><b>📥 Soltá tus imágenes acá</b> o tocá para elegirlas<small>Podés seleccionar muchas a la vez · JPG / PNG / WEBP</small><input type="file" id="miniFile" accept="image/*" multiple hidden></div>
+    <div class="minibar"><span class="mc" id="miniCount">0 imágenes · <b>0</b> asignadas</span><span class="mw" id="miniWarn"></span><span style="flex:1"></span><button class="btn-gold mbtn" id="miniClear" type="button">Limpiar</button><button class="btn-gold mbtn" id="miniDl" type="button" disabled>⬇ Descargar carpeta img (.zip)</button></div>
+    <div class="minigrid" id="miniGrid"><div class="empty2">Todavía no cargaste imágenes.</div></div>
+  </div>
+
   <footer>JM<b>-analitic-youtube-chanel</b> · corre en tu navegador · datos vía YouTube API + análisis con IA</footer>
 </div>
 
@@ -835,7 +896,7 @@ function onGoogleLogin(resp){
     USER_EMAIL = email;
     const isAdmin = ADMINS.map(a => String(a).trim().toLowerCase()).includes(email);
     if(isAdmin){
-      $('#tab-admin').style.display = '';
+      $('#tab-admin').style.display = ''; $('#tab-mini').style.display = '';
       ADMIN_LIST = AUTORIZADOS.slice();
       ADMIN_APPS = APPS.map(a => a.img ? {id:a.id, nombre:a.nombre, archivo:a.archivo, img:a.img} : {id:a.id, nombre:a.nombre, archivo:a.archivo});
       ADMIN_ACCESOS = {}; for(const k in ACCESOS) ADMIN_ACCESOS[k] = ACCESOS[k].slice();
@@ -868,7 +929,7 @@ function resumeSession(){
   USER_EMAIL = email;
   const isAdmin = ADMINS.map(a => String(a).trim().toLowerCase()).includes(email);
   if(isAdmin){
-    $('#tab-admin').style.display = '';
+    $('#tab-admin').style.display = ''; $('#tab-mini').style.display = '';
     ADMIN_LIST = AUTORIZADOS.slice();
     ADMIN_APPS = APPS.map(a => a.img ? {id:a.id, nombre:a.nombre, archivo:a.archivo, img:a.img} : {id:a.id, nombre:a.nombre, archivo:a.archivo});
     ADMIN_ACCESOS = {}; for(const k in ACCESOS) ADMIN_ACCESOS[k] = ACCESOS[k].slice();
@@ -882,8 +943,28 @@ function resumeSession(){
   buildAppsMenu();
   return true;
 }
+function buildGateBg(){
+  var host=document.getElementById('gatebg'); if(!host||!APPS.length) return;
+  function tile(a){
+    var m=(typeof JM_META!=='undefined' && JM_META[a.id])?JM_META[a.id]:["APP",["#1c2740","#2a1f3d"]];
+    var g=m[1]||["#1c2740","#2a1f3d"];
+    var nm=(a.nombre||'').replace(/\s*\/\s*JM BOTS/i,'');
+    return '<div class="gtile">'
+      + '<div class="gt-bg" style="background:linear-gradient(135deg,'+g[0]+','+g[1]+')"></div>'
+      + (a.img?'<img src="'+a.img+'" alt="" loading="lazy" onerror="this.remove()">':'')
+      + '<div class="gt-nm">'+nm.replace(/</g,'&lt;')+'</div></div>';
+  }
+  var c=document.getElementById('gcount'); if(c) c.textContent=APPS.length;
+  // repartir en 5 filas intercaladas (mosaico que cubre la pantalla)
+  var rows=[[],[],[],[],[]];
+  APPS.forEach(function(a,i){ rows[i%5].push(a); });
+  host.innerHTML = rows.map(function(arr,ri){
+    var cells=arr.map(tile).join('');
+    return '<div class="grow r'+ri+'">'+cells+cells+'</div>';   // duplicado para loop continuo
+  }).join('');
+}
 function initGate(){
-  cargarAutorizados().then(()=>{ const resumed = resumeSession(); esperarGoogle(resumed); });
+  cargarAutorizados().then(()=>{ buildGateBg(); const resumed = resumeSession(); esperarGoogle(resumed); });
 }
 
 async function cargarAutorizados(){
@@ -1384,7 +1465,100 @@ function mostrarVista(v){
   if(v === 'historial') renderHist();
   if(v === 'guiones')   renderGuiones();
   if(v === 'admin')     renderAdmin();
+  if(v === 'mini')      initMini();
   window.scrollTo({top:0, behavior:'smooth'});
+}
+
+/* ═══════════ Renombrador de miniaturas (solo admin) ═══════════ */
+let MINI_items=[], MINI_inited=false;
+function miniEsc(s){ const d=document.createElement('div'); d.textContent=s; return d.innerHTML; }
+function ensureJSZip(cb){
+  if(window.JSZip) return cb();
+  const s=document.createElement('script');
+  s.src='https://cdnjs.cloudflare.com/ajax/libs/jszip/3.10.1/jszip.min.js';
+  s.onload=cb; s.onerror=()=>alert('No se pudo cargar la librería de ZIP. Necesitás conexión a internet.');
+  document.head.appendChild(s);
+}
+function miniGuess(name){
+  const n=(name||'').toLowerCase().replace(/[^a-z0-9]/g,'');
+  const hit=[...APPS].sort((a,b)=>b.id.length-a.id.length).find(a=>n.includes(a.id));
+  return hit?hit.id:'';
+}
+function miniOptions(sel){
+  const groups={};
+  APPS.forEach(a=>{ const k=(typeof JM_NICHO!=='undefined'&&JM_NICHO[a.id])||'otras'; (groups[k]=groups[k]||[]).push(a); });
+  let h='<option value="">— elegí la app —</option>';
+  const order=(typeof JM_NICHE_ORDER!=='undefined')?JM_NICHE_ORDER:Object.keys(groups).map(k=>[k,k]);
+  order.forEach(n=>{ const arr=groups[n[0]]; if(!arr||!arr.length) return;
+    h+='<optgroup label="'+miniEsc(String(n[1]).replace(/[^\x20-\x7E]/g,'').trim())+'">';
+    arr.forEach(a=>{ h+='<option value="'+a.id+'"'+(a.id===sel?' selected':'')+'>'+miniEsc(a.nombre)+'</option>'; });
+    h+='</optgroup>';
+  });
+  if(groups['otras']){ h+='<optgroup label="Otras">'; groups['otras'].forEach(a=>{ h+='<option value="'+a.id+'"'+(a.id===sel?' selected':'')+'>'+miniEsc(a.nombre)+'</option>'; }); h+='</optgroup>'; }
+  return h;
+}
+function initMini(){
+  if(MINI_inited){ miniRender(); return; }
+  MINI_inited=true;
+  const drop=$('#miniDrop'), file=$('#miniFile');
+  drop.onclick=()=>file.click();
+  drop.ondragover=e=>{ e.preventDefault(); drop.classList.add('over'); };
+  drop.ondragleave=()=>drop.classList.remove('over');
+  drop.ondrop=e=>{ e.preventDefault(); drop.classList.remove('over'); miniAdd(e.dataTransfer.files); };
+  file.onchange=e=>miniAdd(e.target.files);
+  $('#miniClear').onclick=()=>{ MINI_items.forEach(i=>URL.revokeObjectURL(i.url)); MINI_items=[]; miniRender(); };
+  $('#miniDl').onclick=miniDownload;
+  miniRender();
+}
+function miniAdd(list){
+  [...list].filter(f=>f.type.startsWith('image/')).forEach(f=>{ MINI_items.push({file:f,url:URL.createObjectURL(f),id:miniGuess(f.name)}); });
+  miniRender();
+}
+function miniRender(){
+  const grid=$('#miniGrid');
+  if(!MINI_items.length){ grid.innerHTML='<div class="empty2">Todavía no cargaste imágenes.</div>'; }
+  else{
+    const counts={}; MINI_items.forEach(i=>{ if(i.id) counts[i.id]=(counts[i.id]||0)+1; });
+    grid.innerHTML=MINI_items.map((it,idx)=>{
+      const dup=it.id&&counts[it.id]>1, cls=dup?'dup':(it.id?'ok':'');
+      const res=it.id?(dup?'<span class="mr err">⚠ repetida con otra</span>':'<span class="mr set">→ img/'+it.id+'.jpg</span>'):'<span class="mr">sin asignar</span>';
+      const tag=it.id?'<span class="mt">'+it.id+'.jpg</span>':'';
+      return '<div class="minicard '+cls+'"><div class="minith">'+tag+'<img src="'+it.url+'"></div>'
+        +'<div class="minicb"><div class="mfn" title="'+miniEsc(it.file.name)+'">'+miniEsc(it.file.name)+'</div>'
+        +'<select data-i="'+idx+'">'+miniOptions(it.id)+'</select>'+res+'</div></div>';
+    }).join('');
+    grid.querySelectorAll('select').forEach(s=>{ s.onchange=e=>{ MINI_items[+s.dataset.i].id=e.target.value; miniRender(); }; });
+  }
+  const asign=new Set(MINI_items.filter(i=>i.id).map(i=>i.id)).size;
+  const counts={}; MINI_items.forEach(i=>{ if(i.id) counts[i.id]=(counts[i.id]||0)+1; });
+  const dups=Object.values(counts).filter(c=>c>1).length;
+  $('#miniCount').innerHTML=MINI_items.length+' imágenes · <b>'+asign+'</b> asignadas';
+  $('#miniWarn').textContent=dups?('⚠ '+dups+' app(s) con imagen repetida'):'';
+  $('#miniDl').disabled=!(MINI_items.some(i=>i.id)&&!dups);
+}
+function miniToJpg(file){
+  return new Promise((resolve,reject)=>{
+    const img=new Image();
+    img.onload=()=>{ let w=img.width,h=img.height; const M=900;
+      if(Math.max(w,h)>M){ const r=M/Math.max(w,h); w=Math.round(w*r); h=Math.round(h*r); }
+      const c=document.createElement('canvas'); c.width=w; c.height=h;
+      const x=c.getContext('2d'); x.fillStyle='#000'; x.fillRect(0,0,w,h); x.drawImage(img,0,0,w,h);
+      c.toBlob(b=>b?resolve(b):reject(new Error('toBlob')),'image/jpeg',0.85);
+    };
+    img.onerror=reject; img.src=URL.createObjectURL(file);
+  });
+}
+function miniDownload(){
+  ensureJSZip(async()=>{
+    const btn=$('#miniDl'), o=btn.textContent; btn.disabled=true; btn.textContent='Procesando…';
+    try{
+      const zip=new JSZip(), folder=zip.folder('img'), seen={};
+      for(const it of MINI_items){ if(!it.id||seen[it.id]) continue; seen[it.id]=1; folder.file(it.id+'.jpg', await miniToJpg(it.file)); }
+      const out=await zip.generateAsync({type:'blob'});
+      const a=document.createElement('a'); a.href=URL.createObjectURL(out); a.download='img.zip'; a.click();
+      btn.textContent='✓ Descargado'; setTimeout(()=>{ btn.textContent=o; miniRender(); },1800);
+    }catch(e){ alert('Error: '+e.message); btn.textContent=o; btn.disabled=false; }
+  });
 }
 
 /* ═══════════ Historial + guiones (localStorage) ═══════════ */
