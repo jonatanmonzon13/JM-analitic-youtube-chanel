@@ -525,6 +525,33 @@
   #jmpanel .jmfoot{padding:12px 20px;border-top:1px solid #1c2238;text-align:center}
   #jmpanel .jmfoot a{color:#828DA6;text-decoration:none;font-family:var(--mono,monospace);font-size:12px}
   #jmpanel .jmfoot a:hover{color:#FF7A9C}
+  #jmgrid{display:block}
+  .secgrid{display:grid;grid-template-columns:repeat(4,1fr);gap:14px}
+  @media (max-width:680px){.secgrid{grid-template-columns:repeat(3,1fr)}}
+  @media (max-width:440px){.secgrid{grid-template-columns:repeat(2,1fr)}}
+  #jmfilters{display:flex;gap:7px;flex-wrap:wrap;padding:2px 20px 12px}
+  #jmfilters .fchip{cursor:pointer;font-family:var(--mono,monospace);font-size:11px;color:#C7CEDE;background:#11141f;border:1px solid #2a2f45;border-radius:999px;padding:6px 11px}
+  #jmfilters .fchip:hover{border-color:#E7B85C}
+  #jmfilters .fchip.on{background:rgba(231,184,92,.14);border-color:#E7B85C;color:#F8DA8E}
+  .jmsec .jmsh{font-family:var(--display,Sora,sans-serif);font-weight:700;font-size:13px;color:#EAF0FF;margin:16px 2px 11px;display:flex;align-items:center;gap:8px}
+  .jmsec .jmsh .ct{font-family:var(--mono,monospace);font-size:10px;color:#828DA6;font-weight:500}
+  #jmgrid .jmth .info{position:absolute;top:7px;right:7px;z-index:3;width:24px;height:24px;border-radius:50%;background:rgba(13,16,24,.82);border:1px solid rgba(231,184,92,.55);color:#F8DA8E;display:flex;align-items:center;justify-content:center;font-size:13px;font-weight:800;font-family:Georgia,serif}
+  #jmgrid .jmth .info:hover{background:#E7B85C;color:#0A0D14}
+  #jmgrid .jmth img.jmimg{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;display:block;z-index:1}
+  #jmfi{position:fixed;inset:0;z-index:100001;display:none;align-items:center;justify-content:center;background:rgba(3,4,8,.82);backdrop-filter:blur(7px);padding:18px}
+  #jmfi.open{display:flex}
+  #jmficard{width:100%;max-width:460px;background:linear-gradient(180deg,#0d1018,#080a11);border:1px solid #2a2f45;border-radius:16px;box-shadow:0 40px 110px rgba(0,0,0,.75);overflow:hidden}
+  #jmficard .fh{padding:15px 18px;border-bottom:1px solid #1c2238;display:flex;align-items:center;justify-content:space-between;background:rgba(231,184,92,.05)}
+  #jmficard .fh b{font-family:var(--display,Sora,sans-serif);font-size:15px;color:#F6F8FE}
+  #jmficard .fb{padding:16px 18px;max-height:58vh;overflow:auto}
+  #jmficard .fb h5{margin:0 0 7px;font-family:var(--mono,monospace);font-size:11px;letter-spacing:.12em;text-transform:uppercase;color:#E7B85C}
+  #jmficard .fb p.q{margin:0 0 14px;font-size:13.5px;color:#C7CEDE;line-height:1.5}
+  #jmficard .fb ol{margin:0 0 14px;padding-left:18px}#jmficard .fb li{margin:6px 0;font-size:13.5px;color:#EAF0FF;line-height:1.45}
+  #jmficard .fb .tip{font-size:12.5px;color:#9aa6c0;background:rgba(124,140,180,.08);border:1px dashed #2a2f45;border-radius:9px;padding:9px 11px;line-height:1.45}
+  #jmficard .ff{padding:12px 18px;border-top:1px solid #1c2238;display:flex;gap:8px}
+  #jmficard .ff a,#jmficard .ff .cl{flex:1;text-align:center;text-decoration:none;cursor:pointer;border-radius:10px;padding:11px;font-family:var(--display,Sora,sans-serif);font-weight:700;font-size:13px}
+  #jmficard .ff a{background:linear-gradient(100deg,#E7B85C,#F8DA8E);color:#0A0D14}
+  #jmficard .ff .cl{background:#11141f;border:1px solid #2a2f45;color:#C7CEDE}
 
   .adminh{font-family:var(--display);font-size:15px;color:var(--ink);font-weight:700;margin:20px 0 9px}
   .adminh:first-child{margin-top:0}
@@ -766,6 +793,11 @@ const GOOGLE_CLIENT_ID = '894770388392-6ooskd5t6oit8r1hcr86gn6j60s6m982.apps.goo
       Poné aquí tu propio correo en minúsculas. Pueden ser varios:
       const ADMINS = ['[email protected]', '[email protected]'];            ── */
 const ADMINS = ['jonatanmonzon13@gmail.com'];
+/* ── Correos con TODAS por defecto (ven todas las apps, incluso futuras),
+      PERO editables con tildes: si destildás alguna queda fijada su lista.
+      Si las marcás todas otra vez, vuelven a "todas + futuras".          ── */
+const FULL_ACCESS = ['jonatanmonzon1126@gmail.com', 'diegoasalazarc70@gmail.com', 'damafelicali@gmail.com'];
+function isFullAccess(email){ return FULL_ACCESS.map(a => String(a).trim().toLowerCase()).includes(String(email||'').trim().toLowerCase()); }
 let AUTORIZADOS = [];   // se rellena al cargar desde autorizados.json
 let USER_EMAIL = '';    // correo con el que se inició sesión
 let ADMIN_LIST = [];    // lista editable de permitidos (panel de admin)
@@ -805,7 +837,7 @@ function onGoogleLogin(resp){
     if(isAdmin){
       $('#tab-admin').style.display = '';
       ADMIN_LIST = AUTORIZADOS.slice();
-      ADMIN_APPS = APPS.map(a => ({id:a.id, nombre:a.nombre, archivo:a.archivo}));
+      ADMIN_APPS = APPS.map(a => a.img ? {id:a.id, nombre:a.nombre, archivo:a.archivo, img:a.img} : {id:a.id, nombre:a.nombre, archivo:a.archivo});
       ADMIN_ACCESOS = {}; for(const k in ACCESOS) ADMIN_ACCESOS[k] = ACCESOS[k].slice();
     }
     // Guardar identidad + apps para que las OTRAS apps del repo sepan quién entró y qué puede ver
@@ -838,7 +870,7 @@ function resumeSession(){
   if(isAdmin){
     $('#tab-admin').style.display = '';
     ADMIN_LIST = AUTORIZADOS.slice();
-    ADMIN_APPS = APPS.map(a => ({id:a.id, nombre:a.nombre, archivo:a.archivo}));
+    ADMIN_APPS = APPS.map(a => a.img ? {id:a.id, nombre:a.nombre, archivo:a.archivo, img:a.img} : {id:a.id, nombre:a.nombre, archivo:a.archivo});
     ADMIN_ACCESOS = {}; for(const k in ACCESOS) ADMIN_ACCESOS[k] = ACCESOS[k].slice();
   }
   const allIds = APPS.map(a => a.id);
@@ -1440,7 +1472,7 @@ const JM_META = {
   profesiones:["OFICIOS",["#1c2740","#3d1f2f"]], utiles:["ESCUELA",["#1f2a3d","#2a2410"]], superheroes:["HÉROES",["#10243a","#3d1f2f"]],
   buenasnoches:["DORMIR",["#0e1430","#241a33"]], valores:["VALORES",["#1f3d2f","#10243a"]], datos:["CURIOSO",["#10243a","#1f2a3d"]],
   trabalenguas:["RIMAS",["#2a1f3d","#1f3d2f"]], monstruos:["TIERNO",["#2a1f3d","#10243a"]],
-  terror:["TERROR",["#1a1320","#0a0c14"]], terrorurbano:["URBANO",["#13161f","#1a1320"]], fabulas:["FÁBULA",["#1f3d2f","#2a2410"]], reflexiones:["MANHWA",["#3d1f3a","#241a40"]], datosmiedo:["CREEPYPASTA",["#1a1320","#3d1f2f"]]
+  terror:["TERROR",["#1a1320","#0a0c14"]], terrorurbano:["URBANO",["#13161f","#1a1320"]], fabulas:["FÁBULA",["#1f3d2f","#2a2410"]], reflexiones:["MANHWA",["#3d1f3a","#241a40"]], datosmiedo:["CREEPYPASTA",["#1a1320","#3d1f2f"]], timelapse:["TIMELAPSE",["#0b1f33","#10243a"]], timelapse2:["TIMELAPSE 2",["#0f2913","#10243a"]], timelapse3:["TIMELAPSE 3",["#2a1140","#10243a"]], podcast:["PODCAST",["#3a2410","#2a1f10"]], podfitness:["FITNESS",["#3a1010","#3a2410"]], podmujeres:["MINDSET",["#3a1030","#241a40"]], podfe:["FE",["#3a2e10","#2a2410"]], poddating:["AMOR",["#3a1020","#3a1030"]], podnegocios:["NEGOCIOS",["#0b1f33","#10243a"]], abuelo:["CONSEJOS",["#2a2410","#3a2e10"]], ninogenio:["NIÑO",["#0b2933","#0f2913"]], atleta:["ÉPICO",["#3a2e0a","#3a1010"]], entrevista:["PODCAST",["#241a40","#10243a"]], streetint:["CALLE",["#0a2e28","#0f2913"]], storytime:["STORYTIME",["#2a1140","#3a1030"]], datoshablados:["DATOS",["#0b2933","#10243a"]], woodenhands:["WOODEN HANDS",["#0f2913","#1a2410"]], woodenhands2:["WOODEN v2.6",["#1a2410","#0f2913"]], xray:["3D X-RAY",["#0b1f33","#10243a"]], cocinaviral:["COCINA 3D",["#2a1408","#1f1810"]], narekart:["POWERFLOW",["#2a0f24","#241040"]], venganza:["VENGANZA",["#2a0f12","#1f0c0e"]], asmrsatisfying:["ASMR",["#06222a","#0b2a30"]], aifruit:["FRUIT",["#2a1208","#20120c"]], surreal:["🪐",["#1a0f2e","#241040"]], miniaturas:["🏠",["#0a1f16","#0e2a1e"]], animalessurreal:["🦄",["#0a1f1d","#102a28"]], finanzas:["💰",["#0a1f14","#0e2a1c"]], techia:["📱",["#0a142a","#0e1d3a"]], saludbienestar:["🧘",["#0a1f1c","#0e2a26"]], negociosfaceless:["🚀",["#0a1226","#0e1a36"]], reddit:["👽",["#2a1408","#3a1d0c"]], truecrime:["🕵️",["#2a0e0f","#1f0c0d"]], povcine:["🎬",["#2a1c08","#1f150c"]], tiendashop:["🛒",["#2a0e1d","#1f0c16"]], streetpro:["🎤",["#0a1d2a","#0e2433"]], criaturas:["🦶",["#0e2a10","#0a1f0c"]], motivacion:["🔥",["#2a1c08","#1f150c"]], procesos:["🧽",["#0a1f2a","#0e2733"]], historiacuriosa:["🗺️",["#2a200c","#1f1808"]], fractura:["FRACTURA",["#1a1206","#2a0f14"]], explainer:["EXPLAINER",["#06131f","#0b1019"]], montanarusa:["POV",["#2a1206","#1f130c"]], mundovegetal:["VEGETAL",["#0a1f0a","#121d12"]], resinadiy:["RESINA·DIY",["#1f1408","#1c1810"]], timelapseobra:["OBRA·EPOXY",["#1a1304","#171b21"]], dreamnostalgia:["DREAM",["#2a1226","#1b1626"]], cartoonkids:["KIDS",["#2a2206","#1c1d12"]], rescateanimal:["RESCATE",["#2a1804","#1c1910"]], junglabunker:["JUNGLA",["#08210f","#121d12"]]
 };
 function jmPoster(a){
   const m = JM_META[a.id] || ["APP",["#1c2740","#2a1f3d"]], g = m[1];
@@ -1461,6 +1493,28 @@ function jmPoster(a){
     + `<text x="${12+(m[0].length*6.6+16)/2}" y="24" text-anchor="middle" font-family="JetBrains Mono,monospace" font-weight="700" font-size="9.5" fill="#0A0D14" letter-spacing="1">${m[0]}</text>`
     + tx + `</svg>`;
 }
+const JM_NICHE_ORDER=[["viralia","🎥 Video Viral IA"],["asmr","🔪 ASMR y Satisfying"],["podcast","🎙️ Podcast y Personas"],["dinero","💰 Finanzas y Negocios"],["educa","📱 Tech, Salud y Datos"],["story","📝 Storytelling y Drama"],["terror","👻 Terror y Misterio"],["fe","🙏 Fe y Reflexión"],["cuentos","📖 Cuentos y Fábulas"],["infantil","🧒 Infantil y Escolar"],["pov","🎭 Historias POV"],["analisis","📊 Análisis YouTube"]];
+const JM_NICHO={outliers:"analisis",analizador:"analisis",timelapse:"viralia",timelapse2:"viralia",timelapse3:"viralia",cocinaviral:"viralia",narekart:"viralia",surreal:"viralia",miniaturas:"viralia",animalessurreal:"viralia",criaturas:"viralia",tiendashop:"viralia",streetpro:"viralia",xray:"viralia",woodenhands:"asmr",woodenhands2:"asmr",asmrsatisfying:"asmr",aifruit:"asmr",procesos:"asmr",podcast:"podcast",podfitness:"podcast",podmujeres:"podcast",podfe:"podcast",poddating:"podcast",podnegocios:"podcast",abuelo:"podcast",ninogenio:"podcast",atleta:"podcast",entrevista:"podcast",streetint:"podcast",storytime:"podcast",datoshablados:"podcast",finanzas:"dinero",negociosfaceless:"dinero",techia:"educa",saludbienestar:"educa",historiacuriosa:"educa",datos:"educa",venganza:"story",reddit:"story",povcine:"story",motivacion:"story",terror:"terror",terrorurbano:"terror",datosmiedo:"terror",truecrime:"terror",historias:"fe",milagros:"fe",relatos:"fe",parabolas:"fe",tentacion:"fe",proverbios:"fe",redencion:"fe",viajealma:"fe",cartas:"fe",valores:"fe",reflexiones:"fe",novelas:"cuentos",fabulas:"cuentos",mitologia:"cuentos",glam:"cuentos",frutas:"cuentos",monstruos:"cuentos",trabalenguas:"cuentos",superheroes:"cuentos",zodiaco:"cuentos",buenasnoches:"infantil",utiles:"infantil",animales:"infantil",dinosaurios:"infantil",insectos:"infantil",plantas:"infantil",paises:"infantil",profesiones:"infantil",robots:"infantil",autos:"infantil",fractura:"viralia",explainer:"educa",montanarusa:"viralia",mundovegetal:"viralia",resinadiy:"asmr",timelapseobra:"viralia",dreamnostalgia:"viralia",cartoonkids:"infantil",rescateanimal:"infantil",junglabunker:"viralia",mascotas:"pov",comida:"pov",objetos:"pov"};
+let JM_INSTR={}, JM_VIS=[];
+function jmTile(a, here){
+  const cur=(a.archivo||'').toLowerCase()===here;
+  const thumb=(a.img?`<img class="jmimg" src="${esc(a.img)}" alt="" onerror="this.remove()">`:'')+jmPoster(a);
+  return `<a class="jmtile${cur?' here':''}" href="${esc(a.archivo)}">`
+    + `<span class="jmth">${thumb}<span class="sh"></span>`
+    + `<span class="info" data-info="${esc(a.id)}" title="Cómo se usa">i</span></span>`
+    + `<span class="jmcap"><span class="nm">${esc(a.nombre)}</span>${cur?'<span class="here-dot">● aquí</span>':''}</span></a>`;
+}
+function jmOpenFicha(id){
+  const a=JM_VIS.find(x=>x.id===id); if(!a) return;
+  const ins=JM_INSTR[id]||{};
+  const pasos=ins.pasos||['Pegá tu clave de Gemini arriba y tocá Guardar.','Escribí «iniciar» y seguí los pasos en pantalla.','Copiá el resultado con el botón 📋.'];
+  $('#jmfiName').textContent=a.nombre;
+  $('#jmfiBody').innerHTML=`<h5>Qué hace</h5><p class="q">${esc(ins.que||a.nombre)}</p>`
+    + `<h5>Cómo se usa</h5><ol>${pasos.map(p=>`<li>${esc(p)}</li>`).join('')}</ol>`
+    + `<div class="tip">💡 ${esc(ins.tip||'La clave de Gemini se comparte con todas las apps de la suite.')}</div>`;
+  $('#jmfiOpen').setAttribute('href', a.archivo);
+  $('#jmfi').classList.add('open');
+}
 function buildAppsMenu(){
   const wrap = $('#appsWrap');
   if(!wrap) return;
@@ -1477,20 +1531,49 @@ function buildAppsMenu(){
     ov.innerHTML = '<div id="jmpanel">'
       + '<div class="jmhead"><div class="jmttl">⚡ Mis <span class="sp">apps</span> <small id="jmcount"></small></div>'
       + '<div class="jmx" id="jmclose">✕</div></div>'
+      + '<div id="jmfilters"></div>'
       + '<div id="jmscroll"><div id="jmgrid"></div></div>'
       + '<div class="jmfoot"><a href="index.html">← salir al inicio</a></div></div>';
     document.body.appendChild(ov);
     ov.addEventListener('click', e=>{ if(e.target===ov) ov.classList.remove('open'); });
     $('#jmclose').addEventListener('click', ()=> ov.classList.remove('open'));
     document.addEventListener('keydown', e=>{ if(e.key==='Escape') ov.classList.remove('open'); });
+    // ficha modal
+    let fi=document.createElement('div'); fi.id='jmfi';
+    fi.innerHTML='<div id="jmficard"><div class="fh"><b id="jmfiName"></b><div class="jmx" id="jmfiClose">✕</div></div>'
+      + '<div class="fb" id="jmfiBody"></div>'
+      + '<div class="ff"><a id="jmfiOpen" href="#">Abrir app ↗</a><div class="cl" id="jmfiCl">Cerrar</div></div></div>';
+    document.body.appendChild(fi);
+    const closeFi=()=>fi.classList.remove('open');
+    $('#jmfiClose').addEventListener('click', closeFi);
+    $('#jmfiCl').addEventListener('click', closeFi);
+    fi.addEventListener('click', e=>{ if(e.target===fi) closeFi(); });
+    $('#jmgrid').addEventListener('click', e=>{
+      const inf=e.target.closest && e.target.closest('.info');
+      if(inf){ e.preventDefault(); e.stopPropagation(); jmOpenFicha(inf.getAttribute('data-info')); }
+    });
+    $('#jmfilters').addEventListener('click', e=>{
+      const c=e.target.closest && e.target.closest('.fchip'); if(!c) return;
+      const f=c.getAttribute('data-f');
+      $('#jmfilters').querySelectorAll('.fchip').forEach(x=>x.classList.toggle('on', x===c));
+      document.querySelectorAll('#jmgrid .jmsec').forEach(sx=>{ sx.style.display=(f==='all'||sx.getAttribute('data-sec')===f)?'':'none'; });
+    });
+    if(!Object.keys(JM_INSTR).length){ fetch('instrucciones.json?t='+Date.now()).then(r=>r.json()).then(d=>{ JM_INSTR=d||{}; }).catch(()=>{}); }
   }
+  JM_VIS = vis;
   $('#jmcount').textContent = '· ' + vis.length + ' herramientas';
-  $('#jmgrid').innerHTML = vis.map(a=>{
-    const cur = (a.archivo||'').toLowerCase() === here;
-    return `<a class="jmtile${cur?' here':''}" href="${esc(a.archivo)}">`
-      + `<span class="jmth">${jmPoster(a)}<span class="sh"></span></span>`
-      + `<span class="jmcap"><span class="nm">${esc(a.nombre)}</span>${cur?'<span class="here-dot">● aquí</span>':''}</span></a>`;
-  }).join('');
+  const groups={}; vis.forEach(a=>{ const k=JM_NICHO[a.id]||'otras'; (groups[k]=groups[k]||[]).push(a); });
+  const present=JM_NICHE_ORDER.filter(n=>groups[n[0]] && groups[n[0]].length);
+  $('#jmfilters').innerHTML='<span class="fchip on" data-f="all">Todas</span>'
+    + present.map(n=>`<span class="fchip" data-f="${n[0]}">${n[1]}</span>`).join('');
+  const secs=present.map(n=>{
+    const arr=groups[n[0]];
+    return `<div class="jmsec" data-sec="${n[0]}"><div class="jmsh">${n[1]} <span class="ct">${arr.length}</span></div><div class="secgrid">${arr.map(a=>jmTile(a,here)).join('')}</div></div>`;
+  });
+  if(groups['otras'] && groups['otras'].length){
+    secs.push(`<div class="jmsec" data-sec="otras"><div class="jmsh">✨ Otras <span class="ct">${groups['otras'].length}</span></div><div class="secgrid">${groups['otras'].map(a=>jmTile(a,here)).join('')}</div></div>`);
+  }
+  $('#jmgrid').innerHTML=secs.join('');
   wrap.style.display = '';
 }
 function toggleApps(e){ e.stopPropagation(); const ov = $('#jmov'); if(ov) ov.classList.add('open'); }
@@ -1519,34 +1602,65 @@ function renderAdmin(){
   // Accesos por usuario
   renderAccess(admins);
   // JSON de salida
+  const full = FULL_ACCESS.map(a => String(a).trim().toLowerCase());
+  const allIds = ADMIN_APPS.map(a => a.id);
   const accesos = {};
   ADMIN_LIST.forEach(e => {
-    if(admins.includes(e)) return;   // los admins ven todas, no hace falta listarlos
-    const ids = (ADMIN_ACCESOS[e] || ADMIN_APPS.map(a => a.id)).filter(id => ADMIN_APPS.some(a => a.id === id));
+    if(admins.includes(e)) return;   // admins ven TODAS, no se listan
+    const esFull = full.includes(e);
+    const ids = (ADMIN_ACCESOS[e] || (esFull ? allIds : [])).filter(id => allIds.includes(id));
+    if(esFull && ids.length === allIds.length) return;   // acceso-total con TODAS: no se lista (sigue tomando futuras)
     accesos[e] = ids;
   });
   $('#jsonPre').textContent = JSON.stringify({ permitidos: ADMIN_LIST, apps: ADMIN_APPS, accesos }, null, 2);
 }
 function renderAccess(admins){
   const cont = $('#accessGrid');
+  const full = FULL_ACCESS.map(a => String(a).trim().toLowerCase());
+  const soloAdmins = ADMIN_LIST.filter(e => admins.includes(e));
   const users = ADMIN_LIST.filter(e => !admins.includes(e));
   if(!ADMIN_APPS.length){ cont.innerHTML = '<div class="empty2">Agregá apps para poder asignar accesos.</div>'; return; }
-  if(!users.length){ cont.innerHTML = '<div class="empty2">Por ahora solo hay administradores (ven todas las apps).</div>'; return; }
-  cont.innerHTML = users.map(e => {
-    const ids = ADMIN_ACCESOS[e] || ADMIN_APPS.map(a => a.id);
-    const checks = ADMIN_APPS.map(a => `
-      <label class="achk"><input type="checkbox" ${ids.includes(a.id) ? 'checked' : ''}
-        onchange="adminToggleAccess('${esc(e)}','${esc(a.id)}',this.checked)"> ${esc(a.nombre)}</label>`).join('');
-    return `<div class="urow">
-      <div class="uhead">
-        <div class="uemail">${esc(e)} <span class="ucount">${ids.length}/${ADMIN_APPS.length}</span></div>
-        <div class="ubtns">
-          <button class="uall" onclick="adminAllAccess('${esc(e)}',true)">✓ Todas</button>
-          <button class="unone" onclick="adminAllAccess('${esc(e)}',false)">✕ Ninguna</button>
+  let html = '';
+  if(soloAdmins.length){
+    html += `<div class="urow"><div class="uhead">
+      <div class="uemail">🛡 Administradores <span class="ucount">ven todas, siempre</span></div></div>
+      <div class="uchecks">${soloAdmins.map(e => `<span class="achk">${esc(e)} <b style="color:var(--gold)">ADMIN</b></span>`).join('')}</div></div>`;
+  }
+  if(users.length){
+    const allIds = ADMIN_APPS.map(a => a.id);
+    html += users.map(e => {
+      const esFull = full.includes(e);
+      const ids = ADMIN_ACCESOS[e] || (esFull ? allIds.slice() : []);
+      const checks = ADMIN_APPS.map(a => `
+        <label class="achk"><input type="checkbox" ${ids.includes(a.id) ? 'checked' : ''}
+          onchange="adminToggleAccess('${esc(e)}','${esc(a.id)}',this.checked)"> ${esc(a.nombre)}</label>`).join('');
+      const star = esFull ? '<span class="ucount" style="color:var(--green)">★ todas por defecto</span>' : '';
+      return `<div class="urow">
+        <div class="uhead">
+          <div class="uemail">${esc(e)} ${star} <span class="ucount">${ids.length}/${ADMIN_APPS.length}</span></div>
+          <div class="ubtns">
+            <button class="uall" onclick="adminAdd10('${esc(e)}')">➕10</button>
+            <button class="uall" onclick="adminAllAccess('${esc(e)}',true)">✓ Todas</button>
+            <button class="unone" onclick="adminAllAccess('${esc(e)}',false)">✕ Ninguna</button>
+          </div>
         </div>
-      </div>
-      <div class="uchecks">${checks}</div></div>`;
-  }).join('');
+        <div class="uchecks">${checks}</div></div>`;
+    }).join('');
+  }
+  cont.innerHTML = html || '<div class="empty2">Sin usuarios para asignar.</div>';
+}
+/* Habilitar las próximas 10 apps que el usuario aún no tiene (incremental) */
+function adminAdd10(email){
+  const esFull = FULL_ACCESS.map(a => String(a).trim().toLowerCase()).includes(email);
+  const ids = (ADMIN_ACCESOS[email] || (esFull ? ADMIN_APPS.map(a => a.id) : [])).slice();
+  const have = new Set(ids);
+  let added = 0;
+  for(const a of ADMIN_APPS){
+    if(added >= 10) break;
+    if(!have.has(a.id)){ ids.push(a.id); have.add(a.id); added++; }
+  }
+  ADMIN_ACCESOS[email] = ids;
+  renderAdmin();
 }
 /* Marcar/desmarcar TODAS las apps para un usuario de un toque */
 function adminAllAccess(email, on){
@@ -1556,7 +1670,7 @@ function adminAllAccess(email, on){
 function adminAdd(){
   const inp = $('#newEmail'), e = (inp.value || '').trim().toLowerCase();
   if(!e || !e.includes('@')){ inp.focus(); return; }
-  if(!ADMIN_LIST.includes(e)){ ADMIN_LIST.push(e); ADMIN_ACCESOS[e] = ADMIN_APPS.map(a => a.id); }
+  if(!ADMIN_LIST.includes(e)){ ADMIN_LIST.push(e); ADMIN_ACCESOS[e] = []; }
   inp.value = ''; renderAdmin();
 }
 function adminDel(e){ ADMIN_LIST = ADMIN_LIST.filter(x => x !== e); delete ADMIN_ACCESOS[e]; renderAdmin(); }
@@ -1576,7 +1690,8 @@ function adminAppDel(id){
   renderAdmin();
 }
 function adminToggleAccess(email, appId, on){
-  let ids = ADMIN_ACCESOS[email] ? ADMIN_ACCESOS[email].slice() : ADMIN_APPS.map(a => a.id);
+  let ids = ADMIN_ACCESOS[email] ? ADMIN_ACCESOS[email].slice()
+    : (FULL_ACCESS.map(a => String(a).trim().toLowerCase()).includes(email) ? ADMIN_APPS.map(a => a.id) : []);
   if(on){ if(!ids.includes(appId)) ids.push(appId); }
   else { ids = ids.filter(x => x !== appId); }
   ADMIN_ACCESOS[email] = ids; renderAdmin();
