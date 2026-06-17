@@ -533,7 +533,13 @@
   .erow code{font-family:var(--mono);font-size:12px;color:var(--muted);background:var(--bg3);
     padding:1px 7px;border-radius:6px;margin-left:6px}
   .urow{border:1px solid var(--line);border-radius:11px;padding:11px 13px;margin-bottom:9px;background:var(--bg2)}
-  .uemail{font-size:12.5px;color:var(--gold2);margin-bottom:8px;font-family:var(--mono);word-break:break-all}
+  .uhead{display:flex;align-items:center;justify-content:space-between;gap:10px;flex-wrap:wrap;margin-bottom:8px}
+  .uemail{font-size:12.5px;color:var(--gold2);font-family:var(--mono);word-break:break-all}
+  .ucount{font-size:11px;color:var(--muted);background:var(--bg3);border:1px solid var(--line);border-radius:999px;padding:1px 8px;margin-left:6px}
+  .ubtns{display:flex;gap:6px;flex-shrink:0}
+  .ubtns button{cursor:pointer;font-family:var(--mono);font-size:11px;font-weight:700;border-radius:8px;padding:5px 10px;border:1px solid var(--line);background:var(--bg3);color:var(--body)}
+  .ubtns .uall:hover{border-color:var(--gold);color:var(--gold)}
+  .ubtns .unone:hover{border-color:#FF7A9C;color:#FF7A9C}
   .uchecks{display:flex;flex-wrap:wrap;gap:9px 18px}
   .achk{display:inline-flex;align-items:center;gap:6px;font-size:13px;color:var(--body);cursor:pointer}
   .achk input{accent-color:var(--gold);width:15px;height:15px}
@@ -1434,7 +1440,7 @@ const JM_META = {
   profesiones:["OFICIOS",["#1c2740","#3d1f2f"]], utiles:["ESCUELA",["#1f2a3d","#2a2410"]], superheroes:["HÉROES",["#10243a","#3d1f2f"]],
   buenasnoches:["DORMIR",["#0e1430","#241a33"]], valores:["VALORES",["#1f3d2f","#10243a"]], datos:["CURIOSO",["#10243a","#1f2a3d"]],
   trabalenguas:["RIMAS",["#2a1f3d","#1f3d2f"]], monstruos:["TIERNO",["#2a1f3d","#10243a"]],
-  terror:["TERROR",["#1a1320","#0a0c14"]], terrorurbano:["URBANO",["#13161f","#1a1320"]], fabulas:["FÁBULA",["#1f3d2f","#2a2410"]], reflexiones:["MANHWA",["#3d1f3a","#241a40"]]
+  terror:["TERROR",["#1a1320","#0a0c14"]], terrorurbano:["URBANO",["#13161f","#1a1320"]], fabulas:["FÁBULA",["#1f3d2f","#2a2410"]], reflexiones:["MANHWA",["#3d1f3a","#241a40"]], datosmiedo:["CREEPYPASTA",["#1a1320","#3d1f2f"]]
 };
 function jmPoster(a){
   const m = JM_META[a.id] || ["APP",["#1c2740","#2a1f3d"]], g = m[1];
@@ -1531,8 +1537,21 @@ function renderAccess(admins){
     const checks = ADMIN_APPS.map(a => `
       <label class="achk"><input type="checkbox" ${ids.includes(a.id) ? 'checked' : ''}
         onchange="adminToggleAccess('${esc(e)}','${esc(a.id)}',this.checked)"> ${esc(a.nombre)}</label>`).join('');
-    return `<div class="urow"><div class="uemail">${esc(e)}</div><div class="uchecks">${checks}</div></div>`;
+    return `<div class="urow">
+      <div class="uhead">
+        <div class="uemail">${esc(e)} <span class="ucount">${ids.length}/${ADMIN_APPS.length}</span></div>
+        <div class="ubtns">
+          <button class="uall" onclick="adminAllAccess('${esc(e)}',true)">✓ Todas</button>
+          <button class="unone" onclick="adminAllAccess('${esc(e)}',false)">✕ Ninguna</button>
+        </div>
+      </div>
+      <div class="uchecks">${checks}</div></div>`;
   }).join('');
+}
+/* Marcar/desmarcar TODAS las apps para un usuario de un toque */
+function adminAllAccess(email, on){
+  ADMIN_ACCESOS[email] = on ? ADMIN_APPS.map(a => a.id) : [];
+  renderAdmin();
 }
 function adminAdd(){
   const inp = $('#newEmail'), e = (inp.value || '').trim().toLowerCase();
