@@ -264,6 +264,45 @@ addMsg('bot', '¡Hola! 👋 Soy <b>Abuelo Sabio</b>. Creo videos donde un abuelo
 addMsg('sys','Prompts en formato lineal · sin texto en imagen · voz pausada y segura.');
 refreshQuick();
 </script>
+<script>
+/* JM BOTS · anti-repeticion universal (interceptor de fetch a Gemini) */
+(function(){
+  if(window.__jmAntiRep) return; window.__jmAntiRep=true;
+  var KEY='jmbots_hist_'+((location.pathname.split('/').pop()||'app').replace('.html',''));
+  function getH(){ try{ return JSON.parse(localStorage.getItem(KEY)||'[]'); }catch(e){ return []; } }
+  function pushH(fp){ if(!fp) return; try{ var h=getH().filter(function(x){return x!==fp;}); h.unshift(fp); localStorage.setItem(KEY, JSON.stringify(h.slice(0,15))); }catch(e){} }
+  var _f=window.fetch;
+  window.fetch=function(input,opts){
+    try{
+      var u=(typeof input==='string')?input:((input&&input.url)||'');
+      if(u.indexOf('generativelanguage.googleapis.com')>-1 && /generateContent/.test(u) && opts && opts.body){
+        var b=JSON.parse(opts.body);
+        if(b && b.contents && b.contents.length){
+          var seed=Math.floor(Math.random()*1e9), hist=getH();
+          var extra='\n\n[VARIACION OBLIGATORIA] Genera algo COMPLETAMENTE nuevo y distinto a cualquier resultado anterior: cambia nombres propios, lugares, estructura, giros y detalles; evita clises y aperturas repetidas; no empieces siempre igual. Semilla creativa unica: '+seed+'.';
+          if(hist.length) extra+=' NO repitas ni te parezcas a estos ya generados: '+hist.join(' | ')+'.';
+          var last=b.contents[b.contents.length-1];
+          if(last && last.parts && last.parts.length){ var p=last.parts[last.parts.length-1]; if(p && typeof p.text==='string'){ p.text+=extra; } else { last.parts.push({text:extra}); } }
+          else { b.contents.push({role:'user',parts:[{text:extra}]}); }
+          b.generationConfig=b.generationConfig||{};
+          if(b.generationConfig.temperature==null || b.generationConfig.temperature<0.95) b.generationConfig.temperature=0.97;
+          if(b.generationConfig.topP==null) b.generationConfig.topP=0.95;
+          var no=Object.assign({},opts,{body:JSON.stringify(b)});
+          return _f.call(this,input,no).then(function(r){
+            try{ var c=r.clone(); c.json().then(function(j){ try{
+              var t=((j.candidates&&j.candidates[0]&&j.candidates[0].content&&j.candidates[0].content.parts)||[]).map(function(x){return x.text||'';}).join('');
+              var fp=(t.split('\n').map(function(s){return s.trim();}).filter(Boolean)[0]||'').replace(/[`*#>_-]/g,'').slice(0,80);
+              pushH(fp);
+            }catch(e){} }).catch(function(){}); }catch(e){}
+            return r;
+          });
+        }
+      }
+    }catch(e){}
+    return _f.call(this,input,opts);
+  };
+})();
+</script>
 <script src="apps-menu.js"></script>
 </body>
 </html>

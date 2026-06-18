@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-<title>JM·BOTS Studio — Cartoon 2D</title>
+<title>JM·BOTS Studio — Evolution Shorts</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Sora:wght@400;700;800&family=JetBrains+Mono:wght@400;700&display=swap" rel="stylesheet">
@@ -14,7 +14,7 @@
     --border:rgba(255,255,255,0.13);
     --text:#ffffff; --muted:rgba(255,255,255,0.66);
     --c1:#38bdf8;            /* electric blue */
-    --c2:#ff4d9d;            /* magenta */
+    --c2:#f43f5e;            /* magenta */
     --gold:#ffd166;
     --violet:#9d4edd;
     --lime:#00ffa3;
@@ -155,19 +155,19 @@
     </div>
 
     <header class="hero">
-      <h1 class="title">Cartoon 2D</h1>
-      <p class="subtitle">Humor físico estilo cartoon clásico — squash & stretch, colores planos y gags exagerados.</p>
-      <div class="pills"><span class="pill">💥 Slapstick</span><span class="pill">🎨 Colores planos</span><span class="pill">🅐 Voz + SFX</span><span class="pill">🤸 Squash & stretch</span></div>
+      <h1 class="title">Evolution Shorts</h1>
+      <p class="subtitle">Shorts de evolución/comparación tipo 'nivel 1 → final boss' con narración documental — hiperrealista, alta retención. 4 lotes + paquete SEO.</p>
+      <div class="pills"><span class="pill">📈 Escalada nivel a nivel</span><span class="pill">🎙️ Narrador documental</span><span class="pill">🅑 Narrado (Fish Audio)</span><span class="pill">🏆 Final boss + SEO</span></div>
     </header>
 
     <div class="controls">
-      <div class="control"><label>Tipo de gag</label><select id="subgenero"><option value="persecución slapstick">persecución slapstick</option><option value="gag de cocina caótico">gag de cocina caótico</option><option value="caída cómica exagerada">caída cómica exagerada</option><option value="pelea boba de amigos">pelea boba de amigos</option><option value="truco que sale mal">truco que sale mal</option></select></div>
-      <div class="control"><label>Personajes (se mantiene en todas las tomas)</label><input type="text" id="protagonista" placeholder="describí el personaje cartoon con detalle; se mantiene igual en todas las tomas" /></div>
-      <div class="control"><label>Escenario</label><select id="escenario"><option value="casa de dibujos animados">casa de dibujos animados</option><option value="calle cartoon">calle cartoon</option><option value="cocina exagerada">cocina exagerada</option><option value="parque colorido">parque colorido</option><option value="oficina caótica">oficina caótica</option></select></div>
-      <div class="control"><label>Tono / atmósfera</label><select id="tono"><option value="épico y heroico">épico y heroico</option><option value="melancólico y nostálgico">melancólico y nostálgico</option><option value="tierno y luminoso">tierno y luminoso</option><option value="tenso y dramático">tenso y dramático</option><option value="misterioso y onírico">misterioso y onírico</option></select></div>
-      <div class="control"><label>Paleta / estilo visual</label><select id="paleta"><option value="2D cartoon, flat bold colors, squash and stretch, slapstick">Cartoon plano</option><option value="Looney-style rubber-hose">Rubber-hose clásico</option><option value="modern flat cartoon, vibrant">Flat moderno</option></select></div>
-      <div class="control"><label>Narración (voz)</label><select id="narracion"><option value="no" selected>Sin voz — solo visual</option><option value="si">Con narración (Fish Audio)</option></select></div>
-      <div class="control"><label>Cantidad de tomas</label><select id="tomas"><option value="8">8 tomas</option><option value="12" selected>12 tomas</option><option value="16">16 tomas</option><option value="20">20 tomas</option></select></div>
+      <div class="control"><label>Tema</label><select id="subgenero"><option value="Evolución de la inteligencia humana">Evolución de la inteligencia humana</option><option value="Animales más inteligentes">Animales más inteligentes</option><option value="Criaturas más fuertes de la historia">Criaturas más fuertes de la historia</option><option value="Humano vs Gorila">Humano vs Gorila</option><option value="Evolución de la IA">Evolución de la IA</option><option value="Animales más peligrosos (ranking)">Animales más peligrosos (ranking)</option><option value="Humanos más ricos de la historia">Humanos más ricos de la historia</option><option value="Tema libre">Tema libre</option></select></div>
+      <div class="control"><label>Sujeto que evoluciona</label><input type="text" id="protagonista" placeholder="ej: el cerebro humano / el gorila / la IA" /></div>
+      <div class="control"><label>Estilo visual</label><select id="escenario"><option value="estudio fondo blanco (doc photography)">estudio fondo blanco (doc photography)</option><option value="nat-geo realista">nat-geo realista</option><option value="escenario científico cinematográfico">escenario científico cinematográfico</option></select></div>
+      <div class="control"><label>Tono / atmósfera</label><select id="tono"><option value="épico y heroico">épico y heroico</option><option value="emotivo y sincero">emotivo y sincero</option><option value="tenso y dramático">tenso y dramático</option><option value="tierno y luminoso">tierno y luminoso</option><option value="misterioso">misterioso</option></select></div>
+      <div class="control"><label>Paleta / estilo visual</label><select id="paleta"><option value="ultra realistic documentary photography, scientific studio, white background, cinematic lighting, 8K, national geographic quality, 35mm lens, photorealistic">Doc photography 8K</option><option value="nat-geo realistic, dramatic lighting">Nat-geo dramático</option></select></div>
+      <div class="control"><label>Narración (voz)</label><select id="narracion"><option value="no">Sin voz — solo visual</option><option value="si" selected>Con narración (Fish Audio)</option></select></div>
+      <div class="control"><label>Niveles de evolución</label><select id="tomas"><option value="5">5 niveles</option><option value="6" selected>6 niveles</option><option value="7">7 niveles</option></select></div>
     </div>
 
     <div class="cta">
@@ -187,7 +187,7 @@
           <div class="row"><span>Tomas</span><span id="sTomas" style="color:#fff">—</span></div>
         </div>
         <div class="box">
-          <h2 class="box-title">Personajes fijo</h2>
+          <h2 class="box-title">Niveles fijo</h2>
           <p class="hint" id="sProta" style="margin:0">—</p>
         </div>
       </aside>
@@ -196,7 +196,7 @@
         <div class="box">
           <div class="tabs">
             <button class="tab active" data-p="p-guion">📜 1. Guion</button>
-            <button class="tab" data-p="p-pers">🧍 2. Personajes</button>
+            <button class="tab" data-p="p-pers">🧍 2. Niveles</button>
             <button class="tab" data-p="p-imgs">📸 3. Imágenes</button>
             <button class="tab" data-p="p-anim">🚀 4. Animación</button>
           </div>
@@ -207,7 +207,7 @@
             <textarea id="txtGuion" readonly></textarea>
           </div>
           <div class="panel" id="p-pers">
-            <div class="bhead"><h3>🧍 LOTE 2 · Personajes (inglés)</h3><button class="copy" onclick="copyArea('txtPers',this)">📋 Copiar Lote</button></div>
+            <div class="bhead"><h3>🧍 LOTE 2 · Niveles (inglés)</h3><button class="copy" onclick="copyArea('txtPers',this)">📋 Copiar Lote</button></div>
             <p class="hint">Hoja de referencia del personaje para mantenerlo idéntico en todas las tomas. Un prompt por línea.</p>
             <textarea id="txtPers" readonly></textarea>
           </div>
@@ -242,7 +242,22 @@ function replaceKey(){ $("apiKey").value=""; $("apiKey").type='text'; $("apiKey"
 function toggleEye(){ const i=$("apiKey"); i.type = i.type==='password'?'text':'password'; }
 
 /* ── SYSTEM PROMPT del nicho ── */
-const SYSTEM = `Eres el director de producción de "Cartoon 2D" para JM BOTS: experto en escenas estilo anime y animación y en armar prompts de IA para videos cortos del nicho, listos para producir en Veo 3. Trabajás en flujo VISUAL (sin voz obligatoria; voz opcional).\n\nREGLAS DE FORMATO (estrictas):\n- Explicaciones mínimas en español latino.\n- Devolvé EXACTAMENTE 4 bloques de código markdown (triple backtick), en este orden y SIN texto entre ellos:\n  BLOQUE 1 = GUION (español latino).\n  BLOQUE 2 = PERSONAJE (inglés).\n  BLOQUE 3 = IMAGENES/KEYFRAMES (inglés).\n  BLOQUE 4 = ANIMACION para Veo 3 (inglés).\n- Formato lineal: en los bloques 2, 3 y 4, UN prompt por línea, sin viñetas, sin numeración, sin comillas envolventes, una línea en blanco entre prompts.\n- Los prompts visuales y de animación SIEMPRE en inglés. Los diálogos y la narración SIEMPRE en español latino.\n- Respetá estrictamente el estilo de animación elegido (no es realista); mantené la coherencia del estilo en todas las tomas.\n\nCONSISTENCIA (Personajes):\n- Humor físico con squash & stretch y colores planos. Mantené los mismos personajes entre tomas.\n\nCONTENIDO POR BLOQUE:\nBLOQUE 1 (GUION, español latino): título corto del video + una entrada por toma ("TOMA N — [acción visual breve]") (sin diálogo obligatorio si el nicho no lo requiere). Si el usuario pidió narración, agregá al inicio "NARRACIÓN (voz en off):" con el texto continuo en español latino; si no, no la incluyas.\nBLOQUE 2 (PERSONAJE, inglés): 1 a 2 líneas de hoja de referencia del personaje cartoon: descripción hiper específica (rasgos, vestuario, materiales/color), consistent design, usando el estilo visual elegido, 4K.\nBLOQUE 3 (IMAGENES, inglés): exactamente una línea por toma. Cada línea: descriptores del personaje cartoon + acción de la toma + escenario/contexto + cinematic composition + ángulo/cámara + iluminación + tono + el estilo visual elegido + cinematic anime composition, detailed line art, dramatic lighting, 4K.\nBLOQUE 4 (ANIMACION, inglés): exactamente una línea por toma, misma cantidad que el bloque 3. Cada línea: personaje cartoon (descriptores breves) + movimiento/acción + movimiento de cámara + expresión + estilo, 4 second shot.\n\nNo agregues nada después del bloque 4. No preguntes; producí directamente con los datos recibidos.`;
+const SYSTEM = `Eres productor viral de Shorts de evolución/comparación y guionista documental para JM BOTS. Generás un paquete de producción completo de ~60 segundos, listo para Veo 3.
+REGLAS DE FORMATO (estrictas):
+- Explicaciones mínimas en español latino.
+- Devolvé EXACTAMENTE 4 bloques de código markdown, en este orden y sin texto entre ellos:
+  BLOQUE 1 = GUION + SEO (español latino).
+  BLOQUE 2 = NIVELES (inglés, fichas para consistencia).
+  BLOQUE 3 = IMAGE PROMPTS por timestamp (inglés).
+  BLOQUE 4 = VIDEO PROMPTS por timestamp (inglés).
+- Visuales/animación en inglés; guion y narración en español latino. Voz de narrador documental, tono científico serio, máxima curiosidad. Sin chistes ni emojis en la narración.
+RETENCIÓN: cada nivel debe ser MÁS impresionante que el anterior (más escala, poder, inteligencia, rareza). Hook fuerte en los primeros 3s; final boss y comparación shock al final que invite a re-ver.
+CONTENIDO:
+BLOQUE 1: 10 títulos virales + 5 variaciones de hook + el voiceover completo de ~60s con timestamps [0:00-0:03]… (hook, intro, niveles, final boss, comparación final). Al final, un apartado "PAQUETE SEO:" con 20 hashtags, caption para TikTok, descripción para YouTube Shorts, texto de miniatura (máx 3 palabras) y un prompt de miniatura.
+BLOQUE 2: ficha en inglés de cada nivel/sujeto para mantener coherencia visual entre niveles.
+BLOQUE 3: un IMAGE PROMPT por timestamp, en inglés, formato: "Ultra realistic documentary photography, subject centered, scientific studio environment, white background, cinematic lighting, 8k, extreme detail, sharp focus, national geographic quality, 35mm lens, photorealistic" adaptado a cada nivel.
+BLOQUE 4: un VIDEO ANIMATION PROMPT por timestamp, en inglés: slow camera push-in, micro facial movements, natural blinking, subtle breathing, cinematic documentary motion, depth of field, movie quality.
+No agregues nada después del bloque 4. Producí directo.`;
 
 /* ── memoria local anti-repetición (por app) ── */
 function _hkey(){ return 'jmbots_hist_'+((location.pathname.split('/').pop()||'app').replace('.html','')); }

@@ -1575,5 +1575,75 @@
    "Copiá cada lote con su botón (Guion, Personajes, Imágenes, Animación) y producí en Veo 3."
   ],
   "tip": "Mantené el mismo personaje absurdo entre tomas: la app ya le pide a la IA repetir sus descriptores, pero si editás un prompt a mano, conservá esos detalles para que no cambie de una toma a otra."
+ },
+ "stickanim": {
+  "que": "Generador de pipeline para «Stick Animation» con narración para Fish Audio: devuelve 4 lotes listos para Veo 3 — guion en español latino, Stickman, imágenes y animación, en formato lineal con visuales en inglés.",
+  "pasos": [
+   "Pegá tu clave de Gemini arriba y tocá Guardar.",
+   "Configurá el panel (tipo, stickman, contexto, tono, estilo, narración y cantidad).",
+   "Tocá «Generar pipeline» (o «Sorpresa»).",
+   "Copiá cada lote: Guion, Stickman, Imágenes y Animación."
+  ],
+  "tip": "Mantené coherente el/la stickman entre tomas; la app ya le pide a la IA repetir sus descriptores."
+ },
+ "nightvision": {
+  "que": "Generador de prompts para «Night-Vision Chaos»: crea uno o varios clips autocontenidos (un párrafo denso por clip, listo para Veo 3). Visuales en inglés.",
+  "pasos": [
+   "Pegá tu clave de Gemini arriba y tocá Guardar.",
+   "Elegí los parámetros del panel y la cantidad de clips.",
+   "Tocá «Generar prompts» (o «Sorpresa»).",
+   "Copiá cada clip con su botón o usá «Copiar todo» y pegalos uno por uno en Veo 3."
+  ],
+  "tip": "Cada clip es independiente: Veo 3 no recuerda los anteriores, por eso cada párrafo trae todo el arco de 8 segundos."
+ },
+ "biomech": {
+  "que": "Generador de prompts para «Biomechanical Transform»: crea uno o varios clips autocontenidos (un párrafo denso por clip, listo para Veo 3). Visuales en inglés.",
+  "pasos": [
+   "Pegá tu clave de Gemini arriba y tocá Guardar.",
+   "Elegí los parámetros del panel y la cantidad de clips.",
+   "Tocá «Generar prompts» (o «Sorpresa»).",
+   "Copiá cada clip con su botón o usá «Copiar todo» y pegalos uno por uno en Veo 3."
+  ],
+  "tip": "Cada clip es independiente: Veo 3 no recuerda los anteriores, por eso cada párrafo trae todo el arco de 8 segundos."
+ },
+ "beachsaga": {
+  "que": "Generador de pipeline para «Saga Surreal 3D»: devuelve 4 lotes listos para Veo 3 — guion en español latino, Elenco, imágenes y animación, en formato lineal con visuales en inglés.",
+  "pasos": [
+   "Pegá tu clave de Gemini arriba y tocá Guardar.",
+   "Configurá el panel (tipo, elenco (biblia), contexto, tono, estilo, narración y cantidad).",
+   "Tocá «Generar pipeline» (o «Sorpresa»).",
+   "Copiá cada lote: Guion, Elenco, Imágenes y Animación."
+  ],
+  "tip": "Mantené coherente el/la elenco (biblia) entre tomas; la app ya le pide a la IA repetir sus descriptores."
+ },
+ "evolution": {
+  "que": "Generador de pipeline para «Evolution Shorts» con narración para Fish Audio: devuelve 4 lotes listos para Veo 3 — guion en español latino, Niveles, imágenes y animación, en formato lineal con visuales en inglés.",
+  "pasos": [
+   "Pegá tu clave de Gemini arriba y tocá Guardar.",
+   "Configurá el panel (tipo, niveles de evolución, contexto, tono, estilo, narración y cantidad).",
+   "Tocá «Generar pipeline» (o «Sorpresa»).",
+   "Copiá cada lote: Guion, Niveles, Imágenes y Animación."
+  ],
+  "tip": "Mantené coherente el/la niveles de evolución entre tomas; la app ya le pide a la IA repetir sus descriptores."
+ },
+ "wildbbc": {
+  "que": "Generador de pipeline para «Wild Animal BBC» con narración para Fish Audio: devuelve 4 lotes listos para Veo 3 — guion en español latino, Especie, imágenes y animación, en formato lineal con visuales en inglés.",
+  "pasos": [
+   "Pegá tu clave de Gemini arriba y tocá Guardar.",
+   "Configurá el panel (tipo, especie, contexto, tono, estilo, narración y cantidad).",
+   "Tocá «Generar pipeline» (o «Sorpresa»).",
+   "Copiá cada lote: Guion, Especie, Imágenes y Animación."
+  ],
+  "tip": "Mantené coherente el/la especie entre tomas; la app ya le pide a la IA repetir sus descriptores."
+ },
+ "cinedirector": {
+  "que": "Generador de pipeline para «Cinematic Director»: devuelve 4 lotes listos para Veo 3 — guion en español latino, Elenco, imágenes y animación, en formato lineal con visuales en inglés.",
+  "pasos": [
+   "Pegá tu clave de Gemini arriba y tocá Guardar.",
+   "Configurá el panel (tipo, elenco + style anchor, contexto, tono, estilo, narración y cantidad).",
+   "Tocá «Generar pipeline» (o «Sorpresa»).",
+   "Copiá cada lote: Guion, Elenco, Imágenes y Animación."
+  ],
+  "tip": "Mantené coherente el/la elenco + style anchor entre tomas; la app ya le pide a la IA repetir sus descriptores."
  }
 }
