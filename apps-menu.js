@@ -4,6 +4,26 @@
        <script src="apps-menu.js"></script>
    Lee la lista actual desde autorizados.json (cachea en jm_apps).
    ════════════════════════════════════════════════════════════════ */
+/* ───────── Disuasión casual: clic derecho + atajos de devtools ─────────
+   Nota: esto solo frena a usuarios casuales, NO es seguridad real.
+   Se permite copiar (Ctrl+C / Cmd+C) y la selección de texto.            */
+(function(){
+  document.addEventListener('contextmenu', function(e){ e.preventDefault(); });
+  document.addEventListener('keydown', function(e){
+    var k = (e.key || '').toLowerCase();
+    // Permitir copiar / seleccionar todo / cortar / pegar
+    if((e.ctrlKey || e.metaKey) && ['c','a','x','v'].indexOf(k) !== -1) return;
+    // F12 → devtools
+    if(k === 'f12'){ e.preventDefault(); return; }
+    // Ctrl/Cmd+Shift+I / J / C → devtools / consola / inspector
+    if((e.ctrlKey || e.metaKey) && e.shiftKey && ['i','j','c'].indexOf(k) !== -1){ e.preventDefault(); return; }
+    // Ctrl/Cmd+U → ver código fuente
+    if((e.ctrlKey || e.metaKey) && k === 'u'){ e.preventDefault(); return; }
+    // Ctrl/Cmd+S → guardar página
+    if((e.ctrlKey || e.metaKey) && k === 's'){ e.preventDefault(); return; }
+  });
+})();
+
 (function(){
   var here = (location.pathname.split('/').pop() || 'index.html').toLowerCase();
   var ABIERTAS = ['', 'index.html', 'app.html'];
