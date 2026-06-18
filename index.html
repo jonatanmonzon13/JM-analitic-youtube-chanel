@@ -40,7 +40,6 @@
 
   /* fx canvas + cursor glow */
   #fx{position:fixed;inset:0;z-index:90;pointer-events:none}
-  .cursorglow{position:fixed;left:0;top:0;width:440px;height:440px;border-radius:50%;transform:translate(-50%,-50%);pointer-events:none;z-index:55;mix-blend-mode:screen;opacity:0;transition:opacity .3s;background:radial-gradient(circle,rgba(245,181,68,.20),rgba(139,92,246,.14) 42%,transparent 70%)}
 
   /* NAV */
   nav{position:fixed;top:0;left:0;right:0;z-index:100;transition:.25s;border-bottom:1px solid transparent}
@@ -65,7 +64,7 @@
   #heroMosaic .tile{width:236px;height:133px}
   @keyframes slideA{from{transform:translateX(0)}to{transform:translateX(-50%)}}
   @keyframes slideB{from{transform:translateX(-50%)}to{transform:translateX(0)}}
-  .aurora{position:absolute;inset:-30%;z-index:0;pointer-events:none;filter:blur(60px);opacity:.8;background:radial-gradient(36% 38% at 26% 28%,rgba(139,92,246,.7),transparent 70%),radial-gradient(40% 42% at 74% 34%,rgba(34,211,238,.6),transparent 70%),radial-gradient(44% 46% at 50% 80%,rgba(244,114,208,.55),transparent 70%),radial-gradient(40% 40% at 88% 78%,rgba(245,181,68,.5),transparent 70%);animation:aurora 16s ease-in-out infinite alternate}
+  .aurora{position:absolute;inset:-30%;z-index:0;pointer-events:none;filter:blur(44px);opacity:.62;background:radial-gradient(36% 38% at 26% 28%,rgba(139,92,246,.7),transparent 70%),radial-gradient(40% 42% at 74% 34%,rgba(34,211,238,.6),transparent 70%),radial-gradient(44% 46% at 50% 80%,rgba(244,114,208,.55),transparent 70%),radial-gradient(40% 40% at 88% 78%,rgba(245,181,68,.5),transparent 70%);animation:aurora 16s ease-in-out infinite alternate}
   @keyframes aurora{0%{transform:translate(0,0) scale(1)}50%{transform:translate(5%,-4%) scale(1.14)}100%{transform:translate(-4%,3%) scale(1.07)}}
   .heroveil{position:absolute;inset:0;z-index:2;pointer-events:none;background:radial-gradient(78% 72% at 50% 46%,rgba(10,7,18,.30),rgba(10,7,18,.66) 56%,rgba(10,7,18,.92))}
   #sparkles{position:absolute;inset:0;z-index:3;pointer-events:none;overflow:hidden}
@@ -110,7 +109,7 @@
   .wall{display:grid;grid-template-columns:repeat(4,1fr);gap:16px}
   @media (max-width:1000px){.wall{grid-template-columns:repeat(3,1fr)}}
   @media (max-width:680px){.wall{grid-template-columns:repeat(2,1fr)}}
-  .wcard{position:relative;display:block;border-radius:14px;overflow:hidden;border:1px solid var(--line);background:var(--bg2);aspect-ratio:16/9;transform-style:preserve-3d;transition:transform .25s cubic-bezier(.2,.7,.2,1),box-shadow .25s,border-color .25s;will-change:transform}
+  .wcard{position:relative;display:block;border-radius:14px;overflow:hidden;border:1px solid var(--line);background:var(--bg2);aspect-ratio:16/9;transition:transform .25s cubic-bezier(.2,.7,.2,1),box-shadow .25s,border-color .25s;content-visibility:auto;contain-intrinsic-size:auto 170px}
   .wcard .tbg{position:absolute;inset:0} .wcard img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;transition:transform .5s}
   .wcard .grad{position:absolute;inset:0;z-index:1;background:linear-gradient(180deg,transparent 42%,rgba(0,0,0,.8))}
   .wcard .wt{position:absolute;left:11px;right:11px;bottom:10px;z-index:3;font-weight:800;font-size:14px;color:#fff;line-height:1.16;text-shadow:0 2px 8px rgba(0,0,0,.9);transition:transform .25s}
@@ -150,7 +149,6 @@
 </head>
 <body>
 <canvas id="fx" aria-hidden="true"></canvas>
-<div class="cursorglow" id="cglow" aria-hidden="true"></div>
 
 <nav id="nav"><div class="wrap">
   <a class="logo" href="#top">JM <b>BOTS</b></a>
@@ -218,7 +216,9 @@
 </div></footer>
 
 <script>
-const NICHO={outliers:"analisis",analizador:"analisis",timelapse:"viralia",timelapse2:"viralia",timelapse3:"viralia",cocinaviral:"viralia",narekart:"viralia",surreal:"viralia",miniaturas:"viralia",animalessurreal:"viralia",criaturas:"viralia",tiendashop:"viralia",streetpro:"viralia",xray:"viralia",woodenhands:"asmr",woodenhands2:"asmr",asmrsatisfying:"asmr",aifruit:"asmr",procesos:"asmr",podcast:"podcast",podfitness:"podcast",podmujeres:"podcast",podfe:"podcast",poddating:"podcast",podnegocios:"podcast",abuelo:"podcast",ninogenio:"podcast",atleta:"podcast",entrevista:"podcast",streetint:"podcast",storytime:"podcast",datoshablados:"podcast",finanzas:"dinero",negociosfaceless:"dinero",techia:"educa",saludbienestar:"educa",historiacuriosa:"educa",datos:"educa",venganza:"story",reddit:"story",povcine:"story",motivacion:"story",terror:"terror",terrorurbano:"terror",datosmiedo:"terror",truecrime:"terror",historias:"fe",milagros:"fe",relatos:"fe",parabolas:"fe",tentacion:"fe",proverbios:"fe",redencion:"fe",viajealma:"fe",cartas:"fe",valores:"fe",reflexiones:"fe",novelas:"cuentos",fabulas:"cuentos",mitologia:"cuentos",glam:"cuentos",frutas:"cuentos",monstruos:"cuentos",trabalenguas:"cuentos",superheroes:"cuentos",zodiaco:"cuentos",buenasnoches:"infantil",utiles:"infantil",animales:"infantil",dinosaurios:"infantil",insectos:"infantil",plantas:"infantil",paises:"infantil",profesiones:"infantil",robots:"infantil",autos:"infantil",fractura:"viralia",explainer:"educa",montanarusa:"viralia",mundovegetal:"viralia",resinadiy:"asmr",timelapseobra:"viralia",dreamnostalgia:"viralia",cartoonkids:"infantil",rescateanimal:"infantil",junglabunker:"viralia",mascotas:"pov",comida:"pov",objetos:"pov"};
+const NICHO={
+    animecine:"cuentos",animereal:"cuentos",ghibli:"cuentos",claymation:"cuentos",retratopixar:"cuentos",legomundo:"cuentos",motioncomic:"cuentos",pixelart:"cuentos",cartoon2d:"cuentos",futbolepico:"viralia",extremospov:"viralia",animalesdeporte:"viralia",combateepico:"viralia",carreras:"viralia",trailersfake:"story",scifi:"story",western:"story",noir:"story",epocahist:"story",accionhollywood:"story",cinemudo:"story",romance:"story",kdrama:"story",telenovela:"story",dramaepoca:"story",quesi:"viralia",criaturasmito:"viralia",kaiju:"viralia",natimposible:"viralia",cosmos:"viralia",futuro3000:"viralia",postapoc:"viralia",microcosmos:"viralia",ugcreview:"podcast",testimonios:"podcast",noticiero:"podcast",standup:"podcast",videoclip:"podcast",pasarela:"viralia",lookbook:"viralia",glowup:"viralia",psicologia:"educa",estoicismo:"educa",ciencia:"educa",espacioedu:"educa",inventos:"educa",foodporn:"asmr",mukbang:"asmr",recetaspov:"asmr",comidagigante:"asmr",docunatura:"educa",oceano:"educa",dinosdoc:"educa",hadasoscuras:"terror",paranormalpov:"terror",leyendas:"terror",viajes:"viralia",supercars:"viralia",mansiones:"viralia",brainrot:"viralia",
+    outliers:"analisis",analizador:"analisis",timelapse:"viralia",timelapse2:"viralia",timelapse3:"viralia",cocinaviral:"viralia",narekart:"viralia",surreal:"viralia",miniaturas:"viralia",animalessurreal:"viralia",criaturas:"viralia",tiendashop:"viralia",streetpro:"viralia",xray:"viralia",woodenhands:"asmr",woodenhands2:"asmr",asmrsatisfying:"asmr",aifruit:"asmr",procesos:"asmr",podcast:"podcast",podfitness:"podcast",podmujeres:"podcast",podfe:"podcast",poddating:"podcast",podnegocios:"podcast",abuelo:"podcast",ninogenio:"podcast",atleta:"podcast",entrevista:"podcast",streetint:"podcast",storytime:"podcast",datoshablados:"podcast",finanzas:"dinero",negociosfaceless:"dinero",techia:"educa",saludbienestar:"educa",historiacuriosa:"educa",datos:"educa",venganza:"story",reddit:"story",povcine:"story",motivacion:"story",terror:"terror",terrorurbano:"terror",datosmiedo:"terror",truecrime:"terror",historias:"fe",milagros:"fe",relatos:"fe",parabolas:"fe",tentacion:"fe",proverbios:"fe",redencion:"fe",viajealma:"fe",cartas:"fe",valores:"fe",reflexiones:"fe",novelas:"cuentos",fabulas:"cuentos",mitologia:"cuentos",glam:"cuentos",frutas:"cuentos",monstruos:"cuentos",trabalenguas:"cuentos",superheroes:"cuentos",zodiaco:"cuentos",buenasnoches:"infantil",utiles:"infantil",animales:"infantil",dinosaurios:"infantil",insectos:"infantil",plantas:"infantil",paises:"infantil",profesiones:"infantil",robots:"infantil",autos:"infantil",fractura:"viralia",explainer:"educa",montanarusa:"viralia",mundovegetal:"viralia",resinadiy:"asmr",timelapseobra:"viralia",dreamnostalgia:"viralia",cartoonkids:"infantil",rescateanimal:"infantil",junglabunker:"viralia",mascotas:"pov",comida:"pov",objetos:"pov"};
 const NDATA={viralia:{ico:"🎬",c:["#8B5CF6","#22D3EE"]},asmr:{ico:"🪵",c:["#22D3EE","#16a34a"]},podcast:{ico:"🎙️",c:["#F472D0","#8B5CF6"]},dinero:{ico:"💰",c:["#F5B544","#FFD27A"]},educa:{ico:"📊",c:["#22D3EE","#3b82f6"]},story:{ico:"📖",c:["#F472D0","#FB7185"]},terror:{ico:"🕯️",c:["#8B5CF6","#6d28d9"]},fe:{ico:"🕊️",c:["#FFD27A","#F5B544"]},cuentos:{ico:"📚",c:["#FB923C","#F5B544"]},infantil:{ico:"🧸",c:["#22D3EE","#A3E635"]},pov:{ico:"🎢",c:["#FB7185","#FB923C"]},analisis:{ico:"📈",c:["#A3E635","#22D3EE"]}};
 const FALLBACK=[{id:"outliers",nombre:"Outliers"},{id:"fractura",nombre:"Fractura"},{id:"asmrsatisfying",nombre:"ASMR Satisfying"},{id:"podcast",nombre:"Podcast Hiperrealistas"},{id:"montanarusa",nombre:"Montaña Rusa POV"},{id:"finanzas",nombre:"Finanzas y Dinero"},{id:"terror",nombre:"Micro-Terror"},{id:"historias",nombre:"Historias de Fe"},{id:"cartoonkids",nombre:"Cartoon Kids"},{id:"junglabunker",nombre:"Supervivencia Jungla"},{id:"dreamnostalgia",nombre:"Dream Nostalgia"},{id:"cocinaviral",nombre:"Cocina Viral 3D"},{id:"surreal",nombre:"Mundos Surreales"},{id:"miniaturas",nombre:"Miniaturas"},{id:"reddit",nombre:"Reddit Stories"},{id:"mascotas",nombre:"Mascotas Dramáticas"}];
 let APPS=FALLBACK.slice();
@@ -233,11 +233,11 @@ function tile(a){const m=nm(a.id);
 }
 function buildHero(){
   const host=document.getElementById('heroMosaic'); if(!host) return;
-  const pool=shuffle(APPS); const rows=[[],[],[],[]]; pool.forEach((a,i)=>rows[i%4].push(a));
+  const pool=shuffle(APPS).slice(0,20); const rows=[[],[],[],[]]; pool.forEach((a,i)=>rows[i%4].push(a));
   host.innerHTML=rows.map((arr,ri)=>{const c=arr.map(tile).join('');return `<div class="row ${ri%2?'b':'a'}">${c}${c}</div>`;}).join('');
   const b1=document.getElementById('band1'), b2=document.getElementById('band2');
-  if(b1){const s=shuffle(APPS).map(tile).join('');b1.innerHTML=s+s;}
-  if(b2){const s=shuffle(APPS).map(tile).join('');b2.innerHTML=s+s;}
+  if(b1){const s=shuffle(APPS).slice(0,16).map(tile).join('');b1.innerHTML=s+s;}
+  if(b2){const s=shuffle(APPS).slice(0,16).map(tile).join('');b2.innerHTML=s+s;}
 }
 function buildWall(){
   const host=document.getElementById('wall'); if(!host) return;
@@ -284,22 +284,15 @@ observeReveals();
 const REDUCE=matchMedia('(prefers-reduced-motion:reduce)').matches, FINE=matchMedia('(pointer:fine)').matches;
 (function(){ const sp=document.getElementById('sparkles'); if(!sp||REDUCE) return;
   const cols=['#ffffff','#FFD27A','#8B5CF6','#22D3EE','#F472D0'];
-  for(let i=0;i<34;i++){const d=document.createElement('i');d.style.left=Math.random()*100+'%';d.style.top=Math.random()*100+'%';
+  for(let i=0;i<12;i++){const d=document.createElement('i');d.style.left=Math.random()*100+'%';d.style.top=Math.random()*100+'%';
     d.style.setProperty('--s',(2+Math.random()*3).toFixed(1)+'px');d.style.setProperty('--col',cols[(Math.random()*cols.length)|0]);
     d.style.animationDelay=(Math.random()*7)+'s';d.style.animationDuration=(4+Math.random()*5)+'s';sp.appendChild(d);} })();
 
 if(FINE && !REDUCE){
-  const hero=document.querySelector('.hero'), mos=document.getElementById('heroMosaic'), cg=document.getElementById('cglow');
+  const hero=document.querySelector('.hero'), mos=document.getElementById('heroMosaic');
   hero.addEventListener('mousemove',e=>{const cxp=e.clientX/innerWidth-.5,cyp=e.clientY/innerHeight-.5;
     mos.style.transform=`rotate(-5deg) scale(1.4) translate(${(-cxp*26).toFixed(1)}px,${(-cyp*18).toFixed(1)}px)`;});
   hero.addEventListener('mouseleave',()=>mos.style.transform='rotate(-5deg) scale(1.4)');
-  addEventListener('mousemove',e=>{cg.style.left=e.clientX+'px';cg.style.top=e.clientY+'px';cg.style.opacity='1';});
-  // tilt 3D en el muro
-  const wall=document.getElementById('wall');
-  wall.addEventListener('mousemove',e=>{const c=e.target.closest('.wcard');if(!c)return;const r=c.getBoundingClientRect();
-    const px=(e.clientX-r.left)/r.width-.5,py=(e.clientY-r.top)/r.height-.5;
-    c.style.transform=`translateY(-6px) scale(1.04) rotateX(${(-py*8).toFixed(2)}deg) rotateY(${(px*8).toFixed(2)}deg)`;});
-  wall.addEventListener('mouseout',e=>{const c=e.target.closest('.wcard');if(c)c.style.transform='';});
   // explosión al pasar por los botones (con cooldown)
   let cd=0; document.querySelectorAll('.btn-gold').forEach(b=>b.addEventListener('mouseenter',e=>{
     const t=Date.now();if(t-cd<500)return;cd=t;const r=b.getBoundingClientRect();burst(r.left+r.width/2,r.top+r.height/2,22);}));

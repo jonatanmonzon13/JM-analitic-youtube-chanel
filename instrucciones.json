@@ -975,5 +975,605 @@
    "Escribí «continuar» para las siguientes escenas. Usá «personaje» para el prompt de referencia frontal del sobreviviente."
   ],
   "tip": "Locks de consistencia: el sobreviviente siempre de espaldas con la misma ropa/mochila, búnker 100% de bambú verde fresco, jungla de día. Prompts en inglés, escenas de 6s con acción desde el primer segundo."
+ },
+ "animecine": {
+  "que": "Generador de pipeline para «Anime Cinematográfico»: arma un video corto completo del nicho (escenas estilo anime y animación). Devuelve 4 lotes listos para producir en Veo 3: guion en español latino, Personaje (referencia), prompts de imagen y prompts de animación, en formato lineal (un prompt por línea) con los visuales en inglés.",
+  "pasos": [
+   "Pegá tu clave de Gemini en la barra de arriba y tocá Guardar (se comparte con todas las apps de la suite).",
+   "Configurá el panel: tipo de escena, personaje, escenario/contexto, tono, estilo visual, narración y cantidad de tomas.",
+   "Tocá «Generar pipeline» y esperá. Si querés ideas al azar, usá «Sorpresa».",
+   "Copiá cada lote con su botón (Guion, Personaje, Imágenes, Animación) y producí en Veo 3."
+  ],
+  "tip": "Mantené el mismo personaje entre tomas: la app ya le pide a la IA repetir sus descriptores, pero si editás un prompt a mano, conservá esos detalles para que no cambie de una toma a otra."
+ },
+ "animereal": {
+  "que": "Generador de pipeline para «Anime + Vida Real»: arma un video corto completo del nicho (escenas estilo anime y animación). Devuelve 4 lotes listos para producir en Veo 3: guion en español latino, Personaje (referencia), prompts de imagen y prompts de animación, en formato lineal (un prompt por línea) con los visuales en inglés.",
+  "pasos": [
+   "Pegá tu clave de Gemini en la barra de arriba y tocá Guardar (se comparte con todas las apps de la suite).",
+   "Configurá el panel: tipo de escena, personaje anime, escenario/contexto, tono, estilo visual, narración y cantidad de tomas.",
+   "Tocá «Generar pipeline» y esperá. Si querés ideas al azar, usá «Sorpresa».",
+   "Copiá cada lote con su botón (Guion, Personaje, Imágenes, Animación) y producí en Veo 3."
+  ],
+  "tip": "Mantené el mismo personaje anime entre tomas: la app ya le pide a la IA repetir sus descriptores, pero si editás un prompt a mano, conservá esos detalles para que no cambie de una toma a otra."
+ },
+ "ghibli": {
+  "que": "Generador de pipeline para «Ghibli Cotidiano»: arma un video corto completo del nicho (escenas estilo anime y animación). Devuelve 4 lotes listos para producir en Veo 3: guion en español latino, Personaje (referencia), prompts de imagen y prompts de animación, en formato lineal (un prompt por línea) con los visuales en inglés.",
+  "pasos": [
+   "Pegá tu clave de Gemini en la barra de arriba y tocá Guardar (se comparte con todas las apps de la suite).",
+   "Configurá el panel: tipo de escena, personaje, escenario/contexto, tono, estilo visual, narración y cantidad de tomas.",
+   "Tocá «Generar pipeline» y esperá. Si querés ideas al azar, usá «Sorpresa».",
+   "Copiá cada lote con su botón (Guion, Personaje, Imágenes, Animación) y producí en Veo 3."
+  ],
+  "tip": "Mantené el mismo personaje entre tomas: la app ya le pide a la IA repetir sus descriptores, pero si editás un prompt a mano, conservá esos detalles para que no cambie de una toma a otra."
+ },
+ "claymation": {
+  "que": "Generador de pipeline para «Claymation»: arma un video corto completo del nicho (escenas estilo anime y animación) (con narración para Fish Audio). Devuelve 4 lotes listos para producir en Veo 3: guion en español latino, Figuras (referencia), prompts de imagen y prompts de animación, en formato lineal (un prompt por línea) con los visuales en inglés.",
+  "pasos": [
+   "Pegá tu clave de Gemini en la barra de arriba y tocá Guardar (se comparte con todas las apps de la suite).",
+   "Configurá el panel: tipo de escena, figura de plastilina, escenario/contexto, tono, estilo visual, narración y cantidad de tomas.",
+   "Tocá «Generar pipeline» y esperá. Si querés ideas al azar, usá «Sorpresa».",
+   "Copiá cada lote con su botón (Guion, Figuras, Imágenes, Animación) y producí en Veo 3."
+  ],
+  "tip": "Mantené el mismo figura de plastilina entre tomas: la app ya le pide a la IA repetir sus descriptores, pero si editás un prompt a mano, conservá esos detalles para que no cambie de una toma a otra."
+ },
+ "retratopixar": {
+  "que": "Generador de pipeline para «Retrato Pixar»: arma un video corto completo del nicho (escenas estilo anime y animación). Devuelve 4 lotes listos para producir en Veo 3: guion en español latino, Personaje (referencia), prompts de imagen y prompts de animación, en formato lineal (un prompt por línea) con los visuales en inglés.",
+  "pasos": [
+   "Pegá tu clave de Gemini en la barra de arriba y tocá Guardar (se comparte con todas las apps de la suite).",
+   "Configurá el panel: tipo de escena, personaje Pixar, escenario/contexto, tono, estilo visual, narración y cantidad de tomas.",
+   "Tocá «Generar pipeline» y esperá. Si querés ideas al azar, usá «Sorpresa».",
+   "Copiá cada lote con su botón (Guion, Personaje, Imágenes, Animación) y producí en Veo 3."
+  ],
+  "tip": "Mantené el mismo personaje Pixar entre tomas: la app ya le pide a la IA repetir sus descriptores, pero si editás un prompt a mano, conservá esos detalles para que no cambie de una toma a otra."
+ },
+ "legomundo": {
+  "que": "Generador de pipeline para «Mundo LEGO»: arma un video corto completo del nicho (escenas estilo anime y animación). Devuelve 4 lotes listos para producir en Veo 3: guion en español latino, Figuras (referencia), prompts de imagen y prompts de animación, en formato lineal (un prompt por línea) con los visuales en inglés.",
+  "pasos": [
+   "Pegá tu clave de Gemini en la barra de arriba y tocá Guardar (se comparte con todas las apps de la suite).",
+   "Configurá el panel: tipo de escena, minifigura, escenario/contexto, tono, estilo visual, narración y cantidad de tomas.",
+   "Tocá «Generar pipeline» y esperá. Si querés ideas al azar, usá «Sorpresa».",
+   "Copiá cada lote con su botón (Guion, Figuras, Imágenes, Animación) y producí en Veo 3."
+  ],
+  "tip": "Mantené el mismo minifigura entre tomas: la app ya le pide a la IA repetir sus descriptores, pero si editás un prompt a mano, conservá esos detalles para que no cambie de una toma a otra."
+ },
+ "motioncomic": {
+  "que": "Generador de pipeline para «Motion Comic»: arma un video corto completo del nicho (escenas estilo anime y animación) (con narración para Fish Audio). Devuelve 4 lotes listos para producir en Veo 3: guion en español latino, Personajes (referencia), prompts de imagen y prompts de animación, en formato lineal (un prompt por línea) con los visuales en inglés.",
+  "pasos": [
+   "Pegá tu clave de Gemini en la barra de arriba y tocá Guardar (se comparte con todas las apps de la suite).",
+   "Configurá el panel: tipo de escena, personaje de cómic, escenario/contexto, tono, estilo visual, narración y cantidad de tomas.",
+   "Tocá «Generar pipeline» y esperá. Si querés ideas al azar, usá «Sorpresa».",
+   "Copiá cada lote con su botón (Guion, Personajes, Imágenes, Animación) y producí en Veo 3."
+  ],
+  "tip": "Mantené el mismo personaje de cómic entre tomas: la app ya le pide a la IA repetir sus descriptores, pero si editás un prompt a mano, conservá esos detalles para que no cambie de una toma a otra."
+ },
+ "pixelart": {
+  "que": "Generador de pipeline para «Pixel Art Retro»: arma un video corto completo del nicho (escenas estilo anime y animación). Devuelve 4 lotes listos para producir en Veo 3: guion en español latino, Sprites (referencia), prompts de imagen y prompts de animación, en formato lineal (un prompt por línea) con los visuales en inglés.",
+  "pasos": [
+   "Pegá tu clave de Gemini en la barra de arriba y tocá Guardar (se comparte con todas las apps de la suite).",
+   "Configurá el panel: tipo de escena, sprite, escenario/contexto, tono, estilo visual, narración y cantidad de tomas.",
+   "Tocá «Generar pipeline» y esperá. Si querés ideas al azar, usá «Sorpresa».",
+   "Copiá cada lote con su botón (Guion, Sprites, Imágenes, Animación) y producí en Veo 3."
+  ],
+  "tip": "Mantené el mismo sprite entre tomas: la app ya le pide a la IA repetir sus descriptores, pero si editás un prompt a mano, conservá esos detalles para que no cambie de una toma a otra."
+ },
+ "cartoon2d": {
+  "que": "Generador de pipeline para «Cartoon 2D»: arma un video corto completo del nicho (escenas estilo anime y animación). Devuelve 4 lotes listos para producir en Veo 3: guion en español latino, Personajes (referencia), prompts de imagen y prompts de animación, en formato lineal (un prompt por línea) con los visuales en inglés.",
+  "pasos": [
+   "Pegá tu clave de Gemini en la barra de arriba y tocá Guardar (se comparte con todas las apps de la suite).",
+   "Configurá el panel: tipo de escena, personaje cartoon, escenario/contexto, tono, estilo visual, narración y cantidad de tomas.",
+   "Tocá «Generar pipeline» y esperá. Si querés ideas al azar, usá «Sorpresa».",
+   "Copiá cada lote con su botón (Guion, Personajes, Imágenes, Animación) y producí en Veo 3."
+  ],
+  "tip": "Mantené el mismo personaje cartoon entre tomas: la app ya le pide a la IA repetir sus descriptores, pero si editás un prompt a mano, conservá esos detalles para que no cambie de una toma a otra."
+ },
+ "futbolepico": {
+  "que": "Generador de pipeline para «Fútbol Épico IA»: arma un video corto completo del nicho (momentos deportivos espectaculares) (con narración para Fish Audio). Devuelve 4 lotes listos para producir en Veo 3: guion en español latino, Jugada (referencia), prompts de imagen y prompts de animación, en formato lineal (un prompt por línea) con los visuales en inglés.",
+  "pasos": [
+   "Pegá tu clave de Gemini en la barra de arriba y tocá Guardar (se comparte con todas las apps de la suite).",
+   "Configurá el panel: tipo de escena, jugada/jugadores, escenario/contexto, tono, estilo visual, narración y cantidad de tomas.",
+   "Tocá «Generar pipeline» y esperá. Si querés ideas al azar, usá «Sorpresa».",
+   "Copiá cada lote con su botón (Guion, Jugada, Imágenes, Animación) y producí en Veo 3."
+  ],
+  "tip": "Mantené el mismo jugada/jugadores entre tomas: la app ya le pide a la IA repetir sus descriptores, pero si editás un prompt a mano, conservá esos detalles para que no cambie de una toma a otra."
+ },
+ "extremospov": {
+  "que": "Generador de pipeline para «Deportes Extremos POV»: arma un video corto completo del nicho (momentos deportivos espectaculares). Devuelve 4 lotes listos para producir en Veo 3: guion en español latino, Rider (referencia), prompts de imagen y prompts de animación, en formato lineal (un prompt por línea) con los visuales en inglés.",
+  "pasos": [
+   "Pegá tu clave de Gemini en la barra de arriba y tocá Guardar (se comparte con todas las apps de la suite).",
+   "Configurá el panel: tipo de escena, rider, escenario/contexto, tono, estilo visual, narración y cantidad de tomas.",
+   "Tocá «Generar pipeline» y esperá. Si querés ideas al azar, usá «Sorpresa».",
+   "Copiá cada lote con su botón (Guion, Rider, Imágenes, Animación) y producí en Veo 3."
+  ],
+  "tip": "Mantené el mismo rider entre tomas: la app ya le pide a la IA repetir sus descriptores, pero si editás un prompt a mano, conservá esos detalles para que no cambie de una toma a otra."
+ },
+ "animalesdeporte": {
+  "que": "Generador de pipeline para «Animales Deportistas»: arma un video corto completo del nicho (momentos deportivos espectaculares) (con narración para Fish Audio). Devuelve 4 lotes listos para producir en Veo 3: guion en español latino, Animal (referencia), prompts de imagen y prompts de animación, en formato lineal (un prompt por línea) con los visuales en inglés.",
+  "pasos": [
+   "Pegá tu clave de Gemini en la barra de arriba y tocá Guardar (se comparte con todas las apps de la suite).",
+   "Configurá el panel: tipo de escena, animal deportista, escenario/contexto, tono, estilo visual, narración y cantidad de tomas.",
+   "Tocá «Generar pipeline» y esperá. Si querés ideas al azar, usá «Sorpresa».",
+   "Copiá cada lote con su botón (Guion, Animal, Imágenes, Animación) y producí en Veo 3."
+  ],
+  "tip": "Mantené el mismo animal deportista entre tomas: la app ya le pide a la IA repetir sus descriptores, pero si editás un prompt a mano, conservá esos detalles para que no cambie de una toma a otra."
+ },
+ "combateepico": {
+  "que": "Generador de pipeline para «Combate Épico»: arma un video corto completo del nicho (momentos deportivos espectaculares) (con narración para Fish Audio). Devuelve 4 lotes listos para producir en Veo 3: guion en español latino, Peleadores (referencia), prompts de imagen y prompts de animación, en formato lineal (un prompt por línea) con los visuales en inglés.",
+  "pasos": [
+   "Pegá tu clave de Gemini en la barra de arriba y tocá Guardar (se comparte con todas las apps de la suite).",
+   "Configurá el panel: tipo de escena, peleadores, escenario/contexto, tono, estilo visual, narración y cantidad de tomas.",
+   "Tocá «Generar pipeline» y esperá. Si querés ideas al azar, usá «Sorpresa».",
+   "Copiá cada lote con su botón (Guion, Peleadores, Imágenes, Animación) y producí en Veo 3."
+  ],
+  "tip": "Mantené el mismo peleadores entre tomas: la app ya le pide a la IA repetir sus descriptores, pero si editás un prompt a mano, conservá esos detalles para que no cambie de una toma a otra."
+ },
+ "carreras": {
+  "que": "Generador de pipeline para «Carreras IA»: arma un video corto completo del nicho (momentos deportivos espectaculares). Devuelve 4 lotes listos para producir en Veo 3: guion en español latino, Vehículo (referencia), prompts de imagen y prompts de animación, en formato lineal (un prompt por línea) con los visuales en inglés.",
+  "pasos": [
+   "Pegá tu clave de Gemini en la barra de arriba y tocá Guardar (se comparte con todas las apps de la suite).",
+   "Configurá el panel: tipo de escena, vehículo, escenario/contexto, tono, estilo visual, narración y cantidad de tomas.",
+   "Tocá «Generar pipeline» y esperá. Si querés ideas al azar, usá «Sorpresa».",
+   "Copiá cada lote con su botón (Guion, Vehículo, Imágenes, Animación) y producí en Veo 3."
+  ],
+  "tip": "Mantené el mismo vehículo entre tomas: la app ya le pide a la IA repetir sus descriptores, pero si editás un prompt a mano, conservá esos detalles para que no cambie de una toma a otra."
+ },
+ "trailersfake": {
+  "que": "Generador de pipeline para «Tráilers de Cine IA»: arma un video corto completo del nicho (escenas y tráilers de cine) (con narración para Fish Audio). Devuelve 4 lotes listos para producir en Veo 3: guion en español latino, Elenco (referencia), prompts de imagen y prompts de animación, en formato lineal (un prompt por línea) con los visuales en inglés.",
+  "pasos": [
+   "Pegá tu clave de Gemini en la barra de arriba y tocá Guardar (se comparte con todas las apps de la suite).",
+   "Configurá el panel: tipo de escena, elenco, escenario/contexto, tono, estilo visual, narración y cantidad de tomas.",
+   "Tocá «Generar pipeline» y esperá. Si querés ideas al azar, usá «Sorpresa».",
+   "Copiá cada lote con su botón (Guion, Elenco, Imágenes, Animación) y producí en Veo 3."
+  ],
+  "tip": "Mantené el mismo elenco entre tomas: la app ya le pide a la IA repetir sus descriptores, pero si editás un prompt a mano, conservá esos detalles para que no cambie de una toma a otra."
+ },
+ "scifi": {
+  "que": "Generador de pipeline para «Sci-Fi Cinematográfico»: arma un video corto completo del nicho (escenas y tráilers de cine). Devuelve 4 lotes listos para producir en Veo 3: guion en español latino, Protagonista (referencia), prompts de imagen y prompts de animación, en formato lineal (un prompt por línea) con los visuales en inglés.",
+  "pasos": [
+   "Pegá tu clave de Gemini en la barra de arriba y tocá Guardar (se comparte con todas las apps de la suite).",
+   "Configurá el panel: tipo de escena, protagonista, escenario/contexto, tono, estilo visual, narración y cantidad de tomas.",
+   "Tocá «Generar pipeline» y esperá. Si querés ideas al azar, usá «Sorpresa».",
+   "Copiá cada lote con su botón (Guion, Protagonista, Imágenes, Animación) y producí en Veo 3."
+  ],
+  "tip": "Mantené el mismo protagonista entre tomas: la app ya le pide a la IA repetir sus descriptores, pero si editás un prompt a mano, conservá esos detalles para que no cambie de una toma a otra."
+ },
+ "western": {
+  "que": "Generador de pipeline para «Western IA»: arma un video corto completo del nicho (escenas y tráilers de cine). Devuelve 4 lotes listos para producir en Veo 3: guion en español latino, Pistolero (referencia), prompts de imagen y prompts de animación, en formato lineal (un prompt por línea) con los visuales en inglés.",
+  "pasos": [
+   "Pegá tu clave de Gemini en la barra de arriba y tocá Guardar (se comparte con todas las apps de la suite).",
+   "Configurá el panel: tipo de escena, pistolero, escenario/contexto, tono, estilo visual, narración y cantidad de tomas.",
+   "Tocá «Generar pipeline» y esperá. Si querés ideas al azar, usá «Sorpresa».",
+   "Copiá cada lote con su botón (Guion, Pistolero, Imágenes, Animación) y producí en Veo 3."
+  ],
+  "tip": "Mantené el mismo pistolero entre tomas: la app ya le pide a la IA repetir sus descriptores, pero si editás un prompt a mano, conservá esos detalles para que no cambie de una toma a otra."
+ },
+ "noir": {
+  "que": "Generador de pipeline para «Noir Detective»: arma un video corto completo del nicho (escenas y tráilers de cine). Devuelve 4 lotes listos para producir en Veo 3: guion en español latino, Detective (referencia), prompts de imagen y prompts de animación, en formato lineal (un prompt por línea) con los visuales en inglés.",
+  "pasos": [
+   "Pegá tu clave de Gemini en la barra de arriba y tocá Guardar (se comparte con todas las apps de la suite).",
+   "Configurá el panel: tipo de escena, detective, escenario/contexto, tono, estilo visual, narración y cantidad de tomas.",
+   "Tocá «Generar pipeline» y esperá. Si querés ideas al azar, usá «Sorpresa».",
+   "Copiá cada lote con su botón (Guion, Detective, Imágenes, Animación) y producí en Veo 3."
+  ],
+  "tip": "Mantené el mismo detective entre tomas: la app ya le pide a la IA repetir sus descriptores, pero si editás un prompt a mano, conservá esos detalles para que no cambie de una toma a otra."
+ },
+ "epocahist": {
+  "que": "Generador de pipeline para «Época Histórica»: arma un video corto completo del nicho (escenas y tráilers de cine). Devuelve 4 lotes listos para producir en Veo 3: guion en español latino, Personaje (referencia), prompts de imagen y prompts de animación, en formato lineal (un prompt por línea) con los visuales en inglés.",
+  "pasos": [
+   "Pegá tu clave de Gemini en la barra de arriba y tocá Guardar (se comparte con todas las apps de la suite).",
+   "Configurá el panel: tipo de escena, personaje histórico, escenario/contexto, tono, estilo visual, narración y cantidad de tomas.",
+   "Tocá «Generar pipeline» y esperá. Si querés ideas al azar, usá «Sorpresa».",
+   "Copiá cada lote con su botón (Guion, Personaje, Imágenes, Animación) y producí en Veo 3."
+  ],
+  "tip": "Mantené el mismo personaje histórico entre tomas: la app ya le pide a la IA repetir sus descriptores, pero si editás un prompt a mano, conservá esos detalles para que no cambie de una toma a otra."
+ },
+ "accionhollywood": {
+  "que": "Generador de pipeline para «Acción Hollywood»: arma un video corto completo del nicho (escenas y tráilers de cine). Devuelve 4 lotes listos para producir en Veo 3: guion en español latino, Héroe (referencia), prompts de imagen y prompts de animación, en formato lineal (un prompt por línea) con los visuales en inglés.",
+  "pasos": [
+   "Pegá tu clave de Gemini en la barra de arriba y tocá Guardar (se comparte con todas las apps de la suite).",
+   "Configurá el panel: tipo de escena, héroe de acción, escenario/contexto, tono, estilo visual, narración y cantidad de tomas.",
+   "Tocá «Generar pipeline» y esperá. Si querés ideas al azar, usá «Sorpresa».",
+   "Copiá cada lote con su botón (Guion, Héroe, Imágenes, Animación) y producí en Veo 3."
+  ],
+  "tip": "Mantené el mismo héroe de acción entre tomas: la app ya le pide a la IA repetir sus descriptores, pero si editás un prompt a mano, conservá esos detalles para que no cambie de una toma a otra."
+ },
+ "cinemudo": {
+  "que": "Generador de pipeline para «Cine Clásico Mudo»: arma un video corto completo del nicho (escenas y tráilers de cine). Devuelve 4 lotes listos para producir en Veo 3: guion en español latino, Personaje (referencia), prompts de imagen y prompts de animación, en formato lineal (un prompt por línea) con los visuales en inglés.",
+  "pasos": [
+   "Pegá tu clave de Gemini en la barra de arriba y tocá Guardar (se comparte con todas las apps de la suite).",
+   "Configurá el panel: tipo de escena, personaje, escenario/contexto, tono, estilo visual, narración y cantidad de tomas.",
+   "Tocá «Generar pipeline» y esperá. Si querés ideas al azar, usá «Sorpresa».",
+   "Copiá cada lote con su botón (Guion, Personaje, Imágenes, Animación) y producí en Veo 3."
+  ],
+  "tip": "Mantené el mismo personaje entre tomas: la app ya le pide a la IA repetir sus descriptores, pero si editás un prompt a mano, conservá esos detalles para que no cambie de una toma a otra."
+ },
+ "romance": {
+  "que": "Generador de pipeline para «Romance Realista»: arma un video corto completo del nicho (escenas dramáticas y románticas). Devuelve 4 lotes listos para producir en Veo 3: guion en español latino, Pareja (referencia), prompts de imagen y prompts de animación, en formato lineal (un prompt por línea) con los visuales en inglés.",
+  "pasos": [
+   "Pegá tu clave de Gemini en la barra de arriba y tocá Guardar (se comparte con todas las apps de la suite).",
+   "Configurá el panel: tipo de escena, pareja, escenario/contexto, tono, estilo visual, narración y cantidad de tomas.",
+   "Tocá «Generar pipeline» y esperá. Si querés ideas al azar, usá «Sorpresa».",
+   "Copiá cada lote con su botón (Guion, Pareja, Imágenes, Animación) y producí en Veo 3."
+  ],
+  "tip": "Mantené el mismo pareja entre tomas: la app ya le pide a la IA repetir sus descriptores, pero si editás un prompt a mano, conservá esos detalles para que no cambie de una toma a otra."
+ },
+ "kdrama": {
+  "que": "Generador de pipeline para «K-Drama IA»: arma un video corto completo del nicho (escenas dramáticas y románticas). Devuelve 4 lotes listos para producir en Veo 3: guion en español latino, Protagonistas (referencia), prompts de imagen y prompts de animación, en formato lineal (un prompt por línea) con los visuales en inglés.",
+  "pasos": [
+   "Pegá tu clave de Gemini en la barra de arriba y tocá Guardar (se comparte con todas las apps de la suite).",
+   "Configurá el panel: tipo de escena, protagonistas, escenario/contexto, tono, estilo visual, narración y cantidad de tomas.",
+   "Tocá «Generar pipeline» y esperá. Si querés ideas al azar, usá «Sorpresa».",
+   "Copiá cada lote con su botón (Guion, Protagonistas, Imágenes, Animación) y producí en Veo 3."
+  ],
+  "tip": "Mantené el mismo protagonistas entre tomas: la app ya le pide a la IA repetir sus descriptores, pero si editás un prompt a mano, conservá esos detalles para que no cambie de una toma a otra."
+ },
+ "telenovela": {
+  "que": "Generador de pipeline para «Telenovela Latina»: arma un video corto completo del nicho (escenas dramáticas y románticas) (con narración para Fish Audio). Devuelve 4 lotes listos para producir en Veo 3: guion en español latino, Protagonistas (referencia), prompts de imagen y prompts de animación, en formato lineal (un prompt por línea) con los visuales en inglés.",
+  "pasos": [
+   "Pegá tu clave de Gemini en la barra de arriba y tocá Guardar (se comparte con todas las apps de la suite).",
+   "Configurá el panel: tipo de escena, protagonistas, escenario/contexto, tono, estilo visual, narración y cantidad de tomas.",
+   "Tocá «Generar pipeline» y esperá. Si querés ideas al azar, usá «Sorpresa».",
+   "Copiá cada lote con su botón (Guion, Protagonistas, Imágenes, Animación) y producí en Veo 3."
+  ],
+  "tip": "Mantené el mismo protagonistas entre tomas: la app ya le pide a la IA repetir sus descriptores, pero si editás un prompt a mano, conservá esos detalles para que no cambie de una toma a otra."
+ },
+ "dramaepoca": {
+  "que": "Generador de pipeline para «Drama de Época»: arma un video corto completo del nicho (escenas dramáticas y románticas). Devuelve 4 lotes listos para producir en Veo 3: guion en español latino, Protagonistas (referencia), prompts de imagen y prompts de animación, en formato lineal (un prompt por línea) con los visuales en inglés.",
+  "pasos": [
+   "Pegá tu clave de Gemini en la barra de arriba y tocá Guardar (se comparte con todas las apps de la suite).",
+   "Configurá el panel: tipo de escena, protagonistas, escenario/contexto, tono, estilo visual, narración y cantidad de tomas.",
+   "Tocá «Generar pipeline» y esperá. Si querés ideas al azar, usá «Sorpresa».",
+   "Copiá cada lote con su botón (Guion, Protagonistas, Imágenes, Animación) y producí en Veo 3."
+  ],
+  "tip": "Mantené el mismo protagonistas entre tomas: la app ya le pide a la IA repetir sus descriptores, pero si editás un prompt a mano, conservá esos detalles para que no cambie de una toma a otra."
+ },
+ "quesi": {
+  "que": "Generador de pipeline para «¿Y si…? IA»: arma un video corto completo del nicho (escenas hiperrealistas imposibles) (con narración para Fish Audio). Devuelve 4 lotes listos para producir en Veo 3: guion en español latino, Escena (referencia), prompts de imagen y prompts de animación, en formato lineal (un prompt por línea) con los visuales en inglés.",
+  "pasos": [
+   "Pegá tu clave de Gemini en la barra de arriba y tocá Guardar (se comparte con todas las apps de la suite).",
+   "Configurá el panel: tipo de escena, escena hipotética, escenario/contexto, tono, estilo visual, narración y cantidad de tomas.",
+   "Tocá «Generar pipeline» y esperá. Si querés ideas al azar, usá «Sorpresa».",
+   "Copiá cada lote con su botón (Guion, Escena, Imágenes, Animación) y producí en Veo 3."
+  ],
+  "tip": "Mantené el mismo escena hipotética entre tomas: la app ya le pide a la IA repetir sus descriptores, pero si editás un prompt a mano, conservá esos detalles para que no cambie de una toma a otra."
+ },
+ "criaturasmito": {
+  "que": "Generador de pipeline para «Criaturas Mitológicas»: arma un video corto completo del nicho (escenas hiperrealistas imposibles). Devuelve 4 lotes listos para producir en Veo 3: guion en español latino, Criatura (referencia), prompts de imagen y prompts de animación, en formato lineal (un prompt por línea) con los visuales en inglés.",
+  "pasos": [
+   "Pegá tu clave de Gemini en la barra de arriba y tocá Guardar (se comparte con todas las apps de la suite).",
+   "Configurá el panel: tipo de escena, criatura, escenario/contexto, tono, estilo visual, narración y cantidad de tomas.",
+   "Tocá «Generar pipeline» y esperá. Si querés ideas al azar, usá «Sorpresa».",
+   "Copiá cada lote con su botón (Guion, Criatura, Imágenes, Animación) y producí en Veo 3."
+  ],
+  "tip": "Mantené el mismo criatura entre tomas: la app ya le pide a la IA repetir sus descriptores, pero si editás un prompt a mano, conservá esos detalles para que no cambie de una toma a otra."
+ },
+ "kaiju": {
+  "que": "Generador de pipeline para «Kaiju Gigante»: arma un video corto completo del nicho (escenas hiperrealistas imposibles). Devuelve 4 lotes listos para producir en Veo 3: guion en español latino, Kaiju (referencia), prompts de imagen y prompts de animación, en formato lineal (un prompt por línea) con los visuales en inglés.",
+  "pasos": [
+   "Pegá tu clave de Gemini en la barra de arriba y tocá Guardar (se comparte con todas las apps de la suite).",
+   "Configurá el panel: tipo de escena, kaiju, escenario/contexto, tono, estilo visual, narración y cantidad de tomas.",
+   "Tocá «Generar pipeline» y esperá. Si querés ideas al azar, usá «Sorpresa».",
+   "Copiá cada lote con su botón (Guion, Kaiju, Imágenes, Animación) y producí en Veo 3."
+  ],
+  "tip": "Mantené el mismo kaiju entre tomas: la app ya le pide a la IA repetir sus descriptores, pero si editás un prompt a mano, conservá esos detalles para que no cambie de una toma a otra."
+ },
+ "natimposible": {
+  "que": "Generador de pipeline para «Naturaleza Imposible»: arma un video corto completo del nicho (escenas hiperrealistas imposibles). Devuelve 4 lotes listos para producir en Veo 3: guion en español latino, Fenómeno (referencia), prompts de imagen y prompts de animación, en formato lineal (un prompt por línea) con los visuales en inglés.",
+  "pasos": [
+   "Pegá tu clave de Gemini en la barra de arriba y tocá Guardar (se comparte con todas las apps de la suite).",
+   "Configurá el panel: tipo de escena, fenómeno, escenario/contexto, tono, estilo visual, narración y cantidad de tomas.",
+   "Tocá «Generar pipeline» y esperá. Si querés ideas al azar, usá «Sorpresa».",
+   "Copiá cada lote con su botón (Guion, Fenómeno, Imágenes, Animación) y producí en Veo 3."
+  ],
+  "tip": "Mantené el mismo fenómeno entre tomas: la app ya le pide a la IA repetir sus descriptores, pero si editás un prompt a mano, conservá esos detalles para que no cambie de una toma a otra."
+ },
+ "cosmos": {
+  "que": "Generador de pipeline para «Espacio / Cosmos»: arma un video corto completo del nicho (escenas hiperrealistas imposibles) (con narración para Fish Audio). Devuelve 4 lotes listos para producir en Veo 3: guion en español latino, Cuerpo (referencia), prompts de imagen y prompts de animación, en formato lineal (un prompt por línea) con los visuales en inglés.",
+  "pasos": [
+   "Pegá tu clave de Gemini en la barra de arriba y tocá Guardar (se comparte con todas las apps de la suite).",
+   "Configurá el panel: tipo de escena, cuerpo celeste, escenario/contexto, tono, estilo visual, narración y cantidad de tomas.",
+   "Tocá «Generar pipeline» y esperá. Si querés ideas al azar, usá «Sorpresa».",
+   "Copiá cada lote con su botón (Guion, Cuerpo, Imágenes, Animación) y producí en Veo 3."
+  ],
+  "tip": "Mantené el mismo cuerpo celeste entre tomas: la app ya le pide a la IA repetir sus descriptores, pero si editás un prompt a mano, conservá esos detalles para que no cambie de una toma a otra."
+ },
+ "futuro3000": {
+  "que": "Generador de pipeline para «Futuro Año 3000»: arma un video corto completo del nicho (escenas hiperrealistas imposibles). Devuelve 4 lotes listos para producir en Veo 3: guion en español latino, Escena (referencia), prompts de imagen y prompts de animación, en formato lineal (un prompt por línea) con los visuales en inglés.",
+  "pasos": [
+   "Pegá tu clave de Gemini en la barra de arriba y tocá Guardar (se comparte con todas las apps de la suite).",
+   "Configurá el panel: tipo de escena, escena futura, escenario/contexto, tono, estilo visual, narración y cantidad de tomas.",
+   "Tocá «Generar pipeline» y esperá. Si querés ideas al azar, usá «Sorpresa».",
+   "Copiá cada lote con su botón (Guion, Escena, Imágenes, Animación) y producí en Veo 3."
+  ],
+  "tip": "Mantené el mismo escena futura entre tomas: la app ya le pide a la IA repetir sus descriptores, pero si editás un prompt a mano, conservá esos detalles para que no cambie de una toma a otra."
+ },
+ "postapoc": {
+  "que": "Generador de pipeline para «Post-Apocalipsis»: arma un video corto completo del nicho (escenas hiperrealistas imposibles). Devuelve 4 lotes listos para producir en Veo 3: guion en español latino, Superviviente (referencia), prompts de imagen y prompts de animación, en formato lineal (un prompt por línea) con los visuales en inglés.",
+  "pasos": [
+   "Pegá tu clave de Gemini en la barra de arriba y tocá Guardar (se comparte con todas las apps de la suite).",
+   "Configurá el panel: tipo de escena, superviviente, escenario/contexto, tono, estilo visual, narración y cantidad de tomas.",
+   "Tocá «Generar pipeline» y esperá. Si querés ideas al azar, usá «Sorpresa».",
+   "Copiá cada lote con su botón (Guion, Superviviente, Imágenes, Animación) y producí en Veo 3."
+  ],
+  "tip": "Mantené el mismo superviviente entre tomas: la app ya le pide a la IA repetir sus descriptores, pero si editás un prompt a mano, conservá esos detalles para que no cambie de una toma a otra."
+ },
+ "microcosmos": {
+  "que": "Generador de pipeline para «Microcosmos del Cuerpo»: arma un video corto completo del nicho (escenas hiperrealistas imposibles) (con narración para Fish Audio). Devuelve 4 lotes listos para producir en Veo 3: guion en español latino, Estructura (referencia), prompts de imagen y prompts de animación, en formato lineal (un prompt por línea) con los visuales en inglés.",
+  "pasos": [
+   "Pegá tu clave de Gemini en la barra de arriba y tocá Guardar (se comparte con todas las apps de la suite).",
+   "Configurá el panel: tipo de escena, estructura interna, escenario/contexto, tono, estilo visual, narración y cantidad de tomas.",
+   "Tocá «Generar pipeline» y esperá. Si querés ideas al azar, usá «Sorpresa».",
+   "Copiá cada lote con su botón (Guion, Estructura, Imágenes, Animación) y producí en Veo 3."
+  ],
+  "tip": "Mantené el mismo estructura interna entre tomas: la app ya le pide a la IA repetir sus descriptores, pero si editás un prompt a mano, conservá esos detalles para que no cambie de una toma a otra."
+ },
+ "ugcreview": {
+  "que": "Generador de pipeline para «UGC / Review IA»: arma un video corto completo del nicho (un personaje hablando a cámara) (con narración para Fish Audio). Devuelve 4 lotes listos para producir en Veo 3: guion en español latino, Creador (referencia), prompts de imagen y prompts de animación, en formato lineal (un prompt por línea) con los visuales en inglés.",
+  "pasos": [
+   "Pegá tu clave de Gemini en la barra de arriba y tocá Guardar (se comparte con todas las apps de la suite).",
+   "Configurá el panel: tipo de escena, creador UGC, escenario/contexto, tono, estilo visual, narración y cantidad de tomas.",
+   "Tocá «Generar pipeline» y esperá. Si querés ideas al azar, usá «Sorpresa».",
+   "Copiá cada lote con su botón (Guion, Creador, Imágenes, Animación) y producí en Veo 3."
+  ],
+  "tip": "Mantené el mismo creador UGC entre tomas: la app ya le pide a la IA repetir sus descriptores, pero si editás un prompt a mano, conservá esos detalles para que no cambie de una toma a otra."
+ },
+ "testimonios": {
+  "que": "Generador de pipeline para «Testimonios IA»: arma un video corto completo del nicho (un personaje hablando a cámara) (con narración para Fish Audio). Devuelve 4 lotes listos para producir en Veo 3: guion en español latino, Persona (referencia), prompts de imagen y prompts de animación, en formato lineal (un prompt por línea) con los visuales en inglés.",
+  "pasos": [
+   "Pegá tu clave de Gemini en la barra de arriba y tocá Guardar (se comparte con todas las apps de la suite).",
+   "Configurá el panel: tipo de escena, persona, escenario/contexto, tono, estilo visual, narración y cantidad de tomas.",
+   "Tocá «Generar pipeline» y esperá. Si querés ideas al azar, usá «Sorpresa».",
+   "Copiá cada lote con su botón (Guion, Persona, Imágenes, Animación) y producí en Veo 3."
+  ],
+  "tip": "Mantené el mismo persona entre tomas: la app ya le pide a la IA repetir sus descriptores, pero si editás un prompt a mano, conservá esos detalles para que no cambie de una toma a otra."
+ },
+ "noticiero": {
+  "que": "Generador de pipeline para «Noticiero IA»: arma un video corto completo del nicho (un personaje hablando a cámara) (con narración para Fish Audio). Devuelve 4 lotes listos para producir en Veo 3: guion en español latino, Presentador (referencia), prompts de imagen y prompts de animación, en formato lineal (un prompt por línea) con los visuales en inglés.",
+  "pasos": [
+   "Pegá tu clave de Gemini en la barra de arriba y tocá Guardar (se comparte con todas las apps de la suite).",
+   "Configurá el panel: tipo de escena, presentador, escenario/contexto, tono, estilo visual, narración y cantidad de tomas.",
+   "Tocá «Generar pipeline» y esperá. Si querés ideas al azar, usá «Sorpresa».",
+   "Copiá cada lote con su botón (Guion, Presentador, Imágenes, Animación) y producí en Veo 3."
+  ],
+  "tip": "Mantené el mismo presentador entre tomas: la app ya le pide a la IA repetir sus descriptores, pero si editás un prompt a mano, conservá esos detalles para que no cambie de una toma a otra."
+ },
+ "standup": {
+  "que": "Generador de pipeline para «Stand-Up IA»: arma un video corto completo del nicho (un personaje hablando a cámara) (con narración para Fish Audio). Devuelve 4 lotes listos para producir en Veo 3: guion en español latino, Comediante (referencia), prompts de imagen y prompts de animación, en formato lineal (un prompt por línea) con los visuales en inglés.",
+  "pasos": [
+   "Pegá tu clave de Gemini en la barra de arriba y tocá Guardar (se comparte con todas las apps de la suite).",
+   "Configurá el panel: tipo de escena, comediante, escenario/contexto, tono, estilo visual, narración y cantidad de tomas.",
+   "Tocá «Generar pipeline» y esperá. Si querés ideas al azar, usá «Sorpresa».",
+   "Copiá cada lote con su botón (Guion, Comediante, Imágenes, Animación) y producí en Veo 3."
+  ],
+  "tip": "Mantené el mismo comediante entre tomas: la app ya le pide a la IA repetir sus descriptores, pero si editás un prompt a mano, conservá esos detalles para que no cambie de una toma a otra."
+ },
+ "videoclip": {
+  "que": "Generador de pipeline para «Videoclip Musical IA»: arma un video corto completo del nicho (un personaje hablando a cámara). Devuelve 4 lotes listos para producir en Veo 3: guion en español latino, Artista (referencia), prompts de imagen y prompts de animación, en formato lineal (un prompt por línea) con los visuales en inglés.",
+  "pasos": [
+   "Pegá tu clave de Gemini en la barra de arriba y tocá Guardar (se comparte con todas las apps de la suite).",
+   "Configurá el panel: tipo de escena, artista, escenario/contexto, tono, estilo visual, narración y cantidad de tomas.",
+   "Tocá «Generar pipeline» y esperá. Si querés ideas al azar, usá «Sorpresa».",
+   "Copiá cada lote con su botón (Guion, Artista, Imágenes, Animación) y producí en Veo 3."
+  ],
+  "tip": "Mantené el mismo artista entre tomas: la app ya le pide a la IA repetir sus descriptores, pero si editás un prompt a mano, conservá esos detalles para que no cambie de una toma a otra."
+ },
+ "pasarela": {
+  "que": "Generador de pipeline para «Pasarela Imposible»: arma un video corto completo del nicho (moda, pasarela y belleza). Devuelve 4 lotes listos para producir en Veo 3: guion en español latino, Modelo (referencia), prompts de imagen y prompts de animación, en formato lineal (un prompt por línea) con los visuales en inglés.",
+  "pasos": [
+   "Pegá tu clave de Gemini en la barra de arriba y tocá Guardar (se comparte con todas las apps de la suite).",
+   "Configurá el panel: tipo de escena, modelo, escenario/contexto, tono, estilo visual, narración y cantidad de tomas.",
+   "Tocá «Generar pipeline» y esperá. Si querés ideas al azar, usá «Sorpresa».",
+   "Copiá cada lote con su botón (Guion, Modelo, Imágenes, Animación) y producí en Veo 3."
+  ],
+  "tip": "Mantené el mismo modelo entre tomas: la app ya le pide a la IA repetir sus descriptores, pero si editás un prompt a mano, conservá esos detalles para que no cambie de una toma a otra."
+ },
+ "lookbook": {
+  "que": "Generador de pipeline para «Lookbook IA»: arma un video corto completo del nicho (moda, pasarela y belleza). Devuelve 4 lotes listos para producir en Veo 3: guion en español latino, Modelo (referencia), prompts de imagen y prompts de animación, en formato lineal (un prompt por línea) con los visuales en inglés.",
+  "pasos": [
+   "Pegá tu clave de Gemini en la barra de arriba y tocá Guardar (se comparte con todas las apps de la suite).",
+   "Configurá el panel: tipo de escena, modelo, escenario/contexto, tono, estilo visual, narración y cantidad de tomas.",
+   "Tocá «Generar pipeline» y esperá. Si querés ideas al azar, usá «Sorpresa».",
+   "Copiá cada lote con su botón (Guion, Modelo, Imágenes, Animación) y producí en Veo 3."
+  ],
+  "tip": "Mantené el mismo modelo entre tomas: la app ya le pide a la IA repetir sus descriptores, pero si editás un prompt a mano, conservá esos detalles para que no cambie de una toma a otra."
+ },
+ "glowup": {
+  "que": "Generador de pipeline para «Belleza / Glow-Up»: arma un video corto completo del nicho (moda, pasarela y belleza). Devuelve 4 lotes listos para producir en Veo 3: guion en español latino, Persona (referencia), prompts de imagen y prompts de animación, en formato lineal (un prompt por línea) con los visuales en inglés.",
+  "pasos": [
+   "Pegá tu clave de Gemini en la barra de arriba y tocá Guardar (se comparte con todas las apps de la suite).",
+   "Configurá el panel: tipo de escena, persona, escenario/contexto, tono, estilo visual, narración y cantidad de tomas.",
+   "Tocá «Generar pipeline» y esperá. Si querés ideas al azar, usá «Sorpresa».",
+   "Copiá cada lote con su botón (Guion, Persona, Imágenes, Animación) y producí en Veo 3."
+  ],
+  "tip": "Mantené el mismo persona entre tomas: la app ya le pide a la IA repetir sus descriptores, pero si editás un prompt a mano, conservá esos detalles para que no cambie de una toma a otra."
+ },
+ "psicologia": {
+  "que": "Generador de pipeline para «Psicología / Mente»: arma un video corto completo del nicho (contenido educativo y divulgación) (con narración para Fish Audio). Devuelve 4 lotes listos para producir en Veo 3: guion en español latino, Conceptos (referencia), prompts de imagen y prompts de animación, en formato lineal (un prompt por línea) con los visuales en inglés.",
+  "pasos": [
+   "Pegá tu clave de Gemini en la barra de arriba y tocá Guardar (se comparte con todas las apps de la suite).",
+   "Configurá el panel: tipo de escena, concepto, escenario/contexto, tono, estilo visual, narración y cantidad de tomas.",
+   "Tocá «Generar pipeline» y esperá. Si querés ideas al azar, usá «Sorpresa».",
+   "Copiá cada lote con su botón (Guion, Conceptos, Imágenes, Animación) y producí en Veo 3."
+  ],
+  "tip": "Mantené el mismo concepto entre tomas: la app ya le pide a la IA repetir sus descriptores, pero si editás un prompt a mano, conservá esos detalles para que no cambie de una toma a otra."
+ },
+ "estoicismo": {
+  "que": "Generador de pipeline para «Estoicismo IA»: arma un video corto completo del nicho (contenido educativo y divulgación) (con narración para Fish Audio). Devuelve 4 lotes listos para producir en Veo 3: guion en español latino, Escena (referencia), prompts de imagen y prompts de animación, en formato lineal (un prompt por línea) con los visuales en inglés.",
+  "pasos": [
+   "Pegá tu clave de Gemini en la barra de arriba y tocá Guardar (se comparte con todas las apps de la suite).",
+   "Configurá el panel: tipo de escena, escena reflexiva, escenario/contexto, tono, estilo visual, narración y cantidad de tomas.",
+   "Tocá «Generar pipeline» y esperá. Si querés ideas al azar, usá «Sorpresa».",
+   "Copiá cada lote con su botón (Guion, Escena, Imágenes, Animación) y producí en Veo 3."
+  ],
+  "tip": "Mantené el mismo escena reflexiva entre tomas: la app ya le pide a la IA repetir sus descriptores, pero si editás un prompt a mano, conservá esos detalles para que no cambie de una toma a otra."
+ },
+ "ciencia": {
+  "que": "Generador de pipeline para «Ciencia / Experimentos»: arma un video corto completo del nicho (contenido educativo y divulgación) (con narración para Fish Audio). Devuelve 4 lotes listos para producir en Veo 3: guion en español latino, Fenómeno (referencia), prompts de imagen y prompts de animación, en formato lineal (un prompt por línea) con los visuales en inglés.",
+  "pasos": [
+   "Pegá tu clave de Gemini en la barra de arriba y tocá Guardar (se comparte con todas las apps de la suite).",
+   "Configurá el panel: tipo de escena, fenómeno, escenario/contexto, tono, estilo visual, narración y cantidad de tomas.",
+   "Tocá «Generar pipeline» y esperá. Si querés ideas al azar, usá «Sorpresa».",
+   "Copiá cada lote con su botón (Guion, Fenómeno, Imágenes, Animación) y producí en Veo 3."
+  ],
+  "tip": "Mantené el mismo fenómeno entre tomas: la app ya le pide a la IA repetir sus descriptores, pero si editás un prompt a mano, conservá esos detalles para que no cambie de una toma a otra."
+ },
+ "espacioedu": {
+  "que": "Generador de pipeline para «Espacio Educativo»: arma un video corto completo del nicho (contenido educativo y divulgación) (con narración para Fish Audio). Devuelve 4 lotes listos para producir en Veo 3: guion en español latino, Tema (referencia), prompts de imagen y prompts de animación, en formato lineal (un prompt por línea) con los visuales en inglés.",
+  "pasos": [
+   "Pegá tu clave de Gemini en la barra de arriba y tocá Guardar (se comparte con todas las apps de la suite).",
+   "Configurá el panel: tipo de escena, tema espacial, escenario/contexto, tono, estilo visual, narración y cantidad de tomas.",
+   "Tocá «Generar pipeline» y esperá. Si querés ideas al azar, usá «Sorpresa».",
+   "Copiá cada lote con su botón (Guion, Tema, Imágenes, Animación) y producí en Veo 3."
+  ],
+  "tip": "Mantené el mismo tema espacial entre tomas: la app ya le pide a la IA repetir sus descriptores, pero si editás un prompt a mano, conservá esos detalles para que no cambie de una toma a otra."
+ },
+ "inventos": {
+  "que": "Generador de pipeline para «Inventos / Cómo Funciona»: arma un video corto completo del nicho (contenido educativo y divulgación) (con narración para Fish Audio). Devuelve 4 lotes listos para producir en Veo 3: guion en español latino, Invento (referencia), prompts de imagen y prompts de animación, en formato lineal (un prompt por línea) con los visuales en inglés.",
+  "pasos": [
+   "Pegá tu clave de Gemini en la barra de arriba y tocá Guardar (se comparte con todas las apps de la suite).",
+   "Configurá el panel: tipo de escena, invento, escenario/contexto, tono, estilo visual, narración y cantidad de tomas.",
+   "Tocá «Generar pipeline» y esperá. Si querés ideas al azar, usá «Sorpresa».",
+   "Copiá cada lote con su botón (Guion, Invento, Imágenes, Animación) y producí en Veo 3."
+  ],
+  "tip": "Mantené el mismo invento entre tomas: la app ya le pide a la IA repetir sus descriptores, pero si editás un prompt a mano, conservá esos detalles para que no cambie de una toma a otra."
+ },
+ "foodporn": {
+  "que": "Generador de pipeline para «Food Porn IA»: arma un video corto completo del nicho (comida apetitosa y satisfying). Devuelve 4 lotes listos para producir en Veo 3: guion en español latino, Plato (referencia), prompts de imagen y prompts de animación, en formato lineal (un prompt por línea) con los visuales en inglés.",
+  "pasos": [
+   "Pegá tu clave de Gemini en la barra de arriba y tocá Guardar (se comparte con todas las apps de la suite).",
+   "Configurá el panel: tipo de escena, plato, escenario/contexto, tono, estilo visual, narración y cantidad de tomas.",
+   "Tocá «Generar pipeline» y esperá. Si querés ideas al azar, usá «Sorpresa».",
+   "Copiá cada lote con su botón (Guion, Plato, Imágenes, Animación) y producí en Veo 3."
+  ],
+  "tip": "Mantené el mismo plato entre tomas: la app ya le pide a la IA repetir sus descriptores, pero si editás un prompt a mano, conservá esos detalles para que no cambie de una toma a otra."
+ },
+ "mukbang": {
+  "que": "Generador de pipeline para «Mukbang IA»: arma un video corto completo del nicho (comida apetitosa y satisfying) (con narración para Fish Audio). Devuelve 4 lotes listos para producir en Veo 3: guion en español latino, Presentador (referencia), prompts de imagen y prompts de animación, en formato lineal (un prompt por línea) con los visuales en inglés.",
+  "pasos": [
+   "Pegá tu clave de Gemini en la barra de arriba y tocá Guardar (se comparte con todas las apps de la suite).",
+   "Configurá el panel: tipo de escena, presentador comiendo, escenario/contexto, tono, estilo visual, narración y cantidad de tomas.",
+   "Tocá «Generar pipeline» y esperá. Si querés ideas al azar, usá «Sorpresa».",
+   "Copiá cada lote con su botón (Guion, Presentador, Imágenes, Animación) y producí en Veo 3."
+  ],
+  "tip": "Mantené el mismo presentador comiendo entre tomas: la app ya le pide a la IA repetir sus descriptores, pero si editás un prompt a mano, conservá esos detalles para que no cambie de una toma a otra."
+ },
+ "recetaspov": {
+  "que": "Generador de pipeline para «Recetas POV»: arma un video corto completo del nicho (comida apetitosa y satisfying). Devuelve 4 lotes listos para producir en Veo 3: guion en español latino, Plato (referencia), prompts de imagen y prompts de animación, en formato lineal (un prompt por línea) con los visuales en inglés.",
+  "pasos": [
+   "Pegá tu clave de Gemini en la barra de arriba y tocá Guardar (se comparte con todas las apps de la suite).",
+   "Configurá el panel: tipo de escena, plato, escenario/contexto, tono, estilo visual, narración y cantidad de tomas.",
+   "Tocá «Generar pipeline» y esperá. Si querés ideas al azar, usá «Sorpresa».",
+   "Copiá cada lote con su botón (Guion, Plato, Imágenes, Animación) y producí en Veo 3."
+  ],
+  "tip": "Mantené el mismo plato entre tomas: la app ya le pide a la IA repetir sus descriptores, pero si editás un prompt a mano, conservá esos detalles para que no cambie de una toma a otra."
+ },
+ "comidagigante": {
+  "que": "Generador de pipeline para «Comida Gigante»: arma un video corto completo del nicho (comida apetitosa y satisfying). Devuelve 4 lotes listos para producir en Veo 3: guion en español latino, Comida (referencia), prompts de imagen y prompts de animación, en formato lineal (un prompt por línea) con los visuales en inglés.",
+  "pasos": [
+   "Pegá tu clave de Gemini en la barra de arriba y tocá Guardar (se comparte con todas las apps de la suite).",
+   "Configurá el panel: tipo de escena, comida gigante, escenario/contexto, tono, estilo visual, narración y cantidad de tomas.",
+   "Tocá «Generar pipeline» y esperá. Si querés ideas al azar, usá «Sorpresa».",
+   "Copiá cada lote con su botón (Guion, Comida, Imágenes, Animación) y producí en Veo 3."
+  ],
+  "tip": "Mantené el mismo comida gigante entre tomas: la app ya le pide a la IA repetir sus descriptores, pero si editás un prompt a mano, conservá esos detalles para que no cambie de una toma a otra."
+ },
+ "docunatura": {
+  "que": "Generador de pipeline para «Documental Naturaleza»: arma un video corto completo del nicho (documental de naturaleza) (con narración para Fish Audio). Devuelve 4 lotes listos para producir en Veo 3: guion en español latino, Animal (referencia), prompts de imagen y prompts de animación, en formato lineal (un prompt por línea) con los visuales en inglés.",
+  "pasos": [
+   "Pegá tu clave de Gemini en la barra de arriba y tocá Guardar (se comparte con todas las apps de la suite).",
+   "Configurá el panel: tipo de escena, animal, escenario/contexto, tono, estilo visual, narración y cantidad de tomas.",
+   "Tocá «Generar pipeline» y esperá. Si querés ideas al azar, usá «Sorpresa».",
+   "Copiá cada lote con su botón (Guion, Animal, Imágenes, Animación) y producí en Veo 3."
+  ],
+  "tip": "Mantené el mismo animal entre tomas: la app ya le pide a la IA repetir sus descriptores, pero si editás un prompt a mano, conservá esos detalles para que no cambie de una toma a otra."
+ },
+ "oceano": {
+  "que": "Generador de pipeline para «Océano Profundo»: arma un video corto completo del nicho (documental de naturaleza) (con narración para Fish Audio). Devuelve 4 lotes listos para producir en Veo 3: guion en español latino, Criatura (referencia), prompts de imagen y prompts de animación, en formato lineal (un prompt por línea) con los visuales en inglés.",
+  "pasos": [
+   "Pegá tu clave de Gemini en la barra de arriba y tocá Guardar (se comparte con todas las apps de la suite).",
+   "Configurá el panel: tipo de escena, criatura marina, escenario/contexto, tono, estilo visual, narración y cantidad de tomas.",
+   "Tocá «Generar pipeline» y esperá. Si querés ideas al azar, usá «Sorpresa».",
+   "Copiá cada lote con su botón (Guion, Criatura, Imágenes, Animación) y producí en Veo 3."
+  ],
+  "tip": "Mantené el mismo criatura marina entre tomas: la app ya le pide a la IA repetir sus descriptores, pero si editás un prompt a mano, conservá esos detalles para que no cambie de una toma a otra."
+ },
+ "dinosdoc": {
+  "que": "Generador de pipeline para «Dinosaurios Documental»: arma un video corto completo del nicho (documental de naturaleza) (con narración para Fish Audio). Devuelve 4 lotes listos para producir en Veo 3: guion en español latino, Dinosaurio (referencia), prompts de imagen y prompts de animación, en formato lineal (un prompt por línea) con los visuales en inglés.",
+  "pasos": [
+   "Pegá tu clave de Gemini en la barra de arriba y tocá Guardar (se comparte con todas las apps de la suite).",
+   "Configurá el panel: tipo de escena, dinosaurio, escenario/contexto, tono, estilo visual, narración y cantidad de tomas.",
+   "Tocá «Generar pipeline» y esperá. Si querés ideas al azar, usá «Sorpresa».",
+   "Copiá cada lote con su botón (Guion, Dinosaurio, Imágenes, Animación) y producí en Veo 3."
+  ],
+  "tip": "Mantené el mismo dinosaurio entre tomas: la app ya le pide a la IA repetir sus descriptores, pero si editás un prompt a mano, conservá esos detalles para que no cambie de una toma a otra."
+ },
+ "hadasoscuras": {
+  "que": "Generador de pipeline para «Cuentos de Hadas Oscuros»: arma un video corto completo del nicho (misterio, leyendas y paranormal) (con narración para Fish Audio). Devuelve 4 lotes listos para producir en Veo 3: guion en español latino, Personajes (referencia), prompts de imagen y prompts de animación, en formato lineal (un prompt por línea) con los visuales en inglés.",
+  "pasos": [
+   "Pegá tu clave de Gemini en la barra de arriba y tocá Guardar (se comparte con todas las apps de la suite).",
+   "Configurá el panel: tipo de escena, personaje, escenario/contexto, tono, estilo visual, narración y cantidad de tomas.",
+   "Tocá «Generar pipeline» y esperá. Si querés ideas al azar, usá «Sorpresa».",
+   "Copiá cada lote con su botón (Guion, Personajes, Imágenes, Animación) y producí en Veo 3."
+  ],
+  "tip": "Mantené el mismo personaje entre tomas: la app ya le pide a la IA repetir sus descriptores, pero si editás un prompt a mano, conservá esos detalles para que no cambie de una toma a otra."
+ },
+ "paranormalpov": {
+  "que": "Generador de pipeline para «Paranormal POV»: arma un video corto completo del nicho (misterio, leyendas y paranormal). Devuelve 4 lotes listos para producir en Veo 3: guion en español latino, Testigo (referencia), prompts de imagen y prompts de animación, en formato lineal (un prompt por línea) con los visuales en inglés.",
+  "pasos": [
+   "Pegá tu clave de Gemini en la barra de arriba y tocá Guardar (se comparte con todas las apps de la suite).",
+   "Configurá el panel: tipo de escena, testigo, escenario/contexto, tono, estilo visual, narración y cantidad de tomas.",
+   "Tocá «Generar pipeline» y esperá. Si querés ideas al azar, usá «Sorpresa».",
+   "Copiá cada lote con su botón (Guion, Testigo, Imágenes, Animación) y producí en Veo 3."
+  ],
+  "tip": "Mantené el mismo testigo entre tomas: la app ya le pide a la IA repetir sus descriptores, pero si editás un prompt a mano, conservá esos detalles para que no cambie de una toma a otra."
+ },
+ "leyendas": {
+  "que": "Generador de pipeline para «Leyendas del Mundo»: arma un video corto completo del nicho (misterio, leyendas y paranormal) (con narración para Fish Audio). Devuelve 4 lotes listos para producir en Veo 3: guion en español latino, Figura (referencia), prompts de imagen y prompts de animación, en formato lineal (un prompt por línea) con los visuales en inglés.",
+  "pasos": [
+   "Pegá tu clave de Gemini en la barra de arriba y tocá Guardar (se comparte con todas las apps de la suite).",
+   "Configurá el panel: tipo de escena, figura legendaria, escenario/contexto, tono, estilo visual, narración y cantidad de tomas.",
+   "Tocá «Generar pipeline» y esperá. Si querés ideas al azar, usá «Sorpresa».",
+   "Copiá cada lote con su botón (Guion, Figura, Imágenes, Animación) y producí en Veo 3."
+  ],
+  "tip": "Mantené el mismo figura legendaria entre tomas: la app ya le pide a la IA repetir sus descriptores, pero si editás un prompt a mano, conservá esos detalles para que no cambie de una toma a otra."
+ },
+ "viajes": {
+  "que": "Generador de pipeline para «Viajes / Destinos»: arma un video corto completo del nicho (lujo, viajes y lifestyle). Devuelve 4 lotes listos para producir en Veo 3: guion en español latino, Destino (referencia), prompts de imagen y prompts de animación, en formato lineal (un prompt por línea) con los visuales en inglés.",
+  "pasos": [
+   "Pegá tu clave de Gemini en la barra de arriba y tocá Guardar (se comparte con todas las apps de la suite).",
+   "Configurá el panel: tipo de escena, destino, escenario/contexto, tono, estilo visual, narración y cantidad de tomas.",
+   "Tocá «Generar pipeline» y esperá. Si querés ideas al azar, usá «Sorpresa».",
+   "Copiá cada lote con su botón (Guion, Destino, Imágenes, Animación) y producí en Veo 3."
+  ],
+  "tip": "Mantené el mismo destino entre tomas: la app ya le pide a la IA repetir sus descriptores, pero si editás un prompt a mano, conservá esos detalles para que no cambie de una toma a otra."
+ },
+ "supercars": {
+  "que": "Generador de pipeline para «Supercars / Lujo»: arma un video corto completo del nicho (lujo, viajes y lifestyle). Devuelve 4 lotes listos para producir en Veo 3: guion en español latino, Auto (referencia), prompts de imagen y prompts de animación, en formato lineal (un prompt por línea) con los visuales en inglés.",
+  "pasos": [
+   "Pegá tu clave de Gemini en la barra de arriba y tocá Guardar (se comparte con todas las apps de la suite).",
+   "Configurá el panel: tipo de escena, auto, escenario/contexto, tono, estilo visual, narración y cantidad de tomas.",
+   "Tocá «Generar pipeline» y esperá. Si querés ideas al azar, usá «Sorpresa».",
+   "Copiá cada lote con su botón (Guion, Auto, Imágenes, Animación) y producí en Veo 3."
+  ],
+  "tip": "Mantené el mismo auto entre tomas: la app ya le pide a la IA repetir sus descriptores, pero si editás un prompt a mano, conservá esos detalles para que no cambie de una toma a otra."
+ },
+ "mansiones": {
+  "que": "Generador de pipeline para «Mansiones / Arquitectura»: arma un video corto completo del nicho (lujo, viajes y lifestyle). Devuelve 4 lotes listos para producir en Veo 3: guion en español latino, Propiedad (referencia), prompts de imagen y prompts de animación, en formato lineal (un prompt por línea) con los visuales en inglés.",
+  "pasos": [
+   "Pegá tu clave de Gemini en la barra de arriba y tocá Guardar (se comparte con todas las apps de la suite).",
+   "Configurá el panel: tipo de escena, propiedad, escenario/contexto, tono, estilo visual, narración y cantidad de tomas.",
+   "Tocá «Generar pipeline» y esperá. Si querés ideas al azar, usá «Sorpresa».",
+   "Copiá cada lote con su botón (Guion, Propiedad, Imágenes, Animación) y producí en Veo 3."
+  ],
+  "tip": "Mantené el mismo propiedad entre tomas: la app ya le pide a la IA repetir sus descriptores, pero si editás un prompt a mano, conservá esos detalles para que no cambie de una toma a otra."
+ },
+ "brainrot": {
+  "que": "Generador de pipeline para «Brainrot Absurdo»: arma un video corto completo del nicho (humor absurdo viral). Devuelve 4 lotes listos para producir en Veo 3: guion en español latino, Personajes (referencia), prompts de imagen y prompts de animación, en formato lineal (un prompt por línea) con los visuales en inglés.",
+  "pasos": [
+   "Pegá tu clave de Gemini en la barra de arriba y tocá Guardar (se comparte con todas las apps de la suite).",
+   "Configurá el panel: tipo de escena, personaje absurdo, escenario/contexto, tono, estilo visual, narración y cantidad de tomas.",
+   "Tocá «Generar pipeline» y esperá. Si querés ideas al azar, usá «Sorpresa».",
+   "Copiá cada lote con su botón (Guion, Personajes, Imágenes, Animación) y producí en Veo 3."
+  ],
+  "tip": "Mantené el mismo personaje absurdo entre tomas: la app ya le pide a la IA repetir sus descriptores, pero si editás un prompt a mano, conservá esos detalles para que no cambie de una toma a otra."
  }
 }
