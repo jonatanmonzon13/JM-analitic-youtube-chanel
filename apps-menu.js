@@ -97,7 +97,7 @@
     + '-webkit-backdrop-filter:blur(8px);backdrop-filter:blur(8px);box-shadow:0 6px 22px rgba(0,0,0,.5)}'
     + '#jmlnch .jmbtn:hover{border-color:'+GOLD+';background:rgba(231,184,92,.12)}'
     + '#jmov{position:fixed;inset:0;z-index:100000;display:none;align-items:stretch;justify-content:stretch;'
-    + 'background:rgba(3,4,8,.78);-webkit-backdrop-filter:blur(7px);backdrop-filter:blur(7px);padding:18px}'
+    + 'background:rgba(3,4,8,.93);padding:18px}'
     + '#jmov.open{display:flex}'
     + '#jmpanel{width:100%;max-width:100%;height:100%;max-height:100%;display:flex;flex-direction:column;'
     + 'background:linear-gradient(180deg,#0d1018,#080a11);border:1px solid #2a2f45;border-radius:18px;'
@@ -132,6 +132,7 @@
     + '#jmpanel .jmfoot a{color:#828DA6;text-decoration:none;font-family:JetBrains Mono,monospace;font-size:12px}'
     + '#jmpanel .jmfoot a:hover{color:#FF7A9C}'
     + '#jmgrid{display:block}'
+    + '.jmsec{content-visibility:auto;contain-intrinsic-size:0 760px}'
     + '.secgrid{display:grid;grid-template-columns:repeat(4,1fr);gap:20px}'
     + '@media (max-width:1100px){.secgrid{grid-template-columns:repeat(3,1fr)}}'
     + '@media (max-width:700px){.secgrid{grid-template-columns:repeat(2,1fr)}}'
@@ -177,7 +178,7 @@
 
   function tileHtml(a){
     var cur=(a.archivo||'').toLowerCase()===here;
-    var thumb=(a.img?('<img class="jmimg" src="'+escapeHtml(a.img)+'" alt="" onerror="this.remove()">'):'')+poster(a);
+    var thumb=(a.img?('<img class="jmimg" src="'+escapeHtml(a.img)+'" alt="" loading="lazy" decoding="async" onerror="this.remove()">'):'')+poster(a);
     return '<a class="jmtile'+(cur?' here':'')+'" href="'+escapeHtml(a.archivo)+'">'
       + '<span class="jmth">'+thumb+'<span class="sh"></span>'
       + '<span class="info" data-info="'+escapeHtml(a.id)+'" title="Cómo se usa">i</span></span>'
