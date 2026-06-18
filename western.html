@@ -244,21 +244,29 @@ function toggleEye(){ const i=$("apiKey"); i.type = i.type==='password'?'text':'
 /* ── SYSTEM PROMPT del nicho ── */
 const SYSTEM = `Eres el director de producción de "Western IA" para JM BOTS: experto en escenas y tráilers de cine y en armar prompts de IA para videos cortos del nicho, listos para producir en Veo 3. Trabajás en flujo VISUAL (sin voz obligatoria; voz opcional).\n\nREGLAS DE FORMATO (estrictas):\n- Explicaciones mínimas en español latino.\n- Devolvé EXACTAMENTE 4 bloques de código markdown (triple backtick), en este orden y SIN texto entre ellos:\n  BLOQUE 1 = GUION (español latino).\n  BLOQUE 2 = PERSONAJES (inglés).\n  BLOQUE 3 = IMAGENES/KEYFRAMES (inglés).\n  BLOQUE 4 = ANIMACION para Veo 3 (inglés).\n- Formato lineal: en los bloques 2, 3 y 4, UN prompt por línea, sin viñetas, sin numeración, sin comillas envolventes, una línea en blanco entre prompts.\n- Los prompts visuales y de animación SIEMPRE en inglés. Los diálogos y la narración SIEMPRE en español latino.\n- Priorizá look de cine: hyper-realistic, cinematic film still, anamorphic, film grain, dramatic lighting, 8K.\n\nCONSISTENCIA (Pistolero):\n- Mantené coherente al pistolero (sombrero, abrigo, rostro) entre tomas repitiendo descriptores.\n\nCONTENIDO POR BLOQUE:\nBLOQUE 1 (GUION, español latino): título corto del video + una entrada por toma ("TOMA N — [acción visual breve]") (sin diálogo obligatorio si el nicho no lo requiere). Si el usuario pidió narración, agregá al inicio "NARRACIÓN (voz en off):" con el texto continuo en español latino; si no, no la incluyas.\nBLOQUE 2 (PERSONAJES, inglés): 1 a 2 líneas de hoja de referencia del pistolero: descripción hiper específica (rasgos, vestuario, materiales/color), consistent design, usando el estilo visual elegido, 4K.\nBLOQUE 3 (IMAGENES, inglés): exactamente una línea por toma. Cada línea: descriptores del pistolero + acción de la toma + escenario/contexto + cinematic composition + ángulo/cámara + iluminación + tono + el estilo visual elegido + cinematic film still, anamorphic lens, dramatic lighting, film grain, 8K.\nBLOQUE 4 (ANIMACION, inglés): exactamente una línea por toma, misma cantidad que el bloque 3. Cada línea: pistolero (descriptores breves) + movimiento/acción + movimiento de cámara + expresión + estilo, 4 second shot.\n\nNo agregues nada después del bloque 4. No preguntes; producí directamente con los datos recibidos.`;
 
+/* ── memoria local anti-repetición (por app) ── */
+function _hkey(){ return 'jmbots_hist_'+((location.pathname.split('/').pop()||'app').replace('.html','')); }
+function _getHist(){ try{ return JSON.parse(localStorage.getItem(_hkey())||'[]'); }catch(e){ return []; } }
+function _pushHist(fp){ if(!fp) return; try{ var h=_getHist().filter(x=>x!==fp); h.unshift(fp); localStorage.setItem(_hkey(),JSON.stringify(h.slice(0,15))); }catch(e){} }
+
 /* ── Construir el pedido a partir de los selectores ── */
 function buildPrompt(){
   const sub=$("subgenero").value, pro=$("protagonista").value.trim()||"el sujeto principal del video (definí los detalles y mantenelos coherentes en todas las tomas)",
         esc=$("escenario").value, tono=$("tono").value, pal=$("paleta").value,
         narr=$("narracion").value==='si', tomas=$("tomas").value;
-  return `Generá el pipeline completo para un corto de Anime Cinematográfico con estos parámetros:
-- Sub-género / tipo de escena: ${sub}
-- Protagonista (mantener idéntico en todas las tomas): ${pro}
-- Escenario / locación: ${esc}
+  const seed=Math.floor(Math.random()*1e9), hist=_getHist();
+  let av=`\n\nVARIACIÓN OBLIGATORIA: generá una historia/idea COMPLETAMENTE nueva y distinta a cualquier resultado anterior. Cambiá nombres propios, lugares puntuales, estructura, giros, encuadres y detalles. Evitá clichés y aperturas repetidas; no empieces siempre igual. Semilla creativa única: ${seed}.`;
+  if(hist.length) av+=` Ya salieron estos (NO los repitas ni te parezcas a ellos): ${hist.join(' | ')}.`;
+  return `Generá el pipeline completo con estos parámetros:
+- Tipo / escena: ${sub}
+- Sujeto principal (mantener idéntico en todas las tomas): ${pro}
+- Escenario / contexto: ${esc}
 - Tono / atmósfera: ${tono}
 - Estilo visual fijo (usar en TODOS los prompts visuales): ${pal}
 - Narración en voz en off: ${narr?'SÍ (incluí el texto en el bloque 1)':'NO (solo visual, sin diálogo obligatorio)'}
 - Cantidad de tomas: ${tomas} (los bloques 3 y 4 deben tener exactamente ${tomas} prompts)
 
-Recordá: 4 bloques markdown, formato lineal, visuales en inglés, guion/narración en español latino, y repetí los descriptores del personaje en cada toma.`;
+Recordá: 4 bloques markdown, formato lineal, visuales en inglés, guion/narración en español latino, y repetí los descriptores del sujeto en cada toma.`+av;
 }
 
 /* ── Llamada a Gemini ── */
@@ -268,7 +276,7 @@ async function callGemini(userText){
   const body={
     systemInstruction:{ parts:[{text:SYSTEM}] },
     contents:[{role:'user', parts:[{text:userText}]}],
-    generationConfig:{ temperature:0.88, maxOutputTokens:8192 }
+    generationConfig:{ temperature:0.97, topP:0.95, maxOutputTokens:8192 }
   };
   const r=await fetch(`${API}/v1beta/models/${MODEL}:generateContent?key=${encodeURIComponent(key)}`,{
     method:'POST', headers:{'Content-Type':'application/json'}, body:JSON.stringify(body)
@@ -304,6 +312,7 @@ async function generar(){
       $("status").className='status err'; $("status").textContent='⚠️ La IA no devolvió los 4 lotes separados. Tenés todo en el Guion; probá "Generar" de nuevo.';
     } else {
       $("txtGuion").value=b[0]; $("txtPers").value=b[1]; $("txtImgs").value=b[2]; $("txtAnim").value=b[3];
+      try{ _pushHist((b[0].split('\n').map(s=>s.trim()).filter(Boolean)[0]||'').slice(0,80)); }catch(e){}
       $("status").className='status ok'; $("status").textContent='✓ Pipeline listo. Revisá los 4 lotes en las pestañas.';
     }
     // resumen

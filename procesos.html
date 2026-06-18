@@ -3,16 +3,16 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>Motivación y Disciplina · JM BOTS</title>
+<title>Procesos Satisfying · JM BOTS</title>
 <style>
   :root{
     --bg:#0a0d12; --bg2:#11151d; --bg3:#18202b; --ink:#EAF2FF; --body:#C6D2E6; --muted:#8293B0;
-    --line:#22303f; --c1:#F8B34D; --c2:#FF8A3D; --c3:#FFD27A; --gold:#F8DA8E; --green:#5BE39A;
-    --grad:linear-gradient(100deg,#F8B34D,#FF8A3D 55%,#FFD27A);
+    --line:#22303f; --c1:#6BD0FF; --c2:#5BE3A8; --c3:#A8E84D; --gold:#F8DA8E; --green:#5BE39A;
+    --grad:linear-gradient(100deg,#6BD0FF,#5BE3A8 55%,#A8E84D);
     --display:'Sora',system-ui,sans-serif; --mono:'JetBrains Mono',ui-monospace,monospace;
   }
   *{box-sizing:border-box}
-  body{margin:0;background:radial-gradient(1100px 600px at 70% -10%,rgba(248,179,77,.14),transparent 60%),var(--bg);
+  body{margin:0;background:radial-gradient(1100px 600px at 70% -10%,rgba(107,208,255,.14),transparent 60%),var(--bg);
        color:var(--body);font-family:var(--display);-webkit-font-smoothing:antialiased;line-height:1.55}
   a{color:var(--c1)}
   .wrap{max-width:980px;margin:0 auto;padding:26px 20px 120px}
@@ -25,7 +25,7 @@
   .keybar{display:flex;gap:8px;align-items:center;flex-wrap:wrap;background:var(--bg2);border:1px solid var(--line);border-radius:14px;padding:12px;margin:18px 0}
   .keybar input{flex:1;min-width:200px;background:var(--bg3);border:1px solid var(--line);color:var(--ink);border-radius:10px;padding:11px 13px;font-family:var(--mono);font-size:13px}
   .btn{cursor:pointer;border:0;border-radius:10px;padding:11px 16px;font-family:var(--display);font-weight:700;font-size:13.5px;transition:transform .08s,box-shadow .18s,opacity .15s;display:inline-flex;align-items:center;gap:7px;white-space:nowrap}
-  .btn-main{color:#08110a;background:var(--grad);box-shadow:0 8px 24px rgba(248,179,77,.14)}
+  .btn-main{color:#08110a;background:var(--grad);box-shadow:0 8px 24px rgba(107,208,255,.14)}
   .btn-main:hover{transform:translateY(-1px)}
   .btn-ghost{background:var(--bg3);color:var(--ink);border:1px solid var(--line)}
   .btn-ghost:hover{border-color:var(--c1)}
@@ -60,9 +60,9 @@
 <body>
 <div class="wrap">
   <header class="top">
-    <div class="badge">TikTok · Motivación · Guion</div>
-    <h1>Motivación y Disciplina</h1>
-    <p class="sub">Genera guiones motivacionales y de mentalidad (estilo estoico/disciplina) para TikTok: frase potente + narración + sugerencias de B-roll épico. Gancho fuerte y compartible.</p>
+    <div class="badge">Veo 3 · Satisfying · 9:16</div>
+    <h1>Procesos Satisfying</h1>
+    <p class="sub">Genera prompts de procesos oddly satisfying para TikTok: restauración, limpieza profunda, organización, pintar/lijar, antes y después. Audio ASMR, vertical 9:16. Formato lineal.</p>
   </header>
   <div class="keybar">
     <input id="apiKey" type="password" placeholder="Clave de Gemini (compartida con la suite)">
@@ -72,10 +72,10 @@
     <div class="keyhint" id="keyHint">Necesitás tu clave de Gemini para generar. Se guarda solo en este navegador.</div>
   </div>
   <div class="steps" id="steps">
-    <span class="stp on" data-s="p1">1 · Tema</span>
-    <span class="stp" data-s="p2">2 · Tono</span>
+    <span class="stp on" data-s="p1">1 · Proceso</span>
+    <span class="stp" data-s="p2">2 · 10 ideas</span>
     <span class="stp" data-s="p3">3 · Duración</span>
-    <span class="stp" data-s="p4">4 · Guion</span>
+    <span class="stp" data-s="p4">4 · Prompts</span>
   </div>
   <div class="chat" id="chat"></div>
   <div class="quick" id="quick"></div>
@@ -95,7 +95,7 @@ function setKeyHint(m,c){ $("keyHint").textContent=m; $("keyHint").style.color=c
 function saveKey(){ const v=$("apiKey").value.trim(); if(!v){ setKeyHint("Pegá una clave antes de guardar.","var(--gold)"); return; } try{ const ks=loadKeys(); ks.an=v; localStorage.setItem('jmbots_keys',JSON.stringify(ks)); }catch(e){} setKeyHint("✓ Clave guardada (compartida con la suite).","var(--green)"); }
 function replaceKey(){ $("apiKey").value=""; $("apiKey").type='text'; $("apiKey").focus(); setKeyHint("Ingresá la nueva clave y tocá Guardar.","var(--gold)"); }
 function toggleEye(){ const i=$("apiKey"); i.type = i.type==='password'?'text':'password'; }
-const SYSTEM = `Eres "Motivación y Disciplina", guionista faceless de mentalidad para TikTok (tono estoico, disciplina, superación, calma). Optimizá para TikTok: vertical 9:16, gancho fuerte en los primeros 2 segundos, pensado para subtítulos en pantalla (mucha gente mira sin sonido), duración objetivo 30-90s. ENTREGA: dá primero un título/hook con factor clic, y luego el guion completo listo para voz en off dentro de UN bloque de código markdown (con botón copiar), limpio, sin introducciones de IA. Marcá [GANCHO 0-2s], cuerpo y [CTA] al final. Sugerí 2-3 ideas de B-roll/visual entre corchetes. Frases potentes y honestas (sin clichés vacíos ni promesas irreales, sin negatividad tóxica ni autoexigencia dañina). Sugerí B-roll épico/cinematográfico entre corchetes y un audio/música sugerida. Tonos (PASO): 1) Estoico/calma 2) Disciplina/acción 3) Superación/historia 4) Reflexión. Flujo: 'iniciar' o tema → tono → duración (corto/medio/largo) → título-gancho + guion. Comandos: iniciar, otro, más largo, reset.`;
+const SYSTEM = `Eres "Procesos Satisfying", generador de prompts para videos de procesos oddly-satisfying con Veo 3. Optimizá para TikTok: vertical 9:16, gancho fuerte en los primeros 2 segundos, pensado para subtítulos en pantalla (mucha gente mira sin sonido), duración objetivo 30-90s. FORMATO LINEAL OBLIGATORIO: cada prompt es UNA SOLA PIEZA de texto corrido (sin estructura JSON, sin llaves), en su PROPIO bloque de código markdown, separado por un espacio; nunca agrupes prompts ni uses arrays. Por cada clip entregás dos bloques lineales: PROMPT DE IMAGEN (keyframe, inglés) y PROMPT DE VIDEO para Veo 3 (inglés, con movimiento + audio + 'vertical 9:16, 4K, seamless loop'). Sin texto en pantalla, sin marcas ni logos. Estética macro/cenital, hiperrealista, foco en la transformación y el sonido. PASO 1 tipos: 1) Restauración (objeto viejo→como nuevo) 2) Limpieza profunda 3) Organización/orden 4) Pintar/lijar/pulir 5) Antes y después 6) Sorpréndeme. Luego 10 ideas; 'reiniciar ideas'=10 nuevas. Luego DURACIÓN (8/16/24s). Por clip: prompt de imagen (the object, macro) + prompt de video Veo 3 (proceso en movimiento satisfactorio + 'No music. Crisp ASMR sound' + loop). Comandos: iniciar, reiniciar ideas, continuar, reset.`;
 let history = [];
 let phase = 'p1';
 function setPhase(p){ phase=p; const order=['p1','p2','p3','p4']; document.querySelectorAll('#steps .stp').forEach(s=>{ const i=order.indexOf(s.dataset.s), cur=order.indexOf(p); s.classList.toggle('on', i===cur); s.classList.toggle('done', i<cur); }); }
@@ -127,10 +127,10 @@ async function send(){ if(busy) return; const inp=$("userIn"); const text=inp.va
   catch(err){ typing.remove(); addMsg('bot', '⚠️ '+esc(err.message)+'<br><span style="color:var(--muted);font-size:12px">Revisá tu clave de Gemini o probá de nuevo.</span>'); }
   busy=false; $("sendBtn").disabled=false; inp.focus(); }
 function quickSend(t){ $("userIn").value=t; send(); }
-const CHIPS = {p1:[["iniciar","▶ Empezar"]],p2:[["1","Opción 1"],["2","Opción 2"]],p3:[["1","Corto"],["2","Medio"],["3","Largo"]],p4:[["otro","🔄 Otro"],["más largo","➕ Más largo"]]};
+const CHIPS = {p1:[["iniciar","▶ Empezar"]],p2:[["1","Opción 1"],["2","Opción 2"],["reiniciar ideas","🔄 Otras 10"]],p3:[["1","8s"],["2","16s"],["3","24s"]],p4:[["continuar","➡ Continuar"],["iniciar","🔄 Nuevo"]]};
 function refreshQuick(){ const q=$("quick"); const chips=CHIPS[phase]||CHIPS.p1; q.innerHTML=chips.map(c=>'<button class="qbtn" onclick="quickSend(\''+c[0].replace(/'/g,"\\'")+'\')">'+c[1]+'</button>').join(''); }
-addMsg('bot', `¡Hola! 👋 Soy <b>Motivación y Disciplina</b>. Escribo guiones de mentalidad estilo estoico/disciplina para TikTok: frase potente + narración + B-roll épico.<br><br>Escribí <b>iniciar</b> o contame el tema.`);
-addMsg('sys','Mentalidad · estoico/disciplina · gancho 2s · compartible.');
+addMsg('bot', `¡Hola! 👋 Soy <b>Procesos Satisfying</b>. Genero prompts de procesos satisfying (restauración, limpieza, organización, antes/después) con Veo 3, 9:16.<br><br>Escribí <b>iniciar</b>, elegí el tipo, te doy 10 ideas y armo el <b>prompt de imagen + el de video</b> de cada clip.`);
+addMsg('sys','Restauración/limpieza/orden · antes-después · audio ASMR · 9:16.');
 refreshQuick();
 </script>
 <script>

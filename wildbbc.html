@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-<title>JM·BOTS Studio — Telenovela Latina</title>
+<title>JM·BOTS Studio — Wild Animal BBC</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Sora:wght@400;700;800&family=JetBrains+Mono:wght@400;700&display=swap" rel="stylesheet">
@@ -13,8 +13,8 @@
     --glass:rgba(18,16,38,0.72);
     --border:rgba(255,255,255,0.13);
     --text:#ffffff; --muted:rgba(255,255,255,0.66);
-    --c1:#fb7185;            /* electric blue */
-    --c2:#a855f7;            /* magenta */
+    --c1:#10b981;            /* electric blue */
+    --c2:#f59e0b;            /* magenta */
     --gold:#ffd166;
     --violet:#9d4edd;
     --lime:#00ffa3;
@@ -155,19 +155,19 @@
     </div>
 
     <header class="hero">
-      <h1 class="title">Telenovela Latina</h1>
-      <p class="subtitle">Escenas de telenovela latina — revelaciones, reencuentros y pasión, con narración emotiva.</p>
-      <div class="pills"><span class="pill">📺 Drama latino</span><span class="pill">🎙️ Narrado</span><span class="pill">🅑 Narrado (Fish Audio)</span><span class="pill">💔 Giros emotivos</span></div>
+      <h1 class="title">Wild Animal BBC</h1>
+      <p class="subtitle">Documentales de fauna estilo BBC Planet Earth — hiperrealista, narración Attenborough en fragmentos. 4 lotes: ideas, referencia, 3 tomas y Seedance + guía CapCut.</p>
+      <div class="pills"><span class="pill">🦁 BBC Planet Earth</span><span class="pill">🎙️ Narración en fragmentos</span><span class="pill">🅑 Narrado (Fish Audio)</span><span class="pill">🎬 Seedance + CapCut</span></div>
     </header>
 
     <div class="controls">
-      <div class="control"><label>Tipo de escena</label><select id="subgenero"><option value="revelación impactante">revelación impactante</option><option value="reencuentro de hermanos">reencuentro de hermanos</option><option value="confrontación familiar">confrontación familiar</option><option value="declaración apasionada">declaración apasionada</option><option value="giro inesperado">giro inesperado</option></select></div>
-      <div class="control"><label>Protagonistas (se mantiene en todas las tomas)</label><input type="text" id="protagonista" placeholder="describí el protagonistas con detalle; se mantiene igual en todas las tomas" /></div>
-      <div class="control"><label>Locación</label><select id="escenario"><option value="mansión elegante">mansión elegante</option><option value="hacienda al atardecer">hacienda al atardecer</option><option value="sala familiar">sala familiar</option><option value="jardín romántico">jardín romántico</option><option value="oficina de lujo">oficina de lujo</option></select></div>
-      <div class="control"><label>Tono / atmósfera</label><select id="tono"><option value="épico y heroico">épico y heroico</option><option value="melancólico y nostálgico">melancólico y nostálgico</option><option value="tierno y luminoso">tierno y luminoso</option><option value="tenso y dramático">tenso y dramático</option><option value="misterioso y onírico">misterioso y onírico</option></select></div>
-      <div class="control"><label>Paleta / estilo visual</label><select id="paleta"><option value="warm romantic cinematography, soft glow, golden hour">Romántico cálido</option><option value="k-drama clean cinematic look, pastel tones">K-drama limpio</option><option value="melancholic blue hour palette">Melancólico azulado</option></select></div>
+      <div class="control"><label>Tipo de toma</label><select id="subgenero"><option value="macro de ojo">macro de ojo</option><option value="comportamiento (caza / alimentación)">comportamiento (caza / alimentación)</option><option value="simbiosis (dos especies)">simbiosis (dos especies)</option><option value="textura (escamas / pelaje / plumas)">textura (escamas / pelaje / plumas)</option><option value="madre + cría">madre + cría</option><option value="camuflaje revelado">camuflaje revelado</option><option value="golden hour / blue hour">golden hour / blue hour</option></select></div>
+      <div class="control"><label>Especie exacta</label><input type="text" id="protagonista" placeholder="ej: camaleón pantera macho adulto" /></div>
+      <div class="control"><label>Grupo de animal</label><select id="escenario"><option value="felinos (león, leopardo, tigre…)">felinos (león, leopardo, tigre…)</option><option value="reptiles (cocodrilo, camaleón, cobra…)">reptiles (cocodrilo, camaleón, cobra…)</option><option value="aves (águila, búho, flamenco…)">aves (águila, búho, flamenco…)</option><option value="marinos (tiburón, orca, mantarraya…)">marinos (tiburón, orca, mantarraya…)</option><option value="árticos (oso polar, zorro ártico…)">árticos (oso polar, zorro ártico…)</option><option value="sabana (elefante, jirafa, rinoceronte…)">sabana (elefante, jirafa, rinoceronte…)</option><option value="insectos a escala (mantis, escarabajo…)">insectos a escala (mantis, escarabajo…)</option><option value="subestimados (pangolín, suricata…)">subestimados (pangolín, suricata…)</option></select></div>
+      <div class="control"><label>Tono / atmósfera</label><select id="tono"><option value="épico y heroico">épico y heroico</option><option value="emotivo y sincero">emotivo y sincero</option><option value="tenso y dramático">tenso y dramático</option><option value="tierno y luminoso">tierno y luminoso</option><option value="misterioso">misterioso</option></select></div>
+      <div class="control"><label>Paleta / estilo visual</label><select id="paleta"><option value="ultra-photorealistic BBC Planet Earth documentary, telephoto 400-600mm, shallow depth of field, natural lighting, 8K, zero AI art look">BBC Planet Earth</option><option value="nat-geo macro 100mm, dramatic light">Macro nat-geo</option></select></div>
       <div class="control"><label>Narración (voz)</label><select id="narracion"><option value="no">Sin voz — solo visual</option><option value="si" selected>Con narración (Fish Audio)</option></select></div>
-      <div class="control"><label>Cantidad de tomas</label><select id="tomas"><option value="8">8 tomas</option><option value="12" selected>12 tomas</option><option value="16">16 tomas</option><option value="20">20 tomas</option></select></div>
+      <div class="control"><label>Cantidad de tomas</label><select id="tomas"><option value="3" selected>3 tomas (Establish/Behavior/Macro)</option><option value="4">4 tomas</option></select></div>
     </div>
 
     <div class="cta">
@@ -187,7 +187,7 @@
           <div class="row"><span>Tomas</span><span id="sTomas" style="color:#fff">—</span></div>
         </div>
         <div class="box">
-          <h2 class="box-title">Protagonistas fijo</h2>
+          <h2 class="box-title">Especie fijo</h2>
           <p class="hint" id="sProta" style="margin:0">—</p>
         </div>
       </aside>
@@ -196,7 +196,7 @@
         <div class="box">
           <div class="tabs">
             <button class="tab active" data-p="p-guion">📜 1. Guion</button>
-            <button class="tab" data-p="p-pers">🧍 2. Protagonistas</button>
+            <button class="tab" data-p="p-pers">🧍 2. Especie</button>
             <button class="tab" data-p="p-imgs">📸 3. Imágenes</button>
             <button class="tab" data-p="p-anim">🚀 4. Animación</button>
           </div>
@@ -207,7 +207,7 @@
             <textarea id="txtGuion" readonly></textarea>
           </div>
           <div class="panel" id="p-pers">
-            <div class="bhead"><h3>🧍 LOTE 2 · Protagonistas (inglés)</h3><button class="copy" onclick="copyArea('txtPers',this)">📋 Copiar Lote</button></div>
+            <div class="bhead"><h3>🧍 LOTE 2 · Especie (inglés)</h3><button class="copy" onclick="copyArea('txtPers',this)">📋 Copiar Lote</button></div>
             <p class="hint">Hoja de referencia del personaje para mantenerlo idéntico en todas las tomas. Un prompt por línea.</p>
             <textarea id="txtPers" readonly></textarea>
           </div>
@@ -242,7 +242,21 @@ function replaceKey(){ $("apiKey").value=""; $("apiKey").type='text'; $("apiKey"
 function toggleEye(){ const i=$("apiKey"); i.type = i.type==='password'?'text':'password'; }
 
 /* ── SYSTEM PROMPT del nicho ── */
-const SYSTEM = `Eres el director de producción de "Telenovela Latina" para JM BOTS: experto en escenas dramáticas y románticas y en armar prompts de IA para videos cortos del nicho, listos para producir en Veo 3. Trabajás en flujo NARRADO (con voz en off para Fish Audio).\n\nREGLAS DE FORMATO (estrictas):\n- Explicaciones mínimas en español latino.\n- Devolvé EXACTAMENTE 4 bloques de código markdown (triple backtick), en este orden y SIN texto entre ellos:\n  BLOQUE 1 = GUION (español latino).\n  BLOQUE 2 = PERSONAJES (inglés).\n  BLOQUE 3 = IMAGENES/KEYFRAMES (inglés).\n  BLOQUE 4 = ANIMACION para Veo 3 (inglés).\n- Formato lineal: en los bloques 2, 3 y 4, UN prompt por línea, sin viñetas, sin numeración, sin comillas envolventes, una línea en blanco entre prompts.\n- Los prompts visuales y de animación SIEMPRE en inglés. Los diálogos y la narración SIEMPRE en español latino.\n- Priorizá realismo emocional de cine/serie: hyper-realistic, photorealistic, soft cinematic lighting, shallow depth of field, 8K.\n\nCONSISTENCIA (Protagonistas):\n- Drama latino emotivo con narración. Mantené coherentes a los protagonistas entre tomas. Sin clichés ofensivos.\n\nCONTENIDO POR BLOQUE:\nBLOQUE 1 (GUION, español latino): título corto del video + una entrada por toma ("TOMA N — [acción visual breve]") y, cuando corresponda, el diálogo del personaje entre corchetes con su nombre (máx ~18 palabras). Incluí SIEMPRE al inicio "NARRACIÓN (voz en off):" con el texto continuo en español latino para grabar en Fish Audio.\nBLOQUE 2 (PERSONAJES, inglés): 1 a 2 líneas de hoja de referencia del protagonistas: descripción hiper específica (rasgos, vestuario, materiales/color), consistent design, usando el estilo visual elegido, 4K.\nBLOQUE 3 (IMAGENES, inglés): exactamente una línea por toma. Cada línea: descriptores del protagonistas + acción de la toma + escenario/contexto + cinematic composition + ángulo/cámara + iluminación + tono + el estilo visual elegido + hyper-realistic, photorealistic, cinematic, shallow depth of field, soft lighting, 8K.\nBLOQUE 4 (ANIMACION, inglés): exactamente una línea por toma, misma cantidad que el bloque 3. Cada línea: protagonistas (descriptores breves) + movimiento/acción + movimiento de cámara + expresión + estilo, 4 second shot.\n\nNo agregues nada después del bloque 4. No preguntes; producí directamente con los datos recibidos.`;
+const SYSTEM = `Eres generador viral de documentales de fauna estilo BBC Planet Earth / National Geographic para JM BOTS. Ultra-fotorrealista, indistinguible de filmación real.
+REGLAS DE FORMATO (estrictas):
+- Explicaciones mínimas en español latino.
+- Devolvé EXACTAMENTE 4 bloques de código markdown, en este orden y sin texto entre ellos:
+  BLOQUE 1 = IDEAS + NARRACIÓN (español latino).
+  BLOQUE 2 = IMAGE PROMPT de referencia (inglés).
+  BLOQUE 3 = VIDEO SHOTS (inglés).
+  BLOQUE 4 = SEEDANCE 2.0 + GUÍA CAPCUT (inglés/español).
+- Visuales/animación en inglés; ideas y narración en español latino. Cámara siempre lenta y suave (nunca brusca); movimientos del animal sutiles y naturales; sin texto en la imagen (se agrega en CapCut); vertical 9:16; frame final sostenido 5s. Caza/alimentación SIN gore.
+CONTENIDO:
+BLOQUE 1: 10 ideas frescas de toma (Especie + comportamiento/detalle + hábitat + estilo de narración, una línea poética cada una) y luego, para la toma elegida, 3 fragmentos de narración: TEXT 1 (apertura), TEXT 2 (medio), TEXT 3 (cierre) — en español latino, 3 a 7 palabras cada uno, estilo Attenborough lírico, fragmentos incompletos, con 1–2 palabras resaltadas marcadas con [YG]…[/YG].
+BLOQUE 2: un IMAGE PROMPT ultra-fotorrealista de referencia, en inglés: especie y detalle exacto, posición/acción, hábitat (tipo, hora del día, atmósfera), cámara (macro/behavior/wide, 400-600mm o 100mm macro, shallow DOF, iluminación exacta), estilo BBC Planet Earth, sin texto, 9:16.
+BLOQUE 3: 3 VIDEO SHOTS en inglés (SHOT 1 Establish 0-8s, SHOT 2 Behavior 8-25s, SHOT 3 Macro 25-40s), cada uno empezando con "Use the uploaded image as Start Frame.", cámara muy lenta, movimientos naturales, sonido ambiente del hábitat, 9:16, frame final sostenido.
+BLOQUE 4: un párrafo único Seedance 2.0 (menos de 270 palabras, describiendo especie, comportamiento, hábitat, los 3 shots, cámara, sonidos ambiente, estilo, 9:16, 40s) + una GUÍA CAPCUT breve (posición/estilo de TEXT 1/2/3 con palabras resaltadas, tipo de música documental orquestal y término de búsqueda, volúmenes música 35% / naturaleza 65%, marca de agua abajo a la izquierda).
+No agregues nada después del bloque 4. Producí directo.`;
 
 /* ── memoria local anti-repetición (por app) ── */
 function _hkey(){ return 'jmbots_hist_'+((location.pathname.split('/').pop()||'app').replace('.html','')); }

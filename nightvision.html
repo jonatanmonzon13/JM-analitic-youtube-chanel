@@ -1,0 +1,268 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>JM·BOTS Studio — Night-Vision Chaos</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Sora:wght@400;700;800&family=JetBrains+Mono:wght@400;700&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --bg:#07060f;
+    --glass:rgba(18,16,38,0.72);
+    --border:rgba(255,255,255,0.13);
+    --text:#ffffff; --muted:rgba(255,255,255,0.66);
+    --c1:#38bdf8;            /* electric blue */
+    --c2:#ff4d9d;            /* magenta */
+    --gold:#ffd166;
+    --violet:#9d4edd;
+    --lime:#00ffa3;
+    --shadow:0 8px 32px rgba(0,0,0,0.55);
+    --glow1:0 0 20px rgba(56,189,248,0.4);
+    --glow2:0 0 20px rgba(255,77,157,0.4);
+    --radius:16px;
+  }
+  *{box-sizing:border-box}
+  html{scroll-behavior:smooth}
+  body{
+    margin:0; font-family:'Sora',system-ui,sans-serif;
+    background:linear-gradient(-45deg,#0a0a24 0%,#07060f 40%,#1a0a2c 100%);
+    background-size:400% 400%; animation:bg 16s ease infinite;
+    color:var(--text); min-height:100vh; padding-bottom:50px;
+  }
+  @keyframes bg{0%{background-position:0% 50%}50%{background-position:100% 50%}100%{background-position:0% 50%}}
+  body::before{
+    content:""; position:fixed; inset:-50%; width:200%; height:200%;
+    background:radial-gradient(circle at 50% 40%,rgba(56,189,248,0.08),transparent 60%),
+               radial-gradient(circle at 80% 20%,rgba(255,77,157,0.08),transparent 50%);
+    z-index:-1; pointer-events:none;
+  }
+  .wrap{max-width:1400px; margin:0 auto; padding:34px 20px}
+
+  /* Keybar */
+  .keybar{
+    display:flex; flex-wrap:wrap; gap:10px; align-items:center;
+    background:var(--glass); border:1px solid var(--border); border-radius:14px;
+    padding:14px 16px; margin-bottom:26px; box-shadow:var(--shadow); backdrop-filter:blur(10px);
+  }
+  .keybar label{font-size:.74rem; text-transform:uppercase; letter-spacing:1px; color:var(--muted); font-weight:800}
+  .keybar input{
+    flex:1; min-width:200px; background:rgba(0,0,0,0.5); color:#fff;
+    border:1px solid rgba(255,255,255,0.2); border-radius:10px; padding:11px 13px;
+    font-family:'JetBrains Mono',monospace; font-size:.85rem; outline:none;
+  }
+  .keybar input:focus{border-color:var(--c1); box-shadow:var(--glow1)}
+  .kbtn{border:none; border-radius:10px; padding:11px 16px; font-weight:800; font-size:.8rem; cursor:pointer; font-family:'Sora',sans-serif; transition:.2s}
+  .kbtn.save{background:linear-gradient(90deg,var(--c1),var(--violet)); color:#fff}
+  .kbtn.alt{background:rgba(255,255,255,0.06); color:var(--c1); border:1px solid var(--c1)}
+  .kbtn:hover{transform:translateY(-2px)}
+  .key-hint{flex-basis:100%; font-size:.78rem; color:var(--muted); margin-top:2px}
+
+  /* Hero */
+  .hero{
+    text-align:center; padding:42px 20px;
+    background:var(--glass); backdrop-filter:blur(15px);
+    border:1px solid var(--border); border-radius:28px; box-shadow:var(--shadow),var(--glow1); margin-bottom:34px;
+  }
+  .title{
+    font-size:clamp(2.4rem,5.5vw,4.4rem); margin:0 0 10px; font-weight:800; letter-spacing:2px;
+    background:linear-gradient(90deg,var(--c1),var(--c2),var(--gold));
+    -webkit-background-clip:text; background-clip:text; color:transparent;
+  }
+  .subtitle{color:#e0e0ff; font-size:1.05rem; line-height:1.6; max-width:860px; margin:0 auto 18px}
+  .pills{display:flex; justify-content:center; flex-wrap:wrap; gap:10px}
+  .pill{padding:7px 16px; border-radius:999px; background:rgba(255,255,255,0.05); border:1px solid var(--c1); color:var(--c1); font-size:.78rem; font-weight:800; text-transform:uppercase; box-shadow:var(--glow1)}
+  .pill:nth-child(even){border-color:var(--c2); color:var(--c2); box-shadow:var(--glow2)}
+  .pill:nth-child(3n){border-color:var(--gold); color:var(--gold); box-shadow:0 0 15px rgba(255,209,102,.3)}
+
+  /* Controls */
+  .controls{display:grid; grid-template-columns:repeat(auto-fit,minmax(260px,1fr)); gap:18px; margin-bottom:30px}
+  .control{
+    background:var(--glass); backdrop-filter:blur(10px); border:1px solid var(--border);
+    border-radius:var(--radius); padding:18px; box-shadow:var(--shadow); transition:.3s; border-left:4px solid var(--c1);
+  }
+  .control:nth-child(even){border-left-color:var(--c2)}
+  .control:nth-child(3n){border-left-color:var(--gold)}
+  .control:hover{transform:translateY(-4px); box-shadow:var(--glow1)}
+  .control label{display:block; font-size:.76rem; text-transform:uppercase; color:#fff; font-weight:800; margin-bottom:9px; letter-spacing:1px}
+  select,.control input[type=text]{
+    width:100%; background:rgba(0,0,0,0.5); color:#fff; border:1px solid rgba(255,255,255,0.2);
+    border-radius:10px; padding:13px; font-size:.92rem; font-weight:600; outline:none; cursor:pointer; transition:.3s; font-family:'Sora',sans-serif;
+  }
+  .control input[type=text]{cursor:text}
+  select:focus,.control input[type=text]:focus{border-color:var(--c1); box-shadow:var(--glow1)}
+
+  /* CTA */
+  .cta{display:flex; justify-content:center; gap:18px; flex-wrap:wrap; margin-bottom:18px}
+  .btn{border:none; border-radius:999px; padding:17px 34px; font-weight:800; font-size:1.05rem; cursor:pointer; transition:.3s; text-transform:uppercase; letter-spacing:1px; font-family:'Sora',sans-serif}
+  .btn-main{background:linear-gradient(90deg,var(--c2),var(--violet)); color:#fff; box-shadow:var(--glow2); border:1px solid rgba(255,255,255,0.25)}
+  .btn-main:hover{transform:scale(1.04); box-shadow:0 0 30px rgba(255,77,157,.65)}
+  .btn-main:disabled{opacity:.55; cursor:wait; transform:none}
+  .btn-alt{background:rgba(255,255,255,0.05); color:var(--c1); border:2px solid var(--c1)}
+  .btn-alt:hover{background:var(--c1); color:#000; box-shadow:var(--glow1)}
+  .status{text-align:center; min-height:22px; margin-bottom:30px; font-size:.9rem; color:var(--muted); font-weight:600}
+  .status.err{color:var(--c2)}
+  .status.ok{color:var(--lime)}
+
+  /* Output */
+  .output{display:grid; grid-template-columns:340px 1fr; gap:28px; align-items:start; display:none}
+  .output.visible{display:grid; animation:fade .5s ease}
+  @keyframes fade{from{opacity:0; transform:translateY(15px)}to{opacity:1; transform:translateY(0)}}
+  .aside{position:sticky; top:18px; display:flex; flex-direction:column; gap:18px}
+  .box{background:var(--glass); backdrop-filter:blur(15px); border:1px solid var(--border); border-radius:var(--radius); padding:22px; box-shadow:var(--shadow)}
+  .box-title{font-size:1.1rem; color:var(--gold); font-weight:800; margin:0 0 13px; text-transform:uppercase; letter-spacing:1px}
+  .row{display:flex; justify-content:space-between; gap:10px; padding:8px 0; border-bottom:1px dashed rgba(255,255,255,0.08); font-size:.86rem}
+  .row span:first-child{color:var(--muted)}
+  .row span:last-child{font-weight:700; text-align:right}
+
+  .tabs{display:flex; flex-wrap:wrap; gap:10px; margin-bottom:20px; border-bottom:2px solid rgba(255,255,255,0.1); padding-bottom:16px}
+  .tab{background:rgba(0,0,0,0.5); color:var(--muted); border:1px solid rgba(255,255,255,0.2); padding:12px 18px; border-radius:11px; cursor:pointer; font-weight:800; font-size:.84rem; transition:.3s; text-transform:uppercase; font-family:'Sora',sans-serif}
+  .tab:hover{border-color:var(--c1); color:#fff}
+  .tab.active{background:linear-gradient(90deg,var(--c1),var(--violet)); color:#fff; border:none; box-shadow:var(--glow1)}
+  .panel{display:none}
+  .panel.visible{display:block; animation:fade .4s ease}
+
+  .bhead{display:flex; justify-content:space-between; align-items:center; margin-bottom:12px; flex-wrap:wrap; gap:10px}
+  .bhead h3{margin:0; font-size:1.1rem; font-weight:800; text-transform:uppercase; letter-spacing:1px}
+  .hint{color:var(--muted); font-size:.82rem; margin:0 0 12px}
+  textarea{
+    width:100%; height:520px; background:rgba(5,5,12,0.85); color:#e6e6ff; border:2px solid var(--c1);
+    border-radius:16px; padding:22px; font-family:'JetBrains Mono',monospace; font-size:.9rem; line-height:1.7;
+    resize:vertical; outline:none; box-shadow:inset 0 5px 20px rgba(0,0,0,0.8); white-space:pre-wrap;
+  }
+  #p-guion h3{color:var(--gold)} #p-guion textarea{border-color:var(--gold)}
+  #p-pers h3{color:var(--c2)}  #p-pers textarea{border-color:var(--c2)}
+  #p-imgs h3{color:var(--c1)}  #p-imgs textarea{border-color:var(--c1)}
+  #p-anim h3{color:var(--violet)} #p-anim textarea{border-color:var(--violet)}
+  .copy{background:#fff; color:#000; border:none; padding:11px 22px; font-weight:800; border-radius:10px; cursor:pointer; transition:.2s; text-transform:uppercase; font-size:.8rem; letter-spacing:1px; font-family:'Sora',sans-serif; box-shadow:0 0 15px rgba(255,255,255,0.25)}
+  .copy:hover{background:var(--gold); transform:translateY(-2px)}
+
+  @media(max-width:980px){.output{grid-template-columns:1fr}.aside{position:static}}
+
+  .clipcard{background:rgba(5,5,12,0.85);border:2px solid var(--c1);border-radius:16px;padding:18px;margin-bottom:16px;box-shadow:inset 0 5px 20px rgba(0,0,0,0.8)}
+  .clipcard:nth-child(even){border-color:var(--c2)}
+  .clipcard .ch{display:flex;justify-content:space-between;align-items:center;margin-bottom:10px;gap:10px}
+  .clipcard .ch b{color:var(--gold);font-size:.9rem;letter-spacing:1px;text-transform:uppercase}
+  .clipcard pre{margin:0;white-space:pre-wrap;font-family:'JetBrains Mono',monospace;font-size:.88rem;line-height:1.7;color:#e6e6ff}
+</style>
+</head>
+<body>
+  <div class="wrap">
+    <div class="keybar">
+      <label for="apiKey">Clave Gemini</label>
+      <input id="apiKey" type="password" placeholder="Pegá tu clave de Gemini (AIza...)" autocomplete="off" />
+      <button class="kbtn save" onclick="saveKey()">Guardar</button>
+      <button class="kbtn alt" onclick="replaceKey()">Reemplazar</button>
+      <button class="kbtn alt" onclick="toggleEye()">👁️</button>
+      <div class="key-hint" id="keyHint">La clave se guarda solo en tu navegador y se comparte con todas las apps de la suite.</div>
+    </div>
+    <header class="hero">
+      <h1 class="title">Night-Vision Chaos</h1>
+      <p class="subtitle">Clips surreal de cámara de seguridad nocturna: calma → caos absurdo con un rider diminuto en serio. Un párrafo Veo 3 autocontenido por clip (8s).</p>
+      <div class="pills"><span class="pill">🟢 Night-vision CCTV</span><span class="pill">💥 Caos absurdo 8s</span><span class="pill">🅐 Visual</span><span class="pill">📋 Párrafo por clip</span></div>
+    </header>
+    <div class="controls">
+      <div class="control"><label>Habitación (escena CCTV)</label><select id="subgenero"><option value="dormitorio">dormitorio</option><option value="living">living</option><option value="pasillo">pasillo</option><option value="garaje">garaje</option><option value="cocina">cocina</option><option value="lavadero">lavadero</option><option value="sótano">sótano</option></select></div>
+      <div class="control"><label>Rider diminuto + qué hace en serio</label><input type="text" id="protagonista" placeholder="ej: hámster con goggles tocando un violín, súper serio" /></div>
+      <div class="control"><label>Intruso gigante</label><select id="escenario"><option value="animal gigante absurdo">animal gigante absurdo</option><option value="vehículo imposible">vehículo imposible</option><option value="objeto doméstico gigante">objeto doméstico gigante</option><option value="criatura surreal">criatura surreal</option><option value="máquina descontrolada">máquina descontrolada</option></select></div>
+      <div class="control"><label>Tono / atmósfera</label><select id="tono"><option value="épico y heroico">épico y heroico</option><option value="emotivo y sincero">emotivo y sincero</option><option value="tenso y dramático">tenso y dramático</option><option value="tierno y luminoso">tierno y luminoso</option><option value="misterioso">misterioso</option></select></div>
+      <div class="control"><label>Paleta / estilo visual</label><select id="paleta"><option value="heavy green night-vision filter, high ISO grain, CCTV compression artifacts, harsh infrared lighting">Night-vision verde clásico</option><option value="green night-vision, glowing reflective eyes, harsh infrared, motion blur">Night-vision ojos brillantes</option></select></div>
+      <div class="control"><label>Cantidad de clips</label><select id="tomas"><option value="1">1 clip</option><option value="2">2 clips</option><option value="3" selected>3 clips</option><option value="4">4 clips</option><option value="6">6 clips</option></select></div>
+    </div>
+    <div class="cta">
+      <button class="btn btn-main" id="genBtn" onclick="generar()">🎬 Generar prompts</button>
+      <button class="btn btn-alt" onclick="sorpresa()">🎲 Sorpresa</button>
+    </div>
+    <div class="status" id="status"></div>
+    <div class="output" id="output" style="grid-template-columns:1fr">
+      <div class="box">
+        <div class="bhead"><h3>📋 Prompts Veo 3 (un párrafo por clip de 8s)</h3><button class="copy" onclick="copyAll(this)">📋 Copiar todo</button></div>
+        <p class="hint">Cada clip es autocontenido (Veo 3 no recuerda clips previos). Copiá y pegá uno por uno.</p>
+        <div id="clips"></div>
+      </div>
+    </div>
+  </div>
+<script>
+const $ = id => document.getElementById(id);
+const MODEL='gemini-2.5-flash';
+const API='https://generativelanguage.googleapis.com';
+function loadKeys(){ try{ return JSON.parse(localStorage.getItem('jmbots_keys')||'{}'); }catch(e){ return {}; } }
+function setKeyHint(m,c){ $("keyHint").textContent=m; $("keyHint").style.color=c||"var(--muted)"; }
+(function initKey(){ const ks=loadKeys(); if(ks.an){ $("apiKey").value=ks.an; setKeyHint("✓ Clave del sistema cargada. Tocá Reemplazar para cambiarla.","var(--lime)"); } })();
+function saveKey(){ const v=$("apiKey").value.trim(); if(!v){ setKeyHint("Pegá una clave antes de guardar.","var(--c2)"); return; }
+  try{ const ks=loadKeys(); ks.an=v; localStorage.setItem('jmbots_keys',JSON.stringify(ks)); }catch(e){}
+  setKeyHint("✓ Clave guardada (compartida con la suite).","var(--lime)"); }
+function replaceKey(){ $("apiKey").value=""; $("apiKey").type='text'; $("apiKey").focus(); setKeyHint("Ingresá la nueva clave y tocá Guardar.","var(--gold)"); }
+function toggleEye(){ const i=$("apiKey"); i.type = i.type==='password'?'text':'password'; }
+
+const SYSTEM = `Eres ingeniero senior de prompts para Veo 3, especializado en "Surreal Night-Vision Chaos" (fake CCTV/night-vision con caos animal absurdo). Generás prompts individuales y autocontenidos de EXACTAMENTE 8 segundos.
+REGLA CLAVE: Veo 3 no recuerda clips previos, así que CADA prompt es 100% autocontenido y contiene todo el arco de 8 segundos en UN solo párrafo denso.
+ARCO 8s: 0–1s: toma perfectamente quieta, creíble, verde night-vision de cámara de seguridad en un espacio doméstico mundano (dormitorio, living, pasillo, garaje, cocina, lavadero, sótano), vacío y normal, con grano alto ISO y compresión CCTV. 1–2s: interrupción violenta instantánea: algo enorme, absurdo e imposible irrumpe cruzando el cuadro muy rápido, sacude la cámara, motion blur fuerte. 2–8s: la cámara pasa de estática a handheld/POV night-vision frenético siguiendo el caos; un sujeto pequeño y ridículo se ve claramente montando/controlando/comandando a la criatura u objeto mucho más grande, haciendo algo serio y sin sentido (tocar un instrumento, cocinar, dar órdenes, bailar). Mantené al rider visible. Termina con la acción aún escalando, sin conclusión limpia.
+ESTILO: filtro verde night-vision fuerte, ojos reflectantes brillantes si hay animales, grano alto ISO, compresión CCTV, luz infrarroja dura, motion blur en el impacto, camera shake caótico tras el switch.
+SALIDA: devolvé la cantidad de clips pedida; cada clip = UN bloque de código markdown con UN solo párrafo, sin viñetas, sin títulos, sin opciones múltiples, sin texto entre bloques. Cada párrafo en INGLÉS y debe mencionar explícitamente: "exactly 8 seconds", "green night-vision", "static security-camera opening", "sudden violent camera shake", "frantic shaky handheld chaos", "high ISO grain", "motion blur" y la relación específica del rider/controlador diminuto.
+Apto para todo público: comedia por contraste de escala y seriedad; sin gore ni violencia real. No expliques el chiste; mostralo.`;
+
+function _hkey(){ return 'jmbots_hist_'+((location.pathname.split('/').pop()||'app').replace('.html','')); }
+function _getHist(){ try{ return JSON.parse(localStorage.getItem(_hkey())||'[]'); }catch(e){ return []; } }
+function _pushHist(fp){ if(!fp) return; try{ var h=_getHist().filter(x=>x!==fp); h.unshift(fp); localStorage.setItem(_hkey(),JSON.stringify(h.slice(0,15))); }catch(e){} }
+function buildPrompt(){
+  const sub=$("subgenero").value, pro=$("protagonista").value.trim()||"el sujeto principal (definí los detalles vos)",
+        esc=$("escenario").value, tono=$("tono").value, pal=$("paleta").value, n=$("tomas").value;
+  const seed=Math.floor(Math.random()*1e9), hist=_getHist();
+  let av=`\n\nVARIACIÓN OBLIGATORIA: cada clip debe ser COMPLETAMENTE nuevo y distinto a cualquier resultado anterior. Cambiá sujeto, acción, encuadre, estructura y detalles; evitá repetir ideas o aperturas. Semilla creativa única: ${seed}.`;
+  if(hist.length) av+=` Ya salieron estos (NO los repitas): ${hist.join(' | ')}.`;
+  return `Generá EXACTAMENTE ${n} clip(s) para este pedido (un párrafo autocontenido por clip):
+- Tipo/escena: ${sub}
+- Sujeto principal: ${pro}
+- Variante/contexto: ${esc}
+- Tono: ${tono}
+- Estilo visual fijo (usar en todos): ${pal}
+- Cantidad de clips: ${n}
+Devolvé ${n} bloque(s) de código markdown, uno por clip, cada uno UN solo párrafo denso. Nada de viñetas, títulos ni texto entre bloques.`+av;
+}
+async function callGemini(userText){
+  const key=$("apiKey").value.trim();
+  if(!key){ setKeyHint("Falta la clave de Gemini.","var(--c2)"); throw new Error('sin-clave'); }
+  const body={ systemInstruction:{parts:[{text:SYSTEM}]}, contents:[{role:'user',parts:[{text:userText}]}], generationConfig:{temperature:0.97,topP:0.95,maxOutputTokens:8192} };
+  const r=await fetch(`${API}/v1beta/models/${MODEL}:generateContent?key=${encodeURIComponent(key)}`,{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify(body)});
+  if(!r.ok){ const e=await r.text().catch(()=>''); throw new Error('Gemini '+r.status+': '+e.slice(0,180)); }
+  const j=await r.json();
+  return (j.candidates?.[0]?.content?.parts||[]).map(p=>p.text||'').join('').trim();
+}
+function parseBlocks(txt){
+  const parts=txt.split(/```/); const b=[];
+  for(let i=1;i<parts.length;i+=2){ b.push(parts[i].replace(/^[a-zA-Z]*\n/,'').replace(/^\n/,'').replace(/\n$/,'').trim()); }
+  return b;
+}
+let CLIPS=[], busy=false;
+function render(){
+  const c=$("clips"); c.innerHTML='';
+  CLIPS.forEach((t,i)=>{
+    const d=document.createElement('div'); d.className='clipcard';
+    d.innerHTML='<div class="ch"><b>Clip '+(i+1)+'</b><button class="copy">📋 Copiar</button></div><pre></pre>';
+    d.querySelector('pre').textContent=t;
+    d.querySelector('button').onclick=function(){ navigator.clipboard.writeText(t).then(()=>{const o=this.textContent;this.textContent='✅';setTimeout(()=>this.textContent=o,1400);}); };
+    c.appendChild(d);
+  });
+}
+async function generar(){
+  if(busy) return; busy=true;
+  const btn=$("genBtn"); btn.disabled=true; const old=btn.textContent; btn.textContent='⏳ Generando...';
+  $("status").className='status'; $("status").textContent='Escribiendo los prompts...';
+  try{
+    const txt=await callGemini(buildPrompt());
+    let b=parseBlocks(txt);
+    if(!b.length) b=txt.split(/\n\s*\n/).map(s=>s.trim()).filter(Boolean);
+    CLIPS=b; render(); try{ _pushHist((b[0]||'').slice(0,80)); }catch(e){}
+    $("status").className='status ok'; $("status").textContent='✓ '+b.length+' clip(s) listos. Copiá cada uno o todo.';
+    $("output").classList.add('visible'); $("output").scrollIntoView({behavior:'smooth',block:'start'});
+  }catch(err){ if(err.message!=='sin-clave'){ $("status").className='status err'; $("status").textContent='❌ '+err.message; } }
+  finally{ btn.disabled=false; btn.textContent=old; busy=false; }
+}
+function copyAll(btn){ if(!CLIPS.length) return; navigator.clipboard.writeText(CLIPS.join('\n\n')).then(()=>{const o=btn.textContent;btn.textContent='✅ ¡Copiado!';setTimeout(()=>btn.textContent=o,1600);}); }
+function sorpresa(){ ['subgenero','escenario','tono','paleta','tomas'].forEach(id=>{const el=$(id);el.selectedIndex=Math.floor(Math.random()*el.options.length);}); generar(); }
+</script>
+<script src="apps-menu.js"></script>
+</body>
+</html>

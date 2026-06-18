@@ -1,0 +1,158 @@
+<!doctype html>
+<html lang="es">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Renombrador de Miniaturas · JM BOTS</title>
+<style>
+  :root{--bg:#070a12;--bg2:#0d1018;--bg3:#141926;--ink:#F2F5FF;--body:#C7CEDE;--muted:#7E8AA6;--line:#222842;--gold:#E7B85C;--gold2:#F8DA8E;--green:#5BE39A;--red:#FF7A9C;--display:'Sora',system-ui,sans-serif;--mono:'JetBrains Mono',ui-monospace,monospace}
+  *{box-sizing:border-box}
+  body{margin:0;background:radial-gradient(1000px 500px at 50% -10%,rgba(231,184,92,.10),transparent 60%),var(--bg);color:var(--body);font-family:var(--display);-webkit-font-smoothing:antialiased;line-height:1.5}
+  .wrap{max-width:1100px;margin:0 auto;padding:26px 18px 120px}
+  h1{font-size:clamp(22px,4vw,32px);font-weight:800;margin:0 0 6px;background:linear-gradient(100deg,var(--gold),var(--gold2));-webkit-background-clip:text;background-clip:text;-webkit-text-fill-color:transparent}
+  .sub{color:var(--muted);font-size:14px;margin:0 0 18px;max-width:70ch}
+  .drop{border:2px dashed var(--line);border-radius:16px;padding:34px 20px;text-align:center;background:var(--bg2);cursor:pointer;transition:.15s}
+  .drop:hover,.drop.over{border-color:var(--gold);background:var(--bg3)}
+  .drop b{color:var(--ink)}
+  .drop small{display:block;color:var(--muted);font-family:var(--mono);font-size:11px;margin-top:8px}
+  .bar{position:sticky;top:0;z-index:5;display:flex;gap:12px;align-items:center;flex-wrap:wrap;background:rgba(10,13,20,.92);-webkit-backdrop-filter:blur(8px);backdrop-filter:blur(8px);border:1px solid var(--line);border-radius:14px;padding:12px 14px;margin:18px 0}
+  .count{font-family:var(--mono);font-size:13px;color:var(--body)}
+  .count b{color:var(--gold2)}
+  .btn{cursor:pointer;border:0;border-radius:10px;padding:11px 18px;font-family:var(--display);font-weight:700;font-size:14px;display:inline-flex;gap:8px;align-items:center}
+  .btn-main{color:#1c1404;background:linear-gradient(100deg,var(--gold),var(--gold2));box-shadow:0 8px 22px rgba(231,184,92,.28)}
+  .btn-main:disabled{opacity:.45;cursor:not-allowed;box-shadow:none}
+  .btn-ghost{background:var(--bg3);color:var(--ink);border:1px solid var(--line)}
+  .warn{color:var(--red);font-family:var(--mono);font-size:12px}
+  .grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(230px,1fr));gap:14px;margin-top:6px}
+  .card{background:var(--bg2);border:1px solid var(--line);border-radius:14px;overflow:hidden;display:flex;flex-direction:column}
+  .card.ok{border-color:rgba(91,227,154,.5)}
+  .card.dup{border-color:var(--red)}
+  .th{position:relative;width:100%;aspect-ratio:16/9;background:#11141f;overflow:hidden}
+  .th img{width:100%;height:100%;object-fit:cover;display:block}
+  .th .tag{position:absolute;top:6px;left:6px;font-family:var(--mono);font-size:9px;color:#0a0d14;background:var(--gold);border-radius:5px;padding:2px 6px;max-width:90%;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+  .cbody{padding:10px}
+  .fn{font-family:var(--mono);font-size:10px;color:var(--muted);white-space:nowrap;overflow:hidden;text-overflow:ellipsis;margin-bottom:8px}
+  select{width:100%;background:var(--bg3);border:1px solid var(--line);color:var(--ink);border-radius:9px;padding:9px;font-family:var(--display);font-size:13px}
+  .res{font-family:var(--mono);font-size:11px;margin-top:7px;min-height:14px}
+  .res.set{color:var(--green)} .res.err{color:var(--red)}
+  .empty{color:var(--muted);text-align:center;padding:30px;font-family:var(--mono);font-size:13px}
+  .note{font-family:var(--mono);font-size:11.5px;color:var(--muted);margin-top:16px;line-height:1.7}
+</style>
+</head>
+<body>
+<div class="wrap">
+  <h1>Renombrador de Miniaturas</h1>
+  <p class="sub">Arrastrá todas las imágenes que generaste. A cada una elegí de la lista a qué app pertenece (mirando la miniatura) y descargá la carpeta <b>img</b> con todo renombrado a <code>&lt;id&gt;.jpg</code>, lista para subir al repo. Funciona 100% en tu navegador: tus imágenes no se suben a ningún lado.</p>
+
+  <div class="drop" id="drop">
+    <b>📥 Soltá tus imágenes acá</b> o tocá para elegirlas
+    <small>Podés seleccionar muchas a la vez · JPG / PNG / WEBP</small>
+    <input type="file" id="file" accept="image/*" multiple hidden>
+  </div>
+
+  <div class="bar">
+    <span class="count" id="count">0 imágenes · <b>0</b>/89 asignadas</span>
+    <span class="warn" id="warn"></span>
+    <span style="flex:1"></span>
+    <button class="btn btn-ghost" id="clearBtn">Limpiar</button>
+    <button class="btn btn-main" id="dlBtn" disabled>⬇ Descargar carpeta img (.zip)</button>
+  </div>
+
+  <div class="grid" id="grid"><div class="empty">Todavía no cargaste imágenes.</div></div>
+
+  <div class="note">
+    <b>Cómo se usa:</b><br>
+    1) Soltá tus imágenes arriba. &nbsp; 2) En cada tarjeta, elegí la app correcta en el menú. &nbsp; 3) Cuando termines, tocá <b>Descargar carpeta img</b>.<br>
+    4) Descomprimí el .zip: vas a tener una carpeta <b>img</b> con todo nombrado. &nbsp; 5) Subí esa carpeta <b>img</b> al repo (Add file → Upload files) y refrescá.<br>
+    Las imágenes se reexportan en <b>.jpg</b> optimizado. Si dos quedan en la misma app, te aviso en rojo.
+  </div>
+</div>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jszip/3.10.1/jszip.min.js"></script>
+<script>
+const APPS = [{"id": "outliers", "nombre": "Outliers", "nicho": "Análisis YouTube"}, {"id": "historias", "nombre": "Historias de Fe", "nicho": "Fe y Reflexión"}, {"id": "milagros", "nombre": "Milagros de Fe", "nicho": "Fe y Reflexión"}, {"id": "relatos", "nombre": "Relatos de Fe", "nicho": "Fe y Reflexión"}, {"id": "glam", "nombre": "Glam", "nicho": "Cuentos y Fábulas"}, {"id": "frutas", "nombre": "Frutas", "nicho": "Cuentos y Fábulas"}, {"id": "novelas", "nombre": "Novelas JMbots", "nicho": "Cuentos y Fábulas"}, {"id": "analizador", "nombre": "Analizador de Video", "nicho": "Análisis YouTube"}, {"id": "mascotas", "nombre": "Mascotas Dramáticas", "nicho": "Historias POV"}, {"id": "comida", "nombre": "Comida Dramática", "nicho": "Historias POV"}, {"id": "zodiaco", "nombre": "Novelas del Zodíaco", "nicho": "Cuentos y Fábulas"}, {"id": "animales", "nombre": "Animales Salvajes", "nicho": "Infantil y Escolar"}, {"id": "objetos", "nombre": "POV Objetos con Vida", "nicho": "Historias POV"}, {"id": "terror", "nombre": "Micro-Terror", "nicho": "Terror y Misterio"}, {"id": "fabulas", "nombre": "Fábulas con Moraleja", "nicho": "Cuentos y Fábulas"}, {"id": "mitologia", "nombre": "Mitología Dramática", "nicho": "Cuentos y Fábulas"}, {"id": "parabolas", "nombre": "Parábolas de Luz", "nicho": "Fe y Reflexión"}, {"id": "tentacion", "nombre": "Ángel vs. Tentación", "nicho": "Fe y Reflexión"}, {"id": "autos", "nombre": "Autos con Vida", "nicho": "Infantil y Escolar"}, {"id": "dinosaurios", "nombre": "Dinosaurios Dramáticos", "nicho": "Infantil y Escolar"}, {"id": "robots", "nombre": "Robots con Sentimientos", "nicho": "Infantil y Escolar"}, {"id": "plantas", "nombre": "Plantas y Flores", "nicho": "Infantil y Escolar"}, {"id": "insectos", "nombre": "Insectos Dramáticos", "nicho": "Infantil y Escolar"}, {"id": "paises", "nombre": "Naciones", "nicho": "Infantil y Escolar"}, {"id": "profesiones", "nombre": "Profesiones en Guerra", "nicho": "Infantil y Escolar"}, {"id": "utiles", "nombre": "Útiles Escolares", "nicho": "Infantil y Escolar"}, {"id": "superheroes", "nombre": "Superhéroes Originales", "nicho": "Cuentos y Fábulas"}, {"id": "proverbios", "nombre": "Proverbios del Sabio", "nicho": "Fe y Reflexión"}, {"id": "redencion", "nombre": "Cuentos de Redención", "nicho": "Fe y Reflexión"}, {"id": "viajealma", "nombre": "El Viaje del Alma", "nicho": "Fe y Reflexión"}, {"id": "cartas", "nombre": "Cartas al Cielo", "nicho": "Fe y Reflexión"}, {"id": "buenasnoches", "nombre": "Cuentos de Buenas Noches", "nicho": "Infantil y Escolar"}, {"id": "valores", "nombre": "Aprende Valores", "nicho": "Fe y Reflexión"}, {"id": "datos", "nombre": "Datos Curiosos", "nicho": "Tech, Salud y Datos"}, {"id": "trabalenguas", "nombre": "Trabalenguas y Rimas", "nicho": "Cuentos y Fábulas"}, {"id": "monstruos", "nombre": "Monstruos Tiernos", "nicho": "Cuentos y Fábulas"}, {"id": "terrorurbano", "nombre": "Terror Urbano", "nicho": "Terror y Misterio"}, {"id": "reflexiones", "nombre": "Reflexiones Animadas", "nicho": "Fe y Reflexión"}, {"id": "datosmiedo", "nombre": "Datos que dan miedo", "nicho": "Terror y Misterio"}, {"id": "timelapse", "nombre": "Time Lapse 1 / JM BOTS", "nicho": "Video Viral IA"}, {"id": "timelapse2", "nombre": "Time Lapse 2 / JM BOTS", "nicho": "Video Viral IA"}, {"id": "timelapse3", "nombre": "Time Lapse 3 / JM BOTS", "nicho": "Video Viral IA"}, {"id": "podcast", "nombre": "Podcast Hiperrealistas", "nicho": "Podcast y Personas"}, {"id": "podfitness", "nombre": "Podcast Fitness", "nicho": "Podcast y Personas"}, {"id": "podmujeres", "nombre": "Podcast Mujeres", "nicho": "Podcast y Personas"}, {"id": "podfe", "nombre": "Podcast Fe", "nicho": "Podcast y Personas"}, {"id": "poddating", "nombre": "Podcast Relaciones", "nicho": "Podcast y Personas"}, {"id": "podnegocios", "nombre": "Podcast Negocios", "nicho": "Podcast y Personas"}, {"id": "abuelo", "nombre": "Abuelo Sabio", "nicho": "Podcast y Personas"}, {"id": "ninogenio", "nombre": "Niño Genio", "nicho": "Podcast y Personas"}, {"id": "atleta", "nombre": "Atleta / Guerrero", "nicho": "Podcast y Personas"}, {"id": "entrevista", "nombre": "Entrevista 2 Personas", "nicho": "Podcast y Personas"}, {"id": "streetint", "nombre": "Street Interview", "nicho": "Podcast y Personas"}, {"id": "storytime", "nombre": "Storytime", "nicho": "Podcast y Personas"}, {"id": "datoshablados", "nombre": "Datos Curiosos Hablados", "nicho": "Podcast y Personas"}, {"id": "woodenhands", "nombre": "Wooden Hands / JM BOTS", "nicho": "ASMR y Satisfying"}, {"id": "woodenhands2", "nombre": "Wooden Hands v2.6 / JM BOTS", "nicho": "ASMR y Satisfying"}, {"id": "xray", "nombre": "3D X-Ray / JM BOTS", "nicho": "Video Viral IA"}, {"id": "cocinaviral", "nombre": "Cocina Viral 3D / JM BOTS", "nicho": "Video Viral IA"}, {"id": "narekart", "nombre": "NarekART PowerFlow / JM BOTS", "nicho": "Video Viral IA"}, {"id": "venganza", "nombre": "Historias de Venganza / JM BOTS", "nicho": "Storytelling y Drama"}, {"id": "asmrsatisfying", "nombre": "ASMR Satisfying / JM BOTS", "nicho": "ASMR y Satisfying"}, {"id": "aifruit", "nombre": "AI Fruit Universe / JM BOTS", "nicho": "ASMR y Satisfying"}, {"id": "surreal", "nombre": "Mundos Surreales / JM BOTS", "nicho": "Video Viral IA"}, {"id": "miniaturas", "nombre": "Miniaturas / JM BOTS", "nicho": "Video Viral IA"}, {"id": "animalessurreal", "nombre": "Animales Surreales / JM BOTS", "nicho": "Video Viral IA"}, {"id": "finanzas", "nombre": "Finanzas y Dinero / JM BOTS", "nicho": "Finanzas y Negocios"}, {"id": "techia", "nombre": "Tech & IA / JM BOTS", "nicho": "Tech, Salud y Datos"}, {"id": "saludbienestar", "nombre": "Salud & Bienestar / JM BOTS", "nicho": "Tech, Salud y Datos"}, {"id": "negociosfaceless", "nombre": "Negocios y Emprender / JM BOTS", "nicho": "Finanzas y Negocios"}, {"id": "reddit", "nombre": "Reddit Stories / JM BOTS", "nicho": "Storytelling y Drama"}, {"id": "truecrime", "nombre": "True Crime y Misterios / JM BOTS", "nicho": "Terror y Misterio"}, {"id": "povcine", "nombre": "POV Cinematográfico / JM BOTS", "nicho": "Storytelling y Drama"}, {"id": "tiendashop", "nombre": "Producto y Shop / JM BOTS", "nicho": "Video Viral IA"}, {"id": "streetpro", "nombre": "Street Interview Pro / JM BOTS", "nicho": "Video Viral IA"}, {"id": "criaturas", "nombre": "Vlogs de Criaturas / JM BOTS", "nicho": "Video Viral IA"}, {"id": "motivacion", "nombre": "Motivación y Disciplina / JM BOTS", "nicho": "Storytelling y Drama"}, {"id": "procesos", "nombre": "Procesos Satisfying / JM BOTS", "nicho": "ASMR y Satisfying"}, {"id": "historiacuriosa", "nombre": "Historia y Curiosidades / JM BOTS", "nicho": "Tech, Salud y Datos"}, {"id": "fractura", "nombre": "Fractura / JM BOTS", "nicho": "Video Viral IA"}, {"id": "explainer", "nombre": "Explainer Deportivo / JM BOTS", "nicho": "Tech, Salud y Datos"}, {"id": "montanarusa", "nombre": "Montaña Rusa POV / JM BOTS", "nicho": "Video Viral IA"}, {"id": "mundovegetal", "nombre": "Mundo Vegetal / JM BOTS", "nicho": "Video Viral IA"}, {"id": "resinadiy", "nombre": "Resina y DIY / JM BOTS", "nicho": "ASMR y Satisfying"}, {"id": "timelapseobra", "nombre": "Timelapse Construcción / JM BOTS", "nicho": "Video Viral IA"}, {"id": "dreamnostalgia", "nombre": "Dream Nostalgia / JM BOTS", "nicho": "Video Viral IA"}, {"id": "cartoonkids", "nombre": "Cartoon Kids / JM BOTS", "nicho": "Infantil y Escolar"}, {"id": "rescateanimal", "nombre": "Rescate Animal / JM BOTS", "nicho": "Infantil y Escolar"}, {"id": "junglabunker", "nombre": "Supervivencia Jungla / JM BOTS", "nicho": "Video Viral IA"}];
+const $=s=>document.getElementById(s);
+let items=[]; // {file, url, id}
+const drop=$('drop'), file=$('file'), grid=$('grid');
+
+// opciones del select agrupadas por nicho
+function optionsHtml(sel){
+  const groups={};
+  APPS.forEach(a=>{(groups[a.nicho]=groups[a.nicho]||[]).push(a);});
+  let h='<option value="">— elegí la app —</option>';
+  Object.keys(groups).sort().forEach(g=>{
+    h+='<optgroup label="'+g+'">';
+    groups[g].forEach(a=>{ h+='<option value="'+a.id+'"'+(a.id===sel?' selected':'')+'>'+a.nombre+'</option>'; });
+    h+='</optgroup>';
+  });
+  return h;
+}
+function guess(name){ // intenta adivinar por el nombre del archivo
+  const n=name.toLowerCase().replace(/[^a-z0-9]/g,'');
+  const hit=APPS.find(a=>n.includes(a.id));
+  return hit?hit.id:'';
+}
+drop.onclick=()=>file.click();
+drop.ondragover=e=>{e.preventDefault();drop.classList.add('over');};
+drop.ondragleave=()=>drop.classList.remove('over');
+drop.ondrop=e=>{e.preventDefault();drop.classList.remove('over');add(e.dataTransfer.files);};
+file.onchange=e=>add(e.target.files);
+function add(list){
+  [...list].filter(f=>f.type.startsWith('image/')).forEach(f=>{
+    items.push({file:f,url:URL.createObjectURL(f),id:guess(f.name)});
+  });
+  render();
+}
+$('clearBtn').onclick=()=>{items.forEach(i=>URL.revokeObjectURL(i.url));items=[];render();};
+function render(){
+  if(!items.length){ grid.innerHTML='<div class="empty">Todavía no cargaste imágenes.</div>'; }
+  else{
+    const counts={}; items.forEach(i=>{ if(i.id) counts[i.id]=(counts[i.id]||0)+1; });
+    grid.innerHTML=items.map((it,idx)=>{
+      const dup=it.id&&counts[it.id]>1;
+      const cls=dup?'dup':(it.id?'ok':'');
+      const res=it.id?(dup?'<span class="res err">⚠ repetida con otra</span>':'<span class="res set">→ img/'+it.id+'.jpg</span>'):'<span class="res">sin asignar</span>';
+      const tag=it.id?'<span class="tag">'+it.id+'.jpg</span>':'';
+      return '<div class="card '+cls+'"><div class="th">'+tag+'<img src="'+it.url+'"></div>'
+        +'<div class="cbody"><div class="fn" title="'+it.file.name+'">'+it.file.name+'</div>'
+        +'<select data-i="'+idx+'">'+optionsHtml(it.id)+'</select>'+res+'</div></div>';
+    }).join('');
+    grid.querySelectorAll('select').forEach(s=>{ s.onchange=e=>{ items[+s.dataset.i].id=e.target.value; render(); }; });
+  }
+  const asign=new Set(items.filter(i=>i.id).map(i=>i.id)).size;
+  const counts={}; items.forEach(i=>{ if(i.id) counts[i.id]=(counts[i.id]||0)+1; });
+  const dups=Object.values(counts).filter(c=>c>1).length;
+  $('count').innerHTML=items.length+' imágenes · <b>'+asign+'</b>/'+APPS.length+' asignadas';
+  $('warn').textContent=dups?('⚠ '+dups+' app(s) con imagen repetida'):'';
+  const ready=items.some(i=>i.id)&&!dups;
+  $('dlBtn').disabled=!ready;
+}
+// reexporta a jpg optimizado (mantiene proporción, max lado 900)
+function toJpg(file){
+  return new Promise((resolve,reject)=>{
+    const img=new Image();
+    img.onload=()=>{
+      let {width:w,height:h}=img; const M=900;
+      if(Math.max(w,h)>M){ const r=M/Math.max(w,h); w=Math.round(w*r); h=Math.round(h*r); }
+      const c=document.createElement('canvas'); c.width=w; c.height=h;
+      const ctx=c.getContext('2d'); ctx.fillStyle='#000'; ctx.fillRect(0,0,w,h); ctx.drawImage(img,0,0,w,h);
+      c.toBlob(b=>b?resolve(b):reject(new Error('toBlob')),'image/jpeg',0.85);
+    };
+    img.onerror=reject; img.src=URL.createObjectURL(file);
+  });
+}
+$('dlBtn').onclick=async()=>{
+  const btn=$('dlBtn'), orig=btn.textContent; btn.disabled=true; btn.textContent='Procesando…';
+  try{
+    const zip=new JSZip(), folder=zip.folder('img'); const seen={};
+    for(const it of items){ if(!it.id||seen[it.id]) continue; seen[it.id]=1;
+      const blob=await toJpg(it.file); folder.file(it.id+'.jpg', blob);
+    }
+    const out=await zip.generateAsync({type:'blob'});
+    const a=document.createElement('a'); a.href=URL.createObjectURL(out); a.download='img.zip'; a.click();
+    btn.textContent='✓ Descargado'; setTimeout(()=>{btn.textContent=orig;btn.disabled=false;},1800);
+  }catch(e){ alert('Error: '+e.message); btn.textContent=orig; btn.disabled=false; }
+};
+</script>
+</body>
+</html>
