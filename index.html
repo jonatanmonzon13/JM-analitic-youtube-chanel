@@ -3,1586 +3,316 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<meta name="referrer" content="strict-origin-when-cross-origin">
-<title>JM BOTS — Suite de creación de contenido viral con IA · Jonatan Monzon</title>
-<meta name="description" content="JM BOTS es la suite de Jonatan Monzon para crear contenido viral con IA: analizá videos de YouTube y generá guiones, personajes y prompts para Veo 3 en decenas de nichos.">
-<meta property="og:title" content="JM BOTS — Suite de creación de contenido viral con IA">
-<meta property="og:description" content="Analizá videos y generá guiones, personajes y prompts para Veo 3 en decenas de nichos. Una suite completa, en tu navegador con tus claves.">
-<meta property="og:type" content="website">
-<link rel="preconnect" href="https://fonts.googleapis.com">
-<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Sora:wght@500;600;700;800&family=Inter:wght@400;500;600&family=JetBrains+Mono:wght@500;700&family=Anton&display=swap" rel="stylesheet">
+<title>JM BOTS — Tu fábrica de videos virales con IA</title>
+<meta name="description" content="Detectá lo que ya explotó en YouTube y generá guiones, personajes y prompts listos para Veo 3. Decenas de herramientas con IA, en tu navegador.">
+<link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Sora:wght@400;600;700;800&family=JetBrains+Mono:wght@500;700&display=swap" rel="stylesheet">
 <style>
   :root{
-    --bg:#05060C; --bg2:#0B0E18; --bg3:#11141F;
-    --ink:#F6F8FE; --body:#C7CEDE; --muted:#828DA6; --line:#222842;
-    --gold:#E7B85C; --gold2:#F8DA8E; --gold-soft:rgba(231,184,92,.16);
-    --blue:#4D8DFF; --blue2:#7DA9FF; --blue-soft:rgba(77,141,255,.16);
-    --green:#13E6A0;
-    /* paleta neón */
-    --pink:#FF3D9A; --violet:#9B5CFF; --cyan:#26D9FF; --lime:#5BF08E; --red:#FF4D5E;
-    --grad-hot:linear-gradient(100deg,#FF3D9A,#9B5CFF 45%,#26D9FF);
-    --grad-hot2:linear-gradient(120deg,#FF3D9A,#9B5CFF 50%,#26D9FF);
-    --grad-gold:linear-gradient(100deg,#E7B85C,#F8DA8E);
-    --grad-fire:linear-gradient(100deg,#FFB23D,#FF3D9A);
-    --glow-pink:0 0 40px rgba(255,61,154,.45);
-    --glow-cyan:0 0 40px rgba(38,217,255,.4);
-    --glow-violet:0 0 40px rgba(155,92,255,.4);
-    --radius:16px;
-    --display:'Sora',sans-serif; --body-f:'Inter',sans-serif; --mono:'JetBrains Mono',monospace;
-    --maxw:1120px;
+    --bg:#0a0712; --bg2:#130d22; --ink:#FFFFFF; --body:#D2CBE4; --muted:#9088ab; --line:#281c40;
+    --gold:#F5B544; --gold2:#FFD27A; --violet:#8B5CF6; --cyan:#22D3EE; --magenta:#F472D0; --lime:#A3E635;
+    --grad-hero:linear-gradient(100deg,#FFD27A,#F472D0 38%,#8B5CF6 66%,#22D3EE);
+    --grad-gold:linear-gradient(100deg,#F5B544,#FFD27A);
+    --display:'Sora',system-ui,sans-serif; --mono:'JetBrains Mono',ui-monospace,monospace; --radius:16px;
   }
   *{box-sizing:border-box}
   html{scroll-behavior:smooth}
-  body{
-    margin:0;color:var(--body);font-family:var(--body-f);line-height:1.6;
-    -webkit-font-smoothing:antialiased;
-    background:var(--bg);
-    overflow-x:hidden;
+  body{margin:0;color:var(--body);font-family:var(--display);-webkit-font-smoothing:antialiased;line-height:1.55;overflow-x:hidden;
+    background:
+      radial-gradient(1100px 700px at 84% -8%,rgba(139,92,246,.22),transparent 60%),
+      radial-gradient(900px 620px at 2% 12%,rgba(34,211,238,.14),transparent 60%),
+      radial-gradient(900px 700px at 60% 108%,rgba(244,114,208,.14),transparent 60%),
+      var(--bg);
+    background-attachment:fixed;
   }
-  /* fondo aurora animado: manchas de color que respiran y se desplazan */
-  .glowfield{position:fixed;inset:0;z-index:0;pointer-events:none;overflow:hidden}
-  .glowfield::before,.glowfield::after{content:"";position:absolute;border-radius:50%;filter:blur(80px);opacity:.5}
-  .glowfield::before{width:60vw;height:60vw;top:-20vw;left:-10vw;
-    background:radial-gradient(circle,rgba(255,61,154,.5),transparent 65%);
-    animation:drift1 22s ease-in-out infinite}
-  .glowfield::after{width:55vw;height:55vw;top:5vw;right:-15vw;
-    background:radial-gradient(circle,rgba(38,217,255,.45),transparent 65%);
-    animation:drift2 26s ease-in-out infinite}
-  .glowfield i{position:absolute;width:50vw;height:50vw;border-radius:50%;filter:blur(90px);opacity:.4;
-    bottom:-20vw;left:30vw;background:radial-gradient(circle,rgba(155,92,255,.5),transparent 65%);
-    animation:drift3 30s ease-in-out infinite}
-  @keyframes drift1{0%,100%{transform:translate(0,0) scale(1)}50%{transform:translate(8vw,6vw) scale(1.15)}}
-  @keyframes drift2{0%,100%{transform:translate(0,0) scale(1)}50%{transform:translate(-7vw,5vw) scale(1.1)}}
-  @keyframes drift3{0%,100%{transform:translate(0,0) scale(1)}50%{transform:translate(5vw,-8vw) scale(1.2)}}
-  .wrap{max-width:var(--maxw);margin:0 auto;padding:0 24px;position:relative;z-index:1}
-  a{color:var(--blue2);text-decoration:none}
-  section{position:relative;z-index:1}
+  a{color:inherit;text-decoration:none}
+  h1,h2,h3{color:var(--ink);letter-spacing:-.025em;margin:0}
+  .wrap{max-width:1200px;margin:0 auto;padding:0 22px}
+  .eyebrow{font-family:var(--mono);font-size:11px;letter-spacing:.24em;text-transform:uppercase;background:var(--grad-gold);-webkit-background-clip:text;background-clip:text;-webkit-text-fill-color:transparent}
+  .btn{cursor:pointer;border:0;border-radius:13px;padding:15px 26px;font-family:var(--display);font-weight:700;font-size:15px;display:inline-flex;align-items:center;gap:9px;transition:transform .14s,box-shadow .25s;white-space:nowrap;position:relative;overflow:hidden}
+  .btn-gold{color:#241400;background:var(--grad-gold);box-shadow:0 10px 32px rgba(245,181,68,.36);animation:glowpulse 2.6s ease-in-out infinite}
+  .btn-gold:hover{transform:translateY(-3px) scale(1.02)}
+  .btn-gold::after{content:"";position:absolute;top:0;left:-70%;width:45%;height:100%;background:linear-gradient(110deg,transparent,rgba(255,255,255,.7),transparent);transform:skewX(-20deg);animation:sweep 4.5s ease-in-out infinite}
+  @keyframes glowpulse{0%,100%{box-shadow:0 10px 32px rgba(245,181,68,.34)}50%{box-shadow:0 14px 52px rgba(245,181,68,.66)}}
+  @keyframes sweep{0%,100%{left:-70%}16%{left:150%}}
+  .btn-ghost{background:rgba(255,255,255,.05);color:var(--ink);border:1px solid var(--line)}
+  .btn-ghost:hover{border-color:var(--gold);transform:translateY(-3px)}
 
-  body::after{content:"";position:fixed;inset:0;z-index:2;pointer-events:none;opacity:.025;
-    background-image:repeating-linear-gradient(0deg,#fff 0,#fff 1px,transparent 1px,transparent 3px);}
+  /* fx canvas + cursor glow */
+  #fx{position:fixed;inset:0;z-index:90;pointer-events:none}
+  .cursorglow{position:fixed;left:0;top:0;width:440px;height:440px;border-radius:50%;transform:translate(-50%,-50%);pointer-events:none;z-index:55;mix-blend-mode:screen;opacity:0;transition:opacity .3s;background:radial-gradient(circle,rgba(245,181,68,.20),rgba(139,92,246,.14) 42%,transparent 70%)}
 
-  /* ───────── NAV ───────── */
-  nav{position:sticky;top:0;z-index:50;backdrop-filter:blur(14px);
-      background:rgba(7,10,17,.72);border-bottom:1px solid var(--line)}
-  nav .wrap{display:flex;align-items:center;justify-content:space-between;height:64px}
-  .brand{font-family:var(--display);font-weight:800;font-size:20px;letter-spacing:-.02em;color:var(--ink);display:flex;align-items:center;gap:2px}
-  .brand .ol{background:linear-gradient(100deg,var(--gold),var(--gold2));
-             -webkit-background-clip:text;background-clip:text;-webkit-text-fill-color:transparent;font-weight:700}
-  .brand .dot{color:var(--gold)}
-  /* marca de dos líneas: JM BOTS + nombre */
-  .brandbox{display:flex;flex-direction:column;line-height:1}
-  .brandbox .bmain{font-family:var(--display);font-weight:800;font-size:21px;letter-spacing:.01em;color:var(--ink)}
-  .brandbox .bmain b{background:linear-gradient(100deg,var(--gold),var(--gold2));-webkit-background-clip:text;background-clip:text;-webkit-text-fill-color:transparent}
-  .brandbox .bname{font-family:var(--mono);font-size:10px;letter-spacing:.18em;text-transform:uppercase;color:var(--muted);margin-top:3px}
-  .navlinks{display:flex;align-items:center;gap:8px}
-  .navlink{font-size:14px;color:var(--muted);padding:8px 12px;border-radius:8px}
-  .navlink:hover{color:var(--ink)}
-  .lang{display:flex;border:1px solid var(--line);border-radius:999px;overflow:hidden;font-family:var(--mono);font-size:11px}
-  .lang button{background:transparent;border:0;color:var(--muted);padding:6px 12px;cursor:pointer;font-family:inherit;font-size:inherit}
-  .lang button.on{background:var(--gold-soft);color:var(--gold)}
-  .btn{font-family:var(--display);font-weight:700;font-size:14px;cursor:pointer;border:0;
-       border-radius:10px;padding:10px 18px;transition:transform .08s ease,box-shadow .18s,opacity .15s,background .2s;display:inline-flex;align-items:center;gap:8px;white-space:nowrap}
-  .btn-gold{color:#0A0D14;background:var(--grad-gold);
-            box-shadow:0 8px 24px rgba(231,184,92,.3)}
-  .btn-gold:hover{transform:translateY(-1px);box-shadow:0 12px 34px rgba(231,184,92,.5)}
-  .btn-ghost{background:transparent;color:#fff;border:1px solid transparent;
-             background-image:linear-gradient(var(--bg2),var(--bg2)),var(--grad-hot);
-             background-origin:border-box;background-clip:padding-box,border-box}
-  .btn-ghost:hover{box-shadow:var(--glow-pink);transform:translateY(-1px)}
-  .btn-blue{color:#06101f;background:linear-gradient(100deg,var(--blue),var(--blue2));box-shadow:0 8px 24px rgba(77,141,255,.25)}
-  .btn-blue:hover{transform:translateY(-1px);box-shadow:0 12px 30px rgba(77,141,255,.42)}
+  /* NAV */
+  nav{position:fixed;top:0;left:0;right:0;z-index:100;transition:.25s;border-bottom:1px solid transparent}
+  nav.scrolled{background:rgba(10,7,18,.8);-webkit-backdrop-filter:blur(13px);backdrop-filter:blur(13px);border-bottom-color:var(--line)}
+  nav .wrap{display:flex;align-items:center;gap:22px;height:64px}
+  .logo{font-weight:800;font-size:19px;color:var(--ink)} .logo b{background:var(--grad-gold);-webkit-background-clip:text;background-clip:text;-webkit-text-fill-color:transparent}
+  .navlinks{display:flex;gap:24px;margin-left:auto;font-size:14px}
+  .navlinks a{color:var(--body)} .navlinks a:hover{color:var(--ink)}
+  @media (max-width:740px){.navlinks{display:none}}
 
-  /* ───────── HERO ───────── */
-  .hero{padding:64px 0 40px;text-align:center;position:relative}
-  .badges{display:flex;gap:10px;flex-wrap:wrap;justify-content:center;margin-bottom:30px}
-  .badge{font-family:var(--mono);font-size:11.5px;color:var(--body);background:rgba(11,14,24,.7);
-         border:1px solid transparent;border-radius:999px;padding:7px 14px;display:inline-flex;gap:7px;align-items:center;
-         background-image:linear-gradient(rgba(11,14,24,.8),rgba(11,14,24,.8)),var(--grad-hot);
-         background-origin:border-box;background-clip:padding-box,border-box}
-  .badge b{background:var(--grad-gold);-webkit-background-clip:text;background-clip:text;-webkit-text-fill-color:transparent;font-weight:700}
-  .eyebrow{font-family:var(--mono);font-size:11px;letter-spacing:.24em;text-transform:uppercase;
-           background:var(--grad-hot);-webkit-background-clip:text;background-clip:text;-webkit-text-fill-color:transparent;margin-bottom:18px;font-weight:700}
-  .hero h1{font-family:var(--display);font-weight:800;font-size:clamp(34px,6.4vw,64px);
-           line-height:1.02;letter-spacing:-.045em;margin:0 auto 18px;max-width:17ch;color:var(--ink);
-           text-shadow:0 0 60px rgba(155,92,255,.25)}
-  .hero h1 em{font-style:normal;background:var(--grad-hot);background-size:200% auto;
-              -webkit-background-clip:text;background-clip:text;-webkit-text-fill-color:transparent;
-              animation:huehot 6s linear infinite;filter:drop-shadow(0 0 26px rgba(255,61,154,.45))}
-  @keyframes huehot{to{background-position:200% center}}
-  .hero .sub{color:var(--body);margin:0 auto 30px;max-width:58ch;font-size:17px}
-  .hero-cta{display:flex;gap:12px;justify-content:center;flex-wrap:wrap;margin-bottom:18px}
-  .hero-cta .btn{padding:15px 28px;font-size:15px}
-  .trust{display:flex;gap:22px;justify-content:center;flex-wrap:wrap;font-family:var(--mono);font-size:12px;color:var(--muted)}
-  .trust span{display:inline-flex;gap:7px;align-items:center}
-  .trust svg{width:14px;height:14px}
+  /* tiles (miniaturas) compartidas */
+  .tile{position:relative;flex:0 0 auto;border-radius:13px;overflow:hidden;border:1px solid rgba(255,255,255,.07);box-shadow:0 12px 30px rgba(0,0,0,.42)}
+  .tile .tbg{position:absolute;inset:0} .tile img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover}
+  .tile::after{content:"";position:absolute;inset:0;background:linear-gradient(180deg,transparent 46%,rgba(0,0,0,.55))}
+  .tile .tnm{position:absolute;left:10px;right:10px;bottom:8px;z-index:2;font-weight:800;font-size:12px;color:#fff;line-height:1.12;text-shadow:0 2px 6px rgba(0,0,0,.85)}
 
-  /* clúster de miniaturas flotantes detrás del hero */
-  .herothumbs{position:absolute;inset:0;z-index:-1;pointer-events:none;overflow:hidden}
-  .ht{position:absolute;border-radius:12px;overflow:hidden;border:1px solid rgba(255,255,255,.08);
-      box-shadow:0 18px 50px rgba(0,0,0,.6);opacity:.55;animation:floaty 9s ease-in-out infinite}
-  .ht img{width:100%;height:100%;object-fit:cover;display:block}
-  .ht .htv{position:absolute;top:6px;left:6px;font-family:var(--mono);font-weight:700;font-size:10px;color:#0A0D14;
-           background:var(--grad-gold);border-radius:6px;padding:2px 7px;box-shadow:0 4px 12px rgba(231,184,92,.5)}
-  .ht::after{content:"";position:absolute;inset:0;background:linear-gradient(180deg,transparent,rgba(5,6,12,.5))}
-  @keyframes floaty{0%,100%{transform:translateY(0) rotate(var(--r,0deg))}50%{transform:translateY(-16px) rotate(var(--r,0deg))}}
-  @media (max-width:880px){.herothumbs{display:none}}
+  /* HERO */
+  .hero{position:relative;min-height:100svh;display:flex;align-items:center;overflow:hidden;padding:92px 0 56px}
+  #heroMosaic{position:absolute;inset:-16%;z-index:1;display:flex;flex-direction:column;justify-content:center;gap:16px;transform:rotate(-5deg) scale(1.4);opacity:.82;pointer-events:none}
+  #heroMosaic .row{display:flex;gap:16px;width:max-content;flex:0 0 auto;will-change:transform}
+  #heroMosaic .row.a{animation:slideA 78s linear infinite} #heroMosaic .row.b{animation:slideB 104s linear infinite}
+  #heroMosaic .tile{width:236px;height:133px}
+  @keyframes slideA{from{transform:translateX(0)}to{transform:translateX(-50%)}}
+  @keyframes slideB{from{transform:translateX(-50%)}to{transform:translateX(0)}}
+  .aurora{position:absolute;inset:-30%;z-index:0;pointer-events:none;filter:blur(60px);opacity:.8;background:radial-gradient(36% 38% at 26% 28%,rgba(139,92,246,.7),transparent 70%),radial-gradient(40% 42% at 74% 34%,rgba(34,211,238,.6),transparent 70%),radial-gradient(44% 46% at 50% 80%,rgba(244,114,208,.55),transparent 70%),radial-gradient(40% 40% at 88% 78%,rgba(245,181,68,.5),transparent 70%);animation:aurora 16s ease-in-out infinite alternate}
+  @keyframes aurora{0%{transform:translate(0,0) scale(1)}50%{transform:translate(5%,-4%) scale(1.14)}100%{transform:translate(-4%,3%) scale(1.07)}}
+  .heroveil{position:absolute;inset:0;z-index:2;pointer-events:none;background:radial-gradient(78% 72% at 50% 46%,rgba(10,7,18,.30),rgba(10,7,18,.66) 56%,rgba(10,7,18,.92))}
+  #sparkles{position:absolute;inset:0;z-index:3;pointer-events:none;overflow:hidden}
+  #sparkles i{position:absolute;width:var(--s,3px);height:var(--s,3px);border-radius:50%;background:var(--col,#fff);box-shadow:0 0 8px currentColor;color:var(--col,#fff);opacity:0;animation:twinkle linear infinite}
+  @keyframes twinkle{0%{opacity:0;transform:translateY(12px) scale(.4)}25%{opacity:1}55%{opacity:.4}80%{opacity:.95}100%{opacity:0;transform:translateY(-20px) scale(1)}}
+  .hero .wrap{position:relative;z-index:4;text-align:center}
+  .hbadge{display:inline-flex;align-items:center;gap:8px;font-family:var(--mono);font-size:11px;letter-spacing:.16em;text-transform:uppercase;color:var(--gold2);background:rgba(245,181,68,.1);border:1px solid rgba(245,181,68,.3);border-radius:999px;padding:8px 17px}
+  .hero h1{font-weight:800;font-size:clamp(38px,7.4vw,82px);line-height:.99;margin:22px auto 18px;max-width:15ch;text-shadow:0 4px 40px rgba(0,0,0,.5)}
+  .hero h1 .g{background:var(--grad-hero);-webkit-background-clip:text;background-clip:text;-webkit-text-fill-color:transparent;background-size:240% auto;animation:shine 5s linear infinite}
+  @keyframes shine{to{background-position:240% center}}
+  .hero p.lead{font-size:clamp(15px,2vw,19px);max-width:58ch;margin:0 auto 30px;color:#E7E2F2;text-shadow:0 2px 16px rgba(0,0,0,.6)}
+  .hcta{display:flex;gap:14px;justify-content:center;flex-wrap:wrap;margin-bottom:30px}
+  .hcta .btn{padding:17px 32px;font-size:16px}
+  .chips{display:flex;gap:10px;justify-content:center;flex-wrap:wrap;max-width:760px;margin:0 auto}
+  .chip{font-family:var(--mono);font-size:12px;color:var(--body);background:rgba(255,255,255,.05);border:1px solid var(--line);border-radius:999px;padding:9px 15px;-webkit-backdrop-filter:blur(6px);backdrop-filter:blur(6px)}
+  .chip b{color:#fff;font-weight:700}
+  .scrollcue{position:absolute;left:50%;bottom:20px;transform:translateX(-50%);z-index:4;font-family:var(--mono);font-size:10px;letter-spacing:.2em;color:var(--muted);text-transform:uppercase;animation:bob 2s ease-in-out infinite}
+  @keyframes bob{0%,100%{transform:translate(-50%,0)}50%{transform:translate(-50%,7px)}}
 
-  .mock{margin:48px auto 0;max-width:940px;text-align:left;border:1px solid transparent;border-radius:18px;
-        background-image:linear-gradient(180deg,#0c0f1a,#080a12),var(--grad-hot2);
-        background-origin:border-box;background-clip:padding-box,border-box;
-        box-shadow:0 40px 110px rgba(0,0,0,.7),var(--glow-violet);overflow:hidden;position:relative}
-  .mock-bar{display:flex;align-items:center;gap:8px;padding:13px 16px;border-bottom:1px solid var(--line);background:rgba(255,255,255,.02)}
-  .mdot{width:11px;height:11px;border-radius:50%}
-  .mock-url{margin-left:12px;font-family:var(--mono);font-size:11.5px;color:var(--muted);background:var(--bg3);padding:5px 12px;border-radius:7px}
-  .mock-body{padding:22px}
-  .mock-search{display:flex;gap:9px;background:var(--bg3);border:1px solid var(--line);border-radius:12px;padding:9px;margin-bottom:18px}
-  .mock-search .inp{flex:1;font-family:var(--body-f);font-size:14px;color:var(--ink);padding:8px 10px}
-  .mock-search .pill{font-family:var(--mono);font-size:11px;color:var(--body);background:var(--bg2);border:1px solid var(--line);border-radius:8px;padding:8px 11px;display:flex;align-items:center}
-  .mock-search .gobtn{font-family:var(--display);font-weight:700;font-size:13px;color:#0A0D14;background:var(--grad-gold);border-radius:9px;padding:0 18px;display:flex;align-items:center}
-  .mock-row{display:grid;grid-template-columns:auto 1fr auto;gap:14px;align-items:center;padding:14px;border:1px solid var(--line);border-radius:12px;margin-bottom:10px;background:var(--bg2)}
-  .mock-row:last-child{margin-bottom:0}
-  .mock-thumb{width:88px;height:50px;border-radius:8px;background:linear-gradient(135deg,#1c2740,#243355);position:relative;overflow:hidden;flex:none}
-  .mock-thumb img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;z-index:0}
-  .mock-thumb::after{content:"▶";position:absolute;inset:0;z-index:1;display:flex;align-items:center;justify-content:center;color:rgba(255,255,255,.8);font-size:13px;text-shadow:0 1px 6px rgba(0,0,0,.6)}
-  .mr-title{font-family:var(--display);font-weight:600;font-size:14px;color:var(--ink);line-height:1.3}
-  .mr-sub{font-family:var(--mono);font-size:11px;color:var(--muted);margin-top:4px}
-  .mr-vsr{font-family:var(--mono);font-weight:700;font-size:22px;text-align:right;line-height:1;
-          background:var(--grad-gold);-webkit-background-clip:text;background-clip:text;-webkit-text-fill-color:transparent;filter:drop-shadow(0 0 12px rgba(231,184,92,.4))}
-  .mr-vsr small{display:block;font-size:9px;font-weight:500;color:var(--muted);letter-spacing:.14em;margin-top:5px;-webkit-text-fill-color:var(--muted)}
+  /* MARQUEE ambiente */
+  .band{padding:16px 0;overflow:hidden;position:relative;mask-image:linear-gradient(90deg,transparent,#000 7%,#000 93%,transparent);-webkit-mask-image:linear-gradient(90deg,transparent,#000 7%,#000 93%,transparent)}
+  .band .marq{display:flex;gap:14px;width:max-content;animation:slideA 64s linear infinite}
+  .band.rev .marq{animation:slideB 80s linear infinite}
+  .band:hover .marq{animation-play-state:paused}
+  .band .tile{width:212px;height:119px;box-shadow:none}
 
-  /* ───────── SECTION SCAFFOLD ───────── */
-  .section{padding:78px 0}
-  .seclabel{font-family:var(--mono);font-size:11px;letter-spacing:.22em;text-transform:uppercase;
-            background:var(--grad-hot);-webkit-background-clip:text;background-clip:text;-webkit-text-fill-color:transparent;
-            text-align:center;margin-bottom:14px;font-weight:700}
-  .sectitle{font-family:var(--display);font-weight:800;font-size:clamp(26px,4.2vw,42px);line-height:1.08;letter-spacing:-.03em;color:var(--ink);text-align:center;margin:0 auto 14px;max-width:20ch}
-  .sectitle em{font-style:normal;background:var(--grad-hot);background-size:200% auto;-webkit-background-clip:text;background-clip:text;-webkit-text-fill-color:transparent;animation:huehot 6s linear infinite}
-  .secsub{color:var(--body);text-align:center;max-width:60ch;margin:0 auto 44px;font-size:16px}
+  /* BENEFICIOS */
+  .why{position:relative;padding:64px 0 30px}
+  .whygrid{display:grid;grid-template-columns:repeat(4,1fr);gap:16px}
+  .ben{background:linear-gradient(180deg,rgba(255,255,255,.04),rgba(255,255,255,.01));border:1px solid var(--line);border-radius:16px;padding:22px 20px;position:relative;overflow:hidden;transition:transform .2s,border-color .2s}
+  .ben:hover{transform:translateY(-5px);border-color:rgba(245,181,68,.4)}
+  .ben .bi{width:42px;height:42px;border-radius:12px;display:flex;align-items:center;justify-content:center;font-size:20px;margin-bottom:13px}
+  .ben h3{font-size:16px;margin:0 0 6px} .ben p{margin:0;font-size:13.5px;color:var(--muted)}
+  @media (max-width:860px){.whygrid{grid-template-columns:repeat(2,1fr)}}
 
-  .reveal{opacity:0;transform:translateY(22px);transition:opacity .7s cubic-bezier(.2,.7,.3,1),transform .7s cubic-bezier(.2,.7,.3,1)}
+  /* MURO de herramientas (sin secciones por nicho) */
+  .arsenal{padding:54px 0 30px}
+  .shead{text-align:center;max-width:60ch;margin:0 auto 38px}
+  .shead h2{font-weight:800;font-size:clamp(28px,5vw,50px);line-height:1.04;margin:12px 0 12px}
+  .shead h2 .g{background:var(--grad-hero);-webkit-background-clip:text;background-clip:text;-webkit-text-fill-color:transparent;background-size:240% auto;animation:shine 5s linear infinite}
+  .shead p{color:var(--muted);font-size:16px;margin:0}
+  .wall{display:grid;grid-template-columns:repeat(4,1fr);gap:16px}
+  @media (max-width:1000px){.wall{grid-template-columns:repeat(3,1fr)}}
+  @media (max-width:680px){.wall{grid-template-columns:repeat(2,1fr)}}
+  .wcard{position:relative;display:block;border-radius:14px;overflow:hidden;border:1px solid var(--line);background:var(--bg2);aspect-ratio:16/9;transform-style:preserve-3d;transition:transform .25s cubic-bezier(.2,.7,.2,1),box-shadow .25s,border-color .25s;will-change:transform}
+  .wcard .tbg{position:absolute;inset:0} .wcard img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;transition:transform .5s}
+  .wcard .grad{position:absolute;inset:0;z-index:1;background:linear-gradient(180deg,transparent 42%,rgba(0,0,0,.8))}
+  .wcard .wt{position:absolute;left:11px;right:11px;bottom:10px;z-index:3;font-weight:800;font-size:14px;color:#fff;line-height:1.16;text-shadow:0 2px 8px rgba(0,0,0,.9);transition:transform .25s}
+  .wcard .wn{position:absolute;left:11px;bottom:10px;z-index:3;opacity:0;transform:translateY(8px);transition:.25s;font-family:var(--mono);font-size:10px;letter-spacing:.08em;color:var(--gold2)}
+  .wcard .av{position:absolute;top:9px;left:9px;z-index:3;width:30px;height:30px;border-radius:9px;display:flex;align-items:center;justify-content:center;font-size:15px;box-shadow:0 4px 12px rgba(0,0,0,.5)}
+  .wcard .play{position:absolute;top:50%;left:50%;transform:translate(-50%,-50%) scale(.6);z-index:3;width:50px;height:50px;border-radius:50%;background:rgba(0,0,0,.5);-webkit-backdrop-filter:blur(4px);backdrop-filter:blur(4px);border:1.5px solid rgba(255,255,255,.9);display:flex;align-items:center;justify-content:center;color:#fff;font-size:19px;opacity:0;transition:.25s}
+  .wcard:hover{transform:translateY(-6px) scale(1.04);border-color:rgba(245,181,68,.6);box-shadow:0 26px 60px rgba(0,0,0,.6),0 0 30px rgba(139,92,246,.3);z-index:5}
+  .wcard:hover img{transform:scale(1.08)}
+  .wcard:hover .play{opacity:1;transform:translate(-50%,-50%) scale(1)}
+  .wcard:hover .wt{transform:translateY(-15px)} .wcard:hover .wn{opacity:1;transform:none}
+  .moreline{text-align:center;font-family:var(--mono);font-size:12px;color:var(--muted);margin-top:30px}
+  .moreline b{color:var(--gold2)}
+
+  /* reveal */
+  .reveal{opacity:0;transform:translateY(28px) scale(.98);transition:opacity .7s cubic-bezier(.2,.8,.2,1),transform .7s cubic-bezier(.2,.8,.2,1)}
   .reveal.in{opacity:1;transform:none}
 
-  /* ───────── LIVE OUTLIER FEED ───────── */
-  .feed-head{display:flex;align-items:center;gap:10px;justify-content:center;margin-bottom:26px;font-family:var(--mono);font-size:12.5px;color:var(--muted);letter-spacing:.08em}
-  .livedot{width:8px;height:8px;border-radius:50%;background:var(--green);box-shadow:0 0 0 0 rgba(61,220,132,.6);animation:pulse 1.8s infinite}
-  @keyframes pulse{0%{box-shadow:0 0 0 0 rgba(61,220,132,.5)}70%{box-shadow:0 0 0 9px rgba(61,220,132,0)}100%{box-shadow:0 0 0 0 rgba(61,220,132,0)}}
-  .marquee{display:flex;gap:16px;width:max-content;animation:scroll 52s linear infinite}
-  .marquee.rev{animation:scrollrev 58s linear infinite}
-  @keyframes scrollrev{from{transform:translateX(-50%)}to{transform:translateX(0)}}
-  .marquee-mask{overflow:hidden;mask-image:linear-gradient(90deg,transparent,#000 6%,#000 94%,transparent)}
-  .marquee-mask:hover .marquee{animation-play-state:paused}
-  @keyframes scroll{to{transform:translateX(-50%)}}
+  /* CTA final */
+  .finalwrap{padding:70px 0 30px}
+  .finalcta{position:relative;text-align:center;border-radius:28px;padding:74px 28px;max-width:900px;margin:0 auto;overflow:hidden;background:linear-gradient(160deg,rgba(139,92,246,.16),rgba(34,211,238,.08));border:1px solid var(--line)}
+  .finalcta::before{content:"";position:absolute;inset:0;background:radial-gradient(700px 340px at 50% -10%,rgba(245,181,68,.28),transparent 64%);pointer-events:none}
+  .finalcta h2{font-size:clamp(30px,5.2vw,52px);line-height:1.03;margin:0 auto 14px;max-width:16ch;position:relative}
+  .finalcta h2 .g{background:var(--grad-hero);-webkit-background-clip:text;background-clip:text;-webkit-text-fill-color:transparent;background-size:240% auto;animation:shine 5s linear infinite}
+  .finalcta p{color:var(--body);margin:0 auto 30px;max-width:48ch;position:relative}
+  .finalcta .btn{position:relative;padding:18px 38px;font-size:17px}
 
-  /* tarjeta de outlier enriquecida (avatar + VSR + grilla de stats) */
-  .ocard{width:288px;flex:none;background:var(--bg2);border:1px solid var(--line);border-radius:14px;overflow:hidden;box-shadow:0 14px 34px rgba(0,0,0,.34);transition:border-color .2s,transform .2s,box-shadow .2s}
-  .ocard:hover{transform:translateY(-4px);box-shadow:0 22px 50px rgba(0,0,0,.5),var(--glow-pink);border-color:rgba(255,61,154,.5)}
-  .ocard .oth{height:158px;position:relative;overflow:hidden}
-  .ocard .oth img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;z-index:0}
-  .ocard .oth .ov{position:absolute;inset:0;z-index:1;background:linear-gradient(180deg,rgba(0,0,0,.05),rgba(0,0,0,.55))}
-  .ocard .vsrtag{position:absolute;top:10px;right:10px;z-index:2;font-family:var(--mono);font-weight:700;font-size:13px;color:#0A0D14;background:linear-gradient(100deg,var(--gold),var(--gold2));border-radius:8px;padding:4px 10px;box-shadow:0 6px 18px rgba(231,184,92,.4)}
-  .ocard .play{position:absolute;inset:0;z-index:2;display:flex;align-items:center;justify-content:center;color:rgba(255,255,255,.85);font-size:26px;text-shadow:0 2px 12px rgba(0,0,0,.6);opacity:0;transition:opacity .2s}
-  .ocard:hover .play{opacity:.9}
-  .ocard .obody{padding:14px}
-  .ocard .chanrow{display:flex;align-items:center;gap:9px;margin-bottom:11px}
-  .ocard .fav{width:30px;height:30px;border-radius:50%;flex:none;display:flex;align-items:center;justify-content:center;
-              font-family:var(--display);font-weight:700;font-size:13px;color:#0A0D14;box-shadow:0 0 0 1px var(--line) inset}
-  .ocard .channame{font-family:var(--body-f);font-size:12.5px;color:var(--body);font-weight:600;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
-  .ocard h4{font-family:var(--display);font-weight:600;font-size:14px;color:var(--ink);margin:0 0 13px;line-height:1.32;height:2.6em;overflow:hidden}
-  .ocard .ostats{display:grid;grid-template-columns:1fr 1fr 1fr;gap:0;font-family:var(--mono);text-align:center;border-top:1px solid var(--line);padding-top:12px}
-  .ocard .ostats .st + .st{border-left:1px solid var(--line)}
-  .ocard .ostats b{display:block;color:var(--ink);font-size:14px;font-weight:700}
-  .ocard .ostats span{display:block;font-size:8.5px;letter-spacing:.13em;color:var(--muted);margin-top:5px}
-  .ocard .ostats .st.gold b{background:linear-gradient(100deg,var(--gold),var(--gold2));-webkit-background-clip:text;background-clip:text;-webkit-text-fill-color:transparent}
+  footer{border-top:1px solid var(--line);padding:30px 0;margin-top:60px}
+  footer .wrap{display:flex;justify-content:space-between;flex-wrap:wrap;gap:10px;font-family:var(--mono);font-size:12px;color:var(--muted)}
+  footer b{color:var(--ink)}
 
-  /* ───────── 4 BLOQUES CON PESTAÑAS ───────── */
-  .tabwrap{max-width:980px;margin:0 auto;border:1px solid var(--line);border-radius:20px;overflow:hidden;
-           background:linear-gradient(180deg,var(--bg2),#0b1120);box-shadow:0 30px 80px rgba(0,0,0,.5)}
-  .tabnav{display:grid;grid-template-columns:repeat(4,1fr);border-bottom:1px solid var(--line)}
-  .tabbtn{background:transparent;border:0;cursor:pointer;padding:18px 14px;text-align:left;
-          border-right:1px solid var(--line);transition:background .2s;position:relative}
-  .tabbtn:last-child{border-right:0}
-  .tabbtn .tn{font-family:var(--mono);font-size:11px;color:var(--muted);letter-spacing:.14em;display:block;margin-bottom:6px}
-  .tabbtn .tt{font-family:var(--display);font-weight:700;font-size:15px;color:var(--body)}
-  .tabbtn.on{background:var(--gold-soft)}
-  .tabbtn.on .tn{color:var(--gold)}
-  .tabbtn.on .tt{color:var(--ink)}
-  .tabbtn.on::after{content:"";position:absolute;left:0;bottom:-1px;width:100%;height:2px;background:linear-gradient(90deg,var(--gold),var(--gold2))}
-  .tabbody{display:grid;grid-template-columns:1.05fr .95fr;gap:0}
-  .tabviz{padding:26px;border-right:1px solid var(--line);background:var(--bg3);min-height:320px;display:flex;align-items:center;justify-content:center}
-  .tabinfo{padding:30px 28px;display:flex;flex-direction:column;justify-content:center}
-  .tabinfo .tq{font-family:var(--display);font-weight:700;font-size:20px;color:var(--gold);margin:0 0 12px;letter-spacing:-.01em}
-  .tabinfo p{margin:0;font-size:15px;color:var(--body)}
-  .tabpanel{display:none}
-  .tabpanel.on{display:contents}
-
-  /* mini-mocks de cada pestaña */
-  .vmock{width:100%;max-width:360px;background:var(--bg2);border:1px solid var(--line);border-radius:14px;padding:16px;box-shadow:0 16px 40px rgba(0,0,0,.4)}
-  .vmock .vh{font-family:var(--mono);font-size:10px;letter-spacing:.12em;color:var(--muted);margin-bottom:12px;display:flex;justify-content:space-between}
-  .vmock .vh b{color:var(--gold)}
-  .vthumb{aspect-ratio:16/9;border-radius:10px;background:linear-gradient(135deg,#1c2740,#243355);position:relative;overflow:hidden;margin-bottom:14px}
-  .vthumb .vlabel{position:absolute;border:1.5px dashed var(--gold);border-radius:8px;}
-  .vthumb .vtag{position:absolute;font-family:var(--mono);font-size:9px;color:#0A0D14;background:var(--gold);border-radius:5px;padding:2px 6px;white-space:nowrap}
-  .vrow{display:flex;align-items:center;gap:9px;font-family:var(--mono);font-size:11px;color:var(--body);margin-bottom:9px}
-  .vrow .vt{width:36px;color:var(--muted);flex:none}
-  .vbar{flex:1;height:7px;border-radius:4px;background:var(--bg3);overflow:hidden}
-  .vbar i{display:block;height:100%;border-radius:4px;background:linear-gradient(90deg,var(--blue),var(--blue2))}
-  .vcurve{width:100%;height:130px}
-  .vcheck{display:flex;align-items:center;gap:10px;font-size:12.5px;color:var(--body);margin-bottom:9px;font-family:var(--body-f)}
-  .vcheck .ck{width:18px;height:18px;border-radius:5px;flex:none;display:flex;align-items:center;justify-content:center;font-size:11px;color:#0A0D14}
-  .vcheck .ck.y{background:var(--gold)}
-  .vcheck .ck.n{background:var(--bg3);color:var(--muted);box-shadow:0 0 0 1px var(--line) inset}
-  .vgauge{text-align:center}
-  .vgauge .gnum{font-family:var(--display);font-weight:800;font-size:48px;line-height:1;
-                background:linear-gradient(100deg,var(--gold),var(--gold2));-webkit-background-clip:text;background-clip:text;-webkit-text-fill-color:transparent}
-  .vgauge .glbl{font-family:var(--mono);font-size:10px;letter-spacing:.16em;color:var(--muted);margin-top:8px}
-
-  /* ───────── SKILL / STEPS ───────── */
-  .steps{display:grid;grid-template-columns:repeat(4,1fr);gap:16px;margin-bottom:40px}
-  .step{background:var(--bg2);border:1px solid var(--line);border-radius:14px;padding:22px;position:relative;transition:transform .2s,box-shadow .2s,border-color .2s}
-  .step:hover{transform:translateY(-3px);border-color:rgba(38,217,255,.4);box-shadow:var(--glow-cyan)}
-  .step .snum{width:32px;height:32px;border-radius:9px;background:var(--grad-hot);color:#fff;font-family:var(--mono);font-weight:700;font-size:14px;display:flex;align-items:center;justify-content:center;margin-bottom:14px;box-shadow:var(--glow-violet)}
-  .step h4{font-family:var(--display);font-weight:600;font-size:16px;color:var(--ink);margin:0 0 6px}
-  .step p{margin:0;font-size:13.5px;color:var(--muted)}
-  .step .arrow{position:absolute;right:-12px;top:34px;font-size:20px;z-index:3;background:var(--grad-hot);-webkit-background-clip:text;background-clip:text;-webkit-text-fill-color:transparent}
-  .outchips{display:flex;flex-wrap:wrap;gap:12px;justify-content:center;max-width:760px;margin:0 auto}
-  .ochip{flex:1 1 160px;background:var(--bg);border:1px solid var(--line);border-left:3px solid var(--cyan);border-radius:10px;padding:16px 18px;transition:transform .2s,box-shadow .2s}
-  .ochip:nth-child(2){border-left-color:var(--pink)}.ochip:nth-child(3){border-left-color:var(--violet)}.ochip:nth-child(4){border-left-color:var(--lime)}
-  .ochip:hover{transform:translateY(-3px);box-shadow:0 14px 30px rgba(0,0,0,.4)}
-  .ochip h5{font-family:var(--display);font-weight:700;font-size:14px;color:var(--ink);margin:0 0 5px}
-  .ochip p{margin:0;font-size:13px;color:var(--muted)}
-
-  /* ───────── CASOS DE USO ───────── */
-  .uses{display:grid;grid-template-columns:repeat(2,1fr);gap:16px}
-  .use{background:linear-gradient(160deg,var(--bg2),#0a0c14);border:1px solid var(--line);border-radius:var(--radius);padding:26px;transition:border-color .25s,transform .25s,box-shadow .25s;position:relative;overflow:hidden}
-  .use::before{content:"";position:absolute;top:0;left:0;right:0;height:3px;background:var(--grad-hot)}
-  .use:nth-child(2)::before{background:linear-gradient(100deg,var(--cyan),var(--blue2))}
-  .use:nth-child(3)::before{background:linear-gradient(100deg,var(--lime),var(--green))}
-  .use:nth-child(4)::before{background:var(--grad-gold)}
-  .use:hover{border-color:rgba(255,61,154,.4);transform:translateY(-4px);box-shadow:0 22px 50px rgba(0,0,0,.5),var(--glow-pink)}
-  .use:nth-child(2):hover{box-shadow:0 22px 50px rgba(0,0,0,.5),var(--glow-cyan);border-color:rgba(38,217,255,.4)}
-  .use .utag{font-family:var(--mono);font-size:11px;letter-spacing:.16em;color:var(--muted);margin-bottom:16px}
-  .use h3{font-family:var(--display);font-weight:700;font-size:20px;color:var(--ink);margin:0 0 8px}
-  .use p{margin:0;font-size:14.5px;color:var(--body)}
-
-  /* ───────── COMPARATIVA ───────── */
-  .cmp{border:1px solid var(--line);border-radius:var(--radius);overflow:hidden;max-width:920px;margin:0 auto}
-  .cmp-row{display:grid;grid-template-columns:1.6fr 1fr 1.2fr 1fr;align-items:center}
-  .cmp-row + .cmp-row{border-top:1px solid var(--line)}
-  .cmp-head .cmp-cell{padding:18px 16px;text-align:center;font-family:var(--display);font-weight:700;font-size:13.5px}
-  .cmp-cell{padding:15px 16px;font-size:13.5px}
-  .cmp-cell.feat{color:var(--body);text-align:left;font-family:var(--body-f);font-size:14px}
-  .cmp-head{background:var(--bg2)}
-  .cmp-head .us{color:var(--gold)}
-  .cmp-head .them{color:var(--muted)}
-  .col-us{background:rgba(231,184,92,.05)}
-  .ico-y{color:var(--gold)}
-  .ico-n{color:#48516a}
-  .cmp-cell.center{text-align:center;font-family:var(--mono);font-weight:700}
-  .cmp-foot{font-family:var(--mono);font-size:12px;color:var(--muted);text-align:center;padding-top:16px}
-
-  /* ───────── RAG + STATS ───────── */
-  .rag{display:grid;grid-template-columns:1fr 1fr;gap:36px;align-items:center}
-  .rag .raglist{display:flex;flex-direction:column;gap:12px;margin-top:22px}
-  .ragitem{display:flex;gap:12px;align-items:center;font-size:14.5px;color:var(--body)}
-  .ragitem .dot{width:7px;height:7px;border-radius:50%;background:var(--gold);flex:none;box-shadow:0 0 10px rgba(231,184,92,.6)}
-  .ragviz{background:radial-gradient(circle at 50% 40%,rgba(155,92,255,.2),transparent 62%);border:1px solid var(--line);border-radius:var(--radius);padding:34px;min-height:320px;position:relative;display:flex;align-items:center;justify-content:center;overflow:hidden}
-  .core{width:96px;height:96px;border-radius:50%;background:conic-gradient(from 0deg,#FF3D9A,#9B5CFF,#26D9FF,#5BF08E,#FF3D9A);display:flex;align-items:center;justify-content:center;font-size:34px;box-shadow:0 0 70px rgba(155,92,255,.7);position:relative;z-index:2;animation:spin 8s linear infinite}
-  .core span{animation:spin 8s linear infinite reverse}
-  .ring{position:absolute;border:1px dashed rgba(155,92,255,.5);border-radius:50%}
-  .ring.r1{width:200px;height:200px;animation:spin 26s linear infinite;border-color:rgba(255,61,154,.4)}
-  .ring.r2{width:290px;height:290px;animation:spin 40s linear infinite reverse;border-color:rgba(38,217,255,.4)}
-  @keyframes spin{to{transform:rotate(360deg)}}
-  .node{position:absolute;font-family:var(--mono);font-size:10.5px;color:#fff;background:rgba(11,14,24,.85);border:1px solid var(--violet);border-radius:7px;padding:5px 9px;white-space:nowrap;box-shadow:0 0 14px rgba(155,92,255,.4)}
-  .stats{display:grid;grid-template-columns:repeat(3,1fr);gap:18px;max-width:760px;margin:54px auto 0}
-  .stat{text-align:center;background:var(--bg2);border:1px solid var(--line);border-radius:14px;padding:26px 16px;transition:transform .2s,box-shadow .2s}
-  .stat:hover{transform:translateY(-3px);box-shadow:var(--glow-violet)}
-  .stat .num{font-family:var(--display);font-weight:800;font-size:clamp(30px,4vw,46px);line-height:1;
-             background:var(--grad-hot);-webkit-background-clip:text;background-clip:text;-webkit-text-fill-color:transparent;filter:drop-shadow(0 0 14px rgba(155,92,255,.4))}
-  .stat:nth-child(2) .num{background:var(--grad-gold);-webkit-background-clip:text;background-clip:text;-webkit-text-fill-color:transparent}
-  .stat .lbl{font-family:var(--mono);font-size:11px;letter-spacing:.12em;text-transform:uppercase;color:var(--muted);margin-top:10px}
-
-  /* ───────── ARCHIVO DESCLASIFICADO ───────── */
-  .docs{display:grid;grid-template-columns:1fr 1fr;gap:18px;max-width:920px;margin:0 auto}
-  .doc{background:var(--bg);border:1px solid var(--line);border-radius:14px;padding:24px;font-family:var(--mono);transition:transform .2s,box-shadow .2s,border-color .2s}
-  .doc:hover{transform:translateY(-3px);border-color:rgba(38,217,255,.4);box-shadow:var(--glow-cyan)}
-  .doc .dhead{display:flex;justify-content:space-between;align-items:center;font-size:11px;color:var(--muted);letter-spacing:.1em;margin-bottom:16px;border-bottom:1px dashed var(--line);padding-bottom:12px}
-  .doc .verified{color:var(--green);display:flex;gap:6px;align-items:center}
-  .doc .dtag{display:inline-block;font-size:10px;color:#fff;background:var(--grad-hot);border-radius:6px;padding:3px 9px;margin-bottom:12px;letter-spacing:.1em}
-  .doc h4{font-family:var(--display);font-weight:700;font-size:16px;color:var(--ink);margin:0 0 12px;line-height:1.3;letter-spacing:-.01em}
-  .doc .dline{font-family:var(--body-f);font-size:13.5px;color:var(--body);margin:0 0 12px}
-  .doc .dline b{background:var(--grad-gold);-webkit-background-clip:text;background-clip:text;-webkit-text-fill-color:transparent}
-  .doc .dfoot{font-size:10.5px;color:var(--muted);margin-top:14px;letter-spacing:.06em}
-
-  /* ───────── PROCESO LAB ───────── */
-  .phases{display:grid;grid-template-columns:repeat(3,1fr);gap:18px}
-  .phase{background:linear-gradient(180deg,var(--bg2),#0a0c14);border:1px solid var(--line);border-radius:var(--radius);padding:28px;position:relative;overflow:hidden;transition:transform .2s,box-shadow .2s}
-  .phase::before{content:"";position:absolute;top:0;left:0;right:0;height:3px;background:var(--grad-hot)}
-  .phase:nth-child(2)::before{background:linear-gradient(100deg,var(--cyan),var(--violet))}
-  .phase:nth-child(3)::before{background:var(--grad-gold)}
-  .phase:hover{transform:translateY(-3px);box-shadow:0 22px 50px rgba(0,0,0,.5)}
-  .phase .pnum{font-family:var(--mono);font-size:11px;letter-spacing:.18em;background:var(--grad-hot);-webkit-background-clip:text;background-clip:text;-webkit-text-fill-color:transparent;margin-bottom:18px;font-weight:700}
-  .phase h3{font-family:var(--display);font-weight:700;font-size:19px;color:var(--ink);margin:0 0 10px}
-  .phase p{margin:0;font-size:14px;color:var(--body)}
-  .phase .scorebar{display:flex;gap:8px;margin-top:18px;flex-wrap:wrap}
-  .scorepill{font-family:var(--mono);font-size:11px;background:var(--bg);border:1px solid var(--line);border-radius:8px;padding:6px 10px;color:var(--muted)}
-  .scorepill b{color:var(--gold);font-size:13px}
-
-  /* ───────── ASISTENTE DE CHAT ───────── */
-  .chatwrap{max-width:720px;margin:0 auto;border:1px solid var(--line);border-radius:20px;overflow:hidden;
-            background:linear-gradient(180deg,var(--bg2),#0b1120);box-shadow:0 30px 80px rgba(0,0,0,.5)}
-  .chathead{display:flex;align-items:center;gap:12px;padding:16px 20px;border-bottom:1px solid var(--line);background:rgba(255,255,255,.015)}
-  .chatav{width:40px;height:40px;border-radius:50%;flex:none;display:flex;align-items:center;justify-content:center;font-size:18px;
-          background:radial-gradient(circle at 40% 35%,var(--gold2),var(--gold));color:#0A0D14;box-shadow:0 0 22px rgba(231,184,92,.4)}
-  .chathead .ci h5{font-family:var(--display);font-weight:700;font-size:15px;color:var(--ink);margin:0}
-  .chathead .ci .on-now{font-family:var(--mono);font-size:11px;color:var(--green);display:flex;align-items:center;gap:6px;margin-top:3px}
-  .chathead .ci .on-now i{width:7px;height:7px;border-radius:50%;background:var(--green);box-shadow:0 0 8px var(--green)}
-  .chatbody{padding:22px;min-height:280px;display:flex;flex-direction:column;gap:14px}
-  .bubble{max-width:80%;padding:12px 16px;border-radius:14px;font-size:14px;line-height:1.5;animation:bub .35s both}
-  @keyframes bub{from{opacity:0;transform:translateY(8px)}to{opacity:1;transform:none}}
-  .bubble.bot{align-self:flex-start;background:var(--bg3);border:1px solid var(--line);border-bottom-left-radius:4px;color:var(--body)}
-  .bubble.bot b{color:var(--gold)}
-  .bubble.me{align-self:flex-end;background:linear-gradient(100deg,var(--blue),var(--blue2));color:#06101f;border-bottom-right-radius:4px;font-weight:600}
-  .bubble .ts{display:block;font-family:var(--mono);font-size:9.5px;opacity:.6;margin-top:6px;text-align:right}
-  .typing{align-self:flex-start;display:flex;gap:4px;padding:14px 16px;background:var(--bg3);border:1px solid var(--line);border-radius:14px;border-bottom-left-radius:4px}
-  .typing i{width:7px;height:7px;border-radius:50%;background:var(--muted);animation:blink 1.2s infinite}
-  .typing i:nth-child(2){animation-delay:.2s}.typing i:nth-child(3){animation-delay:.4s}
-  @keyframes blink{0%,60%,100%{opacity:.3}30%{opacity:1}}
-  .chatqs{padding:16px 20px;border-top:1px solid var(--line);background:var(--bg)}
-  .chatqs .qlabel{font-family:var(--mono);font-size:10.5px;letter-spacing:.1em;color:var(--muted);margin-bottom:12px;text-transform:uppercase}
-  .qbubbles{display:flex;flex-wrap:wrap;gap:9px}
-  .qbtn{font-family:var(--body-f);font-size:13px;color:var(--body);cursor:pointer;background:var(--bg2);
-        border:1px solid var(--line);border-radius:999px;padding:9px 15px;transition:border-color .15s,color .15s,background .15s}
-  .qbtn:hover{border-color:var(--gold);color:var(--gold);background:var(--gold-soft)}
-  .qbtn.used{opacity:.4;pointer-events:none}
-
-  /* ───────── FINAL CTA + PRUEBA SOCIAL ───────── */
-  .finalcta{text-align:center;background:linear-gradient(160deg,#0c1322,#0a0f1c);border:1px solid var(--line);border-radius:24px;padding:62px 28px;max-width:840px;margin:0 auto;position:relative;overflow:hidden}
-  .finalcta::before{content:"";position:absolute;inset:0;background:radial-gradient(600px 280px at 50% 0%,rgba(231,184,92,.14),transparent 65%);pointer-events:none}
-  .finalcta h2{font-family:var(--display);font-weight:700;font-size:clamp(28px,4.4vw,42px);line-height:1.08;letter-spacing:-.03em;color:var(--ink);margin:0 auto 14px;max-width:18ch;position:relative}
-  .finalcta p{color:var(--muted);margin:0 auto 28px;max-width:46ch;position:relative}
-  .finalcta .btn{padding:16px 32px;font-size:16px;position:relative}
-  .social{display:flex;align-items:center;justify-content:center;gap:14px;margin-top:34px;position:relative;flex-wrap:wrap}
-  .avstack{display:flex}
-  .avstack .av{width:38px;height:38px;border-radius:50%;border:2px solid #0c1322;margin-left:-12px;
-               display:flex;align-items:center;justify-content:center;font-family:var(--display);font-weight:700;font-size:14px;color:#0A0D14}
-  .avstack .av:first-child{margin-left:0}
-  .avstack .av.more{background:var(--bg3);color:var(--gold);font-family:var(--mono);font-size:12px;box-shadow:0 0 0 1px var(--line) inset}
-  .social .stxt{font-size:14px;color:var(--body);text-align:left}
-  .social .stxt b{color:var(--gold)}
-
-  /* ───────── FOOTER ───────── */
-  footer{border-top:1px solid var(--line);margin-top:30px;padding:40px 0 50px}
-  footer .wrap{display:flex;justify-content:space-between;gap:24px;flex-wrap:wrap;align-items:flex-start}
-  .fbrand{max-width:300px}
-  .fbrand p{font-family:var(--mono);font-size:12px;color:var(--muted);margin:12px 0 0}
-  .fcols{display:flex;gap:54px;flex-wrap:wrap}
-  .fcol h6{font-family:var(--mono);font-size:11px;letter-spacing:.14em;text-transform:uppercase;color:var(--gold);margin:0 0 14px}
-  .fcol a{display:block;color:var(--body);font-size:14px;margin-bottom:9px}
-  .fcol a:hover{color:var(--ink)}
-  .fbar{border-top:1px solid var(--line);margin-top:34px;padding-top:22px;font-family:var(--mono);font-size:11.5px;color:var(--muted);text-align:center}
-  .fbar b{color:var(--gold)}
-
-  /* ═══════ POLISH: color, profundidad e interacción ═══════ */
-
-  /* brillo que barre los botones dorados al pasar el mouse */
-  .btn-gold{position:relative;overflow:hidden}
-  .btn-gold::after{content:"";position:absolute;top:0;left:-120%;width:60%;height:100%;
-    background:linear-gradient(100deg,transparent,rgba(255,255,255,.55),transparent);
-    transform:skewX(-18deg);transition:left .55s ease}
-  .btn-gold:hover::after{left:140%}
-
-  /* hero mock: barrido de escaneo + glow vivo en VSR */
-  .mock{position:relative}
-  .mock::before{content:"";position:absolute;left:0;right:0;top:0;height:120px;z-index:3;pointer-events:none;
-    background:linear-gradient(180deg,rgba(77,141,255,.22),transparent);
-    animation:scan 4.5s cubic-bezier(.4,0,.2,1) infinite}
-  @keyframes scan{0%{transform:translateY(-120px);opacity:0}12%{opacity:1}60%{transform:translateY(360px);opacity:0}100%{transform:translateY(360px);opacity:0}}
-  .mr-vsr{animation:vsrglow 3s ease-in-out infinite}
-  @keyframes vsrglow{0%,100%{filter:drop-shadow(0 0 8px rgba(231,184,92,.25))}50%{filter:drop-shadow(0 0 18px rgba(231,184,92,.6))}}
-  .mock-row{transition:border-color .2s,transform .2s,background .2s}
-  .mock-row:hover{border-color:rgba(231,184,92,.4);transform:translateX(3px);background:rgba(231,184,92,.04)}
-
-  /* feed: sheen al pasar el mouse sobre la miniatura */
-  .ocard .oth::before{content:"";position:absolute;inset:0;z-index:2;pointer-events:none;
-    background:linear-gradient(105deg,transparent 40%,rgba(255,255,255,.18) 50%,transparent 60%);
-    transform:translateX(-120%);transition:transform .6s ease}
-  .ocard:hover .oth::before{transform:translateX(120%)}
-
-  /* ── pestañas con color propio cada una (lente distinta = color distinto) ── */
-  .tabbtn[data-tab="0"].on{background:rgba(231,184,92,.12)}
-  .tabbtn[data-tab="0"].on .tn{color:var(--gold)}
-  .tabbtn[data-tab="0"].on::after{background:linear-gradient(90deg,var(--gold),var(--gold2))}
-  .tabbtn[data-tab="1"].on{background:rgba(77,141,255,.12)}
-  .tabbtn[data-tab="1"].on .tn{color:var(--blue2)}
-  .tabbtn[data-tab="1"].on::after{background:linear-gradient(90deg,var(--blue),var(--blue2))}
-  .tabbtn[data-tab="2"].on{background:rgba(61,220,132,.12)}
-  .tabbtn[data-tab="2"].on .tn{color:var(--green)}
-  .tabbtn[data-tab="2"].on::after{background:linear-gradient(90deg,#2bbf6e,#3ddc84)}
-  .tabbtn[data-tab="3"].on{background:rgba(176,124,255,.12)}
-  .tabbtn[data-tab="3"].on .tn{color:#c9a6ff}
-  .tabbtn[data-tab="3"].on::after{background:linear-gradient(90deg,#9a63ff,#c9a6ff)}
-  .tabviz{transition:background .4s}
-  .tabwrap[data-acc="0"] .tabviz{background:radial-gradient(420px 280px at 30% 20%,rgba(231,184,92,.10),var(--bg3))}
-  .tabwrap[data-acc="1"] .tabviz{background:radial-gradient(420px 280px at 30% 20%,rgba(77,141,255,.12),var(--bg3))}
-  .tabwrap[data-acc="2"] .tabviz{background:radial-gradient(420px 280px at 30% 20%,rgba(61,220,132,.10),var(--bg3))}
-  .tabwrap[data-acc="3"] .tabviz{background:radial-gradient(420px 280px at 30% 20%,rgba(176,124,255,.12),var(--bg3))}
-  .vmock{animation:rise .4s both}
-  @keyframes rise{from{opacity:0;transform:translateY(12px)}to{opacity:1;transform:none}}
-  .vbar i{transition:width .9s cubic-bezier(.2,.7,.3,1)}
-
-  /* curva de retención que se dibuja */
-  .vcurve .draw{stroke-dasharray:520;stroke-dashoffset:520;transition:stroke-dashoffset 1.1s ease .1s}
-  .vpanel.shown .vcurve .draw{stroke-dashoffset:0}
-
-  /* ───────── DEMO INTERACTIVA DEL VSR ───────── */
-  .vsrdemo{max-width:760px;margin:0 auto;border:1px solid var(--line);border-radius:20px;overflow:hidden;
-           background:linear-gradient(180deg,var(--bg2),#0b1120);box-shadow:0 30px 80px rgba(0,0,0,.5);position:relative}
-  .vsrdemo::before{content:"";position:absolute;inset:0;pointer-events:none;opacity:.8;transition:background .4s}
-  .vsrdemo[data-lvl="0"]::before{background:radial-gradient(700px 300px at 50% 120%,rgba(124,135,158,.12),transparent 60%)}
-  .vsrdemo[data-lvl="1"]::before{background:radial-gradient(700px 300px at 50% 120%,rgba(77,141,255,.18),transparent 60%)}
-  .vsrdemo[data-lvl="2"]::before{background:radial-gradient(700px 300px at 50% 120%,rgba(231,184,92,.22),transparent 60%)}
-  .vsrdemo[data-lvl="3"]::before{background:radial-gradient(700px 320px at 50% 120%,rgba(255,93,86,.22),transparent 60%)}
-  .vd-grid{display:grid;grid-template-columns:1fr 230px;gap:0;position:relative;z-index:1}
-  .vd-controls{padding:30px 28px;border-right:1px solid var(--line)}
-  .vd-field{margin-bottom:22px}
-  .vd-field label{display:flex;justify-content:space-between;align-items:baseline;font-family:var(--mono);font-size:11px;
-                  letter-spacing:.1em;color:var(--muted);text-transform:uppercase;margin-bottom:10px}
-  .vd-field label b{font-family:var(--display);font-size:16px;color:var(--ink);letter-spacing:0}
-  .vd-field input[type=range]{width:100%;-webkit-appearance:none;appearance:none;height:7px;border-radius:6px;
-    background:var(--bg3);outline:none;cursor:pointer}
-  .vd-field input[type=range]::-webkit-slider-thumb{-webkit-appearance:none;width:20px;height:20px;border-radius:50%;
-    background:linear-gradient(135deg,var(--gold2),var(--gold));border:2px solid var(--bg);cursor:pointer;
-    box-shadow:0 2px 10px rgba(231,184,92,.5)}
-  .vd-field input[type=range]::-moz-range-thumb{width:18px;height:18px;border-radius:50%;
-    background:var(--gold);border:2px solid var(--bg);cursor:pointer}
-  .vd-field.blue input[type=range]::-webkit-slider-thumb{background:linear-gradient(135deg,var(--blue2),var(--blue));box-shadow:0 2px 10px rgba(77,141,255,.5)}
-  .vd-readout{padding:30px 24px;display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center;
-              background:var(--bg3)}
-  .vd-num{font-family:var(--display);font-weight:800;font-size:clamp(40px,9vw,62px);line-height:1;
-          background:linear-gradient(100deg,var(--gold),var(--gold2));-webkit-background-clip:text;background-clip:text;
-          -webkit-text-fill-color:transparent;transition:filter .3s}
-  .vd-num small{font-size:20px;-webkit-text-fill-color:var(--muted);color:var(--muted)}
-  .vd-lbl{font-family:var(--mono);font-size:10px;letter-spacing:.16em;color:var(--muted);margin-top:8px}
-  .vd-verdict{margin-top:18px;font-family:var(--display);font-weight:700;font-size:14px;border-radius:999px;
-              padding:8px 16px;border:1px solid var(--line);transition:all .3s}
-  .vd-verdict[data-lvl="0"]{color:var(--muted);border-color:var(--line)}
-  .vd-verdict[data-lvl="1"]{color:var(--blue2);border-color:rgba(77,141,255,.5);background:var(--blue-soft)}
-  .vd-verdict[data-lvl="2"]{color:var(--gold);border-color:rgba(231,184,92,.5);background:var(--gold-soft)}
-  .vd-verdict[data-lvl="3"]{color:#ff8b86;border-color:rgba(255,93,86,.5);background:rgba(255,93,86,.12)}
-  .vd-foot{position:relative;z-index:1;border-top:1px solid var(--line);padding:14px 20px;
-           font-family:var(--mono);font-size:11.5px;color:var(--muted);text-align:center}
-  .vd-foot b{color:var(--gold)}
-
-  /* ═══════ PORTADAS VIRALES (foto real + overlay tipo YouTube) ═══════ */
-  .vth{position:relative;width:100%;height:100%;overflow:hidden;border-radius:inherit;display:block;background:#0a0c14}
-  .vth .vphoto{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;opacity:0;transition:opacity .5s}
-  .vth .vphoto.on{opacity:1}
-  .vth svg{position:absolute;inset:0;width:100%;height:100%}
-  .vth svg text{text-transform:uppercase}
-  .vth .hb{transform-box:fill-box;transform-origin:center;animation:vcpop 1.5s ease-in-out infinite}
-  @keyframes vcpop{0%,100%{transform:scale(1)}50%{transform:scale(1.09)}}
-  .vth .vshine{position:absolute;inset:0;z-index:5;pointer-events:none;
-       background:linear-gradient(105deg,transparent 42%,rgba(255,255,255,.4) 50%,transparent 58%);
-       transform:translateX(-130%)}
-  .vth:hover .vshine{transform:translateX(130%);transition:transform .7s ease}
-
-  /* ───────── MURO DE OUTLIERS (mosaico de miniaturas) ───────── */
-  .wallsec{padding:30px 0 78px}
-  .wall{position:relative;border-radius:20px;overflow:hidden;border:1px solid var(--line);
-        background:#080a12;box-shadow:0 30px 80px rgba(0,0,0,.6)}
-  .wall .wallmask{display:grid;grid-template-columns:repeat(6,1fr);gap:8px;padding:14px;
-        -webkit-mask-image:linear-gradient(180deg,#000 82%,transparent);mask-image:linear-gradient(180deg,#000 82%,transparent)}
-  .wtile{position:relative;aspect-ratio:16/9;border-radius:9px;overflow:hidden;
-         background:linear-gradient(135deg,#2a1f3d,#3d2a55);transition:transform .25s,box-shadow .25s}
-  .wtile:nth-child(3n+1){background:linear-gradient(135deg,#1c2740,#243355)}
-  .wtile:nth-child(3n+2){background:linear-gradient(135deg,#3d1f2f,#552a3a)}
-  .wtile:nth-child(4n){background:linear-gradient(135deg,#1f3d2f,#2a553e)}
-  .wtile:nth-child(5n){background:linear-gradient(135deg,#3d2a1f,#553a2a)}
-  .wtile img{width:100%;height:100%;object-fit:cover;display:block;transition:transform .4s}
-  .wtile::after{content:"";position:absolute;inset:0;background:linear-gradient(180deg,transparent 50%,rgba(0,0,0,.6))}
-  .wtile .wv{position:absolute;bottom:6px;left:6px;z-index:2;font-family:var(--mono);font-weight:700;font-size:11px;
-             color:#0A0D14;background:var(--grad-gold);border-radius:6px;padding:2px 7px;box-shadow:0 4px 12px rgba(231,184,92,.5)}
-  .wtile.hot .wv{background:var(--grad-fire);color:#fff;box-shadow:var(--glow-pink)}
-  .wtile:hover{transform:scale(1.06);z-index:3;box-shadow:0 16px 40px rgba(0,0,0,.6),var(--glow-violet)}
-  .wtile:hover img{transform:scale(1.12)}
-  .wallglow{position:absolute;inset:0;pointer-events:none;
-            background:radial-gradient(600px 300px at 50% 110%,rgba(155,92,255,.25),transparent 60%)}
-  @media (max-width:760px){.wall .wallmask{grid-template-columns:repeat(3,1fr)}}
-
-  /* ───────── TERMINAL MASTER PROMPT (mockup) ───────── */
-  .term{max-width:680px;margin:0 auto;border-radius:16px;overflow:hidden;border:1px solid transparent;
-        background-image:linear-gradient(180deg,#0a0c16,#070810),var(--grad-hot2);
-        background-origin:border-box;background-clip:padding-box,border-box;
-        box-shadow:0 30px 70px rgba(0,0,0,.6),var(--glow-pink);font-family:var(--mono)}
-  .term .tbar{display:flex;align-items:center;gap:8px;padding:11px 15px;border-bottom:1px solid var(--line);background:rgba(255,255,255,.02)}
-  .term .tbar .tu{margin-left:10px;font-size:11px;color:var(--muted)}
-  .term .tbody{padding:18px 20px;font-size:12.5px;line-height:1.7;color:var(--body);min-height:150px}
-  .term .pl{color:var(--muted)} .term .cmd{color:#fff}
-  .term .ok{color:var(--lime)} .term .key{color:var(--cyan)} .term .hi{color:var(--gold)}
-  .term .cursor{display:inline-block;width:8px;height:15px;background:var(--pink);vertical-align:-2px;
-                margin-left:3px;animation:blinkc 1s steps(2) infinite;box-shadow:var(--glow-pink)}
-  @keyframes blinkc{50%{opacity:0}}
-  .term .chip{display:inline-block;font-size:10.5px;color:#fff;background:var(--grad-hot);border-radius:6px;padding:2px 8px;margin:2px 4px 2px 0}
-
-  /* ───────── DASHBOARD DE SCORES (mockup) ───────── */
-  .dash{display:flex;flex-wrap:wrap;gap:10px;margin-top:18px}
-  .dchip{flex:1 1 90px;background:var(--bg);border:1px solid var(--line);border-radius:12px;padding:14px 10px;text-align:center;position:relative;overflow:hidden}
-  .dchip .dv{font-family:var(--mono);font-weight:700;font-size:26px;line-height:1;
-             background:var(--grad-hot);-webkit-background-clip:text;background-clip:text;-webkit-text-fill-color:transparent}
-  .dchip:nth-child(2) .dv,.dchip:nth-child(4) .dv{background:var(--grad-gold);-webkit-background-clip:text;background-clip:text;-webkit-text-fill-color:transparent}
-  .dchip .dl{font-family:var(--mono);font-size:9px;letter-spacing:.12em;color:var(--muted);margin-top:8px;text-transform:uppercase}
-
-  /* ───────── RESPONSIVE ───────── */
-  @media (max-width:900px){
-    .blocks,.uses,.docs,.rag{grid-template-columns:1fr}
-    .steps{grid-template-columns:1fr 1fr}
-    .step .arrow{display:none}
-    .phases{grid-template-columns:1fr}
-    .cmp-row{grid-template-columns:1.4fr 1fr 1fr 1fr}
-    .ragviz{min-height:280px}
-    .tabbody{grid-template-columns:1fr}
-    .tabviz{border-right:0;border-bottom:1px solid var(--line)}
-    .vd-grid{grid-template-columns:1fr}
-    .vd-controls{border-right:0;border-bottom:1px solid var(--line)}
+  @media (prefers-reduced-motion:reduce){
+    *{animation:none!important}
+    .reveal{opacity:1;transform:none}
+    html{scroll-behavior:auto}
   }
-  @media (max-width:600px){
-    .navlinks .navlink{display:none}
-    .stats{grid-template-columns:1fr}
-    .steps{grid-template-columns:1fr}
-    .cmp-cell{padding:11px 8px;font-size:12px}
-    .cmp-head .cmp-cell{font-size:11.5px}
-    .mock-search .inp{min-width:0}
-    .hero{padding:50px 0 30px}
-    .tabnav{grid-template-columns:repeat(2,1fr)}
-    .tabbtn:nth-child(2){border-right:0}
-    .tabbtn:nth-child(1),.tabbtn:nth-child(2){border-bottom:1px solid var(--line)}
-    .social{flex-direction:column;gap:10px}
-    .social .stxt{text-align:center}
-  }
-  @media (prefers-reduced-motion:reduce){*{animation:none!important;transition:none!important}.reveal{opacity:1;transform:none}}
-
-  /* ───────── GALERÍA DE HERRAMIENTAS ───────── */
-  .toolcat{margin-bottom:34px}
-  .toolcat h3{font-family:var(--display);font-weight:700;font-size:18px;color:var(--ink);margin:0 0 4px;display:flex;align-items:center;gap:10px}
-  .toolcat .ccount{font-family:var(--mono);font-size:11px;color:var(--muted);font-weight:500}
-  .toolcat .cdesc{font-size:13.5px;color:var(--muted);margin:0 0 16px}
-  .toolgrid{display:grid;grid-template-columns:repeat(4,1fr);gap:12px}
-  @media (max-width:900px){.toolgrid{grid-template-columns:repeat(3,1fr)}}
-  @media (max-width:640px){.toolgrid{grid-template-columns:repeat(2,1fr)}}
-  .toolcard{display:flex;align-items:center;gap:11px;background:var(--bg2);border:1px solid var(--line);
-    border-radius:12px;padding:13px 14px;transition:transform .18s,box-shadow .18s,border-color .18s;cursor:pointer}
-  .toolcard:hover{transform:translateY(-3px);border-color:rgba(231,184,92,.45);box-shadow:0 14px 30px rgba(0,0,0,.4)}
-  .toolcard .tico{width:38px;height:38px;border-radius:10px;flex:none;display:flex;align-items:center;justify-content:center;
-    font-size:19px;background:var(--bg3);box-shadow:0 0 0 1px var(--line) inset}
-  .toolcard .tname{font-family:var(--display);font-weight:600;font-size:13.5px;color:var(--ink);line-height:1.25;display:block}
-  .toolcard .ttype{font-family:var(--mono);font-size:9.5px;letter-spacing:.08em;color:var(--muted);margin-top:4px;text-transform:uppercase;display:block}
-  .toolcard.lead{background:linear-gradient(160deg,rgba(231,184,92,.12),var(--bg2));border-color:rgba(231,184,92,.4)}
-  .toolcard.lead .tico{background:var(--grad-gold);color:#0A0D14;box-shadow:none}
-  .toolnote{font-family:var(--mono);font-size:11px;color:var(--muted);text-align:center;margin-top:8px}
 </style>
 </head>
 <body>
-<div class="glowfield"><i></i></div>
+<canvas id="fx" aria-hidden="true"></canvas>
+<div class="cursorglow" id="cglow" aria-hidden="true"></div>
 
-<!-- ════════ NAV ════════ -->
-<nav>
+<nav id="nav"><div class="wrap">
+  <a class="logo" href="#top">JM <b>BOTS</b></a>
+  <div class="navlinks"><a href="#como">Cómo funciona</a><a href="#arsenal">Herramientas</a></div>
+  <a class="btn btn-gold" href="./app.html" style="margin-left:auto;padding:11px 21px">Entrar →</a>
+</div></nav>
+
+<header class="hero" id="top">
+  <div class="aurora" aria-hidden="true"></div>
+  <div id="heroMosaic" aria-hidden="true"></div>
+  <div class="heroveil" aria-hidden="true"></div>
+  <div id="sparkles" aria-hidden="true"></div>
   <div class="wrap">
-    <div class="brandbox"><span class="bmain">JM <b>BOTS</b></span><span class="bname">Jonatan Monzon</span></div>
-    <div class="navlinks">
-      <a class="navlink" href="#herramientas" data-i18n="nav_tools">Herramientas</a>
-      <a class="navlink" href="#bloques" data-i18n="nav_how">Cómo funciona</a>
-      <a class="navlink" href="#comparativa" data-i18n="nav_cmp">Comparativa</a>
-      <a class="navlink" href="#lab" data-i18n="nav_lab">El laboratorio</a>
-      <div class="lang" role="group" aria-label="idioma">
-        <button class="on" data-lang="es">ES</button>
-        <button data-lang="en">EN</button>
-      </div>
-      <a class="btn btn-ghost" href="./app.html" data-i18n="nav_login">Entrar</a>
+    <span class="hbadge reveal">✦ Suite de creación viral con IA</span>
+    <h1 class="reveal" style="transition-delay:.05s">Tu fábrica de videos <span class="g">virales</span> con IA</h1>
+    <p class="lead reveal" style="transition-delay:.1s">Detectá lo que ya explotó en YouTube y generá guiones, personajes y prompts listos para Veo 3. Decenas de herramientas, en tu navegador, con tus propias claves.</p>
+    <div class="hcta reveal" style="transition-delay:.16s">
+      <a class="btn btn-gold" href="./app.html">Entrar a la suite →</a>
+      <a class="btn btn-ghost" href="#arsenal">Ver las herramientas</a>
+    </div>
+    <div class="chips reveal" style="transition-delay:.22s">
+      <span class="chip">🔥 <b>Detectá</b> lo que explotó</span>
+      <span class="chip">✍️ <b>Guiones</b> y personajes</span>
+      <span class="chip">🎬 <b>Prompts</b> para Veo 3</span>
+      <span class="chip">🔒 <b>100%</b> en tu navegador</span>
     </div>
   </div>
-</nav>
-
-<!-- ════════ HERO ════════ -->
-<header class="hero">
-  <div class="herothumbs" aria-hidden="true" id="heroThumbs">
-    <div class="ht" data-v="0" style="width:158px;height:89px;top:8%;left:4%;--r:-7deg;animation-delay:.0s"></div>
-    <div class="ht" data-v="13" style="width:134px;height:75px;top:30%;left:11%;--r:5deg;animation-delay:1.2s"></div>
-    <div class="ht" data-v="3" style="width:146px;height:82px;bottom:10%;left:6%;--r:6deg;animation-delay:.6s"></div>
-    <div class="ht" data-v="1" style="width:160px;height:90px;top:9%;right:4%;--r:8deg;animation-delay:.4s"></div>
-    <div class="ht" data-v="8" style="width:130px;height:73px;top:32%;right:10%;--r:-6deg;animation-delay:1.6s"></div>
-    <div class="ht" data-v="2" style="width:144px;height:81px;bottom:11%;right:6%;--r:-9deg;animation-delay:.9s"></div>
-  </div>
-  <div class="wrap">
-    <div class="badges reveal">
-      <span class="badge">🧠 <b data-i18n="b1b">IA</b>&nbsp;<span data-i18n="b1t">que analiza y crea</span></span>
-      <span class="badge">🎬 <b data-i18n="b2b">37</b>&nbsp;<span data-i18n="b2t">herramientas en una suite</span></span>
-      <span class="badge">✅ <span data-i18n="b3t">Corre en tu navegador · con tus claves</span></span>
-    </div>
-    <div class="eyebrow reveal" data-i18n="eyebrow">suite de contenido viral · con ia</div>
-    <h1 class="reveal"><span data-i18n="h1a">Analizá lo que</span> <em data-i18n="h1em">funciona</em> <span data-i18n="h1b">y creá tu próximo viral con IA.</span></h1>
-    <p class="sub reveal" data-i18n="hsub">JM BOTS es tu suite completa: detectá los videos que rompieron su canal en YouTube y generá guiones, personajes y prompts listos para Veo 3 en decenas de nichos —drama, reflexivos, infantiles, terror y más.</p>
-    <div class="hero-cta reveal">
-      <a class="btn btn-gold" href="./app.html" data-i18n="cta_main">Entrar a la suite →</a>
-      <a class="btn btn-ghost" href="#herramientas" data-i18n="cta_sec">Ver las herramientas</a>
-    </div>
-    <div class="trust reveal">
-      <span><svg viewBox="0 0 24 24" fill="none" stroke="#E7B85C" stroke-width="2"><path d="M20 6 9 17l-5-5"/></svg> <span data-i18n="t1">Sin servidores · datos en tu navegador</span></span>
-      <span><svg viewBox="0 0 24 24" fill="none" stroke="#E7B85C" stroke-width="2"><path d="M20 6 9 17l-5-5"/></svg> <span data-i18n="t2">Resultado en segundos</span></span>
-      <span><svg viewBox="0 0 24 24" fill="none" stroke="#E7B85C" stroke-width="2"><path d="M20 6 9 17l-5-5"/></svg> <span data-i18n="t3">Claves de YouTube + Gemini</span></span>
-    </div>
-
-    <div class="mock reveal">
-      <div class="mock-bar">
-        <span class="mdot" style="background:#ff5f56"></span>
-        <span class="mdot" style="background:#ffbd2e"></span>
-        <span class="mdot" style="background:#27c93f"></span>
-        <span class="mock-url">jm-analitic-youtube-chanel / detección</span>
-      </div>
-      <div class="mock-body">
-        <div class="mock-search">
-          <div class="inp">recetas keto en 10 minutos</div>
-          <div class="pill">90 días</div>
-          <div class="pill">ES</div>
-          <div class="gobtn">Buscar outliers</div>
-        </div>
-        <div class="mock-row">
-          <div class="mock-thumb"><img src="https://i.ytimg.com/vi/dQw4w9WgXcQ/hqdefault.jpg" onerror="this.remove()" alt="" loading="lazy"></div>
-          <div><div class="mr-title">Hice esto y no podía creer el resultado</div><div class="mr-sub">CocinaExpress · 1.240 subs · 892.000 vistas</div></div>
-          <div class="mr-vsr">719×<small>VSR</small></div>
-        </div>
-        <div class="mock-row">
-          <div class="mock-thumb" style="background:linear-gradient(135deg,#2a1f3d,#3d2a55)"><img src="https://i.ytimg.com/vi/9bZkp7q19f0/hqdefault.jpg" onerror="this.remove()" alt="" loading="lazy"></div>
-          <div><div class="mr-title">El error que arruina tu desayuno keto</div><div class="mr-sub">SaludReal · 3.400 subs · 510.000 vistas</div></div>
-          <div class="mr-vsr">150×<small>VSR</small></div>
-        </div>
-        <div class="mock-row">
-          <div class="mock-thumb" style="background:linear-gradient(135deg,#1f3d2f,#2a553e)"><img src="https://i.ytimg.com/vi/kJQP7kiw5Fk/hqdefault.jpg" onerror="this.remove()" alt="" loading="lazy"></div>
-          <div><div class="mr-title">3 ingredientes. 0 azúcar. Adictivo.</div><div class="mr-sub">FitCocina · 8.900 subs · 410.000 vistas</div></div>
-          <div class="mr-vsr">46×<small>VSR</small></div>
-        </div>
-      </div>
-    </div>
-  </div>
+  <div class="scrollcue" aria-hidden="true">scrolleá ↓</div>
 </header>
 
-<!-- ════════ GALERÍA DE HERRAMIENTAS ════════ -->
-<section class="section" id="herramientas" style="padding-top:46px">
-  <div class="wrap">
-    <div class="seclabel reveal" data-i18n="tl_label">la suite completa</div>
-    <h2 class="sectitle reveal" data-i18n="tl_title">Todas las herramientas, en un solo lugar.</h2>
-    <p class="secsub reveal" data-i18n="tl_sub">Un análisis potenciado por IA y decenas de generadores de guiones y prompts para Veo 3, organizados por estilo. Entrá y usá la que necesites.</p>
-    <div id="toolsGallery" class="reveal"></div>
-    <p class="toolnote" data-i18n="tl_note">Acceso según tu cuenta · cada usuario ve las herramientas que tiene habilitadas.</p>
+<div class="band" aria-hidden="true"><div class="marq" id="band1"></div></div>
+
+<section class="why" id="como"><div class="wrap">
+  <div class="whygrid">
+    <div class="ben reveal"><div class="bi" style="background:linear-gradient(135deg,#22D3EE,#8B5CF6)">📈</div><h3>Detectá lo viral</h3><p>Encontrá los videos que se dispararon muy por encima de lo normal y modelá tu próximo hit.</p></div>
+    <div class="ben reveal" style="transition-delay:.08s"><div class="bi" style="background:linear-gradient(135deg,#F472D0,#8B5CF6)">✍️</div><h3>Guiones al instante</h3><p>Historias, personajes y diálogos listos para narrar, por nicho y con fórmulas probadas.</p></div>
+    <div class="ben reveal" style="transition-delay:.16s"><div class="bi" style="background:linear-gradient(135deg,#F5B544,#F472D0)">🎬</div><h3>Prompts para Veo 3</h3><p>Imagen y video listos para copiar y pegar en Veo 3, Grok o el generador que uses.</p></div>
+    <div class="ben reveal" style="transition-delay:.24s"><div class="bi" style="background:linear-gradient(135deg,#A3E635,#22D3EE)">🔒</div><h3>Tuyo y privado</h3><p>Corre en tu navegador con tus claves. Sin servidores, sin suscripciones, sin vueltas.</p></div>
   </div>
-</section>
+</div></section>
 
-<!-- ════════ LIVE FEED ════════ -->
-<section class="section" style="padding-top:40px">
-  <div class="wrap">
-    <div class="feed-head reveal"><span class="livedot"></span> <span data-i18n="feed">ÚLTIMOS OUTLIERS DETECTADOS POR LA RED</span></div>
+<div class="band rev" aria-hidden="true"><div class="marq" id="band2"></div></div>
+
+<section class="arsenal" id="arsenal"><div class="wrap">
+  <div class="shead reveal">
+    <span class="eyebrow">El arsenal</span>
+    <h2>Explorá las <span class="g">herramientas</span></h2>
+    <p>Pasá el mouse, elegí y empezá a crear. Cada semana sumamos más.</p>
   </div>
-  <div class="marquee-mask reveal">
-    <div class="marquee" id="marquee"></div>
+  <div class="wall" id="wall"></div>
+  <div class="moreline reveal">✦ <b>Y seguimos sumando</b> nuevas herramientas todo el tiempo</div>
+</div></section>
+
+<section class="finalwrap"><div class="wrap">
+  <div class="finalcta reveal">
+    <h2>Creá tu próximo <span class="g">viral</span> hoy</h2>
+    <p>Entrá a la suite con tu cuenta de Google autorizada y empezá a generar en minutos.</p>
+    <a class="btn btn-gold" href="./app.html">Entrar a la suite →</a>
   </div>
-  <div class="marquee-mask reveal" style="margin-top:16px">
-    <div class="marquee rev" id="marquee2"></div>
-  </div>
-</section>
+</div></section>
 
-<!-- ════════ DEMO INTERACTIVA DEL VSR ════════ -->
-<section class="section" style="padding-top:30px" id="demo">
-  <div class="wrap">
-    <div class="seclabel reveal" data-i18n="vd_label">probá la métrica</div>
-    <h2 class="sectitle reveal" data-i18n="vd_title">¿Tu video sería un outlier?</h2>
-    <p class="secsub reveal" data-i18n="vd_sub">Movés las vistas y los suscriptores, y el VSR te dice al instante si un video rompió su canal. Es la misma fórmula con la que ordenamos cada búsqueda.</p>
-
-    <div class="vsrdemo reveal" data-lvl="2">
-      <div class="vd-grid">
-        <div class="vd-controls">
-          <div class="vd-field">
-            <label data-i18n="vd_views">Vistas <b id="vdViewsLbl">892K</b></label>
-            <input type="range" id="vdViews" min="0" max="100" value="62" oninput="calcVSR()">
-          </div>
-          <div class="vd-field blue">
-            <label data-i18n="vd_subs">Suscriptores <b id="vdSubsLbl">1.2K</b></label>
-            <input type="range" id="vdSubs" min="0" max="100" value="20" oninput="calcVSR()">
-          </div>
-          <div style="font-family:var(--mono);font-size:11.5px;color:var(--muted);line-height:1.6" data-i18n="vd_hint">
-            VSR = vistas ÷ suscriptores. Cuanto más alto, más rompió su audiencia habitual.
-          </div>
-        </div>
-        <div class="vd-readout">
-          <div class="vd-num" id="vdNum">719<small>×</small></div>
-          <div class="vd-lbl">VSR</div>
-          <div class="vd-verdict" id="vdVerdict" data-lvl="2">✦ Outlier</div>
-        </div>
-      </div>
-      <div class="vd-foot" data-i18n="vd_foot">En la app real esto se calcula solo, para cada video del nicho que busques.</div>
-    </div>
-  </div>
-</section>
-
-<!-- ════════ MURO DE OUTLIERS ════════ -->
-<section class="wallsec">
-  <div class="wrap">
-    <div class="seclabel reveal" data-i18n="wl_label">el muro</div>
-    <h2 class="sectitle reveal" data-i18n="wl_title">Cientos de videos que <em>rompieron</em> su canal.</h2>
-    <p class="secsub reveal" data-i18n="wl_sub">Cada miniatura es un outlier real detectado por la red. El número es su VSR: cuántas veces multiplicó a su propia audiencia.</p>
-    <div class="wall reveal" id="wall">
-      <div class="wallmask" id="wallGrid"></div>
-      <div class="wallglow"></div>
-    </div>
-  </div>
-</section>
-
-<!-- ════════ 4 BLOQUES CON PESTAÑAS ════════ -->
-<section class="section" id="bloques">
-  <div class="wrap">
-    <div class="seclabel reveal" data-i18n="bl_label">4 capas que casi nadie analiza junto</div>
-    <h2 class="sectitle reveal" data-i18n="bl_title">No es un número de vistas. Es por qué se rompió.</h2>
-    <p class="secsub reveal" data-i18n="bl_sub">Cada outlier se descompone en los cuatro factores que deciden si un video se replica o se olvida.</p>
-
-    <div class="tabwrap reveal" data-acc="0">
-      <div class="tabnav" role="tablist">
-        <button class="tabbtn on" data-tab="0" onclick="setTab(0)"><span class="tn">01</span><span class="tt" data-i18n="bl1t">La miniatura</span></button>
-        <button class="tabbtn" data-tab="1" onclick="setTab(1)"><span class="tn">02</span><span class="tt" data-i18n="bl2t">El gancho</span></button>
-        <button class="tabbtn" data-tab="2" onclick="setTab(2)"><span class="tn">03</span><span class="tt" data-i18n="bl3t">La narrativa</span></button>
-        <button class="tabbtn" data-tab="3" onclick="setTab(3)"><span class="tn">04</span><span class="tt" data-i18n="bl4t">El plan</span></button>
-      </div>
-
-      <div class="tabbody">
-        <div class="tabviz">
-          <!-- VIZ 0 · miniatura -->
-          <div class="vmock vpanel" data-panel="0">
-            <div class="vh"><span>PACKAGING</span><b>análisis visual</b></div>
-            <div class="vthumb" style="background:linear-gradient(135deg,#1c2740,#243355)">
-              <img src="https://i.ytimg.com/vi/JGwWNGJdvx8/hqdefault.jpg" alt="" loading="lazy"
-                   style="position:absolute;inset:0;width:100%;height:100%;object-fit:cover;opacity:.85" onerror="this.style.opacity=0">
-              <span class="vlabel" style="top:14%;left:8%;width:38%;height:46%"></span>
-              <span class="vtag" style="top:9%;left:8%">rostro · emoción</span>
-              <span class="vlabel" style="bottom:12%;right:8%;width:40%;height:30%;border-color:var(--blue)"></span>
-              <span class="vtag" style="bottom:7%;right:8%;background:var(--blue);color:#06101f">contraste alto</span>
-            </div>
-            <div class="vrow"><span class="vt">claridad</span><div class="vbar"><i style="width:88%"></i></div><span>8.8</span></div>
-            <div class="vrow"><span class="vt">curiosidad</span><div class="vbar"><i style="width:92%"></i></div><span>9.2</span></div>
-          </div>
-          <!-- VIZ 1 · hook -->
-          <div class="vmock vpanel" data-panel="1" style="display:none">
-            <div class="vh"><span>HOOK · 0–30s</span><b>transcripción</b></div>
-            <div class="vrow" style="align-items:flex-start"><span class="vt">0:00</span><span style="flex:1;color:var(--gold)">"Nadie te contó esto sobre…"</span></div>
-            <div class="vrow" style="align-items:flex-start"><span class="vt">0:04</span><span style="flex:1">corte rápido · pregunta abierta</span></div>
-            <div class="vrow" style="align-items:flex-start"><span class="vt">0:11</span><span style="flex:1">promesa + stakes</span></div>
-            <div class="vrow" style="margin-top:14px"><span class="vt">técnica</span><div class="vbar"><i style="width:80%;background:linear-gradient(90deg,var(--gold),var(--gold2))"></i></div><span>loop abierto</span></div>
-          </div>
-          <!-- VIZ 2 · narrativa (curva de retención) -->
-          <div class="vmock vpanel" data-panel="2" style="display:none">
-            <div class="vh"><span>RETENCIÓN</span><b>curva estimada</b></div>
-            <svg class="vcurve" viewBox="0 0 320 130" fill="none">
-              <defs><linearGradient id="rc" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#7DA9FF"/><stop offset="1" stop-color="#4D8DFF"/></linearGradient></defs>
-              <line x1="0" y1="110" x2="320" y2="110" stroke="#1E2942"/>
-              <polyline class="draw" points="0,30 40,42 80,38 120,60 160,52 200,78 240,70 280,96 320,90" stroke="url(#rc)" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/>
-              <circle cx="120" cy="60" r="4" fill="#E7B85C"/><circle cx="200" cy="78" r="4" fill="#E7B85C"/>
-            </svg>
-            <div class="vrow"><span class="vt">picos</span><div class="vbar"><i style="width:74%"></i></div><span>tensión/alivio</span></div>
-          </div>
-          <!-- VIZ 3 · replicar -->
-          <div class="vmock vpanel" data-panel="3" style="display:none">
-            <div class="vgauge"><div class="gnum">78%</div><div class="glbl">REPLICABLE</div></div>
-            <div style="margin-top:18px">
-              <div class="vcheck"><span class="ck y">✓</span> Hook copiable a tu nicho</div>
-              <div class="vcheck"><span class="ck y">✓</span> Estructura narrativa reutilizable</div>
-              <div class="vcheck"><span class="ck n">!</span> Producción requiere adaptación</div>
-            </div>
-          </div>
-        </div>
-
-        <div class="tabinfo">
-          <div class="tabpanel on" data-panel="0">
-            <div class="tq" data-i18n="bl1q">¿Por qué hiciste clic?</div>
-            <p data-i18n="bl1p">La técnica visual exacta del packaging: qué hace la miniatura, cómo se refuerza con el título y qué de eso podés aplicar a tus propias portadas.</p>
-          </div>
-          <div class="tabpanel" data-panel="1">
-            <div class="tq" data-i18n="bl2q">¿Por qué te enganchó?</div>
-            <p data-i18n="bl2p">La técnica psicológica del primer momento: curiosidad, in media res, loop abierto, controversia. Por qué ese arranque retiene desde el segundo cero.</p>
-          </div>
-          <div class="tabpanel" data-panel="2">
-            <div class="tq" data-i18n="bl3q">¿Por qué lo viste entero?</div>
-            <p data-i18n="bl3p">La estructura de retención: stakes, ritmo, montaña rusa emocional y los puntos críticos donde la audiencia podría abandonar.</p>
-          </div>
-          <div class="tabpanel" data-panel="3">
-            <div class="tq" data-i18n="bl4q">¿Lo puedo hacer yo?</div>
-            <p data-i18n="bl4p">El kit replicable: qué copiar tal cual, qué adaptar a tu nicho, la fórmula en una frase y los prompts listos para producir el equivalente con IA.</p>
-          </div>
-        </div>
-      </div>
-    </div>
-  </div>
-</section>
-
-<!-- ════════ SKILL PARA TU IA ════════ -->
-<section class="section" style="background:linear-gradient(180deg,transparent,rgba(77,141,255,.04),transparent)">
-  <div class="wrap">
-    <div class="seclabel reveal" data-i18n="sk_label">no es solo un análisis</div>
-    <h2 class="sectitle reveal" data-i18n="sk_title">Es un kit listo para pegarle a tu IA.</h2>
-    <p class="secsub reveal" data-i18n="sk_sub">Léelo tú para aprender, o pásaselo entero a tu modelo y que clone esa fórmula exacta en tu próximo video.</p>
-    <div class="steps">
-      <div class="step reveal"><div class="snum">1</div><h4 data-i18n="sk1t">Descubre</h4><p data-i18n="sk1p">Busca un nicho y la app ordena los videos por anomalía (VSR), de mayor a menor.</p><span class="arrow">→</span></div>
-      <div class="step reveal"><div class="snum">2</div><h4 data-i18n="sk2t">Analiza</h4><p data-i18n="sk2p">La IA disecciona hook, miniatura, narrativa y patrón replicable del outlier.</p><span class="arrow">→</span></div>
-      <div class="step reveal"><div class="snum">3</div><h4 data-i18n="sk3t">Recibe el kit</h4><p data-i18n="sk3p">Guion escena a escena, prompts de personajes, de escenas y de animación.</p><span class="arrow">→</span></div>
-      <div class="step reveal"><div class="snum">4</div><h4 data-i18n="sk4t">Pega en tu IA</h4><p data-i18n="sk4p">Master prompt portátil para Gemini, ChatGPT o Grok, listo para producir.</p></div>
-    </div>
-    <div class="outchips reveal">
-      <div class="ochip"><h5 data-i18n="oc1t">Hook</h5><p data-i18n="oc1p">El gancho exacto, reescrito para tu tema.</p></div>
-      <div class="ochip"><h5 data-i18n="oc2t">Guion</h5><p data-i18n="oc2p">Texto completo con ritmo, pausas y micro-ganchos.</p></div>
-      <div class="ochip"><h5 data-i18n="oc3t">Miniatura</h5><p data-i18n="oc3p">Composición sugerida y prompt para generarla.</p></div>
-      <div class="ochip"><h5 data-i18n="oc4t">Producción</h5><p data-i18n="oc4p">Prompts de escena y animación para Veo 3 / Grok.</p></div>
-    </div>
-
-    <div class="term reveal" style="margin-top:40px">
-      <div class="tbar">
-        <span class="mdot" style="background:#ff5f56"></span>
-        <span class="mdot" style="background:#ffbd2e"></span>
-        <span class="mdot" style="background:#27c93f"></span>
-        <span class="tu">tu_ia · master_prompt.txt</span>
-      </div>
-      <div class="tbody">
-        <span class="pl">›</span> <span class="cmd" data-i18n="tm1">pegar master prompt de JM BOTS</span><br>
-        <span class="ok" data-i18n="tm2">✓ formato detectado:</span> <span class="hi" data-i18n="tm3">reflexiones animadas</span><br>
-        <span class="ok" data-i18n="tm4">✓ generando kit:</span><br>
-        <span class="chip" data-i18n="tm5">guion 8 escenas</span><span class="chip" data-i18n="tm6">prompts de personajes</span><span class="chip" data-i18n="tm7">prompts de escena</span><span class="chip" data-i18n="tm8">animación</span><span class="chip" data-i18n="tm9">plan de montaje</span><br>
-        <span class="pl">›</span> <span class="key">[TU IDEA / TEMA]</span> <span class="cursor"></span>
-      </div>
-    </div>
-  </div>
-</section>
-
-<!-- ════════ CASOS DE USO ════════ -->
-<section class="section">
-  <div class="wrap">
-    <div class="seclabel reveal" data-i18n="uc_label">casos de uso</div>
-    <h2 class="sectitle reveal" data-i18n="uc_title">¿Para quién es JM BOTS?</h2>
-    <p class="secsub reveal" data-i18n="uc_sub">Para cualquiera que quiera entender por qué un video funciona, con datos y no con intuición.</p>
-    <div class="uses">
-      <div class="use reveal"><div class="utag">01 · CREATOR</div><h3 data-i18n="uc1t">Creador de contenido</h3><p data-i18n="uc1p">Mira qué técnicas usan los top de tu nicho y replica lo que sí funciona, con datos reales en vez de corazonadas.</p></div>
-      <div class="use reveal"><div class="utag">02 · AGENCY</div><h3 data-i18n="uc2t">Agencia de marketing</h3><p data-i18n="uc2p">Presenta a tus clientes informes con métricas concretas que explican por qué una estrategia de contenido funciona.</p></div>
-      <div class="use reveal"><div class="utag">03 · GROWTH</div><h3 data-i18n="uc3t">Estratega de growth</h3><p data-i18n="uc3p">Detecta patrones virales antes de que sean tendencia e identifica oportunidades de contenido con alto potencial.</p></div>
-      <div class="use reveal"><div class="utag">04 · EDITOR</div><h3 data-i18n="uc4t">Editor de video</h3><p data-i18n="uc4p">Aprende qué ritmo, cortes y estructura narrativa usan los videos con mejor retención de tu nicho.</p></div>
-    </div>
-  </div>
-</section>
-
-<!-- ════════ COMPARATIVA ════════ -->
-<section class="section" id="comparativa">
-  <div class="wrap">
-    <div class="seclabel reveal" data-i18n="cm_label">comparativa</div>
-    <h2 class="sectitle reveal" data-i18n="cm_title">JM BOTS vs. el resto</h2>
-    <p class="secsub reveal" data-i18n="cm_sub">Nadie más junta detección de anomalías, disección del hook y un kit de replicación en un solo lugar.</p>
-    <div class="cmp reveal">
-      <div class="cmp-row cmp-head">
-        <div class="cmp-cell feat" style="font-family:var(--display)"></div>
-        <div class="cmp-cell them" data-i18n="cm_seo">Herramientas SEO</div>
-        <div class="cmp-cell us col-us" data-i18n="cm_us">JM BOTS</div>
-        <div class="cmp-cell them" data-i18n="cm_ai">IA genérica</div>
-      </div>
-      <div class="cmp-row"><div class="cmp-cell feat" data-i18n="cm_f1">Detección de outliers por VSR</div><div class="cmp-cell center ico-n">—</div><div class="cmp-cell center ico-y col-us">✓</div><div class="cmp-cell center ico-n">—</div></div>
-      <div class="cmp-row"><div class="cmp-cell feat" data-i18n="cm_f2">Análisis del hook y la miniatura</div><div class="cmp-cell center ico-n">—</div><div class="cmp-cell center ico-y col-us">✓</div><div class="cmp-cell center ico-n">parcial</div></div>
-      <div class="cmp-row"><div class="cmp-cell feat" data-i18n="cm_f3">Kit de producción con IA</div><div class="cmp-cell center ico-n">—</div><div class="cmp-cell center ico-y col-us">✓</div><div class="cmp-cell center ico-n">—</div></div>
-      <div class="cmp-row"><div class="cmp-cell feat" data-i18n="cm_f4">Master prompt portátil</div><div class="cmp-cell center ico-n">—</div><div class="cmp-cell center ico-y col-us">✓</div><div class="cmp-cell center ico-n">—</div></div>
-      <div class="cmp-row"><div class="cmp-cell feat" data-i18n="cm_f5">Corre con tus propias claves</div><div class="cmp-cell center ico-n">—</div><div class="cmp-cell center ico-y col-us">✓</div><div class="cmp-cell center ico-y">✓</div></div>
-      <div class="cmp-row"><div class="cmp-cell feat" data-i18n="cm_f6">Resultado en segundos</div><div class="cmp-cell center ico-y">✓</div><div class="cmp-cell center ico-y col-us">✓</div><div class="cmp-cell center ico-n">—</div></div>
-    </div>
-    <p class="cmp-foot reveal" data-i18n="cm_foot">capacidades cubiertas — SEO 1/6 · JM BOTS 6/6 · IA genérica 1/6</p>
-  </div>
-</section>
-
-<!-- ════════ RAG / LAB ════════ -->
-<section class="section" id="lab" style="background:linear-gradient(180deg,transparent,rgba(231,184,92,.04),transparent)">
-  <div class="wrap">
-    <div class="rag">
-      <div class="reveal">
-        <div class="seclabel" style="text-align:left;margin-bottom:14px" data-i18n="rag_label">base de conocimiento · r.a.g.</div>
-        <h2 class="sectitle" style="text-align:left;margin-left:0" data-i18n="rag_title">Entrenado con la lógica de los mejores.</h2>
-        <p style="color:var(--body);font-size:16px;max-width:46ch" data-i18n="rag_p">Cuando analizás un video, el motor cruza los datos contra patrones probados de hook, packaging, miniatura y narrativa para detectar exactamente qué técnicas usó y por qué funcionan.</p>
-        <div class="raglist">
-          <div class="ragitem"><span class="dot"></span><span data-i18n="rag1">Técnicas de hook y retención</span></div>
-          <div class="ragitem"><span class="dot"></span><span data-i18n="rag2">Patrones de packaging y miniatura</span></div>
-          <div class="ragitem"><span class="dot"></span><span data-i18n="rag3">Estructuras narrativas que retienen</span></div>
-          <div class="ragitem"><span class="dot"></span><span data-i18n="rag4">Estrategias de replicación con IA</span></div>
-        </div>
-      </div>
-      <div class="ragviz reveal">
-        <div class="ring r1"></div>
-        <div class="ring r2"></div>
-        <div class="core"><span>🧠</span></div>
-        <div class="node" style="top:14%;left:8%">hook</div>
-        <div class="node" style="top:24%;right:6%">packaging</div>
-        <div class="node" style="bottom:18%;left:12%">narrativa</div>
-        <div class="node" style="bottom:10%;right:14%">miniatura</div>
-        <div class="node" style="top:48%;right:0">VSR</div>
-      </div>
-    </div>
-
-    <div class="stats">
-      <div class="stat reveal"><div class="num" data-count="700" data-suffix="+">0</div><div class="lbl" data-i18n="st1">patrones de conocimiento</div></div>
-      <div class="stat reveal"><div class="num" data-count="50" data-suffix="+">0</div><div class="lbl" data-i18n="st2">creadores analizados</div></div>
-      <div class="stat reveal"><div class="num" data-count="500" data-suffix="+">0</div><div class="lbl" data-i18n="st3">outliers diseccionados</div></div>
-    </div>
-  </div>
-</section>
-
-<!-- ════════ ARCHIVO DESCLASIFICADO ════════ -->
-<section class="section">
-  <div class="wrap">
-    <div class="seclabel reveal">OL-RAG / 2026</div>
-    <h2 class="sectitle reveal" data-i18n="ar_title">El archivo desclasificado</h2>
-    <p class="secsub reveal" data-i18n="ar_sub">Meses diseccionando a los mejores. Una muestra del dossier.</p>
-    <div class="docs">
-      <div class="doc reveal">
-        <div class="dhead"><span>DOCUMENT #0042</span><span class="verified">● VERIFIED</span></div>
-        <div class="dtag" data-i18n="ar1tag">miniatura · insight</div>
-        <h4 data-i18n="ar1t">Preferencia por miniaturas sin texto</h4>
-        <p class="dline" data-i18n="ar1a">Una porción enorme de las miniaturas de los canales top <b>no llevan texto</b>. Si se excluye el texto incidental, el porcentaje sube todavía más.</p>
-        <p class="dline" data-i18n="ar1b">Por qué funciona: simplifica la comunicación visual y evita sobrecargar al espectador con información redundante.</p>
-        <div class="dfoot">— Experto en miniaturas · VECTORIZED</div>
-      </div>
-      <div class="doc reveal">
-        <div class="dhead"><span>DOCUMENT #0187</span><span class="verified">● VERIFIED</span></div>
-        <div class="dtag" data-i18n="ar2tag">narrativa · patrón</div>
-        <h4 data-i18n="ar2t">Estructura de montaña rusa emocional</h4>
-        <p class="dline" data-i18n="ar2a">Alternar <b>tensión y alivio</b> cada 2-3 minutos. Cada pico de tensión es más alto que el anterior.</p>
-        <p class="dline" data-i18n="ar2b">Por qué funciona: mantiene la dopamina activa. El espectador no encuentra un punto natural para irse.</p>
-        <div class="dfoot">— Patrones virales · VECTORIZED</div>
-      </div>
-    </div>
-  </div>
-</section>
-
-<!-- ════════ PROCESO LAB ════════ -->
-<section class="section" style="background:linear-gradient(180deg,transparent,rgba(77,141,255,.04),transparent)">
-  <div class="wrap">
-    <div class="seclabel reveal" data-i18n="pr_label">proceso de laboratorio</div>
-    <h2 class="sectitle reveal" data-i18n="pr_title">De un viral a tu plan de acción</h2>
-    <p class="secsub reveal" data-i18n="pr_sub">Tres fases. Menos de lo que tarda un café. Conocimiento accionable.</p>
-    <div class="phases">
-      <div class="phase reveal"><div class="pnum">FASE 01</div><h3 data-i18n="pr1t">Captura del espécimen</h3><p data-i18n="pr1p">Buscás un nicho. El escáner extrae miniatura, métricas, suscriptores y calcula el VSR de cada video.</p></div>
-      <div class="phase reveal"><div class="pnum">FASE 02</div><h3 data-i18n="pr2t">Reacción con la base</h3><p data-i18n="pr2p">La IA cruza los datos con los patrones de hook, packaging, narrativa y engagement para detectar las técnicas usadas.</p></div>
-      <div class="phase reveal"><div class="pnum">FASE 03 · COMPLETADO</div><h3 data-i18n="pr3t">Síntesis accionable</h3><p data-i18n="pr3p">Informe con el porqué, el patrón replicable y el kit completo de producción adaptado a tu canal.</p>
-        <div class="dash">
-          <div class="dchip"><div class="dv">9.2</div><div class="dl">HOOK</div></div>
-          <div class="dchip"><div class="dv">8.7</div><div class="dl">PACK</div></div>
-          <div class="dchip"><div class="dv">7.8</div><div class="dl">REPL</div></div>
-          <div class="dchip"><div class="dv">78%</div><div class="dl">COPIABLE</div></div>
-        </div>
-      </div>
-    </div>
-  </div>
-</section>
-
-<!-- ════════ ASISTENTE DE CHAT ════════ -->
-<section class="section">
-  <div class="wrap">
-    <div class="seclabel reveal" data-i18n="ch_label">asistente en directo</div>
-    <h2 class="sectitle reveal" data-i18n="ch_title">¿Tenés dudas? Preguntá lo que quieras</h2>
-    <p class="secsub reveal" data-i18n="ch_sub">Abajo hay una conversación simulada con las preguntas más comunes. Tocá cualquier burbuja para ver la respuesta.</p>
-
-    <div class="chatwrap reveal">
-      <div class="chathead">
-        <div class="chatav">✦</div>
-        <div class="ci">
-          <h5>JM BOTS</h5>
-          <div class="on-now"><i></i> <span data-i18n="ch_online">En línea · responde al instante</span></div>
-        </div>
-      </div>
-      <div class="chatbody" id="chatbody">
-        <div class="bubble bot" data-i18n="ch_hi">¡Hola! 👋 Soy el asistente de <b>JM BOTS</b>. ¿En qué puedo ayudarte?<span class="ts">14:23 ✓✓</span></div>
-      </div>
-      <div class="chatqs">
-        <div class="qlabel" data-i18n="ch_qlabel">Preguntas sugeridas</div>
-        <div class="qbubbles" id="qbubbles"></div>
-      </div>
-    </div>
-  </div>
-</section>
-
-<!-- ════════ FINAL CTA + PRUEBA SOCIAL ════════ -->
-<section class="section">
-  <div class="wrap">
-    <div class="finalcta reveal">
-      <h2 data-i18n="fc_title">¿Listo para entender el juego de los virales?</h2>
-      <p data-i18n="fc_sub">Conectá tus claves de YouTube y Gemini, busca tu nicho y deja que la IA te muestre el patrón.</p>
-      <a class="btn btn-gold" href="./app.html" data-i18n="fc_cta">Entrar a la herramienta →</a>
-
-      <div class="social">
-        <div class="avstack">
-          <span class="av" style="background:linear-gradient(135deg,#E7B85C,#F8DA8E)">M</span>
-          <span class="av" style="background:linear-gradient(135deg,#4D8DFF,#7DA9FF)">A</span>
-          <span class="av" style="background:linear-gradient(135deg,#3ddc84,#7df0ad)">R</span>
-          <span class="av" style="background:linear-gradient(135deg,#b07cff,#d3b0ff)">J</span>
-          <span class="av more">+</span>
-        </div>
-        <div class="stxt" data-i18n="fc_social"><b>+234 creadores</b> ya están creando virales con JM BOTS</div>
-      </div>
-    </div>
-  </div>
-</section>
-
-<!-- ════════ FOOTER ════════ -->
-<footer>
-  <div class="wrap">
-    <div class="fbrand">
-      <div class="brandbox"><span class="bmain">JM <b>BOTS</b></span><span class="bname">Jonatan Monzon</span></div>
-      <p data-i18n="foot_tag">Suite de creación de contenido viral con IA: análisis de YouTube + generación de guiones, personajes y prompts para Veo 3. Corre en tu navegador, con tus claves.</p>
-    </div>
-    <div class="fcols">
-      <div class="fcol">
-        <h6 data-i18n="foot_prod">Producto</h6>
-        <a href="#bloques" data-i18n="foot_how">Cómo funciona</a>
-        <a href="#comparativa" data-i18n="foot_cmp">Comparativa</a>
-        <a href="#lab" data-i18n="foot_lab">El laboratorio</a>
-        <a href="./app.html" data-i18n="foot_app">Abrir la app</a>
-      </div>
-      <div class="fcol">
-        <h6 data-i18n="foot_res">Recursos</h6>
-        <a href="https://console.cloud.google.com" target="_blank" rel="noopener" data-i18n="foot_yt">Clave de YouTube</a>
-        <a href="https://aistudio.google.com/apikey" target="_blank" rel="noopener" data-i18n="foot_gem">Clave de Gemini</a>
-      </div>
-    </div>
-  </div>
-  <div class="fbar wrap">JM <b>BOTS</b> · Jonatan Monzon · 2026 · <span data-i18n="foot_made">datos vía YouTube API · análisis con IA</span></div>
-</footer>
+<footer><div class="wrap">
+  <span>JM <b>BOTS</b> · Suite de creación de contenido viral con IA</span>
+  <span>por <b>Jonatan Monzon</b></span>
+</div></footer>
 
 <script>
-/* ───────── PORTADAS VIRALES (SVG, multinicho en tendencia) ───────── */
-/* ═══════════════════════════════════════════════════════════════
-   📸 CONFIG DE FOTOS REALES — pegá tu API key acá
-   · Pexels (recomendado, gratis): https://www.pexels.com/api/
-   · Unsplash (alternativa):       https://unsplash.com/developers
-   Elegí proveedor en PHOTO_PROVIDER y pegá la key correspondiente.
-   ═══════════════════════════════════════════════════════════════ */
-const PHOTO_PROVIDER = 'pexels';      // 'pexels'  o  'unsplash'
-const PEXELS_KEY   = '';              // ← tu API key de Pexels
-const UNSPLASH_KEY = '';              // ← o tu Access Key de Unsplash
-/* ═══════════════════════════════════════════════════════════════ */
+const NICHO={outliers:"analisis",analizador:"analisis",timelapse:"viralia",timelapse2:"viralia",timelapse3:"viralia",cocinaviral:"viralia",narekart:"viralia",surreal:"viralia",miniaturas:"viralia",animalessurreal:"viralia",criaturas:"viralia",tiendashop:"viralia",streetpro:"viralia",xray:"viralia",woodenhands:"asmr",woodenhands2:"asmr",asmrsatisfying:"asmr",aifruit:"asmr",procesos:"asmr",podcast:"podcast",podfitness:"podcast",podmujeres:"podcast",podfe:"podcast",poddating:"podcast",podnegocios:"podcast",abuelo:"podcast",ninogenio:"podcast",atleta:"podcast",entrevista:"podcast",streetint:"podcast",storytime:"podcast",datoshablados:"podcast",finanzas:"dinero",negociosfaceless:"dinero",techia:"educa",saludbienestar:"educa",historiacuriosa:"educa",datos:"educa",venganza:"story",reddit:"story",povcine:"story",motivacion:"story",terror:"terror",terrorurbano:"terror",datosmiedo:"terror",truecrime:"terror",historias:"fe",milagros:"fe",relatos:"fe",parabolas:"fe",tentacion:"fe",proverbios:"fe",redencion:"fe",viajealma:"fe",cartas:"fe",valores:"fe",reflexiones:"fe",novelas:"cuentos",fabulas:"cuentos",mitologia:"cuentos",glam:"cuentos",frutas:"cuentos",monstruos:"cuentos",trabalenguas:"cuentos",superheroes:"cuentos",zodiaco:"cuentos",buenasnoches:"infantil",utiles:"infantil",animales:"infantil",dinosaurios:"infantil",insectos:"infantil",plantas:"infantil",paises:"infantil",profesiones:"infantil",robots:"infantil",autos:"infantil",fractura:"viralia",explainer:"educa",montanarusa:"viralia",mundovegetal:"viralia",resinadiy:"asmr",timelapseobra:"viralia",dreamnostalgia:"viralia",cartoonkids:"infantil",rescateanimal:"infantil",junglabunker:"viralia",mascotas:"pov",comida:"pov",objetos:"pov"};
+const NDATA={viralia:{ico:"🎬",c:["#8B5CF6","#22D3EE"]},asmr:{ico:"🪵",c:["#22D3EE","#16a34a"]},podcast:{ico:"🎙️",c:["#F472D0","#8B5CF6"]},dinero:{ico:"💰",c:["#F5B544","#FFD27A"]},educa:{ico:"📊",c:["#22D3EE","#3b82f6"]},story:{ico:"📖",c:["#F472D0","#FB7185"]},terror:{ico:"🕯️",c:["#8B5CF6","#6d28d9"]},fe:{ico:"🕊️",c:["#FFD27A","#F5B544"]},cuentos:{ico:"📚",c:["#FB923C","#F5B544"]},infantil:{ico:"🧸",c:["#22D3EE","#A3E635"]},pov:{ico:"🎢",c:["#FB7185","#FB923C"]},analisis:{ico:"📈",c:["#A3E635","#22D3EE"]}};
+const FALLBACK=[{id:"outliers",nombre:"Outliers"},{id:"fractura",nombre:"Fractura"},{id:"asmrsatisfying",nombre:"ASMR Satisfying"},{id:"podcast",nombre:"Podcast Hiperrealistas"},{id:"montanarusa",nombre:"Montaña Rusa POV"},{id:"finanzas",nombre:"Finanzas y Dinero"},{id:"terror",nombre:"Micro-Terror"},{id:"historias",nombre:"Historias de Fe"},{id:"cartoonkids",nombre:"Cartoon Kids"},{id:"junglabunker",nombre:"Supervivencia Jungla"},{id:"dreamnostalgia",nombre:"Dream Nostalgia"},{id:"cocinaviral",nombre:"Cocina Viral 3D"},{id:"surreal",nombre:"Mundos Surreales"},{id:"miniaturas",nombre:"Miniaturas"},{id:"reddit",nombre:"Reddit Stories"},{id:"mascotas",nombre:"Mascotas Dramáticas"}];
+let APPS=FALLBACK.slice();
+const nm=id=>NDATA[NICHO[id]]||{ico:"✨",c:["#8B5CF6","#22D3EE"]};
+const cn=n=>String(n||'').replace(/\s*\/\s*JM BOTS/i,'').trim();
+const esc=s=>{const d=document.createElement('div');d.textContent=s;return d.innerHTML;};
+const shuffle=a=>{a=a.slice();for(let i=a.length-1;i>0;i--){const j=(Math.random()*(i+1))|0;[a[i],a[j]]=[a[j],a[i]];}return a;};
 
-/* ───────── PORTADAS VIRALES (multinicho en tendencia) ───────── */
-const VIRAL = [
-  {title:'PROBÉ *GPT-5*\nPOR 30 DÍAS', q:'artificial intelligence robot', bg:['#6D28D9','#0EA5E9'], v:719, an:'arrow', ch:'FuturoIA', dur:'11:01', views:'892K', subs:'1.2K'},
-  {title:'ÚLTIMO EN SALIR\nGANA *$5.000*', q:'cash money pile', bg:['#DB2777','#7C3AED'], v:1020, an:'arrow', ch:'RetoTotal', dur:'20:11', views:'4.1M', subs:'4.0K'},
-  {title:'CREÉ ESTO\n*CON IA*', q:'video editing studio', bg:['#0EA5E9','#22D3EE'], v:488, an:'circle', ch:'LabIA', dur:'9:47', views:'2.3M', subs:'4.2K'},
-  {title:'*$10.000*\nEN UN MES', q:'success rich lifestyle', bg:['#16A34A','#065F46'], v:233, an:'arrow', ch:'DineroReal', dur:'9:12', views:'1.1M', subs:'4.7K'},
-  {title:'EL CASO QUE\n*NADIE* RESOLVIÓ', q:'dark mystery night', bg:['#0F172A','#334155'], v:660, an:'circle', ch:'MisterioReal', dur:'15:33', views:'2.3M', subs:'5.6K'},
-  {title:'ME PASÉ EL JUEGO\nEN *24 HORAS*', q:'gaming setup neon', bg:['#7C3AED','#2563EB'], v:540, an:'circle', ch:'GameOver', dur:'18:24', views:'1.9M', subs:'4.2K'},
-  {title:'EL AUTO MÁS\n*CARO* DEL MUNDO', q:'luxury sports car', bg:['#1E3A8A','#0EA5E9'], v:128, ch:'MotorMax', dur:'10:18', views:'560K', subs:'4.4K'},
-  {title:'EL GOL\n*IMPOSIBLE*', q:'soccer player stadium', bg:['#15803D','#052E16'], v:305, an:'circle', ch:'GolazoTV', dur:'4:58', views:'1.4M', subs:'4.6K'},
-  {title:'30 DÍAS DE\n*ABDOMEN*', q:'gym workout fitness', bg:['#F97316','#DB2777'], v:174, an:'arrow', ch:'FitReto', dur:'12:40', views:'720K', subs:'4.1K'},
-  {title:'*BITCOIN*\nEXPLOTÓ', q:'bitcoin crypto coin', bg:['#CA8A04','#B45309'], v:344, an:'arrow', ch:'CriptoAhora', dur:'7:03', views:'1.6M', subs:'4.6K'},
-  {title:'ESTA CANCIÓN\nES *VIRAL*', q:'concert music stage', bg:['#9333EA','#DB2777'], v:412, ch:'HitDelDía', dur:'3:20', views:'2.3M', subs:'5.6K'},
-  {title:'LA PIZZA\n*PERFECTA*', q:'pizza food delicious', bg:['#DC2626','#F59E0B'], v:96, ch:'CocinaTotal', dur:'8:05', views:'410K', subs:'4.3K'},
-  {title:'NADIE ESPERABA\n*ESTO*', q:'surprised shocked person', bg:['#EA580C','#BE123C'], v:902, an:'circle', ch:'ViralDiario', dur:'2:14', views:'3.6M', subs:'4.0K'},
-  {title:'ESTUDIA *10X*\nMÁS RÁPIDO', q:'study books desk', bg:['#0891B2','#1D4ED8'], v:73, ch:'MenteRápida', dur:'6:40', views:'310K', subs:'4.2K'},
-  {title:'¿QUÉ PASA SI\n*ESTO*?', q:'science laboratory', bg:['#4338CA','#0EA5E9'], v:187, an:'circle', ch:'CienciaPop', dur:'13:08', views:'780K', subs:'4.2K'},
-  {title:'HICE *VIRAL*\nMI CANAL', q:'rocket launch space', bg:['#2563EB','#06B6D4'], v:150, ch:'CreceYa', dur:'8:55', views:'510K', subs:'3.4K'},
-];
-
-/* íconos dibujados (caja 0..120) */
-const ICONS = {
-  chip:'<rect x="36" y="36" width="48" height="48" rx="9" fill="#fff"/><rect x="50" y="50" width="20" height="20" rx="4" fill="#11141f"/><g stroke="#fff" stroke-width="6" stroke-linecap="round"><path d="M46 36V22M60 36V22M74 36V22M46 98V84M60 98V84M74 98V84M36 46H22M36 60H22M36 74H22M98 46H84M98 60H84M98 74H84"/></g>',
-  money:'<rect x="20" y="34" width="80" height="52" rx="9" fill="#15a05a"/><rect x="26" y="40" width="68" height="40" rx="5" fill="#1bd178"/><circle cx="60" cy="60" r="16" fill="#0f7a44"/><text x="60" y="71" text-anchor="middle" font-family="Anton,sans-serif" font-size="26" fill="#fff">$</text>',
-  film:'<rect x="22" y="36" width="60" height="48" rx="7" fill="#fff"/><path d="M46 50v20l20-10z" fill="#11141f"/><rect x="86" y="44" width="16" height="32" rx="4" fill="#fff"/><path d="M86 60l16-10v20z" fill="#fff"/>',
-  glass:'<circle cx="54" cy="52" r="28" fill="none" stroke="#fff" stroke-width="10"/><line x1="74" y1="72" x2="100" y2="98" stroke="#fff" stroke-width="12" stroke-linecap="round"/>',
-  pad:'<path d="M38 48h44a24 24 0 0 1 23 30l-4 14a13 13 0 0 1-23 4l-7-10H47l-7 10a13 13 0 0 1-23-4l-4-14a24 24 0 0 1 23-30z" fill="#fff"/><rect x="28" y="62" width="9" height="20" rx="3" fill="#11141f"/><rect x="22" y="68" width="21" height="9" rx="3" fill="#11141f"/><circle cx="82" cy="64" r="6" fill="#11141f"/><circle cx="94" cy="76" r="6" fill="#11141f"/>',
-  car:'<path d="M16 76l11-22q4-8 13-8h40q9 0 13 8l11 22v12H16z" fill="#fff"/><path d="M34 56l5-10h42l5 10z" fill="#11141f" opacity=".5"/><circle cx="38" cy="88" r="11" fill="#11141f"/><circle cx="82" cy="88" r="11" fill="#11141f"/>',
-  ball:'<circle cx="60" cy="60" r="36" fill="#fff" stroke="#11141f" stroke-width="4"/><polygon points="60,44 75,55 69,73 51,73 45,55" fill="#11141f"/>',
-  dumb:'<g transform="rotate(-25 60 60)"><rect x="22" y="54" width="76" height="12" rx="6" fill="#fff"/><rect x="14" y="44" width="14" height="32" rx="5" fill="#fff"/><rect x="92" y="44" width="14" height="32" rx="5" fill="#fff"/><rect x="6" y="50" width="9" height="20" rx="4" fill="#fff"/><rect x="105" y="50" width="9" height="20" rx="4" fill="#fff"/></g>',
-  chart:'<rect x="18" y="68" width="16" height="28" fill="#fff"/><rect x="44" y="50" width="16" height="46" fill="#fff"/><rect x="70" y="30" width="16" height="66" fill="#fff"/><path d="M18 58 46 40 70 48 102 18" stroke="#FFE14D" stroke-width="6" fill="none" stroke-linecap="round" stroke-linejoin="round"/><path d="M102 18l-15 1 8 11z" fill="#FFE14D"/>',
-  note:'<rect x="52" y="20" width="8" height="54" fill="#fff"/><rect x="86" y="14" width="8" height="54" fill="#fff"/><path d="M52 20l42-8v12l-42 8z" fill="#fff"/><circle cx="46" cy="76" r="13" fill="#fff"/><circle cx="80" cy="70" r="13" fill="#fff"/>',
-  food:'<rect x="22" y="40" width="76" height="20" rx="10" fill="#E8A24A"/><rect x="24" y="60" width="72" height="9" fill="#5BBF4A"/><rect x="22" y="68" width="76" height="13" fill="#7A4A2A"/><rect x="24" y="80" width="72" height="15" rx="7" fill="#E8A24A"/>',
-  flame:'<path d="M60 12c14 24 32 30 26 58-5 24-26 38-26 38s-21-13-23-38c-2-20 14-24 14-40 8 10 6 22 12 26 6-6 4-26-3-44z" fill="#FF8A3D"/><path d="M60 56c6 10 10 20 4 34-4 10-4 10-8 2-6-10-2-22 4-36z" fill="#FFD23D"/>',
-  book:'<path d="M16 30q24-6 44 2v62q-20-8-44-2z" fill="#fff"/><path d="M104 30q-24-6-44 2v62q20-8 44-2z" fill="#e6ebf5"/><line x1="60" y1="32" x2="60" y2="94" stroke="#11141f" stroke-width="3" opacity=".3"/>',
-  globe:'<circle cx="60" cy="60" r="38" fill="none" stroke="#fff" stroke-width="6"/><ellipse cx="60" cy="60" rx="16" ry="38" fill="none" stroke="#fff" stroke-width="6"/><line x1="22" y1="60" x2="98" y2="60" stroke="#fff" stroke-width="6"/><line x1="30" y1="40" x2="90" y2="40" stroke="#fff" stroke-width="5"/><line x1="30" y1="80" x2="90" y2="80" stroke="#fff" stroke-width="5"/>',
-  rocket:'<path d="M60 12c18 16 24 40 20 62l-12-6H52l-12 6c-4-22 2-46 20-62z" fill="#fff"/><circle cx="60" cy="46" r="9" fill="#26D9FF"/><path d="M52 72l-10 20 14-8z" fill="#FF7A3D"/><path d="M68 72l10 20-14-8z" fill="#FF7A3D"/>',
-};
-
-let GID = 0;
-function escX(s){return String(s).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;');}
-
-/* ── personaje ilustrado (caja 0..120 x 0..150), estilo miniatura ── */
-const SKINS = ['#F3C9A0','#E5AC7E','#C68A53','#8A5A34','#FAD7B6'];
-const HAIRS = ['#23211F','#6B4423','#0E0E10','#C9A24B','#7a2f2f'];
-function faceSVG(f){
-  f = f||{};
-  const sk = SKINS[f.skin||0], hc = HAIRS[f.hairC||0], shirt = f.shirt||'#2563EB';
-  const expr = f.expr||'shock', hair = f.hair||'short', acc = f.acc||'none';
-  // ojos y boca según expresión
-  let eyes, mouth, brows;
-  if(expr==='shock'||expr==='wow'){
-    eyes = '<ellipse cx="44" cy="56" rx="9" ry="12" fill="#fff"/><ellipse cx="76" cy="56" rx="9" ry="12" fill="#fff"/><circle cx="44" cy="58" r="5" fill="#1b1b1f"/><circle cx="76" cy="58" r="5" fill="#1b1b1f"/>';
-    mouth = expr==='wow'
-      ? '<ellipse cx="60" cy="82" rx="13" ry="10" fill="#fff"/><path d="M47 82a13 8 0 0 0 26 0z" fill="#7a2333"/>'
-      : '<ellipse cx="60" cy="84" rx="9" ry="12" fill="#5a2230"/><ellipse cx="60" cy="90" rx="6" ry="5" fill="#c0506a"/>';
-    brows = '<path d="M34 40q10-7 20-2" stroke="'+hc+'" stroke-width="5" fill="none" stroke-linecap="round"/><path d="M66 38q10-5 20 2" stroke="'+hc+'" stroke-width="5" fill="none" stroke-linecap="round"/>';
-  } else if(expr==='serious'){
-    eyes = '<ellipse cx="44" cy="56" rx="8" ry="8" fill="#fff"/><ellipse cx="76" cy="56" rx="8" ry="8" fill="#fff"/><circle cx="45" cy="57" r="4.5" fill="#1b1b1f"/><circle cx="77" cy="57" r="4.5" fill="#1b1b1f"/>';
-    mouth = '<path d="M48 86q12 4 24 0" stroke="#5a2230" stroke-width="4" fill="none" stroke-linecap="round"/>';
-    brows = '<path d="M34 46q10 4 20 0" stroke="'+hc+'" stroke-width="5" fill="none" stroke-linecap="round"/><path d="M66 46q10 4 20 0" stroke="'+hc+'" stroke-width="5" fill="none" stroke-linecap="round"/>';
-  } else { // happy
-    eyes = '<path d="M36 56q8-9 16 0" stroke="#1b1b1f" stroke-width="5" fill="none" stroke-linecap="round"/><path d="M68 56q8-9 16 0" stroke="#1b1b1f" stroke-width="5" fill="none" stroke-linecap="round"/>';
-    mouth = '<path d="M42 78q18 22 36 0z" fill="#7a2333"/><path d="M42 78q18 6 36 0z" fill="#fff"/>';
-    brows = '<path d="M34 42q10-4 20 0" stroke="'+hc+'" stroke-width="5" fill="none" stroke-linecap="round"/><path d="M66 42q10-4 20 0" stroke="'+hc+'" stroke-width="5" fill="none" stroke-linecap="round"/>';
-  }
-  let hairEl='';
-  if(hair==='short') hairEl = '<path d="M24 52q-4-40 36-40t36 40q-8-22-36-22t-36 22z" fill="'+hc+'"/>';
-  else if(hair==='long') hairEl = '<path d="M22 96q-6-58 38-58t38 58q4-20-2-44-8-20-36-20t-36 20q-6 24-2 44z" fill="'+hc+'"/>';
-  else if(hair==='curly') hairEl = '<g fill="'+hc+'"><circle cx="36" cy="30" r="14"/><circle cx="60" cy="22" r="16"/><circle cx="84" cy="30" r="14"/><circle cx="26" cy="46" r="11"/><circle cx="94" cy="46" r="11"/></g>';
-  let accEl='';
-  if(acc==='glasses') accEl = '<g fill="none" stroke="#10131c" stroke-width="3.5"><rect x="30" y="48" width="22" height="18" rx="6" fill="#bfe3ff" fill-opacity=".25"/><rect x="68" y="48" width="22" height="18" rx="6" fill="#bfe3ff" fill-opacity=".25"/><line x1="52" y1="55" x2="68" y2="55"/></g>';
-  else if(acc==='phones') accEl = '<path d="M22 56a38 38 0 0 1 76 0" fill="none" stroke="#15151c" stroke-width="7"/><rect x="14" y="52" width="16" height="26" rx="7" fill="#15151c"/><rect x="90" y="52" width="16" height="26" rx="7" fill="#15151c"/>';
-  else if(acc==='cap') accEl = '<path d="M26 38q4-22 34-22t34 22z" fill="#DC2626"/><path d="M94 38q14 0 20 8-18 6-30 0z" fill="#b91c1c"/>';
-  const hands = f.hands ? '<circle cx="22" cy="92" r="13" fill="'+sk+'"/><circle cx="98" cy="92" r="13" fill="'+sk+'"/>' : '';
-  return `<g>
-    <path d="M8 150q0-40 52-44 52 4 52 44z" fill="${shirt}"/>
-    <rect x="50" y="92" width="20" height="26" fill="${sk}"/>
-    <circle cx="26" cy="60" r="8" fill="${sk}"/><circle cx="94" cy="60" r="8" fill="${sk}"/>
-    ${hair==='long'||hair==='curly'?hairEl:''}
-    <ellipse cx="60" cy="58" rx="34" ry="38" fill="${sk}"/>
-    ${hair==='short'?hairEl:''}
-    ${brows}${eyes}
-    <path d="M57 64q3 8 0 12" stroke="#00000022" stroke-width="3" fill="none"/>
-    ${mouth}
-    ${accEl}
-    ${hands}
-  </g>`;
+function tile(a){const m=nm(a.id);
+  return `<div class="tile"><div class="tbg" style="background:linear-gradient(135deg,${m.c[0]},${m.c[1]})"></div>`
+    +`<img src="img/${a.id}.jpg" alt="" loading="lazy" decoding="async" onerror="this.remove()"><div class="tnm">${esc(cn(a.nombre))}</div></div>`;
 }
-function titleSVG(d){
-  const lines = d.title.split('\n');
-  const maxLen = Math.max(...lines.map(l=>l.replace(/\*/g,'').length));
-  const fs = maxLen<=10?32 : maxLen<=14?27 : maxLen<=18?23 : 20;
-  const lh = fs+4;
-  const startY = lines.length>1 ? 150-lh : 150;
-  return lines.map((ln,i)=>{
-    const y = startY + i*lh;
-    const tspans = ln.split('*').map((p,idx)=> p ? `<tspan fill="${idx%2?'#FFE14D':'#fff'}">${escX(p)}</tspan>` : '').join('');
-    return `<text x="16" y="${y}" font-family="Anton,sans-serif" font-size="${fs}" paint-order="stroke" stroke="#000" stroke-width="5.5" stroke-linejoin="round">${tspans}</text>`;
+function buildHero(){
+  const host=document.getElementById('heroMosaic'); if(!host) return;
+  const pool=shuffle(APPS); const rows=[[],[],[],[]]; pool.forEach((a,i)=>rows[i%4].push(a));
+  host.innerHTML=rows.map((arr,ri)=>{const c=arr.map(tile).join('');return `<div class="row ${ri%2?'b':'a'}">${c}${c}</div>`;}).join('');
+  const b1=document.getElementById('band1'), b2=document.getElementById('band2');
+  if(b1){const s=shuffle(APPS).map(tile).join('');b1.innerHTML=s+s;}
+  if(b2){const s=shuffle(APPS).map(tile).join('');b2.innerHTML=s+s;}
+}
+function buildWall(){
+  const host=document.getElementById('wall'); if(!host) return;
+  host.innerHTML=shuffle(APPS).map((a,i)=>{const m=nm(a.id);
+    return `<a class="wcard reveal" style="transition-delay:${(i%12)*35}ms" href="./app.html" title="${esc(cn(a.nombre))}">`
+      +`<div class="tbg" style="background:linear-gradient(135deg,${m.c[0]},${m.c[1]})"></div>`
+      +`<img src="img/${a.id}.jpg" alt="" loading="lazy" decoding="async" onerror="this.remove()"><div class="grad"></div>`
+      +`<span class="av" style="background:linear-gradient(135deg,${m.c[0]},${m.c[1]})">${m.ico}</span>`
+      +`<span class="play">▶</span><div class="wt">${esc(cn(a.nombre))}</div><div class="wn">abrir herramienta →</div></a>`;
   }).join('');
+  observeReveals();
 }
-function svgThumb(d){
-  const id = ++GID, hot = d.v>=400;
-  const vsrW = (String(d.v).length*11)+26;
-  const accent = d.an==='circle' ? '<circle cx="234" cy="72" r="48" fill="none" stroke="#FF2D55" stroke-width="5" opacity=".95"/>'
-               : d.an==='arrow'  ? '<path d="M150 150q42 18 74-10l-3 17 15-11-17-9 4 13q-28 22-73 7z" fill="#FFE14D" stroke="#000" stroke-width="2"/>' : '';
-  return `<svg viewBox="0 0 320 180" preserveAspectRatio="none" xmlns="http://www.w3.org/2000/svg">
-    <defs>
-      <linearGradient id="sc${id}" x1="0" y1="0" x2="0" y2="1"><stop offset="40%" stop-color="#000" stop-opacity="0"/><stop offset="100%" stop-color="#000" stop-opacity=".82"/></linearGradient>
-      <linearGradient id="lf${id}" x1="0" y1="0" x2="1" y2="0"><stop offset="0" stop-color="#000" stop-opacity=".55"/><stop offset="55%" stop-color="#000" stop-opacity="0"/></linearGradient>
-      <linearGradient id="gold${id}" x1="0" y1="0" x2="1" y2="0"><stop offset="0" stop-color="#E7B85C"/><stop offset="1" stop-color="#F8DA8E"/></linearGradient>
-      <linearGradient id="fire${id}" x1="0" y1="0" x2="1" y2="0"><stop offset="0" stop-color="#FFB23D"/><stop offset="1" stop-color="#FF3D9A"/></linearGradient>
-    </defs>
-    <rect width="320" height="180" fill="url(#lf${id})"/>
-    <rect width="320" height="180" fill="url(#sc${id})"/>
-    ${accent}
-    ${titleSVG(d)}
-    <g class="${hot?'hb':''}"><rect x="14" y="13" rx="9" width="${vsrW}" height="30" fill="url(#${hot?'fire':'gold'}${id})"/><text x="${14+vsrW/2}" y="34" text-anchor="middle" font-family="JetBrains Mono,monospace" font-weight="700" font-size="16" fill="${hot?'#fff':'#0A0D14'}">${d.v}×</text></g>
-    <g><rect x="260" y="148" rx="4" width="46" height="20" fill="#000" fill-opacity=".78"/><text x="283" y="162" text-anchor="middle" font-family="JetBrains Mono,monospace" font-size="12" fill="#fff">${d.dur||''}</text></g>
-  </svg>`;
-}
-function vth(d, withShine){
-  const [c1,c2] = d.bg;
-  return `<div class="vth" style="background:linear-gradient(135deg,${c1},${c2})">`
-    + `<img class="vphoto" data-q="${escX(d.q||'')}" alt="" loading="lazy" onload="this.classList.add('on')" onerror="this.remove()">`
-    + svgThumb(d)
-    + (withShine?'<span class="vshine"></span>':'')
-    + `</div>`;
-}
-function plainTitle(d){ return d.title.replace(/\n/g,' ').replace(/\*/g,''); }
 
-/* ───────── carga de fotos reales (Pexels / Unsplash) ───────── */
-async function fetchPhotos(q, n){
-  if(PHOTO_PROVIDER==='unsplash'){
-    if(!UNSPLASH_KEY) return [];
-    const r = await fetch(`https://api.unsplash.com/search/photos?query=${encodeURIComponent(q)}&per_page=${n}&orientation=landscape&content_filter=high`,
-      {headers:{Authorization:'Client-ID '+UNSPLASH_KEY}});
-    if(!r.ok) return [];
-    const j = await r.json();
-    return (j.results||[]).map(p=>p.urls && (p.urls.small||p.urls.regular)).filter(Boolean);
+let RO;
+function observeReveals(){
+  if(!('IntersectionObserver' in window)){document.querySelectorAll('.reveal').forEach(e=>e.classList.add('in'));return;}
+  if(!RO) RO=new IntersectionObserver(es=>es.forEach(e=>{if(e.isIntersecting){e.target.classList.add('in');RO.unobserve(e.target);}}),{threshold:.12,rootMargin:'0px 0px -7% 0px'});
+  document.querySelectorAll('.reveal:not(.in)').forEach(e=>RO.observe(e));
+}
+addEventListener('scroll',()=>document.getElementById('nav').classList.toggle('scrolled',scrollY>20));
+
+/* ───── partículas / explosiones ───── */
+const cv=document.getElementById('fx'), cx=cv.getContext('2d'); let parts=[], raf=0;
+function resize(){cv.width=innerWidth;cv.height=innerHeight;} resize(); addEventListener('resize',resize);
+const PCOL=['#F5B544','#FFD27A','#8B5CF6','#22D3EE','#F472D0','#A3E635','#ffffff'];
+function burst(x,y,n){ n=n||26; for(let i=0;i<n;i++){const a=Math.random()*6.283,sp=2+Math.random()*6;
+  parts.push({x,y,vx:Math.cos(a)*sp,vy:Math.sin(a)*sp-2,life:1,col:PCOL[(Math.random()*PCOL.length)|0],r:2+Math.random()*3});}
+  if(!raf) raf=requestAnimationFrame(loop);
+}
+function loop(){ cx.clearRect(0,0,cv.width,cv.height);
+  for(let i=parts.length-1;i>=0;i--){const p=parts[i];p.vy+=.16;p.x+=p.vx;p.y+=p.vy;p.vx*=.99;p.life-=.018;
+    if(p.life<=0){parts.splice(i,1);continue;}
+    cx.globalAlpha=Math.max(p.life,0);cx.fillStyle=p.col;cx.beginPath();cx.arc(p.x,p.y,p.r*p.life,0,6.283);cx.fill();
   }
-  if(!PEXELS_KEY) return [];
-  const r = await fetch(`https://api.pexels.com/v1/search?query=${encodeURIComponent(q)}&per_page=${n}&orientation=landscape`,
-    {headers:{Authorization:PEXELS_KEY}});
-  if(!r.ok) return [];
-  const j = await r.json();
-  return (j.photos||[]).map(p=>p.src && (p.src.landscape||p.src.large)).filter(Boolean);
-}
-async function hydratePhotos(){
-  const key = PHOTO_PROVIDER==='unsplash' ? UNSPLASH_KEY : PEXELS_KEY;
-  if(!key) return;   // sin key → quedan los degradados de respaldo
-  const imgs = [...document.querySelectorAll('.vphoto')];
-  const queries = [...new Set(imgs.map(i=>i.dataset.q).filter(Boolean))];
-  const pools = {};
-  await Promise.all(queries.map(async q=>{ try{ pools[q] = await fetchPhotos(q, 10); }catch(e){ pools[q]=[]; } }));
-  const seen = {};
-  imgs.forEach(img=>{
-    const q = img.dataset.q, pool = pools[q]||[];
-    if(!pool.length) return;
-    const k = (seen[q]=(seen[q]||0)); seen[q]++;
-    img.src = pool[k % pool.length];
-  });
+  cx.globalAlpha=1; raf = parts.length?requestAnimationFrame(loop):0;
 }
 
-/* ───────── TARJETAS DEL FEED (doble cinta) ───────── */
-function ocard(d){
-  return `<article class="ocard">
-    <div class="oth">${vth(d,true)}<span class="play">▶</span></div>
-    <div class="obody">
-      <div class="chanrow">
-        <span class="fav" style="background:linear-gradient(135deg,${d.bg[0]},${d.bg[1]})">${d.ch.charAt(0)}</span>
-        <span class="channame">${d.ch}</span>
-      </div>
-      <h4>${plainTitle(d)}</h4>
-      <div class="ostats">
-        <div class="st"><b>${d.views}</b><span>VISTAS</span></div>
-        <div class="st"><b>${d.subs}</b><span>SUBS</span></div>
-        <div class="st gold"><b>${d.v}×</b><span>VSR</span></div>
-      </div>
-    </div>
-  </article>`;
+/* ───── init ───── */
+function render(){ buildHero(); buildWall(); }
+render();
+requestAnimationFrame(()=>{ document.querySelectorAll('.hero .reveal').forEach(e=>e.classList.add('in')); });
+observeReveals();
+
+const REDUCE=matchMedia('(prefers-reduced-motion:reduce)').matches, FINE=matchMedia('(pointer:fine)').matches;
+(function(){ const sp=document.getElementById('sparkles'); if(!sp||REDUCE) return;
+  const cols=['#ffffff','#FFD27A','#8B5CF6','#22D3EE','#F472D0'];
+  for(let i=0;i<34;i++){const d=document.createElement('i');d.style.left=Math.random()*100+'%';d.style.top=Math.random()*100+'%';
+    d.style.setProperty('--s',(2+Math.random()*3).toFixed(1)+'px');d.style.setProperty('--col',cols[(Math.random()*cols.length)|0]);
+    d.style.animationDelay=(Math.random()*7)+'s';d.style.animationDuration=(4+Math.random()*5)+'s';sp.appendChild(d);} })();
+
+if(FINE && !REDUCE){
+  const hero=document.querySelector('.hero'), mos=document.getElementById('heroMosaic'), cg=document.getElementById('cglow');
+  hero.addEventListener('mousemove',e=>{const cxp=e.clientX/innerWidth-.5,cyp=e.clientY/innerHeight-.5;
+    mos.style.transform=`rotate(-5deg) scale(1.4) translate(${(-cxp*26).toFixed(1)}px,${(-cyp*18).toFixed(1)}px)`;});
+  hero.addEventListener('mouseleave',()=>mos.style.transform='rotate(-5deg) scale(1.4)');
+  addEventListener('mousemove',e=>{cg.style.left=e.clientX+'px';cg.style.top=e.clientY+'px';cg.style.opacity='1';});
+  // tilt 3D en el muro
+  const wall=document.getElementById('wall');
+  wall.addEventListener('mousemove',e=>{const c=e.target.closest('.wcard');if(!c)return;const r=c.getBoundingClientRect();
+    const px=(e.clientX-r.left)/r.width-.5,py=(e.clientY-r.top)/r.height-.5;
+    c.style.transform=`translateY(-6px) scale(1.04) rotateX(${(-py*8).toFixed(2)}deg) rotateY(${(px*8).toFixed(2)}deg)`;});
+  wall.addEventListener('mouseout',e=>{const c=e.target.closest('.wcard');if(c)c.style.transform='';});
+  // explosión al pasar por los botones (con cooldown)
+  let cd=0; document.querySelectorAll('.btn-gold').forEach(b=>b.addEventListener('mouseenter',e=>{
+    const t=Date.now();if(t-cd<500)return;cd=t;const r=b.getBoundingClientRect();burst(r.left+r.width/2,r.top+r.height/2,22);}));
 }
-const half1 = VIRAL.slice(0,8), half2 = VIRAL.slice(8);
-const mq = document.getElementById('marquee');
-if(mq) mq.innerHTML = half1.concat(half1).map(ocard).join('');
-const mq2 = document.getElementById('marquee2');
-if(mq2) mq2.innerHTML = half2.concat(half2).map(ocard).join('');
+// explosión al hacer click en cualquier botón dorado (antes de navegar)
+document.querySelectorAll('.btn-gold').forEach(b=>b.addEventListener('click',e=>{ if(!REDUCE) burst(e.clientX,e.clientY,40); }));
+// explosión de bienvenida
+if(!REDUCE) setTimeout(()=>burst(innerWidth/2,innerHeight*0.42,46),550);
 
-/* ───────── MURO DE OUTLIERS (mosaico de miniaturas) ───────── */
-const wallGrid = document.getElementById('wallGrid');
-if(wallGrid){
-  const wallData = VIRAL.concat(VIRAL).slice(0,18);
-  wallGrid.innerHTML = wallData.map(d=>`<div class="wtile">${vth(d,true)}</div>`).join('');
-}
-
-/* portadas flotantes del hero */
-document.querySelectorAll('#heroThumbs .ht').forEach(el=>{
-  const d = VIRAL[+el.dataset.v] || VIRAL[0];
-  el.innerHTML = vth(d,false);
-});
-
-/* cargar fotos reales (si hay API key configurada) */
-hydratePhotos();
-
-/* ───────── PESTAÑAS DE LOS 4 BLOQUES ───────── */
-function animBars(panel){
-  panel.querySelectorAll('.vbar i').forEach(bar=>{
-    if(!bar.dataset.w) bar.dataset.w = bar.style.width || '0%';
-    bar.style.width = '0%';
-    requestAnimationFrame(()=>requestAnimationFrame(()=>{ bar.style.width = bar.dataset.w; }));
-  });
-}
-function animGauge(panel){
-  const g = panel.querySelector('.gnum'); if(!g) return;
-  if(!g.dataset.target) g.dataset.target = (g.textContent.match(/\d+/)||[0])[0];
-  const target = +g.dataset.target, t0 = performance.now(), dur = 1000;
-  (function tick(now){
-    const p = Math.min((now-t0)/dur,1), e = 1-Math.pow(1-p,3);
-    g.textContent = Math.round(target*e)+'%';
-    if(p<1) requestAnimationFrame(tick);
-  })(performance.now());
-}
-function setTab(i){
-  document.querySelectorAll('.tabbtn').forEach(b=>b.classList.toggle('on', +b.dataset.tab===i));
-  document.querySelectorAll('.tabinfo .tabpanel').forEach(p=>p.classList.toggle('on', +p.dataset.panel===i));
-  const wrap = document.querySelector('.tabwrap'); if(wrap) wrap.dataset.acc = i;
-  document.querySelectorAll('.tabviz .vpanel').forEach(p=>{
-    const on = (+p.dataset.panel===i);
-    p.style.display = on ? '' : 'none';
-    p.classList.toggle('shown', false);
-    if(on){
-      // re-disparar animaciones del panel activo
-      void p.offsetWidth;
-      p.style.animation = 'none'; void p.offsetWidth; p.style.animation = '';
-      requestAnimationFrame(()=>{ p.classList.add('shown'); animBars(p); animGauge(p); });
-    }
-  });
-}
-
-/* ───────── DEMO INTERACTIVA DEL VSR ───────── */
-function fmtN(n){
-  if(n>=1e6) return (n/1e6).toFixed(n>=1e7?0:1).replace('.0','')+'M';
-  if(n>=1e3) return (n/1e3).toFixed(n>=1e5?0:1).replace('.0','')+'K';
-  return String(Math.round(n));
-}
-function calcVSR(){
-  // sliders 0–100 mapeados logarítmicamente a rangos realistas
-  const vEl = document.getElementById('vdViews'), sEl = document.getElementById('vdSubs');
-  if(!vEl) return;
-  const views = Math.round(1000 * Math.pow(10, (+vEl.value/100)*4));   // 1K → 10M
-  const subs  = Math.round(100  * Math.pow(10, (+sEl.value/100)*4));   // 100 → 1M
-  const vsr = subs>0 ? views/subs : 0;
-  document.getElementById('vdViewsLbl').textContent = fmtN(views);
-  document.getElementById('vdSubsLbl').textContent  = fmtN(subs);
-  const show = vsr>=100 ? Math.round(vsr) : vsr.toFixed(1);
-  document.getElementById('vdNum').innerHTML = show + '<small>×</small>';
-
-  let lvl, txt;
-  if(vsr < 3){ lvl=0; txt = LANG==='en'?'Normal':'Normal'; }
-  else if(vsr < 10){ lvl=1; txt = LANG==='en'?'◆ Above average':'◆ Por encima'; }
-  else if(vsr < 100){ lvl=2; txt = LANG==='en'?'✦ Outlier':'✦ Outlier'; }
-  else { lvl=3; txt = LANG==='en'?'🔥 Mega outlier':'🔥 Mega outlier'; }
-
-  const num = document.getElementById('vdNum');
-  num.style.filter = lvl>=2 ? 'drop-shadow(0 0 22px rgba(231,184,92,.55))' : 'none';
-  const v = document.getElementById('vdVerdict'); v.textContent = txt; v.dataset.lvl = lvl;
-  document.querySelector('.vsrdemo').dataset.lvl = lvl;
-}
-
-/* ───────── ASISTENTE DE CHAT (simulado) ───────── */
-const FAQ = {
-  es:[
-    {q:"¿Qué es JM BOTS?", a:"JM BOTS es una suite de creación de contenido viral con IA. Su herramienta de análisis es un detector de <b>outliers</b> de YouTube: encuentra videos con muchas más vistas que suscriptores tiene su canal y, con IA, te explica por qué funcionaron y cómo replicarlos."},
-    {q:'¿Qué es un video "outlier"?', a:'Es un video que <b>rompió su propio canal</b>: consiguió muchas más vistas de las que su audiencia habitual explicaría. Lo medimos con el <b>VSR</b> (vistas ÷ suscriptores).'},
-    {q:"¿Cómo funciona el acceso?", a:"Corre en tu navegador con tus propias claves de YouTube y de Gemini. Tus datos no salen de tu equipo: no los guardamos en ningún servidor."},
-    {q:"¿Cuánto tarda un análisis?", a:"<b>Segundos.</b> Buscás un nicho, elegís un outlier y la IA devuelve el análisis completo más el kit de producción casi al instante."},
-    {q:"¿Por qué no usar ChatGPT directo?", a:"ChatGPT no <b>detecta</b> outliers ni mide el VSR de cada canal. Acá ya llega el video filtrado por anomalía y con un master prompt especializado en su formato, listo para pegar."},
-  ],
-  en:[
-    {q:"What is JM BOTS?", a:"JM BOTS is a viral-content creation suite. Its analysis tool is a YouTube <b>outlier</b> detector: it finds videos with far more views than the channel has subscribers and, with AI, explains why they worked and how to replicate them."},
-    {q:'What is an "outlier" video?', a:'A video that <b>broke its own channel</b>: it got way more views than its usual audience would explain. We measure it with the <b>VSR</b> (views ÷ subscribers).'},
-    {q:"How does access work?", a:"It runs in your browser with your own YouTube and Gemini keys. Your data never leaves your device: we don't store it on any server."},
-    {q:"How long does an analysis take?", a:"<b>Seconds.</b> Search a niche, pick an outlier and the AI returns the full analysis plus the production kit almost instantly."},
-    {q:"Why not just use ChatGPT?", a:"ChatGPT doesn't <b>detect</b> outliers or measure each channel's VSR. Here the video already arrives filtered by anomaly and with a master prompt specialized in its format, ready to paste."},
-  ]
-};
-function nowTime(){ const d=new Date(); return String(d.getHours()).padStart(2,'0')+':'+String(d.getMinutes()).padStart(2,'0'); }
-function renderQs(){
-  const cont = document.getElementById('qbubbles');
-  cont.innerHTML = FAQ[LANG].map((f,i)=>`<button class="qbtn" data-i="${i}" onclick="askQ(${i},this)">${f.q}</button>`).join('');
-}
-function askQ(i, btn){
-  btn.classList.add('used');
-  const body = document.getElementById('chatbody');
-  const me = document.createElement('div');
-  me.className = 'bubble me';
-  me.innerHTML = FAQ[LANG][i].q + `<span class="ts">${nowTime()}</span>`;
-  body.appendChild(me);
-  body.scrollTop = body.scrollHeight;
-
-  const typing = document.createElement('div');
-  typing.className = 'typing';
-  typing.innerHTML = '<i></i><i></i><i></i>';
-  body.appendChild(typing);
-  body.scrollTop = body.scrollHeight;
-
-  setTimeout(()=>{
-    typing.remove();
-    const bot = document.createElement('div');
-    bot.className = 'bubble bot';
-    bot.innerHTML = FAQ[LANG][i].a + `<span class="ts">${nowTime()} ✓✓</span>`;
-    body.appendChild(bot);
-    body.scrollTop = body.scrollHeight;
-  }, 850);
-}
-
-/* ───────── REVEAL ON SCROLL ───────── */
-const io = new IntersectionObserver((entries)=>{
-  entries.forEach(e=>{ if(e.isIntersecting){ e.target.classList.add('in'); io.unobserve(e.target);} });
-}, {threshold:.12});
-document.querySelectorAll('.reveal').forEach(el=>io.observe(el));
-
-/* ───────── STAT COUNTERS ───────── */
-const cio = new IntersectionObserver((entries)=>{
-  entries.forEach(e=>{
-    if(!e.isIntersecting) return;
-    const el = e.target, target = +el.dataset.count, suf = el.dataset.suffix||'';
-    const dur = 1400, t0 = performance.now();
-    function tick(now){
-      const p = Math.min((now-t0)/dur, 1);
-      const eased = 1-Math.pow(1-p,3);
-      el.textContent = Math.round(target*eased).toLocaleString('es') + suf;
-      if(p<1) requestAnimationFrame(tick);
-    }
-    requestAnimationFrame(tick);
-    cio.unobserve(el);
-  });
-},{threshold:.6});
-document.querySelectorAll('[data-count]').forEach(el=>cio.observe(el));
-
-/* ───────── i18n (ES por defecto, EN best-effort) ───────── */
-const EN = {
-  nav_tools:"Tools", nav_how:"How it works", nav_cmp:"Comparison", nav_lab:"The lab", nav_login:"Sign in",
-  b1b:"AI", b1t:"that analyzes and creates", b2b:"37", b2t:"tools in one suite",
-  b3t:"Runs in your browser · with your keys",
-  eyebrow:"viral content suite · with ai",
-  h1a:"Analyze what", h1em:"works", h1b:"and create your next viral with AI.",
-  hsub:"JM BOTS is your complete suite: detect the videos that broke their channel on YouTube and generate scripts, characters and prompts ready for Veo 3 across dozens of niches — drama, reflective, kids, horror and more.",
-  cta_main:"Enter the suite →", cta_sec:"See the tools",
-  tl_label:"the complete suite", tl_title:"Every tool, in one place.",
-  tl_sub:"An AI-powered analysis plus dozens of script and Veo 3 prompt generators, organized by style. Jump in and use what you need.",
-  tl_note:"Access depends on your account · each user sees the tools they're allowed.",
-  t1:"No servers · data stays in your browser", t2:"Results in seconds", t3:"YouTube + Gemini keys",
-  feed:"LATEST OUTLIERS DETECTED BY THE NETWORK",
-  bl_label:"4 layers almost nobody analyzes together", bl_title:"It's not a view count. It's why it broke.",
-  bl_sub:"Every outlier is broken into the four factors that decide whether a video gets replicated or forgotten.",
-  bl1t:"The thumbnail", bl1q:"Why did you click?", bl1p:"The exact visual packaging technique: what the thumbnail does, how it reinforces the title and what you can apply to your own covers.",
-  bl2t:"The hook", bl2q:"Why did it grab you?", bl2p:"The psychological technique of the first moment: curiosity, in media res, open loop, controversy. Why that opening retains from second zero.",
-  bl3t:"The narrative", bl3q:"Why did you watch it all?", bl3p:"The retention structure: stakes, pacing, emotional roller-coaster and the critical points where the audience might leave.",
-  bl4t:"The plan", bl4q:"Can I do it?", bl4p:"The replicable kit: what to copy as-is, what to adapt to your niche, the formula in one line and prompts ready to produce the equivalent with AI.",
-  sk_label:"not just an analysis", sk_title:"It's a kit ready to feed your AI.",
-  sk_sub:"Read it to learn, or hand the whole thing to your model and let it clone that exact formula into your next video.",
-  sk1t:"Discover", sk1p:"Search a niche and the app ranks videos by anomaly (VSR), highest first.",
-  sk2t:"Analyze", sk2p:"The AI dissects hook, thumbnail, narrative and replicable pattern of the outlier.",
-  sk3t:"Get the kit", sk3p:"Scene-by-scene script, character prompts, scene prompts and animation prompts.",
-  sk4t:"Paste in your AI", sk4p:"Portable master prompt for Gemini, ChatGPT or Grok, ready to produce.",
-  oc1t:"Hook", oc1p:"The exact hook, rewritten for your topic.",
-  oc2t:"Script", oc2p:"Full text with pacing, pauses and micro-hooks.",
-  oc3t:"Thumbnail", oc3p:"Suggested composition and a prompt to generate it.",
-  oc4t:"Production", oc4p:"Scene and animation prompts for Veo 3 / Grok.",
-  uc_label:"use cases", uc_title:"Who is JM BOTS for?",
-  uc_sub:"For anyone who wants to understand why a video works, with data instead of intuition.",
-  uc1t:"Content creator", uc1p:"See which techniques the top of your niche use and replicate what works, with real data instead of guesses.",
-  uc2t:"Marketing agency", uc2p:"Show clients reports with concrete metrics that explain why a content strategy works.",
-  uc3t:"Growth strategist", uc3p:"Spot viral patterns before they trend and find content opportunities with high potential.",
-  uc4t:"Video editor", uc4p:"Learn the pacing, cuts and narrative structure behind the best-retention videos in your niche.",
-  cm_label:"comparison", cm_title:"JM BOTS vs. the rest",
-  cm_sub:"Nobody else combines anomaly detection, hook dissection and a replication kit in one place.",
-  cm_seo:"SEO tools", cm_us:"JM BOTS", cm_ai:"Generic AI",
-  cm_f1:"Outlier detection by VSR", cm_f2:"Hook & thumbnail analysis", cm_f3:"AI production kit",
-  cm_f4:"Portable master prompt", cm_f5:"Runs with your own keys", cm_f6:"Results in seconds",
-  cm_foot:"capabilities covered — SEO 1/6 · JM BOTS 6/6 · generic AI 1/6",
-  rag_label:"knowledge base · r.a.g.", rag_title:"Trained on the logic of the best.",
-  rag_p:"When you analyze a video, the engine cross-checks the data against proven patterns of hook, packaging, thumbnail and narrative to detect exactly which techniques it used and why they work.",
-  rag1:"Hook and retention techniques", rag2:"Packaging and thumbnail patterns",
-  rag3:"Narrative structures that retain", rag4:"AI replication strategies",
-  st1:"knowledge patterns", st2:"creators analyzed", st3:"outliers dissected",
-  ar_title:"The declassified archive", ar_sub:"Months dissecting the best. A sample of the dossier.",
-  ar1tag:"thumbnail · insight", ar1t:"Preference for text-free thumbnails",
-  ar1a:"A huge share of top channels' thumbnails carry <b>no text</b>. Excluding incidental text, the figure is even higher.",
-  ar1b:"Why it works: it simplifies visual communication and avoids overloading the viewer with redundant information.",
-  ar2tag:"narrative · pattern", ar2t:"Emotional roller-coaster structure",
-  ar2a:"Alternate <b>tension and relief</b> every 2-3 minutes. Each tension peak is higher than the last.",
-  ar2b:"Why it works: it keeps dopamine active. The viewer finds no natural point to leave.",
-  pr_label:"lab process", pr_title:"From a viral to your action plan",
-  pr_sub:"Three phases. Less than a coffee takes. Actionable knowledge.",
-  pr1t:"Specimen capture", pr1p:"You search a niche. The scanner extracts thumbnail, metrics, subscribers and computes each video's VSR.",
-  pr2t:"Reaction with the base", pr2p:"The AI cross-checks the data with hook, packaging, narrative and engagement patterns to detect the techniques used.",
-  pr3t:"Actionable synthesis", pr3p:"Report with the why, the replicable pattern and the full production kit adapted to your channel.",
-  ch_label:"live assistant", ch_title:"Got questions? Ask anything",
-  ch_sub:"Below is a simulated chat with the most common questions. Tap any bubble to see the answer.",
-  ch_online:"Online · replies instantly",
-  ch_hi:"Hi! 👋 I'm the <b>JM BOTS</b> assistant. How can I help?",
-  ch_qlabel:"Suggested questions",
-  fc_title:"Ready to understand the viral game?", fc_sub:"Connect your YouTube and Gemini keys, search your niche and let the AI show you the pattern.",
-  fc_cta:"Open the tool →", fc_social:"<b>+234 creators</b> are already creating virals with JM BOTS",
-  foot_tag:"Viral-content creation suite with AI: YouTube analysis + scripts, characters and Veo 3 prompts. Runs in your browser, with your keys.",
-  foot_prod:"Product", foot_how:"How it works", foot_cmp:"Comparison", foot_lab:"The lab", foot_app:"Open the app",
-  foot_res:"Resources", foot_yt:"YouTube key", foot_gem:"Gemini key",
-  foot_made:"data via YouTube API · AI analysis",
-  vd_label:"try the metric", vd_title:"Would your video be an outlier?",
-  vd_sub:"Drag views and subscribers and the VSR instantly tells you whether a video broke its channel. It's the same formula we rank every search by.",
-  vd_views:"Views <b id=\"vdViewsLbl\">892K</b>", vd_subs:"Subscribers <b id=\"vdSubsLbl\">1.2K</b>",
-  vd_hint:"VSR = views ÷ subscribers. The higher it is, the more it broke its usual audience.",
-  vd_foot:"In the real app this is computed automatically, for every video in the niche you search.",
-  wl_label:"the wall", wl_title:"Hundreds of videos that <em>broke</em> their channel.",
-  wl_sub:"Every thumbnail is a real outlier detected by the network. The number is its VSR: how many times it multiplied its own audience.",
-  tm1:"paste JM BOTS master prompt", tm2:"✓ format detected:", tm3:"animated reflections",
-  tm4:"✓ generating kit:", tm5:"8-scene script", tm6:"character prompts", tm7:"scene prompts",
-  tm8:"animation", tm9:"edit plan"
-};
-const ES = {};
-document.querySelectorAll('[data-i18n]').forEach(el=>{ ES[el.dataset.i18n] = el.innerHTML; });
-let LANG = 'es';
-function setLang(lang){
-  LANG = lang;
-  const dict = lang==='en' ? EN : ES;
-  document.querySelectorAll('[data-i18n]').forEach(el=>{
-    const k = el.dataset.i18n;
-    if(dict[k]!==undefined) el.innerHTML = dict[k];
-  });
-  document.documentElement.lang = lang;
-  document.querySelectorAll('.lang button').forEach(b=>b.classList.toggle('on', b.dataset.lang===lang));
-  renderQs();   // refrescar preguntas del chat en el idioma nuevo
-  calcVSR();    // las etiquetas de la demo se reescriben, hay que repintar
-  if(typeof buildGallery==='function') buildGallery(window.__APPS||FALLBACK_APPS);  // galería en el idioma nuevo
-}
-document.querySelectorAll('.lang button').forEach(b=>{
-  b.addEventListener('click', ()=>setLang(b.dataset.lang));
-});
-
-/* ───────── GALERÍA DE HERRAMIENTAS (desde autorizados.json) ───────── */
-const TOOL_META = {
-  outliers:{ico:"🔎",cat:"analisis"}, analizador:{ico:"🎬",cat:"analisis"}, historias:{ico:"🙏",cat:"fe"}, milagros:{ico:"✨",cat:"fe"}, relatos:{ico:"📖",cat:"fe"}, parabolas:{ico:"🕊️",cat:"fe"}, tentacion:{ico:"😇",cat:"fe"}, proverbios:{ico:"🧓",cat:"fe"}, redencion:{ico:"🌅",cat:"fe"}, viajealma:{ico:"💫",cat:"fe"}, cartas:{ico:"✉️",cat:"fe"}, glam:{ico:"💄",cat:"cuentos"}, frutas:{ico:"🍓",cat:"cuentos"}, novelas:{ico:"📺",cat:"cuentos"}, mascotas:{ico:"🐶",cat:"pov"}, comida:{ico:"🍔",cat:"pov"}, zodiaco:{ico:"♌",cat:"cuentos"}, animales:{ico:"🦁",cat:"infantil"}, objetos:{ico:"📱",cat:"pov"}, mitologia:{ico:"⚡",cat:"cuentos"}, autos:{ico:"🚗",cat:"infantil"}, dinosaurios:{ico:"🦖",cat:"infantil"}, robots:{ico:"🤖",cat:"infantil"}, plantas:{ico:"🌹",cat:"infantil"}, insectos:{ico:"🐝",cat:"infantil"}, paises:{ico:"🌍",cat:"infantil"}, profesiones:{ico:"👨‍⚕️",cat:"infantil"}, utiles:{ico:"✏️",cat:"infantil"}, superheroes:{ico:"🦸",cat:"cuentos"}, buenasnoches:{ico:"🌙",cat:"infantil"}, valores:{ico:"🤝",cat:"fe"}, datos:{ico:"🧠",cat:"educa"}, trabalenguas:{ico:"🎵",cat:"cuentos"}, monstruos:{ico:"👾",cat:"cuentos"}, terror:{ico:"👻",cat:"terror"}, terrorurbano:{ico:"🌃",cat:"terror"}, reflexiones:{ico:"🌸",cat:"fe"}, datosmiedo:{ico:"🦉",cat:"terror"}, timelapse:{ico:"🏗️",cat:"viralia"}, timelapse2:{ico:"🏛️",cat:"viralia"}, timelapse3:{ico:"💎",cat:"viralia"}, podcast:{ico:"🎙️",cat:"podcast"}, podfitness:{ico:"💪",cat:"podcast"}, podmujeres:{ico:"💅",cat:"podcast"}, podfe:{ico:"🙏",cat:"podcast"}, poddating:{ico:"❤️",cat:"podcast"}, podnegocios:{ico:"🚀",cat:"podcast"}, abuelo:{ico:"👴",cat:"podcast"}, ninogenio:{ico:"🧒",cat:"podcast"}, atleta:{ico:"⚡",cat:"podcast"}, entrevista:{ico:"🎙️",cat:"podcast"}, streetint:{ico:"🗣️",cat:"podcast"}, storytime:{ico:"📖",cat:"podcast"}, datoshablados:{ico:"🧠",cat:"podcast"}, woodenhands:{ico:"🌿",cat:"asmr"}, woodenhands2:{ico:"🍃",cat:"asmr"}, xray:{ico:"🩻",cat:"viralia"}, cocinaviral:{ico:"🍳",cat:"viralia"}, narekart:{ico:"🎭",cat:"viralia"}, venganza:{ico:"⚔️",cat:"story"}, asmrsatisfying:{ico:"🔪",cat:"asmr"}, aifruit:{ico:"🍓",cat:"asmr"}, surreal:{ico:"🪐",cat:"viralia"}, miniaturas:{ico:"🏠",cat:"viralia"}, animalessurreal:{ico:"🦄",cat:"viralia"}, finanzas:{ico:"💰",cat:"dinero"}, techia:{ico:"📱",cat:"educa"}, saludbienestar:{ico:"🧘",cat:"educa"}, negociosfaceless:{ico:"🚀",cat:"dinero"}, reddit:{ico:"👽",cat:"story"}, truecrime:{ico:"🕵️",cat:"terror"}, povcine:{ico:"🎬",cat:"story"}, tiendashop:{ico:"🛒",cat:"viralia"}, streetpro:{ico:"🎤",cat:"viralia"}, criaturas:{ico:"🦶",cat:"viralia"}, motivacion:{ico:"🔥",cat:"story"}, procesos:{ico:"🧽",cat:"asmr"}, historiacuriosa:{ico:"🗺️",cat:"educa"}, fractura:{ico:"🎬",cat:"viralia"}, explainer:{ico:"⚽",cat:"educa"}, montanarusa:{ico:"🎢",cat:"viralia"}, mundovegetal:{ico:"🥕",cat:"viralia"}, resinadiy:{ico:"🪵",cat:"asmr"}, timelapseobra:{ico:"🧱",cat:"viralia"}, dreamnostalgia:{ico:"🌸",cat:"viralia"}, cartoonkids:{ico:"🧸",cat:"infantil"}, rescateanimal:{ico:"🐾",cat:"infantil"}, junglabunker:{ico:"🎋",cat:"viralia"}, fabulas:{ico:"📜",cat:"cuentos"}
-};
-const CATS = {
-  viralia:{es:"Video Viral IA",en:"Viral AI Video",icon:"🎥",d_es:"Lo que explota ahora con IA.",d_en:"What's exploding now with AI."},
-  asmr:{es:"ASMR y Satisfying",en:"ASMR & Satisfying",icon:"🔪",d_es:"Loops hipnóticos y sonido ASMR.",d_en:"Hypnotic loops and ASMR sound."},
-  podcast:{es:"Podcast y Personas",en:"Podcasts & People",icon:"🎙️",d_es:"Avatares hablando a cámara.",d_en:"Avatars talking to camera."},
-  dinero:{es:"Finanzas y Negocios",en:"Finance & Business",icon:"💰",d_es:"El nicho que más paga.",d_en:"The highest-paying niche."},
-  educa:{es:"Tech, Salud y Datos",en:"Tech, Health & Facts",icon:"📱",d_es:"Educa y entretiene.",d_en:"Educate and entertain."},
-  story:{es:"Storytelling y Drama",en:"Storytelling & Drama",icon:"📝",d_es:"Historias de alta retención.",d_en:"High-retention stories."},
-  terror:{es:"Terror y Misterio",en:"Horror & Mystery",icon:"👻",d_es:"Gancho fuerte y giro final.",d_en:"Strong hook and a final twist."},
-  fe:{es:"Fe y Reflexión",en:"Faith & Reflection",icon:"🙏",d_es:"Historias con moraleja y emoción.",d_en:"Stories with a moral and emotion."},
-  cuentos:{es:"Cuentos y Fábulas",en:"Tales & Fables",icon:"📖",d_es:"Relatos y personajes para enganchar.",d_en:"Tales and characters that hook."},
-  infantil:{es:"Infantil y Escolar",en:"Kids & School",icon:"🧒",d_es:"Family-friendly y monetizable.",d_en:"Family-friendly and monetizable."},
-  pov:{es:"Historias POV",en:"POV Stories",icon:"🎭",d_es:"POV de objetos y situaciones.",d_en:"POV of objects and situations."},
-  analisis:{es:"Análisis con IA",en:"AI Analysis",icon:"📊",d_es:"Detectá qué funciona y por qué.",d_en:"Detect what works and why."}
-};
-const FALLBACK_APPS = [
-  {id:"outliers",nombre:"Outliers",archivo:"app.html"},{id:"analizador",nombre:"Analizador de Video",archivo:"analizador.html"},
-  {id:"historias",nombre:"Historias de Fe",archivo:"historias-fe.html"},{id:"milagros",nombre:"Milagros de Fe",archivo:"milagros-fe.html"},
-  {id:"relatos",nombre:"Relatos de Fe",archivo:"relatos-fe.html"},{id:"glam",nombre:"Glam",archivo:"glam.html"},
-  {id:"frutas",nombre:"Frutas",archivo:"frutas.html"},{id:"novelas",nombre:"Novelas JMbots",archivo:"novelas.html"},
-  {id:"mascotas",nombre:"Mascotas Dramáticas",archivo:"mascotas.html"},{id:"comida",nombre:"Comida Dramática",archivo:"comida.html"},
-  {id:"zodiaco",nombre:"Novelas del Zodíaco",archivo:"zodiaco.html"},{id:"animales",nombre:"Animales Salvajes",archivo:"animales.html"},
-  {id:"objetos",nombre:"POV Objetos con Vida",archivo:"objetos.html"},{id:"terror",nombre:"Micro-Terror",archivo:"terror.html"},
-  {id:"fabulas",nombre:"Fábulas con Moraleja",archivo:"fabulas.html"},{id:"mitologia",nombre:"Mitología Dramática",archivo:"mitologia.html"},
-  {id:"parabolas",nombre:"Parábolas de Luz",archivo:"parabolas.html"},{id:"tentacion",nombre:"Ángel vs. Tentación",archivo:"tentacion.html"},
-  {id:"autos",nombre:"Autos con Vida",archivo:"autos.html"},{id:"dinosaurios",nombre:"Dinosaurios Dramáticos",archivo:"dinosaurios.html"},
-  {id:"robots",nombre:"Robots con Sentimientos",archivo:"robots.html"},{id:"plantas",nombre:"Plantas y Flores",archivo:"plantas.html"},
-  {id:"insectos",nombre:"Insectos Dramáticos",archivo:"insectos.html"},{id:"paises",nombre:"Naciones",archivo:"paises.html"},
-  {id:"profesiones",nombre:"Profesiones en Guerra",archivo:"profesiones.html"},{id:"utiles",nombre:"Útiles Escolares",archivo:"utiles.html"},
-  {id:"superheroes",nombre:"Superhéroes Originales",archivo:"superheroes.html"},{id:"proverbios",nombre:"Proverbios del Sabio",archivo:"proverbios.html"},
-  {id:"redencion",nombre:"Cuentos de Redención",archivo:"redencion.html"},{id:"viajealma",nombre:"El Viaje del Alma",archivo:"viajealma.html"},
-  {id:"cartas",nombre:"Cartas al Cielo",archivo:"cartas.html"},{id:"buenasnoches",nombre:"Cuentos de Buenas Noches",archivo:"buenasnoches.html"},
-  {id:"valores",nombre:"Aprende Valores",archivo:"valores.html"},{id:"datos",nombre:"Datos Curiosos",archivo:"datos.html"},
-  {id:"trabalenguas",nombre:"Trabalenguas y Rimas",archivo:"trabalenguas.html"},{id:"monstruos",nombre:"Monstruos Tiernos",archivo:"monstruos.html"},
-  {id:"terrorurbano",nombre:"Terror Urbano",archivo:"terrorurbano.html"},{id:"reflexiones",nombre:"Reflexiones Animadas",archivo:"reflexiones.html"},{id:"datosmiedo",nombre:"Datos que dan miedo",archivo:"datosmiedo.html"},{id:"timelapse",nombre:"Time Lapse 1 / JM BOTS",archivo:"timelapse.html"},{id:"timelapse2",nombre:"Time Lapse 2 / JM BOTS",archivo:"timelapse2.html"},{id:"timelapse3",nombre:"Time Lapse 3 / JM BOTS",archivo:"timelapse3.html"},{id:"podcast",nombre:"Podcast Hiperrealistas",archivo:"podcast.html"},{id:"podfitness",nombre:"Podcast Fitness",archivo:"podfitness.html"},{id:"podmujeres",nombre:"Podcast Mujeres",archivo:"podmujeres.html"},{id:"podfe",nombre:"Podcast Fe",archivo:"podfe.html"},{id:"poddating",nombre:"Podcast Relaciones",archivo:"poddating.html"},{id:"podnegocios",nombre:"Podcast Negocios",archivo:"podnegocios.html"},{id:"abuelo",nombre:"Abuelo Sabio",archivo:"abuelo.html"},{id:"ninogenio",nombre:"Niño Genio",archivo:"ninogenio.html"},{id:"atleta",nombre:"Atleta / Guerrero",archivo:"atleta.html"},{id:"entrevista",nombre:"Entrevista 2 Personas",archivo:"entrevista.html"},{id:"streetint",nombre:"Street Interview",archivo:"streetint.html"},{id:"storytime",nombre:"Storytime",archivo:"storytime.html"},{id:"datoshablados",nombre:"Datos Curiosos Hablados",archivo:"datoshablados.html"},{id:"woodenhands",nombre:"Wooden Hands / JM BOTS",archivo:"woodenhands.html"},{id:"woodenhands2",nombre:"Wooden Hands v2.6 / JM BOTS",archivo:"woodenhands2.html"},{id:"xray",nombre:"3D X-Ray / JM BOTS",archivo:"xray.html"},{id:"cocinaviral",nombre:"Cocina Viral 3D / JM BOTS",archivo:"cocinaviral.html"},{id:"narekart",nombre:"NarekART PowerFlow / JM BOTS",archivo:"narekart.html"},{id:"venganza",nombre:"Historias de Venganza / JM BOTS",archivo:"venganza.html"},{id:"asmrsatisfying",nombre:"ASMR Satisfying / JM BOTS",archivo:"asmrsatisfying.html"},{id:"aifruit",nombre:"AI Fruit Universe / JM BOTS",archivo:"aifruit.html"},{id:"surreal",nombre:"Mundos Surreales / JM BOTS",archivo:"surreal.html"},{id:"miniaturas",nombre:"Miniaturas / JM BOTS",archivo:"miniaturas.html"},{id:"animalessurreal",nombre:"Animales Surreales / JM BOTS",archivo:"animalessurreal.html"},{id:"finanzas",nombre:"Finanzas y Dinero / JM BOTS",archivo:"finanzas.html"},{id:"techia",nombre:"Tech & IA / JM BOTS",archivo:"techia.html"},{id:"saludbienestar",nombre:"Salud & Bienestar / JM BOTS",archivo:"saludbienestar.html"},{id:"negociosfaceless",nombre:"Negocios y Emprender / JM BOTS",archivo:"negociosfaceless.html"},{id:"reddit",nombre:"Reddit Stories / JM BOTS",archivo:"reddit.html"},{id:"truecrime",nombre:"True Crime y Misterios / JM BOTS",archivo:"truecrime.html"},{id:"povcine",nombre:"POV Cinematográfico / JM BOTS",archivo:"povcine.html"},{id:"tiendashop",nombre:"Producto y Shop / JM BOTS",archivo:"tiendashop.html"},{id:"streetpro",nombre:"Street Interview Pro / JM BOTS",archivo:"streetpro.html"},{id:"criaturas",nombre:"Vlogs de Criaturas / JM BOTS",archivo:"criaturas.html"},{id:"motivacion",nombre:"Motivación y Disciplina / JM BOTS",archivo:"motivacion.html"},{id:"procesos",nombre:"Procesos Satisfying / JM BOTS",archivo:"procesos.html"},{id:"historiacuriosa",nombre:"Historia y Curiosidades / JM BOTS",archivo:"historiacuriosa.html"},{id:"fractura",nombre:"Fractura / JM BOTS",archivo:"fractura.html"},{id:"explainer",nombre:"Explainer Deportivo / JM BOTS",archivo:"explainer.html"},{id:"montanarusa",nombre:"Montaña Rusa POV / JM BOTS",archivo:"montanarusa.html"},{id:"mundovegetal",nombre:"Mundo Vegetal / JM BOTS",archivo:"mundovegetal.html"},{id:"resinadiy",nombre:"Resina y DIY / JM BOTS",archivo:"resinadiy.html"},{id:"timelapseobra",nombre:"Timelapse Construcción / JM BOTS",archivo:"timelapseobra.html"},{id:"dreamnostalgia",nombre:"Dream Nostalgia / JM BOTS",archivo:"dreamnostalgia.html"},{id:"cartoonkids",nombre:"Cartoon Kids / JM BOTS",archivo:"cartoonkids.html"},{id:"rescateanimal",nombre:"Rescate Animal / JM BOTS",archivo:"rescateanimal.html"},{id:"junglabunker",nombre:"Supervivencia Jungla / JM BOTS",archivo:"junglabunker.html"}
-];
-const CAT_ORDER = ["viralia","asmr","podcast","dinero","educa","story","terror","fe","cuentos","infantil","pov","analisis"];
-function buildGallery(apps){
-  const cont = document.getElementById('toolsGallery'); if(!cont) return;
-  const byCat = {}; CAT_ORDER.forEach(c=>byCat[c]=[]);
-  apps.forEach(a=>{ const m=TOOL_META[a.id]||{ico:"🧩",cat:"viral"}; (byCat[m.cat]||(byCat[m.cat]=[])).push(Object.assign({},a,{ico:m.ico})); });
-  let html='';
-  CAT_ORDER.forEach(cat=>{
-    const list=byCat[cat]; if(!list||!list.length) return;
-    const meta=CATS[cat], lang=(typeof LANG!=='undefined'?LANG:'es');
-    html+=`<div class="toolcat"><h3>${meta.icon} ${lang==='en'?meta.en:meta.es} <span class="ccount">· ${list.length}</span></h3>`
-      +`<p class="cdesc">${lang==='en'?meta.d_en:meta.d_es}</p><div class="toolgrid">`;
-    html+=list.map(a=>{
-      const lead = a.id==='outliers'?' lead':'';
-      const tipo = (CATS[cat]&&(lang==='en'?CATS[cat].en:CATS[cat].es))||'';
-      return `<a class="toolcard${lead}" href="./${a.archivo}"><span class="tico">${a.ico}</span>`
-        +`<span><span class="tname">${a.nombre}</span><span class="ttype">${tipo}</span></span></a>`;
-    }).join('');
-    html+='</div></div>';
-  });
-  cont.innerHTML=html;
-}
-(function initGallery(){
-  buildGallery(FALLBACK_APPS);   // pinta ya (sirve también para file://)
-  fetch('autorizados.json?t='+Date.now())
-    .then(r=>r.json())
-    .then(d=>{ if(d&&Array.isArray(d.apps)&&d.apps.length){ window.__APPS=d.apps; buildGallery(d.apps); } })
-    .catch(()=>{});
-})();
-
-calcVSR();
-// animar la primera pestaña cuando el bloque entra en pantalla
-(function(){
-  const wrap = document.querySelector('.tabwrap'); if(!wrap) return;
-  const obs = new IntersectionObserver((es)=>{
-    es.forEach(e=>{ if(e.isIntersecting){ setTab(0); obs.unobserve(e.target); } });
-  }, {threshold:.3});
-  obs.observe(wrap);
-})();
+// apps reales
+fetch('autorizados.json?t='+Date.now()).then(r=>r.json()).then(d=>{
+  if(d&&Array.isArray(d.apps)&&d.apps.length){APPS=d.apps;render();observeReveals();document.querySelectorAll('.hero .reveal').forEach(e=>e.classList.add('in'));}
+}).catch(()=>{});
 </script>
 </body>
 </html>
