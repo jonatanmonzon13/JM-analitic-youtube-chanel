@@ -145,13 +145,17 @@
   .clipcard .ch{display:flex;justify-content:space-between;align-items:center;margin-bottom:10px;gap:10px}
   .clipcard .ch b{color:var(--gold);font-size:.9rem;letter-spacing:1px;text-transform:uppercase}
   .clipcard pre{margin:0;white-space:pre-wrap;font-family:'JetBrains Mono',monospace;font-size:.88rem;line-height:1.7;color:#e6e6ff}
+
+#apiKey{width:100%;box-sizing:border-box;height:72px;min-height:72px;max-height:170px;resize:vertical;display:block;align-self:flex-start;flex:1 1 100%;font-family:'JetBrains Mono',ui-monospace,monospace;line-height:1.5;padding:10px 12px;border-radius:10px;background:#0b0b14;border:1px solid rgba(255,255,255,.18);color:#fff;}
+#apiKey:focus{outline:none;border-color:#22c55e;box-shadow:0 0 0 2px rgba(34,197,94,.25);}
+#apiKey.masked{-webkit-text-security:disc;}
 </style>
 </head>
 <body>
   <div class="wrap">
     <div class="keybar">
       <label for="apiKey">Clave Gemini</label>
-      <input id="apiKey" type="password" placeholder="Pegá tu clave de Gemini (AIza...)" autocomplete="off" />
+      <textarea id="apiKey" class="masked" rows="3" placeholder="Pegá hasta 5 claves de Gemini (AIza...), una por renglón — rotan solas si una se queda sin tokens" autocomplete="off" spellcheck="false"></textarea>
       <button class="kbtn save" onclick="saveKey()">Guardar</button>
       <button class="kbtn alt" onclick="replaceKey()">Reemplazar</button>
       <button class="kbtn alt" onclick="toggleEye()">👁️</button>
@@ -194,7 +198,7 @@ function saveKey(){ const v=$("apiKey").value.trim(); if(!v){ setKeyHint("Pegá 
   try{ const ks=loadKeys(); ks.an=v; localStorage.setItem('jmbots_keys',JSON.stringify(ks)); }catch(e){}
   setKeyHint("✓ Clave guardada (compartida con la suite).","var(--lime)"); }
 function replaceKey(){ $("apiKey").value=""; $("apiKey").type='text'; $("apiKey").focus(); setKeyHint("Ingresá la nueva clave y tocá Guardar.","var(--gold)"); }
-function toggleEye(){ const i=$("apiKey"); i.type = i.type==='password'?'text':'password'; }
+function toggleEye(){ var i=document.getElementById("apiKey"); if(i) i.classList.toggle("masked"); }
 
 const SYSTEM = `Eres ingeniero senior de prompts para Veo 3, especializado en videos virales de "Biomechanical Transformation": un objeto compacto futurista se transforma en un animal robótico, insecto, arma, máquina o criatura. Generás prompts autocontenidos de EXACTAMENTE 8 segundos.
 REGLA CLAVE: Veo 3 no recuerda clips previos; cada prompt es 100% autocontenido en UN párrafo denso con todo el arco de 8s.
@@ -264,5 +268,6 @@ function sorpresa(){ ['subgenero','escenario','tono','paleta','tomas'].forEach(i
 </script>
 <script src="jmbots-resilience.js"></script>
 <script src="apps-menu.js"></script>
+<!--jmkeycount--><script>(function(){var k=document.getElementById('apiKey');if(!k)return;k.classList.add('masked');function c(){var n=(k.value||'').split(/[\s,;\n]+/).map(function(s){return s.trim();}).filter(Boolean).length;var h=document.getElementById('keyHint');if(!h)return;if(n>0){h.textContent='\u2713 '+n+' clave'+(n>1?'s':'')+' cargada'+(n>1?'s':'')+(n>=2?' \u00b7 rotaci\u00f3n activa entre ellas':'')+' + respaldo offline.';h.style.color='#84cc16';}else{h.textContent='Peg\u00e1 hasta 5 claves de Gemini, una por rengl\u00f3n. Rotan solas si una se queda sin tokens; si fallan todas, entra el banco de respaldo.';h.style.color='';}}k.addEventListener('input',c);c();})();</script>
 </body>
 </html>

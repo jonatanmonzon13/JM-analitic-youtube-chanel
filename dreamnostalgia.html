@@ -55,6 +55,10 @@
   .inrow{display:flex;gap:8px;margin-top:8px}
   .inrow input{flex:1;background:var(--bg3);border:1px solid var(--line);color:var(--ink);border-radius:12px;padding:13px 15px;font-family:var(--display);font-size:14px}
   .note{font-family:var(--mono);font-size:11px;color:var(--muted);text-align:center;margin-top:10px}
+
+#apiKey{width:100%;box-sizing:border-box;height:72px;min-height:72px;max-height:170px;resize:vertical;display:block;align-self:flex-start;flex:1 1 100%;font-family:'JetBrains Mono',ui-monospace,monospace;line-height:1.5;padding:10px 12px;border-radius:10px;background:#0b0b14;border:1px solid rgba(255,255,255,.18);color:#fff;}
+#apiKey:focus{outline:none;border-color:#22c55e;box-shadow:0 0 0 2px rgba(34,197,94,.25);}
+#apiKey.masked{-webkit-text-security:disc;}
 </style>
 </head>
 <body>
@@ -66,7 +70,7 @@
   </header>
 
   <div class="keybar">
-    <input id="apiKey" type="password" placeholder="Clave de Gemini (compartida con la suite)">
+    <textarea id="apiKey" class="masked" rows="3" placeholder="Pegá hasta 5 claves de Gemini (AIza...), una por renglón — rotan solas si una se queda sin tokens" autocomplete="off" spellcheck="false"></textarea>
     <button class="btn btn-ghost" id="eyeBtn" onclick="toggleEye()">👁</button>
     <button class="btn btn-ghost" onclick="saveKey()">Guardar</button>
     <button class="btn btn-ghost" onclick="replaceKey()">Reemplazar</button>
@@ -98,7 +102,7 @@ function setKeyHint(m,c){ $("keyHint").textContent=m; $("keyHint").style.color=c
 (function initKey(){ const ks=loadKeys(); if(ks.an){ $("apiKey").value=ks.an; setKeyHint("✓ Clave del sistema cargada. Tocá Reemplazar para cambiarla.","var(--green)"); } })();
 function saveKey(){ const v=$("apiKey").value.trim(); if(!v){ setKeyHint("Pegá una clave antes de guardar.","var(--gold)"); return; } try{ const ks=loadKeys(); ks.an=v; localStorage.setItem('jmbots_keys',JSON.stringify(ks)); }catch(e){} setKeyHint("✓ Clave guardada (compartida con la suite).","var(--green)"); }
 function replaceKey(){ $("apiKey").value=""; $("apiKey").type='text'; $("apiKey").focus(); setKeyHint("Ingresá la nueva clave y tocá Guardar.","var(--gold)"); }
-function toggleEye(){ const i=$("apiKey"); i.type = i.type==='password'?'text':'password'; }
+function toggleEye(){ var i=document.getElementById("apiKey"); if(i) i.classList.toggle("masked"); }
 
 const SYSTEM = `Eres un "Generador de Nostalgia Onírica" (Dream Nostalgia Generator). Generás escenarios de espacios liminales surreales, oníricos y nostálgicos, en una estética suave y emocional tipo dreamcore: interiores inundados, pasillos infinitos, arquitectura pastel, malls abandonados, hoteles retro, acuarios luminosos, cuartos de nubes, flores gigantes, lluvia interior, espacios submarinos, cuartos a la luz de velas, televisores flotando, calles suburbanas nostálgicas, estaciones de tren oníricas, aulas extrañas, corredores al atardecer. Conversás en español; los PROMPTS de imagen y video van en INGLÉS (mejor render).
 
@@ -207,5 +211,6 @@ refreshQuick();
 </script>
 <script src="jmbots-resilience.js"></script>
 <script src="apps-menu.js"></script>
+<!--jmkeycount--><script>(function(){var k=document.getElementById('apiKey');if(!k)return;k.classList.add('masked');function c(){var n=(k.value||'').split(/[\s,;\n]+/).map(function(s){return s.trim();}).filter(Boolean).length;var h=document.getElementById('keyHint');if(!h)return;if(n>0){h.textContent='\u2713 '+n+' clave'+(n>1?'s':'')+' cargada'+(n>1?'s':'')+(n>=2?' \u00b7 rotaci\u00f3n activa entre ellas':'')+' + respaldo offline.';h.style.color='#84cc16';}else{h.textContent='Peg\u00e1 hasta 5 claves de Gemini, una por rengl\u00f3n. Rotan solas si una se queda sin tokens; si fallan todas, entra el banco de respaldo.';h.style.color='';}}k.addEventListener('input',c);c();})();</script>
 </body>
 </html>

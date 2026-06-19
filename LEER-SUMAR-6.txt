@@ -1,0 +1,11 @@
+JM BOTS — SUMAR LAS 6 APPS NUEVAS
+=================================
+Apps: dormir, microsalud, whiteboard, squishmelt, asmrreveal, cuentoviral
+
+Subí estos archivos a la raíz del repo y sobrescribí lo que pregunte:
+- 6 .html (las apps nuevas)
+- autorizados.json, instrucciones.json, apps-menu.js, app.html, index.html (traen el registro de las 6)
+- jmbots-resilience.js (rotación de claves + offline)
+
+Miniaturas: generá las 6 con los prompts (prompts-miniaturas-NUEVAS-6) y subilas a img/ con estos nombres .jpg:
+  dormir.jpg, microsalud.jpg, whiteboard.jpg, squishmelt.jpg, asmrreveal.jpg, cuentoviral.jpg

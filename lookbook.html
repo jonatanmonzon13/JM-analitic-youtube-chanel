@@ -139,6 +139,10 @@
   .copy:hover{background:var(--gold); transform:translateY(-2px)}
 
   @media(max-width:980px){.output{grid-template-columns:1fr}.aside{position:static}}
+
+#apiKey{width:100%;box-sizing:border-box;height:72px;min-height:72px;max-height:170px;resize:vertical;display:block;align-self:flex-start;flex:1 1 100%;font-family:'JetBrains Mono',ui-monospace,monospace;line-height:1.5;padding:10px 12px;border-radius:10px;background:#0b0b14;border:1px solid rgba(255,255,255,.18);color:#fff;}
+#apiKey:focus{outline:none;border-color:#22c55e;box-shadow:0 0 0 2px rgba(34,197,94,.25);}
+#apiKey.masked{-webkit-text-security:disc;}
 </style>
 </head>
 <body>
@@ -147,7 +151,7 @@
     <!-- Clave Gemini (compartida con la suite) -->
     <div class="keybar">
       <label for="apiKey">Clave Gemini</label>
-      <input id="apiKey" type="password" placeholder="Pegá tu clave de Gemini (AIza...)" autocomplete="off" />
+      <textarea id="apiKey" class="masked" rows="3" placeholder="Pegá hasta 5 claves de Gemini (AIza...), una por renglón — rotan solas si una se queda sin tokens" autocomplete="off" spellcheck="false"></textarea>
       <button class="kbtn save" onclick="saveKey()">Guardar</button>
       <button class="kbtn alt" onclick="replaceKey()">Reemplazar</button>
       <button class="kbtn alt" onclick="toggleEye()">👁️</button>
@@ -167,7 +171,7 @@
       <div class="control"><label>Set</label><select id="escenario"><option value="estudio limpio con sombras suaves">estudio limpio con sombras suaves</option><option value="calle urbana estética">calle urbana estética</option><option value="interior minimalista">interior minimalista</option><option value="exterior natural">exterior natural</option><option value="loft industrial">loft industrial</option></select></div>
       <div class="control"><label>Tono / atmósfera</label><select id="tono"><option value="épico y heroico">épico y heroico</option><option value="melancólico y nostálgico">melancólico y nostálgico</option><option value="tierno y luminoso">tierno y luminoso</option><option value="tenso y dramático">tenso y dramático</option><option value="misterioso y onírico">misterioso y onírico</option></select></div>
       <div class="control"><label>Paleta / estilo visual</label><select id="paleta"><option value="high-fashion editorial, dramatic runway light">Editorial pasarela</option><option value="clean lookbook studio, soft shadows">Lookbook limpio</option><option value="glossy beauty close-up, glowing skin">Beauty glow</option></select></div>
-      <div class="control"><label>Narración (voz)</label><select id="narracion"><option value="no" selected>Sin voz — solo visual</option><option value="si">Con narración (Fish Audio)</option></select></div>
+      <div class="control"><label>Voz / diálogo</label><select id="narracion"><option value="no" selected>Sin voz — solo visual / ASMR</option><option value="narrador">Narración (voz en off)</option><option value="dialogos">Diálogos de personajes (novela)</option></select></div>
       <div class="control"><label>Cantidad de tomas</label><select id="tomas"><option value="8">8 tomas</option><option value="12" selected>12 tomas</option><option value="16">16 tomas</option><option value="20">20 tomas</option></select></div>
     </div>
 
@@ -240,7 +244,7 @@ function saveKey(){ const v=$("apiKey").value.trim(); if(!v){ setKeyHint("Pegá 
   try{ const ks=loadKeys(); ks.an=v; localStorage.setItem('jmbots_keys',JSON.stringify(ks)); }catch(e){}
   setKeyHint("✓ Clave guardada (compartida con la suite).","var(--lime)"); }
 function replaceKey(){ $("apiKey").value=""; $("apiKey").type='text'; $("apiKey").focus(); setKeyHint("Ingresá la nueva clave y tocá Guardar.","var(--gold)"); }
-function toggleEye(){ const i=$("apiKey"); i.type = i.type==='password'?'text':'password'; }
+function toggleEye(){ var i=document.getElementById("apiKey"); if(i) i.classList.toggle("masked"); }
 
 /* ── SYSTEM PROMPT del nicho ── */
 const SYSTEM = `Eres el director de producción de "Lookbook IA" para JM BOTS: experto en moda, pasarela y belleza y en armar prompts de IA para videos cortos del nicho, listos para producir en Veo 3. Trabajás en flujo VISUAL (sin voz obligatoria; voz opcional).\n\nREGLAS DE FORMATO (estrictas):\n- Explicaciones mínimas en español latino.\n- Devolvé EXACTAMENTE 4 bloques de código markdown (triple backtick), en este orden y SIN texto entre ellos:\n  BLOQUE 1 = GUION (español latino).\n  BLOQUE 2 = MODELO/LOOK (inglés).\n  BLOQUE 3 = IMAGENES/KEYFRAMES (inglés).\n  BLOQUE 4 = ANIMACION para Veo 3 (inglés).\n- Formato lineal: en los bloques 2, 3 y 4, UN prompt por línea, sin viñetas, sin numeración, sin comillas envolventes, una línea en blanco entre prompts.\n- Los prompts visuales y de animación SIEMPRE en inglés. Los diálogos y la narración SIEMPRE en español latino.\n- Priorizá realismo editorial de moda: hyper-realistic, photorealistic, fashion editorial, studio lighting, 8K.\n\nCONSISTENCIA (Modelo):\n- Lookbook limpio y consistente: misma modelo, distintos outfits coherentes. Mantené descriptores de la modelo entre tomas.\n\nCONTENIDO POR BLOQUE:\nBLOQUE 1 (GUION, español latino): título corto del video + una entrada por toma ("TOMA N — [acción visual breve]") (sin diálogo obligatorio si el nicho no lo requiere). Si el usuario pidió narración, agregá al inicio "NARRACIÓN (voz en off):" con el texto continuo en español latino; si no, no la incluyas.\nBLOQUE 2 (MODELO/LOOK, inglés): 1 a 2 líneas de hoja de referencia del modelo: descripción hiper específica (rasgos, vestuario, materiales/color), consistent design, usando el estilo visual elegido, 4K.\nBLOQUE 3 (IMAGENES, inglés): exactamente una línea por toma. Cada línea: descriptores del modelo + acción de la toma + escenario/contexto + cinematic composition + ángulo/cámara + iluminación + tono + el estilo visual elegido + hyper-realistic, fashion editorial, studio lighting, sharp detail, 8K.\nBLOQUE 4 (ANIMACION, inglés): exactamente una línea por toma, misma cantidad que el bloque 3. Cada línea: modelo (descriptores breves) + movimiento/acción + movimiento de cámara + expresión + estilo, 4 second shot.\n\nNo agregues nada después del bloque 4. No preguntes; producí directamente con los datos recibidos.`;
@@ -254,13 +258,16 @@ function _pushHist(fp){ if(!fp) return; try{ var h=_getHist().filter(x=>x!==fp);
 function buildPrompt(){
   const sub=$("subgenero").value, pro=$("protagonista").value.trim()||"el/los personaje(s) principal(es) del video (definí los detalles y mantenelos coherentes en todas las tomas)",
         esc=$("escenario").value, tono=$("tono").value, pal=$("paleta").value,
-        narr=$("narracion").value==='si', tomas=$("tomas").value,
+        nv=($("narracion")?$("narracion").value:'no'), tomas=$("tomas").value,
         pers=($("personajes")?$("personajes").value:'auto');
   const PMAP={auto:"los que pida la historia — pueden aparecer e interactuar VARIOS personajes, no te limites a uno solo",
               "1":"un solo protagonista",
               "2":"dos personajes que interactúan entre sí",
               "3":"tres personajes que interactúan entre sí",
               "varios":"un elenco de varios personajes que interactúan"};
+  const NMAP={no:"NO — solo visual, sin voz (apto ASMR/silencioso)",
+              narrador:"SÍ — NARRACIÓN en voz en off de un narrador (incluí el texto narrado en el bloque 1, listo para Fish Audio)",
+              dialogos:"SÍ — DIÁLOGOS HABLADOS de los personajes estilo novela/telenovela: cada personaje dice sus líneas en primera persona; en el bloque 1 escribí los diálogos indicando qué personaje habla cada línea (NOMBRE: línea), y en el bloque 4 (animación) sincronizá el movimiento de labios/gestos con quien habla"};
   const seed=Math.floor(Math.random()*1e9), hist=_getHist();
   let av=`\n\nVARIACIÓN OBLIGATORIA: generá una historia/idea COMPLETAMENTE nueva y distinta a cualquier resultado anterior. Cambiá nombres propios, lugares puntuales, estructura, giros, encuadres y detalles. Evitá clichés y aperturas repetidas; no empieces siempre igual. Semilla creativa única: ${seed}.`;
   if(hist.length) av+=` Ya salieron estos (NO los repitas ni te parezcas a ellos): ${hist.join(' | ')}.`;
@@ -271,10 +278,10 @@ function buildPrompt(){
 - Escenario / contexto: ${esc}
 - Tono / atmósfera: ${tono}
 - Estilo visual fijo (usar en TODOS los prompts visuales): ${pal}
-- Narración en voz en off: ${narr?'SÍ (incluí el texto en el bloque 1)':'NO (solo visual, sin diálogo obligatorio)'}
+- Voz / diálogo: ${NMAP[nv]||NMAP.no}
 - Cantidad de tomas: ${tomas} (los bloques 3 y 4 deben tener exactamente ${tomas} prompts)
 
-Recordá: 4 bloques markdown, formato lineal, visuales en inglés, guion/narración en español latino. Cuando haya más de un personaje, mostralos interactuando en las escenas, definí a cada uno en el bloque 2 y repetí los descriptores de CADA personaje en cada toma donde aparezca.`+av;
+Recordá: 4 bloques markdown, formato lineal, visuales en inglés, guion/diálogos/narración en español latino. El bloque 2 (personajes) va con descripción detallada y fondo blanco. Cuando haya más de un personaje, mostralos interactuando, definí a cada uno en el bloque 2 y repetí los descriptores de CADA personaje en cada toma donde aparezca.`+av;
 }
 
 /* ── Llamada a Gemini ── */
@@ -364,5 +371,6 @@ document.querySelectorAll('.tab').forEach(t=>{
 </script>
 <script src="jmbots-resilience.js"></script>
 <script src="apps-menu.js"></script>
+<!--jmkeycount--><script>(function(){var k=document.getElementById('apiKey');if(!k)return;k.classList.add('masked');function c(){var n=(k.value||'').split(/[\s,;\n]+/).map(function(s){return s.trim();}).filter(Boolean).length;var h=document.getElementById('keyHint');if(!h)return;if(n>0){h.textContent='\u2713 '+n+' clave'+(n>1?'s':'')+' cargada'+(n>1?'s':'')+(n>=2?' \u00b7 rotaci\u00f3n activa entre ellas':'')+' + respaldo offline.';h.style.color='#84cc16';}else{h.textContent='Peg\u00e1 hasta 5 claves de Gemini, una por rengl\u00f3n. Rotan solas si una se queda sin tokens; si fallan todas, entra el banco de respaldo.';h.style.color='';}}k.addEventListener('input',c);c();})();</script>
 </body>
 </html>

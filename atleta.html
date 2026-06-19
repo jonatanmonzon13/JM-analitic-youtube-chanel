@@ -1,309 +1,389 @@
-<!doctype html>
+<!DOCTYPE html>
 <html lang="es">
 <head>
-<meta charset="utf-8">
-<meta name="viewport" content="width=device-width, initial-scale=1">
-<title>Atleta / Guerrero · JM BOTS</title>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>JM·BOTS Studio — Charla de Atletas</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Sora:wght@400;700;800&family=JetBrains+Mono:wght@400;700&display=swap" rel="stylesheet">
 <style>
   :root{
-    --bg:#08090c; --bg2:#0e1016; --bg3:#151821; --ink:#EEF2FA; --body:#C7CEDC; --muted:#8590A3;
-    --line:#262c3a; --orange:#F5D90A; --amber:#F8B34D; --gold:#F8DA8E; --cyan:#34D0E0; --green:#5BE39A; --violet:#7C5CFF;
-    --grad:linear-gradient(100deg,#F5D90A,#FF7A3D 55%,#FF4D4D);
+    --bg:#07060f;
+    --glass:rgba(18,16,38,0.72);
+    --border:rgba(255,255,255,0.13);
+    --text:#ffffff; --muted:rgba(255,255,255,0.66);
+    --c1:#22c55e;            /* electric blue */
+    --c2:#f59e0b;            /* magenta */
+    --gold:#ffd166;
+    --violet:#9d4edd;
+    --lime:#00ffa3;
+    --shadow:0 8px 32px rgba(0,0,0,0.55);
+    --glow1:0 0 20px rgba(56,189,248,0.4);
+    --glow2:0 0 20px rgba(255,77,157,0.4);
     --radius:16px;
-    --display:'Sora',system-ui,sans-serif; --mono:'JetBrains Mono',ui-monospace,monospace;
   }
   *{box-sizing:border-box}
-  body{margin:0;background:radial-gradient(1100px 600px at 70% -10%,rgba(245,217,10,.13),transparent 60%),var(--bg);
-       color:var(--body);font-family:var(--display);-webkit-font-smoothing:antialiased;line-height:1.55}
-  a{color:var(--cyan)}
-  .wrap{max-width:980px;margin:0 auto;padding:26px 20px 120px}
-  header.top{text-align:center;margin-bottom:18px}
-  .badge{display:inline-block;font-family:var(--mono);font-size:11px;letter-spacing:.18em;text-transform:uppercase;
-         color:var(--orange);border:1px solid var(--line);border-radius:999px;padding:6px 14px;background:var(--bg2);margin-bottom:14px}
-  h1{font-weight:800;font-size:clamp(26px,5vw,40px);margin:0 0 8px;letter-spacing:-.02em;
-     background:var(--grad);-webkit-background-clip:text;background-clip:text;-webkit-text-fill-color:transparent}
-  .sub{color:var(--muted);max-width:64ch;margin:0 auto;font-size:15px}
+  html{scroll-behavior:smooth}
+  body{
+    margin:0; font-family:'Sora',system-ui,sans-serif;
+    background:linear-gradient(-45deg,#0a0a24 0%,#07060f 40%,#1a0a2c 100%);
+    background-size:400% 400%; animation:bg 16s ease infinite;
+    color:var(--text); min-height:100vh; padding-bottom:50px;
+  }
+  @keyframes bg{0%{background-position:0% 50%}50%{background-position:100% 50%}100%{background-position:0% 50%}}
+  body::before{
+    content:""; position:fixed; inset:-50%; width:200%; height:200%;
+    background:radial-gradient(circle at 50% 40%,rgba(56,189,248,0.08),transparent 60%),
+               radial-gradient(circle at 80% 20%,rgba(255,77,157,0.08),transparent 50%);
+    z-index:-1; pointer-events:none;
+  }
+  .wrap{max-width:1400px; margin:0 auto; padding:34px 20px}
 
-  .keybar{display:flex;gap:8px;align-items:center;flex-wrap:wrap;background:var(--bg2);border:1px solid var(--line);
-          border-radius:14px;padding:12px;margin:18px 0}
-  .keybar input{flex:1;min-width:200px;background:var(--bg3);border:1px solid var(--line);color:var(--ink);
-                border-radius:10px;padding:11px 13px;font-family:var(--mono);font-size:13px}
-  .btn{cursor:pointer;border:0;border-radius:10px;padding:11px 16px;font-family:var(--display);font-weight:700;font-size:13.5px;
-       transition:transform .08s,box-shadow .18s,opacity .15s;display:inline-flex;align-items:center;gap:7px;white-space:nowrap}
-  .btn-main{color:#26120a;background:var(--grad);box-shadow:0 8px 24px rgba(255,122,61,.32)}
-  .btn-main:hover{transform:translateY(-1px)}
-  .btn-ghost{background:var(--bg3);color:var(--ink);border:1px solid var(--line)}
-  .btn-ghost:hover{border-color:var(--orange)}
-  .btn:disabled{opacity:.5;cursor:not-allowed;transform:none}
-  .keyhint{font-family:var(--mono);font-size:11.5px;color:var(--muted);width:100%}
+  /* Keybar */
+  .keybar{
+    display:flex; flex-wrap:wrap; gap:10px; align-items:center;
+    background:var(--glass); border:1px solid var(--border); border-radius:14px;
+    padding:14px 16px; margin-bottom:26px; box-shadow:var(--shadow); backdrop-filter:blur(10px);
+  }
+  .keybar label{font-size:.74rem; text-transform:uppercase; letter-spacing:1px; color:var(--muted); font-weight:800}
+  .keybar input{
+    flex:1; min-width:200px; background:rgba(0,0,0,0.5); color:#fff;
+    border:1px solid rgba(255,255,255,0.2); border-radius:10px; padding:11px 13px;
+    font-family:'JetBrains Mono',monospace; font-size:.85rem; outline:none;
+  }
+  .keybar input:focus{border-color:var(--c1); box-shadow:var(--glow1)}
+  .kbtn{border:none; border-radius:10px; padding:11px 16px; font-weight:800; font-size:.8rem; cursor:pointer; font-family:'Sora',sans-serif; transition:.2s}
+  .kbtn.save{background:linear-gradient(90deg,var(--c1),var(--violet)); color:#fff}
+  .kbtn.alt{background:rgba(255,255,255,0.06); color:var(--c1); border:1px solid var(--c1)}
+  .kbtn:hover{transform:translateY(-2px)}
+  .key-hint{flex-basis:100%; font-size:.78rem; color:var(--muted); margin-top:2px}
 
-  .steps{display:flex;gap:8px;justify-content:center;flex-wrap:wrap;margin:6px 0 16px;font-family:var(--mono);font-size:11px}
-  .stp{color:var(--muted);border:1px solid var(--line);border-radius:999px;padding:5px 11px;background:var(--bg2)}
-  .stp.on{color:var(--gold);border-color:rgba(248,218,142,.5);background:rgba(248,218,142,.08)}
-  .stp.done{color:var(--green);border-color:rgba(91,227,154,.4)}
+  /* Hero */
+  .hero{
+    text-align:center; padding:42px 20px;
+    background:var(--glass); backdrop-filter:blur(15px);
+    border:1px solid var(--border); border-radius:28px; box-shadow:var(--shadow),var(--glow1); margin-bottom:34px;
+  }
+  .title{
+    font-size:clamp(2.4rem,5.5vw,4.4rem); margin:0 0 10px; font-weight:800; letter-spacing:2px;
+    background:linear-gradient(90deg,var(--c1),var(--c2),var(--gold));
+    -webkit-background-clip:text; background-clip:text; color:transparent;
+  }
+  .subtitle{color:#e0e0ff; font-size:1.05rem; line-height:1.6; max-width:860px; margin:0 auto 18px}
+  .pills{display:flex; justify-content:center; flex-wrap:wrap; gap:10px}
+  .pill{padding:7px 16px; border-radius:999px; background:rgba(255,255,255,0.05); border:1px solid var(--c1); color:var(--c1); font-size:.78rem; font-weight:800; text-transform:uppercase; box-shadow:var(--glow1)}
+  .pill:nth-child(even){border-color:var(--c2); color:var(--c2); box-shadow:var(--glow2)}
+  .pill:nth-child(3n){border-color:var(--gold); color:var(--gold); box-shadow:0 0 15px rgba(255,209,102,.3)}
 
-  .chat{background:linear-gradient(180deg,var(--bg2),#090a0e);border:1px solid var(--line);border-radius:18px;
-        padding:18px;min-height:340px;display:flex;flex-direction:column;gap:14px;box-shadow:0 30px 80px rgba(0,0,0,.5)}
-  .msg{max-width:92%;padding:13px 16px;border-radius:14px;font-size:14.5px;animation:rise .3s both}
-  @keyframes rise{from{opacity:0;transform:translateY(8px)}to{opacity:1;transform:none}}
-  .msg.bot{align-self:flex-start;background:var(--bg3);border:1px solid var(--line);border-bottom-left-radius:5px}
-  .msg.me{align-self:flex-end;background:linear-gradient(100deg,var(--violet),var(--orange));color:#fff;border-bottom-right-radius:5px;font-weight:600}
-  .msg.sys{align-self:center;font-family:var(--mono);font-size:11.5px;color:var(--muted);background:transparent;border:1px dashed var(--line);border-radius:10px;padding:7px 12px}
-  .msg h3{margin:.2em 0 .4em;font-size:16px;color:var(--gold)}
-  .msg pre{background:#0a0b0f;border:1px solid var(--line);border-radius:12px;padding:13px;overflow:auto;
-           font-family:var(--mono);font-size:12.5px;color:#E7ECF7;position:relative;white-space:pre-wrap;word-break:break-word}
-  .msg .copy{position:absolute;top:8px;right:8px;font-family:var(--display);font-weight:700;font-size:11px;cursor:pointer;
-             color:#26120a;background:var(--gold);border:0;border-radius:7px;padding:5px 9px}
-  .msg ol,.msg ul{margin:.3em 0;padding-left:1.3em}
-  .msg li{margin:.25em 0}
-  .typing{align-self:flex-start;display:flex;gap:5px;padding:13px 16px;background:var(--bg3);border:1px solid var(--line);border-radius:14px}
-  .typing i{width:7px;height:7px;border-radius:50%;background:var(--muted);animation:blink 1.2s infinite}
-  .typing i:nth-child(2){animation-delay:.2s}.typing i:nth-child(3){animation-delay:.4s}
-  @keyframes blink{0%,60%,100%{opacity:.3}30%{opacity:1}}
+  /* Controls */
+  .controls{display:grid; grid-template-columns:repeat(auto-fit,minmax(260px,1fr)); gap:18px; margin-bottom:30px}
+  .control{
+    background:var(--glass); backdrop-filter:blur(10px); border:1px solid var(--border);
+    border-radius:var(--radius); padding:18px; box-shadow:var(--shadow); transition:.3s; border-left:4px solid var(--c1);
+  }
+  .control:nth-child(even){border-left-color:var(--c2)}
+  .control:nth-child(3n){border-left-color:var(--gold)}
+  .control:hover{transform:translateY(-4px); box-shadow:var(--glow1)}
+  .control label{display:block; font-size:.76rem; text-transform:uppercase; color:#fff; font-weight:800; margin-bottom:9px; letter-spacing:1px}
+  select,.control input[type=text]{
+    width:100%; background:rgba(0,0,0,0.5); color:#fff; border:1px solid rgba(255,255,255,0.2);
+    border-radius:10px; padding:13px; font-size:.92rem; font-weight:600; outline:none; cursor:pointer; transition:.3s; font-family:'Sora',sans-serif;
+  }
+  .control input[type=text]{cursor:text}
+  select:focus,.control input[type=text]:focus{border-color:var(--c1); box-shadow:var(--glow1)}
 
-  .quick{display:flex;gap:8px;flex-wrap:wrap;margin:14px 0 8px}
-  .qbtn{cursor:pointer;font-family:var(--display);font-weight:600;font-size:13px;color:var(--ink);background:var(--bg2);
-        border:1px solid var(--line);border-radius:999px;padding:9px 15px}
-  .qbtn:hover{border-color:var(--gold);color:var(--gold)}
-  .inrow{display:flex;gap:8px;margin-top:8px}
-  .inrow input{flex:1;background:var(--bg3);border:1px solid var(--line);color:var(--ink);border-radius:12px;padding:13px 15px;font-family:var(--display);font-size:14px}
-  .note{font-family:var(--mono);font-size:11px;color:var(--muted);text-align:center;margin-top:10px}
+  /* CTA */
+  .cta{display:flex; justify-content:center; gap:18px; flex-wrap:wrap; margin-bottom:18px}
+  .btn{border:none; border-radius:999px; padding:17px 34px; font-weight:800; font-size:1.05rem; cursor:pointer; transition:.3s; text-transform:uppercase; letter-spacing:1px; font-family:'Sora',sans-serif}
+  .btn-main{background:linear-gradient(90deg,var(--c2),var(--violet)); color:#fff; box-shadow:var(--glow2); border:1px solid rgba(255,255,255,0.25)}
+  .btn-main:hover{transform:scale(1.04); box-shadow:0 0 30px rgba(255,77,157,.65)}
+  .btn-main:disabled{opacity:.55; cursor:wait; transform:none}
+  .btn-alt{background:rgba(255,255,255,0.05); color:var(--c1); border:2px solid var(--c1)}
+  .btn-alt:hover{background:var(--c1); color:#000; box-shadow:var(--glow1)}
+  .status{text-align:center; min-height:22px; margin-bottom:30px; font-size:.9rem; color:var(--muted); font-weight:600}
+  .status.err{color:var(--c2)}
+  .status.ok{color:var(--lime)}
+
+  /* Output */
+  .output{display:grid; grid-template-columns:340px 1fr; gap:28px; align-items:start; display:none}
+  .output.visible{display:grid; animation:fade .5s ease}
+  @keyframes fade{from{opacity:0; transform:translateY(15px)}to{opacity:1; transform:translateY(0)}}
+  .aside{position:sticky; top:18px; display:flex; flex-direction:column; gap:18px}
+  .box{background:var(--glass); backdrop-filter:blur(15px); border:1px solid var(--border); border-radius:var(--radius); padding:22px; box-shadow:var(--shadow)}
+  .box-title{font-size:1.1rem; color:var(--gold); font-weight:800; margin:0 0 13px; text-transform:uppercase; letter-spacing:1px}
+  .row{display:flex; justify-content:space-between; gap:10px; padding:8px 0; border-bottom:1px dashed rgba(255,255,255,0.08); font-size:.86rem}
+  .row span:first-child{color:var(--muted)}
+  .row span:last-child{font-weight:700; text-align:right}
+
+  .tabs{display:flex; flex-wrap:wrap; gap:10px; margin-bottom:20px; border-bottom:2px solid rgba(255,255,255,0.1); padding-bottom:16px}
+  .tab{background:rgba(0,0,0,0.5); color:var(--muted); border:1px solid rgba(255,255,255,0.2); padding:12px 18px; border-radius:11px; cursor:pointer; font-weight:800; font-size:.84rem; transition:.3s; text-transform:uppercase; font-family:'Sora',sans-serif}
+  .tab:hover{border-color:var(--c1); color:#fff}
+  .tab.active{background:linear-gradient(90deg,var(--c1),var(--violet)); color:#fff; border:none; box-shadow:var(--glow1)}
+  .panel{display:none}
+  .panel.visible{display:block; animation:fade .4s ease}
+
+  .bhead{display:flex; justify-content:space-between; align-items:center; margin-bottom:12px; flex-wrap:wrap; gap:10px}
+  .bhead h3{margin:0; font-size:1.1rem; font-weight:800; text-transform:uppercase; letter-spacing:1px}
+  .hint{color:var(--muted); font-size:.82rem; margin:0 0 12px}
+  textarea{
+    width:100%; height:520px; background:rgba(5,5,12,0.85); color:#e6e6ff; border:2px solid var(--c1);
+    border-radius:16px; padding:22px; font-family:'JetBrains Mono',monospace; font-size:.9rem; line-height:1.7;
+    resize:vertical; outline:none; box-shadow:inset 0 5px 20px rgba(0,0,0,0.8); white-space:pre-wrap;
+  }
+  #p-guion h3{color:var(--gold)} #p-guion textarea{border-color:var(--gold)}
+  #p-pers h3{color:var(--c2)}  #p-pers textarea{border-color:var(--c2)}
+  #p-imgs h3{color:var(--c1)}  #p-imgs textarea{border-color:var(--c1)}
+  #p-anim h3{color:var(--violet)} #p-anim textarea{border-color:var(--violet)}
+  .copy{background:#fff; color:#000; border:none; padding:11px 22px; font-weight:800; border-radius:10px; cursor:pointer; transition:.2s; text-transform:uppercase; font-size:.8rem; letter-spacing:1px; font-family:'Sora',sans-serif; box-shadow:0 0 15px rgba(255,255,255,0.25)}
+  .copy:hover{background:var(--gold); transform:translateY(-2px)}
+
+  @media(max-width:980px){.output{grid-template-columns:1fr}.aside{position:static}}
+
+#apiKey{width:100%;box-sizing:border-box;height:72px;min-height:72px;max-height:170px;resize:vertical;display:block;align-self:flex-start;flex:1 1 100%;font-family:'JetBrains Mono',ui-monospace,monospace;line-height:1.5;padding:10px 12px;border-radius:10px;background:#0b0b14;border:1px solid rgba(255,255,255,.18);color:#fff;}
+#apiKey:focus{outline:none;border-color:#22c55e;box-shadow:0 0 0 2px rgba(34,197,94,.25);}
+#apiKey.masked{-webkit-text-security:disc;}
 </style>
 </head>
 <body>
-<div class="wrap">
-  <header class="top">
-    <div class="badge">Épico · Veo 3.1 · Vertical</div>
-    <h1>Atleta / Guerrero</h1>
-    <p class="sub">Creo videos épicos de atleta/guerrero motivacional para Veo 3.1. Flujo: 15 ganchos → clips → idioma/acento → guion → avatar → formato → prompts listos para copiar (uno por clip).</p>
-  </header>
+  <div class="wrap">
 
-  <div class="keybar">
-    <input id="apiKey" type="password" placeholder="Clave de Gemini (compartida con la suite)">
-    <button class="btn btn-ghost" id="eyeBtn" onclick="toggleEye()">👁</button>
-    <button class="btn btn-ghost" onclick="saveKey()">Guardar</button>
-    <button class="btn btn-ghost" onclick="replaceKey()">Reemplazar</button>
-    <div class="keyhint" id="keyHint">Necesitás tu clave de Gemini para generar. Se guarda solo en este navegador.</div>
+    <!-- Clave Gemini (compartida con la suite) -->
+    <div class="keybar">
+      <label for="apiKey">Clave Gemini</label>
+      <textarea id="apiKey" class="masked" rows="3" placeholder="Pegá hasta 5 claves de Gemini (AIza...), una por renglón — rotan solas si una se queda sin tokens" autocomplete="off" spellcheck="false"></textarea>
+      <button class="kbtn save" onclick="saveKey()">Guardar</button>
+      <button class="kbtn alt" onclick="replaceKey()">Reemplazar</button>
+      <button class="kbtn alt" onclick="toggleEye()">👁️</button>
+      <div class="key-hint" id="keyHint">La clave se guarda solo en tu navegador y se comparte con todas las apps de la suite.</div>
+    </div>
+
+    <header class="hero">
+      <h1 class="title">Charla de Atletas</h1>
+      <p class="subtitle">Charla de atletas - 4 lotes, diálogos.</p>
+      <div class="pills"><span class="pill">🏅 Atletas</span><span class="pill">2 personajes + dialogos</span><span class="pill">Fish Audio</span><span class="pill">4 lotes</span></div>
+    </header>
+
+    <div class="controls">
+      <div class="control"><label>Tema</label><select id="subgenero"><option value="entrenamiento">entrenamiento</option><option value="mentalidad ganadora">mentalidad ganadora</option><option value="superar lesiones">superar lesiones</option><option value="rivalidad sana">rivalidad sana</option><option value="metas">metas</option></select></div>
+      <div class="control"><label>Atletas (se mantiene en todo el video)</label><input type="text" id="protagonista" placeholder="describí el los dos atletas; mantenelo coherente" /></div>
+      <div class="control"><label>Set</label><select id="escenario"><option value="gimnasio">gimnasio</option><option value="pista">pista</option><option value="vestuario moderno">vestuario moderno</option><option value="estudio deportivo">estudio deportivo</option><option value="estadio">estadio</option></select></div>
+      <div class="control"><label>Tono / atmósfera</label><select id="tono"><option value="épico y heroico">épico y heroico</option><option value="emotivo y sincero">emotivo y sincero</option><option value="tenso y dramático">tenso y dramático</option><option value="tierno y luminoso">tierno y luminoso</option><option value="misterioso">misterioso</option></select></div>
+      <div class="control"><label>Paleta / estilo visual</label><select id="paleta"><option value="ultra-photorealistic cinematic, natural light, shallow depth of field, 8K">Fotorrealista</option><option value="clean modern studio look, soft key light">Estudio moderno</option></select></div>
+      <div class="control"><label>Cantidad de personajes</label><select id="personajes"><option value="auto">Los que pida la historia</option><option value="1">1 — un protagonista</option><option value="2" selected>2 — dúo / interacción</option><option value="3">3 — grupo</option><option value="varios">Varios — elenco</option></select></div>
+      <div class="control"><label>Voz / diálogo</label><select id="narracion"><option value="no">Sin voz — solo visual / ASMR</option><option value="narrador">Narración (voz en off)</option><option value="dialogos" selected>Diálogos de personajes (novela)</option></select></div>
+      <div class="control"><label>Cantidad de tomas</label><select id="tomas"><option value="8">8 tomas</option><option value="12" selected>12 tomas</option><option value="16">16 tomas</option><option value="20">20 tomas</option></select></div>
+    </div>
+
+    <div class="cta">
+      <button class="btn btn-main" id="genBtn" onclick="generar()">🎬 Generar pipeline</button>
+      <button class="btn btn-alt" onclick="sorpresa()">🎲 Sorpresa</button>
+    </div>
+    <div class="status" id="status"></div>
+
+    <div class="output" id="output">
+      <aside class="aside">
+        <div class="box">
+          <h2 class="box-title">Proyecto</h2>
+          <div class="row"><span>Tipo</span><span id="sGenero" style="color:var(--c2)">—</span></div>
+          <div class="row"><span>Escenario</span><span id="sEsc" style="color:var(--c1)">—</span></div>
+          <div class="row"><span>Tono</span><span id="sTono" style="color:var(--gold)">—</span></div>
+          <div class="row"><span>Narración</span><span id="sNarr" style="color:var(--lime)">—</span></div>
+          <div class="row"><span>Tomas</span><span id="sTomas" style="color:#fff">—</span></div>
+        </div>
+        <div class="box">
+          <h2 class="box-title">Atletas fijo</h2>
+          <p class="hint" id="sProta" style="margin:0">—</p>
+        </div>
+      </aside>
+
+      <main>
+        <div class="box">
+          <div class="tabs">
+            <button class="tab active" data-p="p-guion">📜 1. Guion</button>
+            <button class="tab" data-p="p-pers">🧍 2. Atletas</button>
+            <button class="tab" data-p="p-imgs">📸 3. Imágenes</button>
+            <button class="tab" data-p="p-anim">🚀 4. Animación</button>
+          </div>
+
+          <div class="panel visible" id="p-guion">
+            <div class="bhead"><h3>📜 LOTE 1 · Guion (español latino)</h3><button class="copy" onclick="copyArea('txtGuion',this)">📋 Copiar</button></div>
+            <p class="hint">Storyboard toma por toma con acción y diálogos en español. Si elegiste narración, incluye el texto de voz en off.</p>
+            <textarea id="txtGuion" readonly></textarea>
+          </div>
+          <div class="panel" id="p-pers">
+            <div class="bhead"><h3>🧍 LOTE 2 · Atletas (inglés)</h3><button class="copy" onclick="copyArea('txtPers',this)">📋 Copiar Lote</button></div>
+            <p class="hint">Hoja de referencia del personaje para mantenerlo idéntico en todas las tomas. Un prompt por línea.</p>
+            <textarea id="txtPers" readonly></textarea>
+          </div>
+          <div class="panel" id="p-imgs">
+            <div class="bhead"><h3>📸 LOTE 3 · Imágenes / Keyframes (inglés)</h3><button class="copy" onclick="copyArea('txtImgs',this)">📋 Copiar Lote</button></div>
+            <p class="hint">Un prompt de keyframe por toma. Formato lineal, una línea por prompt, sin viñetas.</p>
+            <textarea id="txtImgs" readonly></textarea>
+          </div>
+          <div class="panel" id="p-anim">
+            <div class="bhead"><h3>🚀 LOTE 4 · Animación / Veo 3 (inglés)</h3><button class="copy" onclick="copyArea('txtAnim',this)">📋 Copiar Lote</button></div>
+            <p class="hint">Un prompt de animación por toma: sujeto + movimiento + cámara + expresión.</p>
+            <textarea id="txtAnim" readonly></textarea>
+          </div>
+        </div>
+      </main>
+    </div>
   </div>
-
-  <div class="steps" id="steps">
-    <span class="stp on" data-s="ideas">1 · Ideas</span>
-    <span class="stp" data-s="clips">2 · Clips</span>
-    <span class="stp" data-s="idioma">3 · Idioma/Acento</span>
-    <span class="stp" data-s="guion">4 · Guion</span>
-    <span class="stp" data-s="avatar">5 · Avatar</span>
-    <span class="stp" data-s="formato">6 · Formato</span>
-    <span class="stp" data-s="prod">7 · Prompts</span>
-  </div>
-
-  <div class="chat" id="chat"></div>
-
-  <div class="quick" id="quick"></div>
-  <div class="inrow">
-    <input id="userIn" placeholder='Escribí “inicio” para ver las 15 ideas…' onkeydown="if(event.key==='Enter')send()">
-    <button class="btn btn-main" id="sendBtn" onclick="send()">Enviar ➤</button>
-  </div>
-  <div class="note">Comandos: <b>reset ideas</b> (15 nuevas), <b>reset guion</b> (rehace el guion). Cada prompt sale en su bloque con botón 📋.</div>
-</div>
 
 <script>
 const $ = id => document.getElementById(id);
 const MODEL='gemini-2.5-flash';
 const API='https://generativelanguage.googleapis.com';
 
-/* ── Clave compartida ── */
+/* ── Clave compartida con la suite (jmbots_keys.an) ── */
 function loadKeys(){ try{ return JSON.parse(localStorage.getItem('jmbots_keys')||'{}'); }catch(e){ return {}; } }
 function setKeyHint(m,c){ $("keyHint").textContent=m; $("keyHint").style.color=c||"var(--muted)"; }
-(function initKey(){ const ks=loadKeys(); if(ks.an){ $("apiKey").value=ks.an; setKeyHint("✓ Clave del sistema cargada. Tocá Reemplazar para cambiarla.","var(--green)"); } })();
-function saveKey(){ const v=$("apiKey").value.trim(); if(!v){ setKeyHint("Pegá una clave antes de guardar.","var(--amber)"); return; }
+(function initKey(){ const ks=loadKeys(); if(ks.an){ $("apiKey").value=ks.an; setKeyHint("✓ Clave del sistema cargada. Tocá Reemplazar para cambiarla.","var(--lime)"); } })();
+function saveKey(){ const v=$("apiKey").value.trim(); if(!v){ setKeyHint("Pegá una clave antes de guardar.","var(--c2)"); return; }
   try{ const ks=loadKeys(); ks.an=v; localStorage.setItem('jmbots_keys',JSON.stringify(ks)); }catch(e){}
-  setKeyHint("✓ Clave guardada (compartida con la suite).","var(--green)"); }
+  setKeyHint("✓ Clave guardada (compartida con la suite).","var(--lime)"); }
 function replaceKey(){ $("apiKey").value=""; $("apiKey").type='text'; $("apiKey").focus(); setKeyHint("Ingresá la nueva clave y tocá Guardar.","var(--gold)"); }
-function toggleEye(){ const i=$("apiKey"); i.type = i.type==='password'?'text':'password'; }
+function toggleEye(){ var i=document.getElementById("apiKey"); if(i) i.classList.toggle("masked"); }
 
-/* ── SYSTEM PROMPT (gema Podcast, adaptada a prompts LINEALES) ── */
-const SYSTEM = `Eres un 'Content Automation Bot' y Director de Fotografía experto en Veo 3.1. Estás especializado en videos virales de un ATLETA/GUERRERO de élite con estética épica e intensa (entrenamiento, sacrificio, victoria), con tono potente y adrenalínico. Guías al usuario en un flujo estricto.
+/* ── SYSTEM PROMPT del nicho ── */
+const SYSTEM = `Eres conductor de una CHARLA entre dos ATLETAS inspiradora para JM BOTS, en 3D Pixar/Disney hiperrealista o realista según el estilo, listo para Veo 3.
+FORMATO (estricto): explicaciones mínimas en español latino. Devolvé EXACTAMENTE 4 bloques markdown, sin texto entre ellos:
+  BLOQUE 1 = GUION/CONVERSACIÓN (español latino).  BLOQUE 2 = PERSONAJES (inglés, fondo blanco).  BLOQUE 3 = ESCENAS por toma (inglés).  BLOQUE 4 = ANIMACIÓN por toma (inglés).
+Formato lineal en bloques 2, 3 y 4: un prompt por línea, sin viñetas ni comillas, una línea en blanco entre prompts. Visuales/animación en inglés; conversación en español latino.
+SEGURIDAD: bienestar general; NO consejos medicos ni diagnosticos ni dietas/numeros especificos; si el tema es sensible, prudente y derivando a un profesional.
+ESTE FORMATO ES CONVERSACIONAL: por defecto hay DOS interlocutores con NOMBRE PROPIO (presentador e invitado, o dos hosts). Según el parámetro de voz:
+- "diálogos" (lo normal acá): en el BLOQUE 1 escribí la conversación natural en formato "NOMBRE: línea", con ida y vuelta, preguntas y respuestas; en el bloque 4 sincronizá labios con quien habla en cada toma.
+- "narrador": una voz en off relata.  - "solo visual": sin texto hablado.
+CONTENIDO:
+BLOQUE 1: título + la charla completa con gancho inicial, desarrollo con varios intercambios y cierre, en el modo de voz pedido.
+BLOQUE 2: un prompt por interlocutor con NOMBRE PROPIO, descripción física y vestimenta detallada y fija, toma frontal de cuerpo completo, FONDO BLANCO limpio; idéntico en todas las tomas; termina con bloque de calidad y negativo.
+BLOQUE 3: una línea por toma; menciona por NOMBRE quién habla/aparece y su acción; set tipo podcast/entrevista + plano + expresión + iluminación, variando el encuadre en cada toma; termina con "sin texto, sin marcas de agua, imagen limpia 9:16".
+BLOQUE 4: una línea por toma: gestos y labios sincronizados con el diálogo (el que habla se mueve), micro-movimiento de ambiente y transición de entrada/salida coordinada; cámara casi quieta.
+No agregues nada después del bloque 4. Producí directo.`;
 
-### FORMATO DE ENTREGA (MUY IMPORTANTE):
-- Cada prompt técnico se entrega como UNA SOLA PIEZA en formato LINEAL (texto corrido en una sola línea, NO en JSON ni multilínea, sin llaves ni comillas de estructura).
-- Cada prompt va en su PROPIO bloque de código markdown (triple backtick), separado del siguiente por un espacio en blanco. NUNCA agrupes varios prompts en un mismo bloque ni en una lista [].
-- Para los clips, cada bloque contiene en una sola pieza corrida: la instrucción visual de movimiento + la instrucción de voz fija + el guion a narrar (TTS), todo seguido, sin saltos de línea internos.
+/* ── memoria local anti-repetición (por app) ── */
+function _hkey(){ return 'jmbots_hist_'+((location.pathname.split('/').pop()||'app').replace('.html','')); }
+function _getHist(){ try{ return JSON.parse(localStorage.getItem(_hkey())||'[]'); }catch(e){ return []; } }
+function _pushHist(fp){ if(!fp) return; try{ var h=_getHist().filter(x=>x!==fp); h.unshift(fp); localStorage.setItem(_hkey(),JSON.stringify(h.slice(0,15))); }catch(e){} }
 
-### REGLAS DE ORO (ESTRICTAS):
-1. NUNCA generes imágenes directamente; entregá siempre prompts técnicos (en bloques individuales, formato lineal).
-2. IDIOMA: el diálogo con el usuario en español latino. Los prompts visuales y de voz, en inglés dentro del bloque.
-3. RESTRICCIÓN VISUAL: prohibido leyendas, subtítulos o texto en los prompts visuales (incluí siempre "no text, no subtitles").
-4. LONGITUD: cada clip del guion tiene entre 18 y 22 palabras (máximo 22). Verificá el conteo.
-5. VOZ FIJA: usá siempre el prompt de voz pausada, serena y segura especificado abajo.
+/* ── Construir el pedido a partir de los selectores ── */
+function buildPrompt(){
+  const sub=$("subgenero").value, pro=$("protagonista").value.trim()||"el/los personaje(s) principal(es) del video (definí los detalles y mantenelos coherentes en todas las tomas)",
+        esc=$("escenario").value, tono=$("tono").value, pal=$("paleta").value,
+        nv=($("narracion")?$("narracion").value:'no'), tomas=$("tomas").value,
+        pers=($("personajes")?$("personajes").value:'auto');
+  const PMAP={auto:"los que pida la historia — pueden aparecer e interactuar VARIOS personajes, no te limites a uno solo",
+              "1":"un solo protagonista",
+              "2":"dos personajes que interactúan entre sí",
+              "3":"tres personajes que interactúan entre sí",
+              "varios":"un elenco de varios personajes que interactúan"};
+  const NMAP={no:"NO — solo visual, sin voz (apto ASMR/silencioso)",
+              narrador:"SÍ — NARRACIÓN en voz en off de un narrador (incluí el texto narrado en el bloque 1, listo para Fish Audio)",
+              dialogos:"SÍ — DIÁLOGOS HABLADOS de los personajes estilo novela/telenovela: cada personaje dice sus líneas en primera persona; en el bloque 1 escribí los diálogos indicando qué personaje habla cada línea (NOMBRE: línea), y en el bloque 4 (animación) sincronizá el movimiento de labios/gestos con quien habla"};
+  const seed=Math.floor(Math.random()*1e9), hist=_getHist();
+  let av=`\n\nVARIACIÓN OBLIGATORIA: generá una historia/idea COMPLETAMENTE nueva y distinta a cualquier resultado anterior. Cambiá nombres propios, lugares puntuales, estructura, giros, encuadres y detalles. Evitá clichés y aperturas repetidas; no empieces siempre igual. Semilla creativa única: ${seed}.`;
+  if(hist.length) av+=` Ya salieron estos (NO los repitas ni te parezcas a ellos): ${hist.join(' | ')}.`;
+  return `Generá el pipeline completo con estos parámetros:
+- Tipo / escena: ${sub}
+- Personaje(s) (mantené a CADA uno idéntico en todas las tomas): ${pro}
+- Cantidad de personajes: ${PMAP[pers]||PMAP.auto}
+- Escenario / contexto: ${esc}
+- Tono / atmósfera: ${tono}
+- Estilo visual fijo (usar en TODOS los prompts visuales): ${pal}
+- Voz / diálogo: ${NMAP[nv]||NMAP.no}
+- Cantidad de tomas: ${tomas} (los bloques 3 y 4 deben tener exactamente ${tomas} prompts)
 
-### PROMPT DE VOZ ESTÁNDAR (insertar en cada clip, completando género y acento):
-"Generate speech acting as a 30-year-old [Gender] professional podcaster. Accent: [Accent Selected]. Tone: Warm, confident, calm, articulate, highly secure and engaging. Emotion: Empathetic and inspiring."
-
-### FLUJO DE TRABAJO SECUENCIAL (un paso por turno):
-[PASO 1] IDEAS: al iniciar (o si el usuario escribe "inicio"), entregá directamente 15 ideas de ganchos virales en lista vertical enumerada (1–15). El comando "reset ideas" genera 15 nuevas sin repetir.
-[PASO 2] CANTIDAD DE CLIPS: tras elegir la idea, preguntá: "¿Cuántos clips (8s c/u) deseas para este video?"
-[PASO 3] IDIOMA Y ACENTO: preguntá primero el idioma (lista enumerada). Luego, en un MENSAJE SEPARADO, preguntá el acento/jerga (lista enumerada).
-[PASO 4] GUION: generá el guion dividido en la cantidad de clips elegida; cada clip 18–22 palabras; verificá el conteo. Esperá confirmación o "reset guion".
-[PASO 5] AVATAR (interactivo, uno por uno, esperando respuesta entre cada uno): 1) Género (Masculino/Femenino), 2) Color de pelo, 3) Largo/Estilo de pelo, 4) Color de ojos, 5) Etnia, 6) Tono de piel, 7) Rasgos adicionales (barba, gafas, etc.).
-[PASO 6] FORMATO DE IMAGEN: presentá los 3 formatos iPhone (1) 0.5x ultra gran angular, 2) 1x estilo influencer, 3) Selfie frontal) y esperá elección.
-[PASO 7] ENTREGA TÉCNICA (bloques individuales, formato LINEAL):
-   - Bloque 1: Prompt de Imagen Maestra (formato iPhone elegido + todos los atributos del avatar + "no text, no subtitles"), en una sola pieza lineal.
-   - Bloques 2 a N: un bloque independiente por cada clip, en una sola pieza lineal que incluya seguido: la instrucción visual de movimiento (cámara/gesto, "no text, no subtitles"), luego el prompt de voz estándar completado, y luego el guion a narrar de ese clip.
-
-REGLAS: nunca rompas el orden del flujo; nunca agrupes prompts; siempre formato lineal y un bloque por prompt; respetá el límite de 22 palabras por clip.`;
-
-let history = [];
-let phase = 'ideas';
-function setPhase(p){
-  phase=p;
-  const order=['ideas','clips','idioma','guion','avatar','formato','prod'];
-  document.querySelectorAll('#steps .stp').forEach(s=>{
-    const i=order.indexOf(s.dataset.s), cur=order.indexOf(p);
-    s.classList.toggle('on', i===cur);
-    s.classList.toggle('done', i<cur);
-  });
+Recordá: 4 bloques markdown, formato lineal, visuales en inglés, guion/diálogos/narración en español latino. El bloque 2 (personajes) va con descripción detallada y fondo blanco. Cuando haya más de un personaje, mostralos interactuando, definí a cada uno en el bloque 2 y repetí los descriptores de CADA personaje en cada toma donde aparezca.`+av;
 }
-function addMsg(role, html){
-  const d=document.createElement('div'); d.className='msg '+role; d.innerHTML=html;
-  $("chat").appendChild(d); $("chat").scrollTop=$("chat").scrollHeight; return d;
-}
-function esc(s){ const d=document.createElement('div'); d.textContent=s; return d.innerHTML; }
-function mdToHtml(md){
-  const parts = md.split(/```/);
-  let out='';
-  parts.forEach((chunk,i)=>{
-    if(i%2===1){
-      const code=esc(chunk.replace(/^[a-zA-Z]*\n/,'').replace(/^\n/,''));
-      out += `<pre><button class="copy" onclick="copyPre(this)">📋 Copiar</button>${code}</pre>`;
-    } else {
-      let t=esc(chunk);
-      t=t.replace(/\*\*(.+?)\*\*/g,'<b>$1</b>').replace(/\*(.+?)\*/g,'<b>$1</b>');
-      t=t.replace(/^\s*###?\s?(.+)$/gm,'<h3>$1</h3>');
-      t=t.replace(/(?:^[ \t]*\d+[\.\)]\s.+(?:\n|$))+/gm, block=>{
-        const items=block.trim().split(/\n/).map(l=>l.replace(/^[ \t]*\d+[\.\)]\s/,'')).map(x=>'<li>'+x+'</li>').join('');
-        return '<ol>'+items+'</ol>';
-      });
-      t=t.replace(/\n{2,}/g,'<br><br>').replace(/\n/g,'<br>');
-      out += t;
-    }
-  });
-  return out;
-}
-function copyPre(btn){
-  const pre=btn.parentElement, txt=pre.innerText.replace(/^📋 Copiar\n?/,'');
-  navigator.clipboard.writeText(txt).then(()=>{ const o=btn.textContent; btn.textContent='✅ Copiado'; setTimeout(()=>btn.textContent=o,1600); });
-}
+
+/* ── Llamada a Gemini ── */
 async function callGemini(userText){
   const key=$("apiKey").value.trim();
-  if(!key){ setKeyHint("Falta la clave de Gemini.","var(--amber)"); return null; }
-  history.push({role:'user', text:userText});
-  const contents = history.map(h=>({role:h.role, parts:[{text:h.text}]}));
-  const body = { systemInstruction:{ parts:[{text:SYSTEM}] }, contents,
-    generationConfig:{ temperature:0.85, maxOutputTokens:8192 } };
-  const r = await fetch(`${API}/v1beta/models/${MODEL}:generateContent?key=${encodeURIComponent(key)}`,{
-    method:'POST', headers:{'Content-Type':'application/json'}, body:JSON.stringify(body) });
-  if(!r.ok){ const e=await r.text().catch(()=>''); throw new Error('Gemini '+r.status+': '+e.slice(0,200)); }
-  const j=await r.json();
-  const txt=(j.candidates?.[0]?.content?.parts||[]).map(p=>p.text||'').join('').trim();
-  history.push({role:'model', text:txt});
-  return txt;
-}
-function guessPhase(userText){
-  const u=userText.toLowerCase();
-  if(/^\s*inicio\s*$/i.test(userText) || /reset ideas/i.test(u)) return 'ideas';
-  if(/reset guion/i.test(u)) return 'guion';
-  if(/formato|0\.5x|selfie|influencer/i.test(u)) return 'prod';
-  // avanzar por orden cuando el usuario responde una opción
-  const order=['ideas','clips','idioma','guion','avatar','formato','prod'];
-  if(/^\s*\d{1,2}\s*$/.test(userText) || u.length){
-    const i=order.indexOf(phase);
-    if(i>=0 && i<order.length-1) return order[i+1];
-  }
-  return phase;
-}
-let busy=false;
-async function send(){
-  if(busy) return;
-  const inp=$("userIn"); const text=inp.value.trim(); if(!text) return;
-  inp.value='';
-  addMsg('me', esc(text));
-  const typing=document.createElement('div'); typing.className='typing'; typing.innerHTML='<i></i><i></i><i></i>';
-  $("chat").appendChild(typing); $("chat").scrollTop=$("chat").scrollHeight;
-  busy=true; $("sendBtn").disabled=true;
-  try{
-    const out=await callGemini(text);
-    typing.remove();
-    if(out===null){ busy=false; $("sendBtn").disabled=false; return; }
-    addMsg('bot', mdToHtml(out));
-    setPhase(guessPhase(text));
-    refreshQuick();
-  }catch(err){
-    typing.remove();
-    addMsg('bot', '⚠️ '+esc(err.message)+'<br><span style="color:var(--muted);font-size:12px">Revisá tu clave de Gemini o probá de nuevo.</span>');
-  }
-  busy=false; $("sendBtn").disabled=false; inp.focus();
-}
-function quickSend(t){ $("userIn").value=t; send(); }
-function refreshQuick(){
-  const q=$("quick"); let chips=[];
-  if(phase==='ideas') chips=[['inicio','▶ Ver 15 ideas'],['1','Elegir 1'],['2','Elegir 2'],['reset ideas','💡 Otras 15']];
-  else if(phase==='clips') chips=[['4','4 clips'],['6','6 clips'],['8','8 clips']];
-  else if(phase==='idioma') chips=[['1','Opción 1'],['2','Opción 2'],['3','Opción 3']];
-  else if(phase==='guion') chips=[['Confirmar','✅ Confirmar guion'],['reset guion','🔄 Rehacer guion']];
-  else if(phase==='avatar') chips=[];
-  else if(phase==='formato') chips=[['1','0.5x'],['2','1x Influencer'],['3','Selfie Frontal']];
-  else chips=[['inicio','🔄 Nuevo video']];
-  q.innerHTML=chips.map(c=>`<button class="qbtn" onclick="quickSend('${c[0].replace(/'/g,"\\'")}')">${c[1]}</button>`).join('');
-  if(phase==='avatar'){
-    const d=document.createElement('div'); d.style.cssText='font-family:var(--mono);font-size:11.5px;color:var(--muted)';
-    d.textContent='✍️ Respondé cada característica del avatar a medida que te la pida (una por una).';
-    q.appendChild(d);
-  }
-}
-addMsg('bot', '¡Hola! 👋 Soy <b>Atleta / Guerrero</b>. Creo videos épicos de atleta/guerrero motivacional para Veo 3.1.<br><br>Escribí <b>inicio</b> y te doy 15 ganchos virales. Después: cantidad de clips → idioma y acento → guion (18–22 palabras por clip) → avatar paso a paso → formato iPhone → <b>prompts listos para copiar</b> (uno por clip, en una sola pieza).');
-addMsg('sys','Prompts en formato lineal · sin texto en imagen · voz pausada y segura.');
-refreshQuick();
-</script>
-<script>
-/* JM BOTS · anti-repeticion universal (interceptor de fetch a Gemini) */
-(function(){
-  if(window.__jmAntiRep) return; window.__jmAntiRep=true;
-  var KEY='jmbots_hist_'+((location.pathname.split('/').pop()||'app').replace('.html',''));
-  function getH(){ try{ return JSON.parse(localStorage.getItem(KEY)||'[]'); }catch(e){ return []; } }
-  function pushH(fp){ if(!fp) return; try{ var h=getH().filter(function(x){return x!==fp;}); h.unshift(fp); localStorage.setItem(KEY, JSON.stringify(h.slice(0,15))); }catch(e){} }
-  var _f=window.fetch;
-  window.fetch=function(input,opts){
-    try{
-      var u=(typeof input==='string')?input:((input&&input.url)||'');
-      if(u.indexOf('generativelanguage.googleapis.com')>-1 && /generateContent/.test(u) && opts && opts.body){
-        var b=JSON.parse(opts.body);
-        if(b && b.contents && b.contents.length){
-          var seed=Math.floor(Math.random()*1e9), hist=getH();
-          var extra='\n\n[VARIACION OBLIGATORIA] Genera algo COMPLETAMENTE nuevo y distinto a cualquier resultado anterior: cambia nombres propios, lugares, estructura, giros y detalles; evita clises y aperturas repetidas; no empieces siempre igual. Semilla creativa unica: '+seed+'.';
-          if(hist.length) extra+=' NO repitas ni te parezcas a estos ya generados: '+hist.join(' | ')+'.';
-          var last=b.contents[b.contents.length-1];
-          if(last && last.parts && last.parts.length){ var p=last.parts[last.parts.length-1]; if(p && typeof p.text==='string'){ p.text+=extra; } else { last.parts.push({text:extra}); } }
-          else { b.contents.push({role:'user',parts:[{text:extra}]}); }
-          b.generationConfig=b.generationConfig||{};
-          if(b.generationConfig.temperature==null || b.generationConfig.temperature<0.95) b.generationConfig.temperature=0.97;
-          if(b.generationConfig.topP==null) b.generationConfig.topP=0.95;
-          var no=Object.assign({},opts,{body:JSON.stringify(b)});
-          return _f.call(this,input,no).then(function(r){
-            try{ var c=r.clone(); c.json().then(function(j){ try{
-              var t=((j.candidates&&j.candidates[0]&&j.candidates[0].content&&j.candidates[0].content.parts)||[]).map(function(x){return x.text||'';}).join('');
-              var fp=(t.split('\n').map(function(s){return s.trim();}).filter(Boolean)[0]||'').replace(/[`*#>_-]/g,'').slice(0,80);
-              pushH(fp);
-            }catch(e){} }).catch(function(){}); }catch(e){}
-            return r;
-          });
-        }
-      }
-    }catch(e){}
-    return _f.call(this,input,opts);
+  if(!key){ setKeyHint("Falta la clave de Gemini.","var(--c2)"); throw new Error('sin-clave'); }
+  const body={
+    systemInstruction:{ parts:[{text:SYSTEM}] },
+    contents:[{role:'user', parts:[{text:userText}]}],
+    generationConfig:{ temperature:0.97, topP:0.95, maxOutputTokens:8192 }
   };
-})();
+  const r=await fetch(`${API}/v1beta/models/${MODEL}:generateContent?key=${encodeURIComponent(key)}`,{
+    method:'POST', headers:{'Content-Type':'application/json'}, body:JSON.stringify(body)
+  });
+  if(!r.ok){ const e=await r.text().catch(()=>''); throw new Error('Gemini '+r.status+': '+e.slice(0,180)); }
+  const j=await r.json();
+  return (j.candidates?.[0]?.content?.parts||[]).map(p=>p.text||'').join('').trim();
+}
+
+/* ── Parsear los 4 bloques de código ── */
+function parseBlocks(txt){
+  const parts=txt.split(/```/);
+  const blocks=[];
+  for(let i=1;i<parts.length;i+=2){
+    blocks.push(parts[i].replace(/^[a-zA-Z]*\n/,'').replace(/^\n/,'').replace(/\n$/,''));
+  }
+  return blocks;
+}
+
+/* ── Generar ── */
+let busy=false;
+async function generar(){
+  if(busy) return;
+  busy=true;
+  const btn=$("genBtn"); btn.disabled=true; const old=btn.textContent; btn.textContent='⏳ Generando...';
+  $("status").className='status'; $("status").textContent='Pensando el storyboard y los prompts...';
+  try{
+    const txt=await callGemini(buildPrompt());
+    const b=parseBlocks(txt);
+    if(b.length<4){
+      // fallback: si no devolvió 4 bloques, volcamos todo en el guion para no perder nada
+      $("txtGuion").value=txt; $("txtPers").value=''; $("txtImgs").value=''; $("txtAnim").value='';
+      $("status").className='status err'; $("status").textContent='⚠️ La IA no devolvió los 4 lotes separados. Tenés todo en el Guion; probá "Generar" de nuevo.';
+    } else {
+      $("txtGuion").value=b[0]; $("txtPers").value=b[1]; $("txtImgs").value=b[2]; $("txtAnim").value=b[3];
+      try{ _pushHist((b[0].split('\n').map(s=>s.trim()).filter(Boolean)[0]||'').slice(0,80)); }catch(e){}
+      $("status").className='status ok'; $("status").textContent='✓ Pipeline listo. Revisá los 4 lotes en las pestañas.';
+    }
+    // resumen
+    $("sGenero").textContent=$("subgenero").options[$("subgenero").selectedIndex].text;
+    $("sEsc").textContent=$("escenario").options[$("escenario").selectedIndex].text;
+    $("sTono").textContent=$("tono").options[$("tono").selectedIndex].text;
+    $("sNarr").textContent=$("narracion").value==='si'?'Con voz':'Solo visual';
+    $("sTomas").textContent=$("tomas").value;
+    $("sProta").textContent=$("protagonista").value.trim()||'(definido por la IA — mismo en todas las tomas)';
+    $("output").classList.add('visible');
+    $("output").scrollIntoView({behavior:'smooth', block:'start'});
+  }catch(err){
+    if(err.message!=='sin-clave'){ $("status").className='status err'; $("status").textContent='❌ '+err.message; }
+  }finally{
+    btn.disabled=false; btn.textContent=old; busy=false;
+  }
+}
+
+/* ── Sorpresa: randomiza los selectores y genera ── */
+function sorpresa(){
+  ['subgenero','escenario','tono','paleta','tomas'].forEach(id=>{
+    const el=$(id), o=el.options; el.selectedIndex=Math.floor(Math.random()*o.length);
+  });
+  generar();
+}
+
+/* ── Copiar lote ── */
+function copyArea(id,btn){
+  const t=$(id); if(!t.value.trim()) return;
+  navigator.clipboard.writeText(t.value).then(()=>{ const o=btn.textContent; btn.textContent='✅ ¡Copiado!'; setTimeout(()=>btn.textContent=o,1600); });
+}
+
+/* ── Tabs ── */
+document.querySelectorAll('.tab').forEach(t=>{
+  t.addEventListener('click',()=>{
+    document.querySelectorAll('.tab').forEach(x=>x.classList.remove('active'));
+    document.querySelectorAll('.panel').forEach(x=>x.classList.remove('visible'));
+    t.classList.add('active'); $(t.dataset.p).classList.add('visible');
+  });
+});
 </script>
 <script src="jmbots-resilience.js"></script>
 <script src="apps-menu.js"></script>
+<!--jmkeycount--><script>(function(){var k=document.getElementById('apiKey');if(!k)return;k.classList.add('masked');function c(){var n=(k.value||'').split(/[\s,;\n]+/).map(function(s){return s.trim();}).filter(Boolean).length;var h=document.getElementById('keyHint');if(!h)return;if(n>0){h.textContent='\u2713 '+n+' clave'+(n>1?'s':'')+' cargada'+(n>1?'s':'')+(n>=2?' \u00b7 rotaci\u00f3n activa entre ellas':'')+' + respaldo offline.';h.style.color='#84cc16';}else{h.textContent='Peg\u00e1 hasta 5 claves de Gemini, una por rengl\u00f3n. Rotan solas si una se queda sin tokens; si fallan todas, entra el banco de respaldo.';h.style.color='';}}k.addEventListener('input',c);c();})();</script>
 </body>
 </html>
