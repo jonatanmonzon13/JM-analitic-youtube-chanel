@@ -1645,5 +1645,66 @@
    "Copiá cada lote: Guion, Elenco, Imágenes y Animación."
   ],
   "tip": "Mantené coherente el/la elenco + style anchor entre tomas; la app ya le pide a la IA repetir sus descriptores."
+ },
+ "dormir": {
+  "que": "Generador de pipeline para «Dormir / Meditación»: 4 lotes (guion, sujeto, imágenes, animación), guion en español latino y visuales en inglés.",
+  "pasos": [
+   "Pegá tu(s) clave(s) Gemini y Guardar.",
+   "Configurá el panel (tipo, sujeto, ambiente, tono, estilo, personajes, narración, tomas).",
+   "Tocá «Generar pipeline» (o «Sorpresa»).",
+   "Copiá cada lote en su pestaña."
+  ],
+  "tip": "Si querés varios personajes, usá el selector «Cantidad de personajes»."
+ },
+ "microsalud": {
+  "que": "Generador de pipeline para «Datos del Cuerpo»: 4 lotes (guion, sujeto, imágenes, animación), guion en español latino y visuales en inglés.",
+  "pasos": [
+   "Pegá tu(s) clave(s) Gemini y Guardar.",
+   "Configurá el panel (tipo, sujeto, ambiente, tono, estilo, personajes, narración, tomas).",
+   "Tocá «Generar pipeline» (o «Sorpresa»).",
+   "Copiá cada lote en su pestaña."
+  ],
+  "tip": "Si querés varios personajes, usá el selector «Cantidad de personajes»."
+ },
+ "whiteboard": {
+  "que": "Generador de pipeline para «Whiteboard / Pizarra»: 4 lotes (guion, sujeto, imágenes, animación), guion en español latino y visuales en inglés.",
+  "pasos": [
+   "Pegá tu(s) clave(s) Gemini y Guardar.",
+   "Configurá el panel (tipo, sujeto, ambiente, tono, estilo, personajes, narración, tomas).",
+   "Tocá «Generar pipeline» (o «Sorpresa»).",
+   "Copiá cada lote en su pestaña."
+  ],
+  "tip": "Si querés varios personajes, usá el selector «Cantidad de personajes»."
+ },
+ "squishmelt": {
+  "que": "Generador para «Squish & Melt»: uno o varios clips autocontenidos (un párrafo por clip, listo para Veo 3).",
+  "pasos": [
+   "Pegá tu(s) clave(s) Gemini y Guardar.",
+   "Elegí los parámetros y la cantidad de clips.",
+   "Tocá «Generar prompts» (o «Sorpresa»).",
+   "Copiá cada clip o usá «Copiar todo» y pegalos en Veo 3."
+  ],
+  "tip": "Cada clip es independiente: trae todo el arco de 8 segundos."
+ },
+ "asmrreveal": {
+  "que": "Generador para «ASMR Reveal por Categoría»: uno o varios clips autocontenidos (un párrafo por clip, listo para Veo 3).",
+  "pasos": [
+   "Pegá tu(s) clave(s) Gemini y Guardar.",
+   "Elegí los parámetros y la cantidad de clips.",
+   "Tocá «Generar prompts» (o «Sorpresa»).",
+   "Copiá cada clip o usá «Copiar todo» y pegalos en Veo 3."
+  ],
+  "tip": "Cada clip es independiente: trae todo el arco de 8 segundos."
+ },
+ "cuentoviral": {
+  "que": "Asistente de chat (GEMA) para cuentos virales 3D estilo Pixar: te da 15 ideas, elegís un número, te entrega el guion para Fish Audio, le pasás la duración del audio y arma los 3 lotes de prompts (Personajes, Escenas, Animación) sincronizados para VEO 3.1 + CapCut.",
+  "pasos": [
+   "Pegá tu(s) clave(s) Gemini y Guardar.",
+   "Tocá «Empezar (15 ideas)».",
+   "Escribí el número de la idea que querés (1-15).",
+   "Copiá el guion, generá el audio en Fish Audio y escribí cuántos segundos dura.",
+   "Copiá los 3 lotes de prompts (Personajes, Escenas, Animación)."
+  ],
+  "tip": "Si ninguna idea te gusta, escribí «reset idea» para 15 nuevas. Cada clip dura 6 s; los clips se calculan según la duración del audio."
  }
 }
