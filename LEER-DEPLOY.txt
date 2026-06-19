@@ -1,0 +1,16 @@
+JM BOTS — DEPLOY COMPLETO (reemplazo total)
+==============================================
+
+Subí TODO esto a la raíz del repo y sobrescribí lo que pregunte:
+- 160 archivos .html (todas las apps, incluidas las 7 nuevas, con anti-repetición)
+- autorizados.json  (26 permitidos, 156 apps)
+- instrucciones.json
+- apps-menu.js
+
+PASOS:
+1) Add file > Upload files > arrastrá todos estos archivos a la raíz.
+2) Commit changes.
+3) Generá y subí las miniaturas img/<id>.jpg de las 7 nuevas (opcional).
+4) Esperá 1-2 min y entrá con Ctrl+Shift+R.
+
+Las 7 nuevas: stickanim, nightvision, biomech, beachsaga, evolution, wildbbc, cinedirector.

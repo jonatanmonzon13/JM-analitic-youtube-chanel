@@ -921,6 +921,48 @@
       "nombre": "Brainrot Absurdo",
       "archivo": "brainrot.html",
       "img": "img/brainrot.jpg"
+    },
+    {
+      "id": "stickanim",
+      "nombre": "Stick Animation",
+      "archivo": "stickanim.html",
+      "img": "img/stickanim.jpg"
+    },
+    {
+      "id": "nightvision",
+      "nombre": "Night-Vision Chaos",
+      "archivo": "nightvision.html",
+      "img": "img/nightvision.jpg"
+    },
+    {
+      "id": "biomech",
+      "nombre": "Biomechanical Transform",
+      "archivo": "biomech.html",
+      "img": "img/biomech.jpg"
+    },
+    {
+      "id": "beachsaga",
+      "nombre": "Saga Surreal 3D",
+      "archivo": "beachsaga.html",
+      "img": "img/beachsaga.jpg"
+    },
+    {
+      "id": "evolution",
+      "nombre": "Evolution Shorts",
+      "archivo": "evolution.html",
+      "img": "img/evolution.jpg"
+    },
+    {
+      "id": "wildbbc",
+      "nombre": "Wild Animal BBC",
+      "archivo": "wildbbc.html",
+      "img": "img/wildbbc.jpg"
+    },
+    {
+      "id": "cinedirector",
+      "nombre": "Cinematic Director",
+      "archivo": "cinedirector.html",
+      "img": "img/cinedirector.jpg"
     }
   ],
   "accesos": {
@@ -1069,7 +1111,14 @@
       "viajes",
       "supercars",
       "mansiones",
-      "brainrot"
+      "brainrot",
+      "stickanim",
+      "nightvision",
+      "biomech",
+      "beachsaga",
+      "evolution",
+      "wildbbc",
+      "cinedirector"
     ],
     "diegoasalazarc70@gmail.com": [
       "outliers",
@@ -1216,7 +1265,14 @@
       "viajes",
       "supercars",
       "mansiones",
-      "brainrot"
+      "brainrot",
+      "stickanim",
+      "nightvision",
+      "biomech",
+      "beachsaga",
+      "evolution",
+      "wildbbc",
+      "cinedirector"
     ],
     "joxcimars2016@gmail.com": [
       "outliers",
@@ -1363,7 +1419,14 @@
       "viajes",
       "supercars",
       "mansiones",
-      "brainrot"
+      "brainrot",
+      "stickanim",
+      "nightvision",
+      "biomech",
+      "beachsaga",
+      "evolution",
+      "wildbbc",
+      "cinedirector"
     ],
     "ayala.luis@correounivalle.edu.co": [
       "outliers",
@@ -1510,7 +1573,14 @@
       "viajes",
       "supercars",
       "mansiones",
-      "brainrot"
+      "brainrot",
+      "stickanim",
+      "nightvision",
+      "biomech",
+      "beachsaga",
+      "evolution",
+      "wildbbc",
+      "cinedirector"
     ],
     "febreromonetiza10@gmail.com": [
       "outliers",
@@ -1654,7 +1724,14 @@
       "viajes",
       "supercars",
       "mansiones",
-      "brainrot"
+      "brainrot",
+      "stickanim",
+      "nightvision",
+      "biomech",
+      "beachsaga",
+      "evolution",
+      "wildbbc",
+      "cinedirector"
     ],
     "creadordigital.82ia@gmail.com": [
       "outliers",
@@ -1801,7 +1878,14 @@
       "viajes",
       "supercars",
       "mansiones",
-      "brainrot"
+      "brainrot",
+      "stickanim",
+      "nightvision",
+      "biomech",
+      "beachsaga",
+      "evolution",
+      "wildbbc",
+      "cinedirector"
     ],
     "valdesingrid258@gmail.com": [
       "outliers",
@@ -1948,7 +2032,14 @@
       "viajes",
       "supercars",
       "mansiones",
-      "brainrot"
+      "brainrot",
+      "stickanim",
+      "nightvision",
+      "biomech",
+      "beachsaga",
+      "evolution",
+      "wildbbc",
+      "cinedirector"
     ],
     "maricuenta727@gmail.com": [
       "outliers",
@@ -2095,7 +2186,14 @@
       "viajes",
       "supercars",
       "mansiones",
-      "brainrot"
+      "brainrot",
+      "stickanim",
+      "nightvision",
+      "biomech",
+      "beachsaga",
+      "evolution",
+      "wildbbc",
+      "cinedirector"
     ],
     "libertopiemoran@gmail.com": [
       "outliers",
@@ -2242,7 +2340,14 @@
       "viajes",
       "supercars",
       "mansiones",
-      "brainrot"
+      "brainrot",
+      "stickanim",
+      "nightvision",
+      "biomech",
+      "beachsaga",
+      "evolution",
+      "wildbbc",
+      "cinedirector"
     ],
     "alexandersamchez000000@gmail.com": [
       "outliers",
@@ -2389,7 +2494,14 @@
       "viajes",
       "supercars",
       "mansiones",
-      "brainrot"
+      "brainrot",
+      "stickanim",
+      "nightvision",
+      "biomech",
+      "beachsaga",
+      "evolution",
+      "wildbbc",
+      "cinedirector"
     ],
     "andresportillo371@gmail.com": [
       "outliers",
@@ -2536,7 +2648,14 @@
       "viajes",
       "supercars",
       "mansiones",
-      "brainrot"
+      "brainrot",
+      "stickanim",
+      "nightvision",
+      "biomech",
+      "beachsaga",
+      "evolution",
+      "wildbbc",
+      "cinedirector"
     ],
     "darioperezlindo77@gmail.com": [
       "outliers",
@@ -2683,7 +2802,14 @@
       "viajes",
       "supercars",
       "mansiones",
-      "brainrot"
+      "brainrot",
+      "stickanim",
+      "nightvision",
+      "biomech",
+      "beachsaga",
+      "evolution",
+      "wildbbc",
+      "cinedirector"
     ],
     "almareflexiva46@gmail.com": [
       "outliers",
@@ -2830,7 +2956,14 @@
       "viajes",
       "supercars",
       "mansiones",
-      "brainrot"
+      "brainrot",
+      "stickanim",
+      "nightvision",
+      "biomech",
+      "beachsaga",
+      "evolution",
+      "wildbbc",
+      "cinedirector"
     ],
     "edison.herrera.m@gmail.com": [
       "outliers",
@@ -2977,7 +3110,14 @@
       "viajes",
       "supercars",
       "mansiones",
-      "brainrot"
+      "brainrot",
+      "stickanim",
+      "nightvision",
+      "biomech",
+      "beachsaga",
+      "evolution",
+      "wildbbc",
+      "cinedirector"
     ],
     "osmedyalexander@gmail.com": [
       "outliers",
@@ -3124,7 +3264,14 @@
       "viajes",
       "supercars",
       "mansiones",
-      "brainrot"
+      "brainrot",
+      "stickanim",
+      "nightvision",
+      "biomech",
+      "beachsaga",
+      "evolution",
+      "wildbbc",
+      "cinedirector"
     ],
     "nichomedia3@gmail.com": [
       "outliers",
@@ -3271,7 +3418,14 @@
       "viajes",
       "supercars",
       "mansiones",
-      "brainrot"
+      "brainrot",
+      "stickanim",
+      "nightvision",
+      "biomech",
+      "beachsaga",
+      "evolution",
+      "wildbbc",
+      "cinedirector"
     ],
     "venturajosee@gmail.com": [
       "outliers",
@@ -3418,7 +3572,14 @@
       "viajes",
       "supercars",
       "mansiones",
-      "brainrot"
+      "brainrot",
+      "stickanim",
+      "nightvision",
+      "biomech",
+      "beachsaga",
+      "evolution",
+      "wildbbc",
+      "cinedirector"
     ],
     "edu53554@gmail.com": [
       "outliers",
@@ -3565,7 +3726,14 @@
       "viajes",
       "supercars",
       "mansiones",
-      "brainrot"
+      "brainrot",
+      "stickanim",
+      "nightvision",
+      "biomech",
+      "beachsaga",
+      "evolution",
+      "wildbbc",
+      "cinedirector"
     ],
     "pomam7073@gmail.com": [
       "outliers",
@@ -3712,7 +3880,14 @@
       "viajes",
       "supercars",
       "mansiones",
-      "brainrot"
+      "brainrot",
+      "stickanim",
+      "nightvision",
+      "biomech",
+      "beachsaga",
+      "evolution",
+      "wildbbc",
+      "cinedirector"
     ],
     "damafelicali@gmail.com": [
       "outliers",
@@ -3859,7 +4034,14 @@
       "viajes",
       "supercars",
       "mansiones",
-      "brainrot"
+      "brainrot",
+      "stickanim",
+      "nightvision",
+      "biomech",
+      "beachsaga",
+      "evolution",
+      "wildbbc",
+      "cinedirector"
     ],
     "patchmx@gmail.com": [
       "outliers",
@@ -4006,7 +4188,14 @@
       "viajes",
       "supercars",
       "mansiones",
-      "brainrot"
+      "brainrot",
+      "stickanim",
+      "nightvision",
+      "biomech",
+      "beachsaga",
+      "evolution",
+      "wildbbc",
+      "cinedirector"
     ],
     "miguelyfer1985@gmail.com": [
       "outliers",
@@ -4153,7 +4342,14 @@
       "viajes",
       "supercars",
       "mansiones",
-      "brainrot"
+      "brainrot",
+      "stickanim",
+      "nightvision",
+      "biomech",
+      "beachsaga",
+      "evolution",
+      "wildbbc",
+      "cinedirector"
     ],
     "ruizgarza94@gmail.com": [
       "outliers",
@@ -4300,7 +4496,14 @@
       "viajes",
       "supercars",
       "mansiones",
-      "brainrot"
+      "brainrot",
+      "stickanim",
+      "nightvision",
+      "biomech",
+      "beachsaga",
+      "evolution",
+      "wildbbc",
+      "cinedirector"
     ],
     "elolvis356@gmail.com": [
       "outliers",
@@ -4447,7 +4650,14 @@
       "viajes",
       "supercars",
       "mansiones",
-      "brainrot"
+      "brainrot",
+      "stickanim",
+      "nightvision",
+      "biomech",
+      "beachsaga",
+      "evolution",
+      "wildbbc",
+      "cinedirector"
     ],
     "jjaassbb865@gmail.com": [
       "outliers",
@@ -4594,7 +4804,14 @@
       "supercars",
       "mansiones",
       "brainrot",
-      "analizador"
+      "analizador",
+      "stickanim",
+      "nightvision",
+      "biomech",
+      "beachsaga",
+      "evolution",
+      "wildbbc",
+      "cinedirector"
     ]
   }
 }
