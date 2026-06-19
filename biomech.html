@@ -262,6 +262,7 @@ async function generar(){
 function copyAll(btn){ if(!CLIPS.length) return; navigator.clipboard.writeText(CLIPS.join('\n\n')).then(()=>{const o=btn.textContent;btn.textContent='✅ ¡Copiado!';setTimeout(()=>btn.textContent=o,1600);}); }
 function sorpresa(){ ['subgenero','escenario','tono','paleta','tomas'].forEach(id=>{const el=$(id);el.selectedIndex=Math.floor(Math.random()*el.options.length);}); generar(); }
 </script>
+<script src="jmbots-resilience.js"></script>
 <script src="apps-menu.js"></script>
 </body>
 </html>
