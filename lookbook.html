@@ -163,6 +163,7 @@
     <div class="controls">
       <div class="control"><label>Tipo de lookbook</label><select id="subgenero"><option value="colección de temporada">colección de temporada</option><option value="streetwear urbano">streetwear urbano</option><option value="minimal elegante">minimal elegante</option><option value="vintage retro">vintage retro</option><option value="deportivo athleisure">deportivo athleisure</option></select></div>
       <div class="control"><label>Modelo (se mantiene en todas las tomas)</label><input type="text" id="protagonista" placeholder="describí el modelo con detalle; se mantiene igual en todas las tomas" /></div>
+      <div class="control"><label>Cantidad de personajes</label><select id="personajes"><option value="auto" selected>Los que pida la historia</option><option value="1">1 — un protagonista</option><option value="2">2 — dúo / interacción</option><option value="3">3 — grupo</option><option value="varios">Varios — elenco</option></select></div>
       <div class="control"><label>Set</label><select id="escenario"><option value="estudio limpio con sombras suaves">estudio limpio con sombras suaves</option><option value="calle urbana estética">calle urbana estética</option><option value="interior minimalista">interior minimalista</option><option value="exterior natural">exterior natural</option><option value="loft industrial">loft industrial</option></select></div>
       <div class="control"><label>Tono / atmósfera</label><select id="tono"><option value="épico y heroico">épico y heroico</option><option value="melancólico y nostálgico">melancólico y nostálgico</option><option value="tierno y luminoso">tierno y luminoso</option><option value="tenso y dramático">tenso y dramático</option><option value="misterioso y onírico">misterioso y onírico</option></select></div>
       <div class="control"><label>Paleta / estilo visual</label><select id="paleta"><option value="high-fashion editorial, dramatic runway light">Editorial pasarela</option><option value="clean lookbook studio, soft shadows">Lookbook limpio</option><option value="glossy beauty close-up, glowing skin">Beauty glow</option></select></div>
@@ -251,22 +252,29 @@ function _pushHist(fp){ if(!fp) return; try{ var h=_getHist().filter(x=>x!==fp);
 
 /* ── Construir el pedido a partir de los selectores ── */
 function buildPrompt(){
-  const sub=$("subgenero").value, pro=$("protagonista").value.trim()||"el sujeto principal del video (definí los detalles y mantenelos coherentes en todas las tomas)",
+  const sub=$("subgenero").value, pro=$("protagonista").value.trim()||"el/los personaje(s) principal(es) del video (definí los detalles y mantenelos coherentes en todas las tomas)",
         esc=$("escenario").value, tono=$("tono").value, pal=$("paleta").value,
-        narr=$("narracion").value==='si', tomas=$("tomas").value;
+        narr=$("narracion").value==='si', tomas=$("tomas").value,
+        pers=($("personajes")?$("personajes").value:'auto');
+  const PMAP={auto:"los que pida la historia — pueden aparecer e interactuar VARIOS personajes, no te limites a uno solo",
+              "1":"un solo protagonista",
+              "2":"dos personajes que interactúan entre sí",
+              "3":"tres personajes que interactúan entre sí",
+              "varios":"un elenco de varios personajes que interactúan"};
   const seed=Math.floor(Math.random()*1e9), hist=_getHist();
   let av=`\n\nVARIACIÓN OBLIGATORIA: generá una historia/idea COMPLETAMENTE nueva y distinta a cualquier resultado anterior. Cambiá nombres propios, lugares puntuales, estructura, giros, encuadres y detalles. Evitá clichés y aperturas repetidas; no empieces siempre igual. Semilla creativa única: ${seed}.`;
   if(hist.length) av+=` Ya salieron estos (NO los repitas ni te parezcas a ellos): ${hist.join(' | ')}.`;
   return `Generá el pipeline completo con estos parámetros:
 - Tipo / escena: ${sub}
-- Sujeto principal (mantener idéntico en todas las tomas): ${pro}
+- Personaje(s) (mantené a CADA uno idéntico en todas las tomas): ${pro}
+- Cantidad de personajes: ${PMAP[pers]||PMAP.auto}
 - Escenario / contexto: ${esc}
 - Tono / atmósfera: ${tono}
 - Estilo visual fijo (usar en TODOS los prompts visuales): ${pal}
 - Narración en voz en off: ${narr?'SÍ (incluí el texto en el bloque 1)':'NO (solo visual, sin diálogo obligatorio)'}
 - Cantidad de tomas: ${tomas} (los bloques 3 y 4 deben tener exactamente ${tomas} prompts)
 
-Recordá: 4 bloques markdown, formato lineal, visuales en inglés, guion/narración en español latino, y repetí los descriptores del sujeto en cada toma.`+av;
+Recordá: 4 bloques markdown, formato lineal, visuales en inglés, guion/narración en español latino. Cuando haya más de un personaje, mostralos interactuando en las escenas, definí a cada uno en el bloque 2 y repetí los descriptores de CADA personaje en cada toma donde aparezca.`+av;
 }
 
 /* ── Llamada a Gemini ── */

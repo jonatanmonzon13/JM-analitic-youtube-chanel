@@ -163,6 +163,7 @@
     <div class="controls">
       <div class="control"><label>Tema cósmico</label><select id="subgenero"><option value="nacimiento de una estrella">nacimiento de una estrella</option><option value="agujero negro devorando luz">agujero negro devorando luz</option><option value="viaje por el sistema solar">viaje por el sistema solar</option><option value="colisión de galaxias">colisión de galaxias</option><option value="superficie de un exoplaneta">superficie de un exoplaneta</option></select></div>
       <div class="control"><label>Cuerpo (se mantiene en todas las tomas)</label><input type="text" id="protagonista" placeholder="describí el cuerpo celeste con detalle; se mantiene igual en todas las tomas" /></div>
+      <div class="control"><label>Cantidad de personajes</label><select id="personajes"><option value="auto" selected>Los que pida la historia</option><option value="1">1 — un protagonista</option><option value="2">2 — dúo / interacción</option><option value="3">3 — grupo</option><option value="varios">Varios — elenco</option></select></div>
       <div class="control"><label>Enfoque</label><select id="escenario"><option value="vista telescópica realista">vista telescópica realista</option><option value="dentro de una nebulosa">dentro de una nebulosa</option><option value="órbita de un planeta">órbita de un planeta</option><option value="espacio profundo">espacio profundo</option><option value="cinturón de asteroides">cinturón de asteroides</option></select></div>
       <div class="control"><label>Tono / atmósfera</label><select id="tono"><option value="épico y heroico">épico y heroico</option><option value="melancólico y nostálgico">melancólico y nostálgico</option><option value="tierno y luminoso">tierno y luminoso</option><option value="tenso y dramático">tenso y dramático</option><option value="misterioso y onírico">misterioso y onírico</option></select></div>
       <div class="control"><label>Paleta / estilo visual</label><select id="paleta"><option value="hyper-realistic space, nat-geo cosmos, volumetric nebulae">Cosmos realista</option><option value="epic sci-fi space cinematic">Espacio épico</option><option value="scientific accurate astrophotography">Astrofotografía</option></select></div>
@@ -251,22 +252,29 @@ function _pushHist(fp){ if(!fp) return; try{ var h=_getHist().filter(x=>x!==fp);
 
 /* ── Construir el pedido a partir de los selectores ── */
 function buildPrompt(){
-  const sub=$("subgenero").value, pro=$("protagonista").value.trim()||"el sujeto principal del video (definí los detalles y mantenelos coherentes en todas las tomas)",
+  const sub=$("subgenero").value, pro=$("protagonista").value.trim()||"el/los personaje(s) principal(es) del video (definí los detalles y mantenelos coherentes en todas las tomas)",
         esc=$("escenario").value, tono=$("tono").value, pal=$("paleta").value,
-        narr=$("narracion").value==='si', tomas=$("tomas").value;
+        narr=$("narracion").value==='si', tomas=$("tomas").value,
+        pers=($("personajes")?$("personajes").value:'auto');
+  const PMAP={auto:"los que pida la historia — pueden aparecer e interactuar VARIOS personajes, no te limites a uno solo",
+              "1":"un solo protagonista",
+              "2":"dos personajes que interactúan entre sí",
+              "3":"tres personajes que interactúan entre sí",
+              "varios":"un elenco de varios personajes que interactúan"};
   const seed=Math.floor(Math.random()*1e9), hist=_getHist();
   let av=`\n\nVARIACIÓN OBLIGATORIA: generá una historia/idea COMPLETAMENTE nueva y distinta a cualquier resultado anterior. Cambiá nombres propios, lugares puntuales, estructura, giros, encuadres y detalles. Evitá clichés y aperturas repetidas; no empieces siempre igual. Semilla creativa única: ${seed}.`;
   if(hist.length) av+=` Ya salieron estos (NO los repitas ni te parezcas a ellos): ${hist.join(' | ')}.`;
   return `Generá el pipeline completo con estos parámetros:
 - Tipo / escena: ${sub}
-- Sujeto principal (mantener idéntico en todas las tomas): ${pro}
+- Personaje(s) (mantené a CADA uno idéntico en todas las tomas): ${pro}
+- Cantidad de personajes: ${PMAP[pers]||PMAP.auto}
 - Escenario / contexto: ${esc}
 - Tono / atmósfera: ${tono}
 - Estilo visual fijo (usar en TODOS los prompts visuales): ${pal}
 - Narración en voz en off: ${narr?'SÍ (incluí el texto en el bloque 1)':'NO (solo visual, sin diálogo obligatorio)'}
 - Cantidad de tomas: ${tomas} (los bloques 3 y 4 deben tener exactamente ${tomas} prompts)
 
-Recordá: 4 bloques markdown, formato lineal, visuales en inglés, guion/narración en español latino, y repetí los descriptores del sujeto en cada toma.`+av;
+Recordá: 4 bloques markdown, formato lineal, visuales en inglés, guion/narración en español latino. Cuando haya más de un personaje, mostralos interactuando en las escenas, definí a cada uno en el bloque 2 y repetí los descriptores de CADA personaje en cada toma donde aparezca.`+av;
 }
 
 /* ── Llamada a Gemini ── */
