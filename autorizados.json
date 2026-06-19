@@ -23,10 +23,10 @@
     "damafelicali@gmail.com",
     "patchmx@gmail.com",
     "miguelyfer1985@gmail.com",
-    "ruizgarza94@gmail.com",
-    "elolvis356@gmail.com",
+    "detalleslovelybox@gmail.com",
     "jjaassbb865@gmail.com",
-    "detalleslovelybox@gmail.com"
+    "elolvis356@gmail.com",
+    "ruizgarza94@gmail.com"
   ],
   "apps": [
     {
@@ -964,6 +964,42 @@
       "nombre": "Cinematic Director",
       "archivo": "cinedirector.html",
       "img": "img/cinedirector.jpg"
+    },
+    {
+      "id": "dormir",
+      "nombre": "Dormir / Meditación",
+      "archivo": "dormir.html",
+      "img": "img/dormir.jpg"
+    },
+    {
+      "id": "microsalud",
+      "nombre": "Datos del Cuerpo",
+      "archivo": "microsalud.html",
+      "img": "img/microsalud.jpg"
+    },
+    {
+      "id": "whiteboard",
+      "nombre": "Whiteboard / Pizarra",
+      "archivo": "whiteboard.html",
+      "img": "img/whiteboard.jpg"
+    },
+    {
+      "id": "squishmelt",
+      "nombre": "Squish & Melt",
+      "archivo": "squishmelt.html",
+      "img": "img/squishmelt.jpg"
+    },
+    {
+      "id": "asmrreveal",
+      "nombre": "ASMR Reveal por Categoría",
+      "archivo": "asmrreveal.html",
+      "img": "img/asmrreveal.jpg"
+    },
+    {
+      "id": "cuentoviral",
+      "nombre": "Cuentos Virales 3D",
+      "archivo": "cuentoviral.html",
+      "img": "img/cuentoviral.jpg"
     }
   ],
   "accesos": {
@@ -1119,7 +1155,13 @@
       "beachsaga",
       "evolution",
       "wildbbc",
-      "cinedirector"
+      "cinedirector",
+      "dormir",
+      "microsalud",
+      "whiteboard",
+      "squishmelt",
+      "asmrreveal",
+      "cuentoviral"
     ],
     "diegoasalazarc70@gmail.com": [
       "outliers",
@@ -1273,7 +1315,13 @@
       "beachsaga",
       "evolution",
       "wildbbc",
-      "cinedirector"
+      "cinedirector",
+      "dormir",
+      "microsalud",
+      "whiteboard",
+      "squishmelt",
+      "asmrreveal",
+      "cuentoviral"
     ],
     "joxcimars2016@gmail.com": [
       "outliers",
@@ -1427,7 +1475,13 @@
       "beachsaga",
       "evolution",
       "wildbbc",
-      "cinedirector"
+      "cinedirector",
+      "dormir",
+      "microsalud",
+      "whiteboard",
+      "squishmelt",
+      "asmrreveal",
+      "cuentoviral"
     ],
     "ayala.luis@correounivalle.edu.co": [
       "outliers",
@@ -1581,7 +1635,13 @@
       "beachsaga",
       "evolution",
       "wildbbc",
-      "cinedirector"
+      "cinedirector",
+      "dormir",
+      "microsalud",
+      "whiteboard",
+      "squishmelt",
+      "asmrreveal",
+      "cuentoviral"
     ],
     "febreromonetiza10@gmail.com": [
       "outliers",
@@ -1732,7 +1792,13 @@
       "beachsaga",
       "evolution",
       "wildbbc",
-      "cinedirector"
+      "cinedirector",
+      "dormir",
+      "microsalud",
+      "whiteboard",
+      "squishmelt",
+      "asmrreveal",
+      "cuentoviral"
     ],
     "creadordigital.82ia@gmail.com": [
       "outliers",
@@ -1886,7 +1952,13 @@
       "beachsaga",
       "evolution",
       "wildbbc",
-      "cinedirector"
+      "cinedirector",
+      "dormir",
+      "microsalud",
+      "whiteboard",
+      "squishmelt",
+      "asmrreveal",
+      "cuentoviral"
     ],
     "valdesingrid258@gmail.com": [
       "outliers",
@@ -2040,7 +2112,13 @@
       "beachsaga",
       "evolution",
       "wildbbc",
-      "cinedirector"
+      "cinedirector",
+      "dormir",
+      "microsalud",
+      "whiteboard",
+      "squishmelt",
+      "asmrreveal",
+      "cuentoviral"
     ],
     "maricuenta727@gmail.com": [
       "outliers",
@@ -2194,7 +2272,13 @@
       "beachsaga",
       "evolution",
       "wildbbc",
-      "cinedirector"
+      "cinedirector",
+      "dormir",
+      "microsalud",
+      "whiteboard",
+      "squishmelt",
+      "asmrreveal",
+      "cuentoviral"
     ],
     "libertopiemoran@gmail.com": [
       "outliers",
@@ -2348,7 +2432,13 @@
       "beachsaga",
       "evolution",
       "wildbbc",
-      "cinedirector"
+      "cinedirector",
+      "dormir",
+      "microsalud",
+      "whiteboard",
+      "squishmelt",
+      "asmrreveal",
+      "cuentoviral"
     ],
     "alexandersamchez000000@gmail.com": [
       "outliers",
@@ -2502,7 +2592,13 @@
       "beachsaga",
       "evolution",
       "wildbbc",
-      "cinedirector"
+      "cinedirector",
+      "dormir",
+      "microsalud",
+      "whiteboard",
+      "squishmelt",
+      "asmrreveal",
+      "cuentoviral"
     ],
     "andresportillo371@gmail.com": [
       "outliers",
@@ -2656,7 +2752,13 @@
       "beachsaga",
       "evolution",
       "wildbbc",
-      "cinedirector"
+      "cinedirector",
+      "dormir",
+      "microsalud",
+      "whiteboard",
+      "squishmelt",
+      "asmrreveal",
+      "cuentoviral"
     ],
     "darioperezlindo77@gmail.com": [
       "outliers",
@@ -2810,7 +2912,13 @@
       "beachsaga",
       "evolution",
       "wildbbc",
-      "cinedirector"
+      "cinedirector",
+      "dormir",
+      "microsalud",
+      "whiteboard",
+      "squishmelt",
+      "asmrreveal",
+      "cuentoviral"
     ],
     "almareflexiva46@gmail.com": [
       "outliers",
@@ -2964,7 +3072,13 @@
       "beachsaga",
       "evolution",
       "wildbbc",
-      "cinedirector"
+      "cinedirector",
+      "dormir",
+      "microsalud",
+      "whiteboard",
+      "squishmelt",
+      "asmrreveal",
+      "cuentoviral"
     ],
     "edison.herrera.m@gmail.com": [
       "outliers",
@@ -3118,7 +3232,13 @@
       "beachsaga",
       "evolution",
       "wildbbc",
-      "cinedirector"
+      "cinedirector",
+      "dormir",
+      "microsalud",
+      "whiteboard",
+      "squishmelt",
+      "asmrreveal",
+      "cuentoviral"
     ],
     "osmedyalexander@gmail.com": [
       "outliers",
@@ -3272,7 +3392,13 @@
       "beachsaga",
       "evolution",
       "wildbbc",
-      "cinedirector"
+      "cinedirector",
+      "dormir",
+      "microsalud",
+      "whiteboard",
+      "squishmelt",
+      "asmrreveal",
+      "cuentoviral"
     ],
     "nichomedia3@gmail.com": [
       "outliers",
@@ -3426,7 +3552,13 @@
       "beachsaga",
       "evolution",
       "wildbbc",
-      "cinedirector"
+      "cinedirector",
+      "dormir",
+      "microsalud",
+      "whiteboard",
+      "squishmelt",
+      "asmrreveal",
+      "cuentoviral"
     ],
     "venturajosee@gmail.com": [
       "outliers",
@@ -3580,7 +3712,13 @@
       "beachsaga",
       "evolution",
       "wildbbc",
-      "cinedirector"
+      "cinedirector",
+      "dormir",
+      "microsalud",
+      "whiteboard",
+      "squishmelt",
+      "asmrreveal",
+      "cuentoviral"
     ],
     "edu53554@gmail.com": [
       "outliers",
@@ -3734,7 +3872,13 @@
       "beachsaga",
       "evolution",
       "wildbbc",
-      "cinedirector"
+      "cinedirector",
+      "dormir",
+      "microsalud",
+      "whiteboard",
+      "squishmelt",
+      "asmrreveal",
+      "cuentoviral"
     ],
     "pomam7073@gmail.com": [
       "outliers",
@@ -3888,7 +4032,13 @@
       "beachsaga",
       "evolution",
       "wildbbc",
-      "cinedirector"
+      "cinedirector",
+      "dormir",
+      "microsalud",
+      "whiteboard",
+      "squishmelt",
+      "asmrreveal",
+      "cuentoviral"
     ],
     "damafelicali@gmail.com": [
       "outliers",
@@ -4042,7 +4192,13 @@
       "beachsaga",
       "evolution",
       "wildbbc",
-      "cinedirector"
+      "cinedirector",
+      "dormir",
+      "microsalud",
+      "whiteboard",
+      "squishmelt",
+      "asmrreveal",
+      "cuentoviral"
     ],
     "patchmx@gmail.com": [
       "outliers",
@@ -4196,7 +4352,13 @@
       "beachsaga",
       "evolution",
       "wildbbc",
-      "cinedirector"
+      "cinedirector",
+      "dormir",
+      "microsalud",
+      "whiteboard",
+      "squishmelt",
+      "asmrreveal",
+      "cuentoviral"
     ],
     "miguelyfer1985@gmail.com": [
       "outliers",
@@ -4350,7 +4512,13 @@
       "beachsaga",
       "evolution",
       "wildbbc",
-      "cinedirector"
+      "cinedirector",
+      "dormir",
+      "microsalud",
+      "whiteboard",
+      "squishmelt",
+      "asmrreveal",
+      "cuentoviral"
     ],
     "ruizgarza94@gmail.com": [
       "outliers",
@@ -4504,7 +4672,13 @@
       "beachsaga",
       "evolution",
       "wildbbc",
-      "cinedirector"
+      "cinedirector",
+      "dormir",
+      "microsalud",
+      "whiteboard",
+      "squishmelt",
+      "asmrreveal",
+      "cuentoviral"
     ],
     "elolvis356@gmail.com": [
       "outliers",
@@ -4658,7 +4832,13 @@
       "beachsaga",
       "evolution",
       "wildbbc",
-      "cinedirector"
+      "cinedirector",
+      "dormir",
+      "microsalud",
+      "whiteboard",
+      "squishmelt",
+      "asmrreveal",
+      "cuentoviral"
     ],
     "jjaassbb865@gmail.com": [
       "outliers",
@@ -4812,7 +4992,13 @@
       "beachsaga",
       "evolution",
       "wildbbc",
-      "cinedirector"
+      "cinedirector",
+      "dormir",
+      "microsalud",
+      "whiteboard",
+      "squishmelt",
+      "asmrreveal",
+      "cuentoviral"
     ],
     "detalleslovelybox@gmail.com": [
       "outliers",
@@ -4966,7 +5152,13 @@
       "beachsaga",
       "evolution",
       "wildbbc",
-      "cinedirector"
+      "cinedirector",
+      "dormir",
+      "microsalud",
+      "whiteboard",
+      "squishmelt",
+      "asmrreveal",
+      "cuentoviral"
     ]
   }
 }
