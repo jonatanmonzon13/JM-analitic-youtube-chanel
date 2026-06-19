@@ -1,1276 +1,396 @@
 <!DOCTYPE html>
 <html lang="es">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>JM · Relatos de Fe</title>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>JM·BOTS Studio — Relatos de Fe</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Sora:wght@400;600;700;800&family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@500;700&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Sora:wght@400;700;800&family=JetBrains+Mono:wght@400;700&display=swap" rel="stylesheet">
 <style>
   :root{
-    --bg:#05060C; --bg2:#0B0E18; --bg3:#11141F; --ink:#F6F8FE; --body:#C7CEDE; --muted:#828DA6;
-    --line:#222842; --gold:#E7B85C; --gold2:#F8DA8E; --blue:#4D8DFF; --pink:#FF3D9A; --violet:#9B5CFF;
-    --cyan:#26D9FF; --lime:#5BF08E; --red:#FF4D5E;
-    --grad-hot:linear-gradient(100deg,#FF3D9A,#9B5CFF 52%,#26D9FF);
-    --grad-gold:linear-gradient(135deg,#F8DA8E,#E7B85C);
-    --glow-pink:0 0 26px rgba(255,61,154,.38);
+    --bg:#07060f;
+    --glass:rgba(18,16,38,0.72);
+    --border:rgba(255,255,255,0.13);
+    --text:#ffffff; --muted:rgba(255,255,255,0.66);
+    --c1:#0ea5e9;            /* electric blue */
+    --c2:#f59e0b;            /* magenta */
+    --gold:#ffd166;
+    --violet:#9d4edd;
+    --lime:#00ffa3;
+    --shadow:0 8px 32px rgba(0,0,0,0.55);
+    --glow1:0 0 20px rgba(56,189,248,0.4);
+    --glow2:0 0 20px rgba(255,77,157,0.4);
     --radius:16px;
-    --display:'Sora',sans-serif; --sans:'Inter',sans-serif; --mono:'JetBrains Mono',monospace;
   }
-  *{box-sizing:border-box;margin:0;padding:0}
-  html,body{height:100%}
+  *{box-sizing:border-box}
+  html{scroll-behavior:smooth}
   body{
-    background:
-      radial-gradient(1200px 700px at 80% -10%, rgba(155,92,255,.10), transparent 60%),
-      radial-gradient(900px 600px at -5% 8%, rgba(38,217,255,.07), transparent 55%),
-      linear-gradient(180deg,var(--bg),#04050A);
-    color:var(--body); font-family:var(--sans); line-height:1.55; min-height:100%; overflow-x:hidden;
+    margin:0; font-family:'Sora',system-ui,sans-serif;
+    background:linear-gradient(-45deg,#0a0a24 0%,#07060f 40%,#1a0a2c 100%);
+    background-size:400% 400%; animation:bg 16s ease infinite;
+    color:var(--text); min-height:100vh; padding-bottom:50px;
   }
-  .glowfield{position:fixed;inset:0;z-index:0;pointer-events:none;overflow:hidden}
-  .glowfield::before,.glowfield::after,.glowfield i{content:"";position:absolute;border-radius:50%;filter:blur(70px);opacity:.5}
-  .glowfield::before{width:46vw;height:46vw;left:-8vw;top:-10vw;background:radial-gradient(circle,rgba(255,61,154,.5),transparent 65%);animation:drift1 26s ease-in-out infinite}
-  .glowfield::after{width:40vw;height:40vw;right:-6vw;top:8vw;background:radial-gradient(circle,rgba(38,217,255,.45),transparent 65%);animation:drift2 30s ease-in-out infinite}
-  .glowfield i{position:absolute;width:38vw;height:38vw;left:30vw;bottom:-12vw;border-radius:50%;filter:blur(70px);opacity:.5;background:radial-gradient(circle,rgba(155,92,255,.5),transparent 65%);animation:drift3 34s ease-in-out infinite}
-  @keyframes drift1{0%,100%{transform:translate(0,0) scale(1)}50%{transform:translate(8vw,6vw) scale(1.15)}}
-  @keyframes drift2{0%,100%{transform:translate(0,0) scale(1)}50%{transform:translate(-7vw,5vw) scale(1.1)}}
-  @keyframes drift3{0%,100%{transform:translate(0,0) scale(1)}50%{transform:translate(5vw,-8vw) scale(1.2)}}
-  body::after{content:"";position:fixed;inset:0;z-index:2;pointer-events:none;opacity:.025;
-    background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='120' height='120'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='3'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E")}
-  @media(prefers-reduced-motion:reduce){.glowfield::before,.glowfield::after,.glowfield i{animation:none}}
+  @keyframes bg{0%{background-position:0% 50%}50%{background-position:100% 50%}100%{background-position:0% 50%}}
+  body::before{
+    content:""; position:fixed; inset:-50%; width:200%; height:200%;
+    background:radial-gradient(circle at 50% 40%,rgba(56,189,248,0.08),transparent 60%),
+               radial-gradient(circle at 80% 20%,rgba(255,77,157,0.08),transparent 50%);
+    z-index:-1; pointer-events:none;
+  }
+  .wrap{max-width:1400px; margin:0 auto; padding:34px 20px}
 
-  .wrap{position:relative;z-index:1;max-width:1080px;margin:0 auto;padding:32px 20px 80px}
-  header.hero{text-align:center;padding:28px 0 20px;border-bottom:1px solid var(--line);margin-bottom:28px;position:relative}
-  .logo-mark{display:inline-flex;align-items:center;justify-content:center;width:64px;height:64px;border-radius:18px;
-    background:var(--grad-gold);box-shadow:var(--glow-pink);font-family:var(--display);font-weight:800;font-size:24px;color:#0A0D14;margin-bottom:14px;letter-spacing:-1px}
-  h1{font-family:var(--display);font-weight:800;font-size:clamp(32px,6vw,52px);line-height:1.04;letter-spacing:-.5px;
-    background:var(--grad-hot);-webkit-background-clip:text;background-clip:text;-webkit-text-fill-color:transparent;
-    background-size:200% auto;animation:hue 8s linear infinite}
-  @keyframes hue{to{background-position:200% center}}
-  h1 .small{display:block;font-family:var(--mono);font-size:.30em;letter-spacing:5px;color:var(--gold2);
-    -webkit-text-fill-color:var(--gold2);font-weight:500;text-transform:uppercase;margin-top:9px}
-  .tagline{color:var(--muted);font-size:13.5px;margin-top:11px;font-family:var(--mono)}
-  .panel{background:linear-gradient(180deg,var(--bg2),var(--bg3));border:1px solid var(--line);border-radius:var(--radius);
-    padding:22px;margin-bottom:22px;box-shadow:0 18px 50px rgba(0,0,0,.45)}
-  .panel-title{font-family:var(--display);font-size:21px;font-weight:700;color:var(--ink);display:flex;align-items:center;gap:10px;margin-bottom:6px}
-  .panel-title::before{content:"";width:6px;height:22px;background:var(--grad-hot);border-radius:3px;display:inline-block}
-  .panel-sub{color:var(--muted);font-size:13px;margin-bottom:16px}
-  .grid2{display:grid;grid-template-columns:1fr 1fr;gap:14px}
-  @media(max-width:640px){.grid2{grid-template-columns:1fr}}
-  label.fld{display:block;font-family:var(--mono);font-size:11px;text-transform:uppercase;letter-spacing:1px;color:var(--gold2);margin-bottom:6px;font-weight:700}
-  select,input[type=text],input[type=password],input[type=number],textarea{width:100%;background:var(--bg3);border:1px solid var(--line);border-radius:11px;
-    color:var(--ink);padding:11px 13px;font-family:var(--sans);font-size:14px;outline:none;transition:.18s}
-  select:focus,input:focus,textarea:focus{border-color:var(--pink);box-shadow:var(--glow-pink)}
-  .hint{font-size:11.5px;color:var(--muted);margin-top:5px}
-  .status-dot{display:inline-block;width:8px;height:8px;border-radius:50%;margin-right:7px;vertical-align:middle}
-  .badge{display:inline-flex;align-items:center;font-size:12px;padding:5px 12px;border-radius:20px;border:1px solid var(--line);background:var(--bg3);color:var(--muted);font-family:var(--mono)}
-  .btn{font-family:var(--display);font-weight:700;font-size:14px;letter-spacing:.2px;border:none;border-radius:11px;padding:13px 22px;cursor:pointer;transition:.16s;display:inline-flex;align-items:center;gap:9px;justify-content:center}
-  .btn-gold{background:var(--grad-gold);color:#0A0D14;box-shadow:0 8px 24px rgba(231,184,92,.28)}
-  .btn-gold:hover{transform:translateY(-2px);box-shadow:0 12px 30px rgba(231,184,92,.42)}
-  .btn-ghost{background:var(--bg3);color:var(--ink);border:1px solid var(--line)}
-  .btn-ghost:hover{border-color:var(--pink);color:#fff;box-shadow:var(--glow-pink)}
-  .btn-dark{background:var(--bg3);color:var(--body);border:1px solid var(--line)}
-  .btn-dark:hover{border-color:var(--cyan);color:var(--cyan)}
-  .btn:disabled{opacity:.4;cursor:not-allowed;transform:none!important}
-  .btn-row{display:flex;flex-wrap:wrap;gap:12px;margin-top:4px}
-  .opts-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));gap:12px;margin-bottom:12px}
-  .ideas-toolbar{display:flex;flex-wrap:wrap;gap:12px;align-items:center;justify-content:space-between;margin-bottom:18px}
-  .counter{font-size:12px;color:var(--muted);font-family:var(--mono)}
-  .counter b{color:var(--gold2)}
-  .idea{background:var(--bg3);border:1px solid var(--line);border-radius:12px;padding:14px 16px;margin-bottom:11px;cursor:pointer;transition:.16s;display:flex;gap:14px;align-items:flex-start;position:relative;overflow:hidden}
-  .idea::before{content:"";position:absolute;left:0;top:0;bottom:0;width:3px;background:transparent;transition:.16s}
-  .idea:hover{border-color:var(--pink);transform:translateX(3px)}
-  .idea:hover::before{background:var(--grad-hot)}
-  .idea.sel{border-color:var(--gold);background:rgba(231,184,92,.07)}
-  .idea.sel::before{background:var(--grad-gold)}
-  .idea-num{flex:0 0 auto;width:30px;height:30px;border-radius:9px;display:flex;align-items:center;justify-content:center;font-family:var(--display);font-weight:800;font-size:15px;background:var(--grad-gold);color:#0A0D14}
-  .idea-body{flex:1}
-  .idea-title{font-weight:600;font-size:15px;color:var(--ink);margin-bottom:3px}
-  .idea-meta{font-size:11px;color:var(--gold2);text-transform:uppercase;letter-spacing:.5px;opacity:.85;font-family:var(--mono)}
-  .out{white-space:pre-wrap;background:#070912;border:1px solid var(--line);border-radius:12px;padding:18px;font-size:13.5px;line-height:1.7;color:#dfe5f2;max-height:520px;overflow:auto;font-family:var(--mono)}
-  .out:empty::before{content:"Aquí aparecerá el guion / la entrega final...";color:var(--muted);font-style:italic;font-family:var(--sans)}
-  .dur-row{display:flex;gap:12px;align-items:flex-end;flex-wrap:wrap;margin-top:16px}
-  .dur-row .grow{flex:1;min-width:160px}
-  .copy-btn{position:absolute;top:14px;right:14px;font-size:11px;padding:6px 12px;border-radius:8px;background:var(--bg3);border:1px solid var(--line);color:var(--gold2);cursor:pointer;font-family:var(--mono)}
-  .copy-btn:hover{border-color:var(--gold)}
-  .rel{position:relative}
-  .spinner{width:16px;height:16px;border:2px solid rgba(255,255,255,.2);border-top-color:var(--pink);border-radius:50%;animation:spin .7s linear infinite;display:inline-block}
-  @keyframes spin{to{transform:rotate(360deg)}}
-  .toast{position:fixed;bottom:24px;left:50%;transform:translateX(-50%) translateY(20px);background:var(--grad-gold);color:#0A0D14;padding:12px 22px;border-radius:30px;font-weight:700;font-size:14px;opacity:0;pointer-events:none;transition:.3s;z-index:50;box-shadow:0 12px 30px rgba(0,0,0,.5);font-family:var(--display)}
-  .toast.show{opacity:1;transform:translateX(-50%) translateY(0)}
-  .step-tag{font-size:11px;letter-spacing:1px;text-transform:uppercase;color:var(--gold2);font-weight:700;margin-bottom:4px;font-family:var(--mono)}
-  footer{text-align:center;color:var(--muted);font-size:12px;margin-top:30px;font-family:var(--mono)}
-  footer b{color:var(--gold2)}
-  .divline{height:1px;background:linear-gradient(90deg,transparent,var(--violet),transparent);margin:6px 0 0}
-  .hidden{display:none!important}
-  .lote-block{margin-bottom:22px}
-  .lote-block:last-child{margin-bottom:0}
-  .lote-head{display:flex;align-items:center;justify-content:space-between;gap:12px;margin-bottom:8px;flex-wrap:wrap}
-  .lote-title{font-family:var(--display);font-size:17px;font-weight:700;color:var(--gold2);letter-spacing:.3px}
-  .copy-btn-inline{font-size:11px;padding:6px 14px;border-radius:8px;background:var(--bg3);border:1px solid var(--line);color:var(--gold2);cursor:pointer;transition:.16s;font-family:var(--mono);font-weight:700}
-  .copy-btn-inline:hover{border-color:var(--gold);transform:translateY(-1px)}
-  .copy-btn-inline.copied{background:var(--grad-gold);color:#0A0D14;border-color:transparent}
-  .lote-body{white-space:pre-wrap;background:#070912;border:1px solid var(--line);border-radius:10px;padding:14px;font-size:13px;line-height:1.7;color:#dfe5f2;max-height:300px;overflow:auto;font-family:var(--mono)}
+  /* Keybar */
+  .keybar{
+    display:flex; flex-wrap:wrap; gap:10px; align-items:center;
+    background:var(--glass); border:1px solid var(--border); border-radius:14px;
+    padding:14px 16px; margin-bottom:26px; box-shadow:var(--shadow); backdrop-filter:blur(10px);
+  }
+  .keybar label{font-size:.74rem; text-transform:uppercase; letter-spacing:1px; color:var(--muted); font-weight:800}
+  .keybar input{
+    flex:1; min-width:200px; background:rgba(0,0,0,0.5); color:#fff;
+    border:1px solid rgba(255,255,255,0.2); border-radius:10px; padding:11px 13px;
+    font-family:'JetBrains Mono',monospace; font-size:.85rem; outline:none;
+  }
+  .keybar input:focus{border-color:var(--c1); box-shadow:var(--glow1)}
+  .kbtn{border:none; border-radius:10px; padding:11px 16px; font-weight:800; font-size:.8rem; cursor:pointer; font-family:'Sora',sans-serif; transition:.2s}
+  .kbtn.save{background:linear-gradient(90deg,var(--c1),var(--violet)); color:#fff}
+  .kbtn.alt{background:rgba(255,255,255,0.06); color:var(--c1); border:1px solid var(--c1)}
+  .kbtn:hover{transform:translateY(-2px)}
+  .key-hint{flex-basis:100%; font-size:.78rem; color:var(--muted); margin-top:2px}
 
-  /* ── Hero llamativo (rayos de luz) + imágenes de referencia del nicho ── */
-  header.hero{overflow:hidden}
-  .godrays{position:absolute;left:50%;transform:translateX(-50%);top:-18px;width:560px;max-width:100%;height:300px;z-index:0;pointer-events:none;
-    background:
-      radial-gradient(420px 300px at 50% 38%, rgba(248,218,142,.16), transparent 70%),
-      conic-gradient(from 0deg at 50% 6%,
-        transparent 128deg, rgba(248,218,142,.16) 137deg, transparent 145deg,
-        rgba(255,61,154,.11) 153deg, transparent 161deg,
-        rgba(248,218,142,.20) 173deg, transparent 187deg,
-        rgba(38,217,255,.11) 199deg, transparent 207deg,
-        rgba(248,218,142,.16) 215deg, transparent 223deg,
-        rgba(155,92,255,.11) 231deg, transparent 240deg, transparent 360deg);
-    filter:blur(3px);opacity:.9;animation:sway 16s ease-in-out infinite}
-  @keyframes sway{0%,100%{transform:translateX(-50%) rotate(-2.5deg)}50%{transform:translateX(-50%) rotate(2.5deg)}}
-  header.hero>*:not(.godrays){position:relative;z-index:1}
-  .logo-mark{box-shadow:0 0 0 1px rgba(248,218,142,.4),0 0 50px rgba(248,218,142,.45)}
-  h1{filter:drop-shadow(0 4px 26px rgba(255,61,154,.25))}
+  /* Hero */
+  .hero{
+    text-align:center; padding:42px 20px;
+    background:var(--glass); backdrop-filter:blur(15px);
+    border:1px solid var(--border); border-radius:28px; box-shadow:var(--shadow),var(--glow1); margin-bottom:34px;
+  }
+  .title{
+    font-size:clamp(2.4rem,5.5vw,4.4rem); margin:0 0 10px; font-weight:800; letter-spacing:2px;
+    background:linear-gradient(90deg,var(--c1),var(--c2),var(--gold));
+    -webkit-background-clip:text; background-clip:text; color:transparent;
+  }
+  .subtitle{color:#e0e0ff; font-size:1.05rem; line-height:1.6; max-width:860px; margin:0 auto 18px}
+  .pills{display:flex; justify-content:center; flex-wrap:wrap; gap:10px}
+  .pill{padding:7px 16px; border-radius:999px; background:rgba(255,255,255,0.05); border:1px solid var(--c1); color:var(--c1); font-size:.78rem; font-weight:800; text-transform:uppercase; box-shadow:var(--glow1)}
+  .pill:nth-child(even){border-color:var(--c2); color:var(--c2); box-shadow:var(--glow2)}
+  .pill:nth-child(3n){border-color:var(--gold); color:var(--gold); box-shadow:0 0 15px rgba(255,209,102,.3)}
 
-  .refstrip{display:grid;grid-template-columns:repeat(4,1fr);gap:12px;margin:0 0 28px}
-  @media(max-width:760px){.refstrip{grid-template-columns:repeat(2,1fr)}}
-  .refcard{position:relative;aspect-ratio:4/5;border-radius:15px;overflow:hidden;border:1px solid var(--line);
-    box-shadow:0 14px 34px rgba(0,0,0,.5);transition:transform .18s,border-color .18s}
-  .refcard:hover{transform:translateY(-3px);border-color:var(--pink)}
-  .refcard .ph{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;opacity:0;transition:opacity .6s}
-  .refcard .ph.on{opacity:1}
-  .refcard .fallback{position:absolute;inset:0;display:flex;align-items:center;justify-content:center;font-size:48px;filter:drop-shadow(0 6px 14px rgba(0,0,0,.5))}
-  .refcard .scrim{position:absolute;inset:0;background:linear-gradient(180deg,rgba(5,6,12,.15) 35%,rgba(5,6,12,.9))}
-  .refcard .cap{position:absolute;left:0;right:0;bottom:0;padding:11px 12px;font-family:var(--display);font-weight:700;font-size:14px;color:#fff;z-index:2}
-  .refcard .rtag{position:absolute;top:9px;left:9px;z-index:2;font-family:var(--mono);font-size:9.5px;letter-spacing:.6px;text-transform:uppercase;color:#0A0D14;background:var(--grad-gold);padding:3px 8px;border-radius:6px;font-weight:700}
-  .keyrow{display:flex;gap:8px;flex-wrap:wrap;align-items:stretch}
-  .keyrow input{flex:1;min-width:200px}
-  .keyrow .btn{padding:11px 15px;font-size:13px}
+  /* Controls */
+  .controls{display:grid; grid-template-columns:repeat(auto-fit,minmax(260px,1fr)); gap:18px; margin-bottom:30px}
+  .control{
+    background:var(--glass); backdrop-filter:blur(10px); border:1px solid var(--border);
+    border-radius:var(--radius); padding:18px; box-shadow:var(--shadow); transition:.3s; border-left:4px solid var(--c1);
+  }
+  .control:nth-child(even){border-left-color:var(--c2)}
+  .control:nth-child(3n){border-left-color:var(--gold)}
+  .control:hover{transform:translateY(-4px); box-shadow:var(--glow1)}
+  .control label{display:block; font-size:.76rem; text-transform:uppercase; color:#fff; font-weight:800; margin-bottom:9px; letter-spacing:1px}
+  select,.control input[type=text]{
+    width:100%; background:rgba(0,0,0,0.5); color:#fff; border:1px solid rgba(255,255,255,0.2);
+    border-radius:10px; padding:13px; font-size:.92rem; font-weight:600; outline:none; cursor:pointer; transition:.3s; font-family:'Sora',sans-serif;
+  }
+  .control input[type=text]{cursor:text}
+  select:focus,.control input[type=text]:focus{border-color:var(--c1); box-shadow:var(--glow1)}
+
+  /* CTA */
+  .cta{display:flex; justify-content:center; gap:18px; flex-wrap:wrap; margin-bottom:18px}
+  .btn{border:none; border-radius:999px; padding:17px 34px; font-weight:800; font-size:1.05rem; cursor:pointer; transition:.3s; text-transform:uppercase; letter-spacing:1px; font-family:'Sora',sans-serif}
+  .btn-main{background:linear-gradient(90deg,var(--c2),var(--violet)); color:#fff; box-shadow:var(--glow2); border:1px solid rgba(255,255,255,0.25)}
+  .btn-main:hover{transform:scale(1.04); box-shadow:0 0 30px rgba(255,77,157,.65)}
+  .btn-main:disabled{opacity:.55; cursor:wait; transform:none}
+  .btn-alt{background:rgba(255,255,255,0.05); color:var(--c1); border:2px solid var(--c1)}
+  .btn-alt:hover{background:var(--c1); color:#000; box-shadow:var(--glow1)}
+  .status{text-align:center; min-height:22px; margin-bottom:30px; font-size:.9rem; color:var(--muted); font-weight:600}
+  .status.err{color:var(--c2)}
+  .status.ok{color:var(--lime)}
+
+  /* Output */
+  .output{display:grid; grid-template-columns:340px 1fr; gap:28px; align-items:start; display:none}
+  .output.visible{display:grid; animation:fade .5s ease}
+  @keyframes fade{from{opacity:0; transform:translateY(15px)}to{opacity:1; transform:translateY(0)}}
+  .aside{position:sticky; top:18px; display:flex; flex-direction:column; gap:18px}
+  .box{background:var(--glass); backdrop-filter:blur(15px); border:1px solid var(--border); border-radius:var(--radius); padding:22px; box-shadow:var(--shadow)}
+  .box-title{font-size:1.1rem; color:var(--gold); font-weight:800; margin:0 0 13px; text-transform:uppercase; letter-spacing:1px}
+  .row{display:flex; justify-content:space-between; gap:10px; padding:8px 0; border-bottom:1px dashed rgba(255,255,255,0.08); font-size:.86rem}
+  .row span:first-child{color:var(--muted)}
+  .row span:last-child{font-weight:700; text-align:right}
+
+  .tabs{display:flex; flex-wrap:wrap; gap:10px; margin-bottom:20px; border-bottom:2px solid rgba(255,255,255,0.1); padding-bottom:16px}
+  .tab{background:rgba(0,0,0,0.5); color:var(--muted); border:1px solid rgba(255,255,255,0.2); padding:12px 18px; border-radius:11px; cursor:pointer; font-weight:800; font-size:.84rem; transition:.3s; text-transform:uppercase; font-family:'Sora',sans-serif}
+  .tab:hover{border-color:var(--c1); color:#fff}
+  .tab.active{background:linear-gradient(90deg,var(--c1),var(--violet)); color:#fff; border:none; box-shadow:var(--glow1)}
+  .panel{display:none}
+  .panel.visible{display:block; animation:fade .4s ease}
+
+  .bhead{display:flex; justify-content:space-between; align-items:center; margin-bottom:12px; flex-wrap:wrap; gap:10px}
+  .bhead h3{margin:0; font-size:1.1rem; font-weight:800; text-transform:uppercase; letter-spacing:1px}
+  .hint{color:var(--muted); font-size:.82rem; margin:0 0 12px}
+  textarea{
+    width:100%; height:520px; background:rgba(5,5,12,0.85); color:#e6e6ff; border:2px solid var(--c1);
+    border-radius:16px; padding:22px; font-family:'JetBrains Mono',monospace; font-size:.9rem; line-height:1.7;
+    resize:vertical; outline:none; box-shadow:inset 0 5px 20px rgba(0,0,0,0.8); white-space:pre-wrap;
+  }
+  #p-guion h3{color:var(--gold)} #p-guion textarea{border-color:var(--gold)}
+  #p-pers h3{color:var(--c2)}  #p-pers textarea{border-color:var(--c2)}
+  #p-imgs h3{color:var(--c1)}  #p-imgs textarea{border-color:var(--c1)}
+  #p-anim h3{color:var(--violet)} #p-anim textarea{border-color:var(--violet)}
+  .copy{background:#fff; color:#000; border:none; padding:11px 22px; font-weight:800; border-radius:10px; cursor:pointer; transition:.2s; text-transform:uppercase; font-size:.8rem; letter-spacing:1px; font-family:'Sora',sans-serif; box-shadow:0 0 15px rgba(255,255,255,0.25)}
+  .copy:hover{background:var(--gold); transform:translateY(-2px)}
+
+  @media(max-width:980px){.output{grid-template-columns:1fr}.aside{position:static}}
+
+#apiKey{width:100%;box-sizing:border-box;height:72px;min-height:72px;max-height:170px;resize:vertical;display:block;align-self:flex-start;flex:1 1 100%;font-family:'JetBrains Mono',ui-monospace,monospace;line-height:1.5;padding:10px 12px;border-radius:10px;background:#0b0b14;border:1px solid rgba(255,255,255,.18);color:#fff;}
+#apiKey:focus{outline:none;border-color:#22c55e;box-shadow:0 0 0 2px rgba(34,197,94,.25);}
+#apiKey.masked{-webkit-text-security:disc;}
 </style>
 </head>
 <body>
-<div class="glowfield"><i></i></div>
-<div class="wrap">
+  <div class="wrap">
 
-  <header class="hero">
-    <div class="godrays"></div>
-    <div class="logo-mark">JM</div>
-    <h1>JM<span class="small">Relatos de Fe</span></h1>
-    <p class="tagline">Relatos corales de fe · varios personajes, video largo · Veo 3, Whisk &amp; Fish Audio</p>
-  </header>
-
-  <div class="refstrip" id="refStrip"></div>
-
-  <section class="panel">
-    <div class="panel-title">Conexión</div>
-    <p class="panel-sub">Usa la misma clave de Gemini del sistema. Si ya la cargaste en la app principal, aparece sola. Sin clave, funciona el motor local.</p>
-    <label class="fld">API Key de Gemini</label>
-    <div class="keyrow">
-      <input type="password" id="apiKey" placeholder="AIza…" autocomplete="off">
-      <button class="btn btn-dark" type="button" id="eye" onclick="toggleEye()" title="Mostrar/ocultar">👁</button>
-      <button class="btn btn-gold" type="button" id="saveKey" onclick="saveKey()">💾 Guardar</button>
-      <button class="btn btn-ghost" type="button" id="replaceKey" onclick="replaceKey()">↻ Reemplazar</button>
+    <!-- Clave Gemini (compartida con la suite) -->
+    <div class="keybar">
+      <label for="apiKey">Clave Gemini</label>
+      <textarea id="apiKey" class="masked" rows="3" placeholder="Pegá hasta 5 claves de Gemini (AIza...), una por renglón — rotan solas si una se queda sin tokens" autocomplete="off" spellcheck="false"></textarea>
+      <button class="kbtn save" onclick="saveKey()">Guardar</button>
+      <button class="kbtn alt" onclick="replaceKey()">Reemplazar</button>
+      <button class="kbtn alt" onclick="toggleEye()">👁️</button>
+      <div class="key-hint" id="keyHint">La clave se guarda solo en tu navegador y se comparte con todas las apps de la suite.</div>
     </div>
-    <div class="hint" id="keyHint">⚠ Queda solo en tu navegador · se comparte con la app principal · gratis en aistudio.google.com/apikey</div>
-    <div style="margin-top:12px">
-      <span class="badge"><span class="status-dot" id="statusDot" style="background:var(--muted)"></span><span id="statusTxt">Motor local</span></span>
+
+    <header class="hero">
+      <h1 class="title">Relatos de Fe</h1>
+      <p class="subtitle">Relatos de fe inspiradores - 4 lotes con voz, narrador o dialogos.</p>
+      <div class="pills"><span class="pill">📖 Relatos</span><span class="pill">Voz/Narrador/Dialogos</span><span class="pill">Fish Audio</span><span class="pill">4 lotes</span></div>
+    </header>
+
+    <div class="controls">
+      <div class="control"><label>Tema</label><select id="subgenero"><option value="testimonio de vida">testimonio de vida</option><option value="parabola moderna">parabola moderna</option><option value="conversion">conversion</option><option value="gratitud">gratitud</option><option value="superacion con fe">superacion con fe</option></select></div>
+      <div class="control"><label>Personajes (se mantiene en todo el video)</label><input type="text" id="protagonista" placeholder="describí el protagonista y personajes; mantenelo coherente" /></div>
+      <div class="control"><label>Ambiente</label><select id="escenario"><option value="hogar">hogar</option><option value="trabajo">trabajo</option><option value="iglesia">iglesia</option><option value="ciudad">ciudad</option><option value="campo">campo</option></select></div>
+      <div class="control"><label>Tono / atmósfera</label><select id="tono"><option value="épico y heroico">épico y heroico</option><option value="emotivo y sincero">emotivo y sincero</option><option value="tenso y dramático">tenso y dramático</option><option value="tierno y luminoso">tierno y luminoso</option><option value="misterioso">misterioso</option></select></div>
+      <div class="control"><label>Paleta / estilo visual</label><select id="paleta"><option value="warm soft cinematic 3D, gentle light, cozy, 4K">Calido suave</option><option value="dreamy pastel 3D, soft glow">Pastel onirico</option></select></div>
+      <div class="control"><label>Cantidad de personajes</label><select id="personajes"><option value="auto" selected>Los que pida la historia</option><option value="1">1 — un protagonista</option><option value="2">2 — dúo / interacción</option><option value="3">3 — grupo</option><option value="varios">Varios — elenco</option></select></div>
+      <div class="control"><label>Voz / diálogo</label><select id="narracion"><option value="no">Sin voz — solo visual / ASMR</option><option value="narrador" selected>Narración (voz en off)</option><option value="dialogos">Diálogos de personajes (novela)</option></select></div>
+      <div class="control"><label>Cantidad de tomas</label><select id="tomas"><option value="8">8 tomas</option><option value="12" selected>12 tomas</option><option value="16">16 tomas</option><option value="20">20 tomas</option></select></div>
     </div>
-  </section>
 
-  <section class="panel">
-    <div class="panel-title">Banco de ideas</div>
-    <p class="panel-sub">Motor combinatorio · varios personajes y miles de tramas. Para video largo elegí más escenas (6–30). Sin narrador, conversaciones reales y mensajes profundos. Sin repetir jamás.</p>
-    <div class="ideas-toolbar">
-      <div class="btn-row" style="margin:0">
-        <button class="btn btn-gold" id="btnGenerate">⚡ Generar lote de 15</button>
-        <button class="btn btn-ghost" id="btnReset">↻ Reset ideas</button>
-        <button class="btn btn-dark" id="btnResetTotal">⨯ Reset total</button>
-      </div>
-      <div class="counter">Únicas usadas: <b id="usedCount">0</b> · Restantes: <b id="poolLeft">—</b></div>
+    <div class="cta">
+      <button class="btn btn-main" id="genBtn" onclick="generar()">🎬 Generar pipeline</button>
+      <button class="btn btn-alt" onclick="sorpresa()">🎲 Sorpresa</button>
     </div>
-    <div id="ideasList"></div>
-  </section>
+    <div class="status" id="status"></div>
 
-  <section class="panel" id="scriptPanel">
-    <div class="panel-title">Guion</div>
-    <p class="panel-sub" id="scriptSub">Elige una idea arriba para empezar.</p>
-
-    <div id="countRow" style="display:none">
-      <div class="opts-grid">
-        <div>
-          <label class="fld">Escenas (4 a 30)</label>
-          <input type="number" id="sceneCount" min="4" max="30" value="18">
+    <div class="output" id="output">
+      <aside class="aside">
+        <div class="box">
+          <h2 class="box-title">Proyecto</h2>
+          <div class="row"><span>Tipo</span><span id="sGenero" style="color:var(--c2)">—</span></div>
+          <div class="row"><span>Escenario</span><span id="sEsc" style="color:var(--c1)">—</span></div>
+          <div class="row"><span>Tono</span><span id="sTono" style="color:var(--gold)">—</span></div>
+          <div class="row"><span>Narración</span><span id="sNarr" style="color:var(--lime)">—</span></div>
+          <div class="row"><span>Tomas</span><span id="sTomas" style="color:#fff">—</span></div>
         </div>
-        <div>
-          <label class="fld">Escenario</label>
-          <select id="settingSel">
-            <option value="auto">Automático (según idea)</option>
-            <option value="desert">Desierto</option>
-            <option value="drought">Sequía / campo seco</option>
-            <option value="road">Camino</option>
-            <option value="village">Aldea / pueblo</option>
-            <option value="mountain">Montaña</option>
-            <option value="river">Río</option>
-          </select>
+        <div class="box">
+          <h2 class="box-title">Personajes fijo</h2>
+          <p class="hint" id="sProta" style="margin:0">—</p>
         </div>
-        <div>
-          <label class="fld">Tipo de milagro</label>
-          <select id="miracleSel">
-            <option value="auto">Automático (según idea)</option>
-            <option value="heal">Sanación del ser querido</option>
-            <option value="debtpaid">Deuda saldada</option>
-            <option value="rain">Lluvia milagrosa</option>
-            <option value="reunion">Regreso del ser querido</option>
-            <option value="provision">Provisión / mesa multiplicada</option>
-            <option value="vindication">Verdad revelada</option>
-          </select>
+      </aside>
+
+      <main>
+        <div class="box">
+          <div class="tabs">
+            <button class="tab active" data-p="p-guion">📜 1. Guion</button>
+            <button class="tab" data-p="p-pers">🧍 2. Personajes</button>
+            <button class="tab" data-p="p-imgs">📸 3. Imágenes</button>
+            <button class="tab" data-p="p-anim">🚀 4. Animación</button>
+          </div>
+
+          <div class="panel visible" id="p-guion">
+            <div class="bhead"><h3>📜 LOTE 1 · Guion (español latino)</h3><button class="copy" onclick="copyArea('txtGuion',this)">📋 Copiar</button></div>
+            <p class="hint">Storyboard toma por toma con acción y diálogos en español. Si elegiste narración, incluye el texto de voz en off.</p>
+            <textarea id="txtGuion" readonly></textarea>
+          </div>
+          <div class="panel" id="p-pers">
+            <div class="bhead"><h3>🧍 LOTE 2 · Personajes (inglés)</h3><button class="copy" onclick="copyArea('txtPers',this)">📋 Copiar Lote</button></div>
+            <p class="hint">Hoja de referencia del personaje para mantenerlo idéntico en todas las tomas. Un prompt por línea.</p>
+            <textarea id="txtPers" readonly></textarea>
+          </div>
+          <div class="panel" id="p-imgs">
+            <div class="bhead"><h3>📸 LOTE 3 · Imágenes / Keyframes (inglés)</h3><button class="copy" onclick="copyArea('txtImgs',this)">📋 Copiar Lote</button></div>
+            <p class="hint">Un prompt de keyframe por toma. Formato lineal, una línea por prompt, sin viñetas.</p>
+            <textarea id="txtImgs" readonly></textarea>
+          </div>
+          <div class="panel" id="p-anim">
+            <div class="bhead"><h3>🚀 LOTE 4 · Animación / Veo 3 (inglés)</h3><button class="copy" onclick="copyArea('txtAnim',this)">📋 Copiar Lote</button></div>
+            <p class="hint">Un prompt de animación por toma: sujeto + movimiento + cámara + expresión.</p>
+            <textarea id="txtAnim" readonly></textarea>
+          </div>
         </div>
-      </div>
-      <div class="btn-row">
-        <button class="btn btn-ghost" id="btnRandomTrama">🎲 Aleatorio</button>
-        <button class="btn btn-gold" id="btnBuildScript">📝 Generar guion</button>
-      </div>
-      <div class="hint">Deja "Automático" para que la idea decida, o fija tú el escenario y el milagro. El botón Aleatorio elige una trama al azar. El guion y los lotes se ajustan EXACTAMENTE a la cantidad de escenas.</div>
+      </main>
     </div>
-
-    <div class="rel">
-      <button class="copy-btn hidden" id="copyScript">⧉ Copiar</button>
-      <div class="out" id="scriptOut"></div>
-    </div>
-
-    <div class="dur-row" id="durRow" style="display:none">
-      <button class="btn btn-gold" id="btnFinal">🎬 Generar entrega completa</button>
-      <div class="hint" style="align-self:center;margin:0">El guion va incrustado dentro de cada clip de 8s · no necesitas el tiempo del audio.</div>
-    </div>
-  </section>
-
-  <section class="panel hidden" id="finalPanel">
-    <div class="panel-title">Entrega final de producción</div>
-    <p class="panel-sub" id="clipInfo"></p>
-    <div class="rel">
-      <div class="out" id="finalOut"></div>
-    </div>
-  </section>
-
-  <footer>
-    <div class="divline" style="margin-bottom:14px"></div>
-    <b>JM</b> · Relatos de Fe — historias corales de fe y milagros
-  </footer>
-</div>
-
-<div class="toast" id="toast"></div>
+  </div>
 
 <script>
-/* ============================================================
-   JM BOTS · Historias de Fe  (v4 · motor combinatorio)
-   - Reparto MÚLTIPLE: prot, forastero, ser querido, mensajero,
-     familiar, vecinos -> 2 a 4 personajes nombrados por escena.
-   - 96 arquetipos · 1000+ tramas (escenario × carencia × milagro × ...).
-   - El usuario elige la CANTIDAD DE ESCENAS (4 a 30); guion y lotes
-     salen EXACTOS a ese número.
-   - Continuidad: mismos nombres en LOTE 1 / 2 / 3.
-   - Cada prompt indica quién habla, quién calla y qué hace cada uno.
-   - A veces hablan DOS personajes (conversación) dentro del clip.
-   - Estilo fijo + "sin texto" en escenas y animaciones.
-   ============================================================ */
+const $ = id => document.getElementById(id);
+const MODEL='gemini-2.5-flash';
+const API='https://generativelanguage.googleapis.com';
 
-/* ---------- NOMBRES (latinos / mexicanos) ---------- */
-const NAMES_M = ["Santiago","Mateo","Leonardo","Matías","Emiliano","Diego","Sebastián","Miguel Ángel","Alejandro","Jesús","Daniel","Luis","José","David","Juan","Eduardo","Fernando","Carlos","Roberto","Jorge","Francisco","Ricardo","Pedro","Hugo","Manuel","Raúl","Javier","Gerardo","Antonio","Arturo","Juan Carlos","José Luis","Víctor","Mario","Óscar","Rubén","Enrique","Ramón","Guillermo","Édgar","Alberto","Héctor","Armando","Julio","Iván","César","Pablo","Sergio","Gustavo","Rodrigo","Alfonso","Tomás","Martín","Joaquín","Felipe","Ignacio","Marcos","Rafael","Andrés","Isaac","Emmanuel","Aarón","Gael","Axel","Julián","Omar","Iker","Ángel","Gabriel","Ezequiel","Bruno","Cristian","Damián","Efraín","Esteban","Fabián","Gilberto","Ismael","Jaime","Lorenzo","Marcelo","Nicolás","Noé","Orlando","Patricio","Saúl","Salvador","Teodoro","Ulises","Valentín","Abelardo","Benjamín","Camilo","Cuauhtémoc","Demetrio","Eleazar","Everardo","Fidel","Florencio","Genaro","Gonzalo","Heriberto","Hilario","Jacinto","Leobardo","Macario","Maximiliano","Nemesio","Pánfilo","Refugio","Rigoberto","Santos","Severiano","Tadeo","Urbano","Venancio","Bartolomé","Bonifacio","Casimiro","Crescencio","Dionisio","Eulogio","Fortunato","Gregorio","Higinio","Isidro","Lázaro","Mariano","Norberto","Pascual","Sabino","Toribio"];
-const NAMES_F = ["Sofía","María José","Valentina","Regina","Camila","Valeria","Ximena","María Fernanda","Victoria","Renata","Ana","Daniela","Natalia","Andrea","Guadalupe","Mariana","Luciana","Isabella","Romina","Fernanda","Samantha","Alejandra","Jazmín","Paulina","Gabriela","Rosa","Elena","Martha","Leticia","Adriana","Juana","Silvia","Josefina","Margarita","Verónica","Rosa María","Teresa","Patricia","Rocío","Laura","Alicia","Blanca","Edith","Karina","Alma","Mónica","Diana","Gloria","Araceli","Carmen","Elizabeth","Beatriz","Norma","Rosalía","Susana","Yolanda","Lorena","Julieta","Carolina","Paola","Fabiola","Estefanía","Fátima","Mía","Melissa","Evelyn","Karla","Sara","Esther","Magdalena","Concepción","Dolores","Esperanza","Soledad","Remedios","Consuelo","Amparo","Altagracia","Petra","Catalina","Cecilia","Clara","Cristina","Delia","Eulalia","Felipa","Genoveva","Herlinda","Inés","Jacinta","Lucía","Manuela","Nicolasa","Obdulia","Otilia","Ramona","Sabina","Tomasa","Bárbara","Bernarda","Domitila","Eugenia","Florentina","Gertrudis","Hortensia","Ignacia","Juliana","Modesta","Natividad","Prudencia","Rita","Serafina","Trinidad","Ofelia","Agustina","Anastasia","Brígida","Eloísa","Ernestina","Filomena","Gregoria","Hermelinda","Leonor","Micaela","Pilar","Apolonia"];
-
-/* ---------- ARQUETIPOS (x3 ≈ 96) · "Una/La" = femenino ---------- */
-const ARQ = [
- "Una anciana pobre pero profundamente devota","Un anciano humilde que vive solo y reza cada día","Una madre trabajadora de fe inquebrantable","Un padre humilde que nunca pierde la fe","Un campesino pobre que comparte lo poco que tiene","Una viuda piadosa y trabajadora","Un hombre que lo perdió todo menos su fe","Un abuelo bondadoso olvidado por los suyos","Una abuela que crió a sus nietos en la fe","Un mendigo que aún le da gracias a Dios","Un humilde pastor de un pueblo pequeño","Una mujer que perdona a quienes la hirieron","Un trabajador honrado que jamás se queja","Una costurera pobre de corazón generoso","Un buen samaritano que ayuda sin esperar nada","Una familia pobre pero unida en la oración",
- "Una madre soltera que cría a sus hijos con fe y amor","Un viudo anciano que reparte pan a los más pobres","Una lavandera humilde de manos cansadas y alma noble","Un zapatero pobre que arregla zapatos sin cobrarle a los necesitados","Una curandera del pueblo de corazón puro","Un aguador humilde que da de beber a todo el que pasa","Una abuela casi ciega que reza por todo su pueblo","Un leñador honrado que comparte su última hogaza","Una hilandera devota que nunca le niega ayuda a nadie","Un sepulturero humilde que reza por las almas olvidadas","Una posadera pobre que jamás cierra su puerta a un extraño","Un alfarero anciano que regala vasijas a quien nada tiene","Una madre que perdió a su esposo y aun así da gracias cada día","Un pastor anciano que cuida su rebaño y su fe por igual","Una mujer enferma que reza más por los demás que por sí misma","Un campesino sin tierra que siembra esperanza en los demás",
- "Una panadera humilde que regala el pan que sobra","Un pescador pobre que reparte su pesca con los hambrientos","Una maestra rural que enseña sin cobrar a los más pobres","Un albañil honrado que levanta casas ajenas y duerme en una choza","Una partera del pueblo que jamás cobra a quien no tiene","Un sereno anciano que vela el pueblo y reza por todos","Una tejedora ciega de manos sabias y alma serena","Un boticario pobre que fía las medicinas a los enfermos","Una cocinera humilde que nunca deja a nadie con hambre","Un herrero honesto que repara herramientas sin cobrar","Una vendedora de flores que regala ramos a los tristes","Un campanero anciano que llama a misa con fe y alegría","Una nodriza bondadosa que amamantó hijos ajenos","Un labrador devoto que comparte su cosecha con el pueblo","Una bordadora pobre que cose mortajas sin pedir nada","Un arriero humilde que carga gratis las cosas de los ancianos",
- "Una abuela que reparte su pensión entre los más necesitados","Un anciano ciego que guía a otros con su fe","Una madre que ayuna para que sus hijos coman","Un huérfano de buen corazón que cuida a otros huérfanos","Una monja humilde que sirve sopa a los pobres del camino","Un misionero pobre que recorre aldeas a pie","Una sirvienta honrada que reza por la familia que la desprecia","Un mozo de cuadra noble que cuida a los animales heridos","Una recolectora pobre que comparte su agua en la faena","Un cantero anciano que talla cruces para las tumbas pobres","Una vecina bondadosa a la que todos acuden en desgracia","Un mercader arruinado que sigue dando limosna","Una matrona que adopta a todo niño abandonado","Un campesino tullido que reza con una sonrisa","Una anciana que cose ropa para los recién nacidos pobres","Un molinero honrado que regala harina a las viudas",
- "Una madre que vende sus joyas para alimentar al pueblo","Un anciano que perdona a quien le robó todo","Una mujer estéril que cría como suyos a los hijos de otros","Un soldado retirado que da su ración a los mendigos","Una hilandera viuda que reza por sus hijos lejanos","Un pordiosero que reparte la limosna que recibe","Una sanadora del campo que cura sin pedir paga","Un sacristán humilde que cuida a los enfermos del pueblo","Una mujer que carga agua para los ancianos del cerro","Un pastor que da su abrigo al caminante aterido","Una abuela que reza el rosario por los presos","Un carpintero pobre que hace cunas para los recién nacidos","Una lechera honrada que regala leche a los niños débiles","Un anciano jardinero que cultiva para los hambrientos","Una mujer que acoge a todo viajero perdido","Un campesino que siembra una parcela solo para los pobres",
- "Una matriarca que sostiene a tres generaciones con su fe","Un hombre justo despreciado por defender a los débiles","Una viuda que reparte su luto en oraciones por otros","Un anciano que enseña a leer a los niños del campo","Una mujer humilde que lava los pies de los enfermos","Un campesino que devuelve lo que encuentra aunque pase hambre","Una abuela que canta nanas a los huérfanos del pueblo","Un alfarero ciego que aún moldea con fe y memoria","Una madre que reza de rodillas toda la noche por su familia","Un anciano que reparte su única manta en el invierno","Una costurera que viste a los niños descalzos","Un labriego que comparte su pozo con toda la aldea"
-];
-
-/* ---------- AMBIENTES (para la idea / SEO) ---------- */
-const AMB = [
- "en un desierto abrasador","en un camino polvoriento bajo el sol","en una vereda solitaria del campo","en las afueras de un pueblo rural","en una aldea pobre de montaña","en un sendero árido entre cerros","en un paraje seco y olvidado","en un camino real entre aldeas","en los campos resecos de un pueblo","en una llanura polvorienta y vasta","en las afueras de una aldea humilde","en un valle pobre y apartado","en un camino entre dunas y matorrales","en una región castigada por la sequía","en un paraje desértico junto a un viejo pozo",
- "en un camino pedregoso al amanecer","en una llanura calcinada por el sol","en las orillas de un río seco y olvidado","en un sendero entre olivos resecos","en un páramo silencioso y polvoriento","en un cruce de caminos perdido en el desierto","en una loma árida azotada por el viento","en un campo agrietado por la sequía","en una vereda de tierra al caer la tarde","en un erial vasto bajo un sol implacable","en un camino de cabras entre cerros pelados","en una planicie desolada y sin sombra","en las afueras polvorientas de una aldea perdida","en un paso angosto entre rocas y arena","en un camino real reseco y solitario"
-];
-const CON = [
- "carga con un ser querido gravemente enfermo y sin recursos para salvarlo","ha sido abandonado por su propia familia","vive en la pobreza más absoluta, contando cada moneda","enfrenta una prueba que pone a prueba toda su fe","es humillado y despreciado por los demás por su humildad","reza por un milagro que el mundo da por imposible","sostiene solo a toda su familia, agotado pero firme","lo perdió todo y solo le queda su fe y su bondad","sufre una injusticia en silencio sin perder la esperanza","se siente solo y olvidado, sin nadie que lo escuche","da hasta lo último que tiene con tal de ayudar a otro","atraviesa la prueba más dura de su vida sin soltar su fe"
-];
-const GIRO = [
- "un enviado del cielo disfrazado de forastero","la sanación milagrosa del ser querido","una bendición que regresa multiplicada","una noticia imposible que lo cambia todo","la confirmación de que Dios escuchó cada oración","una recompensa del cielo que llega justo a tiempo","una herencia inesperada que cae como del cielo","el regreso de un ser querido que se creía perdido","una puerta que se abre cuando todo parecía cerrado","una lluvia milagrosa tras la larga sequía","un desconocido que salda todas sus deudas","una curación que la ciencia no logra explicar"
-];
-const TONO = ["devoto y conmovedor","esperanzador desde el dolor","íntimo y espiritual","luminoso y sereno","de fe que crece en silencio","de milagro que estremece el alma","cálido y reconfortante","de revelación que toca el corazón","de redención y esperanza","que sana viejas heridas","de gratitud profunda","de amor incondicional"];
-
-const LOVED = [
- {rel:"mi nieta", g:'f', pron:"ella", ail:"tiene cáncer"},
- {rel:"mi hija", g:'f', pron:"ella", ail:"está muy enferma"},
- {rel:"mi hijo", g:'m', pron:"él", ail:"cayó gravemente enfermo"},
- {rel:"mi nieto", g:'m', pron:"él", ail:"tiene una enfermedad que nadie ha podido curar"},
- {rel:"mi madre", g:'f', pron:"ella", ail:"se apaga poco a poco en una cama"},
- {rel:"mi esposo", g:'m', pron:"él", ail:"está postrado y sin esperanza"},
- {rel:"mi pequeña", g:'f', pron:"ella", ail:"nació muy débil y enfermita"},
- {rel:"mi hermano", g:'m', pron:"él", ail:"está muy enfermo y no tengo cómo curarlo"}
-];
-const HARD = [
- "Antes tenía una familia unida, pero los míos se fueron y me dieron la espalda",
- "Lo perdí todo hace años; me quedé sin nada de un día para otro",
- "La vida me quitó casi todo, y aprendí a vivir con muy poquito",
- "Hace mucho que cargo esta soledad, sin nadie que me tienda la mano",
- "Trabajo de sol a sol y aun así apenas me alcanza para comer",
- "He llorado muchas noches en silencio, pidiéndole al cielo una señal",
- "Me abandonaron cuando más los necesitaba, pero nunca guardé rencor",
- "Tuve que aprender a sostenerme con la fe como único apoyo"
-];
-
-/* ---------- ESCENARIOS (mundo visual) ---------- */
-const SETTINGS = {
- desert:   "a harsh sunlit desert of cracked earth and distant arid hills",
- drought:  "a vast drought-stricken field of cracked soil and withered crops",
- road:     "a dusty country road winding between dry hills",
- village:  "a poor humble rural village of adobe houses and dusty streets",
- mountain: "a poor mountain hamlet on rocky terraced slopes",
- river:    "the dry stony bank of an almost-empty river under a pale sky"
-};
-function settingFromAmb(b){
-  const s=AMB[b]||"";
-  if(/sequía|agrietad|campo/.test(s)) return 'drought';
-  if(/río/.test(s)) return 'river';
-  if(/montaña|cerros|loma|rocas|cabras/.test(s)) return 'mountain';
-  if(/aldea|pueblo/.test(s)) return 'village';
-  if(/desierto|dunas|desértico|erial|árido|reseca|calcinada|implacable|sin sombra|páramo|olivos|pozo/.test(s)) return 'desert';
-  return 'road';
-}
-
-/* ---------- CARENCIAS + MILAGROS (pares coherentes) ---------- */
-const HARDSHIPS = {
- sick:    { setupLine:["Cada moneda que junto es para los remedios de {rel}.","No me alcanza para curar a {rel}, pero no pierdo la fe.","{rel} {ail}, y solo tengo mis manos y mi fe."],
-            storyLine:["Y ahora {rel} {ail}.","La vida me dejó {aloneWord}, y {rel} {ail}."] },
- debt:    { setupLine:["Mañana vienen a quitarme la casa por una deuda.","Trabajé toda mi vida y aun así voy a perderlo todo.","Debo más de lo que podré pagar en muchos años."],
-            storyLine:["Mañana pierdo el único techo que tengo.","Me rompe el alma, pero mañana me quitan mi casa."] },
- drought: { setupLine:["Sin una gota de lluvia, mis cultivos y mi familia morirán.","La sequía mató mi siembra; ya no sé qué darles de comer.","Llevo meses rezando por lluvia sobre esta tierra seca."],
-            storyLine:["Y el cielo no suelta ni una gota.","Mi tierra se muere de sed, y yo con ella."] },
- lost:    { setupLine:["Hace años que espero el regreso de {rel}.","{rel} se fue lejos y nunca volví a saber de {pron}.","Cada noche dejo la vela encendida por si {rel} vuelve."],
-            storyLine:["{rel} se fue y casi pierdo la esperanza.","Doy casi por perdido a {rel}, pero sigo rezando."] },
- hunger:  { setupLine:["Hace dos días que en casa no probamos bocado.","Lo poco que tengo no alcanza para tantos platos.","El hambre aprieta, pero la fe me mantiene de pie."],
-            storyLine:["Y el hambre golpea cada noche mi puerta.","Tengo más bocas que pan, pero nunca pierdo la fe."] },
- injust:  { setupLine:["Me acusaron de algo que no hice, y nadie me cree.","Me humillan por ser pobre, pero guardo silencio.","Perdí mi buen nombre por una mentira ajena."],
-            storyLine:["Cargo en silencio una injusticia que no merezco.","Me señalan sin razón, pero no guardo rencor."] }
-};
-const MIRACLES = {
- heal:    { kind:'doctor',
-            promise:["Lo que se da con amor, el cielo lo devuelve. {rel} va a sanar.","Seque sus lágrimas: pronto {rel} estará {okWord}."],
-            news:["{docAddr}, {ser} reaccionó de pronto. La enfermedad desapareció. Es un milagro.","{docAddr}, no lo explicamos: {ser} sanó por completo."],
-            result:["¡Mira, ya estoy {okWord}! Ya no me duele nada."] },
- debtpaid:{ kind:'official',
-            promise:["Quien abre su puerta al cielo, recibe una puerta mayor.","Mañana su deuda quedará saldada; tenga fe."],
-            news:["{docAddr}, alguien pagó toda su deuda. La casa es suya, libre.","{docAddr}, su deuda fue saldada por completo. No debe nada."],
-            result:["¡La casa es nuestra! ¡Dios no nos abandonó!"] },
- rain:    { kind:'none',
-            promise:["Hoy regó al sediento; el cielo regará su tierra.","La bondad vuelve, a veces como lluvia sobre lo seco."],
-            news:["¡Llueve! ¡Dios mío, por fin llueve sobre mi tierra!","¡El cielo se abrió! ¡La lluvia salvó mis cultivos!"],
-            result:["¡Mira la tierra beber! ¡El cielo nos salvó a todos!"] },
- reunion: { kind:'ser',
-            promise:["Prepare la mesa: mañana alguien tocará esa puerta.","Quien no pierde la fe, siempre recibe respuesta."],
-            news:["¡Volví! Por fin estoy de regreso en casa.","¡Aquí estoy! El camino me trajo de vuelta a casa."],
-            result:["¡Estás de vuelta! ¡Dios te trajo a casa otra vez!"] },
- provision:{kind:'vecino',
-            promise:["El que comparte su pan, nunca verá vacía su mesa.","Quien da con amor, jamás conocerá la verdadera hambre."],
-            news:["¡Vecina, dejaron costales de grano y pan en su puerta!","¡Llegó comida para todos! Dejaron provisiones en su nombre."],
-            result:["¡Hay comida para todos! ¡Bendito sea el cielo!"] },
- vindication:{kind:'official',
-            promise:["La verdad, como el sol, siempre termina saliendo.","Tenga fe: su nombre será limpiado ante todos."],
-            news:["{docAddr}, se supo la verdad. Es usted inocente; todos lo saben.","{docAddr}, su nombre quedó limpio. La verdad salió a la luz."],
-            result:["¡Se supo la verdad! ¡Mi nombre quedó limpio ante todos!"] }
-};
-const PAIRS = [
- {hardship:'sick',miracle:'heal'},
- {hardship:'debt',miracle:'debtpaid'},
- {hardship:'drought',miracle:'rain'},
- {hardship:'lost',miracle:'reunion'},
- {hardship:'hunger',miracle:'provision'},
- {hardship:'injust',miracle:'vindication'},
- {hardship:'sick',miracle:'heal'},
- {hardship:'hunger',miracle:'provision'}
-];
-const TRAMA_LABELS = {heal:"La sanación milagrosa", debtpaid:"La deuda saldada", rain:"La lluvia que llegó", reunion:"El que volvió", provision:"La mesa multiplicada", vindication:"La verdad revelada"};
-const HARDSHIP_FOR_MIRACLE = {heal:'sick', debtpaid:'debt', rain:'drought', reunion:'lost', provision:'hunger', vindication:'injust'};
-const HOOK_SCENE = "GANCHO VISUAL (primeros 3 s): encuadre impactante y primer plano emotivo, la imagen más fuerte para frenar el scroll";
-const HOOK_ANIM  = "Apertura de GANCHO (primeros 3 s): arranque visualmente impactante, emoción inmediata, primer plano intenso para retener desde el primer segundo";
-const GIRO_SCENE = "MOMENTO DE GIRO: composición que aumenta la tensión y la expectativa";
-const GIRO_ANIM  = "PUNTO DE GIRO de la historia: sube la tensión emocional, una mirada o gesto que anticipa algo grande; mantén la retención";
-function computeGiro(units){
-  let gi=units.findIndex(u=>u.phase==='promise');
-  if(gi<0) gi=units.findIndex(u=>u.phase==='wisdom');
-  if(gi<0) gi=units.findIndex(u=>u.phase==='miracle');
-  if(gi<0) gi=Math.floor(units.length/2);
-  return gi;
-}
-
-/* ---------- POOLS DE DIÁLOGO ---------- */
-const POOLS = {
- encounter:["Llevo días caminando sin comer... ¿alguien podría ayudarme?","Tengo hambre y sed, y nadie en el camino se detiene.","Perdone... ¿tendría algo de agua para un pobre viajero?","Ya no puedo más; el camino me ha vencido, {protAddr}."],
- kindness:["Tenga, hijo, comparta lo poco que tengo.","Venga conmigo; aquí nadie se queda en el suelo.","Tome esto, hijo. Usted lo necesita más que yo.","Acérquese; lo poco mío también es suyo."],
- kindAskQ:["¿Me da lo único que tiene?","¿Por qué ayuda así a un extraño?","¿No teme quedarse sin nada?","¿De verdad comparte conmigo su última porción?"],
- kindAns:["Lo que se da con amor jamás se pierde.","Porque yo también supe lo que es no tener a nadie.","Nunca se es pobre cuando se da con el corazón.","El pan se acaba; la bondad, nunca."],
- mealProt:["Coma tranquilo, hijo. Está hecho con cariño.","Es humilde, pero compartido sabe mejor.","Siéntese; en esta casa nadie come solo."],
- mealForas:["Hace mucho que nadie me trataba con tanta nobleza.","Su mesa es pobre, pero su corazón es inmenso.","Que Dios le multiplique cada bocado que comparte."],
- storyExQ:["¿Y aun así me abrió su casa?","¿Y todavía le da gracias a Dios?","¿De dónde saca tanta fe en medio del dolor?"],
- storyExA:["Sé lo que es sufrir; nunca dejo a nadie atrás.","La fe es lo único que nadie me ha quitado.","Mientras tenga aliento, tendré algo que dar."],
- wisdom:["La verdadera riqueza no se guarda: se reparte.","Dios no mira tus manos llenas, sino tu corazón abierto.","Quien siembra bondad, tarde o temprano cosecha milagros.","El cielo escucha más fuerte al que da en silencio."],
- promiseDoubt:["Ay, hijo... ojalá el cielo lo escuche.","Quisiera creerle, pero ya casi no me queda esperanza.","Dios lo oiga, hijo; es lo único que me sostiene."],
- departure:["Dios nunca abandona a quien ayuda desde el corazón.","Lo que diste hoy, el cielo te lo devolverá multiplicado.","La bondad siempre encuentra el camino de regreso.","No olvides: el cielo ve lo que el mundo ignora."],
- parting:["Recuerde mis palabras; pronto las entenderá.","Vaya en paz; lo mejor está por llegar.","Guarde la fe; mañana será otro día."],
- wait:["¿Será verdad lo que dijo aquel hombre?","No he dejado de pensar en sus palabras.","Toda la noche en vela, esperando una señal."],
- sign:["Algo en el aire se siente distinto esta mañana.","De pronto, una calma extraña llenó la casa.","Siento que hoy algo va a cambiar para siempre."],
- signRain:["El cielo se nubla de pronto... ¿será posible?","Mira esas nubes, ¡después de tantos meses de sequía!"],
- reaction:["¿Cómo... cómo es esto posible?","No puedo creerlo... ¡es un milagro!","Dios mío, sus palabras eran verdad."],
- gratitude:["Dios mío... eras Tú. Gracias, Señor.","Gracias, Señor, por escuchar a esta pobre alma.","De rodillas te doy gracias; nunca me abandonaste."],
- reflection:["Quien menos tiene es quien más está dispuesto a dar.","Ningún acto de bondad pasa desapercibido ante los ojos de Dios.","A veces, lo que parece el final es el comienzo de un milagro.","El que da sin esperar nada recibe más de lo que imagina."],
- cta:["Escribe \"Amén\" y comparte si esta historia tocó tu corazón.","Si crees en los milagros, escribe \"Amén\" y comparte este mensaje."],
- setupExtra:["Otro día más de lucha, pero con la frente en alto.","Dios aprieta, pero nunca ahoga; hoy tampoco me rindo.","La pobreza me acompaña, pero la fe también."],
- villageA:["Vecina, ¿otra vez repartiendo lo poco que tiene?","Esa familia siempre ayuda, aunque nada les sobre."],
- villageB:["Que el cielo le pague tanta bondad, vecina.","Ojalá hubiera más corazones como el suyo por aquí."],
- famConcern:["No te preocupes tanto; Dios proveerá, ya verás.","Aquí estamos contigo, pase lo que pase.","Reza conmigo; juntos saldremos de esta."],
- famJoy:["¡Es verdad, no estamos soñando! ¡Gracias, Dios!","¡Lo logramos! ¡La fe nunca nos falló!"],
- prayer:["Señor, no pido riquezas, solo fuerzas para seguir.","Padre, en tus manos dejo todo lo que no puedo cargar.","Dios mío, hágase tu voluntad, no la mía."]
-};
-
-/* ---------- ESTADO ---------- */
-const STATE = {
-  usedIdeas:new Set(),
-  usedNames:new Set(),
-  lastBatch:[],
-  selectedIdea:null,
-  currentScript:"",
-  units:[],
-  _cast:null,
-  _messengerKind:"doctor",
-  poolMax: ARQ.length*AMB.length*CON.length*GIRO.length*TONO.length,
-  tramaSpace: Object.keys(SETTINGS).length * 6 * ARQ.length
-};
-
-/* ---------- UTILIDADES ---------- */
-const $=id=>document.getElementById(id);
-
-/* ---------- Imágenes de referencia del nicho ----------
-   Fotos reales si pegás una API key (opcional). Sin key / sin internet,
-   muestra tarjetas temáticas (nunca se rompe).                          */
-const PHOTO_PROVIDER='pexels';   // 'pexels' | 'unsplash'
-const PEXELS_KEY='';             // ← pegá tu key de Pexels (https://www.pexels.com/api/)
-const UNSPLASH_KEY='';           // ← o tu Access Key de Unsplash
-const REF_CARDS=[
-  {q:'country road dawn light', cap:'El camino', emoji:'🛤️', bg:['#3a2a4f','#0B0E18']},
-  {q:'hardship struggle poverty', cap:'La prueba', emoji:'🕯️', bg:['#4a2438','#0B0E18']},
-  {q:'elderly praying hands faith', cap:'La fe', emoji:'🙏', bg:['#43391d','#0B0E18']},
-  {q:'divine golden light miracle', cap:'El milagro', emoji:'✨', bg:['#1f3a2e','#0B0E18']}
-];
-function renderRefs(){
-  const wrap=$("refStrip"); if(!wrap) return;
-  wrap.innerHTML=REF_CARDS.map((c,i)=>`
-    <div class="refcard" style="background:linear-gradient(160deg,${c.bg[0]},${c.bg[1]})">
-      <div class="fallback">${c.emoji}</div>
-      <img class="ph" id="phref-${i}" alt="">
-      <div class="scrim"></div>
-      <span class="rtag">nicho</span>
-      <span class="cap">${c.cap}</span>
-    </div>`).join('');
-  hydrateRefs();
-}
-async function fetchPhoto(q){
-  try{
-    if(PHOTO_PROVIDER==='pexels' && PEXELS_KEY){
-      const r=await fetch('https://api.pexels.com/v1/search?per_page=1&orientation=portrait&query='+encodeURIComponent(q),{headers:{Authorization:PEXELS_KEY}});
-      const d=await r.json(); return (d.photos&&d.photos[0])?d.photos[0].src.large:'';
-    }
-    if(PHOTO_PROVIDER==='unsplash' && UNSPLASH_KEY){
-      const r=await fetch('https://api.unsplash.com/search/photos?per_page=1&orientation=portrait&query='+encodeURIComponent(q)+'&client_id='+UNSPLASH_KEY);
-      const d=await r.json(); return (d.results&&d.results[0])?d.results[0].urls.regular:'';
-    }
-  }catch(e){}
-  return '';
-}
-async function hydrateRefs(){
-  for(let i=0;i<REF_CARDS.length;i++){
-    const url=await fetchPhoto(REF_CARDS[i].q);
-    if(url){ const img=$("phref-"+i); if(img){ img.onload=()=>img.classList.add('on'); img.src=url; } }
-  }
-}
-
-function toast(msg){const t=$("toast");t.textContent=msg;t.classList.add("show");setTimeout(()=>t.classList.remove("show"),1800);}
-function rnd(arr){return arr[Math.floor(Math.random()*arr.length)];}
-function esc(s){return String(s).replace(/"/g,"'");}
-function fill(s,t){return String(s).replace(/\{(\w+)\}/g,(m,k)=> (t[k]!==undefined?t[k]:m));}
-function clampUnitLines(lines){
-  const words=s=>String(s).trim().split(/\s+/).filter(Boolean);
-  if(lines.length===1){
-    const w=words(lines[0].text);
-    if(w.length>20) lines[0].text=w.slice(0,20).join(' ');
-  } else if(lines.length>=2){
-    let a=words(lines[0].text), b=words(lines[1].text);
-    if(a.length+b.length>20){
-      if(a.length>10) a=a.slice(0,10);
-      if(b.length>10) b=b.slice(0,10);
-      while(a.length+b.length>20){ if(b.length>=a.length) b.pop(); else a.pop(); }
-      lines[0].text=a.join(' '); lines[1].text=b.join(' ');
-    }
-  }
-  return lines;
-}
-function freshNameFrom(pool){
-  const avail = pool.filter(n=>!STATE.usedNames.has(n));
-  const pick = avail.length ? rnd(avail) : rnd(pool);
-  STATE.usedNames.add(pick);
-  return pick;
-}
-
-/* ---------- BANCO DE IDEAS ---------- */
-function genIdeaKey(){
-  let attempts=0;
-  while(attempts<5000){
-    const a=Math.floor(Math.random()*ARQ.length);
-    const b=Math.floor(Math.random()*AMB.length);
-    const c=Math.floor(Math.random()*CON.length);
-    const g=Math.floor(Math.random()*GIRO.length);
-    const t=Math.floor(Math.random()*TONO.length);
-    const key=`${a}-${b}-${c}-${g}-${t}`;
-    if(!STATE.usedIdeas.has(key)) return {key,a,b,c,g,t};
-    attempts++;
-  }
-  return null;
-}
-function ideaText(o){
-  return { title:`${ARQ[o.a]} ${AMB[o.b]} ${CON[o.c]}.`, meta:`Giro: ${GIRO[o.g]} · Tono: ${TONO[o.t]}`, a:o.a,b:o.b,c:o.c,g:o.g,t:o.t,key:o.key };
-}
-function generateBatch(){
-  const batch=[];
-  for(let i=0;i<15;i++){
-    const o=genIdeaKey();
-    if(!o){toast("Pool agotado · usa Reset total");break;}
-    STATE.usedIdeas.add(o.key);
-    batch.push(ideaText(o));
-  }
-  STATE.lastBatch=batch; renderBatch(); updateCounters();
-}
-function renderBatch(){
-  const list=$("ideasList"); list.innerHTML="";
-  STATE.lastBatch.forEach((idea,i)=>{
-    const div=document.createElement("div");
-    div.className="idea";
-    div.innerHTML=`<div class="idea-num">${i+1}</div>
-      <div class="idea-body">
-        <div class="idea-title">${idea.title}</div>
-        <div class="idea-meta">${idea.meta}</div>
-      </div>`;
-    div.onclick=()=>selectIdea(i,div);
-    list.appendChild(div);
-  });
-}
-function selectIdea(i,el){
-  document.querySelectorAll(".idea").forEach(e=>e.classList.remove("sel"));
-  el.classList.add("sel");
-  STATE.selectedIdea=STATE.lastBatch[i];
-  STATE.units=[]; STATE.currentScript="";
-  $("scriptOut").textContent="";
-  $("copyScript").classList.add("hidden");
-  $("durRow").style.display="none";
-  $("finalPanel").classList.add("hidden");
-  $("countRow").style.display="flex";
-  $("scriptSub").textContent="Idea elegida. Indica cuántas escenas quieres (4 a 30) y genera el guion.";
-  $("scriptPanel").scrollIntoView({behavior:"smooth",block:"start"});
-}
-function updateCounters(){
-  $("usedCount").textContent=STATE.usedIdeas.size;
-  $("poolLeft").textContent=(STATE.poolMax-STATE.usedIdeas.size).toLocaleString("es");
-}
-
-/* ---------- CAST ---------- */
-function mkTokens(cast){
-  const L=cast.loved;
-  return {prot:cast.prot, ser:cast.ser, rel:L.rel, pron:L.pron, ail:L.ail, hard:cast.hard,
-    aloneWord:cast.protGender==='f'?"sola":"solo",
-    protAddr:cast.protGender==='f'?"señora":"señor",
-    docAddr:cast.protGender==='f'?"Señora":"Señor",
-    okWord:L.pron==='ella'?"sana":"sano"};
-}
-function buildCast(idea){
-  const protGender = /^(una|la)\b/i.test(ARQ[idea.a])?'f':'m';
-  const prot=freshNameFrom(protGender==='f'?NAMES_F:NAMES_M);
-  const loved=LOVED[idea.c%LOVED.length];
-  const ser=freshNameFrom(loved.g==='f'?NAMES_F:NAMES_M);
-  const mensajero=freshNameFrom(NAMES_M);
-  const familiar=freshNameFrom(Math.random()<0.5?NAMES_F:NAMES_M);
-  const vecino=freshNameFrom(NAMES_M);
-  const vecino2=freshNameFrom(NAMES_F);
-  return {prot,protGender,ser,mensajero,familiar,vecino,vecino2,loved,hard:HARD[idea.c%HARD.length]};
-}
-
-/* ---------- GENERADOR COMBINATORIO DE ESCENAS ---------- */
-function candidateScenes(ctx){
-  const C=ctx.cast, S=ctx.settingEnv, H=ctx.hard, M=ctx.mir, T=ctx.tokens;
-  const L=arr=>fill(rnd(arr),T);
-  const homeEnv="inside a humble rustic home, an old wooden table and a small bed, warm lantern light";
-  const doorEnv="the doorway of a humble rustic home";
-  const cands=[];
-  const add=(order,pri,phase,env,present,lines,action,label)=>{
-    lines=clampUnitLines(lines);
-    cands.push({order,pri,unit:{phase,env,present,speakers:lines.map(l=>l.role),lines,action:action||"",label:label||phase}});
-  };
-  const hasSer = H.key==='sick';
-
-  // SETUP
-  add(10,1,'setup', S+", the protagonist's harsh daily world",
-     ['prot','familiar'].concat(hasSer?['ser']:[]),
-     [{role:'prot',text:L(H.setupLine)}], `(${C.prot} en su dura vida diaria)`, "Mundo del protagonista");
-  add(20,4,'setup', S+", a quiet harsh morning",
-     ['prot','familiar'],
-     [{role:'prot',text:L(POOLS.setupExtra)}], "", "Mundo del protagonista");
-  add(15,5,'setup', S+", neighbors passing by",
-     ['prot','vecino','vecino2'],
-     [{role:'vecino',text:L(POOLS.villageA)},{role:'prot',text:L(POOLS.kindAns)}], "(Los vecinos comentan)", "En el pueblo");
-
-  // ENCOUNTER
-  add(30,2,'encounter', S+", a weary stranger appears on the path",
-     ['prot','forastero','vecino'],
-     [{role:'forastero',text:L(POOLS.encounter)}], `(Aparece el forastero, agotado)`, "El encuentro");
-
-  // KINDNESS
-  add(40,1,'kindness', S+", a moment of unexpected generosity",
-     ['prot','forastero','vecino'],
-     [{role:'prot',text:L(POOLS.kindness)}], `(${C.prot} le da lo poco que tiene)`, "El acto de bondad");
-  add(50,3,'kindness', S+", a tender exchange",
-     ['prot','forastero'],
-     [{role:'forastero',text:L(POOLS.kindAskQ)},{role:'prot',text:L(POOLS.kindAns)}], "", "El acto de bondad");
-
-  // TRAVEL / MEAL
-  add(60,4,'travel', "a dusty path leading toward a humble home at warm golden light",
-     ['prot','forastero'],
-     [{role:'prot',text:"Venga a mi casa, hijo; algo caliente lo repondrá."}], "(Caminan juntos hacia la casa)", "En el camino");
-  add(70,4,'meal', homeEnv,
-     ['prot','forastero','familiar'],
-     [{role:'prot',text:L(POOLS.mealProt)},{role:'forastero',text:L(POOLS.mealForas)}], "(Comparten la comida)", "La comida");
-  add(75,5,'meal', homeEnv,
-     ['prot','forastero','familiar'],
-     [{role:'familiar',text:L(POOLS.famConcern)}], "", "La comida");
-
-  // STORY
-  add(80,2,'story', homeEnv,
-     ['prot','forastero','familiar'],
-     [{role:'prot',text:L(H.storyLine)}], "(Junto al candil)", "La confesión");
-  add(90,3,'story', homeEnv,
-     ['prot','forastero'],
-     [{role:'forastero',text:L(POOLS.storyExQ)},{role:'prot',text:L(POOLS.storyExA)}], "", "La confesión");
-  add(95,5,'story', homeEnv,
-     ['prot','forastero','familiar'],
-     [{role:'prot',text:L(POOLS.prayer)}], "", "La confesión");
-
-  // WISDOM
-  add(110,3,'wisdom', "inside a humble home, soft warm light, a reverent atmosphere",
-     ['prot','forastero','familiar'],
-     [{role:'forastero',text:L(POOLS.wisdom)}], "", "Palabras de fe");
-
-  // PROMISE
-  add(120,2,'promise', "inside a humble home, soft warm light, a solemn moment",
-     ['prot','forastero'],
-     [{role:'forastero',text:L(M.promise)}], "", "La promesa");
-  add(130,4,'promise', "inside a humble home, soft warm light",
-     ['prot','forastero'],
-     [{role:'prot',text:L(POOLS.promiseDoubt)},{role:'forastero',text:L(POOLS.parting)}], "", "La promesa");
-
-  // DEPARTURE
-  add(140,2,'departure', S+" at golden hour, a long open horizon",
-     ['prot','forastero','vecino'],
-     [{role:'forastero',text:L(POOLS.departure)}], `(El forastero se aleja)`, "La despedida");
-  add(145,5,'departure', S+" at golden hour",
-     ['prot','familiar'],
-     [{role:'prot',text:L(POOLS.prayer)}], "", "La despedida");
-
-  // WAIT / SIGN
-  add(160,3,'wait', doorEnv+" at dawn, soft golden light over a long road",
-     ['prot','familiar'],
-     [{role:'prot',text:L(POOLS.wait)}], "(La espera)", "La espera");
-  if(M.key==='rain'){
-    add(170,4,'sign', S+" as dark rain clouds gather dramatically overhead",
-       ['prot','familiar','vecino'],
-       [{role:'prot',text:L(POOLS.signRain)}], "(El cielo se oscurece)", "La señal");
-  } else {
-    add(170,4,'sign', doorEnv+" at first light",
-       ['prot','familiar'],
-       [{role:'prot',text:L(POOLS.sign)}], "(Algo cambia en el aire)", "La señal");
-  }
-
-  // MIRACLE (according to type)
-  let mPres, mSpk, mEnv, mAct;
-  if(M.key==='rain'){ mSpk='prot'; mPres=['prot','familiar','vecino']; mEnv=S+" as a miraculous rain begins to pour, dramatic light breaking through dark clouds"; mAct="(¡Empieza a llover!)"; }
-  else if(M.key==='reunion'){ mSpk='ser'; mPres=['prot','ser','familiar']; mEnv=S+" at dawn, a long open horizon, a beloved figure returning home"; mAct=`(${C.ser} aparece en el camino)`; }
-  else if(M.key==='provision'){ mSpk='vecino'; mPres=['prot','vecino','vecino2','familiar']; mEnv=doorEnv+" at dawn, sacks of grain and baskets of bread left at the door"; mAct="(Llegan provisiones a la puerta)"; }
-  else if(M.key==='heal'){ mSpk='mensajero'; mPres=['prot','mensajero','familiar']; mEnv="a bright clean modern hospital corridor"; mAct="(Suena la noticia del milagro)"; }
-  else { mSpk='mensajero'; mPres=['prot','mensajero','vecino']; mEnv=doorEnv+", soft morning light"; mAct="(Llega el mensajero con la noticia)"; }
-  add(180,1,'miracle', mEnv, mPres, [{role:mSpk,text:L(M.news)}], mAct, "El milagro");
-  add(185,5,'miracle', mEnv, mPres, [{role:'familiar',text:L(POOLS.famJoy)}], "", "El milagro");
-
-  // REACTION
-  add(190,4,'reaction', mEnv, ['prot','familiar'],
-     [{role:'prot',text:L(POOLS.reaction)}], "", "La reacción");
-
-  // GRATITUDE
-  add(200,2,'gratitude', homeEnv, ['prot','familiar'],
-     [{role:'prot',text:L(POOLS.gratitude)}], `(${C.prot} cae de rodillas, llorando)`, "El agradecimiento");
-  add(205,4,'gratitude', homeEnv, ['prot','familiar'],
-     [{role:'prot',text:L(POOLS.prayer)}], "", "El agradecimiento");
-
-  // RESULT
-  let rPres, rSpk, rText, rEnv;
-  if(M.key==='heal'){ rSpk='ser'; rPres=['prot','ser','familiar']; rText=L(M.result); rEnv=homeEnv; }
-  else if(M.key==='reunion'){ rSpk='prot'; rPres=['prot','ser','familiar']; rText=L(M.result); rEnv=homeEnv; }
-  else if(M.key==='rain'){ rSpk='prot'; rPres=['prot','familiar','vecino']; rText=L(M.result); rEnv=S+" under fresh rain, the dry soil drinking at last"; }
-  else { rSpk='prot'; rPres=['prot','familiar','vecino2']; rText=L(M.result); rEnv=doorEnv+", a joyful gathering"; }
-  add(210,3,'result', rEnv, rPres, [{role:rSpk,text:rText}], "(El milagro a la vista)", "El desenlace");
-  add(215,5,'result', rEnv, ['prot','familiar'],
-     [{role:'prot',text:L(POOLS.famJoy)}], "", "El desenlace");
-  add(225,5,'result', S+", neighbors rejoicing together",
-     ['prot','vecino','vecino2','familiar'],
-     [{role:'vecino2',text:L(POOLS.villageB)}], "(El pueblo celebra)", "El desenlace");
-
-  // CLOSING
-  add(240,3,'closing', S+" at golden hour, the village faintly behind",
-     ['forastero','prot'],
-     [{role:'forastero',text:L(POOLS.reflection)}], `(El forastero mira a cámara)`, "Reflexión final");
-  add(250,1,'closing', S+" at golden hour, the village faintly behind",
-     ['forastero','prot'],
-     [{role:'forastero',text:L(POOLS.cta)}], "(Mira a cámara)", "Reflexión final");
-
-  // EXPANSIONES (rellenan hacia 30 escenas, prioridad baja)
-  add(12,5,'setup', S+", soft dawn light", ['prot','familiar'],
-     [{role:'prot',text:L(POOLS.prayer)}], "(Oración al amanecer)", "Mundo del protagonista");
-  add(55,5,'encounter', S, ['prot','forastero','vecino2'],
-     [{role:'vecino2',text:"Pobre hombre, mírenlo, está al borde del camino."}], "", "El encuentro");
-  add(105,5,'meal', homeEnv, ['prot','forastero','familiar'],
-     [{role:'forastero',text:"Bendita la mano que parte el pan con un extraño."}], "", "La comida");
-  add(135,5,'promise', "inside a humble home, soft warm light", ['prot','forastero','familiar'],
-     [{role:'forastero',text:L(POOLS.wisdom)}], "", "La promesa");
-  add(155,5,'wait', doorEnv+" at night, candlelight", ['prot','familiar'],
-     [{role:'familiar',text:L(POOLS.famConcern)}], "", "La espera");
-  add(235,5,'closing', S+" at golden hour, the village faintly behind", ['forastero','prot'],
-     [{role:'forastero',text:L(POOLS.reflection)}], "(Reflexión a cámara)", "Reflexión final");
-
-  return cands;
-}
-
-function buildUnits(ctx,N){
-  const cands=candidateScenes(ctx);
-  const sorted=cands.slice().sort((a,b)=> a.pri-b.pri || a.order-b.order);
-  const chosen=sorted.slice(0, Math.min(N, cands.length));
-  chosen.sort((a,b)=> a.order-b.order);
-  return chosen.map(c=>c.unit);
-}
-
-/* ---------- RENDER DEL GUION ---------- */
-function speakerLabel(role,cast){
-  if(role==='prot') return cast.prot;
-  if(role==='ser') return cast.ser;
-  if(role==='forastero') return "El Forastero";
-  if(role==='mensajero') return "El Mensajero";
-  if(role==='familiar') return cast.familiar;
-  if(role==='vecino') return cast.vecino;
-  if(role==='vecino2') return cast.vecino2;
-  return cast.prot;
-}
-function renderUnits(units,cast,hookIdx,giroIdx){
-  const out=[];
-  units.forEach((u,i)=>{
-    let header=`— Escena ${i+1}: ${u.label} —`;
-    if(i===hookIdx) header=`🪝 GANCHO FUERTE (primeros 3 s) · ${header}`;
-    else if(i===giroIdx) header=`🔄 ESCENA GIRO (retén aquí, no la cortes) · ${header}`;
-    out.push(header);
-    if(u.action) out.push(u.action);
-    u.lines.forEach(l=> out.push(`${speakerLabel(l.role,cast)}: ${l.text}`));
-    out.push("");
-  });
-  return out.join("\n").trim();
-}
-
-/* ---------- CONEXIÓN A IA (Gemini / Claude) ----------
-   Con una API key, el guion se genera con IA y nunca se repite.
-   Sin key, usa el motor local (que igual tiene millones de combinaciones). */
-async function callAPI(prompt){
-  const key=($("apiKey")?$("apiKey").value.trim():"");
-  if(!key) return null;
-  try{
-    const r=await fetch("https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash:generateContent?key="+encodeURIComponent(key),{
-      method:"POST",headers:{"Content-Type":"application/json"},
-      body:JSON.stringify({contents:[{parts:[{text:prompt}]}],generationConfig:{maxOutputTokens:8192}})
-    });
-    const d=await r.json();
-    if(d.error) throw new Error(d.error.message);
-    return d.candidates[0].content.parts.map(p=>p.text).join("\n");
-  }catch(e){toast("API falló: "+e.message+" · motor local");return null;}
-}
-
-/* ---------- BUILD SCRIPT (con cantidad de escenas) ---------- */
-async function buildScript(N){
-  const idea=STATE.selectedIdea;
-  if(!idea){toast("Primero elige una idea");return;}
-  const cast=buildCast(idea);
-  STATE._cast=cast;
-
-  // Escenario: manual o automático
-  const selSetting=($("settingSel")||{}).value||'auto';
-  const settingKey=(selSetting!=='auto' && SETTINGS[selSetting]) ? selSetting : settingFromAmb(idea.b);
-  const settingEnv=SETTINGS[settingKey];
-
-  // Milagro: manual (con su carencia coherente) o automático
-  const selMir=($("miracleSel")||{}).value||'auto';
-  let pair;
-  if(selMir!=='auto' && MIRACLES[selMir]) pair={hardship:HARDSHIP_FOR_MIRACLE[selMir], miracle:selMir};
-  else pair=PAIRS[(idea.g+idea.c)%PAIRS.length];
-
-  const hard=Object.assign({key:pair.hardship}, HARDSHIPS[pair.hardship]);
-  const mir=Object.assign({key:pair.miracle}, MIRACLES[pair.miracle]);
-  STATE._messengerKind=(mir.kind==='doctor')?'doctor':'official';
-  const tokens=mkTokens(cast);
-  const ctx={cast,settingEnv,settingKey,hard,mir,tokens};
-
-  const units=buildUnits(ctx,N);
-  STATE.units=units;
-  STATE._tramaLabel=TRAMA_LABELS[pair.miracle]||"Historia de fe";
-  STATE._mirKey=pair.miracle;
-  STATE._hookIdx=0;
-  STATE._giroIdx=computeGiro(units);
-
-  STATE.currentScript=renderUnits(units,cast,STATE._hookIdx,STATE._giroIdx);
-  $("scriptOut").textContent=STATE.currentScript;
-  $("copyScript").classList.remove("hidden");
-  const dobles=units.filter(u=>u.lines.length===2).length;
-  $("scriptSub").textContent=`Guion de ${units.length} escenas · trama: ${STATE._tramaLabel} (${dobles} en conversación) · 🪝 gancho en escena 1 · 🔄 giro en escena ${STATE._giroIdx+1}.`;
-  $("durRow").style.display="flex";
-  $("finalPanel").classList.add("hidden");
-
-  // Con IA conectada, reescribe el guion (texto) para que nunca se repita.
-  // Los LOTES siguen del motor local para mantener los mismos nombres.
-  if($("apiKey").value.trim()){
-    const prev=STATE.currentScript;
-    $("scriptOut").innerHTML='<span class="spinner"></span> Generando guion único con IA…';
-    const c=STATE._cast;
-    const prompt=`Eres guionista de HISTORIAS DE FE Y MILAGROS virales en español latino. Escribe SOLO el guion completo en EXACTAMENTE ${units.length} escenas para esta premisa: "${idea.title}". Trama del milagro: ${STATE._tramaLabel}. Usa SIEMPRE estos nombres exactos: protagonista ${c.prot}; ser querido ${c.ser}; un familiar ${c.familiar}; vecinos ${c.vecino} y ${c.vecino2}; un mensajero ${c.mensajero}; y "el forastero" (un enviado del cielo, sin nombre propio). Formato EXACTO por escena: una línea "— Escena N: título —", luego una acotación entre paréntesis si hace falta, y los diálogos como "Nombre: línea". Diálogos breves y emotivos (máximo ~20 palabras por escena), español latino, sin narrador. La escena 1 debe ser un gancho fuerte. Cierra invitando a escribir "Amén". Devuelve solo el guion, sin explicaciones.`;
-    const api=await callAPI(prompt);
-    if(api){ STATE.currentScript=api.trim(); $("scriptOut").textContent=STATE.currentScript; }
-    else { $("scriptOut").textContent=prev; }
-  }
-}
-
-/* ============================================================
-   PERSONAJES (hiperrealista) + BEHAVIORS + LOTES
-   ============================================================ */
-const ROLE_ARCHETYPES = {
-  protagonista: {
-    builds:["frail","worn-down","slender","stout"],
-    ages:["50-year-old","58-year-old","65-year-old","70-year-old","75-year-old"],
-    features:["a deeply wrinkled kind face, warm tired eyes full of faith","sun-weathered skin, a gentle sorrowful but dignified gaze","gray hair tied back, a serene humble expression","calloused hands, a quiet peaceful smile and hopeful eyes"],
-    clothes:["worn simple peasant clothes and a faded shawl","an old patched tunic, clean despite the wear","a humble dress, an apron and a worn headscarf","threadbare rural clothing with a small wooden cross"]
-  },
-  forastero: {
-    builds:["slender","tall and lean","sturdy"],
-    ages:["30-year-old","35-year-old","40-year-old"],
-    features:["long dark hair and a beard, serene compassionate eyes that seem to hold a secret","a calm otherworldly gaze, a gentle knowing expression","a weathered traveler's face, deep peaceful eyes","soft luminous features, a quiet reassuring presence"],
-    clothes:["a tattered ancient beige tunic, dusty from the road","a worn traveler's cloak and simple sandals","humble dust-covered robes, holding a wooden staff","a plain weathered tunic with a rough mantle over the shoulders"]
-  },
-  ser: {
-    builds:["frail","small and fragile","slender"],
-    ages:["6-year-old","8-year-old","10-year-old","70-year-old"],
-    features:["a pale fragile face with big hopeful innocent eyes","a weak but tender smile, soft delicate features","a sickly complexion, eyes still full of gentle light","a trusting tender gaze, a quiet fragile expression"],
-    clothes:["a simple worn nightgown and a thin blanket","humble mended clothes, clean and cared for","a plain pale gown, soft and modest","old but tidy clothing, lovingly kept"]
-  },
-  mensajero: {
-    builds:["sturdy","slender","stout"],
-    ages:["40-year-old","50-year-old","55-year-old"],
-    features:["a kind professional face with glasses and an astonished expression","gray hair, gentle eyes wide with disbelief and emotion","a warm trustworthy face, moved almost to tears","calm composed features with a look of quiet wonder"],
-    clothes:["a white doctor's coat and a stethoscope","clean simple clothes, a humble honest appearance","a modest shirt with a small cross on the chest","neat clinical clothing and an ID badge"]
-  },
-  familiar: {
-    builds:["slender","stout","frail","sturdy"],
-    ages:["12-year-old","18-year-old","30-year-old","45-year-old","60-year-old"],
-    features:["a tender worried face, eyes full of love","a humble gentle expression, quietly devoted","a kind weathered face, supportive and warm","soft caring features, standing close in support"],
-    clothes:["humble mended rural clothes, clean and modest","a simple worn tunic and a small cross","plain country clothing, lovingly kept","a faded dress or shirt, humble and tidy"]
-  },
-  vecino: {
-    builds:["sturdy","stout","slender","weathered"],
-    ages:["35-year-old","45-year-old","55-year-old","65-year-old"],
-    features:["a weathered honest peasant face, kind and curious","sun-darkened skin, a respectful gentle gaze","a humble rural face, warm and unpretentious","work-worn features with friendly eyes"],
-    clothes:["worn peasant clothes, a straw hat, dusty from work","a simple rough tunic and sandals","humble country clothing, patched and faded","plain rural garments with a cloth on the shoulder"]
-  }
-};
-const ROLE_LABEL = {
-  protagonista:"humble faithful soul, the heart of the story",
-  forastero:"mysterious stranger, a messenger from heaven",
-  ser:"the beloved one, the reason to keep praying",
-  mensajero:"the messenger who brings the miracle news",
-  familiar:"a humble relative of the protagonist",
-  vecino:"a humble villager / neighbor"
-};
-const ROLE_TO_ARCH = { prot:'protagonista', forastero:'forastero', ser:'ser', mensajero:'mensajero', familiar:'familiar', vecino:'vecino', vecino2:'vecino' };
-
-const PIPELINE = "art style: hyper-realistic cinematic photography | technique: photorealistic, ultra detailed, 8k | lighting: dramatic natural light, warm golden hour, soft heavenly god rays | color: warm earthy cinematic palette | mood: emotional, spiritual, reverent | composition: shallow depth of field, cinematic framing | environment: humble realistic rural and biblical setting | quality: photorealistic, highly detailed | aspect ratio: 9:16";
-const NO_TEXT = "ABSOLUTELY NO TEXT: no text, no letters, no words, no captions, no subtitles, no title, no speech bubbles, no signs, no posters, no labels, no logos, no watermark, no typography — purely visual scene with no written elements of any kind";
-const SPEAK_MOVES = ["medium close-up, natural lip movement while speaking, subtle head motion","slow push-in while speaking, a gentle hand gesture, emotional expression","static framing, speaking softly, eyes full of feeling","slow gentle pan, talking, warm light moving across the face","close-up, trembling lips while speaking, eyes welling up","calm steady delivery, a faint nod, soft breathing while speaking"];
-
-function refName(role,cast){
-  if(role==='prot') return cast.prot;
-  if(role==='forastero') return 'el forastero';
-  if(role==='ser') return cast.ser;
-  if(role==='mensajero') return cast.mensajero;
-  if(role==='familiar') return cast.familiar;
-  if(role==='vecino') return cast.vecino;
-  if(role==='vecino2') return cast.vecino2;
-  return cast.prot;
-}
-function roleTag(role){
-  if(role==='prot') return "the humble faithful protagonist";
-  if(role==='forastero') return "the mysterious stranger, a messenger from heaven";
-  if(role==='ser') return "the beloved one";
-  if(role==='mensajero') return (STATE._messengerKind==='doctor')?"the doctor who brings the miracle news":"the messenger who brings unexpected good news";
-  if(role==='familiar') return "a humble relative of the protagonist";
-  if(role==='vecino'||role==='vecino2') return "a humble villager / neighbor";
-  return "character";
-}
-const PHASE_ACT={
- setup:{prot:"in their harsh daily world, weighed down by worry yet dignified"},
- encounter:{forastero:"weary and weak, appearing on the path asking for help",prot:"noticing the stranger with compassion"},
- kindness:{prot:"giving away what little they have with open hands",forastero:"receiving the help, weak and deeply grateful"},
- travel:{prot:"leading the stranger toward home along a dusty path",forastero:"walking beside, listening with calm gratitude"},
- meal:{prot:"serving a humble meal at the wooden table",forastero:"eating slowly, visibly moved"},
- story:{prot:"sharing their sorrow by lantern light",forastero:"listening with a calm, compassionate gaze"},
- wisdom:{forastero:"speaking a profound truth with serene certainty",prot:"listening, touched to the soul"},
- promise:{forastero:"promising the miracle with quiet authority",prot:"listening with fragile hope, hands over the chest"},
- departure:{forastero:"walking toward the golden horizon, glancing back serenely",prot:"watching the stranger leave with hope"},
- wait:{prot:"waiting in stillness, holding on to faith"},
- sign:{prot:"sensing that something is about to change"},
- miracle:{mensajero:"delivering astonishing good news, moved to tears",prot:"overwhelmed, a hand over the mouth",ser:"healed and radiant, or returned home full of light",vecino:"bringing wonderful news with joy"},
- reaction:{prot:"frozen in disbelief, then breaking into tears of joy"},
- gratitude:{prot:"on the knees, hands over the chest, weeping with gratitude, eyes lifted upward"},
- result:{ser:"healthy and full of light at last",prot:"embracing their loved one, overflowing with joy"},
- closing:{forastero:"looking directly into the camera with a serene compassionate expression",prot:"standing quietly beside, hands clasped over the chest, looking on with peace"}
-};
-function behaviorOf(role,phase){
-  const m=PHASE_ACT[phase];
-  if(m&&m[role]) return m[role];
-  switch(role){
-    case 'prot': return "humble and faithful, emotionally engaged in the moment";
-    case 'forastero': return "calm, peaceful, with a quiet knowing presence";
-    case 'ser': return "frail and tender, watched over with love";
-    case 'mensajero': return "astonished and moved by the good news";
-    case 'familiar': return "a humble relative standing close, sharing the emotion";
-    case 'vecino': case 'vecino2': return "a humble villager nearby, watching respectfully";
-  }
-  return "present, reacting with emotion";
-}
-
-function charDescOf(name){
-  const p=STATE._profiles[name];
-  return `${p.build} ${p.age} with ${p.feature}, wearing ${p.clothes}, humble grounded posture`;
-}
-function roleRefLabel(role){
-  if(role==='mensajero'){
-    if(STATE._messengerKind==='doctor') return "the doctor who brings the miracle news";
-    return "a humble neighbor / messenger who brings unexpected good news";
-  }
-  return ROLE_LABEL[ROLE_TO_ARCH[role]] || "character";
-}
-function buildCharacterProfiles(usedRoles){
-  STATE._profiles={};
-  const cast=STATE._cast;
-  usedRoles.forEach(role=>{
-    const arch=ROLE_ARCHETYPES[ROLE_TO_ARCH[role]];
-    let clothes=rnd(arch.clothes);
-    if(role==='mensajero' && STATE._messengerKind!=='doctor') clothes="clean simple humble clothes, an honest trustworthy appearance";
-    STATE._profiles[refName(role,cast)]={role:ROLE_TO_ARCH[role],build:rnd(arch.builds),age:rnd(arch.ages),feature:rnd(arch.features),clothes};
-  });
-}
-function characterPrompts(usedRoles){
-  const cast=STATE._cast;
-  return usedRoles.map(role=>{
-    const n=refName(role,cast);
-    return `${n} (${roleRefLabel(role)}) — full body character reference, front and 3/4 views, neutral grey background, consistent face and wardrobe for video continuity :: ${charDescOf(n)} :: ${PIPELINE}`;
-  });
-}
-
-// LOTE 2 · ESCENAS
-function buildScenePrompts(units){
-  const cast=STATE._cast;
-  const h=STATE._hookIdx, g=STATE._giroIdx;
-  return units.map((u,i)=>{
-    const chars=u.present.map(r=>`${refName(r,cast)} (${roleTag(r)}) ${behaviorOf(r,u.phase)}`).join("; ");
-    const focus=refName(u.speakers[0]||u.present[0],cast);
-    let extra="";
-    if(i===h) extra=` | ${HOOK_SCENE}`;
-    else if(i===g) extra=` | ${GIRO_SCENE}`;
-    return `Escena ${i+1} — Setting: ${u.env}. Personajes presentes (usa EXACTAMENTE estos nombres como referencia, NO agregues personas extra): ${chars}. Foco visual en ${focus}.${extra} | ${PIPELINE} | ${NO_TEXT}`;
-  });
-}
-// LOTE 3 · ANIMACIÓN + DIÁLOGO (1 ó 2 hablantes)
-function buildAnimPrompts(units){
-  const cast=STATE._cast;
-  const h=STATE._hookIdx, g=STATE._giroIdx;
-  return units.map((u,i)=>{
-    const chars=u.present.map(r=>{
-      const nm=refName(r,cast);
-      if(u.speakers.includes(r)) return `${nm} (${roleTag(r)}) ${behaviorOf(r,u.phase)}, habla con sincronía labial (lip-sync)`;
-      return `${nm} (${roleTag(r)}) ${behaviorOf(r,u.phase)}, en silencio, solo reacciona`;
-    }).join("; ");
-    let dlg;
-    if(u.lines.length===2){
-      const A=refName(u.lines[0].role,cast), B=refName(u.lines[1].role,cast);
-      dlg=`Conversación entre dos personajes (lip-sync por turnos; cada uno mueve los labios SOLO en su turno, el otro escucha): primero ${A} dice: "${esc(u.lines[0].text)}"; luego ${B} responde: "${esc(u.lines[1].text)}".`;
-    } else {
-      const A=refName(u.lines[0].role,cast);
-      dlg=`SOLO habla ${A}; los demás permanecen en silencio. Diálogo de ${A} (español latino, lip-sync exacto): "${esc(u.lines[0].text)}".`;
-    }
-    let extra="";
-    if(i===h) extra=` ${HOOK_ANIM}.`;
-    else if(i===g) extra=` ${GIRO_ANIM}.`;
-    return `Clip ${i+1} (8s) — Setting: ${u.env}. Personajes presentes (usa EXACTAMENTE estos nombres de referencia, NO agregues personajes nuevos): ${chars}. ${dlg}${extra} Cámara: ${rnd(SPEAK_MOVES)}. | ${PIPELINE} | ${NO_TEXT}`;
-  });
-}
-
-/* ---------- SEO / CTR / RETENCIÓN ---------- */
-function shuffle(a){a=a.slice();for(let i=a.length-1;i>0;i--){const j=Math.floor(Math.random()*(i+1));const t=a[i];a[i]=a[j];a[j]=t;}return a;}
-function seoTitle(idea){
-  const hooks=["Nadie imaginó lo que el cielo tenía preparado...","Una historia de fe que te hará llorar y creer de nuevo","Lo despreciaron por su humildad, pero Dios tenía otros planes","El pequeño acto de bondad que se convirtió en un milagro","Le abrió la puerta a un extraño sin saber que era un enviado de Dios","Jamás creerás cómo Dios respondió a esta oración"];
-  return `${rnd(hooks)} | ${ARQ[idea.a]} ${AMB[idea.b]} 🙏`;
-}
-function seoTitles(idea){
-  const arq=ARQ[idea.a];
-  const pool=[
-    `Nadie imaginó lo que pasaría cuando ayudó a aquel extraño 🙏`,
-    `Lo despreciaron por ser pobre… pero Dios tenía otros planes 😢`,
-    `Le abrió la puerta a un desconocido sin saber que era un enviado del cielo ✨`,
-    `Un pequeño acto de bondad que se convirtió en un milagro 🕊️`,
-    `Dio lo único que le quedaba… y el cielo le respondió así 💔`,
-    `Esta historia de fe te hará llorar y creer de nuevo 🌅`,
-    `Jamás creerás cómo Dios respondió a esta oración 🙌`,
-    `Lo perdió casi todo, menos su fe… y entonces ocurrió esto 🤍`,
-    `${arq}… y un milagro que nadie vio venir 😮`,
-    `El final de esta historia te va a romper el corazón ❤️`
-  ];
-  return shuffle(pool).slice(0,5);
-}
-const CTAS=[
- "👉 Escribe \"AMÉN\" si crees en los milagros y comparte para que le llegue a quien lo necesita hoy.",
- "🙏 Si esta historia te tocó, deja tu \"AMÉN\" y compártela con alguien que necesita fe.",
- "❤️ Comenta \"AMÉN\", comparte y sigue el canal para más historias que tocan el alma."
-];
-const THUMB_TEXTS={
- heal:["\"ES UN MILAGRO\"","\"DIOS LA SANÓ\""],
- debtpaid:["\"PAGÓ TODO\"","\"ERA ÉL\""],
- rain:["\"POR FIN LLOVIÓ\"","\"EL CIELO RESPONDIÓ\""],
- reunion:["\"VOLVIÓ A CASA\"","\"ÉL REGRESÓ\""],
- provision:["\"NO PASARON HAMBRE\"","\"DIOS PROVEYÓ\""],
- vindication:["\"ERA INOCENTE\"","\"SE SUPO LA VERDAD\""]
-};
-function thumbnailPrompt(cast){
-  return `Primerísimo primer plano del rostro de ${cast.prot} (protagonista) con una emoción intensa —ojos llorosos mirando al cielo, esperanza y asombro—, con el forastero desenfocado al fondo bañado en luz dorada celestial. Alto contraste, colores cálidos saturados, expresión muy legible en pantalla pequeña, deja un espacio libre arriba o a un lado para poner el texto en CapCut. | ${PIPELINE} | ${NO_TEXT}`;
-}
-function seoDesc(idea){
-  const emojiSets=[["💔","🙏","✨"],["😢","❤️","🌅"],["🕊️","💫","🤍"],["🌧️","🙌","🌟"],["😔","🙏","🌈"],["💧","🕯️","💖"]];
-  const e = rnd(emojiSets);
-  let frase = `Una historia de fe que toca el alma. ${ARQ[idea.a]} ${AMB[idea.b]} ${CON[idea.c]}. Una lección sobre la bondad, la humildad y un Dios que nunca abandona a quienes ayudan desde el corazón ${e[0]}. A veces, lo que parece el final es solo el comienzo de un milagro ${e[1]}. Escribe "Amén" y comparte si esta historia te llegó ${e[2]}.`;
-  const palabras = frase.trim().split(/\s+/);
-  if(palabras.length > 60) frase = palabras.slice(0,60).join(" ");
-  const hashtags = "#HistoriasDeFe #Reflexiones #Dios #Milagro #ActosDeBondad #HistoriasConValores #Fe #DiosEsBueno";
-  return `${frase}\n\n${hashtags}`;
-}
-function buildSeoBlock(idea){
-  const cast=STATE._cast;
-  const titles=seoTitles(idea);
-  const cta=rnd(CTAS);
-  const tt=(THUMB_TEXTS[STATE.units && STATE.units.length ? (STATE._mirKey||'heal') : 'heal']||["\"UN MILAGRO\"","\"DIOS LO VIO\""]);
-  const giroN=(STATE._giroIdx||0)+1;
-  return `TÍTULO PRINCIPAL:
-${titles[0]}
-
-TÍTULOS ALTERNATIVOS (para probar CTR):
-- ${titles[1]}
-- ${titles[2]}
-- ${titles[3]}
-- ${titles[4]}
-
-DESCRIPCIÓN:
-${seoDesc(idea)}
-
-CTA (fíjalo como comentario y dilo al final del video):
-${cta}
-
-MINIATURA · PROMPT DE IMAGEN:
-${thumbnailPrompt(cast)}
-
-TEXTO PARA LA MINIATURA (ponlo en CapCut, 2–4 palabras, grande y legible):
-${tt[0]} · ${tt[1]}
-
-RETENCIÓN:
-• Escena 1 = gancho fuerte en los primeros 3 segundos (usa la imagen más impactante y una frase que genere intriga).
-• Escena ${giroN} = giro de la historia: sube la tensión para que el espectador no se caiga a la mitad.
-• Cierra con el CTA hablado + "Amén" en pantalla para disparar comentarios.`;
-}
-
-/* ---------- ENTREGA FINAL ---------- */
-function fmt(secs){const m=Math.floor(secs/60),s=secs%60;return `${m}:${String(s).padStart(2,"0")}`;}
-
-function buildFinal(){
-  if(!STATE.units || !STATE.units.length){toast("Primero genera el guion");return;}
-  const units=STATE.units, idea=STATE.selectedIdea;
-  const nClips=units.length;
-
-  const used=new Set();
-  units.forEach(u=>{u.present.forEach(r=>used.add(r)); u.speakers.forEach(r=>used.add(r));});
-  const order=['prot','forastero','ser','mensajero','familiar','vecino','vecino2'];
-  const usedRoles=order.filter(r=>used.has(r));
-  const dobles=units.filter(u=>u.lines.length===2).length;
-
-  buildCharacterProfiles(usedRoles);
-  $("finalPanel").classList.remove("hidden");
-  $("clipInfo").textContent =
-    `${nClips} escenas → ${nClips} clips de 8s (${dobles} con dos personajes en conversación) · ${usedRoles.length} personajes con referencia · 🪝 gancho en escena 1 · 🔄 giro en escena ${(STATE._giroIdx||0)+1} · duración estimada ${fmt(nClips*8)}`;
-
-  STATE._lote1 = characterPrompts(usedRoles).join("\n");
-  STATE._lote2 = buildScenePrompts(units).join("\n");
-  STATE._lote3 = buildAnimPrompts(units).join("\n");
-  STATE._seo   = buildSeoBlock(idea);
-
-  const finalPanel=$("finalOut");
-  finalPanel.innerHTML=`
-    <div class="lote-block">
-      <div class="lote-head">
-        <span class="lote-title">LOTE 1 · PERSONAJES (${usedRoles.length})</span>
-        <button class="copy-btn-inline" data-lote="1">⧉ Copiar lote 1</button>
-      </div>
-      <div class="lote-body" id="loteBody1"></div>
-    </div>
-    <div class="lote-block">
-      <div class="lote-head">
-        <span class="lote-title">LOTE 2 · ESCENAS / IMÁGENES (${nClips})</span>
-        <button class="copy-btn-inline" data-lote="2">⧉ Copiar lote 2</button>
-      </div>
-      <div class="lote-body" id="loteBody2"></div>
-    </div>
-    <div class="lote-block">
-      <div class="lote-head">
-        <span class="lote-title">LOTE 3 · ANIMACIÓN + DIÁLOGO · 8s c/u (${nClips})</span>
-        <button class="copy-btn-inline" data-lote="3">⧉ Copiar lote 3</button>
-      </div>
-      <div class="lote-body" id="loteBody3"></div>
-    </div>
-    <div class="lote-block">
-      <div class="lote-head">
-        <span class="lote-title">SEO</span>
-        <button class="copy-btn-inline" data-lote="seo">⧉ Copiar SEO</button>
-      </div>
-      <div class="lote-body" id="loteBodySeo"></div>
-    </div>
-  `;
-  $("loteBody1").textContent   = STATE._lote1;
-  $("loteBody2").textContent   = STATE._lote2;
-  $("loteBody3").textContent   = STATE._lote3;
-  $("loteBodySeo").textContent = STATE._seo;
-
-  finalPanel.querySelectorAll(".copy-btn-inline").forEach(btn=>{
-    btn.onclick=()=>{
-      const k=btn.dataset.lote;
-      const map={"1":STATE._lote1,"2":STATE._lote2,"3":STATE._lote3,"seo":STATE._seo};
-      copy(map[k]);
-      const original=btn.textContent;
-      btn.textContent="Copiado ✓"; btn.classList.add("copied");
-      setTimeout(()=>{ btn.textContent=original; btn.classList.remove("copied"); },2000);
-    };
-  });
-  $("finalPanel").scrollIntoView({behavior:"smooth",block:"start"});
-}
-
-/* ---------- COPIAR ---------- */
-function copy(text){navigator.clipboard.writeText(text).then(()=>toast("Copiado ✓"));}
-
-/* ---------- EVENTOS ---------- */
+/* ── Clave compartida con la suite (jmbots_keys.an) ── */
 function loadKeys(){ try{ return JSON.parse(localStorage.getItem('jmbots_keys')||'{}'); }catch(e){ return {}; } }
-function keyState(){ const has=$("apiKey").value.trim(); $("statusDot").style.background=has?"var(--lime)":"var(--muted)"; $("statusTxt").textContent=has?"Gemini conectado":"Motor local"; }
-function setKeyHint(m,c){ const h=$("keyHint"); if(h){ h.textContent=m; h.style.color=c||"var(--muted)"; } }
-(function initKey(){ const ks=loadKeys(); if(ks.an){ $("apiKey").value=ks.an; setKeyHint("✓ Clave del sistema cargada. Tocá Reemplazar para cambiarla.","var(--lime)"); } keyState(); })();
-function saveKey(){ const v=$("apiKey").value.trim(); if(!v){ setKeyHint("Pegá una clave antes de guardar.","var(--pink)"); return; } try{ const ks=loadKeys(); ks.an=v; localStorage.setItem('jmbots_keys',JSON.stringify(ks)); }catch(e){} const b=$("saveKey"); const o=b.textContent; b.textContent="✓ Guardada"; setTimeout(()=>b.textContent=o,1500); setKeyHint("✓ Clave guardada (compartida con la app principal).","var(--lime)"); keyState(); }
-function replaceKey(){ $("apiKey").value=""; $("apiKey").type="text"; $("apiKey").focus(); setKeyHint("Ingresá la nueva clave y tocá Guardar.","var(--gold2)"); keyState(); }
-function toggleEye(){ const i=$("apiKey"); i.type=i.type==='password'?'text':'password'; }
-$("apiKey").addEventListener('input',keyState);
-$("btnGenerate").onclick=generateBatch;
-$("btnReset").onclick=()=>{generateBatch();toast("Nuevo lote generado");};
-$("btnResetTotal").onclick=()=>{
-  STATE.usedIdeas.clear();STATE.usedNames.clear();STATE.lastBatch=[];STATE.selectedIdea=null;STATE.currentScript="";STATE.units=[];
-  $("ideasList").innerHTML="";$("scriptOut").textContent="";$("copyScript").classList.add("hidden");
-  $("countRow").style.display="none";$("durRow").style.display="none";$("finalPanel").classList.add("hidden");
-  if($("settingSel")) $("settingSel").value="auto";
-  if($("miracleSel")) $("miracleSel").value="auto";
-  $("scriptSub").textContent="Elige una idea arriba para empezar.";
-  updateCounters();toast("Reset total ✓");
-};
-$("btnRandomTrama").onclick=()=>{
-  if(!STATE.selectedIdea){toast("Primero elige una idea");return;}
-  const sKeys=Object.keys(SETTINGS), mKeys=Object.keys(MIRACLES);
-  $("settingSel").value=sKeys[Math.floor(Math.random()*sKeys.length)];
-  $("miracleSel").value=mKeys[Math.floor(Math.random()*mKeys.length)];
-  let n=parseInt($("sceneCount").value,10); if(isNaN(n)) n=10; n=Math.max(4,Math.min(30,n)); $("sceneCount").value=n;
-  buildScript(n);
-  toast("Trama aleatoria generada 🎲");
-  $("scriptPanel").scrollIntoView({behavior:"smooth",block:"start"});
-};
-$("btnBuildScript").onclick=()=>{
-  let n=parseInt($("sceneCount").value,10);
-  if(isNaN(n)) n=10;
-  n=Math.max(4,Math.min(30,n));
-  $("sceneCount").value=n;
-  buildScript(n);
-  $("scriptPanel").scrollIntoView({behavior:"smooth",block:"start"});
-};
-$("btnFinal").onclick=buildFinal;
-$("copyScript").onclick=()=>copy(STATE.currentScript);
+function setKeyHint(m,c){ $("keyHint").textContent=m; $("keyHint").style.color=c||"var(--muted)"; }
+(function initKey(){ const ks=loadKeys(); if(ks.an){ $("apiKey").value=ks.an; setKeyHint("✓ Clave del sistema cargada. Tocá Reemplazar para cambiarla.","var(--lime)"); } })();
+function saveKey(){ const v=$("apiKey").value.trim(); if(!v){ setKeyHint("Pegá una clave antes de guardar.","var(--c2)"); return; }
+  try{ const ks=loadKeys(); ks.an=v; localStorage.setItem('jmbots_keys',JSON.stringify(ks)); }catch(e){}
+  setKeyHint("✓ Clave guardada (compartida con la suite).","var(--lime)"); }
+function replaceKey(){ $("apiKey").value=""; $("apiKey").type='text'; $("apiKey").focus(); setKeyHint("Ingresá la nueva clave y tocá Guardar.","var(--gold)"); }
+function toggleEye(){ var i=document.getElementById("apiKey"); if(i) i.classList.toggle("masked"); }
 
-/* ---------- INIT ---------- */
-renderRefs();
-updateCounters();
-generateBatch();
-</script>
-<script>
-/* JM BOTS · anti-repeticion universal (interceptor de fetch a Gemini) */
-(function(){
-  if(window.__jmAntiRep) return; window.__jmAntiRep=true;
-  var KEY='jmbots_hist_'+((location.pathname.split('/').pop()||'app').replace('.html',''));
-  function getH(){ try{ return JSON.parse(localStorage.getItem(KEY)||'[]'); }catch(e){ return []; } }
-  function pushH(fp){ if(!fp) return; try{ var h=getH().filter(function(x){return x!==fp;}); h.unshift(fp); localStorage.setItem(KEY, JSON.stringify(h.slice(0,15))); }catch(e){} }
-  var _f=window.fetch;
-  window.fetch=function(input,opts){
-    try{
-      var u=(typeof input==='string')?input:((input&&input.url)||'');
-      if(u.indexOf('generativelanguage.googleapis.com')>-1 && /generateContent/.test(u) && opts && opts.body){
-        var b=JSON.parse(opts.body);
-        if(b && b.contents && b.contents.length){
-          var seed=Math.floor(Math.random()*1e9), hist=getH();
-          var extra='\n\n[VARIACION OBLIGATORIA] Genera algo COMPLETAMENTE nuevo y distinto a cualquier resultado anterior: cambia nombres propios, lugares, estructura, giros y detalles; evita clises y aperturas repetidas; no empieces siempre igual. Semilla creativa unica: '+seed+'.';
-          if(hist.length) extra+=' NO repitas ni te parezcas a estos ya generados: '+hist.join(' | ')+'.';
-          var last=b.contents[b.contents.length-1];
-          if(last && last.parts && last.parts.length){ var p=last.parts[last.parts.length-1]; if(p && typeof p.text==='string'){ p.text+=extra; } else { last.parts.push({text:extra}); } }
-          else { b.contents.push({role:'user',parts:[{text:extra}]}); }
-          b.generationConfig=b.generationConfig||{};
-          if(b.generationConfig.temperature==null || b.generationConfig.temperature<0.95) b.generationConfig.temperature=0.97;
-          if(b.generationConfig.topP==null) b.generationConfig.topP=0.95;
-          var no=Object.assign({},opts,{body:JSON.stringify(b)});
-          return _f.call(this,input,no).then(function(r){
-            try{ var c=r.clone(); c.json().then(function(j){ try{
-              var t=((j.candidates&&j.candidates[0]&&j.candidates[0].content&&j.candidates[0].content.parts)||[]).map(function(x){return x.text||'';}).join('');
-              var fp=(t.split('\n').map(function(s){return s.trim();}).filter(Boolean)[0]||'').replace(/[`*#>_-]/g,'').slice(0,80);
-              pushH(fp);
-            }catch(e){} }).catch(function(){}); }catch(e){}
-            return r;
-          });
-        }
-      }
-    }catch(e){}
-    return _f.call(this,input,opts);
+/* ── SYSTEM PROMPT del nicho ── */
+const SYSTEM = `Eres narrador de RELATOS DE FE y testimonios inspiradores para JM BOTS, en 3D cinematografico o realista segun el estilo elegido, listas para Veo 3.
+REGLAS DE FORMATO (estrictas):
+- Explicaciones minimas en espanol latino.
+- Devolve EXACTAMENTE 4 bloques de codigo markdown, en este orden y sin texto entre ellos:
+  BLOQUE 1 = GUION (espanol latino).
+  BLOQUE 2 = PERSONAJES (ingles, fondo blanco).
+  BLOQUE 3 = ESCENAS por toma (ingles).
+  BLOQUE 4 = ANIMACION por toma (ingles).
+- Formato lineal en los bloques 2, 3 y 4: un prompt por linea, sin vinetas ni comillas, una linea en blanco entre prompts.
+- Visuales/animacion en ingles; guion/dialogos/narracion en espanol latino.
+SEGURIDAD: tono espiritual respetuoso y esperanzador, mensajes de valores; sin imponer doctrina como hecho ni contenido ofensivo; sin gore.
+VOZ/DIALOGO (segun el parametro recibido):
+- "solo visual": sin texto hablado.
+- "narrador": en el bloque 1 inclui la narracion en voz en off (para Fish Audio).
+- "dialogos": en el bloque 1 escribi los dialogos de los personajes en formato "NOMBRE: linea", estilo realista; sincroniza labios en el bloque 4.
+CONTENIDO:
+BLOQUE 1: titulo + arco completo (gancho, desarrollo, desenlace) con el modo de voz pedido. Nombres propios desde temprano; no repetir historias ni nombres.
+BLOQUE 2: un prompt por personaje con NOMBRE PROPIO, descripcion fisica y de vestimenta detallada y fija, toma frontal de cuerpo completo, FONDO BLANCO limpio, el estilo visual elegido; identico en todas las tomas. Termina cada uno con un bloque de calidad y uno negativo.
+BLOQUE 3: una linea por toma, en orden del guion; menciona por NOMBRE a quien aparece y su accion; plano + accion + expresion + fondo + iluminacion variando en cada escena; termina con "sin texto, sin marcas de agua, imagen limpia 9:16".
+BLOQUE 4: una linea por toma: animacion real de la accion (el sujeto SI se mueve) + movimiento de ambiente + transicion de entrada/salida coordinada con el clip vecino; camara casi quieta; si hay dialogos, sincroniza labios.
+No agregues nada despues del bloque 4. Produci directo.`;
+
+/* ── memoria local anti-repetición (por app) ── */
+function _hkey(){ return 'jmbots_hist_'+((location.pathname.split('/').pop()||'app').replace('.html','')); }
+function _getHist(){ try{ return JSON.parse(localStorage.getItem(_hkey())||'[]'); }catch(e){ return []; } }
+function _pushHist(fp){ if(!fp) return; try{ var h=_getHist().filter(x=>x!==fp); h.unshift(fp); localStorage.setItem(_hkey(),JSON.stringify(h.slice(0,15))); }catch(e){} }
+
+/* ── Construir el pedido a partir de los selectores ── */
+function buildPrompt(){
+  const sub=$("subgenero").value, pro=$("protagonista").value.trim()||"el/los personaje(s) principal(es) del video (definí los detalles y mantenelos coherentes en todas las tomas)",
+        esc=$("escenario").value, tono=$("tono").value, pal=$("paleta").value,
+        nv=($("narracion")?$("narracion").value:'no'), tomas=$("tomas").value,
+        pers=($("personajes")?$("personajes").value:'auto');
+  const PMAP={auto:"los que pida la historia — pueden aparecer e interactuar VARIOS personajes, no te limites a uno solo",
+              "1":"un solo protagonista",
+              "2":"dos personajes que interactúan entre sí",
+              "3":"tres personajes que interactúan entre sí",
+              "varios":"un elenco de varios personajes que interactúan"};
+  const NMAP={no:"NO — solo visual, sin voz (apto ASMR/silencioso)",
+              narrador:"SÍ — NARRACIÓN en voz en off de un narrador (incluí el texto narrado en el bloque 1, listo para Fish Audio)",
+              dialogos:"SÍ — DIÁLOGOS HABLADOS de los personajes estilo novela/telenovela: cada personaje dice sus líneas en primera persona; en el bloque 1 escribí los diálogos indicando qué personaje habla cada línea (NOMBRE: línea), y en el bloque 4 (animación) sincronizá el movimiento de labios/gestos con quien habla"};
+  const seed=Math.floor(Math.random()*1e9), hist=_getHist();
+  let av=`\n\nVARIACIÓN OBLIGATORIA: generá una historia/idea COMPLETAMENTE nueva y distinta a cualquier resultado anterior. Cambiá nombres propios, lugares puntuales, estructura, giros, encuadres y detalles. Evitá clichés y aperturas repetidas; no empieces siempre igual. Semilla creativa única: ${seed}.`;
+  if(hist.length) av+=` Ya salieron estos (NO los repitas ni te parezcas a ellos): ${hist.join(' | ')}.`;
+  return `Generá el pipeline completo con estos parámetros:
+- Tipo / escena: ${sub}
+- Personaje(s) (mantené a CADA uno idéntico en todas las tomas): ${pro}
+- Cantidad de personajes: ${PMAP[pers]||PMAP.auto}
+- Escenario / contexto: ${esc}
+- Tono / atmósfera: ${tono}
+- Estilo visual fijo (usar en TODOS los prompts visuales): ${pal}
+- Voz / diálogo: ${NMAP[nv]||NMAP.no}
+- Cantidad de tomas: ${tomas} (los bloques 3 y 4 deben tener exactamente ${tomas} prompts)
+
+Recordá: 4 bloques markdown, formato lineal, visuales en inglés, guion/diálogos/narración en español latino. El bloque 2 (personajes) va con descripción detallada y fondo blanco. Cuando haya más de un personaje, mostralos interactuando, definí a cada uno en el bloque 2 y repetí los descriptores de CADA personaje en cada toma donde aparezca.`+av;
+}
+
+/* ── Llamada a Gemini ── */
+async function callGemini(userText){
+  const key=$("apiKey").value.trim();
+  if(!key){ setKeyHint("Falta la clave de Gemini.","var(--c2)"); throw new Error('sin-clave'); }
+  const body={
+    systemInstruction:{ parts:[{text:SYSTEM}] },
+    contents:[{role:'user', parts:[{text:userText}]}],
+    generationConfig:{ temperature:0.97, topP:0.95, maxOutputTokens:8192 }
   };
-})();
+  const r=await fetch(`${API}/v1beta/models/${MODEL}:generateContent?key=${encodeURIComponent(key)}`,{
+    method:'POST', headers:{'Content-Type':'application/json'}, body:JSON.stringify(body)
+  });
+  if(!r.ok){ const e=await r.text().catch(()=>''); throw new Error('Gemini '+r.status+': '+e.slice(0,180)); }
+  const j=await r.json();
+  return (j.candidates?.[0]?.content?.parts||[]).map(p=>p.text||'').join('').trim();
+}
+
+/* ── Parsear los 4 bloques de código ── */
+function parseBlocks(txt){
+  const parts=txt.split(/```/);
+  const blocks=[];
+  for(let i=1;i<parts.length;i+=2){
+    blocks.push(parts[i].replace(/^[a-zA-Z]*\n/,'').replace(/^\n/,'').replace(/\n$/,''));
+  }
+  return blocks;
+}
+
+/* ── Generar ── */
+let busy=false;
+async function generar(){
+  if(busy) return;
+  busy=true;
+  const btn=$("genBtn"); btn.disabled=true; const old=btn.textContent; btn.textContent='⏳ Generando...';
+  $("status").className='status'; $("status").textContent='Pensando el storyboard y los prompts...';
+  try{
+    const txt=await callGemini(buildPrompt());
+    const b=parseBlocks(txt);
+    if(b.length<4){
+      // fallback: si no devolvió 4 bloques, volcamos todo en el guion para no perder nada
+      $("txtGuion").value=txt; $("txtPers").value=''; $("txtImgs").value=''; $("txtAnim").value='';
+      $("status").className='status err'; $("status").textContent='⚠️ La IA no devolvió los 4 lotes separados. Tenés todo en el Guion; probá "Generar" de nuevo.';
+    } else {
+      $("txtGuion").value=b[0]; $("txtPers").value=b[1]; $("txtImgs").value=b[2]; $("txtAnim").value=b[3];
+      try{ _pushHist((b[0].split('\n').map(s=>s.trim()).filter(Boolean)[0]||'').slice(0,80)); }catch(e){}
+      $("status").className='status ok'; $("status").textContent='✓ Pipeline listo. Revisá los 4 lotes en las pestañas.';
+    }
+    // resumen
+    $("sGenero").textContent=$("subgenero").options[$("subgenero").selectedIndex].text;
+    $("sEsc").textContent=$("escenario").options[$("escenario").selectedIndex].text;
+    $("sTono").textContent=$("tono").options[$("tono").selectedIndex].text;
+    $("sNarr").textContent=$("narracion").value==='si'?'Con voz':'Solo visual';
+    $("sTomas").textContent=$("tomas").value;
+    $("sProta").textContent=$("protagonista").value.trim()||'(definido por la IA — mismo en todas las tomas)';
+    $("output").classList.add('visible');
+    $("output").scrollIntoView({behavior:'smooth', block:'start'});
+  }catch(err){
+    if(err.message!=='sin-clave'){ $("status").className='status err'; $("status").textContent='❌ '+err.message; }
+  }finally{
+    btn.disabled=false; btn.textContent=old; busy=false;
+  }
+}
+
+/* ── Sorpresa: randomiza los selectores y genera ── */
+function sorpresa(){
+  ['subgenero','escenario','tono','paleta','tomas'].forEach(id=>{
+    const el=$(id), o=el.options; el.selectedIndex=Math.floor(Math.random()*o.length);
+  });
+  generar();
+}
+
+/* ── Copiar lote ── */
+function copyArea(id,btn){
+  const t=$(id); if(!t.value.trim()) return;
+  navigator.clipboard.writeText(t.value).then(()=>{ const o=btn.textContent; btn.textContent='✅ ¡Copiado!'; setTimeout(()=>btn.textContent=o,1600); });
+}
+
+/* ── Tabs ── */
+document.querySelectorAll('.tab').forEach(t=>{
+  t.addEventListener('click',()=>{
+    document.querySelectorAll('.tab').forEach(x=>x.classList.remove('active'));
+    document.querySelectorAll('.panel').forEach(x=>x.classList.remove('visible'));
+    t.classList.add('active'); $(t.dataset.p).classList.add('visible');
+  });
+});
 </script>
 <script src="jmbots-resilience.js"></script>
 <script src="apps-menu.js"></script>
+<!--jmkeycount--><script>(function(){var k=document.getElementById('apiKey');if(!k)return;k.classList.add('masked');function c(){var n=(k.value||'').split(/[\s,;\n]+/).map(function(s){return s.trim();}).filter(Boolean).length;var h=document.getElementById('keyHint');if(!h)return;if(n>0){h.textContent='\u2713 '+n+' clave'+(n>1?'s':'')+' cargada'+(n>1?'s':'')+(n>=2?' \u00b7 rotaci\u00f3n activa entre ellas':'')+' + respaldo offline.';h.style.color='#84cc16';}else{h.textContent='Peg\u00e1 hasta 5 claves de Gemini, una por rengl\u00f3n. Rotan solas si una se queda sin tokens; si fallan todas, entra el banco de respaldo.';h.style.color='';}}k.addEventListener('input',c);c();})();</script>
 </body>
 </html>
