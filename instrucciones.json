@@ -1806,5 +1806,325 @@
    "Copiá cada lote en su pestaña."
   ],
   "tip": "Para que los personajes hablen, elegí «Diálogos»; para voz en off, «Narración»."
+ },
+ "mascotashablan": {
+  "que": "Generador «Mascotas que Hablan»: 4 lotes (guion, personajes con fondo blanco, escenas, animación), optimizado para Veo 3.1.",
+  "pasos": [
+   "Pegá tu(s) clave(s) Gemini (una por renglón) y Guardar.",
+   "Configurá el panel (tipo, tono, paleta, voz, tomas).",
+   "Tocá «Generar pipeline» (o «Sorpresa»).",
+   "Copiá cada lote en su pestaña."
+  ],
+  "tip": "El bloque de personajes sirve como imagen de referencia (Ingredient) para Veo 3.1."
+ },
+ "audiolibro": {
+  "que": "Generador «Audiolibro Inmersivo»: 4 lotes (guion, personajes con fondo blanco, escenas, animación), optimizado para Veo 3.1.",
+  "pasos": [
+   "Pegá tu(s) clave(s) Gemini (una por renglón) y Guardar.",
+   "Configurá el panel (tipo, tono, paleta, voz, tomas).",
+   "Tocá «Generar pipeline» (o «Sorpresa»).",
+   "Copiá cada lote en su pestaña."
+  ],
+  "tip": "El bloque de personajes sirve como imagen de referencia (Ingredient) para Veo 3.1."
+ },
+ "leyendaslatam": {
+  "que": "Generador «Leyendas Latinoamericanas»: 4 lotes (guion, personajes con fondo blanco, escenas, animación), optimizado para Veo 3.1.",
+  "pasos": [
+   "Pegá tu(s) clave(s) Gemini (una por renglón) y Guardar.",
+   "Configurá el panel (tipo, tono, paleta, voz, tomas).",
+   "Tocá «Generar pipeline» (o «Sorpresa»).",
+   "Copiá cada lote en su pestaña."
+  ],
+  "tip": "El bloque de personajes sirve como imagen de referencia (Ingredient) para Veo 3.1."
+ },
+ "diosesmundo": {
+  "que": "Generador «Dioses del Mundo»: 4 lotes (guion, personajes con fondo blanco, escenas, animación), optimizado para Veo 3.1.",
+  "pasos": [
+   "Pegá tu(s) clave(s) Gemini (una por renglón) y Guardar.",
+   "Configurá el panel (tipo, tono, paleta, voz, tomas).",
+   "Tocá «Generar pipeline» (o «Sorpresa»).",
+   "Copiá cada lote en su pestaña."
+  ],
+  "tip": "El bloque de personajes sirve como imagen de referencia (Ingredient) para Veo 3.1."
+ },
+ "animalesvida": {
+  "que": "Generador «Animales que Cuentan su Vida»: 4 lotes (guion, personajes con fondo blanco, escenas, animación), optimizado para Veo 3.1.",
+  "pasos": [
+   "Pegá tu(s) clave(s) Gemini (una por renglón) y Guardar.",
+   "Configurá el panel (tipo, tono, paleta, voz, tomas).",
+   "Tocá «Generar pipeline» (o «Sorpresa»).",
+   "Copiá cada lote en su pestaña."
+  ],
+  "tip": "El bloque de personajes sirve como imagen de referencia (Ingredient) para Veo 3.1."
+ },
+ "objetoshistoria": {
+  "que": "Generador «Objetos que Cuentan su Historia»: 4 lotes (guion, personajes con fondo blanco, escenas, animación), optimizado para Veo 3.1.",
+  "pasos": [
+   "Pegá tu(s) clave(s) Gemini (una por renglón) y Guardar.",
+   "Configurá el panel (tipo, tono, paleta, voz, tomas).",
+   "Tocá «Generar pipeline» (o «Sorpresa»).",
+   "Copiá cada lote en su pestaña."
+  ],
+  "tip": "El bloque de personajes sirve como imagen de referencia (Ingredient) para Veo 3.1."
+ },
+ "refranes": {
+  "que": "Generador «Refranes y Dichos»: 4 lotes (guion, personajes con fondo blanco, escenas, animación), optimizado para Veo 3.1.",
+  "pasos": [
+   "Pegá tu(s) clave(s) Gemini (una por renglón) y Guardar.",
+   "Configurá el panel (tipo, tono, paleta, voz, tomas).",
+   "Tocá «Generar pipeline» (o «Sorpresa»).",
+   "Copiá cada lote en su pestaña."
+  ],
+  "tip": "El bloque de personajes sirve como imagen de referencia (Ingredient) para Veo 3.1."
+ },
+ "comidatipica": {
+  "que": "Generador «Comida Típica que Cobra Vida»: 4 lotes (guion, personajes con fondo blanco, escenas, animación), optimizado para Veo 3.1.",
+  "pasos": [
+   "Pegá tu(s) clave(s) Gemini (una por renglón) y Guardar.",
+   "Configurá el panel (tipo, tono, paleta, voz, tomas).",
+   "Tocá «Generar pipeline» (o «Sorpresa»).",
+   "Copiá cada lote en su pestaña."
+  ],
+  "tip": "El bloque de personajes sirve como imagen de referencia (Ingredient) para Veo 3.1."
+ },
+ "versus": {
+  "que": "Generador «Versus Épico»: 4 lotes (guion, personajes con fondo blanco, escenas, animación), optimizado para Veo 3.1.",
+  "pasos": [
+   "Pegá tu(s) clave(s) Gemini (una por renglón) y Guardar.",
+   "Configurá el panel (tipo, tono, paleta, voz, tomas).",
+   "Tocá «Generar pipeline» (o «Sorpresa»).",
+   "Copiá cada lote en su pestaña."
+  ],
+  "tip": "El bloque de personajes sirve como imagen de referencia (Ingredient) para Veo 3.1."
+ },
+ "trailerfalso": {
+  "que": "Generador «Tráiler de Película Falsa»: 4 lotes (guion, personajes con fondo blanco, escenas, animación), optimizado para Veo 3.1.",
+  "pasos": [
+   "Pegá tu(s) clave(s) Gemini (una por renglón) y Guardar.",
+   "Configurá el panel (tipo, tono, paleta, voz, tomas).",
+   "Tocá «Generar pipeline» (o «Sorpresa»).",
+   "Copiá cada lote en su pestaña."
+  ],
+  "tip": "El bloque de personajes sirve como imagen de referencia (Ingredient) para Veo 3.1."
+ },
+ "cuentosclasicos": {
+  "que": "Generador «Cuentos Clásicos»: 4 lotes (guion, personajes con fondo blanco, escenas, animación), optimizado para Veo 3.1.",
+  "pasos": [
+   "Pegá tu(s) clave(s) Gemini (una por renglón) y Guardar.",
+   "Configurá el panel (tipo, tono, paleta, voz, tomas).",
+   "Tocá «Generar pipeline» (o «Sorpresa»).",
+   "Copiá cada lote en su pestaña."
+  ],
+  "tip": "El bloque de personajes sirve como imagen de referencia (Ingredient) para Veo 3.1."
+ },
+ "reaccionanimales": {
+  "que": "Generador «Reacciones de Animales»: 4 lotes (guion, personajes con fondo blanco, escenas, animación), optimizado para Veo 3.1.",
+  "pasos": [
+   "Pegá tu(s) clave(s) Gemini (una por renglón) y Guardar.",
+   "Configurá el panel (tipo, tono, paleta, voz, tomas).",
+   "Tocá «Generar pipeline» (o «Sorpresa»).",
+   "Copiá cada lote en su pestaña."
+  ],
+  "tip": "El bloque de personajes sirve como imagen de referencia (Ingredient) para Veo 3.1."
+ },
+ "dialogospareja": {
+  "que": "Generador «Diálogos de Pareja»: 4 lotes (guion, personajes con fondo blanco, escenas, animación), optimizado para Veo 3.1.",
+  "pasos": [
+   "Pegá tu(s) clave(s) Gemini (una por renglón) y Guardar.",
+   "Configurá el panel (tipo, tono, paleta, voz, tomas).",
+   "Tocá «Generar pipeline» (o «Sorpresa»).",
+   "Copiá cada lote en su pestaña."
+  ],
+  "tip": "El bloque de personajes sirve como imagen de referencia (Ingredient) para Veo 3.1."
+ },
+ "terrorpais": {
+  "que": "Generador «Terror de Cada País»: 4 lotes (guion, personajes con fondo blanco, escenas, animación), optimizado para Veo 3.1.",
+  "pasos": [
+   "Pegá tu(s) clave(s) Gemini (una por renglón) y Guardar.",
+   "Configurá el panel (tipo, tono, paleta, voz, tomas).",
+   "Tocá «Generar pipeline» (o «Sorpresa»).",
+   "Copiá cada lote en su pestaña."
+  ],
+  "tip": "El bloque de personajes sirve como imagen de referencia (Ingredient) para Veo 3.1."
+ },
+ "vidassantos": {
+  "que": "Generador «Vidas de Santos»: 4 lotes (guion, personajes con fondo blanco, escenas, animación), optimizado para Veo 3.1.",
+  "pasos": [
+   "Pegá tu(s) clave(s) Gemini (una por renglón) y Guardar.",
+   "Configurá el panel (tipo, tono, paleta, voz, tomas).",
+   "Tocá «Generar pipeline» (o «Sorpresa»).",
+   "Copiá cada lote en su pestaña."
+  ],
+  "tip": "El bloque de personajes sirve como imagen de referencia (Ingredient) para Veo 3.1."
+ },
+ "megafauna": {
+  "que": "Generador «Megafauna Prehistórica»: 4 lotes (guion, personajes con fondo blanco, escenas, animación), optimizado para Veo 3.1.",
+  "pasos": [
+   "Pegá tu(s) clave(s) Gemini (una por renglón) y Guardar.",
+   "Configurá el panel (tipo, tono, paleta, voz, tomas).",
+   "Tocá «Generar pipeline» (o «Sorpresa»).",
+   "Copiá cada lote en su pestaña."
+  ],
+  "tip": "El bloque de personajes sirve como imagen de referencia (Ingredient) para Veo 3.1."
+ },
+ "accionepica": {
+  "que": "Generador «Escenas de Acción Épicas»: 4 lotes (guion, personajes con fondo blanco, escenas, animación), optimizado para Veo 3.1.",
+  "pasos": [
+   "Pegá tu(s) clave(s) Gemini (una por renglón) y Guardar.",
+   "Configurá el panel (tipo, tono, paleta, voz, tomas).",
+   "Tocá «Generar pipeline» (o «Sorpresa»).",
+   "Copiá cada lote en su pestaña."
+  ],
+  "tip": "El bloque de personajes sirve como imagen de referencia (Ingredient) para Veo 3.1."
+ },
+ "mundosfantasia": {
+  "que": "Generador «Mundos de Fantasía»: 4 lotes (guion, personajes con fondo blanco, escenas, animación), optimizado para Veo 3.1.",
+  "pasos": [
+   "Pegá tu(s) clave(s) Gemini (una por renglón) y Guardar.",
+   "Configurá el panel (tipo, tono, paleta, voz, tomas).",
+   "Tocá «Generar pipeline» (o «Sorpresa»).",
+   "Copiá cada lote en su pestaña."
+  ],
+  "tip": "El bloque de personajes sirve como imagen de referencia (Ingredient) para Veo 3.1."
+ },
+ "bibliakids": {
+  "que": "Generador «Historias de la Biblia para Niños»: 4 lotes (guion, personajes con fondo blanco, escenas, animación), optimizado para Veo 3.1.",
+  "pasos": [
+   "Pegá tu(s) clave(s) Gemini (una por renglón) y Guardar.",
+   "Configurá el panel (tipo, tono, paleta, voz, tomas).",
+   "Tocá «Generar pipeline» (o «Sorpresa»).",
+   "Copiá cada lote en su pestaña."
+  ],
+  "tip": "El bloque de personajes sirve como imagen de referencia (Ingredient) para Veo 3.1."
+ },
+ "idiomaskids": {
+  "que": "Generador «Aprende Idiomas Jugando»: 4 lotes (guion, personajes con fondo blanco, escenas, animación), optimizado para Veo 3.1.",
+  "pasos": [
+   "Pegá tu(s) clave(s) Gemini (una por renglón) y Guardar.",
+   "Configurá el panel (tipo, tono, paleta, voz, tomas).",
+   "Tocá «Generar pipeline» (o «Sorpresa»).",
+   "Copiá cada lote en su pestaña."
+  ],
+  "tip": "El bloque de personajes sirve como imagen de referencia (Ingredient) para Veo 3.1."
+ },
+ "yogakids": {
+  "que": "Generador «Yoga / Calma para Niños»: 4 lotes (guion, personajes con fondo blanco, escenas, animación), optimizado para Veo 3.1.",
+  "pasos": [
+   "Pegá tu(s) clave(s) Gemini (una por renglón) y Guardar.",
+   "Configurá el panel (tipo, tono, paleta, voz, tomas).",
+   "Tocá «Generar pipeline» (o «Sorpresa»).",
+   "Copiá cada lote en su pestaña."
+  ],
+  "tip": "El bloque de personajes sirve como imagen de referencia (Ingredient) para Veo 3.1."
+ },
+ "seguridadkids": {
+  "que": "Generador «Seguridad para Niños»: 4 lotes (guion, personajes con fondo blanco, escenas, animación), optimizado para Veo 3.1.",
+  "pasos": [
+   "Pegá tu(s) clave(s) Gemini (una por renglón) y Guardar.",
+   "Configurá el panel (tipo, tono, paleta, voz, tomas).",
+   "Tocá «Generar pipeline» (o «Sorpresa»).",
+   "Copiá cada lote en su pestaña."
+  ],
+  "tip": "El bloque de personajes sirve como imagen de referencia (Ingredient) para Veo 3.1."
+ },
+ "habitoskids": {
+  "que": "Generador «Hábitos Saludables Infantiles»: 4 lotes (guion, personajes con fondo blanco, escenas, animación), optimizado para Veo 3.1.",
+  "pasos": [
+   "Pegá tu(s) clave(s) Gemini (una por renglón) y Guardar.",
+   "Configurá el panel (tipo, tono, paleta, voz, tomas).",
+   "Tocá «Generar pipeline» (o «Sorpresa»).",
+   "Copiá cada lote en su pestaña."
+  ],
+  "tip": "El bloque de personajes sirve como imagen de referencia (Ingredient) para Veo 3.1."
+ },
+ "naturalezakids": {
+  "que": "Generador «Naturaleza para Niños»: 4 lotes (guion, personajes con fondo blanco, escenas, animación), optimizado para Veo 3.1.",
+  "pasos": [
+   "Pegá tu(s) clave(s) Gemini (una por renglón) y Guardar.",
+   "Configurá el panel (tipo, tono, paleta, voz, tomas).",
+   "Tocá «Generar pipeline» (o «Sorpresa»).",
+   "Copiá cada lote en su pestaña."
+  ],
+  "tip": "El bloque de personajes sirve como imagen de referencia (Ingredient) para Veo 3.1."
+ },
+ "toursprop": {
+  "que": "Generador «Tours de Propiedades»: 3 lotes (guion narrado, escenas, animación), optimizado para Veo 3.1.",
+  "pasos": [
+   "Pegá tu(s) clave(s) Gemini (una por renglón) y Guardar.",
+   "Configurá el panel (tipo, tono, paleta, voz, tomas).",
+   "Tocá «Generar pipeline» (o «Sorpresa»).",
+   "Copiá cada lote en su pestaña."
+  ],
+  "tip": "El bloque de personajes sirve como imagen de referencia (Ingredient) para Veo 3.1."
+ },
+ "quepasaria": {
+  "que": "Generador «¿Qué pasaría si…?»: 3 lotes (guion narrado, escenas, animación), optimizado para Veo 3.1.",
+  "pasos": [
+   "Pegá tu(s) clave(s) Gemini (una por renglón) y Guardar.",
+   "Configurá el panel (tipo, tono, paleta, voz, tomas).",
+   "Tocá «Generar pipeline» (o «Sorpresa»).",
+   "Copiá cada lote en su pestaña."
+  ],
+  "tip": "El bloque de personajes sirve como imagen de referencia (Ingredient) para Veo 3.1."
+ },
+ "comosehace": {
+  "que": "Generador «Cómo se Hace»: 3 lotes (guion narrado, escenas, animación), optimizado para Veo 3.1.",
+  "pasos": [
+   "Pegá tu(s) clave(s) Gemini (una por renglón) y Guardar.",
+   "Configurá el panel (tipo, tono, paleta, voz, tomas).",
+   "Tocá «Generar pipeline» (o «Sorpresa»).",
+   "Copiá cada lote en su pestaña."
+  ],
+  "tip": "El bloque de personajes sirve como imagen de referencia (Ingredient) para Veo 3.1."
+ },
+ "lineatiempo": {
+  "que": "Generador «Línea de Tiempo»: 3 lotes (guion narrado, escenas, animación), optimizado para Veo 3.1.",
+  "pasos": [
+   "Pegá tu(s) clave(s) Gemini (una por renglón) y Guardar.",
+   "Configurá el panel (tipo, tono, paleta, voz, tomas).",
+   "Tocá «Generar pipeline» (o «Sorpresa»).",
+   "Copiá cada lote en su pestaña."
+  ],
+  "tip": "El bloque de personajes sirve como imagen de referencia (Ingredient) para Veo 3.1."
+ },
+ "records": {
+  "que": "Generador «Récords Mundiales»: 3 lotes (guion narrado, escenas, animación), optimizado para Veo 3.1.",
+  "pasos": [
+   "Pegá tu(s) clave(s) Gemini (una por renglón) y Guardar.",
+   "Configurá el panel (tipo, tono, paleta, voz, tomas).",
+   "Tocá «Generar pipeline» (o «Sorpresa»).",
+   "Copiá cada lote en su pestaña."
+  ],
+  "tip": "El bloque de personajes sirve como imagen de referencia (Ingredient) para Veo 3.1."
+ },
+ "porquehacemos": {
+  "que": "Generador «¿Por qué Hacemos…?»: 3 lotes (guion narrado, escenas, animación), optimizado para Veo 3.1.",
+  "pasos": [
+   "Pegá tu(s) clave(s) Gemini (una por renglón) y Guardar.",
+   "Configurá el panel (tipo, tono, paleta, voz, tomas).",
+   "Tocá «Generar pipeline» (o «Sorpresa»).",
+   "Copiá cada lote en su pestaña."
+  ],
+  "tip": "El bloque de personajes sirve como imagen de referencia (Ingredient) para Veo 3.1."
+ },
+ "antesdespues": {
+  "que": "Generador «Antes / Después de Servicios»: 3 lotes (guion narrado, escenas, animación), optimizado para Veo 3.1.",
+  "pasos": [
+   "Pegá tu(s) clave(s) Gemini (una por renglón) y Guardar.",
+   "Configurá el panel (tipo, tono, paleta, voz, tomas).",
+   "Tocá «Generar pipeline» (o «Sorpresa»).",
+   "Copiá cada lote en su pestaña."
+  ],
+  "tip": "El bloque de personajes sirve como imagen de referencia (Ingredient) para Veo 3.1."
+ },
+ "menurest": {
+  "que": "Generador «Menú Animado para Restaurantes»: 3 lotes (guion narrado, escenas, animación), optimizado para Veo 3.1.",
+  "pasos": [
+   "Pegá tu(s) clave(s) Gemini (una por renglón) y Guardar.",
+   "Configurá el panel (tipo, tono, paleta, voz, tomas).",
+   "Tocá «Generar pipeline» (o «Sorpresa»).",
+   "Copiá cada lote en su pestaña."
+  ],
+  "tip": "El bloque de personajes sirve como imagen de referencia (Ingredient) para Veo 3.1."
  }
 }
