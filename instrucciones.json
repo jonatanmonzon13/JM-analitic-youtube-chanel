@@ -1706,5 +1706,105 @@
    "Copiá los 3 lotes de prompts (Personajes, Escenas, Animación)."
   ],
   "tip": "Si ninguna idea te gusta, escribí «reset idea» para 15 nuevas. Cada clip dura 6 s; los clips se calculan según la duración del audio."
+ },
+ "canioninfantil": {
+  "que": "Generador infantil «Canciones Infantiles»: 4 lotes (guion, personajes con fondo blanco, escenas, animación), 100% apto para niños.",
+  "pasos": [
+   "Pegá tu(s) clave(s) Gemini (una por renglón) y Guardar.",
+   "Elegí tema, personajes, voz/narración y tomas.",
+   "Tocá «Generar pipeline» (o «Sorpresa»).",
+   "Copiá cada lote en su pestaña."
+  ],
+  "tip": "Para que los personajes hablen, elegí «Diálogos»; para voz en off, «Narración»."
+ },
+ "aprendojugando": {
+  "que": "Generador infantil «Aprendo Jugando»: 4 lotes (guion, personajes con fondo blanco, escenas, animación), 100% apto para niños.",
+  "pasos": [
+   "Pegá tu(s) clave(s) Gemini (una por renglón) y Guardar.",
+   "Elegí tema, personajes, voz/narración y tomas.",
+   "Tocá «Generar pipeline» (o «Sorpresa»).",
+   "Copiá cada lote en su pestaña."
+  ],
+  "tip": "Para que los personajes hablen, elegí «Diálogos»; para voz en off, «Narración»."
+ },
+ "animalitos": {
+  "que": "Generador infantil «Animales para Ninos»: 4 lotes (guion, personajes con fondo blanco, escenas, animación), 100% apto para niños.",
+  "pasos": [
+   "Pegá tu(s) clave(s) Gemini (una por renglón) y Guardar.",
+   "Elegí tema, personajes, voz/narración y tomas.",
+   "Tocá «Generar pipeline» (o «Sorpresa»).",
+   "Copiá cada lote en su pestaña."
+  ],
+  "tip": "Para que los personajes hablen, elegí «Diálogos»; para voz en off, «Narración»."
+ },
+ "vehiculos": {
+  "que": "Generador infantil «Vehiculos para Ninos»: 4 lotes (guion, personajes con fondo blanco, escenas, animación), 100% apto para niños.",
+  "pasos": [
+   "Pegá tu(s) clave(s) Gemini (una por renglón) y Guardar.",
+   "Elegí tema, personajes, voz/narración y tomas.",
+   "Tocá «Generar pipeline» (o «Sorpresa»).",
+   "Copiá cada lote en su pestaña."
+  ],
+  "tip": "Para que los personajes hablen, elegí «Diálogos»; para voz en off, «Narración»."
+ },
+ "cuentohadas": {
+  "que": "Generador infantil «Cuentos de Hadas»: 4 lotes (guion, personajes con fondo blanco, escenas, animación), 100% apto para niños.",
+  "pasos": [
+   "Pegá tu(s) clave(s) Gemini (una por renglón) y Guardar.",
+   "Elegí tema, personajes, voz/narración y tomas.",
+   "Tocá «Generar pipeline» (o «Sorpresa»).",
+   "Copiá cada lote en su pestaña."
+  ],
+  "tip": "Para que los personajes hablen, elegí «Diálogos»; para voz en off, «Narración»."
+ },
+ "emociones": {
+  "que": "Generador infantil «Emociones y Sentimientos»: 4 lotes (guion, personajes con fondo blanco, escenas, animación), 100% apto para niños.",
+  "pasos": [
+   "Pegá tu(s) clave(s) Gemini (una por renglón) y Guardar.",
+   "Elegí tema, personajes, voz/narración y tomas.",
+   "Tocá «Generar pipeline» (o «Sorpresa»).",
+   "Copiá cada lote en su pestaña."
+  ],
+  "tip": "Para que los personajes hablen, elegí «Diálogos»; para voz en off, «Narración»."
+ },
+ "modales": {
+  "que": "Generador infantil «Buenos Modales y Habitos»: 4 lotes (guion, personajes con fondo blanco, escenas, animación), 100% apto para niños.",
+  "pasos": [
+   "Pegá tu(s) clave(s) Gemini (una por renglón) y Guardar.",
+   "Elegí tema, personajes, voz/narración y tomas.",
+   "Tocá «Generar pipeline» (o «Sorpresa»).",
+   "Copiá cada lote en su pestaña."
+  ],
+  "tip": "Para que los personajes hablen, elegí «Diálogos»; para voz en off, «Narración»."
+ },
+ "espacioninos": {
+  "que": "Generador infantil «El Espacio para Ninos»: 4 lotes (guion, personajes con fondo blanco, escenas, animación), 100% apto para niños.",
+  "pasos": [
+   "Pegá tu(s) clave(s) Gemini (una por renglón) y Guardar.",
+   "Elegí tema, personajes, voz/narración y tomas.",
+   "Tocá «Generar pipeline» (o «Sorpresa»).",
+   "Copiá cada lote en su pestaña."
+  ],
+  "tip": "Para que los personajes hablen, elegí «Diálogos»; para voz en off, «Narración»."
+ },
+ "granja": {
+  "que": "Generador infantil «Granja Feliz»: 4 lotes (guion, personajes con fondo blanco, escenas, animación), 100% apto para niños.",
+  "pasos": [
+   "Pegá tu(s) clave(s) Gemini (una por renglón) y Guardar.",
+   "Elegí tema, personajes, voz/narración y tomas.",
+   "Tocá «Generar pipeline» (o «Sorpresa»).",
+   "Copiá cada lote en su pestaña."
+  ],
+  "tip": "Para que los personajes hablen, elegí «Diálogos»; para voz en off, «Narración»."
+ },
+ "adivinanzas": {
+  "que": "Generador infantil «Adivinanzas para Ninos»: 4 lotes (guion, personajes con fondo blanco, escenas, animación), 100% apto para niños.",
+  "pasos": [
+   "Pegá tu(s) clave(s) Gemini (una por renglón) y Guardar.",
+   "Elegí tema, personajes, voz/narración y tomas.",
+   "Tocá «Generar pipeline» (o «Sorpresa»).",
+   "Copiá cada lote en su pestaña."
+  ],
+  "tip": "Para que los personajes hablen, elegí «Diálogos»; para voz en off, «Narración»."
  }
 }

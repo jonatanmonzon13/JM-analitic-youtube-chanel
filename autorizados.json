@@ -1000,6 +1000,66 @@
       "nombre": "Cuentos Virales 3D",
       "archivo": "cuentoviral.html",
       "img": "img/cuentoviral.jpg"
+    },
+    {
+      "id": "canioninfantil",
+      "nombre": "Canciones Infantiles",
+      "archivo": "canioninfantil.html",
+      "img": "img/canioninfantil.jpg"
+    },
+    {
+      "id": "aprendojugando",
+      "nombre": "Aprendo Jugando",
+      "archivo": "aprendojugando.html",
+      "img": "img/aprendojugando.jpg"
+    },
+    {
+      "id": "animalitos",
+      "nombre": "Animales para Ninos",
+      "archivo": "animalitos.html",
+      "img": "img/animalitos.jpg"
+    },
+    {
+      "id": "vehiculos",
+      "nombre": "Vehiculos para Ninos",
+      "archivo": "vehiculos.html",
+      "img": "img/vehiculos.jpg"
+    },
+    {
+      "id": "cuentohadas",
+      "nombre": "Cuentos de Hadas",
+      "archivo": "cuentohadas.html",
+      "img": "img/cuentohadas.jpg"
+    },
+    {
+      "id": "emociones",
+      "nombre": "Emociones y Sentimientos",
+      "archivo": "emociones.html",
+      "img": "img/emociones.jpg"
+    },
+    {
+      "id": "modales",
+      "nombre": "Buenos Modales y Habitos",
+      "archivo": "modales.html",
+      "img": "img/modales.jpg"
+    },
+    {
+      "id": "espacioninos",
+      "nombre": "El Espacio para Ninos",
+      "archivo": "espacioninos.html",
+      "img": "img/espacioninos.jpg"
+    },
+    {
+      "id": "granja",
+      "nombre": "Granja Feliz",
+      "archivo": "granja.html",
+      "img": "img/granja.jpg"
+    },
+    {
+      "id": "adivinanzas",
+      "nombre": "Adivinanzas para Ninos",
+      "archivo": "adivinanzas.html",
+      "img": "img/adivinanzas.jpg"
     }
   ],
   "accesos": {
@@ -1161,7 +1221,17 @@
       "whiteboard",
       "squishmelt",
       "asmrreveal",
-      "cuentoviral"
+      "cuentoviral",
+      "canioninfantil",
+      "aprendojugando",
+      "animalitos",
+      "vehiculos",
+      "cuentohadas",
+      "emociones",
+      "modales",
+      "espacioninos",
+      "granja",
+      "adivinanzas"
     ],
     "diegoasalazarc70@gmail.com": [
       "outliers",
@@ -1321,7 +1391,17 @@
       "whiteboard",
       "squishmelt",
       "asmrreveal",
-      "cuentoviral"
+      "cuentoviral",
+      "canioninfantil",
+      "aprendojugando",
+      "animalitos",
+      "vehiculos",
+      "cuentohadas",
+      "emociones",
+      "modales",
+      "espacioninos",
+      "granja",
+      "adivinanzas"
     ],
     "joxcimars2016@gmail.com": [
       "outliers",
@@ -1481,7 +1561,17 @@
       "whiteboard",
       "squishmelt",
       "asmrreveal",
-      "cuentoviral"
+      "cuentoviral",
+      "canioninfantil",
+      "aprendojugando",
+      "animalitos",
+      "vehiculos",
+      "cuentohadas",
+      "emociones",
+      "modales",
+      "espacioninos",
+      "granja",
+      "adivinanzas"
     ],
     "ayala.luis@correounivalle.edu.co": [
       "outliers",
@@ -1641,7 +1731,17 @@
       "whiteboard",
       "squishmelt",
       "asmrreveal",
-      "cuentoviral"
+      "cuentoviral",
+      "canioninfantil",
+      "aprendojugando",
+      "animalitos",
+      "vehiculos",
+      "cuentohadas",
+      "emociones",
+      "modales",
+      "espacioninos",
+      "granja",
+      "adivinanzas"
     ],
     "febreromonetiza10@gmail.com": [
       "outliers",
@@ -1798,7 +1898,17 @@
       "whiteboard",
       "squishmelt",
       "asmrreveal",
-      "cuentoviral"
+      "cuentoviral",
+      "canioninfantil",
+      "aprendojugando",
+      "animalitos",
+      "vehiculos",
+      "cuentohadas",
+      "emociones",
+      "modales",
+      "espacioninos",
+      "granja",
+      "adivinanzas"
     ],
     "creadordigital.82ia@gmail.com": [
       "outliers",
@@ -1958,7 +2068,17 @@
       "whiteboard",
       "squishmelt",
       "asmrreveal",
-      "cuentoviral"
+      "cuentoviral",
+      "canioninfantil",
+      "aprendojugando",
+      "animalitos",
+      "vehiculos",
+      "cuentohadas",
+      "emociones",
+      "modales",
+      "espacioninos",
+      "granja",
+      "adivinanzas"
     ],
     "valdesingrid258@gmail.com": [
       "outliers",
@@ -2118,7 +2238,17 @@
       "whiteboard",
       "squishmelt",
       "asmrreveal",
-      "cuentoviral"
+      "cuentoviral",
+      "canioninfantil",
+      "aprendojugando",
+      "animalitos",
+      "vehiculos",
+      "cuentohadas",
+      "emociones",
+      "modales",
+      "espacioninos",
+      "granja",
+      "adivinanzas"
     ],
     "maricuenta727@gmail.com": [
       "outliers",
@@ -2278,7 +2408,17 @@
       "whiteboard",
       "squishmelt",
       "asmrreveal",
-      "cuentoviral"
+      "cuentoviral",
+      "canioninfantil",
+      "aprendojugando",
+      "animalitos",
+      "vehiculos",
+      "cuentohadas",
+      "emociones",
+      "modales",
+      "espacioninos",
+      "granja",
+      "adivinanzas"
     ],
     "libertopiemoran@gmail.com": [
       "outliers",
@@ -2438,7 +2578,17 @@
       "whiteboard",
       "squishmelt",
       "asmrreveal",
-      "cuentoviral"
+      "cuentoviral",
+      "canioninfantil",
+      "aprendojugando",
+      "animalitos",
+      "vehiculos",
+      "cuentohadas",
+      "emociones",
+      "modales",
+      "espacioninos",
+      "granja",
+      "adivinanzas"
     ],
     "alexandersamchez000000@gmail.com": [
       "outliers",
@@ -2598,7 +2748,17 @@
       "whiteboard",
       "squishmelt",
       "asmrreveal",
-      "cuentoviral"
+      "cuentoviral",
+      "canioninfantil",
+      "aprendojugando",
+      "animalitos",
+      "vehiculos",
+      "cuentohadas",
+      "emociones",
+      "modales",
+      "espacioninos",
+      "granja",
+      "adivinanzas"
     ],
     "andresportillo371@gmail.com": [
       "outliers",
@@ -2758,7 +2918,17 @@
       "whiteboard",
       "squishmelt",
       "asmrreveal",
-      "cuentoviral"
+      "cuentoviral",
+      "canioninfantil",
+      "aprendojugando",
+      "animalitos",
+      "vehiculos",
+      "cuentohadas",
+      "emociones",
+      "modales",
+      "espacioninos",
+      "granja",
+      "adivinanzas"
     ],
     "darioperezlindo77@gmail.com": [
       "outliers",
@@ -2918,7 +3088,17 @@
       "whiteboard",
       "squishmelt",
       "asmrreveal",
-      "cuentoviral"
+      "cuentoviral",
+      "canioninfantil",
+      "aprendojugando",
+      "animalitos",
+      "vehiculos",
+      "cuentohadas",
+      "emociones",
+      "modales",
+      "espacioninos",
+      "granja",
+      "adivinanzas"
     ],
     "almareflexiva46@gmail.com": [
       "outliers",
@@ -3078,7 +3258,17 @@
       "whiteboard",
       "squishmelt",
       "asmrreveal",
-      "cuentoviral"
+      "cuentoviral",
+      "canioninfantil",
+      "aprendojugando",
+      "animalitos",
+      "vehiculos",
+      "cuentohadas",
+      "emociones",
+      "modales",
+      "espacioninos",
+      "granja",
+      "adivinanzas"
     ],
     "edison.herrera.m@gmail.com": [
       "outliers",
@@ -3238,7 +3428,17 @@
       "whiteboard",
       "squishmelt",
       "asmrreveal",
-      "cuentoviral"
+      "cuentoviral",
+      "canioninfantil",
+      "aprendojugando",
+      "animalitos",
+      "vehiculos",
+      "cuentohadas",
+      "emociones",
+      "modales",
+      "espacioninos",
+      "granja",
+      "adivinanzas"
     ],
     "osmedyalexander@gmail.com": [
       "outliers",
@@ -3398,7 +3598,17 @@
       "whiteboard",
       "squishmelt",
       "asmrreveal",
-      "cuentoviral"
+      "cuentoviral",
+      "canioninfantil",
+      "aprendojugando",
+      "animalitos",
+      "vehiculos",
+      "cuentohadas",
+      "emociones",
+      "modales",
+      "espacioninos",
+      "granja",
+      "adivinanzas"
     ],
     "nichomedia3@gmail.com": [
       "outliers",
@@ -3558,7 +3768,17 @@
       "whiteboard",
       "squishmelt",
       "asmrreveal",
-      "cuentoviral"
+      "cuentoviral",
+      "canioninfantil",
+      "aprendojugando",
+      "animalitos",
+      "vehiculos",
+      "cuentohadas",
+      "emociones",
+      "modales",
+      "espacioninos",
+      "granja",
+      "adivinanzas"
     ],
     "venturajosee@gmail.com": [
       "outliers",
@@ -3718,7 +3938,17 @@
       "whiteboard",
       "squishmelt",
       "asmrreveal",
-      "cuentoviral"
+      "cuentoviral",
+      "canioninfantil",
+      "aprendojugando",
+      "animalitos",
+      "vehiculos",
+      "cuentohadas",
+      "emociones",
+      "modales",
+      "espacioninos",
+      "granja",
+      "adivinanzas"
     ],
     "edu53554@gmail.com": [
       "outliers",
@@ -3878,7 +4108,17 @@
       "whiteboard",
       "squishmelt",
       "asmrreveal",
-      "cuentoviral"
+      "cuentoviral",
+      "canioninfantil",
+      "aprendojugando",
+      "animalitos",
+      "vehiculos",
+      "cuentohadas",
+      "emociones",
+      "modales",
+      "espacioninos",
+      "granja",
+      "adivinanzas"
     ],
     "pomam7073@gmail.com": [
       "outliers",
@@ -4038,7 +4278,17 @@
       "whiteboard",
       "squishmelt",
       "asmrreveal",
-      "cuentoviral"
+      "cuentoviral",
+      "canioninfantil",
+      "aprendojugando",
+      "animalitos",
+      "vehiculos",
+      "cuentohadas",
+      "emociones",
+      "modales",
+      "espacioninos",
+      "granja",
+      "adivinanzas"
     ],
     "damafelicali@gmail.com": [
       "outliers",
@@ -4198,7 +4448,17 @@
       "whiteboard",
       "squishmelt",
       "asmrreveal",
-      "cuentoviral"
+      "cuentoviral",
+      "canioninfantil",
+      "aprendojugando",
+      "animalitos",
+      "vehiculos",
+      "cuentohadas",
+      "emociones",
+      "modales",
+      "espacioninos",
+      "granja",
+      "adivinanzas"
     ],
     "patchmx@gmail.com": [
       "outliers",
@@ -4358,7 +4618,17 @@
       "whiteboard",
       "squishmelt",
       "asmrreveal",
-      "cuentoviral"
+      "cuentoviral",
+      "canioninfantil",
+      "aprendojugando",
+      "animalitos",
+      "vehiculos",
+      "cuentohadas",
+      "emociones",
+      "modales",
+      "espacioninos",
+      "granja",
+      "adivinanzas"
     ],
     "miguelyfer1985@gmail.com": [
       "outliers",
@@ -4518,7 +4788,17 @@
       "whiteboard",
       "squishmelt",
       "asmrreveal",
-      "cuentoviral"
+      "cuentoviral",
+      "canioninfantil",
+      "aprendojugando",
+      "animalitos",
+      "vehiculos",
+      "cuentohadas",
+      "emociones",
+      "modales",
+      "espacioninos",
+      "granja",
+      "adivinanzas"
     ],
     "ruizgarza94@gmail.com": [
       "outliers",
@@ -4678,7 +4958,17 @@
       "whiteboard",
       "squishmelt",
       "asmrreveal",
-      "cuentoviral"
+      "cuentoviral",
+      "canioninfantil",
+      "aprendojugando",
+      "animalitos",
+      "vehiculos",
+      "cuentohadas",
+      "emociones",
+      "modales",
+      "espacioninos",
+      "granja",
+      "adivinanzas"
     ],
     "elolvis356@gmail.com": [
       "outliers",
@@ -4838,7 +5128,17 @@
       "whiteboard",
       "squishmelt",
       "asmrreveal",
-      "cuentoviral"
+      "cuentoviral",
+      "canioninfantil",
+      "aprendojugando",
+      "animalitos",
+      "vehiculos",
+      "cuentohadas",
+      "emociones",
+      "modales",
+      "espacioninos",
+      "granja",
+      "adivinanzas"
     ],
     "jjaassbb865@gmail.com": [
       "outliers",
@@ -4998,7 +5298,17 @@
       "whiteboard",
       "squishmelt",
       "asmrreveal",
-      "cuentoviral"
+      "cuentoviral",
+      "canioninfantil",
+      "aprendojugando",
+      "animalitos",
+      "vehiculos",
+      "cuentohadas",
+      "emociones",
+      "modales",
+      "espacioninos",
+      "granja",
+      "adivinanzas"
     ],
     "detalleslovelybox@gmail.com": [
       "outliers",
@@ -5158,7 +5468,17 @@
       "whiteboard",
       "squishmelt",
       "asmrreveal",
-      "cuentoviral"
+      "cuentoviral",
+      "canioninfantil",
+      "aprendojugando",
+      "animalitos",
+      "vehiculos",
+      "cuentohadas",
+      "emociones",
+      "modales",
+      "espacioninos",
+      "granja",
+      "adivinanzas"
     ]
   }
 }

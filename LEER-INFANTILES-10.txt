@@ -1,0 +1,3 @@
+JM BOTS — 10 APPS INFANTILES
+Apps: canioninfantil, aprendojugando, animalitos, vehiculos, cuentohadas, emociones, modales, espacioninos, granja, adivinanzas
+Subí a la raíz y sobrescribí. Miniaturas en img/<id>.jpg.
