@@ -140,6 +140,22 @@
 
   @media(max-width:980px){.output{grid-template-columns:1fr}.aside{position:static}}
 
+  .chatbar{display:flex;gap:10px;flex-wrap:wrap;justify-content:center;margin:6px 0 14px}
+  .chatbar button{background:rgba(5,5,12,.6);border:2px solid var(--c1);color:#fff;border-radius:12px;padding:9px 16px;font-weight:700;cursor:pointer;font-family:inherit;font-size:.9rem}
+  .chatbar button:hover{background:var(--c1);color:#08080f}
+  .chat{display:flex;flex-direction:column;gap:14px;min-height:280px;max-height:62vh;overflow-y:auto;padding:14px;background:rgba(5,5,12,.6);border:1px solid rgba(255,255,255,.08);border-radius:16px;margin-bottom:14px}
+  .bubble{max-width:88%;padding:14px 16px;border-radius:16px;line-height:1.6;white-space:pre-wrap;word-wrap:break-word;font-size:.95rem}
+  .bubble.user{align-self:flex-end;background:linear-gradient(135deg,var(--c1),var(--c2));color:#08080f;font-weight:600;border-bottom-right-radius:4px}
+  .bubble.bot{align-self:flex-start;background:rgba(255,255,255,.05);border:1px solid rgba(255,255,255,.1);color:#e8e8ff;border-bottom-left-radius:4px;position:relative}
+  .bubble.bot .cp{position:absolute;top:8px;right:8px;background:rgba(0,0,0,.45);border:1px solid var(--c1);color:#fff;border-radius:8px;padding:3px 9px;font-size:.72rem;cursor:pointer;font-family:inherit}
+  .bubble.bot .cp:hover{background:var(--c1);color:#08080f}
+  .inrow{display:flex;gap:10px;align-items:flex-end}
+  .inrow textarea{flex:1;min-height:54px;max-height:160px;resize:vertical;background:#08080f;border:2px solid rgba(255,255,255,.15);border-radius:14px;color:#fff;padding:12px 14px;font-family:inherit;font-size:.95rem}
+  .inrow textarea:focus{outline:none;border-color:var(--c1)}
+  .inrow #sendBtn{background:linear-gradient(135deg,var(--c1),var(--c2));color:#08080f;border:none;border-radius:14px;padding:14px 22px;font-weight:800;cursor:pointer;font-family:inherit;font-size:1rem;white-space:nowrap}
+  .inrow #sendBtn:disabled{opacity:.5;cursor:default}
+  .typing{align-self:flex-start;color:var(--muted);font-style:italic;font-size:.9rem;padding:4px 8px}
+
 #apiKey{width:100%;box-sizing:border-box;height:72px;min-height:72px;max-height:170px;resize:vertical;display:block;align-self:flex-start;flex:1 1 100%;font-family:'JetBrains Mono',ui-monospace,monospace;line-height:1.5;padding:10px 12px;border-radius:10px;background:#0b0b14;border:1px solid rgba(255,255,255,.18);color:#fff;}
 #apiKey:focus{outline:none;border-color:#22c55e;box-shadow:0 0 0 2px rgba(34,197,94,.25);}
 #apiKey.masked{-webkit-text-security:disc;}
@@ -147,8 +163,6 @@
 </head>
 <body>
   <div class="wrap">
-
-    <!-- Clave Gemini (compartida con la suite) -->
     <div class="keybar">
       <label for="apiKey">Clave Gemini</label>
       <textarea id="apiKey" class="masked" rows="3" placeholder="Pegá hasta 5 claves de Gemini (AIza...), una por renglón — rotan solas si una se queda sin tokens" autocomplete="off" spellcheck="false"></textarea>
@@ -157,230 +171,105 @@
       <button class="kbtn alt" onclick="toggleEye()">👁️</button>
       <div class="key-hint" id="keyHint">La clave se guarda solo en tu navegador y se comparte con todas las apps de la suite.</div>
     </div>
-
     <header class="hero">
       <h1 class="title">Podcast Fitness</h1>
-      <p class="subtitle">Podcast fitness - 4 lotes, diálogos.</p>
-      <div class="pills"><span class="pill">💪 Fitness</span><span class="pill">2 personajes + dialogos</span><span class="pill">Fish Audio</span><span class="pill">4 lotes</span></div>
+      <p class="subtitle">Bot por pasos para podcasts/avatars hiperrealistas: 15 ideas → clips de 8s → idioma y acento → guion (18-22 palabras) → avatar iPhone → entrega en prompts lineales (un prompt por clip), con voz nativa Veo 3.1 y compatible con extend.</p>
+      <div class="pills"><span class="pill">📱 Estética iPhone</span><span class="pill">🎙️ Voz nativa Veo 3.1</span><span class="pill">🧩 Un prompt por clip</span><span class="pill">♻️ 8s + extend</span></div>
     </header>
-
-    <div class="controls">
-      <div class="control"><label>Tema</label><select id="subgenero"><option value="mitos del gym">mitos del gym</option><option value="rutina y habitos">rutina y habitos</option><option value="mentalidad">mentalidad</option><option value="nutricion general">nutricion general</option><option value="motivacion">motivacion</option></select></div>
-      <div class="control"><label>Hosts (se mantiene en todo el video)</label><input type="text" id="protagonista" placeholder="describí el los dos hosts; mantenelo coherente" /></div>
-      <div class="control"><label>Set</label><select id="escenario"><option value="gimnasio moderno">gimnasio moderno</option><option value="estudio deportivo">estudio deportivo</option><option value="loft">loft</option><option value="exterior parque">exterior parque</option><option value="fondo neon">fondo neon</option></select></div>
-      <div class="control"><label>Tono / atmósfera</label><select id="tono"><option value="épico y heroico">épico y heroico</option><option value="emotivo y sincero">emotivo y sincero</option><option value="tenso y dramático">tenso y dramático</option><option value="tierno y luminoso">tierno y luminoso</option><option value="misterioso">misterioso</option></select></div>
-      <div class="control"><label>Paleta / estilo visual</label><select id="paleta"><option value="ultra-photorealistic cinematic, natural light, shallow depth of field, 8K">Fotorrealista</option><option value="clean modern studio look, soft key light">Estudio moderno</option></select></div>
-      <div class="control"><label>Cantidad de personajes</label><select id="personajes"><option value="auto">Los que pida la historia</option><option value="1">1 — un protagonista</option><option value="2" selected>2 — dúo / interacción</option><option value="3">3 — grupo</option><option value="varios">Varios — elenco</option></select></div>
-      <div class="control"><label>Voz / diálogo</label><select id="narracion"><option value="no">Sin voz — solo visual / ASMR</option><option value="narrador">Narración (voz en off)</option><option value="dialogos" selected>Diálogos de personajes (novela)</option></select></div>
-      <div class="control"><label>Cantidad de tomas</label><select id="tomas"><option value="8">8 tomas</option><option value="12" selected>12 tomas</option><option value="16">16 tomas</option><option value="20">20 tomas</option></select></div>
+    <div class="chatbar">
+      <button onclick="kickoff()">▶ Empezar (15 ideas)</button>
+      <button onclick="send('reset ideas')">🔄 reset ideas</button>
+      <button onclick="nuevaSesion()">🆕 Nueva sesión</button>
     </div>
-
-    <div class="cta">
-      <button class="btn btn-main" id="genBtn" onclick="generar()">🎬 Generar pipeline</button>
-      <button class="btn btn-alt" onclick="sorpresa()">🎲 Sorpresa</button>
+    <div id="chat" class="chat"></div>
+    <div class="inrow">
+      <textarea id="msg" placeholder="Escribí un número (1-15), 'reset ideas', 'reset guion', o tu respuesta del paso actual..."></textarea>
+      <button id="sendBtn" onclick="send()">Enviar</button>
     </div>
     <div class="status" id="status"></div>
-
-    <div class="output" id="output">
-      <aside class="aside">
-        <div class="box">
-          <h2 class="box-title">Proyecto</h2>
-          <div class="row"><span>Tipo</span><span id="sGenero" style="color:var(--c2)">—</span></div>
-          <div class="row"><span>Escenario</span><span id="sEsc" style="color:var(--c1)">—</span></div>
-          <div class="row"><span>Tono</span><span id="sTono" style="color:var(--gold)">—</span></div>
-          <div class="row"><span>Narración</span><span id="sNarr" style="color:var(--lime)">—</span></div>
-          <div class="row"><span>Tomas</span><span id="sTomas" style="color:#fff">—</span></div>
-        </div>
-        <div class="box">
-          <h2 class="box-title">Hosts fijo</h2>
-          <p class="hint" id="sProta" style="margin:0">—</p>
-        </div>
-      </aside>
-
-      <main>
-        <div class="box">
-          <div class="tabs">
-            <button class="tab active" data-p="p-guion">📜 1. Guion</button>
-            <button class="tab" data-p="p-pers">🧍 2. Hosts</button>
-            <button class="tab" data-p="p-imgs">📸 3. Imágenes</button>
-            <button class="tab" data-p="p-anim">🚀 4. Animación</button>
-          </div>
-
-          <div class="panel visible" id="p-guion">
-            <div class="bhead"><h3>📜 LOTE 1 · Guion (español latino)</h3><button class="copy" onclick="copyArea('txtGuion',this)">📋 Copiar</button></div>
-            <p class="hint">Storyboard toma por toma con acción y diálogos en español. Si elegiste narración, incluye el texto de voz en off.</p>
-            <textarea id="txtGuion" readonly></textarea>
-          </div>
-          <div class="panel" id="p-pers">
-            <div class="bhead"><h3>🧍 LOTE 2 · Hosts (inglés)</h3><button class="copy" onclick="copyArea('txtPers',this)">📋 Copiar Lote</button></div>
-            <p class="hint">Hoja de referencia del personaje para mantenerlo idéntico en todas las tomas. Un prompt por línea.</p>
-            <textarea id="txtPers" readonly></textarea>
-          </div>
-          <div class="panel" id="p-imgs">
-            <div class="bhead"><h3>📸 LOTE 3 · Imágenes / Keyframes (inglés)</h3><button class="copy" onclick="copyArea('txtImgs',this)">📋 Copiar Lote</button></div>
-            <p class="hint">Un prompt de keyframe por toma. Formato lineal, una línea por prompt, sin viñetas.</p>
-            <textarea id="txtImgs" readonly></textarea>
-          </div>
-          <div class="panel" id="p-anim">
-            <div class="bhead"><h3>🚀 LOTE 4 · Animación / Veo 3 (inglés)</h3><button class="copy" onclick="copyArea('txtAnim',this)">📋 Copiar Lote</button></div>
-            <p class="hint">Un prompt de animación por toma: sujeto + movimiento + cámara + expresión.</p>
-            <textarea id="txtAnim" readonly></textarea>
-          </div>
-        </div>
-      </main>
-    </div>
   </div>
-
 <script>
 const $ = id => document.getElementById(id);
 const MODEL='gemini-2.5-flash';
 const API='https://generativelanguage.googleapis.com';
-
-/* ── Clave compartida con la suite (jmbots_keys.an) ── */
 function loadKeys(){ try{ return JSON.parse(localStorage.getItem('jmbots_keys')||'{}'); }catch(e){ return {}; } }
+function firstKey(){ var a=(loadKeys().an||'').split(/[\s,;\n]+/).map(s=>s.trim()).filter(Boolean); return a[0]||''; }
 function setKeyHint(m,c){ $("keyHint").textContent=m; $("keyHint").style.color=c||"var(--muted)"; }
-(function initKey(){ const ks=loadKeys(); if(ks.an){ $("apiKey").value=ks.an; setKeyHint("✓ Clave del sistema cargada. Tocá Reemplazar para cambiarla.","var(--lime)"); } })();
-function saveKey(){ const v=$("apiKey").value.trim(); if(!v){ setKeyHint("Pegá una clave antes de guardar.","var(--c2)"); return; }
-  try{ const ks=loadKeys(); ks.an=v; localStorage.setItem('jmbots_keys',JSON.stringify(ks)); }catch(e){}
-  setKeyHint("✓ Clave guardada (compartida con la suite).","var(--lime)"); }
-function replaceKey(){ $("apiKey").value=""; $("apiKey").type='text'; $("apiKey").focus(); setKeyHint("Ingresá la nueva clave y tocá Guardar.","var(--gold)"); }
+(function(){ const ks=loadKeys(); if(ks.an){ $("apiKey").value=ks.an; setKeyHint("✓ Clave(s) cargada(s). Tocá Empezar.","var(--lime)"); } })();
+function saveKey(){ const v=$("apiKey").value.trim(); if(!v){ setKeyHint("Pegá una clave antes de guardar.","var(--c2)"); return; } try{ const ks=loadKeys(); ks.an=v; localStorage.setItem('jmbots_keys',JSON.stringify(ks)); }catch(e){} setKeyHint("✓ Clave(s) guardada(s).","var(--lime)"); }
+function replaceKey(){ $("apiKey").value=""; $("apiKey").type='text'; $("apiKey").focus(); setKeyHint("Ingresá la(s) nueva(s) clave(s) y Guardar.","var(--gold)"); }
 function toggleEye(){ var i=document.getElementById("apiKey"); if(i) i.classList.toggle("masked"); }
 
-/* ── SYSTEM PROMPT del nicho ── */
-const SYSTEM = `Eres conductor de un PODCAST FITNESS energico y motivador para JM BOTS, en 3D Pixar/Disney hiperrealista o realista según el estilo, listo para Veo 3.
-FORMATO (estricto): explicaciones mínimas en español latino. Devolvé EXACTAMENTE 4 bloques markdown, sin texto entre ellos:
-  BLOQUE 1 = GUION/CONVERSACIÓN (español latino).  BLOQUE 2 = PERSONAJES (inglés, fondo blanco).  BLOQUE 3 = ESCENAS por toma (inglés).  BLOQUE 4 = ANIMACIÓN por toma (inglés).
-Formato lineal en bloques 2, 3 y 4: un prompt por línea, sin viñetas ni comillas, una línea en blanco entre prompts. Visuales/animación en inglés; conversación en español latino.
-SEGURIDAD: bienestar general; NO consejos medicos ni diagnosticos ni dietas/numeros especificos; si el tema es sensible, prudente y derivando a un profesional.
-ESTE FORMATO ES CONVERSACIONAL: por defecto hay DOS interlocutores con NOMBRE PROPIO (presentador e invitado, o dos hosts). Según el parámetro de voz:
-- "diálogos" (lo normal acá): en el BLOQUE 1 escribí la conversación natural en formato "NOMBRE: línea", con ida y vuelta, preguntas y respuestas; en el bloque 4 sincronizá labios con quien habla en cada toma.
-- "narrador": una voz en off relata.  - "solo visual": sin texto hablado.
-CONTENIDO:
-BLOQUE 1: título + la charla completa con gancho inicial, desarrollo con varios intercambios y cierre, en el modo de voz pedido.
-BLOQUE 2: un prompt por interlocutor con NOMBRE PROPIO, descripción física y vestimenta detallada y fija, toma frontal de cuerpo completo, FONDO BLANCO limpio; idéntico en todas las tomas; termina con bloque de calidad y negativo.
-BLOQUE 3: una línea por toma; menciona por NOMBRE quién habla/aparece y su acción; set tipo podcast/entrevista + plano + expresión + iluminación, variando el encuadre en cada toma; termina con "sin texto, sin marcas de agua, imagen limpia 9:16".
-BLOQUE 4: una línea por toma: gestos y labios sincronizados con el diálogo (el que habla se mueve), micro-movimiento de ambiente y transición de entrada/salida coordinada; cámara casi quieta.
-No agregues nada después del bloque 4. Producí directo.`;
+const SYSTEM = `Eres un "Content Automation Bot" y Director de Fotografia experto en Veo 3.1. Guias al usuario en un flujo ESTRICTO para crear videos virales de fitness, disciplina y mentalidad con avatar hiperrealista estetica iPhone. Eres directo, eficiente y NUNCA te sales del flujo ni te adelantas a pasos futuros.
 
-/* ── memoria local anti-repetición (por app) ── */
-function _hkey(){ return 'jmbots_hist_'+((location.pathname.split('/').pop()||'app').replace('.html','')); }
-function _getHist(){ try{ return JSON.parse(localStorage.getItem(_hkey())||'[]'); }catch(e){ return []; } }
-function _pushHist(fp){ if(!fp) return; try{ var h=_getHist().filter(x=>x!==fp); h.unshift(fp); localStorage.setItem(_hkey(),JSON.stringify(h.slice(0,15))); }catch(e){} }
+REGLAS DE ORO (ESTRICTAS):
+1. ENTREGA DE PROMPTS: cada prompt es UNA SOLA LINEA de texto continua, SIN etiquetas, SIN numeracion, SIN indicadores, SIN comillas envolventes y SIN bloques JSON; separa un prompt del siguiente con UNA sola linea en blanco (un enter). Nunca agrupes ni uses listas.
+2. IDIOMA: el dialogo que se habla va en espanol latino; el resto del prompt visual y las indicaciones de voz en INGLES.
+3. VISUAL: prohibido texto, leyendas o subtitulos en los prompts visuales (incluye siempre "no text, no subtitles").
+4. LONGITUD: la linea hablada de cada clip debe tener entre 18 y 22 palabras (maximo 22). Verifica el conteo.
+5. VOZ FIJA: usa siempre la voz pausada, serena y segura especificada abajo.
+6. Cada clip dura 8 segundos (compatible con el modo extend de Veo 3.1).
 
-/* ── Construir el pedido a partir de los selectores ── */
-function buildPrompt(){
-  const sub=$("subgenero").value, pro=$("protagonista").value.trim()||"el/los personaje(s) principal(es) del video (definí los detalles y mantenelos coherentes en todas las tomas)",
-        esc=$("escenario").value, tono=$("tono").value, pal=$("paleta").value,
-        nv=($("narracion")?$("narracion").value:'no'), tomas=$("tomas").value,
-        pers=($("personajes")?$("personajes").value:'auto');
-  const PMAP={auto:"los que pida la historia — pueden aparecer e interactuar VARIOS personajes, no te limites a uno solo",
-              "1":"un solo protagonista",
-              "2":"dos personajes que interactúan entre sí",
-              "3":"tres personajes que interactúan entre sí",
-              "varios":"un elenco de varios personajes que interactúan"};
-  const NMAP={no:"NO — solo visual, sin voz (apto ASMR/silencioso)",
-              narrador:"SÍ — NARRACIÓN en voz en off de un narrador (incluí el texto narrado en el bloque 1, listo para Fish Audio)",
-              dialogos:"SÍ — DIÁLOGOS HABLADOS de los personajes estilo novela/telenovela: cada personaje dice sus líneas en primera persona; en el bloque 1 escribí los diálogos indicando qué personaje habla cada línea (NOMBRE: línea), y en el bloque 4 (animación) sincronizá el movimiento de labios/gestos con quien habla"};
-  const seed=Math.floor(Math.random()*1e9), hist=_getHist();
-  let av=`\n\nVARIACIÓN OBLIGATORIA: generá una historia/idea COMPLETAMENTE nueva y distinta a cualquier resultado anterior. Cambiá nombres propios, lugares puntuales, estructura, giros, encuadres y detalles. Evitá clichés y aperturas repetidas; no empieces siempre igual. Semilla creativa única: ${seed}.`;
-  if(hist.length) av+=` Ya salieron estos (NO los repitas ni te parezcas a ellos): ${hist.join(' | ')}.`;
-  return `Generá el pipeline completo con estos parámetros:
-- Tipo / escena: ${sub}
-- Personaje(s) (mantené a CADA uno idéntico en todas las tomas): ${pro}
-- Cantidad de personajes: ${PMAP[pers]||PMAP.auto}
-- Escenario / contexto: ${esc}
-- Tono / atmósfera: ${tono}
-- Estilo visual fijo (usar en TODOS los prompts visuales): ${pal}
-- Voz / diálogo: ${NMAP[nv]||NMAP.no}
-- Cantidad de tomas: ${tomas} (los bloques 3 y 4 deben tener exactamente ${tomas} prompts)
+FLUJO DE TRABAJO SECUENCIAL (respeta el orden y espera la respuesta del usuario en cada paso):
+[PASO 1] IDEAS: al iniciar (o si el usuario saluda o pide empezar), entrega DIRECTAMENTE 15 ideas de ganchos virales en lista vertical enumerada del 1 al 15. El comando "reset ideas" genera 15 ideas COMPLETAMENTE nuevas. Cierra con: "Elige una escribiendo solo el numero (1-15). Si ninguna te gusta, escribe: reset ideas".
+[PASO 2] CANTIDAD DE CLIPS: tras elegir la idea, pregunta exactamente: "Cuantos clips (8s c/u) deseas para este video?"
+[PASO 3] IDIOMA Y ACENTO: pregunta PRIMERO el idioma (lista enumerada). Luego, en un MENSAJE SEPARADO, pregunta el acento/jerga (lista enumerada).
+[PASO 4] GUION: genera el guion dividido en la cantidad de clips elegida; cada clip entre 18 y 22 palabras, en espanol latino, con gancho y tension creciente. Indica el conteo de palabras de cada clip entre corchetes. Espera confirmacion o "reset guion" (regenera el guion sin tocar la idea).
+[PASO 5] AVATAR (INTERACTIVO): pregunta UNO POR UNO y espera respuesta antes de la siguiente: 1) Genero (Masculino/Femenino); 2) Color de pelo; 3) Largo/estilo de pelo; 4) Color de ojos; 5) Etnia; 6) Tono de piel; 7) Rasgos adicionales (barba, gafas, etc.).
+[PASO 6] FORMATO DE IMAGEN: presenta los 3 formatos iPhone y espera la eleccion: 1) 0.5x ultra wide; 2) 1x Influencer; 3) Selfie Frontal.
+[PASO 7] ENTREGA FINAL (PROMPTS LINEALES, una linea por prompt, una linea en blanco entre cada uno, sin indicadores ni JSON):
+   - Primera linea = PROMPT DE IMAGEN MAESTRA: el avatar con el formato iPhone elegido y todos sus atributos, en ingles, hyperrealistic iPhone aesthetic, vertical 9:16, "no text, no subtitles". Esta imagen es la referencia (Ingredient) del avatar para mantenerlo identico en todos los clips.
+   - Luego, una linea por cada clip, en orden, cada una autocontenida y pensada para EXTENDER el clip anterior manteniendo el MISMO avatar, set y encuadre: describe en ingles el movimiento y encuadre (hyperrealistic iPhone aesthetic, vertical 9:16, "no text, no subtitles", "extend previous clip seamlessly") e INCLUYE EL AUDIO NATIVO embebido: el avatar habla su linea en espanol latino entre comillas, con la voz fija (warm, confident, calm, articulate, highly secure 28-year-old [Gender] podcaster, accent [Accent]). Ejemplo de una linea: Hyperrealistic iPhone 1x selfie of the same man, subtle natural head movement, speaking calmly to camera, soft window light, vertical 9:16, no text, no subtitles, extend previous clip seamlessly, native audio, he says in a warm confident calm secure tone in Latin American Spanish: "su linea de dieciocho a veintidos palabras".
 
-Recordá: 4 bloques markdown, formato lineal, visuales en inglés, guion/diálogos/narración en español latino. El bloque 2 (personajes) va con descripción detallada y fondo blanco. Cuando haya más de un personaje, mostralos interactuando, definí a cada uno en el bloque 2 y repetí los descriptores de CADA personaje en cada toma donde aparezca.`+av;
-}
+CONTENIDO: motivacion fitness, habitos y mentalidad ganadora; sin consejos medicos ni dietas con numeros; energico y positivo.`;
+let msgs=[], busy=false;
 
-/* ── Llamada a Gemini ── */
-async function callGemini(userText){
-  const key=$("apiKey").value.trim();
-  if(!key){ setKeyHint("Falta la clave de Gemini.","var(--c2)"); throw new Error('sin-clave'); }
-  const body={
-    systemInstruction:{ parts:[{text:SYSTEM}] },
-    contents:[{role:'user', parts:[{text:userText}]}],
-    generationConfig:{ temperature:0.97, topP:0.95, maxOutputTokens:8192 }
-  };
-  const r=await fetch(`${API}/v1beta/models/${MODEL}:generateContent?key=${encodeURIComponent(key)}`,{
-    method:'POST', headers:{'Content-Type':'application/json'}, body:JSON.stringify(body)
+function escapeHtml(t){ return t.replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;'); }
+function render(typing){
+  const c=$("chat"); c.innerHTML='';
+  msgs.forEach(m=>{
+    const d=document.createElement('div');
+    d.className='bubble '+(m.role==='user'?'user':'bot');
+    d.innerHTML=escapeHtml(m.text);
+    if(m.role==='model'){
+      const b=document.createElement('button'); b.className='cp'; b.textContent='📋';
+      b.onclick=function(){ navigator.clipboard.writeText(m.text).then(()=>{b.textContent='✅';setTimeout(()=>b.textContent='📋',1300);}); };
+      d.appendChild(b);
+    }
+    c.appendChild(d);
   });
-  if(!r.ok){ const e=await r.text().catch(()=>''); throw new Error('Gemini '+r.status+': '+e.slice(0,180)); }
+  if(typing){ const t=document.createElement('div'); t.className='typing'; t.textContent='✍️ escribiendo...'; c.appendChild(t); }
+  c.scrollTop=c.scrollHeight;
+}
+async function callGemini(){
+  const key=firstKey();
+  if(!key){ setKeyHint("Falta la clave de Gemini.","var(--c2)"); throw new Error('sin-clave'); }
+  const body={ systemInstruction:{parts:[{text:SYSTEM}]},
+    contents: msgs.map(m=>({role:m.role,parts:[{text:m.text}]})),
+    generationConfig:{ temperature:1.0, topP:0.95, maxOutputTokens:8192 } };
+  const r=await fetch(`${API}/v1beta/models/${MODEL}:generateContent?key=${encodeURIComponent(key)}`,{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify(body)});
+  if(!r.ok){ const e=await r.text().catch(()=>''); throw new Error('Gemini '+r.status+': '+e.slice(0,160)); }
   const j=await r.json();
   return (j.candidates?.[0]?.content?.parts||[]).map(p=>p.text||'').join('').trim();
 }
-
-/* ── Parsear los 4 bloques de código ── */
-function parseBlocks(txt){
-  const parts=txt.split(/```/);
-  const blocks=[];
-  for(let i=1;i<parts.length;i+=2){
-    blocks.push(parts[i].replace(/^[a-zA-Z]*\n/,'').replace(/^\n/,'').replace(/\n$/,''));
-  }
-  return blocks;
-}
-
-/* ── Generar ── */
-let busy=false;
-async function generar(){
+async function send(text){
   if(busy) return;
-  busy=true;
-  const btn=$("genBtn"); btn.disabled=true; const old=btn.textContent; btn.textContent='⏳ Generando...';
-  $("status").className='status'; $("status").textContent='Pensando el storyboard y los prompts...';
+  text = (text!==undefined ? text : $("msg").value).trim();
+  if(!text) return;
+  msgs.push({role:'user',text}); $("msg").value=''; render(true);
+  busy=true; $("sendBtn").disabled=true; $("status").className='status'; $("status").textContent='';
   try{
-    const txt=await callGemini(buildPrompt());
-    const b=parseBlocks(txt);
-    if(b.length<4){
-      // fallback: si no devolvió 4 bloques, volcamos todo en el guion para no perder nada
-      $("txtGuion").value=txt; $("txtPers").value=''; $("txtImgs").value=''; $("txtAnim").value='';
-      $("status").className='status err'; $("status").textContent='⚠️ La IA no devolvió los 4 lotes separados. Tenés todo en el Guion; probá "Generar" de nuevo.';
-    } else {
-      $("txtGuion").value=b[0]; $("txtPers").value=b[1]; $("txtImgs").value=b[2]; $("txtAnim").value=b[3];
-      try{ _pushHist((b[0].split('\n').map(s=>s.trim()).filter(Boolean)[0]||'').slice(0,80)); }catch(e){}
-      $("status").className='status ok'; $("status").textContent='✓ Pipeline listo. Revisá los 4 lotes en las pestañas.';
-    }
-    // resumen
-    $("sGenero").textContent=$("subgenero").options[$("subgenero").selectedIndex].text;
-    $("sEsc").textContent=$("escenario").options[$("escenario").selectedIndex].text;
-    $("sTono").textContent=$("tono").options[$("tono").selectedIndex].text;
-    $("sNarr").textContent=$("narracion").value==='si'?'Con voz':'Solo visual';
-    $("sTomas").textContent=$("tomas").value;
-    $("sProta").textContent=$("protagonista").value.trim()||'(definido por la IA — mismo en todas las tomas)';
-    $("output").classList.add('visible');
-    $("output").scrollIntoView({behavior:'smooth', block:'start'});
+    const r=await callGemini();
+    msgs.push({role:'model',text:r}); render(false);
   }catch(err){
+    render(false);
     if(err.message!=='sin-clave'){ $("status").className='status err'; $("status").textContent='❌ '+err.message; }
-  }finally{
-    btn.disabled=false; btn.textContent=old; busy=false;
-  }
+  }finally{ busy=false; $("sendBtn").disabled=false; }
 }
-
-/* ── Sorpresa: randomiza los selectores y genera ── */
-function sorpresa(){
-  ['subgenero','escenario','tono','paleta','tomas'].forEach(id=>{
-    const el=$(id), o=el.options; el.selectedIndex=Math.floor(Math.random()*o.length);
-  });
-  generar();
-}
-
-/* ── Copiar lote ── */
-function copyArea(id,btn){
-  const t=$(id); if(!t.value.trim()) return;
-  navigator.clipboard.writeText(t.value).then(()=>{ const o=btn.textContent; btn.textContent='✅ ¡Copiado!'; setTimeout(()=>btn.textContent=o,1600); });
-}
-
-/* ── Tabs ── */
-document.querySelectorAll('.tab').forEach(t=>{
-  t.addEventListener('click',()=>{
-    document.querySelectorAll('.tab').forEach(x=>x.classList.remove('active'));
-    document.querySelectorAll('.panel').forEach(x=>x.classList.remove('visible'));
-    t.classList.add('active'); $(t.dataset.p).classList.add('visible');
-  });
-});
+function kickoff(){ if(busy) return; msgs=[]; render(false); send('Hola, empecemos. Dame las 15 ideas de ganchos virales.'); }
+function resetIdea(){ send('reset idea'); }
+function nuevaSesion(){ if(busy) return; msgs=[]; render(false); $("status").textContent=''; kickoff(); }
+$("msg").addEventListener('keydown',function(e){ if(e.key==='Enter' && !e.shiftKey){ e.preventDefault(); send(); } });
 </script>
 <script src="jmbots-resilience.js"></script>
 <script src="apps-menu.js"></script>
