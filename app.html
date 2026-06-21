@@ -1876,20 +1876,22 @@ async function sbAdminLoad(){
 }
 async function sbAdminSave(email){
   try{
-    if(!initSB()){ adminFlash('\u26a0 No se pudo guardar'); return; }
+    if(!initSB()){ adminFlash('\u26a0 No se pudo guardar (Supabase no cargo)'); return; }
+    const sess = await sb.auth.getSession();
+    if(!sess || !sess.data || !sess.data.session){ adminFlash('\u26a0 Tu sesion de Supabase no esta activa: tocá «salir» y volvé a entrar con Google'); return; }
     const allIds = ADMIN_APPS.map(a => a.id);
     const ids = ADMIN_ACCESOS[email] || [];
     const todas = allIds.length && ids.length === allIds.length && allIds.every(id => ids.includes(id));
     const r = await sb.from('autorizados').upsert({ email: email, apps: (todas ? null : ids), activo: true }, { onConflict: 'email' });
-    if(r && r.error){ console.warn('sbAdminSave:', r.error); adminFlash('\u26a0 No se pudo guardar en la nube'); }
+    if(r && r.error){ console.warn('sbAdminSave:', r.error); adminFlash('\u26a0 ' + (r.error.message || 'No se pudo guardar')); }
     else adminFlash('\u2713 Guardado en la nube');
-  }catch(e){ console.warn('sbAdminSave', e); adminFlash('\u26a0 No se pudo guardar en la nube'); }
+  }catch(e){ console.warn('sbAdminSave', e); adminFlash('\u26a0 ' + (e.message || 'No se pudo guardar')); }
 }
 async function sbAdminRemove(email){
   try{
     if(!initSB()) return;
     const r = await sb.from('autorizados').delete().eq('email', email);
-    if(r && r.error){ console.warn('sbAdminRemove:', r.error); adminFlash('\u26a0 No se pudo quitar de la nube'); }
+    if(r && r.error){ console.warn('sbAdminRemove:', r.error); adminFlash('\u26a0 ' + (r.error.message || 'No se pudo quitar')); }
     else adminFlash('\u2713 Usuario quitado de la nube');
   }catch(e){ console.warn('sbAdminRemove', e); adminFlash('\u26a0 No se pudo quitar de la nube'); }
 }
