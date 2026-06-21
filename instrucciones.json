@@ -2137,5 +2137,16 @@
       "Copia los prompts lineales y pegalos en Veo 3.1, encadenando con extend"
     ],
     "tip": "Mostra el RESULTADO, no la herramienta. Cerra siempre con 'link en bio'. Si cambia el precio, edita la oferta en el system del bot."
+  },
+  "ariafootball": {
+    "que": "Convierte el escudo de una seleccion nacional en un robot campeon futurista original. Entrega 2 prompts de IMAGEN + 1 de VIDEO, en ingles, cada uno en su bloque.",
+    "pasos": [
+      "Escribi 'more' (o tocá empezar) para ver 10 paises al azar",
+      "Elegi un numero, o escribi CUALQUIER pais (soporta todas las selecciones FIFA)",
+      "Copia el IMAGE PROMPT 1 (escudo en la mano) y generalo",
+      "Copia el IMAGE PROMPT 2 (robot transformado) y generalo",
+      "Copia el VIDEO PROMPT (transformacion POV con ASMR) y armalo en Veo 3.1"
+    ],
+    "tip": "Cada prompt viene en su propio bloque de codigo. Nunca usa jugadores ni personas reales: el robot es siempre original."
   }
 }
