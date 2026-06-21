@@ -159,6 +159,7 @@
 #apiKey{width:100%;box-sizing:border-box;height:72px;min-height:72px;max-height:170px;resize:vertical;display:block;align-self:flex-start;flex:1 1 100%;font-family:'JetBrains Mono',ui-monospace,monospace;line-height:1.5;padding:10px 12px;border-radius:10px;background:#0b0b14;border:1px solid rgba(255,255,255,.18);color:#fff;}
 #apiKey:focus{outline:none;border-color:#22c55e;box-shadow:0 0 0 2px rgba(34,197,94,.25);}
 #apiKey.masked{-webkit-text-security:disc;}
+.masterbox{margin-top:14px;border:1px solid rgba(255,255,255,.14);border-radius:12px;padding:10px 14px;background:rgba(255,255,255,.03)}.masterbox summary{cursor:pointer;font-weight:700;color:#fff}.masterbox .mp-hint{font-size:13px;opacity:.85;margin:8px 0}.masterbox .mp-actions{display:flex;gap:8px;flex-wrap:wrap;margin:8px 0}.masterbox textarea{width:100%;min-height:170px;box-sizing:border-box;font-family:ui-monospace,monospace;font-size:12px;line-height:1.5;padding:10px;border-radius:10px;background:#0b0b14;border:1px solid rgba(255,255,255,.18);color:#fff;white-space:pre-wrap}
 </style>
 </head>
 <body>
@@ -175,6 +176,7 @@
       <h1 class="title">Cuentos Virales 3D</h1>
       <p class="subtitle">Asistente paso a paso (GEMA): 15 ideas → elegís número → guion para Fish Audio → das la duración → 3 lotes de prompts (Personajes · Escenas · Animación) listos para VEO 3.1 + CapCut.</p>
       <div class="pills"><span class="pill">🎬 Pixar/Disney 3D</span><span class="pill">🗣️ Guion 210-240 palabras</span><span class="pill">🧩 3 lotes sincronizados</span><span class="pill">♻️ Sin repetir</span></div>
+      <details class="masterbox" id="masterbox"><summary>📋 Master prompt (respaldo si falla la API)</summary><p class="mp-hint">Si la API falla, generá el master prompt, copialo y pegalo en gemini.google.com para producir el contenido a mano.</p><div class="mp-actions"><button class="btn" type="button" onclick="buildMaster()">🧩 Generar master prompt</button><button class="btn" type="button" onclick="copyMaster(this)">📋 Copiar</button></div><textarea id="masterPrompt" readonly placeholder="Tocá «Generar master prompt» y copiá el texto para pegarlo en Gemini…"></textarea></details>
     </header>
     <div class="chatbar">
       <button onclick="kickoff()">▶ Empezar (15 ideas)</button>
@@ -231,6 +233,9 @@ BLOQUE DE CALIDAD (al final de cada prompt de personaje y escena): "Render 3D ci
 BLOQUE NEGATIVO (al final de cada prompt de personaje y escena): "Prompt negativo: texto, letras, números, palabras, subtítulos, marca de agua, logotipo, firma, bordes, marcos, recuadros, anime, manhwa, ilustración 2D, dibujo plano, sketch, lineart, fotografía de persona real, rostro de muñeca, piel plástica, rostro feo, mala anatomía, manos deformadas, dedos extra, borroso, baja calidad, siluetas borrosas, personas borrosas, caras inventadas, gente extra, multitudes borrosas, otras personas en el fondo, personas desenfocadas, espectadores, audiencia, público en el fondo, gente de fondo, figuras humanas desenfocadas, siluetas humanas, gente caminando, personas de relleno."
 
 REGLAS ESTRICTAS (NUNCA ROMPER): historias 210-240 palabras con final FANTASIOSO (nunca realista con lección); cierre siempre invita a buscar un término de LEYENDA; NUNCA repetir ideas/historias/temas/lugares/escenas/personajes; NUNCA repetir nombres; alternar género del protagonista; cada personaje con su nombre propio y acción en cada prompt, consistencia física absoluta; imágenes y animaciones SIN texto/letras/números/subtítulos/marcas/bordes/marcos; cada clip dura 6 s; clips = duración ÷ 6 redondeado arriba; CONTINUIDAD fragmento-por-clip en orden; cada animación con las 3 capas; respetar el flujo (15 ideas → número → guion → duración → cálculo → 3 lotes); formato de lotes con prompts lineales separados por un enter; respetar políticas VEO 3.1; "reset idea" regenera 15 nuevas.`;
+function buildMaster(){ var t=document.getElementById('masterPrompt'); if(t){ t.value=(typeof SYSTEM!=='undefined'?SYSTEM:'')+'\n\n--- Pega esto en gemini.google.com y escribi: empeza con el PASO 1 (dame las 15 ideas). ---'; } }
+function copyMaster(btn){ var t=document.getElementById('masterPrompt'); if(t&&!t.value){ buildMaster(); } if(t&&t.value){ navigator.clipboard.writeText(t.value).then(function(){ if(btn){ var o=btn.textContent; btn.textContent='✓ Copiado'; setTimeout(function(){ btn.textContent=o; },1200); } }); } }
+
 let msgs=[], busy=false;
 
 function escapeHtml(t){ return t.replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;'); }

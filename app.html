@@ -682,7 +682,6 @@
     <button class="tab" data-view="historial" onclick="mostrarVista('historial')">🕘 Historial</button>
     <button class="tab" data-view="guiones" onclick="mostrarVista('guiones')">📝 Mis guiones</button>
     <button class="tab" id="tab-admin" data-view="admin" onclick="mostrarVista('admin')" style="display:none">🛡 Admin</button>
-    <button class="tab" id="tab-mini" data-view="mini" onclick="mostrarVista('mini')" style="display:none">🖼 Miniaturas</button>
   </nav>
 
   <div id="view-buscar" class="view">
@@ -832,14 +831,6 @@
     </div>
   </div>
 
-  <div id="view-mini" class="view" hidden>
-    <h2 class="vtitle">🖼 Renombrar miniaturas</h2>
-    <p class="vsub">Arrastrá las imágenes que generaste, elegí a qué app es cada una y descargá la carpeta <b>img</b> con todo renombrado a <code>&lt;id&gt;.jpg</code>, lista para subir al repo. Todo pasa en tu navegador: las imágenes no se suben a ningún lado.</p>
-    <div class="minidrop" id="miniDrop"><b>📥 Soltá tus imágenes acá</b> o tocá para elegirlas<small>Podés seleccionar muchas a la vez · JPG / PNG / WEBP</small><input type="file" id="miniFile" accept="image/*" multiple hidden></div>
-    <div class="minibar"><span class="mc" id="miniCount">0 imágenes · <b>0</b> asignadas</span><span class="mw" id="miniWarn"></span><span style="flex:1"></span><button class="btn-gold mbtn" id="miniClear" type="button">Limpiar</button><button class="btn-gold mbtn" id="miniDl" type="button" disabled>⬇ Descargar carpeta img (.zip)</button></div>
-    <div class="minigrid" id="miniGrid"><div class="empty2">Todavía no cargaste imágenes.</div></div>
-  </div>
-
   <footer>JM<b>-analitic-youtube-chanel</b> · corre en tu navegador · datos vía YouTube API + análisis con IA</footer>
 </div>
 
@@ -897,7 +888,7 @@ function onGoogleLogin(resp){
     USER_EMAIL = email;
     const isAdmin = ADMINS.map(a => String(a).trim().toLowerCase()).includes(email);
     if(isAdmin){
-      $('#tab-admin').style.display = ''; $('#tab-mini').style.display = '';
+      $('#tab-admin').style.display = '';
       ADMIN_LIST = AUTORIZADOS.slice();
       ADMIN_APPS = APPS.map(a => a.img ? {id:a.id, nombre:a.nombre, archivo:a.archivo, img:a.img} : {id:a.id, nombre:a.nombre, archivo:a.archivo});
       ADMIN_ACCESOS = {}; for(const k in ACCESOS) ADMIN_ACCESOS[k] = ACCESOS[k].slice();
@@ -930,7 +921,7 @@ function resumeSession(){
   USER_EMAIL = email;
   const isAdmin = ADMINS.map(a => String(a).trim().toLowerCase()).includes(email);
   if(isAdmin){
-    $('#tab-admin').style.display = ''; $('#tab-mini').style.display = '';
+    $('#tab-admin').style.display = '';
     ADMIN_LIST = AUTORIZADOS.slice();
     ADMIN_APPS = APPS.map(a => a.img ? {id:a.id, nombre:a.nombre, archivo:a.archivo, img:a.img} : {id:a.id, nombre:a.nombre, archivo:a.archivo});
     ADMIN_ACCESOS = {}; for(const k in ACCESOS) ADMIN_ACCESOS[k] = ACCESOS[k].slice();
@@ -1466,7 +1457,7 @@ function mostrarVista(v){
   if(v === 'historial') renderHist();
   if(v === 'guiones')   renderGuiones();
   if(v === 'admin')     renderAdmin();
-  if(v === 'mini')      initMini();
+  
   window.scrollTo({top:0, behavior:'smooth'});
 }
 

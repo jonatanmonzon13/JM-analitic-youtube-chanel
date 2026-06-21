@@ -192,6 +192,7 @@
 #apiKey{width:100%;box-sizing:border-box;height:72px;min-height:72px;max-height:170px;resize:vertical;display:block;align-self:flex-start;flex:1 1 100%;font-family:'JetBrains Mono',ui-monospace,monospace;line-height:1.5;padding:10px 12px;border-radius:10px;background:#0b0b14;border:1px solid rgba(255,255,255,.18);color:#fff;}
 #apiKey:focus{outline:none;border-color:#22c55e;box-shadow:0 0 0 2px rgba(34,197,94,.25);}
 #apiKey.masked{-webkit-text-security:disc;}
+.masterbox{margin-top:14px;border:1px solid rgba(255,255,255,.14);border-radius:12px;padding:10px 14px;background:rgba(255,255,255,.03)}.masterbox summary{cursor:pointer;font-weight:700;color:#fff}.masterbox .mp-hint{font-size:13px;opacity:.85;margin:8px 0}.masterbox .mp-actions{display:flex;gap:8px;flex-wrap:wrap;margin:8px 0}.masterbox button{cursor:pointer;font-weight:700;padding:9px 14px;border-radius:10px;border:1px solid rgba(255,255,255,.2);background:rgba(255,255,255,.06);color:#fff}.masterbox textarea{width:100%;min-height:170px;box-sizing:border-box;font-family:ui-monospace,monospace;font-size:12px;line-height:1.5;padding:10px;border-radius:10px;background:#0b0b14;border:1px solid rgba(255,255,255,.18);color:#fff;white-space:pre-wrap}
 </style>
 </head>
 <body>
@@ -254,6 +255,7 @@
     </div>
     <div id="synopsis" class="synopsis hidden"></div>
     <div id="out"></div>
+    <details class="masterbox" id="masterbox"><summary>📋 Master prompt (respaldo si falla la API)</summary><p class="mp-hint">Generá una vez la novela; si la API falla, el master prompt queda acá para copiarlo y pegarlo en gemini.google.com.</p><div class="mp-actions"><button type="button" onclick="buildMaster()">🧩 Mostrar master prompt</button><button type="button" onclick="copyMaster(this)">📋 Copiar</button></div><textarea id="masterPrompt" readonly placeholder="Tocá «Mostrar master prompt» (después de Generar)…"></textarea></details>
   </section>
 
   <div class="footer">
@@ -390,6 +392,9 @@ function renderClips(clips,N){
   });
 }
 let ALLTEXT="";
+
+function buildMaster(){ var t=document.getElementById('masterPrompt'); if(!t) return; if(window.__mp){ t.value=window.__mp; } else { t.value='Configurá el reparto y los clips y tocá «Generar novela» una vez; el master prompt queda acá para copiarlo si la API falla.'; } }
+function copyMaster(btn){ var t=document.getElementById('masterPrompt'); if(t&&!t.value){ buildMaster(); } if(t&&t.value){ navigator.clipboard.writeText(t.value).then(function(){ if(btn){ var o=btn.textContent; btn.textContent='✓ Copiado'; setTimeout(function(){ btn.textContent=o; },1200); } }); } }
 async function generate(){
   if(!SEL){toast("Primero elegí una idea (paso 2)");return;}
   const cast=activeCast(); if(cast.length<1){toast("Definí al menos 1 personaje");return;}
@@ -406,6 +411,7 @@ async function generate(){
 
   if($("apiKey").value.trim()){
     const prompt=`Eres guionista de ${GENRE} en español latino, estilo telenovela con personajes de ${THEMEWORD} antropomórficos. Premisa: "${SEL.title}". Reparto (usá estos nombres): ${castlist}. Escribe una NOVELA en EXACTAMENTE ${N} clips de 8 segundos. Primero una línea "SINOPSIS: ..." (1-2 frases). Luego, por cada clip, este formato EXACTO:\n"=== Clip N: título ==="\n(acotación)\nNombre: diálogo corto\nNombre: diálogo corto\nESCENA: prompt de imagen en inglés (sujeto+acción+set+luz+cámara, 9:16, sin texto)\nANIMACIÓN: prompt de animación en inglés de 8s con lip-sync y cámara.\nDevuelve solo eso, sin explicaciones.`;
+    try{window.__mp=prompt;}catch(e){}
     const api=await callAPI(prompt);
     if(api){
       const m=api.match(/SINOPSIS:\s*(.*)/i); if(m) syn=`<b>Sinopsis.</b> ${m[1].trim()}`;
