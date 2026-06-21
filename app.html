@@ -844,8 +844,8 @@
    ════════════════════════════════════════════════════════════════ */
 const GOOGLE_CLIENT_ID = '894770388392-6ooskd5t6oit8r1hcr86gn6j60s6m982.apps.googleusercontent.com';
 /* ── Supabase (lista privada de autorizados en la nube) ── */
-const SB_URL  = 'https://lcqytxjmbsvxbzcocete.supabase.co';
-const SB_ANON = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImxjcXl0eGptYnN2eGJ6Y29jZXRlIiwicm9sZSI6ImFub24iLCJpYXQiOjE3ODIwMDU5OTMsImV4cCI6MjA5NzU4MTk5M30.cXvkD-d63PJB30dV8NXYERJx2e9cpOubkD9unELwwjM';
+const SB_URL  = 'https://filzfaxpzuycxxvvuwbr.supabase.co';
+const SB_ANON = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImZpbHpmYXhwenV5Y3h4dnZ1d2JyIiwicm9sZSI6ImFub24iLCJpYXQiOjE3ODIwMjc5NTUsImV4cCI6MjA5NzYwMzk1NX0.HfhhqWusIKGb_onr0zbe_EE2KqfiEUANStA5SNkmOVY';
 let sb = null;
 function initSB(){ if(sb) return sb; try{ if(window.supabase) sb = window.supabase.createClient(SB_URL, SB_ANON); }catch(e){ console.warn('Supabase init:', e); } return sb; }
 /* ── Correos con permisos de ADMINISTRADOR (ven la pestaña "Admin").
