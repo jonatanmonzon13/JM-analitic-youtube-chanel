@@ -1467,7 +1467,7 @@ function mostrarVista(v){
   document.querySelectorAll('.tab').forEach(b => b.classList.toggle('on', b.dataset.view === v));
   if(v === 'historial') renderHist();
   if(v === 'guiones')   renderGuiones();
-  if(v === 'admin')     renderAdmin();
+  if(v === 'admin')     sbAdminLoad();
   
   window.scrollTo({top:0, behavior:'smooth'});
 }
@@ -1855,6 +1855,52 @@ function renderAccess(admins){
   cont.innerHTML = html || '<div class="empty2">Sin usuarios para asignar.</div>';
 }
 /* Habilitar las próximas 10 apps que el usuario aún no tiene (incremental) */
+/* ───────── Sincronización del panel con Supabase ───────── */
+async function sbAdminLoad(){
+  try{
+    if(initSB()){
+      const r = await sb.from('autorizados').select('email,apps,is_admin,activo');
+      if(r && r.data && r.data.length){
+        const allIds = ADMIN_APPS.map(a => a.id);
+        ADMIN_LIST = []; ADMIN_ACCESOS = {};
+        r.data.forEach(function(row){
+          if(row.activo === false) return;
+          const e = String(row.email || '').trim().toLowerCase(); if(!e) return;
+          ADMIN_LIST.push(e);
+          ADMIN_ACCESOS[e] = Array.isArray(row.apps) ? row.apps.slice() : allIds.slice();
+        });
+      } else if(r && r.error){ console.warn('sbAdminLoad:', r.error); adminFlash('\u26a0 No se pudo leer la lista de la nube'); }
+    }
+  }catch(e){ console.warn('sbAdminLoad', e); adminFlash('\u26a0 Sin conexion con la nube (lista local)'); }
+  renderAdmin();
+}
+async function sbAdminSave(email){
+  try{
+    if(!initSB()){ adminFlash('\u26a0 No se pudo guardar'); return; }
+    const allIds = ADMIN_APPS.map(a => a.id);
+    const ids = ADMIN_ACCESOS[email] || [];
+    const todas = allIds.length && ids.length === allIds.length && allIds.every(id => ids.includes(id));
+    const r = await sb.from('autorizados').upsert({ email: email, apps: (todas ? null : ids), activo: true }, { onConflict: 'email' });
+    if(r && r.error){ console.warn('sbAdminSave:', r.error); adminFlash('\u26a0 No se pudo guardar en la nube'); }
+    else adminFlash('\u2713 Guardado en la nube');
+  }catch(e){ console.warn('sbAdminSave', e); adminFlash('\u26a0 No se pudo guardar en la nube'); }
+}
+async function sbAdminRemove(email){
+  try{
+    if(!initSB()) return;
+    const r = await sb.from('autorizados').delete().eq('email', email);
+    if(r && r.error){ console.warn('sbAdminRemove:', r.error); adminFlash('\u26a0 No se pudo quitar de la nube'); }
+    else adminFlash('\u2713 Usuario quitado de la nube');
+  }catch(e){ console.warn('sbAdminRemove', e); adminFlash('\u26a0 No se pudo quitar de la nube'); }
+}
+function adminFlash(msg){
+  let d = document.getElementById('adminFlash');
+  if(!d){ d = document.createElement('div'); d.id = 'adminFlash';
+    d.style.cssText = 'position:fixed;bottom:18px;left:50%;transform:translateX(-50%);background:#150E24;border:1px solid #2a1f3d;color:#fff;padding:10px 16px;border-radius:10px;font:13px system-ui,sans-serif;z-index:99999;box-shadow:0 10px 30px rgba(0,0,0,.5);opacity:0;transition:opacity .3s';
+    document.body.appendChild(d); }
+  d.textContent = msg; d.style.opacity = '1';
+  clearTimeout(d._t); d._t = setTimeout(function(){ d.style.opacity = '0'; }, 2000);
+}
 function adminAdd10(email){
   const esFull = FULL_ACCESS.map(a => String(a).trim().toLowerCase()).includes(email);
   const ids = (ADMIN_ACCESOS[email] || (esFull ? ADMIN_APPS.map(a => a.id) : [])).slice();
@@ -1865,20 +1911,20 @@ function adminAdd10(email){
     if(!have.has(a.id)){ ids.push(a.id); have.add(a.id); added++; }
   }
   ADMIN_ACCESOS[email] = ids;
-  renderAdmin();
+  sbAdminSave(email); renderAdmin();
 }
 /* Marcar/desmarcar TODAS las apps para un usuario de un toque */
 function adminAllAccess(email, on){
   ADMIN_ACCESOS[email] = on ? ADMIN_APPS.map(a => a.id) : [];
-  renderAdmin();
+  sbAdminSave(email); renderAdmin();
 }
 function adminAdd(){
   const inp = $('#newEmail'), e = (inp.value || '').trim().toLowerCase();
   if(!e || !e.includes('@')){ inp.focus(); return; }
-  if(!ADMIN_LIST.includes(e)){ ADMIN_LIST.push(e); ADMIN_ACCESOS[e] = []; }
+  if(!ADMIN_LIST.includes(e)){ ADMIN_LIST.push(e); ADMIN_ACCESOS[e] = ADMIN_APPS.map(a => a.id); sbAdminSave(e); }
   inp.value = ''; renderAdmin();
 }
-function adminDel(e){ ADMIN_LIST = ADMIN_LIST.filter(x => x !== e); delete ADMIN_ACCESOS[e]; renderAdmin(); }
+function adminDel(e){ ADMIN_LIST = ADMIN_LIST.filter(x => x !== e); delete ADMIN_ACCESOS[e]; sbAdminRemove(e); renderAdmin(); }
 function adminAppAdd(){
   const n = $('#newAppName'), f = $('#newAppFile');
   const nombre = (n.value || '').trim(); let archivo = (f.value || '').trim();
@@ -1899,7 +1945,7 @@ function adminToggleAccess(email, appId, on){
     : (FULL_ACCESS.map(a => String(a).trim().toLowerCase()).includes(email) ? ADMIN_APPS.map(a => a.id) : []);
   if(on){ if(!ids.includes(appId)) ids.push(appId); }
   else { ids = ids.filter(x => x !== appId); }
-  ADMIN_ACCESOS[email] = ids; renderAdmin();
+  ADMIN_ACCESOS[email] = ids; sbAdminSave(email); renderAdmin();
 }
 function adminCopy(btn){
   navigator.clipboard.writeText($('#jsonPre').textContent).then(()=>{
