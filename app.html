@@ -886,6 +886,7 @@ function parseJwt(token){
 }
 
 function grantAccess(email, isAdmin){
+  if(window.__jmGranted) return; window.__jmGranted = true;
   $('#gate').classList.add('hidden');
   $('#logout').style.display = 'block';
   USER_EMAIL = email;
@@ -924,7 +925,10 @@ async function onGoogleLogin(resp){
   const okSupabase = !!(sbRow && sbRow.activo !== false);
   const okRespaldo = AUTORIZADOS.includes(email);
   if(isAdmin || okSupabase || okRespaldo){
-    if(sbRow && Array.isArray(sbRow.apps) && sbRow.apps.length) ACCESOS[email] = sbRow.apps.slice();
+    if(sbRow){
+      if(Array.isArray(sbRow.apps)) ACCESOS[email] = sbRow.apps.slice();
+      else delete ACCESOS[email];   // null en Supabase = TODAS las apps (incluye futuras)
+    }
     grantAccess(email, isAdmin);
   }else{
     $('#gmsg').textContent = 'La cuenta ' + (email || '—') + ' no está autorizada.';
@@ -966,8 +970,20 @@ function buildGateBg(){
     return '<div class="grow r'+ri+'">'+cells+cells+'</div>';   // duplicado para loop continuo
   }).join('');
 }
-function initGate(){
-  cargarAutorizados().then(()=>{ buildGateBg(); const resumed = resumeSession(); esperarGoogle(resumed); });
+async function initGate(){
+  await cargarAutorizados();
+  buildGateBg();
+  const host = $('#gbtn');
+  if(host) host.innerHTML = '<button onclick="loginGoogle()" style="display:inline-flex;align-items:center;gap:10px;cursor:pointer;border:0;border-radius:13px;padding:14px 26px;font-weight:700;font-size:15px;background:linear-gradient(100deg,#F5B544,#FFD27A);color:#241400">'
+    + '<svg width="18" height="18" viewBox="0 0 24 24"><path fill="#241400" d="M21.35 11.1H12v2.9h5.35c-.25 1.4-1.6 4.1-5.35 4.1-3.2 0-5.8-2.65-5.8-5.9s2.6-5.9 5.8-5.9c1.8 0 3 .77 3.7 1.43l2.5-2.4C16.9 5.6 14.7 4.6 12 4.6 6.95 4.6 2.9 8.65 2.9 13.7 2.9 18.75 6.95 22.8 12 22.8c4.65 0 7.75-3.27 7.75-7.87 0-.53-.06-.93-.13-1.33z"/></svg>'
+    + 'Entrar con Google</button>';
+  if(initSB()){
+    sb.auth.onAuthStateChange(function(ev, session){ if(session && session.user) handleSbSession(session); });
+    try{ const { data } = await sb.auth.getSession();
+      if(data && data.session){ if(await handleSbSession(data.session)) return; }
+    }catch(e){ console.warn('getSession:', e); }
+  }
+  resumeSession();
 }
 
 async function cargarAutorizados(){
@@ -987,16 +1003,32 @@ async function cargarAutorizados(){
   }
 }
 
-function esperarGoogle(resumed){
-  if(typeof google === 'undefined' || !google.accounts){ setTimeout(()=>esperarGoogle(resumed), 250); return; }
-  google.accounts.id.initialize({
-    client_id: GOOGLE_CLIENT_ID,
-    callback: onGoogleLogin,
-    auto_select: true,
-  });
-  google.accounts.id.renderButton($('#gbtn'),
-    { theme:'filled_black', size:'large', shape:'pill', text:'signin_with', locale:'es' });
-  if(!resumed) google.accounts.id.prompt();   // solo auto-login si no había sesión guardada
+async function loginGoogle(){
+  if(!initSB()){ $('#gmsg').textContent = 'No se pudo cargar Supabase.'; return; }
+  try{
+    await sb.auth.signInWithOAuth({ provider:'google', options:{ redirectTo: location.href.split('#')[0] } });
+  }catch(e){ console.warn('loginGoogle:', e); $('#gmsg').textContent = 'No se pudo iniciar sesion: ' + (e.message||''); }
+}
+async function handleSbSession(session){
+  if(!session || !session.user) return false;
+  const email = (session.user.email || '').toLowerCase();
+  if(!email) return false;
+  let sbRow = null;
+  try{
+    const r = await sb.from('autorizados').select('apps,is_admin,activo').eq('email', email).maybeSingle();
+    sbRow = r.data || null;
+  }catch(e){ console.warn('lectura autorizados:', e); }
+  const isAdmin = ADMINS.map(a => String(a).trim().toLowerCase()).includes(email) || (sbRow && sbRow.is_admin === true);
+  const okSupabase = !!(sbRow && sbRow.activo !== false);
+  const okRespaldo = AUTORIZADOS.includes(email);
+  if(isAdmin || okSupabase || okRespaldo){
+    if(sbRow){ if(Array.isArray(sbRow.apps)) ACCESOS[email] = sbRow.apps.slice(); else delete ACCESOS[email]; }
+    grantAccess(email, isAdmin);
+    return true;
+  }
+  $('#gmsg').textContent = 'La cuenta ' + (email||'\u2014') + ' no esta autorizada.';
+  try{ await sb.auth.signOut(); }catch(e){}
+  return false;
 }
 window.addEventListener('DOMContentLoaded', initGate);
 
@@ -1656,6 +1688,7 @@ function verDetalle(btn, ts){
 
 /* ═══════════ Menú "Mis apps" — panel flotante con mini-portadas ═══════════ */
 const JM_META = {
+  ariafootball:["⚽ FUTBOL",["#0a2a1f","#0a1a3a"]],
   promojm:["PROMO",["#3a2a10","#1f1633"]],
     mascotashablan:["HABLAN",["#f59e0b","#22c55e"]], audiolibro:["AUDIOLIBRO",["#8b5cf6","#f59e0b"]], leyendaslatam:["LEYENDAS",["#6d28d9","#1f2937"]], diosesmundo:["DIOSES",["#f59e0b","#8b5cf6"]], animalesvida:["SU VIDA",["#22c55e","#0ea5e9"]], objetoshistoria:["OBJETOS",["#d97706","#0ea5e9"]], refranes:["REFRANES",["#f59e0b","#22c55e"]], comidatipica:["COMIDA",["#ef4444","#f59e0b"]], versus:["VERSUS",["#ef4444","#0ea5e9"]], trailerfalso:["TRÁILER",["#1f2937","#f59e0b"]], cuentosclasicos:["CLÁSICOS",["#a855f7","#fbbf24"]], reaccionanimales:["REACCIONES",["#f59e0b","#22d3ee"]], dialogospareja:["PAREJA",["#fb7185","#a855f7"]], terrorpais:["TERROR PAÍS",["#6d28d9","#1f2937"]], vidassantos:["SANTOS",["#fbbf24","#0ea5e9"]], megafauna:["MEGAFAUNA",["#16a34a","#d97706"]], accionepica:["ACCIÓN",["#ef4444","#1f2937"]], mundosfantasia:["FANTASÍA",["#a855f7","#22d3ee"]], bibliakids:["BIBLIA KIDS",["#fbbf24","#0ea5e9"]], idiomaskids:["IDIOMAS",["#22c55e","#f59e0b"]], yogakids:["YOGA KIDS",["#22d3ee","#84cc16"]], seguridadkids:["SEGURIDAD",["#0ea5e9","#ef4444"]], habitoskids:["HÁBITOS",["#84cc16","#f59e0b"]], naturalezakids:["NATURALEZA",["#22c55e","#0ea5e9"]], toursprop:["TOURS",["#0ea5e9","#f59e0b"]], quepasaria:["¿QUÉ SI?",["#6366f1","#22d3ee"]], comosehace:["CÓMO SE HACE",["#f59e0b","#0ea5e9"]], lineatiempo:["TIMELINE",["#d97706","#8b5cf6"]], records:["RÉCORDS",["#ef4444","#f59e0b"]], porquehacemos:["¿POR QUÉ?",["#fb7185","#22d3ee"]], antesdespues:["ANTES/DESPUÉS",["#22c55e","#f59e0b"]], menurest:["MENÚ",["#ef4444","#fbbf24"]],
     canioninfantil:["CANCIONES",["#f472b6","#fbbf24"]], aprendojugando:["APRENDO",["#22c55e","#f59e0b"]], animalitos:["ANIMALITOS",["#f59e0b","#22c55e"]], vehiculos:["VEHICULOS",["#ef4444","#f59e0b"]], cuentohadas:["HADAS",["#a855f7","#f472b6"]], emociones:["EMOCIONES",["#fb7185","#22d3ee"]], modales:["MODALES",["#0ea5e9","#84cc16"]], espacioninos:["ESPACIO KIDS",["#6366f1","#22d3ee"]], granja:["GRANJA",["#84cc16","#f59e0b"]], adivinanzas:["ADIVINANZAS",["#f59e0b","#a855f7"]],
@@ -1698,7 +1731,7 @@ function jmPoster(a){
     + tx + `</svg>`;
 }
 const JM_NICHE_ORDER=[["viralia","🎥 Video Viral IA"],["asmr","🔪 ASMR y Satisfying"],["podcast","🎙️ Podcast y Personas"],["dinero","💰 Finanzas y Negocios"],["educa","📱 Tech, Salud y Datos"],["story","📝 Storytelling y Drama"],["terror","👻 Terror y Misterio"],["fe","🙏 Fe y Reflexión"],["cuentos","📖 Cuentos y Fábulas"],["infantil","🧒 Infantil y Escolar"],["pov","🎭 Historias POV"],["analisis","📊 Análisis YouTube"]];
-const JM_NICHO={promojm:"dinero",outliers:"analisis",analizador:"analisis",timelapse:"viralia",timelapse2:"viralia",timelapse3:"viralia",cocinaviral:"viralia",narekart:"viralia",surreal:"viralia",miniaturas:"viralia",animalessurreal:"viralia",criaturas:"viralia",tiendashop:"viralia",streetpro:"viralia",xray:"viralia",woodenhands:"asmr",woodenhands2:"asmr",asmrsatisfying:"asmr",aifruit:"asmr",procesos:"asmr",podcast:"podcast",podfitness:"podcast",podmujeres:"podcast",podfe:"podcast",poddating:"podcast",podnegocios:"podcast",abuelo:"podcast",ninogenio:"podcast",atleta:"podcast",entrevista:"podcast",streetint:"podcast",storytime:"podcast",datoshablados:"podcast",finanzas:"dinero",negociosfaceless:"dinero",techia:"educa",saludbienestar:"educa",historiacuriosa:"educa",datos:"educa",venganza:"story",reddit:"story",povcine:"story",motivacion:"story",terror:"terror",terrorurbano:"terror",datosmiedo:"terror",truecrime:"terror",historias:"fe",milagros:"fe",relatos:"fe",parabolas:"fe",tentacion:"fe",proverbios:"fe",redencion:"fe",viajealma:"fe",cartas:"fe",valores:"fe",reflexiones:"fe",novelas:"cuentos",fabulas:"cuentos",mitologia:"cuentos",glam:"cuentos",frutas:"cuentos",monstruos:"cuentos",trabalenguas:"cuentos",superheroes:"cuentos",zodiaco:"cuentos",buenasnoches:"infantil",utiles:"infantil",animales:"infantil",dinosaurios:"infantil",insectos:"infantil",plantas:"infantil",paises:"infantil",profesiones:"infantil",robots:"infantil",autos:"infantil",fractura:"viralia",explainer:"educa",montanarusa:"viralia",mundovegetal:"viralia",resinadiy:"asmr",timelapseobra:"viralia",dreamnostalgia:"viralia",cartoonkids:"infantil",rescateanimal:"infantil",junglabunker:"viralia",mascotas:"pov",comida:"pov",objetos:"pov",animecine:"cuentos",animereal:"cuentos",ghibli:"cuentos",claymation:"cuentos",retratopixar:"cuentos",legomundo:"cuentos",motioncomic:"cuentos",pixelart:"cuentos",cartoon2d:"cuentos",futbolepico:"viralia",extremospov:"viralia",animalesdeporte:"viralia",combateepico:"viralia",carreras:"viralia",trailersfake:"story",scifi:"story",western:"story",noir:"story",epocahist:"story",accionhollywood:"story",cinemudo:"story",romance:"story",kdrama:"story",telenovela:"story",dramaepoca:"story",quesi:"viralia",criaturasmito:"viralia",kaiju:"viralia",natimposible:"viralia",cosmos:"viralia",futuro3000:"viralia",postapoc:"viralia",microcosmos:"viralia",ugcreview:"podcast",testimonios:"podcast",noticiero:"podcast",standup:"podcast",videoclip:"podcast",pasarela:"viralia",lookbook:"viralia",glowup:"viralia",psicologia:"educa",estoicismo:"educa",ciencia:"educa",espacioedu:"educa",inventos:"educa",foodporn:"asmr",mukbang:"asmr",recetaspov:"asmr",comidagigante:"asmr",docunatura:"educa",oceano:"educa",dinosdoc:"educa",hadasoscuras:"terror",paranormalpov:"terror",leyendas:"terror",viajes:"viralia",supercars:"viralia",mansiones:"viralia",brainrot:"viralia",stickanim:"viralia",nightvision:"viralia",biomech:"viralia",beachsaga:"viralia",evolution:"educa",wildbbc:"educa",cinedirector:"story",dormir:"asmr",microsalud:"educa",whiteboard:"educa",squishmelt:"asmr",asmrreveal:"asmr",cuentoviral:"cuentos",canioninfantil:"infantil",aprendojugando:"infantil",animalitos:"infantil",vehiculos:"infantil",cuentohadas:"infantil",emociones:"infantil",modales:"infantil",espacioninos:"infantil",granja:"infantil",adivinanzas:"infantil",mascotashablan:"viralia",audiolibro:"story",leyendaslatam:"terror",diosesmundo:"story",animalesvida:"story",objetoshistoria:"story",refranes:"cuentos",comidatipica:"viralia",versus:"viralia",trailerfalso:"story",cuentosclasicos:"cuentos",reaccionanimales:"viralia",dialogospareja:"viralia",terrorpais:"terror",vidassantos:"fe",megafauna:"educa",accionepica:"story",mundosfantasia:"story",bibliakids:"infantil",idiomaskids:"infantil",yogakids:"infantil",seguridadkids:"infantil",habitoskids:"infantil",naturalezakids:"infantil",toursprop:"dinero",quepasaria:"educa",comosehace:"educa",lineatiempo:"educa",records:"educa",porquehacemos:"educa",antesdespues:"dinero",menurest:"dinero"};
+const JM_NICHO={ariafootball:"viralia",promojm:"dinero",outliers:"analisis",analizador:"analisis",timelapse:"viralia",timelapse2:"viralia",timelapse3:"viralia",cocinaviral:"viralia",narekart:"viralia",surreal:"viralia",miniaturas:"viralia",animalessurreal:"viralia",criaturas:"viralia",tiendashop:"viralia",streetpro:"viralia",xray:"viralia",woodenhands:"asmr",woodenhands2:"asmr",asmrsatisfying:"asmr",aifruit:"asmr",procesos:"asmr",podcast:"podcast",podfitness:"podcast",podmujeres:"podcast",podfe:"podcast",poddating:"podcast",podnegocios:"podcast",abuelo:"podcast",ninogenio:"podcast",atleta:"podcast",entrevista:"podcast",streetint:"podcast",storytime:"podcast",datoshablados:"podcast",finanzas:"dinero",negociosfaceless:"dinero",techia:"educa",saludbienestar:"educa",historiacuriosa:"educa",datos:"educa",venganza:"story",reddit:"story",povcine:"story",motivacion:"story",terror:"terror",terrorurbano:"terror",datosmiedo:"terror",truecrime:"terror",historias:"fe",milagros:"fe",relatos:"fe",parabolas:"fe",tentacion:"fe",proverbios:"fe",redencion:"fe",viajealma:"fe",cartas:"fe",valores:"fe",reflexiones:"fe",novelas:"cuentos",fabulas:"cuentos",mitologia:"cuentos",glam:"cuentos",frutas:"cuentos",monstruos:"cuentos",trabalenguas:"cuentos",superheroes:"cuentos",zodiaco:"cuentos",buenasnoches:"infantil",utiles:"infantil",animales:"infantil",dinosaurios:"infantil",insectos:"infantil",plantas:"infantil",paises:"infantil",profesiones:"infantil",robots:"infantil",autos:"infantil",fractura:"viralia",explainer:"educa",montanarusa:"viralia",mundovegetal:"viralia",resinadiy:"asmr",timelapseobra:"viralia",dreamnostalgia:"viralia",cartoonkids:"infantil",rescateanimal:"infantil",junglabunker:"viralia",mascotas:"pov",comida:"pov",objetos:"pov",animecine:"cuentos",animereal:"cuentos",ghibli:"cuentos",claymation:"cuentos",retratopixar:"cuentos",legomundo:"cuentos",motioncomic:"cuentos",pixelart:"cuentos",cartoon2d:"cuentos",futbolepico:"viralia",extremospov:"viralia",animalesdeporte:"viralia",combateepico:"viralia",carreras:"viralia",trailersfake:"story",scifi:"story",western:"story",noir:"story",epocahist:"story",accionhollywood:"story",cinemudo:"story",romance:"story",kdrama:"story",telenovela:"story",dramaepoca:"story",quesi:"viralia",criaturasmito:"viralia",kaiju:"viralia",natimposible:"viralia",cosmos:"viralia",futuro3000:"viralia",postapoc:"viralia",microcosmos:"viralia",ugcreview:"podcast",testimonios:"podcast",noticiero:"podcast",standup:"podcast",videoclip:"podcast",pasarela:"viralia",lookbook:"viralia",glowup:"viralia",psicologia:"educa",estoicismo:"educa",ciencia:"educa",espacioedu:"educa",inventos:"educa",foodporn:"asmr",mukbang:"asmr",recetaspov:"asmr",comidagigante:"asmr",docunatura:"educa",oceano:"educa",dinosdoc:"educa",hadasoscuras:"terror",paranormalpov:"terror",leyendas:"terror",viajes:"viralia",supercars:"viralia",mansiones:"viralia",brainrot:"viralia",stickanim:"viralia",nightvision:"viralia",biomech:"viralia",beachsaga:"viralia",evolution:"educa",wildbbc:"educa",cinedirector:"story",dormir:"asmr",microsalud:"educa",whiteboard:"educa",squishmelt:"asmr",asmrreveal:"asmr",cuentoviral:"cuentos",canioninfantil:"infantil",aprendojugando:"infantil",animalitos:"infantil",vehiculos:"infantil",cuentohadas:"infantil",emociones:"infantil",modales:"infantil",espacioninos:"infantil",granja:"infantil",adivinanzas:"infantil",mascotashablan:"viralia",audiolibro:"story",leyendaslatam:"terror",diosesmundo:"story",animalesvida:"story",objetoshistoria:"story",refranes:"cuentos",comidatipica:"viralia",versus:"viralia",trailerfalso:"story",cuentosclasicos:"cuentos",reaccionanimales:"viralia",dialogospareja:"viralia",terrorpais:"terror",vidassantos:"fe",megafauna:"educa",accionepica:"story",mundosfantasia:"story",bibliakids:"infantil",idiomaskids:"infantil",yogakids:"infantil",seguridadkids:"infantil",habitoskids:"infantil",naturalezakids:"infantil",toursprop:"dinero",quepasaria:"educa",comosehace:"educa",lineatiempo:"educa",records:"educa",porquehacemos:"educa",antesdespues:"dinero",menurest:"dinero"};
 console.log('%cJM-BOTS app.html · build 2026-06-21 · 204 apps · categorias OK','color:#84cc16');
 let JM_INSTR={}, JM_VIS=[];
 function jmTile(a, here){
