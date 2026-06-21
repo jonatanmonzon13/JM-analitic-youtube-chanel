@@ -1,0 +1,286 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>JM·BOTS Studio — Promo JM BOTS (Admin)</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Sora:wght@400;700;800&family=JetBrains+Mono:wght@400;700&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --bg:#07060f;
+    --glass:rgba(18,16,38,0.72);
+    --border:rgba(255,255,255,0.13);
+    --text:#ffffff; --muted:rgba(255,255,255,0.66);
+    --c1:#F5B544;            /* electric blue */
+    --c2:#8B5CF6;            /* magenta */
+    --gold:#ffd166;
+    --violet:#9d4edd;
+    --lime:#00ffa3;
+    --shadow:0 8px 32px rgba(0,0,0,0.55);
+    --glow1:0 0 20px rgba(56,189,248,0.4);
+    --glow2:0 0 20px rgba(255,77,157,0.4);
+    --radius:16px;
+  }
+  *{box-sizing:border-box}
+  html{scroll-behavior:smooth}
+  body{
+    margin:0; font-family:'Sora',system-ui,sans-serif;
+    background:linear-gradient(-45deg,#0a0a24 0%,#07060f 40%,#1a0a2c 100%);
+    background-size:400% 400%; animation:bg 16s ease infinite;
+    color:var(--text); min-height:100vh; padding-bottom:50px;
+  }
+  @keyframes bg{0%{background-position:0% 50%}50%{background-position:100% 50%}100%{background-position:0% 50%}}
+  body::before{
+    content:""; position:fixed; inset:-50%; width:200%; height:200%;
+    background:radial-gradient(circle at 50% 40%,rgba(56,189,248,0.08),transparent 60%),
+               radial-gradient(circle at 80% 20%,rgba(255,77,157,0.08),transparent 50%);
+    z-index:-1; pointer-events:none;
+  }
+  .wrap{max-width:1400px; margin:0 auto; padding:34px 20px}
+
+  /* Keybar */
+  .keybar{
+    display:flex; flex-wrap:wrap; gap:10px; align-items:center;
+    background:var(--glass); border:1px solid var(--border); border-radius:14px;
+    padding:14px 16px; margin-bottom:26px; box-shadow:var(--shadow); backdrop-filter:blur(10px);
+  }
+  .keybar label{font-size:.74rem; text-transform:uppercase; letter-spacing:1px; color:var(--muted); font-weight:800}
+  .keybar input{
+    flex:1; min-width:200px; background:rgba(0,0,0,0.5); color:#fff;
+    border:1px solid rgba(255,255,255,0.2); border-radius:10px; padding:11px 13px;
+    font-family:'JetBrains Mono',monospace; font-size:.85rem; outline:none;
+  }
+  .keybar input:focus{border-color:var(--c1); box-shadow:var(--glow1)}
+  .kbtn{border:none; border-radius:10px; padding:11px 16px; font-weight:800; font-size:.8rem; cursor:pointer; font-family:'Sora',sans-serif; transition:.2s}
+  .kbtn.save{background:linear-gradient(90deg,var(--c1),var(--violet)); color:#fff}
+  .kbtn.alt{background:rgba(255,255,255,0.06); color:var(--c1); border:1px solid var(--c1)}
+  .kbtn:hover{transform:translateY(-2px)}
+  .key-hint{flex-basis:100%; font-size:.78rem; color:var(--muted); margin-top:2px}
+
+  /* Hero */
+  .hero{
+    text-align:center; padding:42px 20px;
+    background:var(--glass); backdrop-filter:blur(15px);
+    border:1px solid var(--border); border-radius:28px; box-shadow:var(--shadow),var(--glow1); margin-bottom:34px;
+  }
+  .title{
+    font-size:clamp(2.4rem,5.5vw,4.4rem); margin:0 0 10px; font-weight:800; letter-spacing:2px;
+    background:linear-gradient(90deg,var(--c1),var(--c2),var(--gold));
+    -webkit-background-clip:text; background-clip:text; color:transparent;
+  }
+  .subtitle{color:#e0e0ff; font-size:1.05rem; line-height:1.6; max-width:860px; margin:0 auto 18px}
+  .pills{display:flex; justify-content:center; flex-wrap:wrap; gap:10px}
+  .pill{padding:7px 16px; border-radius:999px; background:rgba(255,255,255,0.05); border:1px solid var(--c1); color:var(--c1); font-size:.78rem; font-weight:800; text-transform:uppercase; box-shadow:var(--glow1)}
+  .pill:nth-child(even){border-color:var(--c2); color:var(--c2); box-shadow:var(--glow2)}
+  .pill:nth-child(3n){border-color:var(--gold); color:var(--gold); box-shadow:0 0 15px rgba(255,209,102,.3)}
+
+  /* Controls */
+  .controls{display:grid; grid-template-columns:repeat(auto-fit,minmax(260px,1fr)); gap:18px; margin-bottom:30px}
+  .control{
+    background:var(--glass); backdrop-filter:blur(10px); border:1px solid var(--border);
+    border-radius:var(--radius); padding:18px; box-shadow:var(--shadow); transition:.3s; border-left:4px solid var(--c1);
+  }
+  .control:nth-child(even){border-left-color:var(--c2)}
+  .control:nth-child(3n){border-left-color:var(--gold)}
+  .control:hover{transform:translateY(-4px); box-shadow:var(--glow1)}
+  .control label{display:block; font-size:.76rem; text-transform:uppercase; color:#fff; font-weight:800; margin-bottom:9px; letter-spacing:1px}
+  select,.control input[type=text]{
+    width:100%; background:rgba(0,0,0,0.5); color:#fff; border:1px solid rgba(255,255,255,0.2);
+    border-radius:10px; padding:13px; font-size:.92rem; font-weight:600; outline:none; cursor:pointer; transition:.3s; font-family:'Sora',sans-serif;
+  }
+  .control input[type=text]{cursor:text}
+  select:focus,.control input[type=text]:focus{border-color:var(--c1); box-shadow:var(--glow1)}
+
+  /* CTA */
+  .cta{display:flex; justify-content:center; gap:18px; flex-wrap:wrap; margin-bottom:18px}
+  .btn{border:none; border-radius:999px; padding:17px 34px; font-weight:800; font-size:1.05rem; cursor:pointer; transition:.3s; text-transform:uppercase; letter-spacing:1px; font-family:'Sora',sans-serif}
+  .btn-main{background:linear-gradient(90deg,var(--c2),var(--violet)); color:#fff; box-shadow:var(--glow2); border:1px solid rgba(255,255,255,0.25)}
+  .btn-main:hover{transform:scale(1.04); box-shadow:0 0 30px rgba(255,77,157,.65)}
+  .btn-main:disabled{opacity:.55; cursor:wait; transform:none}
+  .btn-alt{background:rgba(255,255,255,0.05); color:var(--c1); border:2px solid var(--c1)}
+  .btn-alt:hover{background:var(--c1); color:#000; box-shadow:var(--glow1)}
+  .status{text-align:center; min-height:22px; margin-bottom:30px; font-size:.9rem; color:var(--muted); font-weight:600}
+  .status.err{color:var(--c2)}
+  .status.ok{color:var(--lime)}
+
+  /* Output */
+  .output{display:grid; grid-template-columns:340px 1fr; gap:28px; align-items:start; display:none}
+  .output.visible{display:grid; animation:fade .5s ease}
+  @keyframes fade{from{opacity:0; transform:translateY(15px)}to{opacity:1; transform:translateY(0)}}
+  .aside{position:sticky; top:18px; display:flex; flex-direction:column; gap:18px}
+  .box{background:var(--glass); backdrop-filter:blur(15px); border:1px solid var(--border); border-radius:var(--radius); padding:22px; box-shadow:var(--shadow)}
+  .box-title{font-size:1.1rem; color:var(--gold); font-weight:800; margin:0 0 13px; text-transform:uppercase; letter-spacing:1px}
+  .row{display:flex; justify-content:space-between; gap:10px; padding:8px 0; border-bottom:1px dashed rgba(255,255,255,0.08); font-size:.86rem}
+  .row span:first-child{color:var(--muted)}
+  .row span:last-child{font-weight:700; text-align:right}
+
+  .tabs{display:flex; flex-wrap:wrap; gap:10px; margin-bottom:20px; border-bottom:2px solid rgba(255,255,255,0.1); padding-bottom:16px}
+  .tab{background:rgba(0,0,0,0.5); color:var(--muted); border:1px solid rgba(255,255,255,0.2); padding:12px 18px; border-radius:11px; cursor:pointer; font-weight:800; font-size:.84rem; transition:.3s; text-transform:uppercase; font-family:'Sora',sans-serif}
+  .tab:hover{border-color:var(--c1); color:#fff}
+  .tab.active{background:linear-gradient(90deg,var(--c1),var(--violet)); color:#fff; border:none; box-shadow:var(--glow1)}
+  .panel{display:none}
+  .panel.visible{display:block; animation:fade .4s ease}
+
+  .bhead{display:flex; justify-content:space-between; align-items:center; margin-bottom:12px; flex-wrap:wrap; gap:10px}
+  .bhead h3{margin:0; font-size:1.1rem; font-weight:800; text-transform:uppercase; letter-spacing:1px}
+  .hint{color:var(--muted); font-size:.82rem; margin:0 0 12px}
+  textarea{
+    width:100%; height:520px; background:rgba(5,5,12,0.85); color:#e6e6ff; border:2px solid var(--c1);
+    border-radius:16px; padding:22px; font-family:'JetBrains Mono',monospace; font-size:.9rem; line-height:1.7;
+    resize:vertical; outline:none; box-shadow:inset 0 5px 20px rgba(0,0,0,0.8); white-space:pre-wrap;
+  }
+  #p-guion h3{color:var(--gold)} #p-guion textarea{border-color:var(--gold)}
+  #p-pers h3{color:var(--c2)}  #p-pers textarea{border-color:var(--c2)}
+  #p-imgs h3{color:var(--c1)}  #p-imgs textarea{border-color:var(--c1)}
+  #p-anim h3{color:var(--violet)} #p-anim textarea{border-color:var(--violet)}
+  .copy{background:#fff; color:#000; border:none; padding:11px 22px; font-weight:800; border-radius:10px; cursor:pointer; transition:.2s; text-transform:uppercase; font-size:.8rem; letter-spacing:1px; font-family:'Sora',sans-serif; box-shadow:0 0 15px rgba(255,255,255,0.25)}
+  .copy:hover{background:var(--gold); transform:translateY(-2px)}
+
+  @media(max-width:980px){.output{grid-template-columns:1fr}.aside{position:static}}
+
+  .chatbar{display:flex;gap:10px;flex-wrap:wrap;justify-content:center;margin:6px 0 14px}
+  .chatbar button{background:rgba(5,5,12,.6);border:2px solid var(--c1);color:#fff;border-radius:12px;padding:9px 16px;font-weight:700;cursor:pointer;font-family:inherit;font-size:.9rem}
+  .chatbar button:hover{background:var(--c1);color:#08080f}
+  .chat{display:flex;flex-direction:column;gap:14px;min-height:280px;max-height:62vh;overflow-y:auto;padding:14px;background:rgba(5,5,12,.6);border:1px solid rgba(255,255,255,.08);border-radius:16px;margin-bottom:14px}
+  .bubble{max-width:88%;padding:14px 16px;border-radius:16px;line-height:1.6;white-space:pre-wrap;word-wrap:break-word;font-size:.95rem}
+  .bubble.user{align-self:flex-end;background:linear-gradient(135deg,var(--c1),var(--c2));color:#08080f;font-weight:600;border-bottom-right-radius:4px}
+  .bubble.bot{align-self:flex-start;background:rgba(255,255,255,.05);border:1px solid rgba(255,255,255,.1);color:#e8e8ff;border-bottom-left-radius:4px;position:relative}
+  .bubble.bot .cp{position:absolute;top:8px;right:8px;background:rgba(0,0,0,.45);border:1px solid var(--c1);color:#fff;border-radius:8px;padding:3px 9px;font-size:.72rem;cursor:pointer;font-family:inherit}
+  .bubble.bot .cp:hover{background:var(--c1);color:#08080f}
+  .inrow{display:flex;gap:10px;align-items:flex-end}
+  .inrow textarea{flex:1;min-height:54px;max-height:160px;resize:vertical;background:#08080f;border:2px solid rgba(255,255,255,.15);border-radius:14px;color:#fff;padding:12px 14px;font-family:inherit;font-size:.95rem}
+  .inrow textarea:focus{outline:none;border-color:var(--c1)}
+  .inrow #sendBtn{background:linear-gradient(135deg,var(--c1),var(--c2));color:#08080f;border:none;border-radius:14px;padding:14px 22px;font-weight:800;cursor:pointer;font-family:inherit;font-size:1rem;white-space:nowrap}
+  .inrow #sendBtn:disabled{opacity:.5;cursor:default}
+  .typing{align-self:flex-start;color:var(--muted);font-style:italic;font-size:.9rem;padding:4px 8px}
+
+#apiKey{width:100%;box-sizing:border-box;height:72px;min-height:72px;max-height:170px;resize:vertical;display:block;align-self:flex-start;flex:1 1 100%;font-family:'JetBrains Mono',ui-monospace,monospace;line-height:1.5;padding:10px 12px;border-radius:10px;background:#0b0b14;border:1px solid rgba(255,255,255,.18);color:#fff;}
+#apiKey:focus{outline:none;border-color:#22c55e;box-shadow:0 0 0 2px rgba(34,197,94,.25);}
+#apiKey.masked{-webkit-text-security:disc;}
+.masterbox{margin-top:14px;border:1px solid rgba(255,255,255,.14);border-radius:12px;padding:10px 14px;background:rgba(255,255,255,.03)}.masterbox summary{cursor:pointer;font-weight:700;color:#fff}.masterbox .mp-hint{font-size:13px;opacity:.85;margin:8px 0}.masterbox .mp-actions{display:flex;gap:8px;flex-wrap:wrap;margin:8px 0}.masterbox textarea{width:100%;min-height:170px;box-sizing:border-box;font-family:ui-monospace,monospace;font-size:12px;line-height:1.5;padding:10px;border-radius:10px;background:#0b0b14;border:1px solid rgba(255,255,255,.18);color:#fff;white-space:pre-wrap}
+</style>
+</head>
+<body>
+  <div class="wrap">
+    <div class="keybar">
+      <label for="apiKey">Clave Gemini</label>
+      <textarea id="apiKey" class="masked" rows="3" placeholder="Pegá hasta 5 claves de Gemini (AIza...), una por renglón — rotan solas si una se queda sin tokens" autocomplete="off" spellcheck="false"></textarea>
+      <button class="kbtn save" onclick="saveKey()">Guardar</button>
+      <button class="kbtn alt" onclick="replaceKey()">Reemplazar</button>
+      <button class="kbtn alt" onclick="toggleEye()">👁️</button>
+      <div class="key-hint" id="keyHint">La clave se guarda solo en tu navegador y se comparte con todas las apps de la suite.</div>
+    </div>
+    <header class="hero">
+      <h1 class="title">Promo JM BOTS · Admin</h1>
+      <p class="subtitle">Bot solo-admin para crear videos PROMOCIONALES de JM BOTS con Veo 3.1: 12 ganchos → formato → guion persuasivo (gancho, oferta, CTA) → entrega en prompts lineales con audio nativo, 9:16 y extend.</p>
+      <div class="pills"><span class="pill">🎯 Marketing</span><span class="pill">🎙️ Voz nativa Veo 3.1</span><span class="pill">🧩 Un prompt por clip</span><span class="pill">🔒 Solo admin</span></div>
+      <details class="masterbox" id="masterbox"><summary>📋 Master prompt (respaldo si falla la API)</summary><p class="mp-hint">Si la API falla, generá el master prompt, copialo y pegalo en gemini.google.com para producir el contenido a mano.</p><div class="mp-actions"><button class="btn" type="button" onclick="buildMaster()">🧩 Generar master prompt</button><button class="btn" type="button" onclick="copyMaster(this)">📋 Copiar</button></div><textarea id="masterPrompt" readonly placeholder="Tocá «Generar master prompt» y copiá el texto para pegarlo en Gemini…"></textarea></details>
+    </header>
+    <div class="chatbar">
+      <button onclick="kickoff()">▶ Empezar (12 ganchos)</button>
+      <button onclick="send('reset ideas')">🔄 reset ideas</button>
+      <button onclick="nuevaSesion()">🆕 Nueva sesión</button>
+    </div>
+    <div id="chat" class="chat"></div>
+    <div class="inrow">
+      <textarea id="msg" placeholder="Escribí un número (1-15), 'reset ideas', 'reset guion', o tu respuesta del paso actual..."></textarea>
+      <button id="sendBtn" onclick="send()">Enviar</button>
+    </div>
+    <div class="status" id="status"></div>
+  </div>
+<script>
+const $ = id => document.getElementById(id);
+const MODEL='gemini-2.5-flash';
+const API='https://generativelanguage.googleapis.com';
+function loadKeys(){ try{ return JSON.parse(localStorage.getItem('jmbots_keys')||'{}'); }catch(e){ return {}; } }
+function firstKey(){ var a=(loadKeys().an||'').split(/[\s,;\n]+/).map(s=>s.trim()).filter(Boolean); return a[0]||''; }
+function setKeyHint(m,c){ $("keyHint").textContent=m; $("keyHint").style.color=c||"var(--muted)"; }
+(function(){ const ks=loadKeys(); if(ks.an){ $("apiKey").value=ks.an; setKeyHint("✓ Clave(s) cargada(s). Tocá Empezar.","var(--lime)"); } })();
+function saveKey(){ const v=$("apiKey").value.trim(); if(!v){ setKeyHint("Pegá una clave antes de guardar.","var(--c2)"); return; } try{ const ks=loadKeys(); ks.an=v; localStorage.setItem('jmbots_keys',JSON.stringify(ks)); }catch(e){} setKeyHint("✓ Clave(s) guardada(s).","var(--lime)"); }
+function replaceKey(){ $("apiKey").value=""; $("apiKey").type='text'; $("apiKey").focus(); setKeyHint("Ingresá la(s) nueva(s) clave(s) y Guardar.","var(--gold)"); }
+function toggleEye(){ var i=document.getElementById("apiKey"); if(i) i.classList.toggle("masked"); }
+
+const SYSTEM = `Eres el "Director de Marketing" de JM BOTS y experto en Veo 3.1. Tu trabajo es ayudar a crear VIDEOS PROMOCIONALES virales (estilo TikTok/Reels) para vender el acceso a JM BOTS. Eres directo, persuasivo y seguis un flujo ESTRICTO.
+
+QUE ES JM BOTS (usalo para vender): una suite con +200 generadores de prompts listos para Veo 3.1; permite crear contenido viral FACELESS (sin mostrar la cara) en decenas de nichos (terror, infantil, podcasts, mascotas que hablan, fe, cuentos, datos, etc.); corre en el navegador con tu propia clave de Gemini; tiene bots por pasos, audio nativo y formato extend. OFERTA DE LANZAMIENTO: $15/mes (antes $60), para los primeros 50, quedan pocos cupos. CTA siempre: "link en bio". Publico: creadores en espanol que quieren hacer crecer canales faceless. NUNCA prometas ganancias de dinero garantizadas; vende la facilidad y la velocidad para crear contenido viral. (Si la oferta cambia, el usuario te la puede corregir.)
+
+REGLAS DE FORMATO (ESTRICTAS):
+1. Entrega cada prompt como UNA SOLA LINEA, SIN etiquetas, SIN numeracion, SIN JSON; separados por UNA linea en blanco.
+2. La voz/dialogo que se escucha va en espanol latino entre comillas (audio nativo Veo 3.1, lip-sync); el resto del prompt visual en INGLES.
+3. Sin texto en pantalla salvo que se pida (usar "no text, no subtitles"), excepto el CTA y el precio en el ultimo clip.
+4. Cada clip dura 8 segundos; vertical 9:16; pensados para encadenar con extend ("extend previous clip seamlessly").
+5. La linea hablada de cada clip: entre 18 y 22 palabras.
+
+FLUJO DE TRABAJO SECUENCIAL (respeta el orden y espera la respuesta del usuario):
+[PASO 1] IDEAS: al iniciar (o si el usuario saluda o pide empezar), entrega 12 angulos/ganchos de promo para JM BOTS en lista enumerada del 1 al 12 (ej: "Hice este video sin mostrar la cara", "Reemplaza 10 herramientas", "Nadie esta usando esto todavia", "Como hago videos virales en 5 minutos"). "reset ideas" genera 12 nuevos. Cierra: "Elegi un angulo por numero (1-12)".
+[PASO 2] FORMATO: pregunta el formato del aviso (lista): 1) Avatar hablando a camara (estetica iPhone selfie); 2) Montaje faceless de resultados (muestra clips virales generandose); 3) Estilo demo (recreacion estilizada de la app en accion); 4) Testimonio (avatar contando su experiencia); 5) POV "un dia de un creador".
+[PASO 3] CLIPS: pregunta cuantos clips (8s c/u) tendra el promo.
+[PASO 4] IDIOMA Y ACENTO: pregunta PRIMERO el idioma (lista). Luego, en un MENSAJE SEPARADO, el acento/jerga (lista).
+[PASO 5] GUION: arma el guion en la cantidad de clips, con esta estructura persuasiva en orden: GANCHO -> problema del creador -> JM BOTS como solucion -> beneficio/prueba concreta -> OFERTA ($15/mes de lanzamiento, cupos limitados) -> CTA "link en bio". Cada clip 18-22 palabras, en espanol latino. Indica el conteo de palabras entre corchetes. Espera confirmacion o "reset guion".
+[PASO 6] AVATAR (solo si el formato es 1 o 4): pregunta UNO POR UNO: 1) Genero; 2) Color de pelo; 3) Largo/estilo de pelo; 4) Color de ojos; 5) Etnia; 6) Tono de piel; 7) Rasgos adicionales.
+[PASO 7] ENTREGA FINAL (prompts lineales, una linea por prompt, una linea en blanco entre cada uno, sin indicadores ni JSON):
+   - Si hay avatar (formato 1 o 4): primera linea = PROMPT DE IMAGEN MAESTRA del avatar (ingles, hyperrealistic iPhone aesthetic, vertical 9:16, "no text, no subtitles"). Es la referencia (Ingredient) para mantenerlo identico.
+   - Luego, una linea por cada clip, en orden, autocontenida y pensada para EXTENDER el clip anterior: describe en ingles el movimiento/encuadre (hyperrealistic, vertical 9:16, "no text, no subtitles", "extend previous clip seamlessly") e INCLUYE el audio nativo: el texto hablado en espanol latino entre comillas con la voz fija. Para el formato 2 (montaje), cada clip muestra un resultado distinto (un clip viral de un nicho diferente: terror, infantil, mascota que habla, etc.). En el ULTIMO clip, agrega en pantalla el CTA "link en bio" y el precio "$15/mes".
+
+VOZ FIJA: "Generate speech as a confident, warm and energetic Latin American content creator. Tone: persuasive, friendly, exciting and trustworthy."
+
+CONTENIDO: marketing honesto y entusiasta; sin promesas de ingresos garantizados; sin enganos. Produci directo, respetando el flujo y sin adelantarte a pasos futuros.`;
+function buildMaster(){ var t=document.getElementById('masterPrompt'); if(t){ t.value=(typeof SYSTEM!=='undefined'?SYSTEM:'')+'\n\n--- Pega esto en gemini.google.com y escribi: empeza con el PASO 1 (dame los 12 ganchos de promo). ---'; } }
+function copyMaster(btn){ var t=document.getElementById('masterPrompt'); if(t&&!t.value){ buildMaster(); } if(t&&t.value){ navigator.clipboard.writeText(t.value).then(function(){ if(btn){ var o=btn.textContent; btn.textContent='✓ Copiado'; setTimeout(function(){ btn.textContent=o; },1200); } }); } }
+
+let msgs=[], busy=false;
+
+function escapeHtml(t){ return t.replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;'); }
+function render(typing){
+  const c=$("chat"); c.innerHTML='';
+  msgs.forEach(m=>{
+    const d=document.createElement('div');
+    d.className='bubble '+(m.role==='user'?'user':'bot');
+    d.innerHTML=escapeHtml(m.text);
+    if(m.role==='model'){
+      const b=document.createElement('button'); b.className='cp'; b.textContent='📋';
+      b.onclick=function(){ navigator.clipboard.writeText(m.text).then(()=>{b.textContent='✅';setTimeout(()=>b.textContent='📋',1300);}); };
+      d.appendChild(b);
+    }
+    c.appendChild(d);
+  });
+  if(typing){ const t=document.createElement('div'); t.className='typing'; t.textContent='✍️ escribiendo...'; c.appendChild(t); }
+  c.scrollTop=c.scrollHeight;
+}
+async function callGemini(){
+  const key=firstKey();
+  if(!key){ setKeyHint("Falta la clave de Gemini.","var(--c2)"); throw new Error('sin-clave'); }
+  const body={ systemInstruction:{parts:[{text:SYSTEM}]},
+    contents: msgs.map(m=>({role:m.role,parts:[{text:m.text}]})),
+    generationConfig:{ temperature:1.0, topP:0.95, maxOutputTokens:8192 } };
+  const r=await fetch(`${API}/v1beta/models/${MODEL}:generateContent?key=${encodeURIComponent(key)}`,{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify(body)});
+  if(!r.ok){ const e=await r.text().catch(()=>''); throw new Error('Gemini '+r.status+': '+e.slice(0,160)); }
+  const j=await r.json();
+  return (j.candidates?.[0]?.content?.parts||[]).map(p=>p.text||'').join('').trim();
+}
+async function send(text){
+  if(busy) return;
+  text = (text!==undefined ? text : $("msg").value).trim();
+  if(!text) return;
+  msgs.push({role:'user',text}); $("msg").value=''; render(true);
+  busy=true; $("sendBtn").disabled=true; $("status").className='status'; $("status").textContent='';
+  try{
+    const r=await callGemini();
+    msgs.push({role:'model',text:r}); render(false);
+  }catch(err){
+    render(false);
+    if(err.message!=='sin-clave'){ $("status").className='status err'; $("status").textContent='❌ '+err.message; }
+  }finally{ busy=false; $("sendBtn").disabled=false; }
+}
+function kickoff(){ if(busy) return; msgs=[]; render(false); send('Hola, empecemos. Dame los 12 ganchos de promo para JM BOTS.'); }
+function resetIdea(){ send('reset idea'); }
+function nuevaSesion(){ if(busy) return; msgs=[]; render(false); $("status").textContent=''; kickoff(); }
+$("msg").addEventListener('keydown',function(e){ if(e.key==='Enter' && !e.shiftKey){ e.preventDefault(); send(); } });
+</script>
+<script src="jmbots-resilience.js"></script>
+<script src="apps-menu.js"></script>
+<!--jmkeycount--><script>(function(){var k=document.getElementById('apiKey');if(!k)return;k.classList.add('masked');function c(){var n=(k.value||'').split(/[\s,;\n]+/).map(function(s){return s.trim();}).filter(Boolean).length;var h=document.getElementById('keyHint');if(!h)return;if(n>0){h.textContent='\u2713 '+n+' clave'+(n>1?'s':'')+' cargada'+(n>1?'s':'')+(n>=2?' \u00b7 rotaci\u00f3n activa entre ellas':'')+' + respaldo offline.';h.style.color='#84cc16';}else{h.textContent='Peg\u00e1 hasta 5 claves de Gemini, una por rengl\u00f3n. Rotan solas si una se queda sin tokens; si fallan todas, entra el banco de respaldo.';h.style.color='';}}k.addEventListener('input',c);c();})();</script>
+</body>
+</html>
