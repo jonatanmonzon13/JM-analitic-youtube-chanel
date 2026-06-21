@@ -59,6 +59,8 @@
 #apiKey{width:100%;box-sizing:border-box;height:72px;min-height:72px;max-height:170px;resize:vertical;display:block;align-self:flex-start;flex:1 1 100%;font-family:'JetBrains Mono',ui-monospace,monospace;line-height:1.5;padding:10px 12px;border-radius:10px;background:#0b0b14;border:1px solid rgba(255,255,255,.18);color:#fff;}
 #apiKey:focus{outline:none;border-color:#22c55e;box-shadow:0 0 0 2px rgba(34,197,94,.25);}
 #apiKey.masked{-webkit-text-security:disc;}
+.masterbox{margin-top:14px;border:1px solid rgba(255,255,255,.14);border-radius:12px;padding:10px 14px;background:rgba(255,255,255,.03)}.masterbox summary{cursor:pointer;font-weight:700;color:#fff}.masterbox .mp-hint{font-size:13px;opacity:.85;margin:8px 0}.masterbox .mp-actions{display:flex;gap:8px;flex-wrap:wrap;margin:8px 0}.masterbox textarea{width:100%;min-height:170px;box-sizing:border-box;font-family:ui-monospace,monospace;font-size:12px;line-height:1.5;padding:10px;border-radius:10px;background:#0b0b14;border:1px solid rgba(255,255,255,.18);color:#fff;white-space:pre-wrap}
+.masterbox button{cursor:pointer;font-weight:700;padding:9px 14px;border-radius:10px;border:1px solid rgba(255,255,255,.2);background:rgba(255,255,255,.06);color:#fff}.masterbox button:hover{background:rgba(255,255,255,.12)}
 </style>
 </head>
 <body>
@@ -81,7 +83,8 @@
     <span class="stp" data-s="p3">3 · Duración</span>
     <span class="stp" data-s="p4">4 · Prompts</span>
   </div>
-  <div class="chat" id="chat"></div>
+  <details class="masterbox" id="masterbox"><summary>📋 Master prompt (respaldo si falla la API)</summary><p class="mp-hint">Si la API falla, generá el master prompt, copialo y pegalo en gemini.google.com para producir el contenido a mano.</p><div class="mp-actions"><button type="button" onclick="buildMaster()">🧩 Generar master prompt</button><button type="button" onclick="copyMaster(this)">📋 Copiar</button></div><textarea id="masterPrompt" readonly placeholder="Tocá «Generar master prompt» y copiá el texto para pegarlo en Gemini…"></textarea></details>
+<div class="chat" id="chat"></div>
   <div class="quick" id="quick"></div>
   <div class="inrow">
     <input id="userIn" placeholder="Escribí “iniciar” para empezar…" onkeydown="if(event.key==='Enter')send()">
@@ -100,6 +103,9 @@ function saveKey(){ const v=$("apiKey").value.trim(); if(!v){ setKeyHint("Pegá 
 function replaceKey(){ $("apiKey").value=""; $("apiKey").type='text'; $("apiKey").focus(); setKeyHint("Ingresá la nueva clave y tocá Guardar.","var(--gold)"); }
 function toggleEye(){ var i=document.getElementById("apiKey"); if(i) i.classList.toggle("masked"); }
 const SYSTEM = `Eres "Miniaturas", generador de prompts para videos de escenas en miniatura y cocina diminuta (tiny cooking) con Veo 3 (audio sincronizado). Optimizá para TikTok: vertical 9:16, gancho fuerte en los primeros 2 segundos, pensado para subtítulos en pantalla (mucha gente mira sin sonido), duración objetivo 30-90s. FORMATO LINEAL OBLIGATORIO: cada prompt es UNA SOLA PIEZA de texto corrido (sin estructura JSON, sin llaves), en su PROPIO bloque de código markdown, separado por un espacio; nunca agrupes prompts ni uses arrays. Por cada clip entregás dos bloques lineales: PROMPT DE IMAGEN (keyframe, inglés) y PROMPT DE VIDEO para Veo 3 (inglés, con movimiento + audio + 'vertical 9:16, 4K, seamless loop'). Sin texto en pantalla, sin marcas ni logos. Estética tilt-shift macro, hiperrealista, objetos diminutos, manos/herramientas mini, fondo limpio. PASO 1 estilos: 1) Tiny cooking (cocinar comida real en miniatura) 2) Diorama de habitación/escena 3) Mundo natural mini (jardín, bosque diminuto) 4) Vehículos/ciudad mini 5) Sorpréndeme. Luego 10 ideas; 'reiniciar ideas'=10 nuevas. Luego DURACIÓN (8/16/24s). Por clip: prompt de imagen (tilt-shift miniature, macro, hyperreal) + prompt de video Veo 3 (movimiento + 'No music. Crisp ASMR cooking/handling sounds' + loop). Comandos: iniciar, reiniciar ideas, continuar, reset.`;
+function buildMaster(){ var t=document.getElementById('masterPrompt'); if(t){ t.value=(typeof SYSTEM!=='undefined'?SYSTEM:'')+'\n\n--- Pega esto en gemini.google.com y empeza la conversacion (por ejemplo, escribi: iniciar). ---'; } }
+function copyMaster(btn){ var t=document.getElementById('masterPrompt'); if(t&&!t.value){ buildMaster(); } if(t&&t.value){ navigator.clipboard.writeText(t.value).then(function(){ if(btn){ var o=btn.textContent; btn.textContent='✓ Copiado'; setTimeout(function(){ btn.textContent=o; },1200); } }); } }
+
 let history = [];
 let phase = 'p1';
 function setPhase(p){ phase=p; const order=['p1','p2','p3','p4']; document.querySelectorAll('#steps .stp').forEach(s=>{ const i=order.indexOf(s.dataset.s), cur=order.indexOf(p); s.classList.toggle('on', i===cur); s.classList.toggle('done', i<cur); }); }
