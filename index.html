@@ -37,6 +37,21 @@
   @keyframes sweep{0%,100%{left:-70%}16%{left:150%}}
   .btn-ghost{background:rgba(255,255,255,.05);color:var(--ink);border:1px solid var(--line)}
   .btn-ghost:hover{border-color:var(--gold);transform:translateY(-3px)}
+  .btn-login{background:rgba(139,92,246,.14);color:var(--ink);border:1px solid rgba(139,92,246,.6)}
+  .lmodal{position:fixed;inset:0;z-index:200;display:none;align-items:center;justify-content:center;background:rgba(5,3,10,.74);-webkit-backdrop-filter:blur(7px);backdrop-filter:blur(7px);padding:20px}
+  .lmodal.on{display:flex}
+  .lbox{background:linear-gradient(180deg,#171026,#0e0a18);border:1px solid var(--line);border-radius:22px;padding:32px 26px 26px;max-width:380px;width:100%;text-align:center;position:relative;box-shadow:0 30px 80px rgba(0,0,0,.6)}
+  .lbox h3{font-size:23px;margin-bottom:8px}
+  .lbox p{color:var(--muted);font-size:14px;margin:0 0 22px}
+  .lbox .gwrap{display:flex;justify-content:center;min-height:44px}
+  .lbox .lx{position:absolute;top:13px;right:15px;cursor:pointer;color:var(--muted);font-size:18px;background:0;border:0;line-height:1}
+  .lbox .lmsg{font-size:13px;margin-top:16px;min-height:18px;color:var(--lime)}
+  .lbox .lmsg.err{color:#fda4af}
+  .lbox .lalt{margin-top:20px;padding-top:16px;border-top:1px solid var(--line);font-size:13px;color:var(--muted)}
+  .lbox .lalt a{color:var(--gold2);font-weight:700;cursor:pointer}
+  .btn-login:hover{border-color:var(--cyan);transform:translateY(-3px);box-shadow:0 10px 30px rgba(139,92,246,.32)}
+  .navbtns{margin-left:auto;display:flex;gap:10px;align-items:center}
+  @media(max-width:560px){.navbtns .btn span.lbl{display:none}}
 
   /* fx canvas + cursor glow */
   #fx{position:fixed;inset:0;z-index:90;pointer-events:none}
@@ -145,6 +160,54 @@
     .reveal{opacity:1;transform:none}
     html{scroll-behavior:auto}
   }
+
+  /* ===== CAPA DE VENTAS ===== */
+  .sales{padding:54px 0 30px;position:relative}
+  .vidgrid{display:grid;grid-template-columns:repeat(3,1fr);gap:16px}
+  @media(max-width:860px){.vidgrid{grid-template-columns:1fr 1fr}}
+  @media(max-width:520px){.vidgrid{grid-template-columns:1fr}}
+  .vslot{position:relative;aspect-ratio:9/16;border-radius:16px;overflow:hidden;border:1px solid var(--line);background:linear-gradient(160deg,rgba(139,92,246,.18),rgba(34,211,238,.08));display:grid;place-items:center;text-align:center;cursor:pointer;transition:transform .2s,border-color .2s}
+  .vslot:hover{transform:translateY(-4px);border-color:var(--gold)}
+  .vslot video,.vslot iframe{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;border:0}
+  .vslot .vph{padding:18px;color:var(--muted);font-family:var(--mono);font-size:12px;z-index:1}
+  .vslot .vph .pl{font-size:40px;color:#fff;margin-bottom:8px;display:block;text-shadow:0 4px 14px rgba(0,0,0,.5)}
+  .vslot .vtag{position:absolute;top:10px;left:10px;z-index:2;font-family:var(--mono);font-size:10.5px;letter-spacing:.06em;background:rgba(0,0,0,.5);border:1px solid var(--line);padding:4px 9px;border-radius:7px;color:#fff}
+  .tgrid{display:grid;grid-template-columns:repeat(3,1fr);gap:16px}
+  @media(max-width:860px){.tgrid{grid-template-columns:1fr}}
+  .tcard{background:linear-gradient(180deg,rgba(255,255,255,.04),rgba(255,255,255,.01));border:1px solid var(--line);border-radius:16px;padding:24px}
+  .tcard .stars{color:var(--gold);letter-spacing:2px;margin-bottom:12px}
+  .tcard p{color:var(--body);margin:0 0 18px;font-size:15px}
+  .tcard .who{display:flex;align-items:center;gap:12px}
+  .tcard .av{width:42px;height:42px;border-radius:50%;display:grid;place-items:center;font-weight:800;color:#241400}
+  .tcard .nm{color:var(--ink);font-weight:700;font-size:14.5px}.tcard .rl{color:var(--muted);font-family:var(--mono);font-size:11.5px}
+  .pwrap{display:grid;grid-template-columns:1.05fr .95fr;gap:26px;align-items:center;max-width:980px;margin:0 auto}
+  @media(max-width:820px){.pwrap{grid-template-columns:1fr}}
+  .pcard{position:relative;background:linear-gradient(160deg,rgba(139,92,246,.16),rgba(34,211,238,.08));border:1px solid rgba(139,92,246,.4);border-radius:24px;padding:32px 30px;overflow:hidden}
+  .pcard::before{content:"";position:absolute;inset:0;background:radial-gradient(600px 280px at 50% -10%,rgba(245,181,68,.22),transparent 64%);pointer-events:none}
+  .plabel{font-family:var(--mono);font-size:11px;letter-spacing:.2em;text-transform:uppercase;color:var(--gold2);position:relative}
+  .pamt{display:flex;align-items:baseline;gap:12px;margin:12px 0 4px;flex-wrap:wrap;position:relative}
+  .pamt .big{font-weight:800;font-size:60px;color:var(--ink);line-height:1}
+  .pamt .per{color:var(--muted)}.pamt .was{font-family:var(--mono);font-size:21px;color:var(--muted);text-decoration:line-through;text-decoration-color:var(--magenta);text-decoration-thickness:2px}
+  .pamt .save{font-family:var(--mono);font-size:11px;font-weight:700;color:#241400;background:var(--lime);padding:4px 9px;border-radius:7px}
+  .pnote{color:var(--muted);font-size:14px;margin:0 0 18px;position:relative}
+  .pincl{list-style:none;padding:0;margin:0 0 22px;display:flex;flex-direction:column;gap:10px;position:relative}
+  .pincl li{display:flex;gap:10px;font-size:14.5px;color:var(--body)}.pincl .ck{color:var(--lime)}
+  .pcard .btn{width:100%;justify-content:center;position:relative}
+  .pgar{text-align:center;font-family:var(--mono);font-size:11.5px;color:var(--muted);margin-top:12px;position:relative}
+  .cupos{background:linear-gradient(180deg,rgba(255,255,255,.04),rgba(255,255,255,.01));border:1px solid var(--line);border-radius:24px;padding:28px}
+  .cupos h3{color:var(--ink);font-size:20px;margin-bottom:6px}.cupos .sub{color:var(--muted);font-size:13.5px;margin-bottom:20px}
+  .meter{height:16px;border-radius:999px;background:rgba(255,255,255,.06);overflow:hidden;border:1px solid var(--line)}
+  .meter .fill{height:100%;width:0;background:var(--grad-hero);border-radius:999px;transition:width 1.4s cubic-bezier(.2,.8,.2,1)}
+  .cupos .nums{display:flex;justify-content:space-between;margin-top:10px;font-family:var(--mono);font-size:12.5px}
+  .cupos .taken{color:var(--magenta)}.cupos .left{color:var(--lime)}
+  .cupos .bl{font-weight:800;font-size:42px;color:var(--ink);margin-top:16px}.cupos .bl small{display:block;font-family:var(--mono);font-size:13px;color:var(--muted);font-weight:500;margin-top:3px}
+  .pextra{display:flex;gap:10px;flex-wrap:wrap;margin-top:16px;font-family:var(--mono);font-size:12px;color:var(--muted)}
+  .pextra span{padding:7px 11px;border:1px solid var(--line);border-radius:9px}
+  .pays{display:flex;gap:10px;flex-wrap:wrap;margin:0 0 18px;position:relative}
+  .pays .pay{font-family:var(--mono);font-size:12.5px;color:var(--body);background:rgba(255,255,255,.05);border:1px solid var(--line);padding:9px 13px;border-radius:11px;display:flex;align-items:center;gap:7px}
+  .pays .pay b{color:var(--gold2)} .pays .pay .em{font-size:15px}
+  .memberline{text-align:center;margin-top:24px;font-size:14px;color:var(--muted)}
+  .memberline a{color:var(--gold2);font-weight:700}
 </style>
 </head>
 <body>
@@ -152,8 +215,11 @@
 
 <nav id="nav"><div class="wrap">
   <a class="logo" href="#top">JM <b>BOTS</b></a>
-  <div class="navlinks"><a href="#como">Cómo funciona</a><a href="#arsenal">Herramientas</a></div>
-  <a class="btn btn-gold" href="./app.html" style="margin-left:auto;padding:11px 21px">Entrar →</a>
+  <div class="navlinks"><a href="#demo">Muestras</a><a href="#arsenal">Herramientas</a><a href="#precio">Precios</a></div>
+  <div class="navbtns">
+    <a class="btn btn-login" href="./app.html" id="memberBtn" onclick="openLogin(event)" style="padding:11px 18px">🔓 <span class="lbl">Ya soy miembro</span></a>
+    <a class="btn btn-gold" href="#precio" style="padding:11px 21px">✨ <span class="lbl">Quiero mi acceso</span></a>
+  </div>
 </div></nav>
 
 <header class="hero" id="top">
@@ -166,8 +232,8 @@
     <h1 class="reveal" style="transition-delay:.05s">Tu fábrica de videos <span class="g">virales</span> con IA</h1>
     <p class="lead reveal" style="transition-delay:.1s">Detectá lo que ya explotó en YouTube y generá guiones, personajes y prompts listos para Veo 3. Decenas de herramientas, en tu navegador, con tus propias claves.</p>
     <div class="hcta reveal" style="transition-delay:.16s">
-      <a class="btn btn-gold" href="./app.html">Entrar a la suite →</a>
-      <a class="btn btn-ghost" href="#arsenal">Ver las herramientas</a>
+      <a class="btn btn-gold" href="#precio">🚀 Conseguí tu acceso</a>
+      <a class="btn btn-ghost" href="#demo">👀 Ver videos de muestra</a>
     </div>
     <div class="chips reveal" style="transition-delay:.22s">
       <span class="chip">🔥 <b>Detectá</b> lo que explotó</span>
@@ -202,11 +268,58 @@
   <div class="moreline reveal">✦ <b>Y seguimos sumando</b> nuevas herramientas todo el tiempo</div>
 </div></section>
 
+<section class="sales" id="demo"><div class="wrap">
+  <div class="shead reveal"><span class="eyebrow">Resultados</span><h2>Videos hechos con <span class="g">JM BOTS</span></h2><p>Ejemplos reales generados con la suite. Reemplazá cada bloque por tus propios clips.</p></div>
+  <div class="vidgrid" id="vidgrid"></div>
+</div></section>
+
+<section class="sales" id="testimonios"><div class="wrap">
+  <div class="shead reveal"><span class="eyebrow">Lo que dicen</span><h2>Creadores que ya lo <span class="g">usan</span></h2><p>Testimonios de ejemplo — cambialos por reales antes de publicar.</p></div>
+  <div class="tgrid">
+    <div class="tcard reveal"><div class="stars">★★★★★</div><p>"Pasé de tardar una tarde armando prompts a sacar un video en minutos. Lo de los lotes separados me ordenó todo el flujo."</p><div class="who"><div class="av" style="background:linear-gradient(135deg,#FFD27A,#F472D0)">CL</div><div><div class="nm">Camila L.</div><div class="rl">Canal faceless · terror</div></div></div></div>
+    <div class="tcard reveal" style="transition-delay:.08s"><div class="stars">★★★★★</div><p>"Los bots de podcast con avatar son una locura. El audio nativo de Veo me ahorró pasos y el extend me dejó videos largos sin cortes."</p><div class="who"><div class="av" style="background:linear-gradient(135deg,#8B5CF6,#22D3EE)">RM</div><div><div class="nm">Rodrigo M.</div><div class="rl">Contenido de motivación</div></div></div></div>
+    <div class="tcard reveal" style="transition-delay:.16s"><div class="stars">★★★★★</div><p>"Tener un generador por nicho cambia el juego. Manejo un canal infantil y otro de cuentos con la misma herramienta."</p><div class="who"><div class="av" style="background:linear-gradient(135deg,#A3E635,#22D3EE)">VS</div><div><div class="nm">Valentina S.</div><div class="rl">Canales infantiles</div></div></div></div>
+  </div>
+</div></section>
+
+<section class="sales" id="precio"><div class="wrap">
+  <div class="shead reveal"><span class="eyebrow">Acceso de lanzamiento</span><h2>Un precio. <span class="g">Todo</span> adentro.</h2><p>Los primeros 50 entran a precio fijo para siempre. Si ya sos miembro, seguís entrando gratis.</p></div>
+  <div class="pwrap">
+    <div class="pcard reveal">
+      <div class="plabel">Plan mensual · lanzamiento</div>
+      <div class="pamt"><span class="big">$15</span><span class="per">/mes</span><span class="was">$60</span><span class="save">75% OFF</span></div>
+      <p class="pnote">Pagás <b style="color:var(--ink)">$15/mes por Binance</b> o <b style="color:var(--ink)">$20/mes por PayPal</b>. Precio de lanzamiento congelado para los primeros 50.</p>
+      <ul class="pincl">
+        <li><span class="ck">✓</span> Acceso a los 204 generadores y a los bots de chat</li>
+        <li><span class="ck">✓</span> Prompts listos para Veo 3.1 (audio nativo + extend)</li>
+        <li><span class="ck">✓</span> Apps nuevas incluidas, sin pagar de más</li>
+        <li><span class="ck">✓</span> Usás tu propia clave de Gemini (sin límites nuestros)</li>
+        <li><span class="ck">✓</span> Master prompt de respaldo en cada app</li>
+      </ul>
+      <div class="pays">
+        <span class="pay"><span class="em">🟡</span> <b>Binance</b> · $15/mes</span>
+        <span class="pay"><span class="em">🅿️</span> <b>PayPal</b> · $20/mes</span>
+      </div>
+      <a class="btn btn-gold" href="#" id="buyBtn" target="_blank" rel="noopener">💬 Reservar por WhatsApp →</a>
+      <div class="pgar">Coordinamos tu acceso por WhatsApp · +54 342 407-6746</div>
+    </div>
+    <div class="cupos reveal">
+      <h3>Cupos de lanzamiento</h3>
+      <div class="sub">Cuando se llenen los 50, el precio sube a $60/mes.</div>
+      <div class="meter"><div class="fill" id="cuposFill"></div></div>
+      <div class="nums"><span class="taken" id="takenTxt">0 tomados</span><span class="left" id="leftTxt">50 libres</span></div>
+      <div class="bl"><span id="bigLeft">50</span><small>cupos disponibles a $15/mes</small></div>
+      <div class="pextra"><span>🟡 Binance: $15/mes</span><span>🅿️ PayPal: $20/mes</span></div>
+    </div>
+  </div>
+  <div class="memberline reveal">¿Ya tenés acceso? <a href="./app.html">Entrá a la suite →</a> &nbsp;·&nbsp; ¿Consultas? <a id="waLink" href="#" target="_blank" rel="noopener">WhatsApp +54 342 407-6746</a></div>
+</div></section>
+
 <section class="finalwrap"><div class="wrap">
   <div class="finalcta reveal">
-    <h2>Creá tu próximo <span class="g">viral</span> hoy</h2>
-    <p>Entrá a la suite con tu cuenta de Google autorizada y empezá a generar en minutos.</p>
-    <a class="btn btn-gold" href="./app.html">Entrar a la suite →</a>
+    <h2>Conseguí tu <span class="g">acceso</span> hoy</h2>
+    <p>Sumate con la oferta de lanzamiento a $15/mes. Si ya sos miembro, entrá directo a la suite.</p>
+    <a class="btn btn-gold" href="#precio">🏷️ Ver la oferta</a>
   </div>
 </div></section>
 
@@ -216,7 +329,7 @@
 </div></footer>
 
 <script>
-const NICHO={
+const NICHO={promojm:"dinero",
     mascotashablan:"viralia",audiolibro:"story",leyendaslatam:"terror",diosesmundo:"story",animalesvida:"story",objetoshistoria:"story",refranes:"cuentos",comidatipica:"viralia",versus:"viralia",trailerfalso:"story",cuentosclasicos:"cuentos",reaccionanimales:"viralia",dialogospareja:"viralia",terrorpais:"terror",vidassantos:"fe",megafauna:"educa",accionepica:"story",mundosfantasia:"story",bibliakids:"infantil",idiomaskids:"infantil",yogakids:"infantil",seguridadkids:"infantil",habitoskids:"infantil",naturalezakids:"infantil",toursprop:"dinero",quepasaria:"educa",comosehace:"educa",lineatiempo:"educa",records:"educa",porquehacemos:"educa",antesdespues:"dinero",menurest:"dinero",
     
     canioninfantil:"infantil",aprendojugando:"infantil",animalitos:"infantil",vehiculos:"infantil",cuentohadas:"infantil",emociones:"infantil",modales:"infantil",espacioninos:"infantil",granja:"infantil",adivinanzas:"infantil",
@@ -249,9 +362,10 @@ function buildHero(){
   if(b1){const s=shuffle(APPS).slice(0,16).map(tile).join('');b1.innerHTML=s+s;}
   if(b2){const s=shuffle(APPS).slice(0,16).map(tile).join('');b2.innerHTML=s+s;}
 }
+const ADMIN_HIDE=["promojm"];
 function buildWall(){
   const host=document.getElementById('wall'); if(!host) return;
-  host.innerHTML=shuffle(APPS).map((a,i)=>{const m=nm(a.id);
+  host.innerHTML=shuffle(APPS.filter(a=>!ADMIN_HIDE.includes(a.id))).map((a,i)=>{const m=nm(a.id);
     return `<a class="wcard reveal" style="transition-delay:${(i%12)*35}ms" href="./app.html" title="${esc(cn(a.nombre))}">`
       +`<div class="tbg" style="background:linear-gradient(135deg,${m.c[0]},${m.c[1]})"></div>`
       +`<img src="img/${a.id}.jpg" alt="" loading="lazy" decoding="async" onerror="this.remove()"><div class="grad"></div>`
@@ -316,6 +430,84 @@ if(!REDUCE) setTimeout(()=>burst(innerWidth/2,innerHeight*0.42,46),550);
 fetch('autorizados.json?t='+Date.now()).then(r=>r.json()).then(d=>{
   if(d&&Array.isArray(d.apps)&&d.apps.length){APPS=d.apps;render();observeReveals();document.querySelectorAll('.hero .reveal').forEach(e=>e.classList.add('in'));}
 }).catch(()=>{});
+</script>
+<script>
+/* ════ AJUSTÁ ESTO ════ */
+const WHATSAPP='543424076746';   /* tu numero, sin + ni espacios */
+const CHECKOUT_URL='https://wa.me/'+WHATSAPP+'?text='+encodeURIComponent('Hola! Quiero mi acceso a JM BOTS. Quiero pagar por Binance ($15) o PayPal ($20). Como coordinamos?');
+const CUPOS_TOTAL=50, CUPOS_TOMADOS=36;   /* 14 cupos libres · actualizá a mano */
+/* ═════════════════════ */
+/* ════ TUS VIDEOS DE MUESTRA — editá esta lista ════
+   Opción A (archivo local): { src:'videos/terror.mp4', tag:'Terror' }
+   Opción B (YouTube/embed):  { embed:'https://www.youtube.com/embed/ID', tag:'Podcast' }
+   Dejalo sin src/embed para mostrar el placeholder. */
+const SAMPLE_VIDEOS=[
+  { tag:'Terror' },
+  { tag:'Infantil' },
+  { tag:'Podcast' },
+  { tag:'Mascotas' },
+  { tag:'Cuentos' },
+  { tag:'Fe' }
+];
+(function(){var g=document.getElementById('vidgrid');if(!g)return;
+  g.innerHTML=SAMPLE_VIDEOS.map(function(v){var inner;
+    if(v.src){inner='<video src="'+v.src+'" autoplay muted loop playsinline preload="metadata"></video>';}
+    else if(v.embed){inner='<iframe src="'+v.embed+'" allow="autoplay; encrypted-media" allowfullscreen></iframe>';}
+    else{inner='<div class="vph"><span class="pl">\u25B6</span>Peg\u00e1 ac\u00e1 tu<br>video de muestra</div>';}
+    return '<div class="vslot in">'+(v.tag?'<span class="vtag">'+v.tag+'</span>':'')+inner+'</div>';}).join('');
+})();
+(function(){var l=Math.max(CUPOS_TOTAL-CUPOS_TOMADOS,0),p=Math.min(Math.round(CUPOS_TOMADOS/CUPOS_TOTAL*100),100);
+ var t=document.getElementById('takenTxt'),lf=document.getElementById('leftTxt'),bl=document.getElementById('bigLeft'),f=document.getElementById('cuposFill');
+ if(t)t.textContent=CUPOS_TOMADOS+' tomados'; if(lf)lf.textContent=l+' libres'; if(bl)bl.textContent=l;
+ if(f){var io=new IntersectionObserver(function(es){es.forEach(function(e){if(e.isIntersecting){f.style.width=p+'%';io.disconnect();}});},{threshold:.4});io.observe(f);}
+ var b=document.getElementById('buyBtn'); if(b)b.href=CHECKOUT_URL; var w=document.getElementById('waLink'); if(w)w.href=CHECKOUT_URL;})();
+</script>
+<div class="lmodal" id="loginModal" aria-hidden="true">
+  <div class="lbox">
+    <button class="lx" onclick="closeLogin()" aria-label="Cerrar">✕</button>
+    <h3>Iniciá sesión</h3>
+    <p>Entrá con tu cuenta de Google autorizada.</p>
+    <div class="gwrap"><div id="gbtn"></div></div>
+    <div class="lmsg" id="lmsg"></div>
+    <div class="lalt">¿Todavía no tenés acceso? <a onclick="closeLogin()" href="#precio">Conseguí tu acceso →</a></div>
+  </div>
+</div>
+<script src="https://accounts.google.com/gsi/client" async></script>
+<script>
+(function(){
+  const CID='894770388392-6ooskd5t6oit8r1hcr86gn6j60s6m982.apps.googleusercontent.com';
+  let AUTH=[], ready=false;
+  fetch('autorizados.json?t='+Date.now()).then(r=>r.json()).then(d=>{AUTH=(d.permitidos||[]).map(e=>String(e).trim().toLowerCase());}).catch(function(){});
+  function parseJwt(t){try{const b=t.split('.')[1].replace(/-/g,'+').replace(/_/g,'/');const j=decodeURIComponent(atob(b).split('').map(c=>'%'+('00'+c.charCodeAt(0).toString(16)).slice(-2)).join(''));return JSON.parse(j);}catch(e){return {};}}
+  function onCred(resp){
+    const d=parseJwt(resp.credential), email=(d.email||'').toLowerCase(), msg=document.getElementById('lmsg');
+    if(!d.email_verified){ msg.className='lmsg err'; msg.textContent='No se pudo verificar la cuenta.'; return; }
+    const known=AUTH.length>0;
+    if(!known || AUTH.indexOf(email)>=0){
+      try{ localStorage.setItem('jm_user', email); }catch(e){}
+      msg.className='lmsg'; msg.textContent='\u00a1Listo! Entrando\u2026';
+      setTimeout(function(){ location.href='./app.html'; },400);
+    } else {
+      msg.className='lmsg err'; msg.textContent='La cuenta '+email+' no est\u00e1 autorizada todav\u00eda.';
+      try{ google.accounts.id.disableAutoSelect(); }catch(e){}
+    }
+  }
+  function initGIS(){
+    if(typeof google==='undefined' || !google.accounts || !google.accounts.id) return false;
+    google.accounts.id.initialize({client_id:CID, callback:onCred});
+    const host=document.getElementById('gbtn'); if(host){ host.innerHTML=''; google.accounts.id.renderButton(host,{theme:'filled_black',size:'large',shape:'pill',text:'signin_with',width:300}); }
+    ready=true; return true;
+  }
+  window.openLogin=function(e){
+    if(e)e.preventDefault();
+    const m=document.getElementById('loginModal'); m.classList.add('on'); m.setAttribute('aria-hidden','false');
+    document.getElementById('lmsg').textContent='';
+    if(!ready && !initGIS()){ let n=0; const iv=setInterval(function(){ if(initGIS()||++n>25)clearInterval(iv); },200); }
+  };
+  window.closeLogin=function(){ const m=document.getElementById('loginModal'); m.classList.remove('on'); m.setAttribute('aria-hidden','true'); };
+  document.addEventListener('click',function(e){ if(e.target&&e.target.id==='loginModal') window.closeLogin(); });
+  document.addEventListener('keydown',function(e){ if(e.key==='Escape') window.closeLogin(); });
+})();
 </script>
 </body>
 </html>
