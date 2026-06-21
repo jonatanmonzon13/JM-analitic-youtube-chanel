@@ -847,7 +847,7 @@ const GOOGLE_CLIENT_ID = '894770388392-6ooskd5t6oit8r1hcr86gn6j60s6m982.apps.goo
 const SB_URL  = 'https://filzfaxpzuycxxvvuwbr.supabase.co';
 const SB_ANON = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImZpbHpmYXhwenV5Y3h4dnZ1d2JyIiwicm9sZSI6ImFub24iLCJpYXQiOjE3ODIwMjc5NTUsImV4cCI6MjA5NzYwMzk1NX0.HfhhqWusIKGb_onr0zbe_EE2KqfiEUANStA5SNkmOVY';
 let sb = null;
-function initSB(){ if(sb) return sb; try{ if(window.supabase) sb = window.supabase.createClient(SB_URL, SB_ANON); }catch(e){ console.warn('Supabase init:', e); } return sb; }
+function initSB(){ if(sb) return sb; try{ if(window.supabase) sb = window.supabase.createClient(SB_URL, SB_ANON, { auth:{ flowType:'implicit', detectSessionInUrl:true, persistSession:true, autoRefreshToken:true } }); }catch(e){ console.warn('Supabase init:', e); } return sb; }
 /* ── Correos con permisos de ADMINISTRADOR (ven la pestaña "Admin").
       Poné aquí tu propio correo en minúsculas. Pueden ser varios:
       const ADMINS = ['[email protected]', '[email protected]'];            ── */
@@ -1898,6 +1898,7 @@ function renderAccess(admins){
 async function sbAdminLoad(){
   try{
     if(initSB()){
+      try{ const sess = await sb.auth.getSession(); const act = !!(sess && sess.data && sess.data.session); adminSessionBanner(act, act ? sess.data.session.user.email : ''); }catch(e){}
       const r = await sb.from('autorizados').select('email,apps,is_admin,activo');
       if(r && r.data && r.data.length){
         const allIds = ADMIN_APPS.map(a => a.id);
@@ -1933,6 +1934,14 @@ async function sbAdminRemove(email){
     if(r && r.error){ console.warn('sbAdminRemove:', r.error); adminFlash('\u26a0 ' + (r.error.message || 'No se pudo quitar')); }
     else adminFlash('\u2713 Usuario quitado de la nube');
   }catch(e){ console.warn('sbAdminRemove', e); adminFlash('\u26a0 No se pudo quitar de la nube'); }
+}
+function adminSessionBanner(active, email){
+  let d = document.getElementById('sbSessBanner');
+  if(!d){ d = document.createElement('div'); d.id = 'sbSessBanner';
+    d.style.cssText = 'position:fixed;top:10px;left:50%;transform:translateX(-50%);padding:9px 15px;border-radius:9px;font:12.5px system-ui,sans-serif;z-index:99999;box-shadow:0 8px 24px rgba(0,0,0,.45);max-width:92vw;text-align:center';
+    document.body.appendChild(d); }
+  if(active){ d.style.background='#0e2a18'; d.style.border='1px solid #1f5c38'; d.style.color='#86efac'; d.textContent='\u2713 Sesion Supabase ACTIVA: ' + email; }
+  else { d.style.background='#2a0e14'; d.style.border='1px solid #5c1f28'; d.style.color='#fda4af'; d.textContent='\u2717 SIN sesion Supabase \u2014 el login no creo sesion, por eso no se puede guardar'; }
 }
 function adminFlash(msg){
   let d = document.getElementById('adminFlash');
