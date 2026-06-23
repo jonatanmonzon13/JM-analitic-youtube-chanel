@@ -1,0 +1,330 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>JM·BOTS Studio — Stick Stories</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Sora:wght@400;700;800&family=JetBrains+Mono:wght@400;700&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --bg:#07060f;
+    --glass:rgba(18,16,38,0.72);
+    --border:rgba(255,255,255,0.13);
+    --text:#ffffff; --muted:rgba(255,255,255,0.66);
+    --c1:#f59e0b;            /* electric blue */
+    --c2:#ef4444;            /* magenta */
+    --gold:#ffd166;
+    --violet:#9d4edd;
+    --lime:#00ffa3;
+    --shadow:0 8px 32px rgba(0,0,0,0.55);
+    --glow1:0 0 20px rgba(56,189,248,0.4);
+    --glow2:0 0 20px rgba(255,77,157,0.4);
+    --radius:16px;
+  }
+  *{box-sizing:border-box}
+  html{scroll-behavior:smooth}
+  body{
+    margin:0; font-family:'Sora',system-ui,sans-serif;
+    background:linear-gradient(-45deg,#0a0a24 0%,#07060f 40%,#1a0a2c 100%);
+    background-size:400% 400%; animation:bg 16s ease infinite;
+    color:var(--text); min-height:100vh; padding-bottom:50px;
+  }
+  @keyframes bg{0%{background-position:0% 50%}50%{background-position:100% 50%}100%{background-position:0% 50%}}
+  body::before{
+    content:""; position:fixed; inset:-50%; width:200%; height:200%;
+    background:radial-gradient(circle at 50% 40%,rgba(56,189,248,0.08),transparent 60%),
+               radial-gradient(circle at 80% 20%,rgba(255,77,157,0.08),transparent 50%);
+    z-index:-1; pointer-events:none;
+  }
+  .wrap{max-width:1400px; margin:0 auto; padding:34px 20px}
+
+  /* Keybar */
+  .keybar{
+    display:flex; flex-wrap:wrap; gap:10px; align-items:center;
+    background:var(--glass); border:1px solid var(--border); border-radius:14px;
+    padding:14px 16px; margin-bottom:26px; box-shadow:var(--shadow); backdrop-filter:blur(10px);
+  }
+  .keybar label{font-size:.74rem; text-transform:uppercase; letter-spacing:1px; color:var(--muted); font-weight:800}
+  .keybar input{
+    flex:1; min-width:200px; background:rgba(0,0,0,0.5); color:#fff;
+    border:1px solid rgba(255,255,255,0.2); border-radius:10px; padding:11px 13px;
+    font-family:'JetBrains Mono',monospace; font-size:.85rem; outline:none;
+  }
+  .keybar input:focus{border-color:var(--c1); box-shadow:var(--glow1)}
+  .kbtn{border:none; border-radius:10px; padding:11px 16px; font-weight:800; font-size:.8rem; cursor:pointer; font-family:'Sora',sans-serif; transition:.2s}
+  .kbtn.save{background:linear-gradient(90deg,var(--c1),var(--violet)); color:#fff}
+  .kbtn.alt{background:rgba(255,255,255,0.06); color:var(--c1); border:1px solid var(--c1)}
+  .kbtn:hover{transform:translateY(-2px)}
+  .key-hint{flex-basis:100%; font-size:.78rem; color:var(--muted); margin-top:2px}
+
+  /* Hero */
+  .hero{
+    text-align:center; padding:42px 20px;
+    background:var(--glass); backdrop-filter:blur(15px);
+    border:1px solid var(--border); border-radius:28px; box-shadow:var(--shadow),var(--glow1); margin-bottom:34px;
+  }
+  .title{
+    font-size:clamp(2.4rem,5.5vw,4.4rem); margin:0 0 10px; font-weight:800; letter-spacing:2px;
+    background:linear-gradient(90deg,var(--c1),var(--c2),var(--gold));
+    -webkit-background-clip:text; background-clip:text; color:transparent;
+  }
+  .subtitle{color:#e0e0ff; font-size:1.05rem; line-height:1.6; max-width:860px; margin:0 auto 18px}
+  .pills{display:flex; justify-content:center; flex-wrap:wrap; gap:10px}
+  .pill{padding:7px 16px; border-radius:999px; background:rgba(255,255,255,0.05); border:1px solid var(--c1); color:var(--c1); font-size:.78rem; font-weight:800; text-transform:uppercase; box-shadow:var(--glow1)}
+  .pill:nth-child(even){border-color:var(--c2); color:var(--c2); box-shadow:var(--glow2)}
+  .pill:nth-child(3n){border-color:var(--gold); color:var(--gold); box-shadow:0 0 15px rgba(255,209,102,.3)}
+
+  /* Controls */
+  .controls{display:grid; grid-template-columns:repeat(auto-fit,minmax(260px,1fr)); gap:18px; margin-bottom:30px}
+  .control{
+    background:var(--glass); backdrop-filter:blur(10px); border:1px solid var(--border);
+    border-radius:var(--radius); padding:18px; box-shadow:var(--shadow); transition:.3s; border-left:4px solid var(--c1);
+  }
+  .control:nth-child(even){border-left-color:var(--c2)}
+  .control:nth-child(3n){border-left-color:var(--gold)}
+  .control:hover{transform:translateY(-4px); box-shadow:var(--glow1)}
+  .control label{display:block; font-size:.76rem; text-transform:uppercase; color:#fff; font-weight:800; margin-bottom:9px; letter-spacing:1px}
+  select,.control input[type=text]{
+    width:100%; background:rgba(0,0,0,0.5); color:#fff; border:1px solid rgba(255,255,255,0.2);
+    border-radius:10px; padding:13px; font-size:.92rem; font-weight:600; outline:none; cursor:pointer; transition:.3s; font-family:'Sora',sans-serif;
+  }
+  .control input[type=text]{cursor:text}
+  select:focus,.control input[type=text]:focus{border-color:var(--c1); box-shadow:var(--glow1)}
+
+  /* CTA */
+  .cta{display:flex; justify-content:center; gap:18px; flex-wrap:wrap; margin-bottom:18px}
+  .btn{border:none; border-radius:999px; padding:17px 34px; font-weight:800; font-size:1.05rem; cursor:pointer; transition:.3s; text-transform:uppercase; letter-spacing:1px; font-family:'Sora',sans-serif}
+  .btn-main{background:linear-gradient(90deg,var(--c2),var(--violet)); color:#fff; box-shadow:var(--glow2); border:1px solid rgba(255,255,255,0.25)}
+  .btn-main:hover{transform:scale(1.04); box-shadow:0 0 30px rgba(255,77,157,.65)}
+  .btn-main:disabled{opacity:.55; cursor:wait; transform:none}
+  .btn-alt{background:rgba(255,255,255,0.05); color:var(--c1); border:2px solid var(--c1)}
+  .btn-alt:hover{background:var(--c1); color:#000; box-shadow:var(--glow1)}
+  .status{text-align:center; min-height:22px; margin-bottom:30px; font-size:.9rem; color:var(--muted); font-weight:600}
+  .status.err{color:var(--c2)}
+  .status.ok{color:var(--lime)}
+
+  /* Output */
+  .output{display:grid; grid-template-columns:340px 1fr; gap:28px; align-items:start; display:none}
+  .output.visible{display:grid; animation:fade .5s ease}
+  @keyframes fade{from{opacity:0; transform:translateY(15px)}to{opacity:1; transform:translateY(0)}}
+  .aside{position:sticky; top:18px; display:flex; flex-direction:column; gap:18px}
+  .box{background:var(--glass); backdrop-filter:blur(15px); border:1px solid var(--border); border-radius:var(--radius); padding:22px; box-shadow:var(--shadow)}
+  .box-title{font-size:1.1rem; color:var(--gold); font-weight:800; margin:0 0 13px; text-transform:uppercase; letter-spacing:1px}
+  .row{display:flex; justify-content:space-between; gap:10px; padding:8px 0; border-bottom:1px dashed rgba(255,255,255,0.08); font-size:.86rem}
+  .row span:first-child{color:var(--muted)}
+  .row span:last-child{font-weight:700; text-align:right}
+
+  .tabs{display:flex; flex-wrap:wrap; gap:10px; margin-bottom:20px; border-bottom:2px solid rgba(255,255,255,0.1); padding-bottom:16px}
+  .tab{background:rgba(0,0,0,0.5); color:var(--muted); border:1px solid rgba(255,255,255,0.2); padding:12px 18px; border-radius:11px; cursor:pointer; font-weight:800; font-size:.84rem; transition:.3s; text-transform:uppercase; font-family:'Sora',sans-serif}
+  .tab:hover{border-color:var(--c1); color:#fff}
+  .tab.active{background:linear-gradient(90deg,var(--c1),var(--violet)); color:#fff; border:none; box-shadow:var(--glow1)}
+  .panel{display:none}
+  .panel.visible{display:block; animation:fade .4s ease}
+
+  .bhead{display:flex; justify-content:space-between; align-items:center; margin-bottom:12px; flex-wrap:wrap; gap:10px}
+  .bhead h3{margin:0; font-size:1.1rem; font-weight:800; text-transform:uppercase; letter-spacing:1px}
+  .hint{color:var(--muted); font-size:.82rem; margin:0 0 12px}
+  textarea{
+    width:100%; height:520px; background:rgba(5,5,12,0.85); color:#e6e6ff; border:2px solid var(--c1);
+    border-radius:16px; padding:22px; font-family:'JetBrains Mono',monospace; font-size:.9rem; line-height:1.7;
+    resize:vertical; outline:none; box-shadow:inset 0 5px 20px rgba(0,0,0,0.8); white-space:pre-wrap;
+  }
+  #p-guion h3{color:var(--gold)} #p-guion textarea{border-color:var(--gold)}
+  #p-pers h3{color:var(--c2)}  #p-pers textarea{border-color:var(--c2)}
+  #p-imgs h3{color:var(--c1)}  #p-imgs textarea{border-color:var(--c1)}
+  #p-anim h3{color:var(--violet)} #p-anim textarea{border-color:var(--violet)}
+  .copy{background:#fff; color:#000; border:none; padding:11px 22px; font-weight:800; border-radius:10px; cursor:pointer; transition:.2s; text-transform:uppercase; font-size:.8rem; letter-spacing:1px; font-family:'Sora',sans-serif; box-shadow:0 0 15px rgba(255,255,255,0.25)}
+  .copy:hover{background:var(--gold); transform:translateY(-2px)}
+
+  @media(max-width:980px){.output{grid-template-columns:1fr}.aside{position:static}}
+
+  .chatbar{display:flex;gap:10px;flex-wrap:wrap;justify-content:center;margin:6px 0 14px}
+  .chatbar button{background:rgba(5,5,12,.6);border:2px solid var(--c1);color:#fff;border-radius:12px;padding:9px 16px;font-weight:700;cursor:pointer;font-family:inherit;font-size:.9rem}
+  .chatbar button:hover{background:var(--c1);color:#08080f}
+  .chat{display:flex;flex-direction:column;gap:14px;min-height:280px;max-height:62vh;overflow-y:auto;padding:14px;background:rgba(5,5,12,.6);border:1px solid rgba(255,255,255,.08);border-radius:16px;margin-bottom:14px}
+  .bubble{max-width:88%;padding:14px 16px;border-radius:16px;line-height:1.6;white-space:pre-wrap;word-wrap:break-word;font-size:.95rem}
+  .bubble.user{align-self:flex-end;background:linear-gradient(135deg,var(--c1),var(--c2));color:#08080f;font-weight:600;border-bottom-right-radius:4px}
+  .bubble.bot{align-self:flex-start;background:rgba(255,255,255,.05);border:1px solid rgba(255,255,255,.1);color:#e8e8ff;border-bottom-left-radius:4px;position:relative}
+  .bubble.bot .cp{position:absolute;top:8px;right:8px;background:rgba(0,0,0,.45);border:1px solid var(--c1);color:#fff;border-radius:8px;padding:3px 9px;font-size:.72rem;cursor:pointer;font-family:inherit}
+  .bubble.bot .cp:hover{background:var(--c1);color:#08080f}
+  .bubble.bot .seg{white-space:pre-wrap}
+  .lote{background:#0c0c16;border:1px solid var(--c1);border-radius:12px;margin:10px 0;overflow:hidden;white-space:normal}
+  .lote-head{display:flex;justify-content:space-between;align-items:center;gap:8px;padding:8px 10px;background:rgba(255,255,255,.04);border-bottom:1px solid rgba(255,255,255,.08);flex-wrap:wrap}
+  .lote-head b{font-size:.82rem}
+  .lcopy{background:var(--c1);color:#08080f;border:none;border-radius:8px;padding:6px 12px;font-weight:800;cursor:pointer;font-size:.74rem;font-family:inherit}
+  .gpre{margin:0;padding:10px 12px;white-space:pre-wrap;font-family:inherit;font-size:.9rem;line-height:1.55}
+  .prow{display:flex;gap:8px;align-items:flex-start;padding:7px 10px;border-bottom:1px solid rgba(255,255,255,.05)}
+  .prow:last-child{border-bottom:none}
+  .ptxt{flex:1;font-size:.8rem;line-height:1.45;color:#cfd2ff;font-family:ui-monospace,monospace;white-space:pre-wrap;word-break:break-word}
+  .pcopy{flex:none;background:rgba(255,255,255,.08);border:1px solid var(--c1);color:#fff;border-radius:7px;padding:4px 9px;font-size:.68rem;cursor:pointer;font-family:inherit}
+  .pcopy:hover{background:var(--c1);color:#08080f}
+  .inrow{display:flex;gap:10px;align-items:flex-end}
+  .inrow textarea{flex:1;min-height:54px;max-height:160px;resize:vertical;background:#08080f;border:2px solid rgba(255,255,255,.15);border-radius:14px;color:#fff;padding:12px 14px;font-family:inherit;font-size:.95rem}
+  .inrow textarea:focus{outline:none;border-color:var(--c1)}
+  .inrow #sendBtn{background:linear-gradient(135deg,var(--c1),var(--c2));color:#08080f;border:none;border-radius:14px;padding:14px 22px;font-weight:800;cursor:pointer;font-family:inherit;font-size:1rem;white-space:nowrap}
+  .inrow #sendBtn:disabled{opacity:.5;cursor:default}
+  .typing{align-self:flex-start;color:var(--muted);font-style:italic;font-size:.9rem;padding:4px 8px}
+
+#apiKey{width:100%;box-sizing:border-box;height:72px;min-height:72px;max-height:170px;resize:vertical;display:block;align-self:flex-start;flex:1 1 100%;font-family:'JetBrains Mono',ui-monospace,monospace;line-height:1.5;padding:10px 12px;border-radius:10px;background:#0b0b14;border:1px solid rgba(255,255,255,.18);color:#fff;}
+#apiKey:focus{outline:none;border-color:#22c55e;box-shadow:0 0 0 2px rgba(34,197,94,.25);}
+#apiKey.masked{-webkit-text-security:disc;}
+.masterbox{margin-top:14px;border:1px solid rgba(255,255,255,.14);border-radius:12px;padding:10px 14px;background:rgba(255,255,255,.03)}.masterbox summary{cursor:pointer;font-weight:700;color:#fff}.masterbox .mp-hint{font-size:13px;opacity:.85;margin:8px 0}.masterbox .mp-actions{display:flex;gap:8px;flex-wrap:wrap;margin:8px 0}.masterbox textarea{width:100%;min-height:170px;box-sizing:border-box;font-family:ui-monospace,monospace;font-size:12px;line-height:1.5;padding:10px;border-radius:10px;background:#0b0b14;border:1px solid rgba(255,255,255,.18);color:#fff;white-space:pre-wrap}
+</style>
+</head>
+<body>
+  <div class="wrap">
+    <div class="keybar">
+      <label for="apiKey">Clave Gemini</label>
+      <textarea id="apiKey" class="masked" rows="3" placeholder="Pegá hasta 5 claves de Gemini (AIza...), una por renglón — rotan solas si una se queda sin tokens" autocomplete="off" spellcheck="false"></textarea>
+      <button class="kbtn save" onclick="saveKey()">Guardar</button>
+      <button class="kbtn alt" onclick="replaceKey()">Reemplazar</button>
+      <button class="kbtn alt" onclick="toggleEye()">👁️</button>
+      <div class="key-hint" id="keyHint">La clave se guarda solo en tu navegador y se comparte con todas las apps de la suite.</div>
+    </div>
+    <header class="hero">
+      <h1 class="title">Stick Stories</h1>
+      <p class="subtitle">Canal faceless de YouTube de ECONOMÍA y FINANZAS con monitos de palitos. 15 ideas → elegís → guion (vos elegís los minutos) → lote de imágenes + lote de tiempos para editar fácil.</p>
+      <div class="pills"><span class="pill">💰 Finanzas</span><span class="pill">💡 15 ideas</span><span class="pill">📜 Guion + ⏱️ tiempos</span><span class="pill">🏃 Stick figures</span></div>
+      <details class="masterbox" id="masterbox"><summary>📋 Master prompt (respaldo si falla la API)</summary><p class="mp-hint">Si la API falla, generá el master prompt, copialo y pegalo en gemini.google.com para producir el contenido a mano.</p><div class="mp-actions"><button class="btn" type="button" onclick="buildMaster()">🧩 Generar master prompt</button><button class="btn" type="button" onclick="copyMaster(this)">📋 Copiar</button></div><textarea id="masterPrompt" readonly placeholder="Tocá «Generar master prompt» y copiá el texto para pegarlo en Gemini…"></textarea></details>
+    </header>
+    <div class="chatbar">
+      <button onclick="kickoff()">▶ Empezar (15 ideas)</button>
+      <button onclick="send('reset ideas')">🔄 reset ideas</button>
+      <button onclick="nuevaSesion()">🆕 Nueva sesión</button>
+    </div>
+    <div id="chat" class="chat"></div>
+    <div class="inrow">
+      <textarea id="msg" placeholder="Número (1-15), minutos, «imágenes», o pegá tu SRT para tiempos exactos..."></textarea>
+      <button id="sendBtn" onclick="send()">Enviar</button>
+    </div>
+    <div class="status" id="status"></div>
+  </div>
+<script>
+const $ = id => document.getElementById(id);
+const MODEL='gemini-2.5-flash';
+const API='https://generativelanguage.googleapis.com';
+function loadKeys(){ try{ return JSON.parse(localStorage.getItem('jmbots_keys')||'{}'); }catch(e){ return {}; } }
+function firstKey(){ var a=(loadKeys().an||'').split(/[\s,;\n]+/).map(s=>s.trim()).filter(Boolean); return a[0]||''; }
+function setKeyHint(m,c){ $("keyHint").textContent=m; $("keyHint").style.color=c||"var(--muted)"; }
+(function(){ const ks=loadKeys(); if(ks.an){ $("apiKey").value=ks.an; setKeyHint("✓ Clave(s) cargada(s). Tocá Empezar.","var(--lime)"); } })();
+function saveKey(){ const v=$("apiKey").value.trim(); if(!v){ setKeyHint("Pegá una clave antes de guardar.","var(--c2)"); return; } try{ const ks=loadKeys(); ks.an=v; localStorage.setItem('jmbots_keys',JSON.stringify(ks)); }catch(e){} setKeyHint("✓ Clave(s) guardada(s).","var(--lime)"); }
+function replaceKey(){ $("apiKey").value=""; $("apiKey").type='text'; $("apiKey").focus(); setKeyHint("Ingresá la(s) nueva(s) clave(s) y Guardar.","var(--gold)"); }
+function toggleEye(){ var i=document.getElementById("apiKey"); if(i) i.classList.toggle("masked"); }
+
+const SYSTEM = `Eres "Stick Stories", guionista y director visual de un canal FACELESS VIRAL de YouTube sobre ECONOMIA Y FINANZAS para JM BOTS. El contenido: un narrador en off explica un tema de dinero/economia/finanzas mientras se suceden ILUSTRACIONES MINIMALISTAS DE STICK FIGURES (monitos de palitos). Voz: Fish Audio. Imagenes: generadas en lote (G-Labs / Nano Banana).
+
+Flujo de TRES PASOS. Nunca te saltees pasos.
+
+== PASO 1 - IDEAS ==
+Trigger: primer mensaje, o "ideas/mas/mas/otra/otras/de nuevo/nuevas ideas".
+Mostra EXACTAMENTE 15 ideas de video, numeradas 1-15, TODAS de ECONOMIA Y FINANZAS pero variando subtemas (historia del dinero, crisis economicas, errores financieros que arruinan a la gente, como se construye o se pierde una fortuna, inflacion, deuda, ahorro, inversiones, psicologia del dinero, estafas famosas, burbujas, etc.). Cada idea = titulo tipo YouTube viral (gancho fuerte) + media linea de angulo. No repitas ideas de la sesion.
+Termina con: "Elegi un numero del 1 al 15 (o escribi tu propio tema de finanzas)."
+NO generes guion ni prompts aca.
+
+== PASO 2 - DURACION + GUION ==
+Trigger: el usuario elige un numero o escribe su tema.
+PRIMERO, si el usuario NO indico la duracion, pregunta UNA sola cosa: "De cuantos minutos queres el video? (ej: 10, 15, 20)". Espera la respuesta y no generes nada mas todavia.
+Cuando tengas el TEMA y la DURACION, devolve SOLO el GUION en UN bloque de codigo markdown:
+- GUION (espanol latino), narracion en off para Fish Audio.
+- LARGO OBLIGATORIO segun la duracion: ~150 palabras habladas por minuto. Para N minutos escribi AL MENOS N x 150 palabras (ej: 10 min = 1500+ palabras; 15 min = 2250+ palabras; 20 min = 3000+ palabras). NO entregues un guion mas corto que ese minimo bajo ninguna circunstancia; si hace falta, desarrolla mas ejemplos, datos e historias.
+- Gancho brutal en los primeros 3 segundos + desarrollo con datos, cifras, ejemplos e historias + cierre potente.
+- Solo el texto narrado, corrido, sin encabezados ni acotaciones.
+Despues del bloque, fuera del codigo, escribi: "Guion listo (~N min). Escribi «imagenes» para tiempos ESTIMADOS por el guion, o pega el SRT de tu audio (Fish Audio transcrito) para tiempos EXACTOS."
+
+== PASO 3 - IMAGENES + LISTA PARA RENOMBRAR ==
+Trigger: el usuario escribe "imagenes" o "imágenes".
+DIVIDI el guion en TRAMOS cortos segun el sentido de la narracion (frases o ideas completas). La DURACION de cada imagen = la duracion hablada de SU tramo (NO un tiempo fijo): estimala por las palabras del tramo a razon de 2.5 palabras por segundo (segundos = palabras_del_tramo / 2.5, redondeado; minimo 2s, maximo 6s; si una frase es muy larga, partila en dos tramos para no pasar de 6s). UNA imagen por tramo, en ORDEN del guion. La CANTIDAD de imagenes = la cantidad de tramos (depende del guion, NO es un numero fijo). Cada imagen ilustra EXACTAMENTE lo que se narra en su tramo, para que coincida con el audio.
+Devolve EXACTAMENTE DOS bloques de codigo markdown, sin texto entre ellos:
+BLOQUE 1 = PROMPTS DE IMAGEN (ingles), uno por linea, sin numeracion, sin vinetas, sin comillas. ESTILO FIJO IDENTICO en TODAS: "minimalist black stick figure illustration, simple white background, thick black outlines, no facial detail, flat 2D vector style, single accent color". Cada prompt ilustra ese tramo del guion con conceptos de dinero/finanzas hechos con monitos de palitos (monedas, billetes, graficos que suben/bajan, bancos, balanzas, candados, relojes, etc.), variando la composicion. Cada linea TERMINA con "clean image, no text, no watermark, 16:9 horizontal".
+BLOQUE 2 = LISTA PARA RENOMBRAR las imagenes en ORDEN (1,2,3...), uno por linea, EXACTAMENTE la misma cantidad que las imagenes. El nombre de cada imagen ES su tiempo. Formato EXACTO por linea: "N= m:ss a m:ss" (ejemplo: "1= 0:00 a 0:04"). El INICIO del tramo N = el FIN del tramo anterior (el 1 empieza en 0:00); el FIN = inicio + la duracion ESTIMADA de ESE tramo (variable, segun sus palabras, entre 2 y 6 seg). Sin huecos. La duracion de cada imagen DEBE coincidir con la de su tramo del guion, no un valor fijo.
+No agregues nada despues del BLOQUE 2.
+
+== PASO 4 - SINCRONIA EXACTA CON SRT (opcional) ==
+Trigger: el usuario pega un archivo/texto SRT (lineas con tiempos tipo "00:00:03,480 --> 00:00:07,120"), o escribe "srt" y luego lo pega.
+Con el SRT tenes los tiempos REALES del audio. Entonces:
+- Recorre los bloques del SRT EN ORDEN. Agrupa subtitulos contiguos hasta juntar entre 2 y 6 segundos de narracion: cada grupo = UNA imagen (asi ninguna imagen dura mas de 6s y coincide EXACTO con el audio).
+- La duracion de cada imagen = (fin del ultimo subtitulo del grupo) - (inicio del primero), usando los TIEMPOS REALES del SRT (convertidos a m:ss).
+- UNA imagen por grupo, en ORDEN.
+Devolve los MISMOS DOS bloques que en el PASO 3 (BLOQUE 1 = prompts de imagen; BLOQUE 2 = lista para renombrar "N= m:ss a m:ss" con los tiempos REALES del SRT, sin huecos, encadenados). Cada prompt ilustra lo que dice ese grupo de subtitulos.
+No agregues nada despues del BLOQUE 2.
+
+REGLAS: cada lote en su PROPIO bloque de codigo separado; la cantidad de prompts = la cantidad de tiempos. Contenido educativo y entretenido; SIN consejos financieros personalizados ni promesas de ganancias; datos correctos; sin difamar a personas reales.`;
+function buildMaster(){ var t=document.getElementById('masterPrompt'); if(t){ t.value=(typeof SYSTEM!=='undefined'?SYSTEM:'')+'\n\n--- Paste this in gemini.google.com and type: more (to get 10 country ideas). ---'; } }
+function copyMaster(btn){ var t=document.getElementById('masterPrompt'); if(t&&!t.value){ buildMaster(); } if(t&&t.value){ navigator.clipboard.writeText(t.value).then(function(){ if(btn){ var o=btn.textContent; btn.textContent='✓ Copiado'; setTimeout(function(){ btn.textContent=o; },1200); } }); } }
+
+let msgs=[], busy=false;
+
+function escapeHtml(t){ return t.replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;'); }
+function _lines(body){ return body.split('\n').map(s=>s.trim()).filter(Boolean); }
+function isImgBlock(body){ const l=_lines(body); return l.length>=2 && l.filter(x=>/16:9 horizontal|stick figure|clean image/i.test(x)).length>=1; }
+function isTimeBlock(body){ const l=_lines(body); return l.length>=2 && l.filter(x=>/\d{1,2}:\d{2}/.test(x)).length>=Math.ceil(l.length/2); }
+function loteHtml(label, lines){
+  let rows='';
+  lines.forEach(function(ln){ rows+='<div class="prow"><span class="ptxt">'+escapeHtml(ln)+'</span><button class="pcopy" data-t="'+encodeURIComponent(ln)+'">copiar</button></div>'; });
+  return '<div class="lote"><div class="lote-head"><b>'+label+' ('+lines.length+')</b><button class="lcopy" data-t="'+encodeURIComponent(lines.join('\n'))+'">📋 Copiar TODO</button></div>'+rows+'</div>';
+}
+function botHtml(text){
+  const parts=text.split('```'); let html='';
+  for(let i=0;i<parts.length;i++){
+    if(i%2===0){ const seg=parts[i].trim(); if(seg) html+='<div class="seg">'+escapeHtml(seg)+'</div>'; }
+    else{
+      let body=parts[i].replace(/^[a-zA-Z]*\n/,'').replace(/^\n/,'').replace(/\n$/,'');
+      if(isImgBlock(body)){ html+=loteHtml('🖼️ Lote de imágenes', _lines(body)); }
+      else if(isTimeBlock(body)){ html+=loteHtml('🔢 Lista para renombrar (orden + tiempo)', _lines(body)); }
+      else { html+='<div class="lote"><div class="lote-head"><b>📜 Guion</b><button class="lcopy" data-t="'+encodeURIComponent(body)+'">📋 Copiar guion</button></div><pre class="gpre">'+escapeHtml(body)+'</pre></div>'; }
+    }
+  }
+  return html||('<div class="seg">'+escapeHtml(text)+'</div>');
+}
+function render(typing){
+  const c=$("chat"); c.innerHTML='';
+  msgs.forEach(m=>{
+    const d=document.createElement('div');
+    d.className='bubble '+(m.role==='user'?'user':'bot');
+    if(m.role==='user'){ d.textContent=m.text; }
+    else { d.innerHTML=botHtml(m.text); }
+    c.appendChild(d);
+  });
+  c.querySelectorAll('.lcopy,.pcopy').forEach(function(btn){
+    btn.onclick=function(){ const t=decodeURIComponent(btn.getAttribute('data-t')); navigator.clipboard.writeText(t).then(function(){ const o=btn.textContent; btn.textContent='✅'; setTimeout(()=>{btn.textContent=o;},1200); }); };
+  });
+  if(typing){ const t=document.createElement('div'); t.className='typing'; t.textContent='✍️ escribiendo...'; c.appendChild(t); }
+  c.scrollTop=c.scrollHeight;
+}
+async function callGemini(){
+  const key=firstKey();
+  if(!key){ setKeyHint("Falta la clave de Gemini.","var(--c2)"); throw new Error('sin-clave'); }
+  const body={ systemInstruction:{parts:[{text:SYSTEM}]},
+    contents: msgs.map(m=>({role:m.role,parts:[{text:m.text}]})),
+    generationConfig:{ temperature:1.0, topP:0.95, maxOutputTokens:16384 } };
+  const r=await fetch(`${API}/v1beta/models/${MODEL}:generateContent?key=${encodeURIComponent(key)}`,{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify(body)});
+  if(!r.ok){ const e=await r.text().catch(()=>''); throw new Error('Gemini '+r.status+': '+e.slice(0,160)); }
+  const j=await r.json();
+  return (j.candidates?.[0]?.content?.parts||[]).map(p=>p.text||'').join('').trim();
+}
+async function send(text){
+  if(busy) return;
+  text = (text!==undefined ? text : $("msg").value).trim();
+  if(!text) return;
+  msgs.push({role:'user',text}); $("msg").value=''; render(true);
+  busy=true; $("sendBtn").disabled=true; $("status").className='status'; $("status").textContent='';
+  try{
+    const r=await callGemini();
+    msgs.push({role:'model',text:r}); render(false);
+  }catch(err){
+    render(false);
+    if(err.message!=='sin-clave'){ $("status").className='status err'; $("status").textContent='❌ '+err.message; }
+  }finally{ busy=false; $("sendBtn").disabled=false; }
+}
+function kickoff(){ if(busy) return; msgs=[]; render(false); send('ideas'); }
+function resetIdea(){ send('reset idea'); }
+function nuevaSesion(){ if(busy) return; msgs=[]; render(false); $("status").textContent=''; kickoff(); }
+$("msg").addEventListener('keydown',function(e){ if(e.key==='Enter' && !e.shiftKey){ e.preventDefault(); send(); } });
+</script>
+<script src="jmbots-resilience.js"></script>
+<script src="apps-menu.js"></script>
+<!--jmkeycount--><script>(function(){var k=document.getElementById('apiKey');if(!k)return;k.classList.add('masked');function c(){var n=(k.value||'').split(/[\s,;\n]+/).map(function(s){return s.trim();}).filter(Boolean).length;var h=document.getElementById('keyHint');if(!h)return;if(n>0){h.textContent='\u2713 '+n+' clave'+(n>1?'s':'')+' cargada'+(n>1?'s':'')+(n>=2?' \u00b7 rotaci\u00f3n activa entre ellas':'')+' + respaldo offline.';h.style.color='#84cc16';}else{h.textContent='Peg\u00e1 hasta 5 claves de Gemini, una por rengl\u00f3n. Rotan solas si una se queda sin tokens; si fallan todas, entra el banco de respaldo.';h.style.color='';}}k.addEventListener('input',c);c();})();</script>
+</body>
+</html>

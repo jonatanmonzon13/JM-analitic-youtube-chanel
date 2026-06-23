@@ -2148,5 +2148,40 @@
       "Copia el VIDEO PROMPT (transformacion POV con ASMR) y armalo en Veo 3.1"
     ],
     "tip": "Cada prompt viene en su propio bloque de codigo. Nunca usa jugadores ni personas reales: el robot es siempre original."
+  },
+  "facelessviral": {
+    "que": "Canal faceless estilo viral (narrador + imágenes que se suceden). Entrega Guion en español (para Fish Audio) + Prompts de imagen en inglés, uno por línea, listos para cargar en lote en G-Labs / Nano Banana.",
+    "pasos": [
+      "Elegi tipo de video, tema, tono, estilo visual y cantidad de tomas",
+      "Toca Generar pipeline",
+      "LOTE 1 (Guion): copialo y pegalo en Fish Audio para la voz",
+      "LOTE 2 (Imagenes): copia el lote y pegalo en G-Labs (Nano Banana) para generar todas las imagenes de una",
+      "Arma el video en CapCut: imagenes en orden + la voz",
+      "LOTE 3 (Animacion) es opcional: solo si queres animar con Veo 3.1"
+    ],
+    "tip": "El estilo visual queda fijo en TODAS las imagenes para que el video se vea coherente. Las imagenes salen en 16:9. Si las queres en 9:16, avisá y se ajusta."
+  },
+  "stickstories": {
+    "que": "Bot de chat para canal faceless de YouTube de ECONOMIA y FINANZAS con monitos de palitos. Da 15 ideas, elegis una, te pregunta los minutos, entrega el guion (para Fish Audio) y luego el lote de prompts de imagen + la lista para renombrar con la duracion de cada imagen segun el guion.",
+    "pasos": [
+      "Toca Empezar (15 ideas) o escribi 'ideas'",
+      "Elegi un numero (o tu tema de finanzas) y deci cuantos minutos",
+      "Copia el GUION y pegalo en Fish Audio para la voz",
+      "Para los prompts: escribi 'imagenes' (tiempos ESTIMADOS por el guion) O pega el SRT de tu audio (tiempos EXACTOS)",
+      "Copia el lote de imagenes y generalas en G-Labs / Nano Banana",
+      "Usa la 'Lista para renombrar' (N= m:ss a m:ss) para nombrar cada imagen con su tiempo y editar facil en CapCut"
+    ],
+    "tip": "Cada imagen dura lo que dura su tramo del guion (no es fijo). Para sincronia EXACTA con la voz real, pega el archivo SRT (transcribi tu audio de Fish Audio en TurboScribe y descargalo en SRT)."
+  },
+  "audiosrt": {
+    "que": "Convierte tu audio (el de Fish Audio) en un archivo SRT con los tiempos reales, transcribiendo con Whisper 100% dentro de tu navegador (no sube nada a internet, gratis). El SRT se pega en Stick Stories para que las imagenes coincidan exacto con la voz.",
+    "pasos": [
+      "Elegi tu archivo de audio (mp3/wav/m4a)",
+      "Deja la precision en Maxima (small) y el idioma en Español",
+      "Toca Generar SRT (la primera vez descarga el modelo, tarda un poco)",
+      "Espera la transcripcion (audios largos tardan, lo hace tu PC)",
+      "Copia el SRT o descargalo, y pegalo en Stick Stories"
+    ],
+    "tip": "La primera vez descarga el modelo (~250MB) y queda guardado. Todo es local: tu audio nunca sale de tu computadora."
   }
 }

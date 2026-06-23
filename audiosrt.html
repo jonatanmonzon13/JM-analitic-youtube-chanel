@@ -1,0 +1,190 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>JM·BOTS Studio — Audio → SRT</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Sora:wght@400;600;700;800&family=JetBrains+Mono&display=swap" rel="stylesheet">
+<style>
+  :root{ --bg:#08080f; --panel:#11111c; --line:rgba(255,255,255,.1); --c1:#22d3ee; --c2:#0ea5e9; --gold:#F5B544; --lime:#84cc16; --muted:#9aa0c0; }
+  *{box-sizing:border-box}
+  body{margin:0;background:radial-gradient(1200px 600px at 50% -10%,#10243a33,transparent),var(--bg);color:#e8e8ff;font-family:'Sora',system-ui,sans-serif;line-height:1.6}
+  .wrap{max-width:860px;margin:0 auto;padding:24px 18px 80px}
+  .hero{text-align:center;margin:18px 0 22px}
+  .title{font-size:2.6rem;font-weight:800;margin:0 0 8px;background:linear-gradient(100deg,var(--c1),var(--c2));-webkit-background-clip:text;background-clip:text;-webkit-text-fill-color:transparent}
+  .subtitle{color:#e0e0ff;max-width:680px;margin:0 auto 14px}
+  .pills{display:flex;gap:8px;justify-content:center;flex-wrap:wrap}
+  .pill{border:1px solid var(--c1);color:var(--c1);border-radius:999px;padding:6px 13px;font-size:.78rem;font-weight:700}
+  .card{background:var(--panel);border:1px solid var(--line);border-radius:18px;padding:20px;margin:16px 0}
+  label{display:block;font-size:.78rem;text-transform:uppercase;letter-spacing:1px;color:var(--muted);margin-bottom:7px;font-weight:700}
+  select,input[type=file]{width:100%;background:#0a0a14;border:1px solid var(--line);color:#fff;border-radius:11px;padding:12px;font-family:inherit;font-size:.95rem}
+  .row{display:flex;gap:14px;flex-wrap:wrap}
+  .row .col{flex:1;min-width:200px}
+  .btn{background:linear-gradient(100deg,var(--c1),var(--c2));color:#08080f;border:none;border-radius:12px;padding:14px 26px;font-weight:800;font-size:1rem;cursor:pointer;font-family:inherit;transition:.2s}
+  .btn:hover{transform:translateY(-2px)}
+  .btn:disabled{opacity:.5;cursor:not-allowed;transform:none}
+  .btn-alt{background:rgba(255,255,255,.08);color:#fff;border:1px solid var(--c1)}
+  .status{margin:14px 0;font-size:.9rem;min-height:22px;color:var(--gold)}
+  .bar{height:10px;background:#0a0a14;border-radius:999px;overflow:hidden;border:1px solid var(--line);margin:8px 0}
+  .bar > i{display:block;height:100%;width:0;background:linear-gradient(90deg,var(--c1),var(--c2));transition:width .2s}
+  textarea{width:100%;min-height:320px;background:#0a0a14;border:1px solid var(--line);color:#cfe9ff;border-radius:12px;padding:14px;font-family:'JetBrains Mono',monospace;font-size:.84rem;line-height:1.5}
+  .out-actions{display:flex;gap:10px;flex-wrap:wrap;margin:10px 0}
+  .hint{color:var(--muted);font-size:.82rem}
+  .warn{background:#1f1606;border:1px solid #5c4410;color:#fcd34d;border-radius:11px;padding:11px 14px;font-size:.84rem;margin:12px 0}
+  a.back{display:inline-block;color:var(--muted);text-decoration:none;font-size:.85rem;margin-bottom:8px}
+</style>
+</head>
+<body>
+  <div class="wrap">
+    <a class="back" href="./app.html">← Volver a la suite</a>
+    <header class="hero">
+      <h1 class="title">Audio → SRT</h1>
+      <p class="subtitle">Transcribe tu audio (de Fish Audio) a un archivo SRT con los tiempos reales, 100% en tu navegador. No sube nada a internet. Después pegás el SRT en Stick Stories para tiempos exactos.</p>
+      <div class="pills"><span class="pill">🔒 Privado (local)</span><span class="pill">🎧 Whisper</span><span class="pill">🆓 Gratis</span><span class="pill">⏱️ Tiempos reales</span></div>
+    </header>
+
+    <div class="warn" id="warnBox">⚠️ La primera vez descarga el modelo de transcripción (puede tardar unos minutos según tu internet). Después queda guardado y es más rápido. Audios largos tardan más porque los procesa tu propia PC.</div>
+
+    <div class="card">
+      <label>1) Elegí tu archivo de audio</label>
+      <input type="file" id="file" accept="audio/*,video/*" />
+      <div class="row" style="margin-top:16px">
+        <div class="col">
+          <label>2) Precisión del modelo</label>
+          <select id="model">
+            <option value="Xenova/whisper-small" selected>Máxima precisión (small · ~250MB)</option>
+            <option value="Xenova/whisper-base">Equilibrado (base · ~80MB)</option>
+            <option value="Xenova/whisper-tiny">Rápido (tiny · ~40MB)</option>
+          </select>
+        </div>
+        <div class="col">
+          <label>3) Idioma del audio</label>
+          <select id="lang">
+            <option value="spanish" selected>Español</option>
+            <option value="english">Inglés</option>
+            <option value="">Detectar automático</option>
+          </select>
+        </div>
+      </div>
+      <div style="margin-top:18px">
+        <button class="btn" id="goBtn">🎧 Generar SRT</button>
+      </div>
+      <div class="status" id="status"></div>
+      <div class="bar" id="barWrap" style="display:none"><i id="bar"></i></div>
+    </div>
+
+    <div class="card" id="outCard" style="display:none">
+      <label>SRT generado</label>
+      <div class="out-actions">
+        <button class="btn-alt btn" id="copyBtn" style="padding:10px 18px;font-size:.9rem">📋 Copiar SRT</button>
+        <button class="btn-alt btn" id="dlBtn" style="padding:10px 18px;font-size:.9rem">⬇️ Descargar .srt</button>
+      </div>
+      <textarea id="srtOut" readonly placeholder="Acá aparece el SRT…"></textarea>
+      <p class="hint">Copiá este SRT y pegalo en <b>Stick Stories</b> (paso «pegá el SRT») para que los tiempos de las imágenes salgan exactos al audio.</p>
+    </div>
+  </div>
+
+<script type="module">
+import { pipeline, env } from 'https://cdn.jsdelivr.net/npm/@xenova/[email protected]';
+env.allowLocalModels = false;
+
+const $ = id => document.getElementById(id);
+let transcriber = null, loadedModel = null;
+
+function setStatus(t, color){ $('status').textContent = t; $('status').style.color = color || 'var(--gold)'; }
+function setBar(p){ $('barWrap').style.display = p>0?'block':'none'; $('bar').style.width = (p||0)+'%'; }
+
+function pad(n,l){ return String(n).padStart(l,'0'); }
+function fmtTime(t){
+  if(t==null || isNaN(t)) t=0;
+  const h=Math.floor(t/3600), m=Math.floor((t%3600)/60), s=Math.floor(t%60), ms=Math.round((t-Math.floor(t))*1000);
+  return pad(h,2)+':'+pad(m,2)+':'+pad(s,2)+','+pad(ms,3);
+}
+
+async function decodeTo16k(file){
+  const buf = await file.arrayBuffer();
+  const AC = window.AudioContext || window.webkitAudioContext;
+  const ctx = new AC();
+  const decoded = await ctx.decodeAudioData(buf);
+  const dur = decoded.duration;
+  const off = new OfflineAudioContext(1, Math.max(1, Math.ceil(dur*16000)), 16000);
+  const src = off.createBufferSource(); src.buffer = decoded; src.connect(off.destination); src.start(0);
+  const rendered = await off.startRendering();
+  try{ ctx.close(); }catch(e){}
+  return rendered.getChannelData(0);
+}
+
+function buildSrt(chunks){
+  let out = '';
+  chunks.forEach((c, i) => {
+    let st = c.timestamp ? c.timestamp[0] : 0;
+    let en = c.timestamp ? c.timestamp[1] : null;
+    if(en == null || isNaN(en) || en <= st){ en = st + 2; }
+    out += (i+1) + '\n' + fmtTime(st) + ' --> ' + fmtTime(en) + '\n' + (c.text||'').trim() + '\n\n';
+  });
+  return out.trim() + '\n';
+}
+
+async function run(){
+  const f = $('file').files[0];
+  if(!f){ setStatus('Elegí primero un archivo de audio.', '#fda4af'); return; }
+  const modelId = $('model').value;
+  const lang = $('lang').value;
+  $('goBtn').disabled = true; $('outCard').style.display='none';
+
+  try{
+    if(!transcriber || loadedModel !== modelId){
+      setStatus('Descargando el modelo (solo la primera vez)…'); setBar(1);
+      transcriber = await pipeline('automatic-speech-recognition', modelId, {
+        quantized: true,
+        progress_callback: (p)=>{
+          if(p && p.status === 'progress' && p.total){
+            const pct = Math.round((p.loaded / p.total) * 100);
+            setStatus('Descargando modelo: ' + (p.file||'') + ' ' + pct + '%'); setBar(pct);
+          } else if(p && p.status === 'ready'){ setStatus('Modelo listo.'); }
+        }
+      });
+      loadedModel = modelId;
+    }
+
+    setStatus('Leyendo el audio…'); setBar(0); $('barWrap').style.display='block'; $('bar').style.width='100%';
+    const audio = await decodeTo16k(f);
+
+    setStatus('Transcribiendo… (esto puede tardar varios minutos en audios largos)');
+    const opts = { return_timestamps: true, chunk_length_s: 30, stride_length_s: 5, task: 'transcribe' };
+    if(lang) opts.language = lang;
+    const result = await transcriber(audio, opts);
+
+    const chunks = (result && result.chunks && result.chunks.length) ? result.chunks
+      : [{ timestamp:[0, null], text: (result && result.text) || '' }];
+    const srt = buildSrt(chunks);
+    $('srtOut').value = srt;
+    $('outCard').style.display = 'block';
+    setStatus('✓ SRT listo (' + chunks.length + ' bloques). Copialo y pegalo en Stick Stories.', 'var(--lime)');
+    setBar(0); $('barWrap').style.display='none';
+    $('outCard').scrollIntoView({behavior:'smooth', block:'start'});
+  }catch(err){
+    console.error(err);
+    setStatus('❌ Error: ' + (err && err.message ? err.message : err), '#fda4af');
+    setBar(0); $('barWrap').style.display='none';
+  }finally{
+    $('goBtn').disabled = false;
+  }
+}
+
+$('goBtn').addEventListener('click', run);
+$('copyBtn').addEventListener('click', ()=>{
+  const t=$('srtOut').value; if(!t) return;
+  navigator.clipboard.writeText(t).then(()=>{ const o=$('copyBtn').textContent; $('copyBtn').textContent='✅ ¡Copiado!'; setTimeout(()=>$('copyBtn').textContent=o,1500); });
+});
+$('dlBtn').addEventListener('click', ()=>{
+  const t=$('srtOut').value; if(!t) return;
+  const blob=new Blob([t],{type:'text/plain'}); const url=URL.createObjectURL(blob);
+  const a=document.createElement('a'); a.href=url; a.download='subtitulos.srt'; a.click(); URL.revokeObjectURL(url);
+});
+</script>
+<script src="jmbots-resilience.js"></script>
+<script src="apps-menu.js"></script>
+</body>
+</html>
