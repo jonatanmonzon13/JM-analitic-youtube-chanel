@@ -107,18 +107,20 @@ async function loadLib(){
   if(_pipeline) return;
   setStatus('Cargando librería de transcripción…'); setBar(0); $('barWrap').style.display='block'; $('bar').style.width='100%';
   const urls = [
+    'https://cdn.jsdelivr.net/npm/@xenova/[email protected]/dist/transformers.min.js',
     'https://cdn.jsdelivr.net/npm/@xenova/[email protected]',
     'https://cdn.jsdelivr.net/npm/@xenova/[email protected]/+esm',
-    'https://unpkg.com/@xenova/[email protected]'
+    'https://unpkg.com/@xenova/[email protected]/dist/transformers.min.js'
   ];
   let lastErr=null;
   for(const u of urls){
     try{
       const mod = await import(u);
-      if(mod && mod.pipeline){ _pipeline = mod.pipeline; _env = mod.env; if(_env) _env.allowLocalModels=false; return; }
+      const lib = (mod && mod.pipeline) ? mod : ((mod && mod.default && mod.default.pipeline) ? mod.default : null);
+      if(lib && lib.pipeline){ _pipeline = lib.pipeline; _env = lib.env; if(_env) _env.allowLocalModels=false; console.log('Libreria cargada desde', u); return; }
     }catch(e){ lastErr=e; console.warn('Fallo CDN', u, e); }
   }
-  throw new Error('No se pudo cargar la libreria de transcripcion. Revisa tu conexion a internet y volve a intentar.');
+  throw new Error('No se pudo cargar la libreria de transcripcion desde el servidor (CDN). Volve a intentar en un momento; si sigue, probablemente el CDN este caido o bloqueado en tu red.');
 }
 
 function pad(n,l){ return String(n).padStart(l,'0'); }
