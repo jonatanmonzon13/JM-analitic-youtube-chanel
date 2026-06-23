@@ -54,9 +54,9 @@
         <div class="col">
           <label>2) Precisión del modelo</label>
           <select id="model">
-            <option value="Xenova/whisper-small" selected>Máxima precisión (small · ~250MB)</option>
-            <option value="Xenova/whisper-base">Equilibrado (base · ~80MB)</option>
-            <option value="Xenova/whisper-tiny">Rápido (tiny · ~40MB)</option>
+            <option value="Xenova/whisper-base" selected>Recomendado · buena precisión (base)</option>
+            <option value="Xenova/whisper-small">Máxima precisión (small · más pesado y lento)</option>
+            <option value="Xenova/whisper-tiny">Rápido (tiny · menos preciso)</option>
           </select>
         </div>
         <div class="col">
@@ -106,20 +106,28 @@ function setBar(p){ $('barWrap').style.display = p>0?'block':'none'; $('bar').st
 async function loadLib(){
   if(_pipeline) return;
   setStatus('Cargando librería de transcripción…'); setBar(0); $('barWrap').style.display='block'; $('bar').style.width='100%';
+  // Construimos el "@version" en tiempo de ejecucion: asi un proxy (ej. Cloudflare email obfuscation)
+  // no puede confundir el paquete con su version (formato correo) y romper el enlace.
+  const AT = String.fromCharCode(64);
+  const v1='3.6.1', v2='3.8.1';
   const urls = [
-    'https://cdn.jsdelivr.net/npm/@huggingface/[email protected]/dist/transformers.min.js',
-    'https://cdn.jsdelivr.net/npm/@huggingface/[email protected]/dist/transformers.min.js',
-    'https://unpkg.com/@huggingface/[email protected]/dist/transformers.min.js'
+    'https://cdn.jsdelivr.net/npm/@huggingface/transformers'+AT+v1+'/dist/transformers.min.js',
+    'https://cdn.jsdelivr.net/npm/@huggingface/transformers'+AT+v2+'/dist/transformers.min.js',
+    'https://cdn.jsdelivr.net/npm/@huggingface/transformers/dist/transformers.min.js',
+    'https://unpkg.com/@huggingface/transformers'+AT+v1+'/dist/transformers.min.js',
+    'https://esm.sh/@huggingface/transformers'+AT+v1
   ];
-  let lastErr=null;
+  let lastErr=null, tried=[];
   for(const u of urls){
     try{
+      setStatus('Cargando libreria… probando fuente '+(tried.length+1)+'/'+urls.length);
       const mod = await import(u);
       const lib = (mod && mod.pipeline) ? mod : ((mod && mod.default && mod.default.pipeline) ? mod.default : null);
       if(lib && lib.pipeline){ _pipeline = lib.pipeline; _env = lib.env; if(_env) _env.allowLocalModels=false; console.log('Libreria cargada desde', u); return; }
-    }catch(e){ lastErr=e; console.warn('Fallo CDN', u, e); }
+      tried.push(u.split('/').slice(-1)[0]+': sin pipeline');
+    }catch(e){ lastErr=e; tried.push((u.indexOf('xenova')>-1?'v2':'v3')+': '+(e&&e.name?e.name:'err')); console.warn('Fallo CDN', u, e); }
   }
-  throw new Error('No se pudo cargar la libreria de transcripcion desde el servidor (CDN). Volve a intentar en un momento; si sigue, probablemente el CDN este caido o bloqueado en tu red.');
+  throw new Error('No cargo la libreria. Detalle real: ' + (lastErr ? ((lastErr.name||'Error')+' - '+(lastErr.message||lastErr)) : 'desconocido') + ' | Intentos: ' + tried.join(' ; '));
 }
 
 function pad(n,l){ return String(n).padStart(l,'0'); }
@@ -165,7 +173,7 @@ async function run(){
     if(!transcriber || loadedModel !== modelId){
       setStatus('Descargando el modelo (solo la primera vez, puede tardar)…'); setBar(1);
       transcriber = await _pipeline('automatic-speech-recognition', modelId, {
-        dtype: "q8",
+        dtype: { encoder_model: "fp32", decoder_model_merged: "int8" },
         progress_callback: (p)=>{
           if(p && p.status === 'progress' && p.total){
             const pct = Math.round((p.loaded / p.total) * 100);
