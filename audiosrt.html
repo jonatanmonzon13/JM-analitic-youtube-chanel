@@ -107,10 +107,9 @@ async function loadLib(){
   if(_pipeline) return;
   setStatus('Cargando librería de transcripción…'); setBar(0); $('barWrap').style.display='block'; $('bar').style.width='100%';
   const urls = [
-    'https://cdn.jsdelivr.net/npm/@xenova/[email protected]/dist/transformers.min.js',
-    'https://cdn.jsdelivr.net/npm/@xenova/[email protected]',
-    'https://cdn.jsdelivr.net/npm/@xenova/[email protected]/+esm',
-    'https://unpkg.com/@xenova/[email protected]/dist/transformers.min.js'
+    'https://cdn.jsdelivr.net/npm/@huggingface/[email protected]/dist/transformers.min.js',
+    'https://cdn.jsdelivr.net/npm/@huggingface/[email protected]/dist/transformers.min.js',
+    'https://unpkg.com/@huggingface/[email protected]/dist/transformers.min.js'
   ];
   let lastErr=null;
   for(const u of urls){
@@ -166,7 +165,7 @@ async function run(){
     if(!transcriber || loadedModel !== modelId){
       setStatus('Descargando el modelo (solo la primera vez, puede tardar)…'); setBar(1);
       transcriber = await _pipeline('automatic-speech-recognition', modelId, {
-        quantized: true,
+        dtype: "q8",
         progress_callback: (p)=>{
           if(p && p.status === 'progress' && p.total){
             const pct = Math.round((p.loaded / p.total) * 100);
@@ -213,7 +212,6 @@ $('dlBtn').addEventListener('click', ()=>{
 setStatus('Listo para transcribir. Elegi un audio y toca Generar SRT.', 'var(--muted)');
 </script>
 
-<script src="jmbots-resilience.js"></script>
 <script src="apps-menu.js"></script>
 </body>
 </html>
