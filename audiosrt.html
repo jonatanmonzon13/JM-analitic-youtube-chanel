@@ -38,6 +38,7 @@
 <body>
   <div class="wrap">
     <a class="back" href="./app.html">← Volver a la suite</a>
+    <a class="back" href="./stickstories.html" style="margin-left:16px;color:var(--c1)">🏃 Ir a Stick Stories →</a>
     <header class="hero">
       <h1 class="title">Audio → SRT</h1>
       <p class="subtitle">Transcribe tu audio (de Fish Audio) a un archivo SRT con los tiempos reales, 100% en tu navegador. No sube nada a internet. Después pegás el SRT en Stick Stories para tiempos exactos.</p>
@@ -85,15 +86,40 @@
     </div>
   </div>
 
+<script>
+/* Red de seguridad: cualquier error se muestra en pantalla, nunca queda mudo */
+window.addEventListener('error', function(e){
+  var s=document.getElementById('status'); if(s){ s.textContent='❌ Error: '+(e.message||e.error||'desconocido'); s.style.color='#fda4af'; }
+});
+window.addEventListener('unhandledrejection', function(e){
+  var s=document.getElementById('status'); var m=(e.reason&&e.reason.message)?e.reason.message:e.reason;
+  if(s){ s.textContent='❌ Error: '+m; s.style.color='#fda4af'; }
+});
+</script>
 <script type="module">
-import { pipeline, env } from 'https://cdn.jsdelivr.net/npm/@xenova/[email protected]';
-env.allowLocalModels = false;
-
 const $ = id => document.getElementById(id);
-let transcriber = null, loadedModel = null;
+let transcriber = null, loadedModel = null, _pipeline = null, _env = null;
 
-function setStatus(t, color){ $('status').textContent = t; $('status').style.color = color || 'var(--gold)'; }
+function setStatus(t, color){ const s=$('status'); if(s){ s.textContent=t; s.style.color = color || 'var(--gold)'; } }
 function setBar(p){ $('barWrap').style.display = p>0?'block':'none'; $('bar').style.width = (p||0)+'%'; }
+
+async function loadLib(){
+  if(_pipeline) return;
+  setStatus('Cargando librería de transcripción…'); setBar(0); $('barWrap').style.display='block'; $('bar').style.width='100%';
+  const urls = [
+    'https://cdn.jsdelivr.net/npm/@xenova/[email protected]',
+    'https://cdn.jsdelivr.net/npm/@xenova/[email protected]/+esm',
+    'https://unpkg.com/@xenova/[email protected]'
+  ];
+  let lastErr=null;
+  for(const u of urls){
+    try{
+      const mod = await import(u);
+      if(mod && mod.pipeline){ _pipeline = mod.pipeline; _env = mod.env; if(_env) _env.allowLocalModels=false; return; }
+    }catch(e){ lastErr=e; console.warn('Fallo CDN', u, e); }
+  }
+  throw new Error('No se pudo cargar la libreria de transcripcion. Revisa tu conexion a internet y volve a intentar.');
+}
 
 function pad(n,l){ return String(n).padStart(l,'0'); }
 function fmtTime(t){
@@ -105,6 +131,7 @@ function fmtTime(t){
 async function decodeTo16k(file){
   const buf = await file.arrayBuffer();
   const AC = window.AudioContext || window.webkitAudioContext;
+  if(!AC) throw new Error('Tu navegador no soporta procesamiento de audio. Proba con Chrome o Edge actualizado.');
   const ctx = new AC();
   const decoded = await ctx.decodeAudioData(buf);
   const dur = decoded.duration;
@@ -121,41 +148,39 @@ function buildSrt(chunks){
     let st = c.timestamp ? c.timestamp[0] : 0;
     let en = c.timestamp ? c.timestamp[1] : null;
     if(en == null || isNaN(en) || en <= st){ en = st + 2; }
-    out += (i+1) + '\n' + fmtTime(st) + ' --> ' + fmtTime(en) + '\n' + (c.text||'').trim() + '\n\n';
+    out += (i+1) + '\n' + fmtTime(st) + ' --> ' + fmtTime(en) + '\n' + (c.text||'').trim() + '\n' + '\n';
   });
   return out.trim() + '\n';
 }
 
 async function run(){
   const f = $('file').files[0];
-  if(!f){ setStatus('Elegí primero un archivo de audio.', '#fda4af'); return; }
+  if(!f){ setStatus('Elegi primero un archivo de audio.', '#fda4af'); return; }
   const modelId = $('model').value;
   const lang = $('lang').value;
   $('goBtn').disabled = true; $('outCard').style.display='none';
-
   try{
+    await loadLib();
     if(!transcriber || loadedModel !== modelId){
-      setStatus('Descargando el modelo (solo la primera vez)…'); setBar(1);
-      transcriber = await pipeline('automatic-speech-recognition', modelId, {
+      setStatus('Descargando el modelo (solo la primera vez, puede tardar)…'); setBar(1);
+      transcriber = await _pipeline('automatic-speech-recognition', modelId, {
         quantized: true,
         progress_callback: (p)=>{
           if(p && p.status === 'progress' && p.total){
             const pct = Math.round((p.loaded / p.total) * 100);
             setStatus('Descargando modelo: ' + (p.file||'') + ' ' + pct + '%'); setBar(pct);
-          } else if(p && p.status === 'ready'){ setStatus('Modelo listo.'); }
+          } else if(p && p.status === 'download'){ setStatus('Descargando: ' + (p.file||'') + '…');
+          } else if(p && p.status === 'ready'){ setStatus('Modelo listo, preparando…'); }
         }
       });
       loadedModel = modelId;
     }
-
     setStatus('Leyendo el audio…'); setBar(0); $('barWrap').style.display='block'; $('bar').style.width='100%';
     const audio = await decodeTo16k(f);
-
-    setStatus('Transcribiendo… (esto puede tardar varios minutos en audios largos)');
+    setStatus('Transcribiendo… (puede tardar varios minutos en audios largos; no cierres la pagina)');
     const opts = { return_timestamps: true, chunk_length_s: 30, stride_length_s: 5, task: 'transcribe' };
     if(lang) opts.language = lang;
     const result = await transcriber(audio, opts);
-
     const chunks = (result && result.chunks && result.chunks.length) ? result.chunks
       : [{ timestamp:[0, null], text: (result && result.text) || '' }];
     const srt = buildSrt(chunks);
@@ -166,7 +191,7 @@ async function run(){
     $('outCard').scrollIntoView({behavior:'smooth', block:'start'});
   }catch(err){
     console.error(err);
-    setStatus('❌ Error: ' + (err && err.message ? err.message : err), '#fda4af');
+    setStatus('❌ ' + (err && err.message ? err.message : err), '#fda4af');
     setBar(0); $('barWrap').style.display='none';
   }finally{
     $('goBtn').disabled = false;
@@ -183,7 +208,9 @@ $('dlBtn').addEventListener('click', ()=>{
   const blob=new Blob([t],{type:'text/plain'}); const url=URL.createObjectURL(blob);
   const a=document.createElement('a'); a.href=url; a.download='subtitulos.srt'; a.click(); URL.revokeObjectURL(url);
 });
+setStatus('Listo para transcribir. Elegi un audio y toca Generar SRT.', 'var(--muted)');
 </script>
+
 <script src="jmbots-resilience.js"></script>
 <script src="apps-menu.js"></script>
 </body>

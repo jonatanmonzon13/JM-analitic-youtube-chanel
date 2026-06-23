@@ -193,6 +193,7 @@
       <button onclick="kickoff()">▶ Empezar (15 ideas)</button>
       <button onclick="send('reset ideas')">🔄 reset ideas</button>
       <button onclick="nuevaSesion()">🆕 Nueva sesión</button>
+      <button onclick="location.href='./audiosrt.html'">🎧 Ir a Audio→SRT</button>
     </div>
     <div id="chat" class="chat"></div>
     <div class="inrow">
@@ -237,7 +238,7 @@ Despues del bloque, fuera del codigo, escribi: "Guion listo (~N min). Escribi «
 Trigger: el usuario escribe "imagenes" o "imágenes".
 DIVIDI el guion en TRAMOS cortos segun el sentido de la narracion (frases o ideas completas). La DURACION de cada imagen = la duracion hablada de SU tramo (NO un tiempo fijo): estimala por las palabras del tramo a razon de 2.5 palabras por segundo (segundos = palabras_del_tramo / 2.5, redondeado; minimo 2s, maximo 6s; si una frase es muy larga, partila en dos tramos para no pasar de 6s). UNA imagen por tramo, en ORDEN del guion. La CANTIDAD de imagenes = la cantidad de tramos (depende del guion, NO es un numero fijo). Cada imagen ilustra EXACTAMENTE lo que se narra en su tramo, para que coincida con el audio.
 Devolve EXACTAMENTE DOS bloques de codigo markdown, sin texto entre ellos:
-BLOQUE 1 = PROMPTS DE IMAGEN (ingles), uno por linea, sin numeracion, sin vinetas, sin comillas. ESTILO FIJO IDENTICO en TODAS: "minimalist black stick figure illustration, simple white background, thick black outlines, no facial detail, flat 2D vector style, single accent color". Cada prompt ilustra ese tramo del guion con conceptos de dinero/finanzas hechos con monitos de palitos (monedas, billetes, graficos que suben/bajan, bancos, balanzas, candados, relojes, etc.), variando la composicion. Cada linea TERMINA con "clean image, no text, no watermark, 16:9 horizontal".
+BLOQUE 1 = PROMPTS DE IMAGEN (ingles), uno por linea, sin numeracion, sin vinetas, sin comillas. ESTILO FIJO IDENTICO en TODAS (incluilo COMPLETO en cada prompt): "detailed stick-figure cartoon character with minimal features such as simple dot eyes, expressive pose, thick clean uniform black outlines, crisp edges, flat vector colors, no gradients, no textures, limited color palette mostly black and white with small specific accents in a single red highlight color, clean flat white background, zero background clutter, simple flat grey horizontal floor plane, minimalist web-comic vector illustration, high contrast". Cada prompt DEBE describir CON DETALLE la escena exacta que ilustra lo que se narra en ese tramo: la accion del personaje, el objeto/concepto de finanzas (coins, bills, rising or falling chart arrow, bank, scale, lock, clock, wallet, piggy bank, etc.) y la emocion, variando pose, angulo y composicion en cada toma. En momentos clave podes agregar UNA palabra o frase corta en tipografia hand-drawn, bold e irregular, en negro con la palabra clave en rojo (ej: the words "THE DEBT TRAP" in bold irregular hand-drawn black and red font), y una flecha roja sketchy si ayuda. Cada linea TERMINA con "no watermark, 16:9 horizontal".
 BLOQUE 2 = LISTA PARA RENOMBRAR las imagenes en ORDEN (1,2,3...), uno por linea, EXACTAMENTE la misma cantidad que las imagenes. El nombre de cada imagen ES su tiempo. Formato EXACTO por linea: "N= m:ss a m:ss" (ejemplo: "1= 0:00 a 0:04"). El INICIO del tramo N = el FIN del tramo anterior (el 1 empieza en 0:00); el FIN = inicio + la duracion ESTIMADA de ESE tramo (variable, segun sus palabras, entre 2 y 6 seg). Sin huecos. La duracion de cada imagen DEBE coincidir con la de su tramo del guion, no un valor fijo.
 No agregues nada despues del BLOQUE 2.
 
@@ -247,10 +248,14 @@ Con el SRT tenes los tiempos REALES del audio. Entonces:
 - Recorre los bloques del SRT EN ORDEN. Agrupa subtitulos contiguos hasta juntar entre 2 y 6 segundos de narracion: cada grupo = UNA imagen (asi ninguna imagen dura mas de 6s y coincide EXACTO con el audio).
 - La duracion de cada imagen = (fin del ultimo subtitulo del grupo) - (inicio del primero), usando los TIEMPOS REALES del SRT (convertidos a m:ss).
 - UNA imagen por grupo, en ORDEN.
-Devolve los MISMOS DOS bloques que en el PASO 3 (BLOQUE 1 = prompts de imagen; BLOQUE 2 = lista para renombrar "N= m:ss a m:ss" con los tiempos REALES del SRT, sin huecos, encadenados). Cada prompt ilustra lo que dice ese grupo de subtitulos.
+Devolve los MISMOS DOS bloques que en el PASO 3, con el MISMO estilo fijo (BLOQUE 1 = prompts de imagen; BLOQUE 2 = lista para renombrar "N= m:ss a m:ss" con los tiempos REALES del SRT, sin huecos, encadenados). Cada prompt ilustra CON DETALLE y MAXIMA CONCORDANCIA lo que dice ese grupo de subtitulos. Entrega TODOS los grupos del SRT, sin cortar ni resumir.
 No agregues nada despues del BLOQUE 2.
 
-REGLAS: cada lote en su PROPIO bloque de codigo separado; la cantidad de prompts = la cantidad de tiempos. Contenido educativo y entretenido; SIN consejos financieros personalizados ni promesas de ganancias; datos correctos; sin difamar a personas reales.`;
+== PASO 5 - CONTINUAR (si quedo cortado por largo) ==
+Trigger: el usuario escribe "seguir" o "continuar".
+Continua EXACTAMENTE desde donde cortaste, sin repetir ni saltear tramos, manteniendo la numeracion y los tiempos encadenados, en los mismos DOS bloques (prompts de imagen + lista para renombrar).
+
+REGLAS OBLIGATORIAS: (1) LOTES COMPLETOS: entrega TODOS los prompts y TODOS los tiempos, uno por CADA tramo (del guion o del SRT). PROHIBIDO cortar, resumir, abreviar, usar "etc." o "..." o saltear tramos: si hay 90 tramos van 90 prompts y 90 tiempos. (2) cantidad de prompts = cantidad de tiempos, en el MISMO orden. (3) MAXIMA CONCORDANCIA: cada imagen refleja visualmente y en DETALLE lo que dice su tramo, para fluidez TOTAL del video, sin saltos. (4) cada lote en su PROPIO bloque de codigo. (5) si por el largo no llegas a terminar en una sola respuesta, cerra el ultimo prompt completo y escribi al final, FUERA del bloque: "Escribi «seguir» para continuar el lote". Contenido educativo; SIN consejos financieros personalizados ni promesas de ganancias; datos correctos; sin difamar personas reales.`;
 function buildMaster(){ var t=document.getElementById('masterPrompt'); if(t){ t.value=(typeof SYSTEM!=='undefined'?SYSTEM:'')+'\n\n--- Paste this in gemini.google.com and type: more (to get 10 country ideas). ---'; } }
 function copyMaster(btn){ var t=document.getElementById('masterPrompt'); if(t&&!t.value){ buildMaster(); } if(t&&t.value){ navigator.clipboard.writeText(t.value).then(function(){ if(btn){ var o=btn.textContent; btn.textContent='✓ Copiado'; setTimeout(function(){ btn.textContent=o; },1200); } }); } }
 
