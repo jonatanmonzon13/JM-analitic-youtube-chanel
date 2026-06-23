@@ -1263,6 +1263,24 @@
       "nombre": "Aria Football Transformers",
       "archivo": "ariafootball.html",
       "img": "img/ariafootball.jpg"
+    },
+    {
+      "id": "facelessviral",
+      "nombre": "Faceless Viral",
+      "archivo": "facelessviral.html",
+      "img": "img/facelessviral.jpg"
+    },
+    {
+      "id": "stickstories",
+      "nombre": "Stick Stories",
+      "archivo": "stickstories.html",
+      "img": "img/stickstories.jpg"
+    },
+    {
+      "id": "audiosrt",
+      "nombre": "Audio → SRT",
+      "archivo": "audiosrt.html",
+      "img": "img/audiosrt.jpg"
     }
   ],
   "accesos": {
@@ -1467,7 +1485,10 @@
       "porquehacemos",
       "antesdespues",
       "menurest",
-      "ariafootball"
+      "ariafootball",
+      "facelessviral",
+      "stickstories",
+      "audiosrt"
     ],
     "diegoasalazarc70@gmail.com": [
       "outliers",
@@ -1670,7 +1691,10 @@
       "porquehacemos",
       "antesdespues",
       "menurest",
-      "ariafootball"
+      "ariafootball",
+      "facelessviral",
+      "stickstories",
+      "audiosrt"
     ],
     "joxcimars2016@gmail.com": [
       "outliers",
@@ -1873,7 +1897,10 @@
       "porquehacemos",
       "antesdespues",
       "menurest",
-      "ariafootball"
+      "ariafootball",
+      "facelessviral",
+      "stickstories",
+      "audiosrt"
     ],
     "ayala.luis@correounivalle.edu.co": [
       "outliers",
@@ -2076,7 +2103,10 @@
       "porquehacemos",
       "antesdespues",
       "menurest",
-      "ariafootball"
+      "ariafootball",
+      "facelessviral",
+      "stickstories",
+      "audiosrt"
     ],
     "febreromonetiza10@gmail.com": [
       "outliers",
@@ -2276,7 +2306,10 @@
       "porquehacemos",
       "antesdespues",
       "menurest",
-      "ariafootball"
+      "ariafootball",
+      "facelessviral",
+      "stickstories",
+      "audiosrt"
     ],
     "creadordigital.82ia@gmail.com": [
       "outliers",
@@ -2479,7 +2512,10 @@
       "porquehacemos",
       "antesdespues",
       "menurest",
-      "ariafootball"
+      "ariafootball",
+      "facelessviral",
+      "stickstories",
+      "audiosrt"
     ],
     "valdesingrid258@gmail.com": [
       "outliers",
@@ -2682,7 +2718,10 @@
       "porquehacemos",
       "antesdespues",
       "menurest",
-      "ariafootball"
+      "ariafootball",
+      "facelessviral",
+      "stickstories",
+      "audiosrt"
     ],
     "maricuenta727@gmail.com": [
       "outliers",
@@ -2885,7 +2924,10 @@
       "porquehacemos",
       "antesdespues",
       "menurest",
-      "ariafootball"
+      "ariafootball",
+      "facelessviral",
+      "stickstories",
+      "audiosrt"
     ],
     "libertopiemoran@gmail.com": [
       "outliers",
@@ -3088,7 +3130,10 @@
       "porquehacemos",
       "antesdespues",
       "menurest",
-      "ariafootball"
+      "ariafootball",
+      "facelessviral",
+      "stickstories",
+      "audiosrt"
     ],
     "alexandersamchez000000@gmail.com": [
       "outliers",
@@ -3291,7 +3336,10 @@
       "porquehacemos",
       "antesdespues",
       "menurest",
-      "ariafootball"
+      "ariafootball",
+      "facelessviral",
+      "stickstories",
+      "audiosrt"
     ],
     "andresportillo371@gmail.com": [
       "outliers",
@@ -3494,7 +3542,10 @@
       "porquehacemos",
       "antesdespues",
       "menurest",
-      "ariafootball"
+      "ariafootball",
+      "facelessviral",
+      "stickstories",
+      "audiosrt"
     ],
     "darioperezlindo77@gmail.com": [
       "outliers",
@@ -3697,7 +3748,10 @@
       "porquehacemos",
       "antesdespues",
       "menurest",
-      "ariafootball"
+      "ariafootball",
+      "facelessviral",
+      "stickstories",
+      "audiosrt"
     ],
     "almareflexiva46@gmail.com": [
       "outliers",
@@ -3900,7 +3954,10 @@
       "porquehacemos",
       "antesdespues",
       "menurest",
-      "ariafootball"
+      "ariafootball",
+      "facelessviral",
+      "stickstories",
+      "audiosrt"
     ],
     "edison.herrera.m@gmail.com": [
       "outliers",
@@ -4103,7 +4160,10 @@
       "porquehacemos",
       "antesdespues",
       "menurest",
-      "ariafootball"
+      "ariafootball",
+      "facelessviral",
+      "stickstories",
+      "audiosrt"
     ],
     "osmedyalexander@gmail.com": [
       "outliers",
@@ -4306,7 +4366,10 @@
       "porquehacemos",
       "antesdespues",
       "menurest",
-      "ariafootball"
+      "ariafootball",
+      "facelessviral",
+      "stickstories",
+      "audiosrt"
     ],
     "nichomedia3@gmail.com": [
       "outliers",
@@ -4509,7 +4572,10 @@
       "porquehacemos",
       "antesdespues",
       "menurest",
-      "ariafootball"
+      "ariafootball",
+      "facelessviral",
+      "stickstories",
+      "audiosrt"
     ],
     "venturajosee@gmail.com": [
       "outliers",
@@ -4712,7 +4778,10 @@
       "porquehacemos",
       "antesdespues",
       "menurest",
-      "ariafootball"
+      "ariafootball",
+      "facelessviral",
+      "stickstories",
+      "audiosrt"
     ],
     "edu53554@gmail.com": [
       "outliers",
@@ -4915,7 +4984,10 @@
       "porquehacemos",
       "antesdespues",
       "menurest",
-      "ariafootball"
+      "ariafootball",
+      "facelessviral",
+      "stickstories",
+      "audiosrt"
     ],
     "pomam7073@gmail.com": [
       "outliers",
@@ -5118,7 +5190,10 @@
       "porquehacemos",
       "antesdespues",
       "menurest",
-      "ariafootball"
+      "ariafootball",
+      "facelessviral",
+      "stickstories",
+      "audiosrt"
     ],
     "damafelicali@gmail.com": [
       "outliers",
@@ -5321,7 +5396,10 @@
       "porquehacemos",
       "antesdespues",
       "menurest",
-      "ariafootball"
+      "ariafootball",
+      "facelessviral",
+      "stickstories",
+      "audiosrt"
     ],
     "patchmx@gmail.com": [
       "outliers",
@@ -5524,7 +5602,10 @@
       "porquehacemos",
       "antesdespues",
       "menurest",
-      "ariafootball"
+      "ariafootball",
+      "facelessviral",
+      "stickstories",
+      "audiosrt"
     ],
     "miguelyfer1985@gmail.com": [
       "outliers",
@@ -5727,7 +5808,10 @@
       "porquehacemos",
       "antesdespues",
       "menurest",
-      "ariafootball"
+      "ariafootball",
+      "facelessviral",
+      "stickstories",
+      "audiosrt"
     ],
     "ruizgarza94@gmail.com": [
       "outliers",
@@ -5930,7 +6014,10 @@
       "porquehacemos",
       "antesdespues",
       "menurest",
-      "ariafootball"
+      "ariafootball",
+      "facelessviral",
+      "stickstories",
+      "audiosrt"
     ],
     "elolvis356@gmail.com": [
       "outliers",
@@ -6133,7 +6220,10 @@
       "porquehacemos",
       "antesdespues",
       "menurest",
-      "ariafootball"
+      "ariafootball",
+      "facelessviral",
+      "stickstories",
+      "audiosrt"
     ],
     "jjaassbb865@gmail.com": [
       "outliers",
@@ -6336,7 +6426,10 @@
       "porquehacemos",
       "antesdespues",
       "menurest",
-      "ariafootball"
+      "ariafootball",
+      "facelessviral",
+      "stickstories",
+      "audiosrt"
     ]
   }
 }
