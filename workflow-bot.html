@@ -1,0 +1,630 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Workflow Bot — JM BOTS</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Sora:wght@500;600;700;800&family=Inter:wght@400;500;600&family=JetBrains+Mono:wght@500;700&display=swap" rel="stylesheet">
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+  <style>
+    :root{
+      --bg:#05060C; --bg2:#0B0E18; --bg3:#11141F;
+      --ink:#F6F8FE; --body:#C7CEDE; --muted:#828DA6; --line:#222842;
+      --gold:#E7B85C; --gold2:#F8DA8E;
+      --blue:#4D8DFF; --pink:#FF3D9A; --violet:#9B5CFF; --cyan:#26D9FF; --lime:#5BF08E;
+      --grad-hot:linear-gradient(100deg,#FF3D9A,#9B5CFF 45%,#26D9FF);
+      --grad-gold:linear-gradient(100deg,#E7B85C,#F8DA8E);
+      --accent:#9B5CFF;
+      --display:'Sora',sans-serif; --body-f:'Inter',sans-serif; --mono:'JetBrains Mono',monospace;
+    }
+    *{box-sizing:border-box;margin:0;padding:0}
+    body{font-family:var(--body-f);background:var(--bg);color:var(--body);height:100vh;overflow:hidden;display:flex;flex-direction:column;-webkit-font-smoothing:antialiased}
+    a{color:inherit;text-decoration:none}
+    /* ── OVERLAY ── */
+    #overlay{position:fixed;inset:0;background:var(--bg);display:flex;align-items:center;justify-content:center;z-index:900}
+    .spinner{width:42px;height:42px;border:3px solid var(--line);border-top-color:var(--accent);border-radius:50%;animation:spin .75s linear infinite}
+    @keyframes spin{to{transform:rotate(360deg)}}
+    /* ── API KEY MODAL ── */
+    #apiModal{position:fixed;inset:0;background:rgba(5,6,12,.96);display:none;align-items:center;justify-content:center;z-index:800;padding:22px}
+    #apiModal.show{display:flex}
+    .modal-box{background:var(--bg2);border:1px solid var(--line);border-radius:18px;padding:34px;max-width:440px;width:100%;box-shadow:0 40px 90px rgba(0,0,0,.7)}
+    .modal-icon{font-size:2.5rem;margin-bottom:14px;display:block;text-align:center}
+    .modal-title{font-family:var(--display);font-weight:700;font-size:1.25rem;text-align:center;color:var(--ink);margin-bottom:8px}
+    .modal-sub{font-size:13px;color:var(--muted);text-align:center;line-height:1.65;margin-bottom:22px}
+    .modal-label{font-family:var(--mono);font-size:10.5px;color:var(--gold);letter-spacing:.12em;text-transform:uppercase;margin-bottom:7px;display:block}
+    .modal-input{width:100%;background:var(--bg3);border:1px solid var(--line);border-radius:10px;padding:12px 14px;color:var(--ink);font-family:var(--mono);font-size:13px;outline:none;margin-bottom:8px}
+    .modal-input:focus{border-color:var(--accent);box-shadow:0 0 0 3px rgba(155,92,255,.2)}
+    .modal-hint{font-size:12px;color:var(--muted);margin-bottom:20px;line-height:1.55}
+    .modal-hint a{color:var(--gold)}
+    .modal-btn{width:100%;padding:13px;background:linear-gradient(100deg,var(--pink),var(--violet));border:none;border-radius:10px;color:#fff;font-family:var(--display);font-weight:700;font-size:15px;cursor:pointer;transition:opacity .18s}
+    .modal-btn:hover{opacity:.88}
+    /* ── HEADER ── */
+    header{background:rgba(5,6,12,.9);backdrop-filter:blur(20px);border-bottom:1px solid var(--line);padding:12px 22px;display:flex;align-items:center;gap:14px;flex-shrink:0;position:relative;z-index:40}
+    .back{display:flex;align-items:center;gap:6px;color:var(--muted);font-family:var(--mono);font-size:12px;padding:6px 12px;border:1px solid var(--line);border-radius:8px;transition:all .18s;white-space:nowrap;text-decoration:none}
+    .back:hover{color:var(--gold);border-color:rgba(231,184,92,.4);background:rgba(231,184,92,.06)}
+    .header-name{font-family:var(--display);font-weight:700;font-size:15px;flex:1;color:var(--ink)}
+    .header-right{display:flex;align-items:center;gap:10px}
+    .config-btn{padding:6px 13px;background:none;border:1px solid var(--line);border-radius:8px;color:var(--muted);font-family:var(--mono);font-size:11.5px;cursor:pointer;transition:all .18s}
+    .config-btn:hover{border-color:var(--gold);color:var(--gold)}
+    .user-pill{display:flex;align-items:center;gap:7px;padding:5px 12px;background:rgba(255,255,255,.04);border:1px solid var(--line);border-radius:50px;font-family:var(--mono);font-size:11px;color:var(--muted)}
+    .udot{width:6px;height:6px;border-radius:50%;background:var(--lime);box-shadow:0 0 6px var(--lime)}
+    /* ── LAYOUT ── */
+    .layout{display:flex;flex:1;overflow:hidden}
+    /* ── LEFT PANEL ── */
+    .panel-left{width:290px;flex-shrink:0;background:var(--bg2);border-right:1px solid var(--line);display:flex;flex-direction:column;overflow-y:auto;padding:26px 20px}
+    .panel-left::-webkit-scrollbar{width:3px}
+    .panel-left::-webkit-scrollbar-thumb{background:var(--line);border-radius:2px}
+    .bot-icon{font-size:2.8rem;margin-bottom:12px;display:block}
+    .bot-cat{display:inline-flex;align-items:center;padding:3px 11px;border-radius:20px;margin-bottom:12px;font-family:var(--mono);font-size:10.5px;font-weight:700;letter-spacing:.06em;border:1px solid}
+    .bot-name{font-family:var(--display);font-weight:800;font-size:1.18rem;line-height:1.25;color:var(--ink);margin-bottom:11px}
+    .bot-desc{font-size:12.5px;color:var(--muted);line-height:1.72;margin-bottom:22px}
+    .panel-divider{height:1px;background:var(--line);margin-bottom:18px}
+    .feat-title{font-family:var(--mono);font-size:9.5px;font-weight:700;color:var(--muted);text-transform:uppercase;letter-spacing:.1em;margin-bottom:10px}
+    .feat-item{display:flex;align-items:flex-start;gap:8px;font-size:12px;color:var(--muted);line-height:1.5;margin-bottom:9px}
+    .feat-dot{width:5px;height:5px;border-radius:50%;margin-top:5px;flex-shrink:0}
+    .tip-box{margin-top:auto;padding:13px 15px;background:var(--bg3);border:1px solid var(--line);border-radius:11px}
+    .tip-title{font-family:var(--mono);font-size:9.5px;font-weight:700;color:var(--muted);text-transform:uppercase;letter-spacing:.09em;margin-bottom:6px}
+    .tip-text{font-size:12px;color:var(--muted);line-height:1.58}
+    /* ── CHAT PANEL ── */
+    .panel-chat{flex:1;display:flex;flex-direction:column;overflow:hidden}
+    .messages{flex:1;overflow-y:auto;padding:22px 20px;display:flex;flex-direction:column;gap:14px}
+    .messages::-webkit-scrollbar{width:4px}
+    .messages::-webkit-scrollbar-thumb{background:var(--line);border-radius:2px}
+    /* Welcome */
+    .welcome{text-align:center;padding:44px 20px;display:flex;flex-direction:column;align-items:center}
+    .welcome-icon{font-size:3rem;margin-bottom:14px}
+    .welcome-title{font-family:var(--display);font-weight:700;font-size:1.2rem;color:var(--ink);margin-bottom:9px}
+    .welcome-sub{font-size:13px;color:var(--muted);max-width:360px;line-height:1.7;margin-bottom:26px}
+    .starters{display:flex;flex-direction:column;gap:8px;width:100%;max-width:420px}
+    .starter{padding:11px 15px;background:var(--bg2);border:1px solid var(--line);border-radius:10px;font-size:13px;color:var(--muted);cursor:pointer;text-align:left;transition:all .18s;font-family:var(--body-f)}
+    .starter:hover{border-color:rgba(231,184,92,.4);color:var(--ink);background:rgba(231,184,92,.06)}
+    /* Messages */
+    .msg{display:flex;gap:10px;max-width:100%}
+    .msg.user{flex-direction:row-reverse}
+    .msg-avatar{width:30px;height:30px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:.85rem;flex-shrink:0}
+    .msg.user .msg-avatar{background:var(--accent);color:#fff;font-size:.75rem;font-family:var(--mono);font-weight:700}
+    .msg.bot .msg-avatar{background:var(--bg3);border:1px solid var(--line);font-size:.95rem}
+    .msg-bubble{max-width:calc(100% - 56px);padding:13px 15px;border-radius:13px;font-size:13.5px;line-height:1.72}
+    .msg.user .msg-bubble{background:var(--bg2);border:1px solid var(--line);border-radius:13px 4px 13px 13px;color:var(--ink)}
+    .msg.bot .msg-bubble{background:var(--bg3);border:1px solid var(--line);border-radius:4px 13px 13px 13px;color:var(--body)}
+    .msg-bubble strong{color:var(--ink);font-weight:600}
+    .msg-bubble .ic{font-family:var(--mono);font-size:12px;background:rgba(255,255,255,.08);border-radius:5px;padding:1px 6px;color:var(--violet)}
+    .code-wrap{background:var(--bg);border:1px solid var(--line);border-left:3px solid var(--accent);border-radius:10px;margin:10px 0;overflow:hidden}
+    .code-head{display:flex;align-items:center;justify-content:space-between;padding:8px 13px;border-bottom:1px solid var(--line);background:rgba(155,92,255,.06)}
+    .code-head-label{font-family:var(--mono);font-size:9.5px;font-weight:700;color:var(--accent);text-transform:uppercase;letter-spacing:.08em}
+    .copy-btn{padding:3px 10px;background:transparent;border:1px solid var(--line);border-radius:6px;font-family:var(--mono);font-size:10.5px;color:var(--muted);cursor:pointer;transition:all .18s}
+    .copy-btn:hover{border-color:var(--gold);color:var(--gold)}
+    .copy-btn.copied{border-color:var(--lime);color:var(--lime)}
+    .code-wrap pre{font-family:var(--mono);font-size:12px;color:var(--body);line-height:1.72;padding:14px 16px;white-space:pre-wrap;word-break:break-word}
+    .typing{display:flex;gap:4px;padding:12px 15px;align-items:center}
+    .typing span{width:6px;height:6px;background:var(--muted);border-radius:50%;animation:bop 1.2s infinite ease-in-out}
+    .typing span:nth-child(2){animation-delay:.2s}
+    .typing span:nth-child(3){animation-delay:.4s}
+    @keyframes bop{0%,80%,100%{transform:scale(1);opacity:.4}40%{transform:scale(1.3);opacity:1}}
+    /* ── INPUT AREA ── */
+    .input-area{padding:14px 20px;border-top:1px solid var(--line);background:var(--bg2);flex-shrink:0}
+    .input-wrap{display:flex;gap:10px;align-items:flex-end}
+    .input-field{flex:1;background:var(--bg3);border:1px solid var(--line);border-radius:12px;padding:12px 15px;color:var(--ink);font-family:var(--body-f);font-size:14px;outline:none;resize:none;line-height:1.6;max-height:140px;overflow-y:auto;transition:border-color .18s}
+    .input-field::placeholder{color:var(--muted)}
+    .input-field:focus{border-color:var(--accent);box-shadow:0 0 0 3px rgba(155,92,255,.15)}
+    .send-btn{width:44px;height:44px;flex-shrink:0;background:linear-gradient(135deg,var(--pink),var(--violet));border:none;border-radius:12px;color:#fff;font-size:.95rem;cursor:pointer;display:flex;align-items:center;justify-content:center;transition:opacity .18s,transform .18s;box-shadow:0 4px 16px rgba(155,92,255,.3)}
+    .send-btn:hover:not(:disabled){opacity:.85;transform:scale(1.05)}
+    .send-btn:disabled{opacity:.3;cursor:not-allowed;transform:none;box-shadow:none}
+    .input-hint{font-family:var(--mono);font-size:10px;color:var(--muted);margin-top:8px;text-align:center}
+    /* ── RESPONSIVE ── */
+    @media(max-width:700px){
+      .panel-left{display:none}
+      .back span{display:none}
+    }
+    @media(prefers-reduced-motion:reduce){*{animation:none!important;transition:none!important}}
+  </style>
+</head>
+<body>
+<div id="overlay"><div class="spinner"></div></div>
+<!-- Modal Clave Gemini -->
+<div id="apiModal">
+  <div class="modal-box">
+    <span class="modal-icon">🔑</span>
+    <div class="modal-title">Clave de Gemini (gratis)</div>
+    <div class="modal-sub">Los Workflow Bots usan tu clave de Google Gemini — la misma de la suite. Es gratis y se guarda solo en tu navegador.</div>
+    <label class="modal-label">Tu clave de Gemini</label>
+    <input type="password" class="modal-input" id="apiKeyInput" placeholder="AIza...">
+    <div class="modal-hint">
+      Conseguila gratis en <a href="https://aistudio.google.com/apikey" target="_blank" rel="noopener">aistudio.google.com/apikey</a>. Si ya la cargaste en la suite, se usa esa sola.
+    </div>
+    <button class="modal-btn" onclick="saveApiKey()">Guardar y continuar →</button>
+  </div>
+</div>
+<!-- HEADER -->
+<header>
+  <a href="app.html" class="back">← <span>Volver</span></a>
+  <div class="header-name" id="hName">🤖 Workflow Bot</div>
+  <div class="header-right">
+    <button class="config-btn" onclick="openConfig()">⚙ Clave Gemini</button>
+    <div class="user-pill"><div class="udot"></div><span id="uid">...</span></div>
+  </div>
+</header>
+<!-- LAYOUT -->
+<div class="layout">
+  <!-- LEFT PANEL -->
+  <aside class="panel-left" id="panelLeft">
+    <span class="bot-icon" id="pIcon">🤖</span>
+    <span class="bot-cat" id="pCat">Categoría</span>
+    <div class="bot-name" id="pName">Workflow Bot</div>
+    <div class="bot-desc" id="pDesc">Descripción del bot.</div>
+    <div class="panel-divider"></div>
+    <div class="feat-title">Este bot hace:</div>
+    <div id="pFeatures"></div>
+    <div class="tip-box">
+      <div class="tip-title">💡 Tip</div>
+      <div class="tip-text" id="pTipText"></div>
+    </div>
+  </aside>
+  <!-- CHAT PANEL -->
+  <div class="panel-chat">
+    <div class="messages" id="messages">
+      <div class="welcome" id="welcome">
+        <div class="welcome-icon" id="wIcon">🤖</div>
+        <div class="welcome-title" id="wTitle">Bienvenido</div>
+        <div class="welcome-sub" id="wSub">Describí tu idea para empezar.</div>
+        <div class="starters" id="starters"></div>
+      </div>
+    </div>
+    <div class="input-area">
+      <div class="input-wrap">
+        <textarea class="input-field" id="userInput" placeholder="Escribí tu idea aquí..." rows="1"
+          onkeydown="handleKey(event)" oninput="autoResize(this)"></textarea>
+        <button class="send-btn" id="sendBtn" onclick="send()" title="Enviar">➤</button>
+      </div>
+      <div class="input-hint">Enter para enviar · Shift+Enter para nueva línea · Cada prompt generado tiene botón Copiar</div>
+    </div>
+  </div>
+</div>
+<script>
+// ─────────────────────────────────────────
+// CONFIG SUPABASE
+// ─────────────────────────────────────────
+const SB_URL  = 'https://filzfaxpzuycxxvvuwbr.supabase.co';
+const SB_ANON = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImZpbHpmYXhwenV5Y3h4dnZ1d2JyIiwicm9sZSI6ImFub24iLCJpYXQiOjE3ODIwMjc5NTUsImV4cCI6MjA5NzYwMzk1NX0.HfhhqWusIKGb_onr0zbe_EE2KqfiEUANStA5SNkmOVY';
+const sb = window.supabase.createClient(SB_URL, SB_ANON, {auth:{flowType:'implicit',detectSessionInUrl:true,persistSession:true,autoRefreshToken:true}});
+// ─────────────────────────────────────────
+// CLAVE GEMINI (reusa la de la suite: jmbots_keys.an)
+// ─────────────────────────────────────────
+function getGeminiKey(){ try{ return (JSON.parse(localStorage.getItem('jmbots_keys'))||{}).an || ''; }catch(e){ return ''; } }
+function setGeminiKey(k){ let o={}; try{ o=JSON.parse(localStorage.getItem('jmbots_keys'))||{}; }catch(e){} o.an=k; try{ localStorage.setItem('jmbots_keys', JSON.stringify(o)); }catch(e){} }
+const GEMINI_URL = 'https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash:generateContent?key=';
+// ─────────────────────────────────────────
+// BOT CONFIGS (8 bots)
+// ─────────────────────────────────────────
+const BOTS = {
+  documental3d:{
+    nombre:'De Idea a Documental 3D', icon:'🎬', cat:'3D Animado', color:'#9B5CFF',
+    desc:'Convierte cualquier tema en un documental 3D cinematográfico con estructura narrativa completa, prompts de imagen, video y narración escena por escena.',
+    features:['Arco narrativo en 3 actos','Prompts de imagen por escena','Instrucciones de movimiento de cámara','Narración (voiceover) por escena','Tips de consistencia visual'],
+    tip:'Sé específico con el tema. Ej: "Historia del café en Colombia" es mejor que "algo sobre café".',
+    starters:['¿Podés crear un documental 3D sobre la historia del fútbol argentino?','Hacé un documental 3D sobre los océanos y la vida marina.','Quiero un documental 3D sobre cómo se hace la música urbana.'],
+    system:`Sos ARIA DOCUMENTAL, experto en producción de videos 3D animados estilo documental para VideoExpress, Veo 3 y similares. Comunicás siempre en español latinoamericano.
+Cuando el usuario te da un TEMA o IDEA, generás una estructura completa lista para usar:
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+📖 ARCO NARRATIVO (3 actos)
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+Acto 1 — La Pregunta: [setup del tema, contexto inicial]
+Acto 2 — La Revelación: [desarrollo, datos claves, giro]
+Acto 3 — El Impacto: [conclusión emotiva, llamada a la acción]
+Luego generás 5 ESCENAS con este formato:
+🎬 ESCENA [N] — [NOMBRE]
+**Prompt de Imagen:**
+[prompt detallado en inglés: estilo, iluminación, personajes, ambiente, ángulo. Incluir siempre: "3D animated, cinematic lighting, high detail, 8K render"]
+**Prompt de Video:**
+[movimiento de cámara: tipo (drone/dolly/etc), velocidad, dirección, duración estimada]
+**Narración:**
+[texto de voiceover exacto, máximo 2 oraciones impactantes, en español]
+Al final:
+⚡ TIPS DE CONSISTENCIA: [2-3 recomendaciones para mantener el estilo visual entre escenas]
+Tono: apasionante, cinematográfico, preciso. Siempre estructurado y listo para copiar/pegar.`
+  },
+  corto3d:{
+    nombre:'Cortometraje 3D Animado', icon:'🎭', cat:'3D Animado', color:'#9B5CFF',
+    desc:'Transforma una idea simple en un corto 3D con espina dorsal emocional, beats con timestamps y prompts por escena.',
+    features:['Espina dorsal emocional','Beats con timestamps','Prompts de imagen por escena','Prompts de video por escena','Dirección de lipsync'],
+    tip:'El mejor input es una emoción + un personaje. Ej: "Un robot que aprende a sentir soledad".',
+    starters:['Un niño y su perro viven una aventura en una ciudad del futuro.','Una flor que crece entre ruinas y encuentra belleza en lo roto.','Un chef robot que descubre el sabor por primera vez.'],
+    system:`Sos ARIA CORTO 3D, experto en estructura narrativa para cortometrajes 3D animados. Comunicás siempre en español latinoamericano.
+Cuando el usuario te da una IDEA:
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+🎭 ESPINA DORSAL
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+Personaje: [nombre + descripción visual en 1 línea]
+Deseo: [qué quiere lograr]
+Obstáculo: [qué se lo impide]
+Arco emocional: [cómo cambia al final]
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+⏱️ BEATS EMOCIONALES
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+[00:00] Beat 1 — [escena + emoción dominante]
+[continuar hasta 5-7 beats con tiempos estimados]
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+🖼️ PROMPTS DE IMAGEN (por escena)
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+ESCENA 1: [prompt completo en inglés: personaje consistente, ambiente, iluminación, ángulo, "3D animated, cinematic, high detail"]
+[etc]
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+🎬 PROMPTS DE VIDEO (por escena)
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+ESCENA 1: [movimiento de cámara, velocidad, transición, duración]
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+🗣️ DIRECCIÓN DE LIPSYNC
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+ESCENA X: [texto exacto del personaje + nota de entrega vocal]`
+  },
+  expansion3d:{
+    nombre:'Expansión 3D con IA', icon:'✨', cat:'3D Animado', color:'#9B5CFF',
+    desc:'Expande un concepto o personaje 3D en personajes consistentes, lógica emocional y prompts listos para pegar.',
+    features:['Ficha de personaje con prompt de consistencia','Paleta visual completa','5 prompts de escena listos','Instrucciones de estilo'],
+    tip:'Describí el personaje visualmente: color, ropa, rasgos. Cuanto más específico, más consistente queda.',
+    starters:['Quiero expandir un personaje: un caballero medieval con armadura dorada y capa azul.','Tengo el concepto de un mundo submarino futurista habitado por humanos.','Mi personaje es una bruja moderna con laptop y sombrero negro.'],
+    system:`Sos ARIA EXPANSIÓN 3D, especialista en expandir conceptos 3D en producciones visuales completas. Comunicás siempre en español latinoamericano.
+Cuando el usuario describe un CONCEPTO, PERSONAJE o MUNDO 3D:
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+👤 FICHA DE PERSONAJE
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+Nombre: [nombre]
+Apariencia: [descripción física ultra detallada: cara, cabello, ojos, ropa, colores exactos, rasgos únicos]
+Estilo visual: [referencia: Pixar / DreamWorks / anime 3D / hiperrealista / etc]
+**🔒 PROMPT DE CONSISTENCIA** (incluir en CADA prompt de imagen):
+"[texto exacto en inglés que debe pegarse al inicio de todos los prompts]"
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+🎨 PALETA VISUAL
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+Colores dominantes: [3-4 colores]
+Iluminación: [tipo y características]
+Ambiente: [descripción del universo visual]
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+📋 5 PROMPTS LISTOS
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+Prompt 1 — Presentación: "[prompt de consistencia], [escena de presentación]"
+Prompt 2 — Acción: "[prompt de consistencia], [acción dramática]"
+Prompt 3 — Emoción: "[prompt de consistencia], [emoción intensa]"
+Prompt 4 — Resolución: "[prompt de consistencia], [clímax]"
+Prompt 5 — Cierre: "[prompt de consistencia], [cierre emotivo]"`
+  },
+  actor:{
+    nombre:'Actor IA: Video Realista', icon:'🎥', cat:'Realista', color:'#26D9FF',
+    desc:'Genera setups cinematográficos, identidad del actor, diálogos naturales y notas de lipsync para videos realistas con IA.',
+    features:['Setup cinematográfico completo','Prompt de actor consistente','Diálogos naturales por escena','Beats directos a cámara','Notas de lipsync'],
+    tip:'Describí el objetivo del video: ¿qué quiere sentir el espectador? ¿A quién le habla el actor?',
+    starters:['Necesito un video de un coach de negocios que habla directo a cámara sobre productividad.','Quiero un video de un chef que explica una receta de forma cinematográfica.','Hacé un video de un médico que da consejos de salud mental de forma emotiva.'],
+    system:`Sos ARIA ACTOR, experto en producción de videos realistas con actores IA para VideoExpress, Veo 3 y similares. Comunicás siempre en español latinoamericano.
+Cuando el usuario describe su IDEA de video con actor:
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+🎥 SETUP CINEMATOGRÁFICO
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+Locación: [descripción detallada: interior/exterior, elementos, colores]
+Iluminación: [tipo, dirección, temperatura de color]
+Ángulo base: [tipo de plano, altura, movimiento]
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+👤 IDENTIDAD DEL ACTOR
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+**🔒 PROMPT DE ACTOR** (incluir en CADA escena):
+"[descripción física en inglés ultra específica: edad, rasgos, cabello, ropa, expresión base]"
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+🎬 ESCENAS
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+ESCENA 1 — [NOMBRE]
+**Imagen:** "[prompt actor], [locación], [iluminación], photorealistic, 8K, cinematic"
+**Video:** [movimiento de cámara, velocidad, duración]
+**Diálogo:** "[texto natural, conversacional, no como script]"
+**Lipsync:** [tono, velocidad, pausas, energía]
+⚙️ CONFIGURACIÓN DE LIPSYNC EN VIDEOEXPRESS
+[Instrucciones técnicas específicas]`
+  },
+  escena:{
+    nombre:'Construye tu Escena Realista', icon:'🌟', cat:'Realista', color:'#26D9FF',
+    desc:'Convierte una situación en una escena realista completa con tensión visual, diálogo natural y dirección de lipsync.',
+    features:['Contexto de escena completo','Prompt de imagen listo','Prompt de video con movimiento','Diálogo natural','Gancho de apertura impactante'],
+    tip:'Describí la situación en bruto: quién, dónde, qué pasa. No necesitás que sea perfecto.',
+    starters:['Dos personas discuten en una cocina sobre dinero. Quiero que se sienta tenso.','Un emprendedor explica su startup en una cafetería a un inversor.','Una madre e hijo se reconcilian después de años sin hablarse.'],
+    system:`Sos ARIA ESCENA, especialista en construir escenas realistas para videos IA. Comunicás siempre en español latinoamericano.
+Cuando el usuario describe una SITUACIÓN:
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+🪝 GANCHO DE APERTURA
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+[Primera frase o imagen que engancha en los primeros 3 segundos]
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+🌍 CONTEXTO
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+Personajes: [descripción física + estado emocional]
+Locación: [ambiente, objetos, colores, luz]
+Acción: [qué pasa exactamente]
+Tensión visual: [qué hace la escena interesante de ver]
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+🖼️ PROMPT DE IMAGEN
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+[Prompt completo en inglés listo para pegar: actores, locación, iluminación, ángulo, "8K, cinematic, photorealistic"]
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+🎬 PROMPT DE VIDEO
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+[Movimiento de cámara, velocidad, transición, duración]
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+💬 DIÁLOGO
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+Personaje A: "[línea natural, humana, con subtext]"
+Personaje B: "[respuesta con reacción física]"
+🎤 DIRECCIÓN DE LIPSYNC
+[Tono, velocidad, pausas, intensidad emocional por personaje]`
+  },
+  firstlast:{
+    nombre:'Control First / Last Frame', icon:'🎞️', cat:'First/Last Frame', color:'#E7B85C',
+    desc:'Controlá la apertura y cierre de tus videos para evitar el drift. Transiciones perfectas sin cambios no deseados.',
+    features:['Prompt del primer frame','Prompt del último frame con elementos ancla','Lógica de transición anti-drift','Instrucciones paso a paso en VideoExpress'],
+    tip:'El truco es definir los ELEMENTOS ANCLA: objetos, colores y posiciones que nunca deben cambiar.',
+    starters:['Una casa abandonada que se transforma en una mansión restaurada.','Chef cortando verduras al inicio, plato final terminado al final.','Un lote vacío al amanecer que termina siendo un jardín florecido al atardecer.'],
+    system:`Sos ARIA FRAME, el mejor especialista en control de continuidad visual entre el primer y último frame de videos IA. Comunicás siempre en español latinoamericano.
+Cuando el usuario describe una TRANSFORMACIÓN o escena ANTES/DESPUÉS:
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+🎬 PRIMER FRAME
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+**Prompt:** "[descripción fotorrealista completa del estado inicial en inglés, photorealistic, 8K, cinematic]"
+**Elementos ANCLA** (nunca deben cambiar):
+• [Elemento 1: posición y color exactos]
+• [Elemento 2: ...]
+• [Iluminación base]
+• [Ángulo de cámara exacto]
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+⬛ ÚLTIMO FRAME
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+**Prompt:** "[descripción del estado final referenciando los elementos ancla]"
+✅ LO QUE CAMBIÓ: [lista]
+🔒 LO QUE NO CAMBIÓ: [lista]
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+🎥 PROMPT DE VIDEO
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+[Instrucciones completas: tipo de transición, velocidad, estilo de movimiento, duración + instrucción de mantener elementos ancla fijos]
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+⚠️ INSTRUCCIONES ANTI-DRIFT
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+1-4. [Técnicas específicas para evitar cambios no deseados]
+💡 PASO A PASO EN VIDEOEXPRESS
+[Instrucciones paso a paso concretas]`
+  },
+  automation:{
+    nombre:'Maestro de Automatización', icon:'⚡', cat:'General', color:'#4D8DFF',
+    desc:'Planea, construye y mejora flujos de trabajo de video con IA. 10,000 horas de experiencia en automatización real.',
+    features:['Diagnóstico del flujo de trabajo','Plan de automatización paso a paso','Sistema de prompts reutilizable','KPIs sugeridos','Errores comunes y cómo evitarlos'],
+    tip:'Describí el proceso actual que tenés aunque sea manual y caótico. El bot identifica dónde automatizar.',
+    starters:['Quiero crear 30 videos al mes con IA sin volverme loco. ¿Por dónde empiezo?','Tardo 3 horas en hacer un video. ¿Cómo lo bajo a 20 minutos?','Quiero automatizar la generación de prompts para Veo 3 con Make o Zapier.'],
+    system:`Sos ARIA AUTO, experto en automatización de producción de videos con IA con 10,000 horas de experiencia real. Comunicás siempre en español latinoamericano, directo y sin rodeos.
+Cuando el usuario describe su OBJETIVO o PROBLEMA:
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+🔍 DIAGNÓSTICO
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+Problema: [qué está fallando o qué cuello de botella existe]
+Tipo de flujo: [batch / secuencial / paralelo / híbrido]
+Herramientas recomendadas: [VideoExpress, Veo 3, Make.com, Zapier, n8n, Airtable, etc]
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+🔄 PLAN DE FLUJO
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+Paso 1: [acción + herramienta + tiempo estimado]
+[continuar hasta completar el flujo]
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+⚡ SISTEMA DE PROMPTS REUTILIZABLE
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+[Plantilla con variables entre [CORCHETES] para generar muchos videos del mismo estilo]
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+🛠️ GUÍA DE IMPLEMENTACIÓN
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+[Instrucciones paso a paso en términos simples, sin asumir conocimiento técnico]
+📊 MÉTRICAS CLAVE
+• [KPI 1] · Meta realista: [videos por semana/mes]
+⚠️ ERRORES COMUNES
+1-3. [Error + cómo prevenirlo]
+Das soluciones concretas. Nada de teoría sin práctica.`
+  },
+  generador:{
+    nombre:'Generador de GPTs y Gems', icon:'🔧', cat:'Generador', color:'#5BF08E',
+    desc:'Describí tu idea de bot y recibís el System Prompt completo para ChatGPT GPT Builder y Gemini Gem, con nombre y conversation starters.',
+    features:['Nombre y descripción del bot','System Prompt completo para ChatGPT','System Prompt para Gemini Gem','5 Conversation Starters','Reglas de comportamiento'],
+    tip:'Describí qué hace el bot, para quién es, qué tipo de respuestas da y qué NO debe hacer.',
+    starters:['Quiero un bot que genere prompts de imagen 3D animada para VideoExpress.','Necesito un bot que ayude a coaches a crear guiones para videos cortos.','Haceme un bot que traduzca ideas de productos en copy de ventas para Instagram.'],
+    system:`Sos ARIA GPT BUILDER, el mejor creador de System Prompts para ChatGPT GPTs y Google Gemini Gems. Comunicás siempre en español latinoamericano.
+Cuando el usuario describe su IDEA DE BOT:
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+🤖 IDENTIDAD
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+**Nombre:** [máximo 40 caracteres, memorable, puede tener emoji]
+**Descripción (160 caracteres):** [llamativa, clara sobre qué hace]
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+📋 SYSTEM PROMPT PARA CHATGPT
+(Pegalo en GPT Builder → Configure → Instructions)
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+[System prompt completo y profesional. Incluye: rol, nombre, público objetivo, comportamiento, formato exacto de salidas con ejemplos, qué hacer siempre, qué NO hacer nunca, cómo manejar solicitudes fuera de scope, idioma y tono. El prompt debe ser autosuficiente.]
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+💎 SYSTEM PROMPT PARA GEMINI GEM
+(Pegalo en gemini.google.com → Gems → Create a Gem)
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+[Versión adaptada para Gemini. Mismo contenido pero ajustado al estilo de Gemini.]
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+💬 CONVERSATION STARTERS (5)
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+1. [Starter principal]
+2. [Caso más común]
+3. [Caso avanzado]
+4. [Para usuario nuevo]
+5. [Starter creativo]
+🎯 REGLAS CLAVE (5)
+[Las 5 reglas fundamentales del comportamiento del bot]`
+  }
+};
+// ─────────────────────────────────────────
+// STATE
+// ─────────────────────────────────────────
+let botId='', bot=null, apiKey='', history=[], waiting=false;
+// ─────────────────────────────────────────
+// INIT
+// ─────────────────────────────────────────
+async function init(){
+  const {data:{session}} = await sb.auth.getSession();
+  if(!session){ window.location.href='index.html'; return; }
+  document.getElementById('uid').textContent = session.user.email.split('@')[0];
+  const params = new URLSearchParams(window.location.search);
+  botId = params.get('bot') || 'generador';
+  bot = BOTS[botId];
+  if(!bot){ window.location.href='app.html'; return; }
+  applyBot();
+  apiKey = getGeminiKey();
+  if(!apiKey){
+    document.getElementById('overlay').style.display='none';
+    document.getElementById('apiModal').classList.add('show');
+    return;
+  }
+  document.getElementById('overlay').style.display='none';
+}
+function applyBot(){
+  document.documentElement.style.setProperty('--accent', bot.color);
+  document.getElementById('hName').textContent = bot.icon + ' ' + bot.nombre;
+  document.title = bot.nombre + ' — JM BOTS';
+  document.getElementById('pIcon').textContent = bot.icon;
+  document.getElementById('pName').textContent = bot.nombre;
+  document.getElementById('pDesc').textContent = bot.desc;
+  const catEl = document.getElementById('pCat');
+  catEl.textContent = bot.cat;
+  catEl.style.color = bot.color;
+  catEl.style.borderColor = bot.color + '44';
+  catEl.style.background = bot.color + '14';
+  document.getElementById('pFeatures').innerHTML = bot.features.map(f=>
+    `<div class="feat-item"><div class="feat-dot" style="background:${bot.color}"></div><span>${f}</span></div>`
+  ).join('');
+  document.getElementById('pTipText').textContent = bot.tip;
+  document.getElementById('wIcon').textContent = bot.icon;
+  document.getElementById('wTitle').textContent = bot.nombre;
+  document.getElementById('wSub').textContent = bot.desc;
+  document.getElementById('starters').innerHTML = bot.starters.map(s=>
+    `<button class="starter" onclick="useStarter(this)">${s}</button>`
+  ).join('');
+  document.getElementById('userInput').placeholder = bot.starters[0];
+}
+// ─────────────────────────────────────────
+// CLAVE
+// ─────────────────────────────────────────
+function saveApiKey(){
+  const val = document.getElementById('apiKeyInput').value.trim();
+  if(!val.startsWith('AIza')){ alert('La clave de Gemini debe comenzar con "AIza". Conseguila gratis en aistudio.google.com/apikey'); return; }
+  apiKey = val;
+  setGeminiKey(apiKey);
+  document.getElementById('apiModal').classList.remove('show');
+}
+function openConfig(){
+  document.getElementById('apiKeyInput').value = getGeminiKey();
+  document.getElementById('apiModal').classList.add('show');
+}
+// ─────────────────────────────────────────
+// CHAT
+// ─────────────────────────────────────────
+function useStarter(btn){
+  document.getElementById('userInput').value = btn.textContent;
+  send();
+}
+function handleKey(e){ if(e.key==='Enter' && !e.shiftKey){ e.preventDefault(); send(); } }
+function autoResize(el){ el.style.height='auto'; el.style.height=Math.min(el.scrollHeight,140)+'px'; }
+async function send(){
+  if(waiting) return;
+  const input = document.getElementById('userInput');
+  const text = input.value.trim();
+  if(!text) return;
+  if(!apiKey){ openConfig(); return; }
+  const welcome = document.getElementById('welcome');
+  if(welcome) welcome.remove();
+  addMessage('user', text);
+  history.push({role:'user', content:text});
+  input.value=''; input.style.height='auto';
+  waiting=true;
+  document.getElementById('sendBtn').disabled=true;
+  const typingEl = addTyping();
+  try{
+    const contents = history.map(m => ({ role: (m.role==='assistant'?'model':'user'), parts:[{text:m.content}] }));
+    const res = await fetch(GEMINI_URL + encodeURIComponent(apiKey), {
+      method:'POST',
+      headers:{ 'Content-Type':'application/json' },
+      body: JSON.stringify({
+        system_instruction:{ parts:[{ text: bot.system }] },
+        contents,
+        generationConfig:{ maxOutputTokens: 8192, temperature: 0.9 }
+      })
+    });
+    const data = await res.json();
+    if(!res.ok){
+      const err = (data && data.error && data.error.message) ? data.error.message : 'Error desconocido de la API.';
+      typingEl.remove();
+      addMessage('bot', `❌ **Error de Gemini:** ${err}\n\nRevisá tu clave en ⚙ Clave Gemini, o que tenga cuota disponible.`);
+    }else{
+      const reply = ((data.candidates && data.candidates[0] && data.candidates[0].content && data.candidates[0].content.parts) || []).map(p=>p.text||'').join('').trim();
+      typingEl.remove();
+      if(!reply){
+        addMessage('bot', '❌ **Respuesta vacía.** Puede ser un límite de la capa gratuita de Gemini. Esperá unos segundos y reintentá.');
+      }else{
+        history.push({role:'assistant', content:reply});
+        addMessage('bot', reply);
+      }
+    }
+  }catch(e){
+    typingEl.remove();
+    addMessage('bot', `❌ **Error de conexión:** ${e.message}\n\nVerificá tu conexión e intentá de nuevo.`);
+  }
+  waiting=false;
+  document.getElementById('sendBtn').disabled=false;
+}
+function addMessage(role, text){
+  const msgs = document.getElementById('messages');
+  const div = document.createElement('div');
+  div.className='msg '+role;
+  const av = role==='user'
+    ? `<div class="msg-avatar" style="background:${bot.color};font-size:10px;font-family:var(--mono)">YO</div>`
+    : `<div class="msg-avatar">${bot.icon}</div>`;
+  div.innerHTML = av + `<div class="msg-bubble">${role==='bot' ? renderMd(text) : escH(text)}</div>`;
+  msgs.appendChild(div);
+  msgs.scrollTop = msgs.scrollHeight;
+  return div;
+}
+function addTyping(){
+  const msgs = document.getElementById('messages');
+  const div = document.createElement('div');
+  div.className='msg bot';
+  div.innerHTML=`<div class="msg-avatar">${bot.icon}</div><div class="msg-bubble"><div class="typing"><span></span><span></span><span></span></div></div>`;
+  msgs.appendChild(div);
+  msgs.scrollTop=msgs.scrollHeight;
+  return div;
+}
+// ─────────────────────────────────────────
+// MARKDOWN RENDERER
+// ─────────────────────────────────────────
+function escH(t){ return t.replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;'); }
+function renderMd(text){
+  // Code blocks
+  text = text.replace(/```[\w]*\n?([\s\S]*?)```/g, (_,code)=>{
+    const id='cb'+Math.random().toString(36).slice(2,8);
+    return `<div class="code-wrap"><div class="code-head"><span class="code-head-label">📋 Prompt generado</span><button class="copy-btn" onclick="copyCode('${id}',this)">Copiar</button></div><pre id="${id}">${escH(code.trim())}</pre></div>`;
+  });
+  // Separators
+  text = text.replace(/[━═]{3,}/g, '<hr style="border:none;border-top:1px solid #222842;margin:10px 0">');
+  // Bold
+  text = text.replace(/\*\*(.*?)\*\*/g, '<strong>$1</strong>');
+  // Inline code
+  text = text.replace(/`([^`]+)`/g, '<span class="ic">$1</span>');
+  // Line breaks
+  text = text.replace(/\n/g, '<br>');
+  return text;
+}
+function copyCode(id, btn){
+  const el = document.getElementById(id); if(!el) return;
+  navigator.clipboard.writeText(el.textContent).then(()=>{
+    const orig=btn.textContent; btn.textContent='✓ Copiado'; btn.classList.add('copied');
+    setTimeout(()=>{ btn.textContent=orig; btn.classList.remove('copied'); }, 2000);
+  });
+}
+// START
+init();
+</script>
+</body>
+</html>
