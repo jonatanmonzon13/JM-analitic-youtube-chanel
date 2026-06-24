@@ -1281,6 +1281,12 @@
       "nombre": "Audio → SRT",
       "archivo": "audiosrt.html",
       "img": "img/audiosrt.jpg"
+    },
+    {
+      "id": "workflows",
+      "nombre": "Workflows IA",
+      "archivo": "workflows.html",
+      "img": "img/workflows.jpg"
     }
   ],
   "accesos": {
