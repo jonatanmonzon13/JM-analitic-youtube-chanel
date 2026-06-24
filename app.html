@@ -204,7 +204,6 @@
   .gfeats span{font-family:var(--mono);font-size:10.5px;color:var(--muted);border:1px solid var(--line);border-radius:20px;padding:5px 11px;background:var(--bg3)}
   #gbtn{display:flex;justify-content:center;min-height:44px}
   .gmsg{color:var(--gold);font-family:var(--mono);font-size:12.5px;margin:18px 0 0!important;min-height:18px}
-  /* ░░ Mosaico cinematográfico del login ░░ */
   @property --gang{syntax:"<angle>";initial-value:0deg;inherits:false}
   #gatebg{position:absolute;inset:-14%;z-index:0;display:flex;flex-direction:column;justify-content:center;gap:18px;transform:rotate(-4deg) scale(1.32);opacity:.62;filter:saturate(1.15);pointer-events:none}
   #gatebg .grow{display:flex;gap:18px;width:max-content;flex:0 0 auto;will-change:transform}
@@ -235,7 +234,7 @@
   .gfeats span:hover{border-color:rgba(231,184,92,.45);color:var(--ink)}
   @media (prefers-reduced-motion:reduce){#gatebg .grow,.gatebox::before,.gbrand .ol,.gatebox{animation:none}}
   #logout{display:none}
-  /* ═══ Pestañas y vistas ═══ */
+  /* Pestanas y vistas */
   .tabs{display:flex;gap:8px;flex-wrap:wrap;margin:24px 0 4px}
   .tab{font-family:var(--display);font-weight:600;font-size:14px;color:var(--muted);
        background:var(--bg2);border:1px solid var(--line);border-radius:11px;padding:10px 16px;cursor:pointer;
@@ -249,7 +248,7 @@
   .vsub code{font-family:var(--mono);color:var(--gold);background:var(--bg3);padding:2px 6px;border-radius:5px}
   .vsub b{color:var(--gold)}
 
-  /* ═══ Tarjetas de historial / guiones ═══ */
+  /* Tarjetas de historial / guiones */
   .hcard{background:var(--bg2);border:1px solid var(--line);border-radius:14px;padding:16px;margin-bottom:12px;
          display:grid;grid-template-columns:120px 1fr auto;gap:6px 16px;align-items:center;
          box-shadow:0 8px 22px rgba(0,0,0,.22)}
@@ -264,14 +263,14 @@
   .hdetail .analysis,.hdetail .seobox,.hdetail .masterbox{grid-column:auto}
   .empty2{text-align:center;color:var(--muted);padding:46px 16px;font-family:var(--mono);font-size:13px;line-height:1.7}
 
-  /* ═══ Caja SEO ═══ */
+  /* Caja SEO */
   .seobox{grid-column:1/4;margin-top:14px;background:var(--bg);border:1px solid var(--line);
           border-left:3px solid #3ddc84;border-radius:12px;padding:18px;white-space:pre-wrap;
           font-size:14px;line-height:1.62;color:var(--body)}
   .seobox .seoh{font-family:var(--display);font-weight:700;font-size:13px;color:#3ddc84;
                 margin-bottom:10px;letter-spacing:.02em}
 
-  /* ═══ Panel de admin ═══ */
+  /* Panel de admin */
   .adminbox{max-width:660px}
   .addrow{display:flex;gap:10px;margin-bottom:18px;flex-wrap:wrap}
   .addrow input{flex:1 1 240px;border:1px solid var(--line);border-radius:10px;padding:12px 14px;
@@ -301,7 +300,7 @@
     .hdetail{grid-column:1}
   }
 
-  /* ═══ Chips de nichos sugeridos ═══ */
+  /* Chips de nichos sugeridos */
   .chips{display:flex;flex-wrap:wrap;gap:8px;margin-top:14px}
   .chip{font-family:var(--mono);font-size:12px;color:var(--body);cursor:pointer;
         border:1px solid var(--line);background:var(--bg2);border-radius:999px;padding:7px 14px;
@@ -310,7 +309,7 @@
   .chip.ref{color:var(--blue2);border-color:rgba(77,141,255,.4)}
   .chip.ref:hover{border-color:var(--blue);background:var(--blue-soft);color:var(--blue2)}
 
-  /* ═══ Feed de outliers recientes ═══ */
+  /* Feed de outliers recientes */
   .feed{margin:6px 0 4px}
   .feedhead{display:flex;justify-content:space-between;align-items:center;gap:12px;margin-bottom:14px;flex-wrap:wrap}
   .feedhead h3{font-family:var(--display);font-weight:700;font-size:15px;color:var(--gold);margin:0;letter-spacing:.01em}
@@ -337,7 +336,7 @@
           background-size:200% 100%;animation:shine 1.2s infinite}
   @keyframes shine{from{background-position:200% 0}to{background-position:-200% 0}}
 
-  /* ═══ Puntuaciones del análisis ═══ */
+  /* Puntuaciones del analisis */
   .scores{grid-column:1/4;margin-top:16px;display:flex;flex-wrap:wrap;gap:10px}
   .score{flex:1 1 110px;background:var(--bg);border:1px solid var(--line);border-radius:12px;padding:13px 12px;text-align:center}
   .score .sv{font-family:var(--mono);font-weight:700;font-size:25px;line-height:1;
@@ -349,14 +348,14 @@
   .hdetail .scores{grid-column:auto}
   @media (max-width:560px){ .scores{grid-column:1/3} .score{flex:1 1 30%} }
 
-  /* ═══ Botón descargar .MD ═══ */
+  /* Boton descargar .MD */
   .mdbtn{grid-column:1/4;justify-self:start;margin-top:12px;
          font-family:var(--mono);font-size:12px;font-weight:700;color:#3ddc84;cursor:pointer;
          border:1px solid rgba(61,220,132,.4);background:transparent;border-radius:8px;padding:8px 16px}
   .mdbtn:hover{border-color:#3ddc84;background:rgba(61,220,132,.12);transform:none}
   .hdetail .mdbtn{grid-column:auto}
 
-  /* ═══════════ REDISEÑO NEÓN (igual que la landing) ═══════════ */
+  /* REDISENO NEON */
   body{background:var(--bg)}
   body::after{content:"";position:fixed;inset:0;z-index:2;pointer-events:none;opacity:.025;
     background-image:repeating-linear-gradient(0deg,#fff 0,#fff 1px,transparent 1px,transparent 3px)}
@@ -373,78 +372,53 @@
   @keyframes drift3{0%,100%{transform:translate(0,0) scale(1)}50%{transform:translate(5vw,-8vw) scale(1.2)}}
   header.wrap{position:relative;z-index:40}
   .wrap{position:relative;z-index:1}
-
-  /* eyebrow + título hero con espectro */
   .eyebrow{background:var(--grad-hot);-webkit-background-clip:text;background-clip:text;-webkit-text-fill-color:transparent;font-weight:700}
   .hero h1{font-weight:800;text-shadow:0 0 60px rgba(155,92,255,.22)}
   .hero h1 em{background:var(--grad-hot);background-size:200% auto;-webkit-background-clip:text;background-clip:text;
               -webkit-text-fill-color:transparent;animation:huehot 6s linear infinite;filter:drop-shadow(0 0 22px rgba(255,61,154,.4))}
   @keyframes huehot{to{background-position:200% center}}
-
-  /* botón dorado con brillo que barre */
   .btn-gold{position:relative;overflow:hidden;box-shadow:0 8px 24px rgba(231,184,92,.3)}
   .btn-gold::after{content:"";position:absolute;top:0;left:-120%;width:60%;height:100%;
     background:linear-gradient(100deg,transparent,rgba(255,255,255,.55),transparent);transform:skewX(-18deg);transition:left .55s ease}
   .btn-gold:hover::after{left:140%}
-
-  /* gear pills con hover neón */
   .gear:hover{border-color:transparent;color:#fff;
     background-image:linear-gradient(var(--bg2),var(--bg2)),var(--grad-hot);
     background-origin:border-box;background-clip:padding-box,border-box;box-shadow:var(--glow-pink)}
-
-  /* tabs con estado neón */
   .tab.on{color:#fff;border-color:transparent;
     background-image:linear-gradient(var(--bg2),var(--bg2)),var(--grad-hot);
     background-origin:border-box;background-clip:padding-box,border-box;box-shadow:0 0 22px rgba(155,92,255,.3)}
   .tab:hover{border-color:rgba(255,61,154,.4)}
-
-  /* searchbar foco neón */
   .searchbar:focus-within{border-color:rgba(155,92,255,.45);box-shadow:0 16px 40px rgba(0,0,0,.4),var(--glow-violet)}
   .searchbar select:focus{border-color:var(--cyan);outline:none}
   .field input:focus{border-color:var(--violet);box-shadow:0 0 0 3px rgba(155,92,255,.25)}
   .addrow input:focus{border-color:var(--violet);box-shadow:0 0 0 3px rgba(155,92,255,.25)}
-
-  /* tarjetas de resultado con glow */
   .card:hover{border-color:rgba(255,61,154,.4);transform:translateY(-3px);box-shadow:0 22px 50px rgba(0,0,0,.5),var(--glow-pink)}
   .rank{background:var(--grad-hot);-webkit-background-clip:text;background-clip:text;-webkit-text-fill-color:transparent}
   .hcard:hover,.fcard:hover{border-color:rgba(38,217,255,.4);box-shadow:var(--glow-cyan)}
   .hcard{transition:border-color .2s,box-shadow .2s}
-
-  /* VSR con gradiente y glow más vivo */
   .vsr.high{background:var(--grad-gold);-webkit-background-clip:text;background-clip:text;-webkit-text-fill-color:transparent;
             filter:drop-shadow(0 0 16px rgba(231,184,92,.5))}
-
-  /* barras de datos */
   .fill.reach{background:var(--grad-hot);box-shadow:0 0 16px rgba(155,92,255,.55)}
-
-  /* chips */
   .chip:hover{border-color:transparent;color:#fff;
     background-image:linear-gradient(var(--bg2),var(--bg2)),var(--grad-hot);
     background-origin:border-box;background-clip:padding-box,border-box}
-
-  /* feed badges + scores en espectro */
   .fbadge{background:var(--grad-gold);box-shadow:0 4px 14px rgba(231,184,92,.45)}
   .score .sv{background:var(--grad-hot);-webkit-background-clip:text;background-clip:text;-webkit-text-fill-color:transparent;
              filter:drop-shadow(0 0 12px rgba(155,92,255,.35))}
   .score.rep .sv{background:var(--grad-gold);-webkit-background-clip:text;background-clip:text;-webkit-text-fill-color:transparent}
-
-  /* gate con borde gradiente y glow */
   .gate{background:var(--bg)}
   .gatebox{border:1px solid transparent;
     background-image:linear-gradient(var(--bg2),var(--bg2)),var(--grad-hot);
     background-origin:border-box;background-clip:padding-box,border-box;
     box-shadow:0 30px 80px rgba(0,0,0,.6),var(--glow-violet)}
   .gatebox h2{background:var(--grad-hot);-webkit-background-clip:text;background-clip:text;-webkit-text-fill-color:transparent}
-
-  /* acentos de cajas */
   .analysis{border-left-color:var(--pink)}
   .masterbox{border-left-color:var(--violet)}
   .masterbox .mhead{background:linear-gradient(90deg,rgba(155,92,255,.16),transparent)}
   .masterbox .mhead h4{color:#c9a6ff}
   .seobox{border-left-color:var(--lime)} .seobox .seoh{color:var(--lime)}
-
   @media (prefers-reduced-motion:reduce){.glowfield::before,.glowfield::after,.glowfield i{animation:none!important}}
-  /* ═══════════ MODO BESTIA + RESULTADOS EN CUADRÍCULA ═══════════ */
+  /* MODO BESTIA + RESULTADOS EN CUADRICULA */
   .beast{font-family:var(--display);font-weight:700;font-size:14px;cursor:pointer;border-radius:11px;
          padding:13px 18px;color:var(--body);background:var(--bg3);border:1px solid var(--line);
          transition:color .18s,border-color .18s,box-shadow .2s}
@@ -462,7 +436,6 @@
   @media(max-width:980px){#results{grid-template-columns:repeat(3,1fr)}}
   @media(max-width:620px){#results{grid-template-columns:repeat(2,1fr);width:94vw}}
 
-  /* al reproducir: se ocultan las demás y se agranda la seleccionada */
   #results.solo > .card:not(.playing-card){display:none}
   .card.playing-card{grid-column:1/-1}
   .card.playing-card .top{flex-direction:row;gap:22px;align-items:flex-start;padding:8px}
@@ -500,7 +473,6 @@
   .card .actions{display:flex;flex-direction:column;gap:7px;margin-top:auto}
   .card .actions button{width:100%;padding:9px 8px;font-size:12.5px;text-align:center}
 
-  /* tarjeta expandida: análisis a lo ancho de toda la fila */
   .card.expanded{grid-column:1/-1}
   .card.expanded .top{flex-direction:row;gap:20px;align-items:flex-start;padding:8px}
   .card.expanded .media{width:360px;max-width:42%;border-radius:12px;overflow:hidden}
@@ -515,7 +487,7 @@
     .card.expanded .cbody{padding:12px 13px 14px}
     .card.expanded .actions{flex-direction:column;max-width:none}
   }
-  /* ═══════════ MENÚ "MIS APPS" + ADMIN POR USUARIO ═══════════ */
+  /* MENU MIS APPS */
   .appsmenu{position:absolute;top:42px;right:0;min-width:220px;background:var(--bg2);
     border:1px solid var(--line);border-radius:13px;padding:7px;display:none;z-index:60;
     box-shadow:0 18px 50px rgba(0,0,0,.6)}
@@ -527,7 +499,6 @@
   .appsmenu a.here{color:var(--gold)}
   .appsmenu a .dot{font-size:11px;color:var(--lime)}
   #appsBtn{cursor:pointer}
-  /* ── Panel flotante "Mis apps" (igual que las sub-apps) ── */
   #jmov{position:fixed;inset:0;z-index:100000;display:none;align-items:stretch;justify-content:stretch;background:rgba(3,4,8,.95);padding:0}
   #jmov.open{display:flex}
   #jmpanel{width:100%;max-width:100%;height:100%;max-height:100%;display:flex;flex-direction:column;background:linear-gradient(180deg,#0d1018,#080a11);border:0;border-radius:0;box-shadow:none;overflow:hidden;animation:jmpop .22s ease}
@@ -603,7 +574,6 @@
   .uchecks{display:flex;flex-wrap:wrap;gap:9px 18px}
   .achk{display:inline-flex;align-items:center;gap:6px;font-size:13px;color:var(--body);cursor:pointer}
   .achk input{accent-color:var(--gold);width:15px;height:15px}
-  /* ░░ Renombrador de miniaturas (solo admin) ░░ */
   .minidrop{border:2px dashed var(--line);border-radius:14px;padding:28px 18px;text-align:center;background:var(--bg2);cursor:pointer;transition:.15s;margin-top:6px}
   .minidrop:hover,.minidrop.over{border-color:var(--gold);background:var(--bg3)}
   .minidrop b{color:var(--ink)} .minidrop small{display:block;color:var(--muted);font-family:var(--mono);font-size:11px;margin-top:7px}
@@ -627,7 +597,6 @@
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 <script src="https://accounts.google.com/gsi/client" async></script>
 
-<!-- Pantalla de acceso: cubre todo hasta que entres con un Google autorizado -->
 <div class="gate" id="gate">
   <div id="gatebg" aria-hidden="true"></div>
   <div class="gateveil" aria-hidden="true"></div>
@@ -683,6 +652,7 @@
     <button class="tab on" data-view="buscar" onclick="mostrarVista('buscar')">🔎 Buscar</button>
     <button class="tab" data-view="historial" onclick="mostrarVista('historial')">🕘 Historial</button>
     <button class="tab" data-view="guiones" onclick="mostrarVista('guiones')">📝 Mis guiones</button>
+    <button class="tab" data-view="workflows" onclick="mostrarVista('workflows')">🔧 Workflows</button>
     <button class="tab" id="tab-admin" data-view="admin" onclick="mostrarVista('admin')" style="display:none">🛡 Admin</button>
   </nav>
 
@@ -800,6 +770,27 @@
     <div id="guionList"></div>
   </div>
 
+  <!-- ═══════════ WORKFLOWS VIEW (NUEVO) ═══════════ -->
+  <div id="view-workflows" class="view" hidden>
+    <div class="eyebrow" style="display:inline-block;margin:30px 0 14px">⚡ Exclusivo JM BOTS</div>
+    <h2 style="font-family:var(--display);font-weight:800;font-size:clamp(26px,4vw,38px);line-height:1.1;color:var(--ink);margin:0 0 10px">Biblioteca de <em style="font-style:normal;background:var(--grad-hot);-webkit-background-clip:text;background-clip:text;-webkit-text-fill-color:transparent">Workflows IA</em></h2>
+    <p style="color:var(--muted);font-size:14px;max-width:54ch;margin:0 0 26px;line-height:1.7">Transformá ideas en prompts profesionales con IA real adentro. Sin salir de JM BOTS. Sin ChatGPT. Sin Gemini.</p>
+    <div style="display:flex;gap:32px;flex-wrap:wrap;margin-bottom:26px">
+      <div><div style="font-family:var(--display);font-weight:700;font-size:1.9rem;background:var(--grad-hot);-webkit-background-clip:text;background-clip:text;-webkit-text-fill-color:transparent">8</div><div style="font-family:var(--mono);font-size:9.5px;color:var(--muted);text-transform:uppercase;letter-spacing:.1em">Workflows</div></div>
+      <div><div style="font-family:var(--display);font-weight:700;font-size:1.9rem;background:var(--grad-hot);-webkit-background-clip:text;background-clip:text;-webkit-text-fill-color:transparent">4</div><div style="font-family:var(--mono);font-size:9.5px;color:var(--muted);text-transform:uppercase;letter-spacing:.1em">Categorías</div></div>
+      <div><div style="font-family:var(--display);font-weight:700;font-size:1.9rem;background:var(--grad-hot);-webkit-background-clip:text;background-clip:text;-webkit-text-fill-color:transparent">IA</div><div style="font-family:var(--mono);font-size:9.5px;color:var(--muted);text-transform:uppercase;letter-spacing:.1em">Integrada</div></div>
+    </div>
+    <div style="display:flex;gap:8px;flex-wrap:wrap;margin-bottom:24px">
+      <button class="ghost wftab on" onclick="wfFilter('todo',this)">Todo</button>
+      <button class="ghost wftab" onclick="wfFilter('3D Animado',this)">🎬 3D Animado</button>
+      <button class="ghost wftab" onclick="wfFilter('Realista',this)">🎥 Realista</button>
+      <button class="ghost wftab" onclick="wfFilter('First/Last Frame',this)">🎞️ First/Last Frame</button>
+      <button class="ghost wftab" onclick="wfFilter('Generador',this)">🔧 Generador</button>
+      <button class="ghost wftab" onclick="wfFilter('General',this)">⚡ General</button>
+    </div>
+    <div id="wfGrid" style="display:grid;grid-template-columns:repeat(auto-fill,minmax(272px,1fr));gap:14px;padding-bottom:50px"></div>
+  </div>
+
   <div id="view-admin" class="view" hidden>
     <h2 class="vtitle">Panel de administrador</h2>
     <p class="vsub">Gestioná usuarios, las apps del repo y qué apps ve cada usuario. Al terminar tocá <b>copiar archivo</b> y pegá el contenido en <code>autorizados.json</code> de tu repo; luego hacé commit.</p>
@@ -839,44 +830,33 @@
 <script>
 /* ════════════════════════════════════════════════════════════════
    ⚙ CONFIGURACIÓN DE ACCESO
-   - Pega aquí tu Client ID de Google.
-   - La lista de correos permitidos NO va aquí: se edita en el
-     archivo "autorizados.json" del repositorio.
    ════════════════════════════════════════════════════════════════ */
 const GOOGLE_CLIENT_ID = '894770388392-6ooskd5t6oit8r1hcr86gn6j60s6m982.apps.googleusercontent.com';
-/* ── Supabase (lista privada de autorizados en la nube) ── */
 const SB_URL  = 'https://filzfaxpzuycxxvvuwbr.supabase.co';
 const SB_ANON = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImZpbHpmYXhwenV5Y3h4dnZ1d2JyIiwicm9sZSI6ImFub24iLCJpYXQiOjE3ODIwMjc5NTUsImV4cCI6MjA5NzYwMzk1NX0.HfhhqWusIKGb_onr0zbe_EE2KqfiEUANStA5SNkmOVY';
 let sb = null;
 function initSB(){ if(sb) return sb; try{ if(window.supabase) sb = window.supabase.createClient(SB_URL, SB_ANON, { auth:{ flowType:'implicit', detectSessionInUrl:true, persistSession:true, autoRefreshToken:true } }); }catch(e){ console.warn('Supabase init:', e); } return sb; }
-/* ── Correos con permisos de ADMINISTRADOR (ven la pestaña "Admin").
-      Poné aquí tu propio correo en minúsculas. Pueden ser varios:
-      const ADMINS = ['[email protected]', '[email protected]'];            ── */
 const ADMINS = ['jonatanmonzon13@gmail.com'];
-/* ── Correos con TODAS por defecto (ven todas las apps, incluso futuras),
-      PERO editables con tildes: si destildás alguna queda fijada su lista.
-      Si las marcás todas otra vez, vuelven a "todas + futuras".          ── */
 const FULL_ACCESS = ['jonatanmonzon1126@gmail.com', 'diegoasalazarc70@gmail.com', 'damafelicali@gmail.com'];
 function isFullAccess(email){ return FULL_ACCESS.map(a => String(a).trim().toLowerCase()).includes(String(email||'').trim().toLowerCase()); }
-let AUTORIZADOS = [];   // se rellena al cargar desde autorizados.json
-let USER_EMAIL = '';    // correo con el que se inició sesión
-let ADMIN_LIST = [];    // lista editable de permitidos (panel de admin)
-let APPS = [];          // apps del repo (de autorizados.json)
-let ACCESOS = {};       // correo -> [ids de apps que ve]
-let ADMIN_APPS = [];    // copia editable de APPS (panel admin)
-let ADMIN_ACCESOS = {}; // copia editable de ACCESOS (panel admin)
-/* ════════════════════════════════════════════════════════════════ */
+let AUTORIZADOS = [];
+let USER_EMAIL = '';
+let ADMIN_LIST = [];
+let APPS = [];
+let ACCESOS = {};
+let ADMIN_APPS = [];
+let ADMIN_ACCESOS = {};
 
 const $ = s => document.querySelector(s);
 const fmt = n => Intl.NumberFormat('es').format(n);
 const YT = 'https://www.googleapis.com/youtube/v3/';
 let RESULTS = [];
-let BEAST = false;   // 🔥 Modo bestia: ignora subs/vistas y va al outlier extremo
+let BEAST = false;
 
 let KEYS = {yt:'', an:''};
 try{ KEYS = JSON.parse(localStorage.getItem('jmbots_keys')) || KEYS; }catch{}
 
-/* ───────── Login con Google + lista de autorizados ───────── */
+/* ─────── Login con Google ─────── */
 function parseJwt(token){
   try{
     const b = token.split('.')[1].replace(/-/g,'+').replace(/_/g,'/');
@@ -910,8 +890,6 @@ async function onGoogleLogin(resp){
   const datos = parseJwt(resp.credential);
   const email = (datos.email || '').toLowerCase();
   if(!datos.email_verified){ $('#gmsg').textContent = 'No se pudo verificar la cuenta.'; return; }
-
-  // 1) Intentar verificar contra Supabase (lista privada en la nube)
   let sbRow = null;
   try{
     if(initSB()){
@@ -920,15 +898,13 @@ async function onGoogleLogin(resp){
       sbRow = r.data || null;
     }
   }catch(e){ console.warn('Supabase login (se usa respaldo):', e); }
-
-  // 2) Decidir acceso: admin, o fila activa en Supabase, o respaldo (autorizados.json)
   const isAdmin = ADMINS.map(a => String(a).trim().toLowerCase()).includes(email) || (sbRow && sbRow.is_admin === true);
   const okSupabase = !!(sbRow && sbRow.activo !== false);
   const okRespaldo = AUTORIZADOS.includes(email);
   if(isAdmin || okSupabase || okRespaldo){
     if(sbRow){
       if(Array.isArray(sbRow.apps)) ACCESOS[email] = sbRow.apps.slice();
-      else delete ACCESOS[email];   // null en Supabase = TODAS las apps (incluye futuras)
+      else delete ACCESOS[email];
     }
     grantAccess(email, isAdmin);
   }else{
@@ -963,12 +939,11 @@ function buildGateBg(){
       + '<div class="gt-nm">'+nm.replace(/</g,'&lt;')+'</div></div>';
   }
   var c=document.getElementById('gcount'); if(c) c.textContent=APPS.length;
-  // repartir en 5 filas intercaladas (mosaico que cubre la pantalla)
   var rows=[[],[],[],[],[]];
   var pool=APPS.slice();for(var s2=pool.length-1;s2>0;s2--){var j2=(Math.random()*(s2+1))|0,t2=pool[s2];pool[s2]=pool[j2];pool[j2]=t2;}pool=pool.slice(0,34);pool.forEach(function(a,i){ rows[i%5].push(a); });
   host.innerHTML = rows.map(function(arr,ri){
     var cells=arr.map(tile).join('');
-    return '<div class="grow r'+ri+'">'+cells+cells+'</div>';   // duplicado para loop continuo
+    return '<div class="grow r'+ri+'">'+cells+cells+'</div>';
   }).join('');
 }
 async function initGate(){
@@ -978,7 +953,7 @@ async function initGate(){
     const ret = window.__retUrl || '';
     const m = ret.match(/error_description=([^&]+)/) || ret.match(/error=([^&]+)/);
     if($('#gmsg')){
-      if(m){ $('#gmsg').textContent = 'Aviso del login: ' + decodeURIComponent(m[1].replace(/\\+/g,' ')); $('#gmsg').style.color = '#fda4af'; }
+      if(m){ $('#gmsg').textContent = 'Aviso del login: ' + decodeURIComponent(m[1].replace(/\+/g,' ')); $('#gmsg').style.color = '#fda4af'; }
       else if(ret && ret.length > 1){ $('#gmsg').textContent = 'Retorno del login: ' + ret.slice(0,220); $('#gmsg').style.color = '#fbbf24'; }
     }
   }catch(e){}
@@ -997,7 +972,6 @@ async function initGate(){
 
 async function cargarAutorizados(){
   try{
-    // ?t=… evita que el navegador use una versión vieja en caché tras editar la lista
     const r = await fetch('autorizados.json?t=' + Date.now());
     const data = await r.json();
     AUTORIZADOS = (data.permitidos || []).map(e => String(e).trim().toLowerCase());
@@ -1007,7 +981,7 @@ async function cargarAutorizados(){
       for(const k in data.accesos) ACCESOS[String(k).trim().toLowerCase()] = (data.accesos[k] || []).slice();
     }
   }catch(e){
-    AUTORIZADOS = []; APPS = []; ACCESOS = {};   // si falla la carga, por seguridad no entra nadie
+    AUTORIZADOS = []; APPS = []; ACCESOS = {};
     console.warn('No se pudo cargar autorizados.json:', e);
   }
 }
@@ -1057,7 +1031,6 @@ function guardarClaves(){
   try{ localStorage.setItem('jmbots_keys', JSON.stringify(KEYS)); }catch{}
   $('#savedMsg').textContent = '✓ guardadas';
   setTimeout(()=>{ $('#keys').classList.remove('open'); $('#savedMsg').textContent=''; }, 900);
-  // si ya entraste y recién cargás la clave de YouTube, prendé el feed
   if(KEYS.yt && $('#gate').classList.contains('hidden')) cargarFeed();
 }
 window.addEventListener('DOMContentLoaded', ()=>{
@@ -1077,7 +1050,6 @@ async function ytGet(path, params){
   return data;
 }
 
-// rota el orden de búsqueda en cada llamada para diversificar resultados
 const ORDERS = ['relevance','viewCount','date'];
 function shuffle(a){ for(let i=a.length-1;i>0;i--){ const j=Math.random()*(i+1)|0; [a[i],a[j]]=[a[j],a[i]]; } return a; }
 
@@ -1092,15 +1064,13 @@ async function buscar(){
   try{
     const dias = Number($('#dias').value);
     const region = $('#region').value;
-    const order = ORDERS[Math.random()*ORDERS.length|0];   // ← orden rotativo
+    const order = ORDERS[Math.random()*ORDERS.length|0];
     const base = {part:'snippet', q:query, type:'video', maxResults:50, order};
-    if(region && region !== 'ALL') base.regionCode = region;   // "ALL" = sin filtro de país
+    if(region && region !== 'ALL') base.regionCode = region;
     if(dias > 0){
       if(dias <= 10){
-        // ventana exacta en tiempo real (ej: últimos 10 días) — sin desplazamiento
         base.publishedAfter = new Date(Date.now() - dias*86400000).toISOString();
       }else{
-        // ventana desplazada al azar para diversificar resultados
         const jitter = Math.random()*0.4;
         const desde  = dias*(1+jitter);
         base.publishedAfter = new Date(Date.now() - desde*86400000).toISOString();
@@ -1108,7 +1078,6 @@ async function buscar(){
       }
     }
 
-    // Traer hasta 2 páginas para ampliar el pool (más variedad de canales)
     let ids = [], page;
     for(let p=0; p<2; p++){
       const params = {...base};
@@ -1118,7 +1087,7 @@ async function buscar(){
       page = search.nextPageToken;
       if(!page) break;
     }
-    ids = shuffle([...new Set(ids)]).slice(0, 50);          // dedup + barajar + límite de la API
+    ids = shuffle([...new Set(ids)]).slice(0, 50);
 
     if(!ids.length){ $('#status').textContent=''; render([]); return; }
 
@@ -1139,18 +1108,15 @@ async function buscar(){
       };
     }).sort((a,b) => b.vsr - a.vsr);
 
-    // Filtro: priorizar canales chicos con muchas vistas
     let maxSubs, minViews;
     if(BEAST){
-      // 🔥 Modo bestia: ignora los selectores. Mínimo de subs + máximo de vistas (piso 100K),
-      // ordenado por el VSR más extremo (ya viene ordenado por VSR arriba).
       maxSubs = 0; minViews = 100000;
     }else{
-      maxSubs  = Number($('#maxSubs').value)  || 0;   // 0 = sin tope
-      minViews = Number($('#minViews').value) || 0;   // 0 = sin mínimo
+      maxSubs  = Number($('#maxSubs').value)  || 0;
+      minViews = Number($('#minViews').value) || 0;
     }
     let filtrada = list;
-    if(BEAST) filtrada = filtrada.filter(v => v.suscriptores > 0);   // necesita VSR real
+    if(BEAST) filtrada = filtrada.filter(v => v.suscriptores > 0);
     if(maxSubs  > 0) filtrada = filtrada.filter(v => v.suscriptores > 0 && v.suscriptores <= maxSubs);
     if(minViews > 0) filtrada = filtrada.filter(v => v.vistas >= minViews);
 
@@ -1213,7 +1179,7 @@ function reproducir(btn, idx){
   if(!media) return;
   const thumb = media.querySelector('.thumb');
   const existing = media.querySelector('iframe');
-  if(existing){                       // ya hay reproductor → cerrar y volver a la cuadrícula
+  if(existing){
     existing.remove();
     if(thumb) thumb.style.display = '';
     card.classList.remove('playing-card');
@@ -1224,7 +1190,6 @@ function reproducir(btn, idx){
     return;
   }
   const fr = document.createElement('iframe');
-  // se reproduce en el lugar de la miniatura; el usuario ya tocó "reproducir" → autoplay
   fr.src = 'https://www.youtube-nocookie.com/embed/' + v.video_id + '?rel=0&playsinline=1&autoplay=1';
   fr.title = v.titulo;
   fr.loading = 'lazy';
@@ -1233,8 +1198,8 @@ function reproducir(btn, idx){
   fr.setAttribute('allowfullscreen', '');
   if(thumb) thumb.style.display = 'none';
   media.appendChild(fr);
-  card.classList.add('playing-card');     // agranda la seleccionada
-  results.classList.add('solo');          // oculta las demás
+  card.classList.add('playing-card');
+  results.classList.add('solo');
   btn.textContent = t('cerrar');
   btn.classList.add('on');
   results.scrollIntoView({behavior:'smooth', block:'start'});
@@ -1274,104 +1239,48 @@ ${t('respondeEn')} Usa estas partes:
 ═══════════════════════════════
 PARTE 0 · PUNTUACIONES
 ═══════════════════════════════
-Antes que nada evalúa el video y devuelve SOLO números, una métrica por línea,
-encerrados EXACTAMENTE entre estas marcas y sin texto extra adentro:
 ===SCORES_INICIO===
-HOOK: (0-10, fuerza del gancho del título/primeros segundos)
-PACKAGING: (0-10, miniatura + título como conjunto)
-RETENCION: (0-10, capacidad de mantener viendo según estructura)
-REPLICABILIDAD: (0-10, qué tan fácil es recrearlo)
-REPLICABLE_PCT: (0-100, % del video que se puede copiar tal cual)
+HOOK: (0-10)
+PACKAGING: (0-10)
+RETENCION: (0-10)
+REPLICABILIDAD: (0-10)
+REPLICABLE_PCT: (0-100)
 ===SCORES_FIN===
 
 ═══════════════════════════════
 PARTE 1 · ANÁLISIS (breve)
 ═══════════════════════════════
-1. GANCHO DEL TÍTULO — técnica psicológica (curiosidad, controversia, número, beneficio…)
-2. LA MINIATURA — qué hace bien visualmente (si la ves)
-3. POR QUÉ SE PROPAGÓ — hipótesis (tema, timing, emoción, búsqueda vs. sugeridos)
-4. PATRÓN REPLICABLE — la fórmula en una sola frase
+1. GANCHO DEL TÍTULO
+2. LA MINIATURA
+3. POR QUÉ SE PROPAGÓ
+4. PATRÓN REPLICABLE
 
 ═══════════════════════════════
-PARTE 2 · 🎬 KIT DE PRODUCCIÓN CON IA (Veo 3 / Grok)
+PARTE 2 · 🎬 KIT DE PRODUCCIÓN CON IA
 ═══════════════════════════════
-Entrega todo lo necesario para que un creador genere un video equivalente con IA de texto-a-video.
-Sé MUY concreto y escribe los prompts en bloques listos para copiar/pegar. Incluye:
-
-A) CONCEPTO ADAPTADO — el mismo gancho aplicado a una idea nueva (no copia literal), en 2-3 líneas.
-
-B) GUION COMPLETO — guion locutado escena por escena. Para cada escena indica:
-   · Nº de escena y duración aproximada en segundos
-   · VOZ EN OFF / DIÁLOGO (el texto exacto que se narra)
-   · Acción visual que ocurre
-
-C) PROMPTS DE PERSONAJES — para cada personaje recurrente, un prompt detallado y REUTILIZABLE
-   que mantenga consistencia (físico, edad, ropa, expresión, estilo de render, iluminación).
-   Escríbelos en inglés dentro de un bloque, porque los modelos rinden mejor así, y añade una
-   traducción breve en español de qué describe.
-
-D) PROMPTS DE ESCENAS — un prompt de generación por cada escena del guion. Cada uno debe incluir:
-   sujeto + acción + entorno/ambiente + estilo visual + cámara (plano, lente, ángulo) +
-   iluminación + paleta de color + estado de ánimo. En inglés, en bloques separados y numerados
-   para pegar uno por uno en Veo 3 o Grok.
-
-E) PROMPTS DE ANIMACIÓN / MOVIMIENTO — para cada escena, indica el movimiento de cámara y la
-   animación deseada (ej: slow dolly in, handheld, parallax, lip-sync, motion del sujeto), en el
-   formato que entienden estos modelos.
-
-F) AUDIO Y MÚSICA — tipo de música, ritmo, efectos de sonido y si la voz será TTS o grabada.
-
-G) MONTAJE Y EXPORT — orden de clips, cortes, texto en pantalla, duración final objetivo y formato
-   (16:9 horizontal o 9:16 vertical según el original).
-
-H) ⚠️ RIESGO — por qué podría no repetirse y qué vigilar.
-
-Sé práctico: el lector debería poder ejecutar este kit hoy mismo sin saber nada más.
+A) CONCEPTO ADAPTADO
+B) GUION COMPLETO
+C) PROMPTS DE PERSONAJES
+D) PROMPTS DE ESCENAS
+E) PROMPTS DE ANIMACIÓN / MOVIMIENTO
+F) AUDIO Y MÚSICA
+G) MONTAJE Y EXPORT
+H) ⚠️ RIESGO
 
 ═══════════════════════════════
 PARTE 2.5 · 🔍 SEO Y PUBLICACIÓN
 ═══════════════════════════════
-Devuelve recomendaciones SEO concretas para publicar el nuevo video, encerradas EXACTAMENTE
-entre estas dos marcas, en líneas propias y sin texto extra fuera de la estructura pedida:
 ===SEO_INICIO===
-TÍTULO (3 variantes optimizadas, con la palabra clave al principio):
-PALABRAS CLAVE (8-12, una por línea):
-ETIQUETAS / TAGS (separadas por comas, listas para pegar en YouTube):
-DESCRIPCIÓN (3-4 líneas, con la keyword principal en la primera línea):
-HASHTAGS (3-5 relevantes):
+TÍTULO (3 variantes optimizadas):
+PALABRAS CLAVE (8-12):
+ETIQUETAS / TAGS:
+DESCRIPCIÓN:
+HASHTAGS:
 ===SEO_FIN===
 
 ═══════════════════════════════
-PARTE 3 · 🧠 MASTER PROMPT PORTÁTIL (ESPECIALIZADO EN ESTE FORMATO)
+PARTE 3 · 🧠 MASTER PROMPT PORTÁTIL
 ═══════════════════════════════
-Primero, en UNA línea, indica si el video PARECE generado o asistido por IA
-(escribe "Detección IA: probable / parcial / improbable" y por qué en media línea).
-
-Después, en UNA línea, NOMBRA EL FORMATO/GÉNERO exacto de este video
-(ej: "reflexiones animadas", "frutinovelas", "historias bíblicas 3D",
-"top 5 misterios", "storytime animado", "cuentos de terror"…).
-Escribe: "Formato detectado: ___".
-
-Luego entrega un ÚNICO master prompt autocontenido y ESPECIALIZADO EN ESE MISMO FORMATO:
-un texto que el usuario pueda copiar y pegar TAL CUAL en otro modelo (Gemini o ChatGPT)
-para que ESE modelo le genere, de cero, todo lo necesario para producir OTRO video DEL
-MISMO FORMATO que el analizado. Si esto es de reflexiones animadas, el master prompt debe
-servir para fabricar reflexiones animadas; si es frutinovela, para fabricar frutinovelas;
-y así con el formato que sea. El master prompt debe:
-- Empezar diciéndole a la otra IA QUÉ FORMATO va a producir, y describir las reglas, el tono,
-  la duración típica, la estética y la estructura propias de ESE formato, deducidas del video.
-- Estar escrito como instrucción directa a otra IA (rol + contexto + tarea + formato de salida).
-- Incluir la fórmula ganadora detectada (gancho, ritmo, tipo de personajes, estilo visual)
-  ya integrada y FIJA para ese formato — nada genérico.
-- Dejar UN ÚNICO hueco editable [TU IDEA / TEMA DENTRO DE ESTE FORMATO] para que el usuario
-  solo cambie el tema puntual, manteniendo el formato intacto.
-- Pedirle a esa IA que devuelva: guion, prompts de personajes, prompts de escenas, prompts de
-  animación y plan de montaje (igual que la Parte 2), listos para Veo 3 / Grok y coherentes
-  con ese formato.
-- Ser largo y completo, pero copiable de un solo bloque.
-
-MUY IMPORTANTE: encierra ese master prompt EXACTAMENTE entre estas dos marcas, en líneas propias,
-sin texto extra dentro:
 ===MASTERPROMPT_INICIO===
 (aquí el master prompt completo)
 ===MASTERPROMPT_FIN===`;
@@ -1394,7 +1303,6 @@ sin texto extra dentro:
     const text = (data.candidates?.[0]?.content?.parts || []).map(p => p.text || '').join('').trim();
     if(!text) throw new Error('respuesta vacía de Gemini');
 
-    // Extraer puntuaciones (PARTE 0)
     let work = text, scores = null;
     {
       const ci = work.indexOf('===SCORES_INICIO==='), cf = work.indexOf('===SCORES_FIN===');
@@ -1410,7 +1318,6 @@ sin texto extra dentro:
       }
     }
 
-    // Separar SEO y master prompt del análisis usando las marcas
     let seo = '';
     const si = work.indexOf('===SEO_INICIO==='), sf = work.indexOf('===SEO_FIN===');
     if(si !== -1 && sf !== -1 && sf > si){
@@ -1461,13 +1368,11 @@ sin texto extra dentro:
       wrap.appendChild(mb);
     }
 
-    // Botón: descargar análisis como .MD
     const dl = document.createElement('button');
     dl.className = 'mdbtn'; dl.textContent = '⬇ ' + t('descargarMd');
     dl.onclick = () => descargarMD({video:v, analisis, seo, master, scores});
     wrap.appendChild(dl);
 
-    // Guardar en el historial (este navegador)
     addHist({
       ts: Date.now(),
       video: {titulo:v.titulo, canal:v.canal, suscriptores:v.suscriptores, vistas:v.vistas,
@@ -1475,7 +1380,6 @@ sin texto extra dentro:
       analisis, seo, master, scores
     });
 
-    // Expandir la tarjeta a lo ancho y dejar el botón como interruptor (sin volver a llamar a la IA)
     host.classList.add('expanded');
     wrap.hidden = false;
     btn.disabled = false;
@@ -1489,7 +1393,6 @@ sin texto extra dentro:
   }
 }
 
-/* Mostrar/ocultar el análisis ya generado, expandiendo o contrayendo la tarjeta */
 function toggleDetalle(btn){
   const host = btn.closest('.card');
   const wrap = host.querySelector('.detailwrap');
@@ -1509,11 +1412,12 @@ function mostrarVista(v){
   if(v === 'historial') renderHist();
   if(v === 'guiones')   renderGuiones();
   if(v === 'admin')     sbAdminLoad();
+  if(v === 'workflows') wfRender('todo');
   
   window.scrollTo({top:0, behavior:'smooth'});
 }
 
-/* ═══════════ Renombrador de miniaturas (solo admin) — optimizado ═══════════ */
+/* ═══════════ Renombrador de miniaturas ═══════════ */
 let MINI_items=[], MINI_inited=false, MINI_OPTS='';
 function miniEsc(s){ const d=document.createElement('div'); d.textContent=s; return d.innerHTML; }
 function ensureJSZip(cb){
@@ -1526,13 +1430,13 @@ function ensureJSZip(cb){
 function miniGuess(name){
   const n=(name||'').toLowerCase().normalize('NFD').replace(/[\u0300-\u036f]/g,'').replace(/[^a-z0-9]/g,'');
   if(!n) return '';
-  let hit=[...APPS].sort((a,b)=>b.id.length-a.id.length).find(a=>n.includes(a.id));   /* 1) por id en el nombre */
+  let hit=[...APPS].sort((a,b)=>b.id.length-a.id.length).find(a=>n.includes(a.id));
   if(hit) return hit.id;
   const norm=s=>String(s||'').toLowerCase().normalize('NFD').replace(/[\u0300-\u036f]/g,'').replace(/\s*\/\s*jm bots/i,'').replace(/[^a-z0-9]/g,'');
-  hit=[...APPS].map(a=>({a,nn:norm(a.nombre)})).filter(x=>x.nn.length>=4).sort((x,y)=>y.nn.length-x.nn.length).find(x=>n.includes(x.nn)||x.nn.includes(n));  /* 2) por nombre */
+  hit=[...APPS].map(a=>({a,nn:norm(a.nombre)})).filter(x=>x.nn.length>=4).sort((x,y)=>y.nn.length-x.nn.length).find(x=>n.includes(x.nn)||x.nn.includes(n));
   return hit?hit.a.id:'';
 }
-function miniBuildOpts(){          /* las opciones se arman UNA sola vez */
+function miniBuildOpts(){
   if(MINI_OPTS) return MINI_OPTS;
   const groups={};
   APPS.forEach(a=>{ const k=(typeof JM_NICHO!=='undefined'&&JM_NICHO[a.id])||'otras'; (groups[k]=groups[k]||[]).push(a); });
@@ -1563,7 +1467,7 @@ function miniAdd(list){
   const arr=[...list].filter(f=>f.type.startsWith('image/'));
   if(!arr.length) return;
   arr.forEach(f=>{ MINI_items.push({file:f,url:URL.createObjectURL(f),id:miniGuess(f.name)}); });
-  miniRender();                    /* render completo SOLO al cambiar la cantidad */
+  miniRender();
 }
 function miniRender(){
   const grid=$('#miniGrid');
@@ -1576,11 +1480,11 @@ function miniRender(){
   ).join('');
   grid.querySelectorAll('select').forEach(s=>{
     const i=+s.dataset.i; s.value=MINI_items[i].id||'';
-    s.onchange=e=>{ MINI_items[i].id=e.target.value; miniStates(); };   /* NO re-renderiza imágenes */
+    s.onchange=e=>{ MINI_items[i].id=e.target.value; miniStates(); };
   });
   miniStates();
 }
-function miniStates(){              /* actualiza clases/etiquetas/contador SIN recrear imágenes ni selects */
+function miniStates(){
   const counts={}; MINI_items.forEach(i=>{ if(i.id) counts[i.id]=(counts[i.id]||0)+1; });
   const grid=$('#miniGrid');
   grid.querySelectorAll('.minicard').forEach(card=>{
@@ -1625,7 +1529,7 @@ function miniDownload(){
   });
 }
 
-/* ═══════════ Historial + guiones (localStorage) ═══════════ */
+/* ═══════════ Historial + guiones ═══════════ */
 function getHist(){ try{ return JSON.parse(localStorage.getItem('jmbots_hist')) || []; }catch{ return []; } }
 function setHist(arr){ try{ localStorage.setItem('jmbots_hist', JSON.stringify(arr.slice(0,100))); }catch{} }
 function addHist(entry){ const h = getHist(); h.unshift(entry); setHist(h); }
@@ -1695,19 +1599,19 @@ function verDetalle(btn, ts){
   card.appendChild(det); btn.textContent = t('ocultar');
 }
 
-/* ═══════════ Menú "Mis apps" — panel flotante con mini-portadas ═══════════ */
+/* ═══════════ Menú "Mis apps" ═══════════ */
 const JM_META = {
   audiosrt:["🎧 SRT",["#06131f","#0b1019"]],
   stickstories:["🏃 STICK",["#2a1c08","#1a1320"]],
   facelessviral:["🎙️ VIRAL",["#2a0e12","#1a1320"]],
   ariafootball:["⚽ FUTBOL",["#0a2a1f","#0a1a3a"]],
   promojm:["PROMO",["#3a2a10","#1f1633"]],
-    mascotashablan:["HABLAN",["#f59e0b","#22c55e"]], audiolibro:["AUDIOLIBRO",["#8b5cf6","#f59e0b"]], leyendaslatam:["LEYENDAS",["#6d28d9","#1f2937"]], diosesmundo:["DIOSES",["#f59e0b","#8b5cf6"]], animalesvida:["SU VIDA",["#22c55e","#0ea5e9"]], objetoshistoria:["OBJETOS",["#d97706","#0ea5e9"]], refranes:["REFRANES",["#f59e0b","#22c55e"]], comidatipica:["COMIDA",["#ef4444","#f59e0b"]], versus:["VERSUS",["#ef4444","#0ea5e9"]], trailerfalso:["TRÁILER",["#1f2937","#f59e0b"]], cuentosclasicos:["CLÁSICOS",["#a855f7","#fbbf24"]], reaccionanimales:["REACCIONES",["#f59e0b","#22d3ee"]], dialogospareja:["PAREJA",["#fb7185","#a855f7"]], terrorpais:["TERROR PAÍS",["#6d28d9","#1f2937"]], vidassantos:["SANTOS",["#fbbf24","#0ea5e9"]], megafauna:["MEGAFAUNA",["#16a34a","#d97706"]], accionepica:["ACCIÓN",["#ef4444","#1f2937"]], mundosfantasia:["FANTASÍA",["#a855f7","#22d3ee"]], bibliakids:["BIBLIA KIDS",["#fbbf24","#0ea5e9"]], idiomaskids:["IDIOMAS",["#22c55e","#f59e0b"]], yogakids:["YOGA KIDS",["#22d3ee","#84cc16"]], seguridadkids:["SEGURIDAD",["#0ea5e9","#ef4444"]], habitoskids:["HÁBITOS",["#84cc16","#f59e0b"]], naturalezakids:["NATURALEZA",["#22c55e","#0ea5e9"]], toursprop:["TOURS",["#0ea5e9","#f59e0b"]], quepasaria:["¿QUÉ SI?",["#6366f1","#22d3ee"]], comosehace:["CÓMO SE HACE",["#f59e0b","#0ea5e9"]], lineatiempo:["TIMELINE",["#d97706","#8b5cf6"]], records:["RÉCORDS",["#ef4444","#f59e0b"]], porquehacemos:["¿POR QUÉ?",["#fb7185","#22d3ee"]], antesdespues:["ANTES/DESPUÉS",["#22c55e","#f59e0b"]], menurest:["MENÚ",["#ef4444","#fbbf24"]],
-    canioninfantil:["CANCIONES",["#f472b6","#fbbf24"]], aprendojugando:["APRENDO",["#22c55e","#f59e0b"]], animalitos:["ANIMALITOS",["#f59e0b","#22c55e"]], vehiculos:["VEHICULOS",["#ef4444","#f59e0b"]], cuentohadas:["HADAS",["#a855f7","#f472b6"]], emociones:["EMOCIONES",["#fb7185","#22d3ee"]], modales:["MODALES",["#0ea5e9","#84cc16"]], espacioninos:["ESPACIO KIDS",["#6366f1","#22d3ee"]], granja:["GRANJA",["#84cc16","#f59e0b"]], adivinanzas:["ADIVINANZAS",["#f59e0b","#a855f7"]],
-    cuentoviral:["GEMA",["#3a2e10","#241a33"]],
-    dormir:["DORMIR",["#10162e","#0e2733"]], microsalud:["MICRO-SALUD",["#2a1320","#0e2a26"]], whiteboard:["WHITEBOARD",["#0e2733","#3a2e10"]], squishmelt:["SQUISH·MELT",["#2a1426","#0e2733"]], asmrreveal:["ASMR REVEAL",["#241a33","#3a2e10"]],
-    stickanim:["STICKMAN",["#2a2410","#1f3d2f"]], nightvision:["NIGHT-VISION",["#0e2417","#13301a"]], biomech:["BIOMECH",["#0e2733","#241a33"]], beachsaga:["SAGA SURREAL",["#3a2410","#0e2733"]], evolution:["EVOLUTION",["#0e2733","#2a1320"]], wildbbc:["WILD BBC",["#13301a","#3a2e10"]], cinedirector:["DIRECTOR",["#3a2e10","#2a1320"]],
-    animecine:["ANIME",["#1c2740","#2a1f3d"]], animereal:["ANIME+REAL",["#1c2740","#2a1f3d"]], ghibli:["GHIBLI",["#1c2740","#2a1f3d"]], claymation:["PLASTILINA",["#1c2740","#2a1f3d"]], retratopixar:["PIXAR",["#1c2740","#2a1f3d"]], legomundo:["LEGO",["#1c2740","#2a1f3d"]], motioncomic:["WEBTOON",["#1c2740","#2a1f3d"]], pixelart:["PIXEL",["#1c2740","#2a1f3d"]], cartoon2d:["CARTOON",["#1c2740","#2a1f3d"]], futbolepico:["FÚTBOL",["#13301a","#3a2e10"]], extremospov:["POV EXTREMO",["#13301a","#3a2e10"]], animalesdeporte:["ANIMAL PRO",["#13301a","#3a2e10"]], combateepico:["COMBATE",["#13301a","#3a2e10"]], carreras:["CARRERAS",["#13301a","#3a2e10"]], trailersfake:["TRÁILER",["#2a1320","#3a2e10"]], scifi:["SCI-FI",["#2a1320","#3a2e10"]], western:["WESTERN",["#2a1320","#3a2e10"]], noir:["NOIR",["#2a1320","#3a2e10"]], epocahist:["ÉPOCA",["#2a1320","#3a2e10"]], accionhollywood:["ACCIÓN",["#2a1320","#3a2e10"]], cinemudo:["CINE MUDO",["#2a1320","#3a2e10"]], romance:["ROMANCE",["#2a1320","#241a33"]], kdrama:["K-DRAMA",["#2a1320","#241a33"]], telenovela:["TELENOVELA",["#2a1320","#241a33"]], dramaepoca:["DRAMA ÉPOCA",["#2a1320","#241a33"]], quesi:["¿Y SI…?",["#0e2733","#241a33"]], criaturasmito:["MITO REAL",["#0e2733","#241a33"]], kaiju:["KAIJU",["#0e2733","#241a33"]], natimposible:["NAT IMPOSIBLE",["#0e2733","#241a33"]], cosmos:["COSMOS",["#0e2733","#241a33"]], futuro3000:["AÑO 3000",["#0e2733","#241a33"]], postapoc:["POST-APOC",["#0e2733","#241a33"]], microcosmos:["MICRO",["#0e2733","#241a33"]], ugcreview:["UGC",["#2a1335","#10243a"]], testimonios:["TESTIMONIO",["#2a1335","#10243a"]], noticiero:["NOTICIERO",["#2a1335","#10243a"]], standup:["STAND-UP",["#2a1335","#10243a"]], videoclip:["VIDEOCLIP",["#2a1335","#10243a"]], pasarela:["PASARELA",["#2a1335","#241a33"]], lookbook:["LOOKBOOK",["#2a1335","#241a33"]], glowup:["GLOW-UP",["#2a1335","#241a33"]], psicologia:["PSICOLOGÍA",["#0e2733","#13301a"]], estoicismo:["ESTOICISMO",["#0e2733","#13301a"]], ciencia:["CIENCIA",["#0e2733","#13301a"]], espacioedu:["ESPACIO EDU",["#0e2733","#13301a"]], inventos:["INVENTOS",["#0e2733","#13301a"]], foodporn:["FOOD PORN",["#3a2410","#2a1320"]], mukbang:["MUKBANG",["#3a2410","#2a1320"]], recetaspov:["RECETA POV",["#3a2410","#2a1320"]], comidagigante:["GIGANTE",["#3a2410","#2a1320"]], docunatura:["DOCU NAT",["#13301a","#0e2733"]], oceano:["OCÉANO",["#13301a","#0e2733"]], dinosdoc:["DINOS",["#13301a","#0e2733"]], hadasoscuras:["HADAS OSCURAS",["#241a33","#0e2733"]], paranormalpov:["PARANORMAL",["#241a33","#0e2733"]], leyendas:["LEYENDAS",["#241a33","#0e2733"]], viajes:["VIAJES",["#3a2e10","#2a1335"]], supercars:["SUPERCARS",["#3a2e10","#2a1335"]], mansiones:["MANSIONES",["#3a2e10","#2a1335"]], brainrot:["BRAINROT",["#1f3d2f","#2a1335"]],
+  mascotashablan:["HABLAN",["#f59e0b","#22c55e"]], audiolibro:["AUDIOLIBRO",["#8b5cf6","#f59e0b"]], leyendaslatam:["LEYENDAS",["#6d28d9","#1f2937"]], diosesmundo:["DIOSES",["#f59e0b","#8b5cf6"]], animalesvida:["SU VIDA",["#22c55e","#0ea5e9"]], objetoshistoria:["OBJETOS",["#d97706","#0ea5e9"]], refranes:["REFRANES",["#f59e0b","#22c55e"]], comidatipica:["COMIDA",["#ef4444","#f59e0b"]], versus:["VERSUS",["#ef4444","#0ea5e9"]], trailerfalso:["TRÁILER",["#1f2937","#f59e0b"]], cuentosclasicos:["CLÁSICOS",["#a855f7","#fbbf24"]], reaccionanimales:["REACCIONES",["#f59e0b","#22d3ee"]], dialogospareja:["PAREJA",["#fb7185","#a855f7"]], terrorpais:["TERROR PAÍS",["#6d28d9","#1f2937"]], vidassantos:["SANTOS",["#fbbf24","#0ea5e9"]], megafauna:["MEGAFAUNA",["#16a34a","#d97706"]], accionepica:["ACCIÓN",["#ef4444","#1f2937"]], mundosfantasia:["FANTASÍA",["#a855f7","#22d3ee"]], bibliakids:["BIBLIA KIDS",["#fbbf24","#0ea5e9"]], idiomaskids:["IDIOMAS",["#22c55e","#f59e0b"]], yogakids:["YOGA KIDS",["#22d3ee","#84cc16"]], seguridadkids:["SEGURIDAD",["#0ea5e9","#ef4444"]], habitoskids:["HÁBITOS",["#84cc16","#f59e0b"]], naturalezakids:["NATURALEZA",["#22c55e","#0ea5e9"]], toursprop:["TOURS",["#0ea5e9","#f59e0b"]], quepasaria:["¿QUÉ SI?",["#6366f1","#22d3ee"]], comosehace:["CÓMO SE HACE",["#f59e0b","#0ea5e9"]], lineatiempo:["TIMELINE",["#d97706","#8b5cf6"]], records:["RÉCORDS",["#ef4444","#f59e0b"]], porquehacemos:["¿POR QUÉ?",["#fb7185","#22d3ee"]], antesdespues:["ANTES/DESPUÉS",["#22c55e","#f59e0b"]], menurest:["MENÚ",["#ef4444","#fbbf24"]],
+  canioninfantil:["CANCIONES",["#f472b6","#fbbf24"]], aprendojugando:["APRENDO",["#22c55e","#f59e0b"]], animalitos:["ANIMALITOS",["#f59e0b","#22c55e"]], vehiculos:["VEHICULOS",["#ef4444","#f59e0b"]], cuentohadas:["HADAS",["#a855f7","#f472b6"]], emociones:["EMOCIONES",["#fb7185","#22d3ee"]], modales:["MODALES",["#0ea5e9","#84cc16"]], espacioninos:["ESPACIO KIDS",["#6366f1","#22d3ee"]], granja:["GRANJA",["#84cc16","#f59e0b"]], adivinanzas:["ADIVINANZAS",["#f59e0b","#a855f7"]],
+  cuentoviral:["GEMA",["#3a2e10","#241a33"]],
+  dormir:["DORMIR",["#10162e","#0e2733"]], microsalud:["MICRO-SALUD",["#2a1320","#0e2a26"]], whiteboard:["WHITEBOARD",["#0e2733","#3a2e10"]], squishmelt:["SQUISH·MELT",["#2a1426","#0e2733"]], asmrreveal:["ASMR REVEAL",["#241a33","#3a2e10"]],
+  stickanim:["STICKMAN",["#2a2410","#1f3d2f"]], nightvision:["NIGHT-VISION",["#0e2417","#13301a"]], biomech:["BIOMECH",["#0e2733","#241a33"]], beachsaga:["SAGA SURREAL",["#3a2410","#0e2733"]], evolution:["EVOLUTION",["#0e2733","#2a1320"]], wildbbc:["WILD BBC",["#13301a","#3a2e10"]], cinedirector:["DIRECTOR",["#3a2e10","#2a1320"]],
+  animecine:["ANIME",["#1c2740","#2a1f3d"]], animereal:["ANIME+REAL",["#1c2740","#2a1f3d"]], ghibli:["GHIBLI",["#1c2740","#2a1f3d"]], claymation:["PLASTILINA",["#1c2740","#2a1f3d"]], retratopixar:["PIXAR",["#1c2740","#2a1f3d"]], legomundo:["LEGO",["#1c2740","#2a1f3d"]], motioncomic:["WEBTOON",["#1c2740","#2a1f3d"]], pixelart:["PIXEL",["#1c2740","#2a1f3d"]], cartoon2d:["CARTOON",["#1c2740","#2a1f3d"]], futbolepico:["FÚTBOL",["#13301a","#3a2e10"]], extremospov:["POV EXTREMO",["#13301a","#3a2e10"]], animalesdeporte:["ANIMAL PRO",["#13301a","#3a2e10"]], combateepico:["COMBATE",["#13301a","#3a2e10"]], carreras:["CARRERAS",["#13301a","#3a2e10"]], trailersfake:["TRÁILER",["#2a1320","#3a2e10"]], scifi:["SCI-FI",["#2a1320","#3a2e10"]], western:["WESTERN",["#2a1320","#3a2e10"]], noir:["NOIR",["#2a1320","#3a2e10"]], epocahist:["ÉPOCA",["#2a1320","#3a2e10"]], accionhollywood:["ACCIÓN",["#2a1320","#3a2e10"]], cinemudo:["CINE MUDO",["#2a1320","#3a2e10"]], romance:["ROMANCE",["#2a1320","#241a33"]], kdrama:["K-DRAMA",["#2a1320","#241a33"]], telenovela:["TELENOVELA",["#2a1320","#241a33"]], dramaepoca:["DRAMA ÉPOCA",["#2a1320","#241a33"]], quesi:["¿Y SI…?",["#0e2733","#241a33"]], criaturasmito:["MITO REAL",["#0e2733","#241a33"]], kaiju:["KAIJU",["#0e2733","#241a33"]], natimposible:["NAT IMPOSIBLE",["#0e2733","#241a33"]], cosmos:["COSMOS",["#0e2733","#241a33"]], futuro3000:["AÑO 3000",["#0e2733","#241a33"]], postapoc:["POST-APOC",["#0e2733","#241a33"]], microcosmos:["MICRO",["#0e2733","#241a33"]], ugcreview:["UGC",["#2a1335","#10243a"]], testimonios:["TESTIMONIO",["#2a1335","#10243a"]], noticiero:["NOTICIERO",["#2a1335","#10243a"]], standup:["STAND-UP",["#2a1335","#10243a"]], videoclip:["VIDEOCLIP",["#2a1335","#10243a"]], pasarela:["PASARELA",["#2a1335","#241a33"]], lookbook:["LOOKBOOK",["#2a1335","#241a33"]], glowup:["GLOW-UP",["#2a1335","#241a33"]], psicologia:["PSICOLOGÍA",["#0e2733","#13301a"]], estoicismo:["ESTOICISMO",["#0e2733","#13301a"]], ciencia:["CIENCIA",["#0e2733","#13301a"]], espacioedu:["ESPACIO EDU",["#0e2733","#13301a"]], inventos:["INVENTOS",["#0e2733","#13301a"]], foodporn:["FOOD PORN",["#3a2410","#2a1320"]], mukbang:["MUKBANG",["#3a2410","#2a1320"]], recetaspov:["RECETA POV",["#3a2410","#2a1320"]], comidagigante:["GIGANTE",["#3a2410","#2a1320"]], docunatura:["DOCU NAT",["#13301a","#0e2733"]], oceano:["OCÉANO",["#13301a","#0e2733"]], dinosdoc:["DINOS",["#13301a","#0e2733"]], hadasoscuras:["HADAS OSCURAS",["#241a33","#0e2733"]], paranormalpov:["PARANORMAL",["#241a33","#0e2733"]], leyendas:["LEYENDAS",["#241a33","#0e2733"]], viajes:["VIAJES",["#3a2e10","#2a1335"]], supercars:["SUPERCARS",["#3a2e10","#2a1335"]], mansiones:["MANSIONES",["#3a2e10","#2a1335"]], brainrot:["BRAINROT",["#1f3d2f","#2a1335"]],
   outliers:["ANÁLISIS",["#1c2740","#3a2e10"]], analizador:["ANÁLISIS",["#26210f","#3a2e10"]],
   historias:["FE",["#241a33","#0e1430"]], milagros:["FE",["#2a1f3d","#10243a"]], relatos:["FE",["#1f2a3d","#101a30"]],
   parabolas:["PARÁBOLA",["#2a2410","#3a2e10"]], tentacion:["DILEMA",["#241a33","#10243a"]],
@@ -1744,7 +1648,7 @@ function jmPoster(a){
 }
 const JM_NICHE_ORDER=[["viralia","🎥 Video Viral IA"],["asmr","🔪 ASMR y Satisfying"],["podcast","🎙️ Podcast y Personas"],["dinero","💰 Finanzas y Negocios"],["educa","📱 Tech, Salud y Datos"],["story","📝 Storytelling y Drama"],["terror","👻 Terror y Misterio"],["fe","🙏 Fe y Reflexión"],["cuentos","📖 Cuentos y Fábulas"],["infantil","🧒 Infantil y Escolar"],["pov","🎭 Historias POV"],["analisis","📊 Análisis YouTube"]];
 const JM_NICHO={audiosrt:"viralia",stickstories:"viralia",facelessviral:"viralia",ariafootball:"viralia",promojm:"dinero",outliers:"analisis",analizador:"analisis",timelapse:"viralia",timelapse2:"viralia",timelapse3:"viralia",cocinaviral:"viralia",narekart:"viralia",surreal:"viralia",miniaturas:"viralia",animalessurreal:"viralia",criaturas:"viralia",tiendashop:"viralia",streetpro:"viralia",xray:"viralia",woodenhands:"asmr",woodenhands2:"asmr",asmrsatisfying:"asmr",aifruit:"asmr",procesos:"asmr",podcast:"podcast",podfitness:"podcast",podmujeres:"podcast",podfe:"podcast",poddating:"podcast",podnegocios:"podcast",abuelo:"podcast",ninogenio:"podcast",atleta:"podcast",entrevista:"podcast",streetint:"podcast",storytime:"podcast",datoshablados:"podcast",finanzas:"dinero",negociosfaceless:"dinero",techia:"educa",saludbienestar:"educa",historiacuriosa:"educa",datos:"educa",venganza:"story",reddit:"story",povcine:"story",motivacion:"story",terror:"terror",terrorurbano:"terror",datosmiedo:"terror",truecrime:"terror",historias:"fe",milagros:"fe",relatos:"fe",parabolas:"fe",tentacion:"fe",proverbios:"fe",redencion:"fe",viajealma:"fe",cartas:"fe",valores:"fe",reflexiones:"fe",novelas:"cuentos",fabulas:"cuentos",mitologia:"cuentos",glam:"cuentos",frutas:"cuentos",monstruos:"cuentos",trabalenguas:"cuentos",superheroes:"cuentos",zodiaco:"cuentos",buenasnoches:"infantil",utiles:"infantil",animales:"infantil",dinosaurios:"infantil",insectos:"infantil",plantas:"infantil",paises:"infantil",profesiones:"infantil",robots:"infantil",autos:"infantil",fractura:"viralia",explainer:"educa",montanarusa:"viralia",mundovegetal:"viralia",resinadiy:"asmr",timelapseobra:"viralia",dreamnostalgia:"viralia",cartoonkids:"infantil",rescateanimal:"infantil",junglabunker:"viralia",mascotas:"pov",comida:"pov",objetos:"pov",animecine:"cuentos",animereal:"cuentos",ghibli:"cuentos",claymation:"cuentos",retratopixar:"cuentos",legomundo:"cuentos",motioncomic:"cuentos",pixelart:"cuentos",cartoon2d:"cuentos",futbolepico:"viralia",extremospov:"viralia",animalesdeporte:"viralia",combateepico:"viralia",carreras:"viralia",trailersfake:"story",scifi:"story",western:"story",noir:"story",epocahist:"story",accionhollywood:"story",cinemudo:"story",romance:"story",kdrama:"story",telenovela:"story",dramaepoca:"story",quesi:"viralia",criaturasmito:"viralia",kaiju:"viralia",natimposible:"viralia",cosmos:"viralia",futuro3000:"viralia",postapoc:"viralia",microcosmos:"viralia",ugcreview:"podcast",testimonios:"podcast",noticiero:"podcast",standup:"podcast",videoclip:"podcast",pasarela:"viralia",lookbook:"viralia",glowup:"viralia",psicologia:"educa",estoicismo:"educa",ciencia:"educa",espacioedu:"educa",inventos:"educa",foodporn:"asmr",mukbang:"asmr",recetaspov:"asmr",comidagigante:"asmr",docunatura:"educa",oceano:"educa",dinosdoc:"educa",hadasoscuras:"terror",paranormalpov:"terror",leyendas:"terror",viajes:"viralia",supercars:"viralia",mansiones:"viralia",brainrot:"viralia",stickanim:"viralia",nightvision:"viralia",biomech:"viralia",beachsaga:"viralia",evolution:"educa",wildbbc:"educa",cinedirector:"story",dormir:"asmr",microsalud:"educa",whiteboard:"educa",squishmelt:"asmr",asmrreveal:"asmr",cuentoviral:"cuentos",canioninfantil:"infantil",aprendojugando:"infantil",animalitos:"infantil",vehiculos:"infantil",cuentohadas:"infantil",emociones:"infantil",modales:"infantil",espacioninos:"infantil",granja:"infantil",adivinanzas:"infantil",mascotashablan:"viralia",audiolibro:"story",leyendaslatam:"terror",diosesmundo:"story",animalesvida:"story",objetoshistoria:"story",refranes:"cuentos",comidatipica:"viralia",versus:"viralia",trailerfalso:"story",cuentosclasicos:"cuentos",reaccionanimales:"viralia",dialogospareja:"viralia",terrorpais:"terror",vidassantos:"fe",megafauna:"educa",accionepica:"story",mundosfantasia:"story",bibliakids:"infantil",idiomaskids:"infantil",yogakids:"infantil",seguridadkids:"infantil",habitoskids:"infantil",naturalezakids:"infantil",toursprop:"dinero",quepasaria:"educa",comosehace:"educa",lineatiempo:"educa",records:"educa",porquehacemos:"educa",antesdespues:"dinero",menurest:"dinero"};
-console.log('%cJM-BOTS app.html · build 2026-06-21 · 204 apps · categorias OK','color:#84cc16');
+console.log('%cJM-BOTS app.html · build 2026-06-23 · 204 apps + Workflows IA · OK','color:#84cc16');
 let JM_INSTR={}, JM_VIS=[];
 function jmTile(a, here){
   const cur=(a.archivo||'').toLowerCase()===here;
@@ -1788,7 +1692,6 @@ function buildAppsMenu(){
     ov.addEventListener('click', e=>{ if(e.target===ov) ov.classList.remove('open'); });
     $('#jmclose').addEventListener('click', ()=> ov.classList.remove('open'));
     document.addEventListener('keydown', e=>{ if(e.key==='Escape') ov.classList.remove('open'); });
-    // ficha modal
     let fi=document.createElement('div'); fi.id='jmfi';
     fi.innerHTML='<div id="jmficard"><div class="fh"><b id="jmfiName"></b><div class="jmx" id="jmfiClose">✕</div></div>'
       + '<div class="fb" id="jmfiBody"></div>'
@@ -1828,38 +1731,34 @@ function buildAppsMenu(){
 }
 function toggleApps(e){ e.stopPropagation(); const ov = $('#jmov'); if(ov) ov.classList.add('open'); }
 
-/* ═══════════ Panel de administrador (sin servidor) ═══════════ */
+/* ═══════════ Panel de administrador ═══════════ */
 function slugify(s){
   return String(s).toLowerCase().normalize('NFD').replace(/[\u0300-\u036f]/g,'')
     .replace(/[^a-z0-9]+/g,'-').replace(/^-+|-+$/g,'').slice(0,24) || ('app' + Date.now());
 }
 function renderAdmin(){
   const admins = ADMINS.map(a => String(a).trim().toLowerCase());
-  // Usuarios
   $('#emailList').innerHTML = ADMIN_LIST.length ? ADMIN_LIST.map(e => `
     <div class="erow">
       <span>${esc(e)}${admins.includes(e) ? '<span class="adm">ADMIN</span>' : ''}</span>
       <button onclick="adminDel('${esc(e)}')">quitar</button>
     </div>`).join('')
     : '<div class="empty2">La lista está vacía.</div>';
-  // Apps
   $('#appList').innerHTML = ADMIN_APPS.length ? ADMIN_APPS.map(a => `
     <div class="erow">
       <span><b>${esc(a.nombre)}</b><code>${esc(a.archivo)}</code></span>
       <button onclick="adminAppDel('${esc(a.id)}')">quitar</button>
     </div>`).join('')
     : '<div class="empty2">Sin apps todavía. Agregá al menos una.</div>';
-  // Accesos por usuario
   renderAccess(admins);
-  // JSON de salida
   const full = FULL_ACCESS.map(a => String(a).trim().toLowerCase());
   const allIds = ADMIN_APPS.map(a => a.id);
   const accesos = {};
   ADMIN_LIST.forEach(e => {
-    if(admins.includes(e)) return;   // admins ven TODAS, no se listan
+    if(admins.includes(e)) return;
     const esFull = full.includes(e);
     const ids = (ADMIN_ACCESOS[e] || (esFull ? allIds : [])).filter(id => allIds.includes(id));
-    if(esFull && ids.length === allIds.length) return;   // acceso-total con TODAS: no se lista (sigue tomando futuras)
+    if(esFull && ids.length === allIds.length) return;
     accesos[e] = ids;
   });
   $('#jsonPre').textContent = JSON.stringify({ permitidos: ADMIN_LIST, apps: ADMIN_APPS, accesos }, null, 2);
@@ -1899,8 +1798,6 @@ function renderAccess(admins){
   }
   cont.innerHTML = html || '<div class="empty2">Sin usuarios para asignar.</div>';
 }
-/* Habilitar las próximas 10 apps que el usuario aún no tiene (incremental) */
-/* ───────── Sincronización del panel con Supabase ───────── */
 async function sbAdminLoad(){
   try{
     if(initSB()){
@@ -1969,7 +1866,6 @@ function adminAdd10(email){
   ADMIN_ACCESOS[email] = ids;
   sbAdminSave(email); renderAdmin();
 }
-/* Marcar/desmarcar TODAS las apps para un usuario de un toque */
 function adminAllAccess(email, on){
   ADMIN_ACCESOS[email] = on ? ADMIN_APPS.map(a => a.id) : [];
   sbAdminSave(email); renderAdmin();
@@ -2010,40 +1906,64 @@ function adminCopy(btn){
   });
 }
 
-/* ───────── Disuasión casual: clic derecho + atajos de devtools ─────────
-   Nota: esto solo frena a usuarios casuales, NO es seguridad real.
-   Se permite copiar (Ctrl+C / Cmd+C) y la selección de texto.            */
 (function(){
-  // Bloquear menú contextual (clic derecho → "propiedades", "ver código", etc.)
   document.addEventListener('contextmenu', e => e.preventDefault());
-
   document.addEventListener('keydown', e => {
     const k = (e.key || '').toLowerCase();
-
-    // Permitir explícitamente copiar / seleccionar todo / cortar / pegar
     if((e.ctrlKey || e.metaKey) && ['c','a','x','v'].includes(k)) return;
-
-    // F12 → abrir devtools
     if(k === 'f12'){ e.preventDefault(); return; }
-
-    // Ctrl/Cmd+Shift+I / J / C  → devtools / consola / inspector
-    if((e.ctrlKey || e.metaKey) && e.shiftKey && ['i','j','c'].includes(k)){
-      e.preventDefault(); return;
-    }
-
-    // Ctrl/Cmd+U → ver código fuente
+    if((e.ctrlKey || e.metaKey) && e.shiftKey && ['i','j','c'].includes(k)){ e.preventDefault(); return; }
     if((e.ctrlKey || e.metaKey) && k === 'u'){ e.preventDefault(); return; }
-
-    // Ctrl/Cmd+S → guardar página
     if((e.ctrlKey || e.metaKey) && k === 's'){ e.preventDefault(); return; }
   });
 })();
 
-/* ════════════════════════════════════════════════════════════════
-   ✦ MEJORAS: chips, feed, scores, descarga .MD e idioma ES/EN
-   ════════════════════════════════════════════════════════════════ */
+/* ═══════════ WORKFLOWS IA ═══════════ */
+const WF_COLORS={
+  '3D Animado':'linear-gradient(90deg,#9B5CFF,#9B5CFF44)',
+  'Realista':'linear-gradient(90deg,#26D9FF,#26D9FF44)',
+  'First/Last Frame':'linear-gradient(90deg,#E7B85C,#E7B85C44)',
+  'Generador':'linear-gradient(90deg,#5BF08E,#5BF08E44)',
+  'General':'linear-gradient(90deg,#4D8DFF,#4D8DFF44)'
+};
+const WF_DATA=[
+  {id:'documental3d',nombre:'De Idea a Documental 3D',desc:'Convierte cualquier tema en un documental 3D cinematográfico con estructura narrativa, prompts de imagen, video y narración escena por escena.',cat:'3D Animado',icon:'🎬',tags:['Arco narrativo','Pipeline imagen-video','Narración por escena'],nuevo:false},
+  {id:'corto3d',nombre:'Cortometraje 3D Animado',desc:'Transforma una idea simple en un corto 3D con espina dorsal emocional, beats con timestamps y prompts por escena.',cat:'3D Animado',icon:'🎭',tags:['Espina dorsal','Continuidad de personajes','Plan escena a escena'],nuevo:false},
+  {id:'expansion3d',nombre:'Expansión 3D con IA',desc:'Expande un concepto 3D en personajes consistentes, lógica emocional y prompts listos para pegar en VideoExpress o Veo 3.',cat:'3D Animado',icon:'✨',tags:['Expansión rápida','Guardianes de continuidad','Prompts listos'],nuevo:false},
+  {id:'actor',nombre:'Actor IA: Video Realista',desc:'Genera setups cinematográficos, identidad del actor, diálogos naturales y notas de lipsync para videos realistas con IA.',cat:'Realista',icon:'🎥',tags:['Identidad del actor','Entrega conversacional','Beats cinematográficos'],nuevo:false},
+  {id:'escena',nombre:'Construye tu Escena Realista',desc:'Convierte una situación en una escena completa con tensión visual, diálogo natural y dirección de lipsync clara.',cat:'Realista',icon:'🌟',tags:['Mecánica de escena','Ganchos directos','Diálogo listo para video'],nuevo:false},
+  {id:'firstlast',nombre:'Control First / Last Frame',desc:'Dale al generador el inicio, el final y la lógica de transición para que tus escenas no deriven a otra realidad.',cat:'First/Last Frame',icon:'🎞️',tags:['Control antes/después','Lógica de movimiento','Sin drift aleatorio'],nuevo:false},
+  {id:'automation',nombre:'Maestro de Automatización',desc:'Planea, construye y mejora flujos de trabajo de video con IA. Basado en 10,000 horas de experiencia real.',cat:'General',icon:'⚡',tags:['Planeación de flujos','Sistemas de prompts','Guía de automatización'],nuevo:false},
+  {id:'generador',nombre:'Generador de GPTs y Gems',desc:'Describí tu idea de bot y recibís el System Prompt completo para ChatGPT GPT Builder y Gemini Gem, con nombre y conversation starters.',cat:'Generador',icon:'🔧',tags:['System Prompt para GPT','Gem para Gemini','Conversation starters'],nuevo:true}
+];
+function wfRender(filtro){
+  const data=filtro==='todo'?WF_DATA:WF_DATA.filter(w=>w.cat===filtro);
+  document.getElementById('wfGrid').innerHTML=data.map(w=>{
+    const bar=WF_COLORS[w.cat]||WF_COLORS['General'];
+    return `<article style="background:var(--bg2);border:1px solid var(--line);border-radius:14px;overflow:hidden;display:flex;flex-direction:column;transition:transform .2s,box-shadow .2s,border-color .2s" onmouseover="this.style.transform='translateY(-3px)';this.style.boxShadow='0 18px 40px rgba(0,0,0,.45)'" onmouseout="this.style.transform='';this.style.boxShadow=''">
+      <div style="height:3px;background:${bar}"></div>
+      <div style="padding:16px;display:flex;flex-direction:column;gap:10px;flex:1">
+        <div style="display:flex;align-items:flex-start;justify-content:space-between">
+          <div style="display:flex;gap:6px;flex-wrap:wrap">
+            <span style="font-family:var(--mono);font-size:10px;padding:3px 9px;border-radius:20px;background:rgba(255,255,255,.05);color:var(--muted);border:1px solid var(--line)">${w.cat}</span>
+            ${w.nuevo?'<span style="font-family:var(--mono);font-size:10px;padding:3px 9px;border-radius:20px;background:rgba(91,240,142,.12);color:#5BF08E;border:1px solid rgba(91,240,142,.3)">NUEVO</span>':''}
+          </div>
+          <span style="font-size:1.35rem">${w.icon}</span>
+        </div>
+        <h3 style="font-family:var(--display);font-weight:700;font-size:14.5px;line-height:1.3;color:var(--ink);margin:0">${w.nombre}</h3>
+        <p style="font-size:12.5px;color:var(--muted);line-height:1.65;margin:0;flex:1">${w.desc}</p>
+        <div style="display:flex;flex-wrap:wrap;gap:5px">${w.tags.map(tg=>`<span style="font-family:var(--mono);font-size:10.5px;padding:3px 8px;background:rgba(255,255,255,.03);border:1px solid var(--line);border-radius:6px;color:var(--muted)">${tg}</span>`).join('')}</div>
+        <a href="workflow-bot.html?bot=${w.id}" style="display:flex;align-items:center;justify-content:space-between;padding:9px 13px;background:rgba(255,255,255,.03);border:1px solid var(--line);border-radius:10px;font-family:var(--display);font-size:13px;font-weight:700;color:var(--ink);text-decoration:none" onmouseover="this.style.background='rgba(255,255,255,.07)'" onmouseout="this.style.background='rgba(255,255,255,.03)'"><span>Abrir Bot</span><span>→</span></a>
+      </div></article>`;
+  }).join('');
+}
+function wfFilter(cat,btn){
+  document.querySelectorAll('.wftab').forEach(tb=>tb.classList.remove('on'));
+  btn.classList.add('on');
+  wfRender(cat);
+}
 
-/* ───────── Nichos sugeridos (chips rotativos) ───────── */
+/* ─────── Nichos sugeridos ─────── */
 const NICHOS = ['recetas keto','finanzas personales','misterios sin resolver','rutinas de gym',
   'curiosidades de la historia','tecnología y gadgets','cuentos de terror','motivación',
   'datos de ciencia','tutoriales de IA','gameplays','reflexiones de vida','documentales cortos',
@@ -2059,7 +1979,7 @@ function pintarChips(){
 }
 function usarChip(n){ $('#q').value = n; buscar(); }
 
-/* ───────── Feed de outliers recientes (se actualiza) ───────── */
+/* ─────── Feed de outliers ─────── */
 async function cargarFeed(){
   const wrap = $('#feedWrap'), row = $('#feedRow');
   if(!wrap || !row || !KEYS.yt) return;
@@ -2102,12 +2022,12 @@ function refrescarFeed(){ cargarFeed(); }
 
 let _feedTries = 0;
 function initFeed(){
-  if(!KEYS.yt) return;                                   // sin clave de YouTube no se puede
-  if($('#gate').classList.contains('hidden')){ cargarFeed(); return; }  // ya logueado
-  if(_feedTries++ < 200) setTimeout(initFeed, 800);      // espera al login (≈2.5 min máx)
+  if(!KEYS.yt) return;
+  if($('#gate').classList.contains('hidden')){ cargarFeed(); return; }
+  if(_feedTries++ < 200) setTimeout(initFeed, 800);
 }
 
-/* ───────── Fila de puntuaciones ───────── */
+/* ─────── Puntuaciones ─────── */
 function scoreRow(s){
   if(!s) return null;
   const el = document.createElement('div'); el.className = 'scores';
@@ -2126,7 +2046,7 @@ function scoreRow(s){
   return n ? el : null;
 }
 
-/* ───────── Descargar análisis como .MD ───────── */
+/* ─────── Descargar .MD ─────── */
 function descargarMD(e){
   const v = e.video || {}, s = e.scores || {};
   const val = k => (s[k] != null ? s[k] : '—');
@@ -2153,7 +2073,7 @@ function descargarMD(e){
   setTimeout(() => URL.revokeObjectURL(a.href), 1000);
 }
 
-/* ───────── Idioma ES / EN ───────── */
+/* ─────── Idioma ES / EN ─────── */
 const I18N = {
   es:{
     eyebrow:'detección de anomalías · youtube',
@@ -2221,7 +2141,6 @@ function aplicarIdioma(){
   set('#view-guiones .vsub', d.guiSub);
   set('.keys h2', d.keysTitle);
   set('.keys .btn-gold', d.save);
-
   set('#keysBtn', d.claves);
   set('#logout', d.salir);
   const f = $('footer');
@@ -2234,16 +2153,16 @@ function toggleIdioma(){
   LANG = (LANG === 'es') ? 'en' : 'es';
   try{ localStorage.setItem('jmbots_lang', LANG); }catch{}
   aplicarIdioma();
-  // refrescar lo que ya esté en pantalla para que tome el idioma nuevo
   if(!$('#view-historial').hidden) renderHist();
   if(!$('#view-guiones').hidden)   renderGuiones();
 }
 
-/* ───────── Arranque ───────── */
+/* ─────── Arranque ─────── */
 window.addEventListener('DOMContentLoaded', () => {
   aplicarIdioma();
   pintarChips();
   initFeed();
+  wfRender('todo');
 });
 </script>
 <script src="jmbots-resilience.js"></script>
