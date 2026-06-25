@@ -183,7 +183,9 @@ function enviarTexto(v){
 /* ── Construcción del DOM ── */
 function buildUI(){
   document.title=NOMBRE+' — JM BOTS';
-  document.body.innerHTML=
+  var root=document.createElement('div');
+  root.id='novela-root';
+  root.innerHTML=
     '<header><a href="app.html" class="back">← Volver a la suite</a>'
     + '<div class="hname">'+EMOJI+' '+esc(NOMBRE)+'</div>'
     + '<div class="keychip" id="keychip">⚙ clave</div></header>'
@@ -199,6 +201,7 @@ function buildUI(){
     + '<input type="password" id="keyinp" placeholder="AIza..." autocomplete="off">'
     + '<div class="mb"><button class="cancel" id="keycancel">Cancelar</button>'
     + '<button class="save" id="keysave">Guardar</button></div></div></div>';
+  document.body.appendChild(root);
 
   $('keychip').onclick=openKey;
   $('keycancel').onclick=closeKey;
