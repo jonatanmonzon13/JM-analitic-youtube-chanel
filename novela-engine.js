@@ -9,6 +9,10 @@ var APPID = CFG.appId || 'novela';
 var NOMBRE = CFG.nombre || 'Productor de Novelas IA';
 var EMOJI = CFG.emoji || '🎬';
 var SYS = CFG.sys || '';
+var UI = CFG.ui || {};
+var SIDEBAR_TITLE = UI.sidebarTitle || '📚 Mis novelas';
+var NEW_BTN = UI.newBtn || '+ Nueva novela';
+var ITEM_WORD = UI.itemWord || 'Novela';
 var MODEL = 'gemini-2.5-flash';
 var API = 'https://generativelanguage.googleapis.com';
 var LS_PROJ = 'jmbots_novela_' + APPID;
@@ -52,7 +56,7 @@ function renderProyectos(){
 }
 function nuevaNovela(){
   var id='n'+Date.now();
-  actual={ id:id, nombre:'Novela '+(proyectos.length+1), ts:Date.now(), lastTs:Date.now(), mensajes:[] };
+  actual={ id:id, nombre:ITEM_WORD+' '+(proyectos.length+1), ts:Date.now(), lastTs:Date.now(), mensajes:[] };
   proyectos.unshift(actual);
   saveProj(); renderProyectos(); renderChat();
   enviarTexto('Dame las 15 ideas para elegir.');
@@ -136,11 +140,11 @@ function copyText(txt, btn, label){
 function renderChat(){
   var cont=$('msgs');
   if(!actual){
-    cont.innerHTML='<div class="intro"><div class="eyebrow">⚡ JM BOTS</div>'
+    cont.innerHTML='<div class="intro">'+(UI.introHtml || ('<div class="eyebrow">⚡ JM BOTS</div>'
       + '<h1>'+esc(NOMBRE)+'</h1>'
       + '<p>Creá historias seriadas divididas en clips verticales 9:16 para reels. El bot te entrega los prompts listos para Veo 3.1: personajes, escenas y animación con guion.</p>'
       + '<ul><li>Te propongo <b>15 ideas</b> con resumen → elegís una.</li><li>Pedís el <b>capítulo</b> que quieras.</li><li>Te entrego los <b>3 lotes juntos</b> con botones para copiar cada prompt o el lote entero.</li><li>Cada novela queda guardada para <b>continuarla</b> después.</li></ul>'
-      + '<p style="margin-top:14px">Tocá <b>«+ Nueva novela»</b> para empezar.</p></div>';
+      + '<p style="margin-top:14px">Tocá <b>«'+NEW_BTN+'»</b> para empezar.</p>'))+'</div>';
     setQuick(false); return;
   }
   cont.innerHTML=(actual.mensajes||[]).map(function(m){
@@ -153,10 +157,15 @@ function renderChat(){
 function setQuick(on){
   var q=$('quick');
   if(!on||!actual){ q.innerHTML=''; return; }
-  q.innerHTML='<button data-q="Dame las 15 ideas para elegir.">🎬 15 ideas</button>'
-    + '<button data-q="Creá el siguiente capítulo respetando la continuidad. Recordá: mínimo 22 escenas y 22 animaciones, más el master prompt de respaldo.">➕ siguiente capítulo</button>'
-    + '<button data-q="Te quedaste corto. Completá el capítulo hasta tener MÍNIMO 22 escenas en el Lote 2 y la misma cantidad de animaciones en el Lote 3, continuando donde te quedaste, sin repetir las que ya diste.">⏫ faltan clips</button>'
-    + '<button data-q="Mostrame la biblia de personajes y la trama actual.">📖 biblia</button>';
+  var items = UI.quick || [
+    ['🎬 15 ideas','Dame las 15 ideas para elegir.'],
+    ['➕ siguiente capítulo','Creá el siguiente capítulo respetando la continuidad. Recordá: mínimo 22 escenas y 22 animaciones, más el master prompt de respaldo.'],
+    ['⏫ faltan clips','Te quedaste corto. Completá el capítulo hasta tener MÍNIMO 22 escenas en el Lote 2 y la misma cantidad de animaciones en el Lote 3, continuando donde te quedaste, sin repetir las que ya diste.'],
+    ['📖 biblia','Mostrame la biblia de personajes y la trama actual.']
+  ];
+  q.innerHTML=items.map(function(it){
+    return '<button data-q="'+String(it[1]).replace(/"/g,'&quot;')+'">'+it[0]+'</button>';
+  }).join('');
 }
 
 /* ── Envío a Gemini ── */
@@ -203,8 +212,8 @@ function buildUI(){
     '<header><a href="app.html" class="back">← Volver a la suite</a>'
     + '<div class="hname">'+EMOJI+' '+esc(NOMBRE)+'</div>'
     + '<div class="keychip" id="keychip">⚙ clave</div></header>'
-    + '<div class="layout"><aside class="side"><h3>📚 Mis novelas</h3>'
-    + '<button class="newbtn" id="newbtn">+ Nueva novela</button>'
+    + '<div class="layout"><aside class="side"><h3>'+SIDEBAR_TITLE+'</h3>'
+    + '<button class="newbtn" id="newbtn">'+NEW_BTN+'</button>'
     + '<div class="plist" id="plist"></div><div class="storebar" id="storebar"></div>'
     + '<button class="clearall" id="clearall">🗑 Borrar historial</button></aside>'
     + '<main class="chat"><div class="msgs" id="msgs"></div>'

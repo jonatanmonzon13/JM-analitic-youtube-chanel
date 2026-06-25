@@ -1251,6 +1251,12 @@
       "nombre": "Workflows IA",
       "archivo": "workflows.html",
       "img": "img/workflows.jpg"
+    },
+    {
+      "id": "milagrosjesus",
+      "nombre": "Milagros de Jesús",
+      "archivo": "milagrosjesus.html",
+      "img": "img/milagrosjesus.jpg"
     }
   ],
   "accesos": {
