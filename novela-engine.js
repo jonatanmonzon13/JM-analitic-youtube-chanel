@@ -45,7 +45,7 @@ function renderProyectos(){
       + '<div class="pacts">'
       +   '<button class="go" data-go="'+p.id+'">▶ continuar</button>'
       +   '<button class="exp" data-exp="'+p.id+'">⬇ exportar</button>'
-      +   '<button class="del" data-del="'+p.id+'">🗑</button>'
+      +   '<button class="del" data-del="'+p.id+'">🗑 borrar</button>'
       + '</div></div>';
   }).join('');
   renderStore();
@@ -71,6 +71,13 @@ function exportar(id){
   setTimeout(function(){ URL.revokeObjectURL(a.href); },1000);
 }
 function find(id){ for(var i=0;i<proyectos.length;i++){ if(proyectos[i].id===id) return proyectos[i]; } return null; }
+function clearAll(){
+  if(!proyectos.length){ alert('No hay historial para borrar.'); return; }
+  if(!confirm('¿Borrar TODO el historial de novelas de esta app? Se eliminan '+proyectos.length+' novela(s) y no se puede deshacer.')) return;
+  proyectos=[]; actual=null;
+  try{ localStorage.removeItem(LS_PROJ); }catch(e){}
+  renderProyectos(); renderChat();
+}
 
 /* ── Render de lotes con copiar lote + copiar prompt ── */
 function autoNombre(p){
@@ -84,7 +91,7 @@ function autoNombre(p){
   return p.nombre;
 }
 function splitLotes(text){
-  var rx=/(LOTE\s*[123][^\n]*)/gi, idxs=[], m;
+  var rx=/(LOTE\s*\d[^\n]*|MASTER\s*PROMPT[^\n]*)/gi, idxs=[], m;
   while((m=rx.exec(text))!==null){ idxs.push({i:m.index,h:m[1].trim()}); }
   if(idxs.length<2) return null;
   var pre=text.slice(0,idxs[0].i).trim(), blocks=[];
@@ -102,6 +109,12 @@ function bubbleHtml(text){
   var html='';
   if(parsed.pre) html+='<div class="bubble">'+esc(parsed.pre)+'</div>';
   parsed.blocks.forEach(function(b){
+    if(/master/i.test(b.head)){
+      html+='<div class="loteblock"><div class="lh"><b>'+esc(b.head)+'</b>'
+        + '<button class="copyb" data-copylote="1">copiar master prompt</button></div>'
+        + '<div class="lprompts"><div class="prow"><pre>'+esc(b.body)+'</pre></div></div></div>';
+      return;
+    }
     var prompts=b.body.split(/\n\s*\n/).map(function(s){return s.trim();}).filter(Boolean);
     var rows=prompts.map(function(p){
       return '<div class="prow"><pre>'+esc(p)+'</pre><button class="pcopy" data-copyprompt="1">copiar</button></div>';
@@ -141,7 +154,8 @@ function setQuick(on){
   var q=$('quick');
   if(!on||!actual){ q.innerHTML=''; return; }
   q.innerHTML='<button data-q="Dame las 15 ideas para elegir.">🎬 15 ideas</button>'
-    + '<button data-q="Creá el siguiente capítulo respetando la continuidad.">➕ siguiente capítulo</button>'
+    + '<button data-q="Creá el siguiente capítulo respetando la continuidad. Recordá: mínimo 22 escenas y 22 animaciones, más el master prompt de respaldo.">➕ siguiente capítulo</button>'
+    + '<button data-q="Te quedaste corto. Completá el capítulo hasta tener MÍNIMO 22 escenas en el Lote 2 y la misma cantidad de animaciones en el Lote 3, continuando donde te quedaste, sin repetir las que ya diste.">⏫ faltan clips</button>'
     + '<button data-q="Mostrame la biblia de personajes y la trama actual.">📖 biblia</button>';
 }
 
@@ -162,7 +176,7 @@ function enviarTexto(v){
   var contents=actual.mensajes.map(function(m){ return { role:(m.role==='user'?'user':'model'), parts:[{text:m.text}] }; });
   fetch(API+'/v1beta/models/'+MODEL+':generateContent?key='+encodeURIComponent(getKey()),{
     method:'POST', headers:{'content-type':'application/json'},
-    body:JSON.stringify({ system_instruction:{parts:[{text:SYS}]}, contents:contents, generationConfig:{maxOutputTokens:16384, temperature:0.95} })
+    body:JSON.stringify({ system_instruction:{parts:[{text:SYS}]}, contents:contents, generationConfig:{maxOutputTokens:32768, temperature:0.95} })
   }).then(function(r){ return r.json().then(function(data){ return {ok:r.ok,status:r.status,data:data}; }); })
   .then(function(res){
     if(!res.ok) throw new Error((res.data.error&&res.data.error.message)||('Gemini '+res.status));
@@ -191,7 +205,8 @@ function buildUI(){
     + '<div class="keychip" id="keychip">⚙ clave</div></header>'
     + '<div class="layout"><aside class="side"><h3>📚 Mis novelas</h3>'
     + '<button class="newbtn" id="newbtn">+ Nueva novela</button>'
-    + '<div class="plist" id="plist"></div><div class="storebar" id="storebar"></div></aside>'
+    + '<div class="plist" id="plist"></div><div class="storebar" id="storebar"></div>'
+    + '<button class="clearall" id="clearall">🗑 Borrar historial</button></aside>'
     + '<main class="chat"><div class="msgs" id="msgs"></div>'
     + '<div class="composer"><div class="quick" id="quick"></div>'
     + '<div class="cbar"><textarea id="inp" rows="1" placeholder="Escribí acá... (ej: «dame las ideas», «quiero la 3», «creá el capítulo 1»)"></textarea>'
@@ -207,6 +222,7 @@ function buildUI(){
   $('keycancel').onclick=closeKey;
   $('keysave').onclick=saveKeyBtn;
   $('newbtn').onclick=nuevaNovela;
+  $('clearall').onclick=clearAll;
   $('sendb').onclick=enviar;
   var inp=$('inp');
   inp.addEventListener('input', function(){ this.style.height='auto'; this.style.height=Math.min(this.scrollHeight,140)+'px'; });
