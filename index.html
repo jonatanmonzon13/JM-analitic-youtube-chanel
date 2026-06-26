@@ -442,12 +442,13 @@ const CUPOS_TOTAL=50, CUPOS_TOMADOS=36;   /* 14 cupos libres · actualizá a man
    Opción B (YouTube/embed):  { embed:'https://www.youtube.com/embed/ID', tag:'Podcast' }
    Dejalo sin src/embed para mostrar el placeholder. */
 const SAMPLE_VIDEOS=[
-  { tag:'Terror' },
-  { tag:'Infantil' },
-  { tag:'Podcast' },
-  { tag:'Mascotas' },
-  { tag:'Cuentos' },
-  { tag:'Fe' }
+  { src:'videos/artesanos.mp4',        tag:'Artesanos IA' },
+  { src:'videos/miniaturas.mp4',       tag:'Miniaturas' },
+  { src:'videos/podcast-finanzas.mp4', tag:'Podcast Finanzas' },
+  { src:'videos/terror.mp4',           tag:'Terror Ilustrado' },
+  { src:'videos/frutinovelas.mp4',     tag:'Frutinovelas' },
+  { src:'videos/xray.mp4',             tag:'X-Ray' },
+  { src:'videos/timelapse-obra.mp4',   tag:'Timelapse Obra' }
 ];
 (function(){var g=document.getElementById('vidgrid');if(!g)return;
   g.innerHTML=SAMPLE_VIDEOS.map(function(v){var inner;
