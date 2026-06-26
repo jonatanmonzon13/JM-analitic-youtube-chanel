@@ -275,6 +275,7 @@
 
 <section class="sales" id="testimonios"><div class="wrap">
   <div class="shead reveal"><span class="eyebrow">Lo que dicen</span><h2>Creadores que ya lo <span class="g">usan</span></h2><p>Testimonios de ejemplo — cambialos por reales antes de publicar.</p></div>
+ <div class="vidgrid" id="testimVidgrid" style="margin-bottom:30px"></div>
   <div class="tgrid">
     <div class="tcard reveal"><div class="stars">★★★★★</div><p>"Pasé de tardar una tarde armando prompts a sacar un video en minutos. Lo de los lotes separados me ordenó todo el flujo."</p><div class="who"><div class="av" style="background:linear-gradient(135deg,#FFD27A,#F472D0)">CL</div><div><div class="nm">Camila L.</div><div class="rl">Canal faceless · terror</div></div></div></div>
     <div class="tcard reveal" style="transition-delay:.08s"><div class="stars">★★★★★</div><p>"Los bots de podcast con avatar son una locura. El audio nativo de Veo me ahorró pasos y el extend me dejó videos largos sin cortes."</p><div class="who"><div class="av" style="background:linear-gradient(135deg,#8B5CF6,#22D3EE)">RM</div><div><div class="nm">Rodrigo M.</div><div class="rl">Contenido de motivación</div></div></div></div>
@@ -462,6 +463,25 @@ const SAMPLE_VIDEOS=[
  if(t)t.textContent=CUPOS_TOMADOS+' tomados'; if(lf)lf.textContent=l+' libres'; if(bl)bl.textContent=l;
  if(f){var io=new IntersectionObserver(function(es){es.forEach(function(e){if(e.isIntersecting){f.style.width=p+'%';io.disconnect();}});},{threshold:.4});io.observe(f);}
  var b=document.getElementById('buyBtn'); if(b)b.href=CHECKOUT_URL; var w=document.getElementById('waLink'); if(w)w.href=CHECKOUT_URL;})();
+</script>
+  <script>
+/* ════ TESTIMONIOS EN VIDEO — 3 videos ════ */
+const TESTIMONIO_VIDEOS=[
+  { src:'testimonios/joximar.mp4', nombre:'joximar', rol:'podcast' },
+  { src:'testimonios/mari.mp4', nombre:'mari', rol:'reflexiones' },
+  { src:'testimonios/oriel.mp4', nombre:'oriel', rol:'k-drama' }
+];
+(function(){var g=document.getElementById('testimVidgrid');if(!g)return;
+  g.innerHTML=TESTIMONIO_VIDEOS.map(function(v){
+    var inner = v.src
+      ? '<video src="'+v.src+'" controls playsinline preload="metadata"></video>'
+      : '<div class="vph"><span class="pl">\u25B6</span>Tu testimonio<br>en video</div>';
+    var cap = (v.nombre||v.rol)
+      ? '<div class="vtag" style="top:auto;bottom:10px;left:10px;right:10px;text-align:center"><b style="color:#fff">'+(v.nombre||'')+'</b>'+(v.rol?' · '+v.rol:'')+'</div>'
+      : '';
+    return '<div class="vslot in">'+inner+cap+'</div>';
+  }).join('');
+})();
 </script>
 <div class="lmodal" id="loginModal" aria-hidden="true">
   <div class="lbox">
