@@ -160,6 +160,11 @@
   .vslot .vph{padding:18px;color:var(--muted);font-family:var(--mono);font-size:12px;z-index:1}
   .vslot .vph .pl{font-size:40px;color:#fff;margin-bottom:8px;display:block;text-shadow:0 4px 14px rgba(0,0,0,.5)}
   .vslot .vtag{position:absolute;top:10px;left:10px;z-index:2;font-family:var(--mono);font-size:10.5px;letter-spacing:.06em;background:rgba(0,0,0,.5);border:1px solid var(--line);padding:4px 9px;border-radius:7px;color:#fff}
+  .vslot .playbtn{position:absolute;inset:0;z-index:4;display:flex;align-items:center;justify-content:center;cursor:pointer;background:rgba(0,0,0,.18);transition:background .2s}
+  .vslot .playbtn:hover{background:rgba(0,0,0,.32)}
+  .vslot .playbtn .pcirc{width:64px;height:64px;border-radius:50%;background:rgba(0,0,0,.55);-webkit-backdrop-filter:blur(4px);backdrop-filter:blur(4px);border:2px solid rgba(255,255,255,.92);display:flex;align-items:center;justify-content:center;color:#fff;font-size:26px;padding-left:5px;transition:transform .18s,box-shadow .2s;box-shadow:0 8px 24px rgba(0,0,0,.4)}
+  .vslot .playbtn:hover .pcirc{transform:scale(1.08);box-shadow:0 10px 30px rgba(245,181,68,.45)}
+  .vslot.playing .playbtn{display:none}
   .tgrid{display:grid;grid-template-columns:repeat(3,1fr);gap:16px}
   @media(max-width:860px){.tgrid{grid-template-columns:1fr}}
   .tcard{background:linear-gradient(180deg,rgba(255,255,255,.04),rgba(255,255,255,.01));border:1px solid var(--line);border-radius:16px;padding:24px}
@@ -398,6 +403,21 @@ fetch('autorizados.json?t='+Date.now()).then(r=>r.json()).then(d=>{
 }).catch(()=>{});
 </script>
 <script>
+/* ════ Botón de play: reproduce con sonido al tocar ════ */
+function activarPlay(cont){
+  cont.querySelectorAll('.vslot').forEach(function(s){
+    var pb=s.querySelector('.playbtn'), vd=s.querySelector('video');
+    if(!pb||!vd) return;
+    pb.addEventListener('click',function(){
+      cont.querySelectorAll('.vslot.playing video').forEach(function(o){ if(o!==vd){ o.pause(); o.parentElement.classList.remove('playing'); } });
+      vd.muted=false; vd.play(); s.classList.add('playing');
+    });
+    vd.addEventListener('ended',function(){ s.classList.remove('playing'); });
+    vd.addEventListener('click',function(){ if(vd.paused){ vd.play(); } else { vd.pause(); s.classList.remove('playing'); } });
+  });
+}
+</script>
+<script>
 /* ════ AJUSTÁ ESTO ════ */
 const WHATSAPP='543424076746';   /* tu numero, sin + ni espacios */
 const CHECKOUT_URL='https://wa.me/'+WHATSAPP+'?text='+encodeURIComponent('Hola! Quiero mi acceso a JM BOTS. Quiero pagar por Binance ($15) o PayPal ($20). Como coordinamos?');
@@ -415,10 +435,11 @@ const SAMPLE_VIDEOS=[
 ];
 (function(){var g=document.getElementById('vidgrid');if(!g)return;
   g.innerHTML=SAMPLE_VIDEOS.map(function(v){var inner;
-    if(v.src){inner='<video src="'+v.src+'" autoplay muted loop playsinline preload="metadata"></video>';}
+    if(v.src){inner='<video src="'+v.src+'" playsinline preload="metadata"></video><div class="playbtn"><div class="pcirc">\u25B6</div></div>';}
     else if(v.embed){inner='<iframe src="'+v.embed+'" allow="autoplay; encrypted-media" allowfullscreen></iframe>';}
     else{inner='<div class="vph"><span class="pl">\u25B6</span>Peg\u00e1 ac\u00e1 tu<br>video de muestra</div>';}
     return '<div class="vslot in">'+(v.tag?'<span class="vtag">'+v.tag+'</span>':'')+inner+'</div>';}).join('');
+  activarPlay(g);
 })();
 (function(){var l=Math.max(CUPOS_TOTAL-CUPOS_TOMADOS,0),p=Math.min(Math.round(CUPOS_TOMADOS/CUPOS_TOTAL*100),100);
  var t=document.getElementById('takenTxt'),lf=document.getElementById('leftTxt'),bl=document.getElementById('bigLeft'),f=document.getElementById('cuposFill');
@@ -436,10 +457,11 @@ const TESTIMONIO_VIDEOS=[
 (function(){var g=document.getElementById('testimVidgrid');if(!g)return;
   g.innerHTML=TESTIMONIO_VIDEOS.map(function(v){
     var inner = v.src
-      ? '<video src="'+v.src+'" controls playsinline preload="metadata"></video>'
+      ? '<video src="'+v.src+'" playsinline preload="metadata"></video><div class="playbtn"><div class="pcirc">\u25B6</div></div>'
       : '<div class="vph"><span class="pl">\u25B6</span>Tu testimonio<br>en video</div>';
     return '<div class="vslot in">'+inner+'</div>';
   }).join('');
+  activarPlay(g);
 })();
 </script>
 <div class="lmodal" id="loginModal" aria-hidden="true">
