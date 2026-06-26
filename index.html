@@ -117,6 +117,14 @@
   .wall{display:grid;grid-template-columns:repeat(4,1fr);gap:16px}
   @media (max-width:1000px){.wall{grid-template-columns:repeat(3,1fr)}}
   @media (max-width:680px){.wall{grid-template-columns:repeat(2,1fr)}}
+  /* botones de categoria (tabs) */
+  .cattabs{display:flex;gap:10px;flex-wrap:wrap;justify-content:center;margin:0 auto 30px;max-width:920px}
+  .cattab{cursor:pointer;font-family:var(--display);font-weight:700;font-size:13.5px;color:var(--body);background:rgba(255,255,255,.05);border:1px solid var(--line);border-radius:999px;padding:10px 18px;display:inline-flex;align-items:center;gap:7px;transition:transform .15s,border-color .2s,background .2s,color .2s}
+  .cattab:hover{transform:translateY(-2px);border-color:var(--gold);color:var(--ink)}
+  .cattab .cic{font-size:15px}
+  .cattab .ccount{font-family:var(--mono);font-size:10.5px;color:var(--muted);background:rgba(255,255,255,.06);border-radius:999px;padding:1px 7px}
+  .cattab.on{color:#241400;background:var(--grad-gold);border-color:transparent;box-shadow:0 8px 24px rgba(245,181,68,.34)}
+  .cattab.on .ccount{color:#241400;background:rgba(0,0,0,.14)}
   .wcard{position:relative;display:block;border-radius:14px;overflow:hidden;border:1px solid var(--line);background:var(--bg2);aspect-ratio:16/9;transition:transform .25s cubic-bezier(.2,.7,.2,1),box-shadow .25s,border-color .25s;content-visibility:auto;contain-intrinsic-size:auto 170px}
   .wcard .tbg{position:absolute;inset:0} .wcard img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;transition:transform .5s}
   .wcard .grad{position:absolute;inset:0;z-index:1;background:linear-gradient(180deg,transparent 42%,rgba(0,0,0,.8))}
@@ -151,9 +159,9 @@
   }
   /* ===== CAPA DE VENTAS ===== */
   .sales{padding:54px 0 30px;position:relative}
-  .vidgrid{display:grid;grid-template-columns:repeat(3,1fr);gap:16px}
-  @media(max-width:860px){.vidgrid{grid-template-columns:1fr 1fr}}
-  @media(max-width:520px){.vidgrid{grid-template-columns:1fr}}
+  .vidgrid{display:grid;grid-template-columns:repeat(4,1fr);gap:14px}
+  @media(max-width:860px){.vidgrid{grid-template-columns:repeat(3,1fr)}}
+  @media(max-width:520px){.vidgrid{grid-template-columns:1fr 1fr}}
   .vslot{position:relative;aspect-ratio:9/16;border-radius:16px;overflow:hidden;border:1px solid var(--line);background:linear-gradient(160deg,rgba(139,92,246,.18),rgba(34,211,238,.08));display:grid;place-items:center;text-align:center;cursor:pointer;transition:transform .2s,border-color .2s}
   .vslot:hover{transform:translateY(-4px);border-color:var(--gold)}
   .vslot video,.vslot iframe{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;border:0}
@@ -162,7 +170,7 @@
   .vslot .vtag{position:absolute;top:10px;left:10px;z-index:2;font-family:var(--mono);font-size:10.5px;letter-spacing:.06em;background:rgba(0,0,0,.5);border:1px solid var(--line);padding:4px 9px;border-radius:7px;color:#fff}
   .vslot .playbtn{position:absolute;inset:0;z-index:4;display:flex;align-items:center;justify-content:center;cursor:pointer;background:rgba(0,0,0,.18);transition:background .2s}
   .vslot .playbtn:hover{background:rgba(0,0,0,.32)}
-  .vslot .playbtn .pcirc{width:64px;height:64px;border-radius:50%;background:rgba(0,0,0,.55);-webkit-backdrop-filter:blur(4px);backdrop-filter:blur(4px);border:2px solid rgba(255,255,255,.92);display:flex;align-items:center;justify-content:center;color:#fff;font-size:26px;padding-left:5px;transition:transform .18s,box-shadow .2s;box-shadow:0 8px 24px rgba(0,0,0,.4)}
+  .vslot .playbtn .pcirc{width:52px;height:52px;border-radius:50%;background:rgba(0,0,0,.55);-webkit-backdrop-filter:blur(4px);backdrop-filter:blur(4px);border:2px solid rgba(255,255,255,.92);display:flex;align-items:center;justify-content:center;color:#fff;font-size:21px;padding-left:4px;transition:transform .18s,box-shadow .2s;box-shadow:0 8px 24px rgba(0,0,0,.4)}
   .vslot .playbtn:hover .pcirc{transform:scale(1.08);box-shadow:0 10px 30px rgba(245,181,68,.45)}
   .vslot.playing .playbtn{display:none}
   .tgrid{display:grid;grid-template-columns:repeat(3,1fr);gap:16px}
@@ -251,6 +259,7 @@
     <h2>Explorá las <span class="g">herramientas</span></h2>
     <p>Pasá el mouse, elegí y empezá a crear. Cada semana sumamos más.</p>
   </div>
+  <div class="cattabs" id="cattabs"></div>
   <div class="wall" id="wall"></div>
   <div class="moreline reveal">✦ <b>Y seguimos sumando</b> nuevas herramientas todo el tiempo</div>
 </div></section>
@@ -323,7 +332,7 @@ const NICHO={audiosrt:"viralia",stickstories:"viralia",facelessviral:"viralia",a
     stickanim:"viralia",nightvision:"viralia",biomech:"viralia",beachsaga:"viralia",evolution:"educa",wildbbc:"educa",cinedirector:"story",
     
     animecine:"cuentos",animereal:"cuentos",ghibli:"cuentos",claymation:"cuentos",retratopixar:"cuentos",legomundo:"cuentos",motioncomic:"cuentos",pixelart:"cuentos",cartoon2d:"cuentos",futbolepico:"viralia",extremospov:"viralia",animalesdeporte:"viralia",combateepico:"viralia",carreras:"viralia",trailersfake:"story",scifi:"story",western:"story",noir:"story",epocahist:"story",accionhollywood:"story",cinemudo:"story",romance:"story",kdrama:"story",telenovela:"story",dramaepoca:"story",quesi:"viralia",criaturasmito:"viralia",kaiju:"viralia",natimposible:"viralia",cosmos:"viralia",futuro3000:"viralia",postapoc:"viralia",microcosmos:"viralia",ugcreview:"podcast",testimonios:"podcast",noticiero:"podcast",standup:"podcast",videoclip:"podcast",pasarela:"viralia",lookbook:"viralia",glowup:"viralia",psicologia:"educa",estoicismo:"educa",ciencia:"educa",espacioedu:"educa",inventos:"educa",foodporn:"asmr",mukbang:"asmr",recetaspov:"asmr",comidagigante:"asmr",docunatura:"educa",oceano:"educa",dinosdoc:"educa",hadasoscuras:"terror",paranormalpov:"terror",leyendas:"terror",viajes:"viralia",supercars:"viralia",mansiones:"viralia",brainrot:"viralia",
-    outliers:"analisis",analizador:"analisis",timelapse:"viralia",timelapse2:"viralia",timelapse3:"viralia",cocinaviral:"viralia",narekart:"viralia",surreal:"viralia",miniaturas:"viralia",animalessurreal:"viralia",criaturas:"viralia",tiendashop:"viralia",streetpro:"viralia",xray:"viralia",woodenhands:"asmr",woodenhands2:"asmr",asmrsatisfying:"asmr",aifruit:"asmr",procesos:"asmr",podcast:"podcast",podfitness:"podcast",podmujeres:"podcast",podfe:"podcast",poddating:"podcast",podnegocios:"podcast",abuelo:"podcast",ninogenio:"podcast",atleta:"podcast",entrevista:"podcast",streetint:"podcast",storytime:"podcast",datoshablados:"podcast",finanzas:"dinero",negociosfaceless:"dinero",techia:"educa",saludbienestar:"educa",historiacuriosa:"educa",datos:"educa",venganza:"story",reddit:"story",povcine:"story",motivacion:"story",terror:"terror",terrorurbano:"terror",datosmiedo:"terror",truecrime:"terror",historias:"fe",milagros:"fe",relatos:"fe",parabolas:"fe",tentacion:"fe",proverbios:"fe",redencion:"fe",viajealma:"fe",cartas:"fe",valores:"fe",reflexiones:"fe",novelas:"cuentos",fabulas:"cuentos",mitologia:"cuentos",glam:"cuentos",frutas:"cuentos",monstruos:"cuentos",trabalenguas:"cuentos",superheroes:"cuentos",zodiaco:"cuentos",buenasnoches:"infantil",utiles:"infantil",animales:"infantil",dinosaurios:"infantil",insectos:"infantil",plantas:"infantil",paises:"infantil",profesiones:"infantil",robots:"infantil",autos:"infantil",fractura:"viralia",explainer:"educa",montanarusa:"viralia",mundovegetal:"viralia",resinadiy:"asmr",timelapseobra:"viralia",dreamnostalgia:"viralia",cartoonkids:"infantil",rescateanimal:"infantil",junglabunker:"viralia",mascotas:"pov",comida:"pov",objetos:"pov"};
+    outliers:"analisis",analizador:"analisis",timelapse:"viralia",timelapse2:"viralia",timelapse3:"viralia",cocinaviral:"viralia",narekart:"viralia",surreal:"viralia",miniaturas:"viralia",animalessurreal:"viralia",criaturas:"viralia",tiendashop:"viralia",streetpro:"viralia",xray:"viralia",woodenhands:"asmr",woodenhands2:"asmr",asmrsatisfying:"asmr",aifruit:"asmr",procesos:"asmr",podcast:"podcast",podfitness:"podcast",podmujeres:"podcast",podfe:"podcast",poddating:"podcast",podnegocios:"podcast",abuelo:"podcast",ninogenio:"podcast",atleta:"podcast",entrevista:"podcast",streetint:"podcast",storytime:"podcast",datoshablados:"podcast",finanzas:"dinero",negociosfaceless:"dinero",techia:"educa",saludbienestar:"educa",historiacuriosa:"educa",datos:"educa",venganza:"story",reddit:"story",povcine:"story",motivacion:"story",terror:"terror",terrorurbano:"terror",datosmiedo:"terror",truecrime:"terror",historias:"fe",milagros:"fe",relatos:"fe",parabolas:"fe",tentacion:"fe",proverbios:"fe",redencion:"fe",viajealma:"fe",cartas:"fe",valores:"fe",reflexiones:"fe",novelas:"cuentos",fabulas:"cuentos",mitologia:"cuentos",glam:"cuentos",frutas:"cuentos",monstruos:"cuentos",trabalenguas:"cuentos",superheroes:"cuentos",zodiaco:"cuentos",buenasnoches:"infantil",utiles:"infantil",animales:"infantil",dinosaurios:"infantil",insectos:"infantil",plantas:"infantil",paises:"infantil",profesiones:"infantil",robots:"infantil",autos:"infantil",fractura:"viralia",explainer:"educa",montanarusa:"viralia",mundovegetal:"viralia",resinadiy:"asmr",timelapseobra:"viralia",dreamnostalgia:"viralia",cartoonkids:"infantil",rescateanimal:"infantil",junglabunker:"viralia",mascotas:"pov",comida:"pov",objetos:"pov",workflows:"analisis",milagrosjesus:"fe"};
 const NDATA={viralia:{ico:"🎬",c:["#8B5CF6","#22D3EE"]},asmr:{ico:"🪵",c:["#22D3EE","#16a34a"]},podcast:{ico:"🎙️",c:["#F472D0","#8B5CF6"]},dinero:{ico:"💰",c:["#F5B544","#FFD27A"]},educa:{ico:"📊",c:["#22D3EE","#3b82f6"]},story:{ico:"📖",c:["#F472D0","#FB7185"]},terror:{ico:"🕯️",c:["#8B5CF6","#6d28d9"]},fe:{ico:"🕊️",c:["#FFD27A","#F5B544"]},cuentos:{ico:"📚",c:["#FB923C","#F5B544"]},infantil:{ico:"🧸",c:["#22D3EE","#A3E635"]},pov:{ico:"🎢",c:["#FB7185","#FB923C"]},analisis:{ico:"📈",c:["#A3E635","#22D3EE"]}};
 const FALLBACK=[{id:"outliers",nombre:"Outliers"},{id:"fractura",nombre:"Fractura"},{id:"asmrsatisfying",nombre:"ASMR Satisfying"},{id:"podcast",nombre:"Podcast Hiperrealistas"},{id:"montanarusa",nombre:"Montaña Rusa POV"},{id:"finanzas",nombre:"Finanzas y Dinero"},{id:"terror",nombre:"Micro-Terror"},{id:"historias",nombre:"Historias de Fe"},{id:"cartoonkids",nombre:"Cartoon Kids"},{id:"junglabunker",nombre:"Supervivencia Jungla"},{id:"dreamnostalgia",nombre:"Dream Nostalgia"},{id:"cocinaviral",nombre:"Cocina Viral 3D"},{id:"surreal",nombre:"Mundos Surreales"},{id:"miniaturas",nombre:"Miniaturas"},{id:"reddit",nombre:"Reddit Stories"},{id:"mascotas",nombre:"Mascotas Dramáticas"},{id:"animecine",nombre:"Anime Cinematográfico"},{id:"animereal",nombre:"Anime + Vida Real"},{id:"ghibli",nombre:"Ghibli Cotidiano"},{id:"claymation",nombre:"Claymation"},{id:"retratopixar",nombre:"Retrato Pixar"},{id:"legomundo",nombre:"Mundo LEGO"},{id:"motioncomic",nombre:"Motion Comic"},{id:"pixelart",nombre:"Pixel Art Retro"},{id:"cartoon2d",nombre:"Cartoon 2D"},{id:"futbolepico",nombre:"Fútbol Épico IA"},{id:"extremospov",nombre:"Deportes Extremos POV"},{id:"animalesdeporte",nombre:"Animales Deportistas"},{id:"combateepico",nombre:"Combate Épico"},{id:"carreras",nombre:"Carreras IA"},{id:"trailersfake",nombre:"Tráilers de Cine IA"},{id:"scifi",nombre:"Sci-Fi Cinematográfico"},{id:"western",nombre:"Western IA"},{id:"noir",nombre:"Noir Detective"},{id:"epocahist",nombre:"Época Histórica"},{id:"accionhollywood",nombre:"Acción Hollywood"},{id:"cinemudo",nombre:"Cine Clásico Mudo"},{id:"romance",nombre:"Romance Realista"},{id:"kdrama",nombre:"K-Drama IA"},{id:"telenovela",nombre:"Telenovela Latina"},{id:"dramaepoca",nombre:"Drama de Época"},{id:"quesi",nombre:"¿Y si…? IA"},{id:"criaturasmito",nombre:"Criaturas Mitológicas"},{id:"kaiju",nombre:"Kaiju Gigante"},{id:"natimposible",nombre:"Naturaleza Imposible"},{id:"cosmos",nombre:"Espacio / Cosmos"},{id:"futuro3000",nombre:"Futuro Año 3000"},{id:"postapoc",nombre:"Post-Apocalipsis"},{id:"microcosmos",nombre:"Microcosmos del Cuerpo"},{id:"ugcreview",nombre:"UGC / Review IA"},{id:"testimonios",nombre:"Testimonios IA"},{id:"noticiero",nombre:"Noticiero IA"},{id:"standup",nombre:"Stand-Up IA"},{id:"videoclip",nombre:"Videoclip Musical IA"},{id:"pasarela",nombre:"Pasarela Imposible"},{id:"lookbook",nombre:"Lookbook IA"},{id:"glowup",nombre:"Belleza / Glow-Up"},{id:"psicologia",nombre:"Psicología / Mente"},{id:"estoicismo",nombre:"Estoicismo IA"},{id:"ciencia",nombre:"Ciencia / Experimentos"},{id:"espacioedu",nombre:"Espacio Educativo"},{id:"inventos",nombre:"Inventos / Cómo Funciona"},{id:"foodporn",nombre:"Food Porn IA"},{id:"mukbang",nombre:"Mukbang IA"},{id:"recetaspov",nombre:"Recetas POV"},{id:"comidagigante",nombre:"Comida Gigante"},{id:"docunatura",nombre:"Documental Naturaleza"},{id:"oceano",nombre:"Océano Profundo"},{id:"dinosdoc",nombre:"Dinosaurios Documental"},{id:"hadasoscuras",nombre:"Cuentos de Hadas Oscuros"},{id:"paranormalpov",nombre:"Paranormal POV"},{id:"leyendas",nombre:"Leyendas del Mundo"},{id:"viajes",nombre:"Viajes / Destinos"},{id:"supercars",nombre:"Supercars / Lujo"},{id:"mansiones",nombre:"Mansiones / Arquitectura"},{id:"brainrot",nombre:"Brainrot Absurdo"},{id:"stickanim",nombre:"Stick Animation"},{id:"nightvision",nombre:"Night-Vision Chaos"},{id:"biomech",nombre:"Biomechanical Transform"},{id:"beachsaga",nombre:"Saga Surreal 3D"},{id:"evolution",nombre:"Evolution Shorts"},{id:"wildbbc",nombre:"Wild Animal BBC"},{id:"cinedirector",nombre:"Cinematic Director"},{id:"dormir",nombre:"Dormir / Meditación"},{id:"microsalud",nombre:"Datos del Cuerpo"},{id:"whiteboard",nombre:"Whiteboard / Pizarra"},{id:"squishmelt",nombre:"Squish & Melt"},{id:"asmrreveal",nombre:"ASMR Reveal por Categoría"},{id:"cuentoviral",nombre:"Cuentos Virales 3D"},{id:"canioninfantil",nombre:"Canciones Infantiles"},{id:"aprendojugando",nombre:"Aprendo Jugando"},{id:"animalitos",nombre:"Animales para Ninos"},{id:"vehiculos",nombre:"Vehiculos para Ninos"},{id:"cuentohadas",nombre:"Cuentos de Hadas"},{id:"emociones",nombre:"Emociones y Sentimientos"},{id:"modales",nombre:"Buenos Modales y Habitos"},{id:"espacioninos",nombre:"El Espacio para Ninos"},{id:"granja",nombre:"Granja Feliz"},{id:"adivinanzas",nombre:"Adivinanzas para Ninos"},{id:"mascotashablan",nombre:"Mascotas que Hablan"},{id:"audiolibro",nombre:"Audiolibro Inmersivo"},{id:"leyendaslatam",nombre:"Leyendas Latinoamericanas"},{id:"diosesmundo",nombre:"Dioses del Mundo"},{id:"animalesvida",nombre:"Animales que Cuentan su Vida"},{id:"objetoshistoria",nombre:"Objetos que Cuentan su Historia"},{id:"refranes",nombre:"Refranes y Dichos"},{id:"comidatipica",nombre:"Comida Tipica que Cobra Vida"},{id:"versus",nombre:"Versus Épico"},{id:"trailerfalso",nombre:"Trailer de Pelicula Falsa"},{id:"cuentosclasicos",nombre:"Cuentos Clasicos"},{id:"reaccionanimales",nombre:"Reacciones de Animales"},{id:"dialogospareja",nombre:"Dialogos de Pareja"},{id:"terrorpais",nombre:"Terror de Cada Pais"},{id:"vidassantos",nombre:"Vidas de Santos"},{id:"megafauna",nombre:"Megafauna Prehistorica"},{id:"accionepica",nombre:"Escenas de Accion Épicas"},{id:"mundosfantasia",nombre:"Mundos de Fantasia"},{id:"bibliakids",nombre:"Historias de la Biblia para Ninos"},{id:"idiomaskids",nombre:"Aprende Idiomas Jugando"},{id:"yogakids",nombre:"Yoga / Calma para Ninos"},{id:"seguridadkids",nombre:"Seguridad para Ninos"},{id:"habitoskids",nombre:"Habitos Saludables Infantiles"},{id:"naturalezakids",nombre:"Naturaleza para Ninos"},{id:"toursprop",nombre:"Tours de Propiedades"},{id:"quepasaria",nombre:"¿Que pasaria si…?"},{id:"comosehace",nombre:"Como se Hace"},{id:"lineatiempo",nombre:"Linea de Tiempo"},{id:"records",nombre:"Records Mundiales"},{id:"porquehacemos",nombre:"¿Por que Hacemos…?"},{id:"antesdespues",nombre:"Antes / Despues de Servicios"},{id:"menurest",nombre:"Menu Animado para Restaurantes"},{id:"ariafootball",nombre:"Aria Football Transformers"},{id:"facelessviral",nombre:"Faceless Viral"},{id:"stickstories",nombre:"Stick Stories"},{id:"audiosrt",nombre:"Audio → SRT"}];
 let APPS=FALLBACK.slice();
@@ -344,10 +353,40 @@ function buildHero(){
   if(b2){const s=shuffle(APPS).slice(0,16).map(tile).join('');b2.innerHTML=s+s;}
 }
 const ADMIN_HIDE=["promojm"];
+const CAT_NOMBRES={viralia:"Virales",podcast:"Podcast",dinero:"Dinero",educa:"Educativos",story:"Historias",terror:"Terror",fe:"Fe",cuentos:"Cuentos",infantil:"Infantil",asmr:"ASMR",pov:"POV",analisis:"Análisis"};
+const CAT_ORDEN=["viralia","cuentos","infantil","terror","podcast","story","fe","educa","asmr","dinero","pov","analisis"];
+let CAT_ACTIVA="viralia";
+function catDe(id){ return NICHO[id] || "viralia"; }
 function buildWall(){
+  const host=document.getElementById('wall'); const tabs=document.getElementById('cattabs');
+  if(!host) return;
+  const apps=APPS.filter(a=>!ADMIN_HIDE.includes(a.id));
+  /* contar apps por categoria */
+  const conteo={};
+  apps.forEach(a=>{const c=catDe(a.id);conteo[c]=(conteo[c]||0)+1;});
+  /* categorias que realmente tienen apps, en el orden definido */
+  const cats=CAT_ORDEN.filter(c=>conteo[c]>0);
+  Object.keys(conteo).forEach(c=>{ if(cats.indexOf(c)<0) cats.push(c); });
+  if(cats.indexOf(CAT_ACTIVA)<0) CAT_ACTIVA=cats[0];
+  /* botones */
+  if(tabs){
+    tabs.innerHTML=cats.map(function(c){
+      const d=NDATA[c]||{ico:"✨"}; const nom=CAT_NOMBRES[c]||c;
+      return `<button class="cattab${c===CAT_ACTIVA?' on':''}" data-cat="${c}"><span class="cic">${d.ico}</span>${nom}<span class="ccount">${conteo[c]}</span></button>`;
+    }).join('');
+    tabs.querySelectorAll('.cattab').forEach(function(b){
+      b.addEventListener('click',function(){ CAT_ACTIVA=b.getAttribute('data-cat'); pintarWall(); });
+    });
+  }
+  pintarWall();
+}
+function pintarWall(){
   const host=document.getElementById('wall'); if(!host) return;
-  host.innerHTML=shuffle(APPS.filter(a=>!ADMIN_HIDE.includes(a.id))).map((a,i)=>{const m=nm(a.id);
-    return `<a class="wcard reveal" style="transition-delay:${(i%12)*35}ms" href="./app.html" title="${esc(cn(a.nombre))}">`
+  const tabs=document.getElementById('cattabs');
+  if(tabs){ tabs.querySelectorAll('.cattab').forEach(function(b){ b.classList.toggle('on', b.getAttribute('data-cat')===CAT_ACTIVA); }); }
+  const apps=shuffle(APPS.filter(a=>!ADMIN_HIDE.includes(a.id) && catDe(a.id)===CAT_ACTIVA));
+  host.innerHTML=apps.map((a,i)=>{const m=nm(a.id);
+    return `<a class="wcard reveal in" style="transition-delay:${(i%12)*30}ms" href="./app.html" title="${esc(cn(a.nombre))}">`
       +`<div class="tbg" style="background:linear-gradient(135deg,${m.c[0]},${m.c[1]})"></div>`
       +`<img src="img/${a.id}.jpg" alt="" loading="lazy" decoding="async" onerror="this.remove()"><div class="grad"></div>`
       +`<span class="av" style="background:linear-gradient(135deg,${m.c[0]},${m.c[1]})">${m.ico}</span>`
@@ -426,11 +465,8 @@ const CUPOS_TOTAL=50, CUPOS_TOMADOS=36;   /* 14 cupos libres · actualizá a man
 /* ════ TUS VIDEOS DE MUESTRA ════ */
 const SAMPLE_VIDEOS=[
   { src:'videos/artesanos.mp4',        tag:'Artesanos IA' },
-  { src:'videos/miniaturas.mp4',       tag:'Miniaturas' },
   { src:'videos/podcast-finanzas.mp4', tag:'Podcast Finanzas' },
   { src:'videos/terror.mp4',           tag:'Terror Ilustrado' },
-  { src:'videos/frutinovelas.mp4',     tag:'Frutinovelas' },
-  { src:'videos/xray.mp4',             tag:'X-Ray' },
   { src:'videos/timelapse-obra.mp4',   tag:'Timelapse Obra' }
 ];
 (function(){var g=document.getElementById('vidgrid');if(!g)return;
