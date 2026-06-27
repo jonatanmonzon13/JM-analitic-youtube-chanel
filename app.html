@@ -944,7 +944,12 @@ function grantAccess(email, isAdmin){
     localStorage.setItem('jm_apps', JSON.stringify(APPS));
     localStorage.setItem('jm_access', isAdmin ? 'all' : JSON.stringify(ACCESOS[email] || allIds));
   }catch{}
-  buildAppsMenu();
+ buildAppsMenu();
+  if($('#hubYt')) $('#hubYt').value = KEYS.yt || '';
+  if($('#hubAn')) $('#hubAn').value = KEYS.an || '';
+  buildHubBg();
+  buildHub();
+  mostrarVista('inicio');
 }
 
 async function onGoogleLogin(resp){
@@ -1474,6 +1479,7 @@ function mostrarVista(v){
   if(v === 'guiones')   renderGuiones();
   if(v === 'admin')     sbAdminLoad();
   if(v === 'workflows') wfRender('todo');
+  if(v === 'inicio') buildHub();
   
   window.scrollTo({top:0, behavior:'smooth'});
 }
