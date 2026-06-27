@@ -592,7 +592,10 @@
 /* HUB DE INICIO — pantalla completa */
 #view-inicio{position:relative;width:100vw;left:50%;margin-left:-50vw;min-height:80vh;padding:0;z-index:0}
   #view-inicio[hidden]{display:none}
-#hubbg{position:absolute;inset:0;z-index:0;display:flex;flex-direction:column;justify-content:center;gap:18px;transform:rotate(-5deg) scale(1.35);opacity:.95;pointer-events:none;overflow:hidden}  #hubbg .grow.r1{animation:gslideB 118s linear infinite}
+#hubbg{position:absolute;inset:0;z-index:0;display:flex;flex-direction:column;justify-content:center;gap:18px;transform:rotate(-5deg) scale(1.35);opacity:.95;pointer-events:none;overflow:hidden}
+  #hubbg .grow{display:flex;gap:18px;width:max-content;flex:0 0 auto;will-change:transform}
+  #hubbg .grow.r0{animation:gslideA 86s linear infinite}
+  #hubbg .grow.r1{animation:gslideB 118s linear infinite} 
   #hubbg .grow.r2{animation:gslideA 99s linear infinite}
   #hubbg .grow.r3{animation:gslideB 132s linear infinite}
   #hubbg .grow.r4{animation:gslideA 92s linear infinite}
