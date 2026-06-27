@@ -590,10 +590,9 @@
   .minicb select{width:100%;background:var(--bg3);border:1px solid var(--line);color:var(--ink);border-radius:8px;padding:8px;font-family:var(--display);font-size:12.5px}
   .minicb .mr{font-family:var(--mono);font-size:11px;margin-top:6px;min-height:13px;color:var(--muted)} .minicb .mr.set{color:#5BE39A} .minicb .mr.err{color:#FF7A9C}
 /* HUB DE INICIO — pantalla completa */
- #view-inicio{position:relative;width:100vw;left:50%;margin-left:-50vw;min-height:100vh;padding:0}
+#view-inicio{position:relative;width:100vw;left:50%;margin-left:-50vw;min-height:100vh;padding:0;background:var(--bg);z-index:1}
   #view-inicio[hidden]{display:none}
-  #hubbg{position:absolute;inset:0;z-index:0;display:flex;flex-direction:column;justify-content:center;gap:18px;transform:rotate(-5deg) scale(1.35);opacity:.95;pointer-events:none;overflow:hidden}
-  #hubbg .grow.r0{animation:gslideA 86s linear infinite}
+#hubbg{position:absolute;inset:0;z-index:1;display:flex;flex-direction:column;justify-content:center;gap:18px;transform:rotate(-5deg) scale(1.35);opacity:.95;pointer-events:none;overflow:hidden;background:var(--bg)}  #hubbg .grow.r0{animation:gslideA 86s linear infinite}
   #hubbg .grow.r1{animation:gslideB 118s linear infinite}
   #hubbg .grow.r2{animation:gslideA 99s linear infinite}
   #hubbg .grow.r3{animation:gslideB 132s linear infinite}
@@ -1755,7 +1754,7 @@ function buildAppsMenu(){
       + '<div class="jmx" id="jmclose">✕</div></div>'
       + '<div id="jmfilters"></div>'
       + '<div id="jmscroll"><div id="jmgrid"></div></div>'
-      + '<div class="jmfoot"><a href="index.html">← salir al inicio</a></div></div>';
+      + '<div class="jmfoot"><a href="#" onclick="irAlHub(event)">← volver al inicio</a></div></div>';
     document.body.appendChild(ov);
     ov.addEventListener('click', e=>{ if(e.target===ov) ov.classList.remove('open'); });
     $('#jmclose').addEventListener('click', ()=> ov.classList.remove('open'));
@@ -1798,6 +1797,7 @@ function buildAppsMenu(){
   wrap.style.display = '';
 }
 function toggleApps(e){ e.stopPropagation(); const ov = $('#jmov'); if(ov) ov.classList.add('open'); }
+function irAlHub(e){ if(e) e.preventDefault(); const ov=$('#jmov'); if(ov) ov.classList.remove('open'); mostrarVista('inicio'); }
 
 /* ═══════════ Panel de administrador ═══════════ */
 function slugify(s){
