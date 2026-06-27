@@ -589,6 +589,47 @@
   .minicb{padding:9px} .minicb .mfn{font-family:var(--mono);font-size:10px;color:var(--muted);white-space:nowrap;overflow:hidden;text-overflow:ellipsis;margin-bottom:7px}
   .minicb select{width:100%;background:var(--bg3);border:1px solid var(--line);color:var(--ink);border-radius:8px;padding:8px;font-family:var(--display);font-size:12.5px}
   .minicb .mr{font-family:var(--mono);font-size:11px;margin-top:6px;min-height:13px;color:var(--muted)} .minicb .mr.set{color:#5BE39A} .minicb .mr.err{color:#FF7A9C}
+  /* HUB DE INICIO */
+  #view-inicio{position:relative}
+  #hubbg{position:absolute;inset:-12% -6%;z-index:0;display:flex;flex-direction:column;justify-content:center;gap:16px;transform:rotate(-5deg) scale(1.3);opacity:.92;pointer-events:none;overflow:hidden}
+  #hubbg .grow{display:flex;gap:16px;width:max-content;flex:0 0 auto;will-change:transform}
+  #hubbg .grow.r0{animation:gslideA 86s linear infinite}
+  #hubbg .grow.r1{animation:gslideB 118s linear infinite}
+  #hubbg .grow.r2{animation:gslideA 99s linear infinite}
+  #hubbg .grow.r3{animation:gslideB 132s linear infinite}
+  #hubbg .grow.r4{animation:gslideA 92s linear infinite}
+  #hubbg .gtile{position:relative;flex:0 0 auto;width:210px;height:118px;border-radius:13px;overflow:hidden;border:1px solid rgba(255,255,255,.07);box-shadow:0 10px 30px rgba(0,0,0,.4)}
+  #hubbg .gtile .gt-bg{position:absolute;inset:0}
+  #hubbg .gtile::after{content:"";position:absolute;inset:0;z-index:1;background:linear-gradient(180deg,rgba(0,0,0,0) 42%,rgba(0,0,0,.5))}
+  #hubbg .gtile img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;display:block}
+  #hubbg .gtile .gt-nm{position:absolute;left:9px;right:9px;bottom:7px;z-index:2;font-family:var(--display);font-weight:800;font-size:11px;color:#fff;line-height:1.12;text-shadow:0 2px 6px rgba(0,0,0,.85)}
+  .hubveil{position:absolute;inset:0;z-index:1;pointer-events:none;background:radial-gradient(82% 74% at 50% 40%,rgba(5,6,12,.30),rgba(5,6,12,.66) 60%,rgba(5,6,12,.92))}
+  .hubglow{position:absolute;z-index:1;width:560px;height:560px;left:50%;top:34%;transform:translate(-50%,-50%);pointer-events:none;background:radial-gradient(circle,rgba(231,184,92,.16),rgba(122,90,248,.10) 40%,transparent 68%);filter:blur(30px)}
+  #view-inicio > .hubinner{position:relative;z-index:2}
+  .hubhero{text-align:center;padding:34px 0 14px}
+  .hubhero .eyebrow{display:inline-block;margin-bottom:12px}
+  .hubhero h1{font-family:var(--display);font-weight:800;font-size:clamp(26px,4.6vw,40px);line-height:1.06;color:var(--ink);margin:0 0 10px}
+  .hubhero h1 em{font-style:normal;background:var(--grad-hot);-webkit-background-clip:text;background-clip:text;-webkit-text-fill-color:transparent}
+  .hubhero p{color:var(--body);font-size:14px;max-width:48ch;margin:0 auto}
+  .hubkeys{background:rgba(11,14,24,.82);-webkit-backdrop-filter:blur(8px);backdrop-filter:blur(8px);border:1px solid var(--line);border-radius:16px;padding:18px;margin:16px 0}
+  .hubkeys h3{font-family:var(--display);font-weight:700;font-size:14px;color:var(--ink);margin:0 0 12px}
+  .hubkeys h3 small{color:var(--muted);font-weight:400;font-size:12px}
+  .hubkrow{display:flex;gap:12px;flex-wrap:wrap;align-items:flex-end}
+  .hubkrow .field{flex:1;min-width:170px;margin:0}
+  .hubcats{display:flex;gap:8px;flex-wrap:wrap;justify-content:center;margin:14px 0 4px}
+  .hubcat{cursor:pointer;font-family:var(--display);font-weight:700;font-size:12.5px;color:var(--body);background:rgba(17,20,31,.85);border:1px solid var(--line);border-radius:999px;padding:8px 14px;display:inline-flex;gap:6px;align-items:center;transition:.15s}
+  .hubcat:hover{border-color:var(--gold);color:var(--ink)}
+  .hubcat.on{color:#0A0D14;background:var(--grad-gold);border-color:transparent}
+  .hubcat .cc{font-family:var(--mono);font-size:10px;opacity:.7}
+  .hubwall{display:grid;grid-template-columns:repeat(4,1fr);gap:13px;padding:14px 0 30px}
+  @media(max-width:880px){.hubwall{grid-template-columns:repeat(3,1fr)}}
+  @media(max-width:560px){.hubwall{grid-template-columns:repeat(2,1fr)}}
+  .hubcard{position:relative;display:block;border-radius:12px;overflow:hidden;border:1px solid var(--line);aspect-ratio:16/9;text-decoration:none;transition:transform .2s,border-color .2s}
+  .hubcard:hover{transform:translateY(-3px);border-color:rgba(231,184,92,.55)}
+  .hubcard .hb{position:absolute;inset:0}
+  .hubcard img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover}
+  .hubcard .hg{position:absolute;inset:0;background:linear-gradient(180deg,transparent 44%,rgba(0,0,0,.8))}
+  .hubcard .hn{position:absolute;left:9px;right:9px;bottom:8px;z-index:2;font-family:var(--display);font-weight:800;font-size:11.5px;color:#fff;line-height:1.15;text-shadow:0 2px 6px rgba(0,0,0,.85)}
 </style>
 </head>
 <body>
@@ -649,7 +690,8 @@
   </section>
 
   <nav class="tabs">
-    <button class="tab on" data-view="buscar" onclick="mostrarVista('buscar')">🔎 Buscar</button>
+    <button class="tab on" data-view="inicio" onclick="mostrarVista('inicio')">🏠 Inicio</button>
+    <button class="tab" data-view="buscar" onclick="mostrarVista('buscar')">📊 Espía YouTube</button>
     <button class="tab" data-view="historial" onclick="mostrarVista('historial')">🕘 Historial</button>
     <button class="tab" data-view="guiones" onclick="mostrarVista('guiones')">📝 Mis guiones</button>
     <button class="tab" id="tab-admin" data-view="admin" onclick="mostrarVista('admin')" style="display:none">🛡 Admin</button>
@@ -756,7 +798,28 @@
   <div class="status" id="status"></div>
   <section id="results"></section>
   </div><!-- /view-buscar -->
-
+<div id="view-inicio" class="view">
+    <div id="hubbg" aria-hidden="true"></div>
+    <div class="hubveil" aria-hidden="true"></div>
+    <div class="hubglow" aria-hidden="true"></div>
+    <div class="hubinner">
+      <div class="hubhero">
+        <span class="eyebrow">tu suite de creación con IA</span>
+        <h1>Bienvenido a <em>JM BOTS Multi Apps</em></h1>
+        <p>Elegí una herramienta para empezar. Tus claves se reparten a todas las apps automáticamente.</p>
+      </div>
+      <div class="hubkeys">
+        <h3>🔑 Tus claves de API <small>· se guardan solo en tu navegador</small></h3>
+        <div class="hubkrow">
+          <div class="field"><label>YouTube Data API v3</label><input type="password" id="hubYt" placeholder="AIza…" autocomplete="off"></div>
+          <div class="field"><label>Google Gemini API</label><input type="password" id="hubAn" placeholder="AIza…" autocomplete="off"></div>
+          <button class="btn-gold" style="width:auto" onclick="guardarClavesHub()">Guardar</button>
+        </div>
+      </div>
+      <div class="hubcats" id="hubCats"></div>
+      <div class="hubwall" id="hubWall"></div>
+    </div>
+  </div>
   <div id="view-historial" class="view" hidden>
     <h2 class="vtitle">Historial de análisis</h2>
     <p class="vsub">Cada análisis que generás queda guardado en este navegador.</p>
@@ -2078,7 +2141,7 @@ const I18N = {
     h1a:'Encuentra el video que ', h1em:'rompió', h1b:' su propio canal.',
     sub:'Busca un nicho y detecta los outliers: videos con muchas más vistas que suscriptores tiene su canal. Luego pregúntale a la IA por qué funcionó.',
     qph:'nicho o tema — ej: recetas keto', go:'Buscar outliers',
-    tabBuscar:'🔎 Buscar', tabHist:'🕘 Historial', tabGui:'📝 Mis guiones', tabAdmin:'🛡 Admin',
+    tabBuscar:'📊 Espía YouTube', tabHist:'🕘 Historial', tabGui:'📝 Mis guiones', tabAdmin:'🛡 Admin',
     feedTitle:'Últimos outliers detectados', feedRefresh:'otro nicho',
     histTitle:'Historial de análisis', histSub:'Cada análisis que generás queda guardado en este navegador.',
     guiTitle:'Mis guiones', guiSub:'Los master prompts que generaste, listos para copiar y pegar en tu IA.',
@@ -2098,7 +2161,7 @@ const I18N = {
     h1a:'Find the video that ', h1em:'broke', h1b:' its own channel.',
     sub:'Search a niche and spot the outliers: videos with way more views than the channel has subscribers. Then ask the AI why it worked.',
     qph:'niche or topic — e.g. keto recipes', go:'Find outliers',
-    tabBuscar:'🔎 Search', tabHist:'🕘 History', tabGui:'📝 My scripts', tabAdmin:'🛡 Admin',
+    tabBuscar:'📊 YouTube Spy', tabHist:'🕘 History', tabGui:'📝 My scripts', tabAdmin:'🛡 Admin',
     feedTitle:'Latest outliers detected', feedRefresh:'another niche',
     histTitle:'Analysis history', histSub:'Every analysis you generate is saved in this browser.',
     guiTitle:'My scripts', guiSub:'The master prompts you generated, ready to copy and paste into your AI.',
@@ -2162,6 +2225,71 @@ window.addEventListener('DOMContentLoaded', () => {
   initFeed();
   wfRender('todo');
 });
+let HUB_CAT = null;
+function guardarClavesHub(){
+  const yt = ($('#hubYt')?.value || '').trim();
+  const an = ($('#hubAn')?.value || '').trim();
+  if(yt) KEYS.yt = yt;
+  if(an) KEYS.an = an;
+  try{ localStorage.setItem('jmbots_keys', JSON.stringify(KEYS)); }catch{}
+  if($('#ytKey')) $('#ytKey').value = KEYS.yt;
+  if($('#anKey')) $('#anKey').value = KEYS.an;
+  const b = event && event.target; if(b){ const o=b.textContent; b.textContent='✓ guardadas'; setTimeout(()=>b.textContent=o,1200); }
+  if(KEYS.yt) cargarFeed();
+}
+function buildHubBg(){
+  const host = document.getElementById('hubbg'); if(!host || !APPS.length) return;
+  function tile(a){
+    const m = (typeof JM_META!=='undefined' && JM_META[a.id]) ? JM_META[a.id] : ["APP",["#1c2740","#2a1f3d"]];
+    const g = m[1] || ["#1c2740","#2a1f3d"];
+    const nm = (a.nombre||'').replace(/\s*\/\s*JM BOTS/i,'');
+    return '<div class="gtile"><div class="gt-bg" style="background:linear-gradient(135deg,'+g[0]+','+g[1]+')"></div>'
+      + (a.img?'<img src="'+a.img+'" alt="" loading="lazy" onerror="this.remove()">':'')
+      + '<div class="gt-nm">'+nm.replace(/</g,'&lt;')+'</div></div>';
+  }
+  const rows=[[],[],[],[],[]];
+  let pool=APPS.slice(); for(let s=pool.length-1;s>0;s--){const j=(Math.random()*(s+1))|0,t=pool[s];pool[s]=pool[j];pool[j]=t;}
+  pool=pool.slice(0,40); pool.forEach((a,i)=>rows[i%5].push(a));
+  host.innerHTML = rows.map((arr,ri)=>{ const c=arr.map(tile).join(''); return '<div class="grow r'+ri+'">'+c+c+'</div>'; }).join('');
+}
+function buildHub(){
+  const cats = document.getElementById('hubCats'), wall = document.getElementById('hubWall');
+  if(!cats || !wall) return;
+  const isAdmin = ADMINS.map(a=>String(a).trim().toLowerCase()).includes(USER_EMAIL);
+  const ids = isAdmin ? null : (ACCESOS[USER_EMAIL] || APPS.map(a=>a.id));
+  const vis = APPS.filter(a => (!ids || ids.includes(a.id)) && a.id!=='outliers' && a.id!=='promojm');
+  const orden = (typeof JM_NICHE_ORDER!=='undefined') ? JM_NICHE_ORDER : [];
+  const cuenta = {}; vis.forEach(a=>{ const c=(JM_NICHO[a.id]||'otras'); cuenta[c]=(cuenta[c]||0)+1; });
+  const present = orden.filter(n=>cuenta[n[0]]);
+  if(!HUB_CAT || !cuenta[HUB_CAT]) HUB_CAT = present.length ? present[0][0] : 'otras';
+  cats.innerHTML = present.map(n=>{
+    return '<button class="hubcat'+(n[0]===HUB_CAT?' on':'')+'" onclick="hubCat(\''+n[0]+'\')">'+n[1]+' <span class="cc">'+cuenta[n[0]]+'</span></button>';
+  }).join('');
+  pintarHubWall(vis);
+}
+function pintarHubWall(vis){
+  const wall = document.getElementById('hubWall'); if(!wall) return;
+  if(!vis){
+    const isAdmin = ADMINS.map(a=>String(a).trim().toLowerCase()).includes(USER_EMAIL);
+    const ids = isAdmin ? null : (ACCESOS[USER_EMAIL] || APPS.map(a=>a.id));
+    vis = APPS.filter(a => (!ids || ids.includes(a.id)) && a.id!=='outliers' && a.id!=='promojm');
+  }
+  const arr = vis.filter(a => (JM_NICHO[a.id]||'otras')===HUB_CAT);
+  wall.innerHTML = arr.map(a=>{
+    const m = (JM_META[a.id]) ? JM_META[a.id] : ["APP",["#1c2740","#2a1f3d"]], g = m[1];
+    const nm = (a.nombre||'').replace(/\s*\/\s*JM BOTS/i,'');
+    return '<a class="hubcard" href="'+esc(a.archivo)+'">'
+      + '<div class="hb" style="background:linear-gradient(135deg,'+g[0]+','+g[1]+')"></div>'
+      + (a.img?'<img src="'+esc(a.img)+'" alt="" loading="lazy" onerror="this.remove()">':'')
+      + '<div class="hg"></div><div class="hn">'+esc(nm)+'</div></a>';
+  }).join('');
+}
+function hubCat(c){
+  HUB_CAT = c;
+  document.querySelectorAll('.hubcat').forEach(b=>b.classList.remove('on'));
+  if(event && event.target.closest) event.target.closest('.hubcat').classList.add('on');
+  pintarHubWall();
+}
 </script>
 <script src="jmbots-resilience.js"></script>
 </body>
