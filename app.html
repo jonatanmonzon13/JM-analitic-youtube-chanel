@@ -2266,7 +2266,7 @@ function buildHub(){
   const ids = isAdmin ? null : (ACCESOS[USER_EMAIL] || APPS.map(a=>a.id));
   const vis = APPS.filter(a => (!ids || ids.includes(a.id)) && a.id!=='outliers' && a.id!=='promojm');
   const orden = (typeof JM_NICHE_ORDER!=='undefined') ? JM_NICHE_ORDER : [];
-  const cuenta = {}; vis.forEach(a=>{ const c=(JM_NICHO[a.id]||'otras'); cuenta[c]=(cuenta[c]||0)+1; });
+  const cuenta = {}; vis.forEach(a=>{ const c=catHub(a.id); cuenta[c]=(cuenta[c]||0)+1; });
   const present = orden.filter(n=>cuenta[n[0]]);
   if(!HUB_CAT || !cuenta[HUB_CAT]) HUB_CAT = present.length ? present[0][0] : 'otras';
   cats.innerHTML = present.map(n=>{
@@ -2281,7 +2281,7 @@ function pintarHubWall(vis){
     const ids = isAdmin ? null : (ACCESOS[USER_EMAIL] || APPS.map(a=>a.id));
     vis = APPS.filter(a => (!ids || ids.includes(a.id)) && a.id!=='outliers' && a.id!=='promojm');
   }
-  const arr = vis.filter(a => (JM_NICHO[a.id]||'otras')===HUB_CAT);
+  const arr = vis.filter(a => catHub(a.id)===HUB_CAT);
   wall.innerHTML = arr.map(a=>{
     const m = (JM_META[a.id]) ? JM_META[a.id] : ["APP",["#1c2740","#2a1f3d"]], g = m[1];
     const nm = (a.nombre||'').replace(/\s*\/\s*JM BOTS/i,'');
@@ -2290,6 +2290,11 @@ function pintarHubWall(vis){
       + (a.img?'<img src="'+esc(a.img)+'" alt="" loading="lazy" onerror="this.remove()">':'')
       + '<div class="hg"></div><div class="hn">'+esc(nm)+'</div></a>';
   }).join('');
+}
+  function catHub(id){
+  var c = (typeof JM_NICHO!=='undefined' && JM_NICHO[id]) ? JM_NICHO[id] : 'viralia';
+  var existe = (typeof JM_NICHE_ORDER!=='undefined') && JM_NICHE_ORDER.some(function(n){ return n[0]===c; });
+  return existe ? c : 'viralia';
 }
 function hubCat(c){
   HUB_CAT = c;
