@@ -163,6 +163,7 @@
   @media(max-width:860px){.vidgrid{grid-template-columns:repeat(3,1fr)}}
   @media(max-width:520px){.vidgrid{grid-template-columns:1fr 1fr}}
   .vslot{position:relative;aspect-ratio:9/16;border-radius:16px;overflow:hidden;border:1px solid var(--line);background:linear-gradient(160deg,rgba(139,92,246,.18),rgba(34,211,238,.08));display:grid;place-items:center;text-align:center;cursor:pointer;transition:transform .2s,border-color .2s}
+  .vslot.wide{aspect-ratio:16/9;grid-column:1/-1;max-width:540px;margin:0 auto}
   .vslot:hover{transform:translateY(-4px);border-color:var(--gold)}
   .vslot video,.vslot iframe{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;border:0}
   .vslot .vph{padding:18px;color:var(--muted);font-family:var(--mono);font-size:12px;z-index:1}
@@ -487,7 +488,7 @@ const SAMPLE_VIDEOS=[
 /* ════ TESTIMONIOS EN VIDEO — 3 videos ════ */
 const TESTIMONIO_VIDEOS=[
   { src:'testimonios/testi1.mp4' },
-  { src:'testimonios/testi2.mp4' },
+  { src:'testimonios/testi2.mp4', wide:true },
   { src:'testimonios/testi3.mp4' }
 ];
 (function(){var g=document.getElementById('testimVidgrid');if(!g)return;
@@ -495,7 +496,7 @@ const TESTIMONIO_VIDEOS=[
     var inner = v.src
       ? '<video src="'+v.src+'" playsinline preload="metadata"></video><div class="playbtn"><div class="pcirc">\u25B6</div></div>'
       : '<div class="vph"><span class="pl">\u25B6</span>Tu testimonio<br>en video</div>';
-    return '<div class="vslot in">'+inner+'</div>';
+    return '<div class="vslot in'+(v.wide?' wide':'')+'">'+inner+'</div>';
   }).join('');
   activarPlay(g);
 })();
