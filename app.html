@@ -590,9 +590,9 @@
   .minicb select{width:100%;background:var(--bg3);border:1px solid var(--line);color:var(--ink);border-radius:8px;padding:8px;font-family:var(--display);font-size:12.5px}
   .minicb .mr{font-family:var(--mono);font-size:11px;margin-top:6px;min-height:13px;color:var(--muted)} .minicb .mr.set{color:#5BE39A} .minicb .mr.err{color:#FF7A9C}
 /* HUB DE INICIO — pantalla completa */
-  #view-inicio{position:relative;width:100vw;left:50%;margin-left:-50vw;min-height:100vh;padding:0}
-  #hubbg{position:fixed;inset:0;z-index:0;display:flex;flex-direction:column;justify-content:center;gap:18px;transform:rotate(-5deg) scale(1.35);opacity:.95;pointer-events:none;overflow:hidden}
-  #hubbg .grow{display:flex;gap:18px;width:max-content;flex:0 0 auto;will-change:transform}
+ #view-inicio{position:relative;width:100vw;left:50%;margin-left:-50vw;min-height:100vh;padding:0}
+  #view-inicio[hidden]{display:none}
+  #hubbg{position:absolute;inset:0;z-index:0;display:flex;flex-direction:column;justify-content:center;gap:18px;transform:rotate(-5deg) scale(1.35);opacity:.95;pointer-events:none;overflow:hidden}
   #hubbg .grow.r0{animation:gslideA 86s linear infinite}
   #hubbg .grow.r1{animation:gslideB 118s linear infinite}
   #hubbg .grow.r2{animation:gslideA 99s linear infinite}
@@ -603,8 +603,8 @@
   #hubbg .gtile::after{content:"";position:absolute;inset:0;z-index:1;background:linear-gradient(180deg,rgba(0,0,0,0) 42%,rgba(0,0,0,.5))}
   #hubbg .gtile img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;display:block}
   #hubbg .gtile .gt-nm{position:absolute;left:10px;right:10px;bottom:8px;z-index:2;font-family:var(--display);font-weight:800;font-size:12px;color:#fff;line-height:1.12;text-shadow:0 2px 6px rgba(0,0,0,.85)}
-  .hubveil{position:fixed;inset:0;z-index:1;pointer-events:none;background:radial-gradient(80% 75% at 50% 40%,rgba(5,6,12,.34),rgba(5,6,12,.70) 60%,rgba(5,6,12,.94))}
-  .hubglow{position:fixed;z-index:1;width:680px;height:680px;left:50%;top:30%;transform:translate(-50%,-50%);pointer-events:none;background:radial-gradient(circle,rgba(231,184,92,.18),rgba(122,90,248,.12) 40%,transparent 68%);filter:blur(34px)}
+  .hubveil{position:absolute;inset:0;z-index:1;pointer-events:none;background:radial-gradient(80% 75% at 50% 40%,rgba(5,6,12,.34),rgba(5,6,12,.70) 60%,rgba(5,6,12,.94))}
+  .hubglow{position:absolute;z-index:1;width:680px;height:680px;left:50%;top:30%;transform:translate(-50%,-50%);pointer-events:none;background:radial-gradient(circle,rgba(231,184,92,.18),rgba(122,90,248,.12) 40%,transparent 68%);filter:blur(34px)}
   #view-inicio > .hubinner{position:relative;z-index:2;max-width:1100px;margin:0 auto;padding:30px 24px 60px}
   .hubhero{text-align:center;padding:40px 0 18px}
   .hubhero .eyebrow{display:inline-block;margin-bottom:14px}
