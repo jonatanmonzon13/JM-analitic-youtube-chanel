@@ -163,7 +163,10 @@
   @media(max-width:860px){.vidgrid{grid-template-columns:repeat(3,1fr)}}
   @media(max-width:520px){.vidgrid{grid-template-columns:1fr 1fr}}
   .vslot{position:relative;aspect-ratio:9/16;border-radius:16px;overflow:hidden;border:1px solid var(--line);background:linear-gradient(160deg,rgba(139,92,246,.18),rgba(34,211,238,.08));display:grid;place-items:center;text-align:center;cursor:pointer;transition:transform .2s,border-color .2s}
-  .vslot.wide{aspect-ratio:16/9;grid-column:1/-1;max-width:540px;margin:0 auto}
+  .vslot.wide{aspect-ratio:16/9;align-self:center}
+  #testimVidgrid{grid-template-columns:repeat(3,1fr);align-items:center}
+  @media(max-width:860px){#testimVidgrid{grid-template-columns:repeat(3,1fr)}}
+  @media(max-width:520px){#testimVidgrid{grid-template-columns:1fr}}
   .vslot:hover{transform:translateY(-4px);border-color:var(--gold)}
   .vslot video,.vslot iframe{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;border:0}
   .vslot .vph{padding:18px;color:var(--muted);font-family:var(--mono);font-size:12px;z-index:1}
