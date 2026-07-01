@@ -340,11 +340,20 @@
   aplicarFormato();
 
   // ══════════ Clave Gemini ══════════
+  function limpiarClave(k){
+    // quita espacios, saltos de línea y caracteres invisibles que rompen la auth
+    return String(k||'').replace(/[\s\u200B-\u200D\uFEFF]/g,'').trim();
+  }
+  function claveGuardada(){
+    try{ const o = JSON.parse(localStorage.getItem('jmbots_keys')||'{}'); if(o && o.an) return limpiarClave(o.an); }catch(e){}
+    return '';
+  }
   function getKey(){
     const kf = $('#geminiKey');
-    if(kf && kf.value.trim()) return kf.value.trim();
-    try{ const o = JSON.parse(localStorage.getItem('jmbots_keys')||'{}'); if(o && o.an) return o.an; }catch(e){}
-    return '';
+    const escrita = kf ? limpiarClave(kf.value) : '';
+    // Si el usuario escribió una clave nueva válida, usarla; si no, la guardada de la suite
+    if(escrita && escrita.length > 20) return escrita;
+    return claveGuardada() || escrita;
   }
   function estadoClave(ok){
     const s = $('#keyStatus');
@@ -355,7 +364,7 @@
   const saved = getKey();
   if(saved){ kf.value = saved; estadoClave(true); } else estadoClave(false);
   kf.addEventListener('input', () => {
-    const v = kf.value.trim();
+    const v = limpiarClave(kf.value);
     if(v){ try{ const o=JSON.parse(localStorage.getItem('jmbots_keys')||'{}'); o.an=v; localStorage.setItem('jmbots_keys',JSON.stringify(o)); }catch(e){} estadoClave(true); }
     else estadoClave(false);
   });
@@ -539,7 +548,11 @@
         const data = await r.json();
         if(data.error){
           if(data.error.code===404 || /not found|not supported|unavailable/i.test(data.error.message||'')){ return intentar(i+1); }
-          throw new Error(data.error.message||'Error de Gemini');
+          const msg = data.error.message||'';
+          if(/invalid authentication|api key not valid|API_KEY_INVALID|credential/i.test(msg)){
+            throw new Error('Tu clave de Gemini no es válida para esta llamada. Abrí ⚙ claves en la suite, borrá la clave, volvé a pegarla desde aistudio.google.com/apikey y guardá. Después recargá esta app.');
+          }
+          throw new Error(msg||'Error de Gemini');
         }
         let txt='';
         try{ txt = data.candidates[0].content.parts.map(p=>p.text||'').join(''); }catch(e){ throw new Error('La IA no devolvió contenido. Probá de nuevo.'); }
