@@ -1,0 +1,570 @@
+<!doctype html>
+<html lang="es">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="referrer" content="strict-origin-when-cross-origin">
+<title>Monetización con Imágenes / JM BOTS</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Sora:wght@500;600;700;800&family=Inter:wght@400;500;600&family=JetBrains+Mono:wght@500;700&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --bg:#05060C; --bg2:#0B0E18; --bg3:#11141F;
+    --ink:#F6F8FE; --body:#C7CEDE; --muted:#828DA6; --line:#222842;
+    --gold:#E7B85C; --gold2:#F8DA8E; --gold-soft:rgba(231,184,92,.16);
+    --violet:#9B5CFF; --cyan:#26D9FF; --lime:#5BF08E; --pink:#FF3D9A;
+    --grad-gold:linear-gradient(100deg,#E7B85C,#F8DA8E);
+    --grad-hot:linear-gradient(100deg,#FF3D9A,#9B5CFF 45%,#26D9FF);
+    --radius:16px;
+    --display:'Sora',sans-serif; --body-f:'Inter',sans-serif; --mono:'JetBrains Mono',monospace;
+  }
+  *{box-sizing:border-box}
+  body{margin:0;color:var(--body);font-family:var(--body-f);line-height:1.55;-webkit-font-smoothing:antialiased;
+    background:radial-gradient(1100px 520px at 50% -8%,rgba(155,92,255,.14),transparent 62%),
+      radial-gradient(900px 480px at 88% 8%,rgba(231,184,92,.08),transparent 60%),var(--bg);
+    min-height:100vh}
+  .wrap{max-width:900px;margin:0 auto;padding:0 20px 60px}
+  header{display:flex;justify-content:space-between;align-items:center;padding:22px 0;border-bottom:1px solid var(--line)}
+  .brand{font-family:var(--display);font-weight:800;font-size:19px;color:var(--ink)}
+  .brand .ol{background:var(--grad-gold);-webkit-background-clip:text;background-clip:text;-webkit-text-fill-color:transparent}
+  .back{font-family:var(--mono);font-size:12.5px;color:var(--muted);text-decoration:none;border:1px solid var(--line);padding:7px 14px;border-radius:999px}
+  .back:hover{border-color:var(--gold);color:var(--gold)}
+  .hero{padding:34px 0 6px}
+  .eyebrow{font-family:var(--mono);font-size:11px;letter-spacing:.22em;text-transform:uppercase;background:var(--grad-hot);-webkit-background-clip:text;background-clip:text;-webkit-text-fill-color:transparent;font-weight:700}
+  h1{font-family:var(--display);font-weight:800;font-size:clamp(26px,4.5vw,40px);line-height:1.05;color:var(--ink);margin:12px 0 12px}
+  h1 em{font-style:normal;background:var(--grad-gold);-webkit-background-clip:text;background-clip:text;-webkit-text-fill-color:transparent}
+  .sub{color:var(--muted);font-size:15px;max-width:62ch;margin:0}
+  .card{background:var(--bg2);border:1px solid var(--line);border-radius:var(--radius);padding:22px;margin-top:20px}
+  .lbl{display:block;font-family:var(--mono);font-size:10.5px;letter-spacing:.12em;text-transform:uppercase;color:var(--gold);margin-bottom:8px}
+  input[type=text],input[type=password],textarea,select{width:100%;border:1px solid var(--line);border-radius:11px;padding:13px 14px;
+    font-family:var(--body-f);font-size:14px;color:var(--ink);background:var(--bg3);outline:none;resize:vertical}
+  input:focus,textarea:focus,select:focus{border-color:var(--violet);box-shadow:0 0 0 3px rgba(155,92,255,.22)}
+  .grid3{display:grid;grid-template-columns:1fr 1fr 1fr;gap:14px}
+  .grid2{display:grid;grid-template-columns:1fr 1fr;gap:14px}
+  @media(max-width:640px){.grid2,.grid3{grid-template-columns:1fr}}
+  .field{margin-bottom:16px}
+  .field:last-child{margin-bottom:0}
+  .hint{color:var(--muted);font-size:12.5px;margin-top:6px}
+  .formats{display:grid;grid-template-columns:repeat(3,1fr);gap:12px;margin-top:4px}
+  @media(max-width:640px){.formats{grid-template-columns:1fr 1fr}}
+  @media(max-width:420px){.formats{grid-template-columns:1fr}}
+  .fmt{cursor:pointer;text-align:left;background:var(--bg3);border:1.5px solid var(--line);border-radius:13px;padding:14px;transition:.15s}
+  .fmt:hover{border-color:var(--gold);transform:translateY(-2px)}
+  .fmt.on{border-color:var(--gold);background:linear-gradient(160deg,rgba(231,184,92,.14),rgba(155,92,255,.06));box-shadow:0 8px 22px rgba(231,184,92,.18)}
+  .fmt .ic{font-size:22px;display:block;margin-bottom:8px}
+  .fmt .nm{display:block;font-family:var(--display);font-weight:700;font-size:13.5px;color:var(--ink);line-height:1.25}
+  .fmt .ds{display:block;font-size:11.5px;color:var(--muted);margin-top:5px;line-height:1.4}
+  .nichos{display:flex;flex-wrap:wrap;gap:8px;margin-top:4px}
+  .nicho{cursor:pointer;font-family:var(--display);font-weight:600;font-size:13px;color:var(--body);
+    background:var(--bg3);border:1px solid var(--line);border-radius:999px;padding:9px 15px;transition:.15s}
+  .nicho:hover{border-color:var(--gold);color:var(--ink)}
+  .nicho.on{color:#0A0D14;background:var(--grad-gold);border-color:transparent}
+  .drop{border:2px dashed var(--line);border-radius:14px;padding:24px 18px;text-align:center;background:var(--bg3);cursor:pointer;transition:.15s}
+  .drop:hover,.drop.over{border-color:var(--gold);background:var(--bg2)}
+  .drop b{color:var(--ink);font-family:var(--display)} .drop small{display:block;color:var(--muted);font-family:var(--mono);font-size:11px;margin-top:6px}
+  .prev{margin-top:12px;display:none;position:relative}
+  .prev.show{display:block}
+  .prev img{max-width:100%;max-height:240px;border-radius:12px;border:1px solid var(--line);display:block;margin:0 auto}
+  .prev .rm{position:absolute;top:8px;right:8px;background:rgba(0,0,0,.7);border:1px solid var(--line);color:#fff;border-radius:8px;padding:6px 11px;font-size:12px;font-family:var(--mono);cursor:pointer}
+  button{font-family:var(--display);font-weight:700;font-size:15px;cursor:pointer;border:0;border-radius:11px;padding:14px 24px;transition:transform .1s,box-shadow .2s,opacity .15s}
+  .btn-gold{color:#0A0D14;background:var(--grad-gold);box-shadow:0 8px 24px rgba(231,184,92,.28);width:100%}
+  .btn-gold:hover{transform:translateY(-1px);box-shadow:0 12px 30px rgba(231,184,92,.4)}
+  button:disabled{opacity:.5;cursor:wait;transform:none}
+  .spin{display:inline-block;width:15px;height:15px;border:2px solid rgba(0,0,0,.3);border-top-color:#0A0D14;border-radius:50%;animation:sp .7s linear infinite;vertical-align:-2px;margin-right:8px}
+  @keyframes sp{to{transform:rotate(360deg)}}
+  .keystatus{font-family:var(--mono);font-size:12px;margin-top:8px;min-height:15px}
+  .out{margin-top:20px;display:none}
+  .out.show{display:block}
+  .promptbox{background:var(--bg);border:1px solid var(--line);border-left:3px solid var(--violet);border-radius:12px;overflow:hidden;margin-bottom:14px}
+  .phead{display:flex;justify-content:space-between;align-items:center;gap:12px;padding:12px 16px;background:rgba(155,92,255,.12);border-bottom:1px solid var(--line)}
+  .phead h4{margin:0;font-family:var(--display);font-size:13.5px;font-weight:700;color:#c9a6ff}
+  .copybtn{font-family:var(--mono);font-size:12px;font-weight:700;color:#c9a6ff;cursor:pointer;border:1px solid rgba(155,92,255,.4);background:transparent;border-radius:8px;padding:7px 14px}
+  .copybtn:hover{border-color:var(--violet);background:rgba(155,92,255,.12)}
+  .copybtn.ok{color:var(--gold);border-color:var(--gold)}
+  .promptbox pre{margin:0;padding:16px;white-space:pre-wrap;word-break:break-word;font-family:var(--body-f);font-size:13.5px;line-height:1.6;color:var(--body);max-height:560px;overflow:auto}
+  .err{background:rgba(255,61,154,.08);border:1px solid rgba(255,61,154,.35);color:#ffb3d1;border-radius:12px;padding:14px 16px;font-size:14px}
+  .loading{color:var(--muted);font-family:var(--mono);font-size:13px;padding:20px;text-align:center}
+  .webnote{margin-top:14px;font-size:12.5px;color:var(--gold2);background:rgba(231,184,92,.08);border:1px solid rgba(231,184,92,.25);border-radius:10px;padding:10px 12px;display:none}
+  .webnote.show{display:block}
+  footer{border-top:1px solid var(--line);margin-top:40px;padding:24px 0;font-family:var(--mono);font-size:12px;color:var(--muted);text-align:center}
+  footer b{color:var(--gold)}
+</style>
+</head>
+<body>
+<div class="wrap">
+<header>
+  <div class="brand">JM<span class="ol"> BOTS</span></div>
+  <a class="back" href="app.html">← volver a la suite</a>
+</header>
+
+<section class="hero">
+  <span class="eyebrow">generador de lotes · nano banana 2</span>
+  <h1>Monetización con <em>Imágenes</em></h1>
+  <p class="sub">Elegí un formato viral y un nicho: la IA arma el lote completo de prompts listos para Nano Banana 2, con captions o reportes cuando el formato los incluye. Todo en un clic.</p>
+</section>
+
+<div class="card">
+  <div class="field">
+    <span class="lbl">1 · Elegí el formato</span>
+    <div class="formats" id="formats"></div>
+  </div>
+
+  <div class="field">
+    <span class="lbl">2 · Nicho / tema</span>
+    <div class="nichos" id="nichos"></div>
+    <input type="text" id="tema" placeholder="O escribí un tema libre" style="margin-top:10px">
+    <div class="hint" id="temaHint">Elegí un chip de arriba o escribí tu propio tema.</div>
+  </div>
+
+  <div class="grid3">
+    <div class="field" style="margin-bottom:0">
+      <span class="lbl">Cantidad</span>
+      <select id="cantidad">
+        <option value="10">10</option>
+        <option value="20" selected>20</option>
+        <option value="30">30</option>
+        <option value="40">40</option>
+        <option value="60">60</option>
+      </select>
+    </div>
+    <div class="field" style="margin-bottom:0">
+      <span class="lbl">Idioma del texto en imagen</span>
+      <select id="idiomaTexto">
+        <option value="es" selected>Español</option>
+        <option value="en">Inglés</option>
+      </select>
+    </div>
+    <div class="field" style="margin-bottom:0">
+      <span class="lbl">Formato / aspecto</span>
+      <select id="aspecto">
+        <option value="vertical">Vertical 9:16</option>
+        <option value="cuadrado" selected>Cuadrado 1:1</option>
+        <option value="horizontal">Horizontal 16:9</option>
+        <option value="45">Vertical 4:5</option>
+      </select>
+    </div>
+  </div>
+
+  <div class="webnote" id="webNote">🌐 Este formato usa noticias reales del día. Para que salgan hechos reales, tu cuenta de Gemini debe tener búsqueda web activada; si no, la IA generará ejemplos plausibles del tema.</div>
+
+  <div class="field" id="fechaField" style="margin-top:16px;display:none">
+    <span class="lbl">Fecha de las noticias</span>
+    <input type="date" id="fecha" style="width:100%;border:1px solid var(--line);border-radius:11px;padding:13px 14px;font-family:var(--body-f);font-size:14px;color:var(--ink);background:var(--bg3);outline:none">
+    <div class="hint">Se le pasa a la IA para que busque noticias reales de ese día. Por defecto, hoy.</div>
+  </div>
+
+  <div class="grid2" style="margin-top:16px">
+    <div class="field" style="margin-bottom:0">
+      <span class="lbl">Objeto / detalle principal (opcional)</span>
+      <input type="text" id="objeto" placeholder="Ej: un motor de moto">
+    </div>
+    <div class="field" style="margin-bottom:0">
+      <span class="lbl">Marca de agua (opcional)</span>
+      <input type="text" id="marca" placeholder="Ej: MOTOS LATAM">
+    </div>
+  </div>
+
+  <div class="field" style="margin-top:16px" id="imgField">
+    <span class="lbl">Imagen de referencia (opcional)</span>
+    <div class="drop" id="drop">
+      <b>📎 Subí una imagen o hacé clic</b>
+      <small>Ideal para despieces: la IA respeta su estructura. Sin imagen también funciona.</small>
+      <input type="file" id="file" accept="image/*" hidden>
+    </div>
+    <div class="prev" id="prev"><button class="rm" id="rm">✕ quitar</button><img id="previmg" alt=""></div>
+  </div>
+
+  <div class="field" style="margin-top:16px">
+    <span class="lbl">Clave de Gemini</span>
+    <input type="password" id="geminiKey" placeholder="AIza… (se guarda solo en tu navegador)" autocomplete="off" style="font-family:var(--mono);font-size:12px">
+    <div class="keystatus" id="keyStatus"></div>
+  </div>
+
+  <button class="btn-gold" id="gen">✨ Generar lote</button>
+</div>
+
+<div class="out" id="out"></div>
+
+<footer>JM<b> BOTS Multi Apps</b> · monetización con imágenes · corre en tu navegador</footer>
+</div>
+
+<script>
+(function(){
+  const $ = s => document.querySelector(s);
+
+  // ══════════ FORMATOS (los 6 estilos-madre) ══════════
+  const FORMATOS = {
+    despiece: {
+      ic:'🔧', nm:'Despiece / Infografía', ds:'Objeto explotado con componentes y etiquetas',
+      web:false, img:true,
+      nichos:[
+        {id:'mecanica',label:'🔧 Mecánica'},{id:'construccion',label:'🏗️ Construcción'},
+        {id:'carpinteria',label:'🪚 Carpintería'},{id:'recetas',label:'🍳 Comida deconstruida'},
+        {id:'cuerpo',label:'🧬 Cuerpo humano'},{id:'curiosos',label:'🧠 Datos curiosos'},
+        {id:'tecnologia',label:'📱 Tecnología'},{id:'libre',label:'✨ Otro'}
+      ]
+    },
+    noticias: {
+      ic:'📰', nm:'Noticias cinematográficas', ds:'Prensa realista + reporte informativo',
+      web:true, img:false,
+      nichos:[
+        {id:'mundo',label:'🌍 Mundial (global)'},{id:'usa',label:'🇺🇸 USA'},
+        {id:'binacional',label:'🇲🇽🇺🇸 México-USA'},{id:'deportes',label:'🏆 Deportes USA'},
+        {id:'futbol',label:'⚽ Fútbol / Mundial 2026'},{id:'farandula',label:'🎬 Farándula'},
+        {id:'guerra',label:'💥 Geopolítica / Guerra'},{id:'libre',label:'✨ Otro'}
+      ]
+    },
+    memes: {
+      ic:'💀', nm:'Memes virales', ds:'Prompts crudos con texto + captions',
+      web:false, img:false,
+      nichos:[
+        {id:'relatable',label:'😭 Vida cotidiana'},{id:'animales',label:'🐾 Animales caóticos'},
+        {id:'politico',label:'🎭 Sátira política'},{id:'caricatura',label:'🎨 Caricatura'},
+        {id:'brainrot',label:'🧠 Brainrot / absurdo'},{id:'libre',label:'✨ Otro'}
+      ]
+    },
+    relatos: {
+      ic:'📖', nm:'Relatos visuales', ds:'Escena emotiva + historia de fondo',
+      web:false, img:false,
+      nichos:[
+        {id:'animal',label:'🐕 Humano-animal'},{id:'rescate',label:'🚒 Rescate / héroes'},
+        {id:'soledad',label:'💔 Soledad / esperanza'},{id:'libre',label:'✨ Otro'}
+      ]
+    },
+    religioso: {
+      ic:'🕊️', nm:'Religioso / engagement', ds:'Prompts virales de fe con texto grande',
+      web:false, img:false,
+      nichos:[
+        {id:'jesus',label:'✝️ Jesús / milagros'},{id:'mascotas',label:'🐾 Mascotas y fe'},
+        {id:'abundancia',label:'💰 Bendición / abundancia'},{id:'dicotomia',label:'⚖️ Fe vs tecnología'},
+        {id:'libre',label:'✨ Otro'}
+      ]
+    },
+    pipeline: {
+      ic:'🎬', nm:'Personajes / pipeline', ds:'Fichas de personaje consistentes',
+      web:false, img:false,
+      nichos:[
+        {id:'anime',label:'🌸 Anime cinemático'},{id:'frutas',label:'🍓 Frutas antropomórficas'},
+        {id:'disney',label:'🎨 Dibujo 2D clásico'},{id:'realista',label:'🎥 Realista'},
+        {id:'libre',label:'✨ Otro'}
+      ]
+    },
+    ficha: {
+      ic:'📚', nm:'Ficha educativa', ds:'Objeto + datos: nombre, origen, historia',
+      web:false, img:false,
+      nichos:[
+        {id:'razas_perros',label:'🐕 Razas de perros'},{id:'razas_gatos',label:'🐈 Razas de gatos'},
+        {id:'extincion',label:'🦏 En peligro de extinción'},{id:'caballos',label:'🐎 Razas de caballos'},
+        {id:'aves',label:'🦜 Aves exóticas'},{id:'insectos',label:'🐞 Insectos increíbles'},
+        {id:'prehistoricos',label:'🦕 Animales prehistóricos'},{id:'ganado',label:'🐄 Razas de ganado'},
+        {id:'oceano',label:'🐙 Criaturas del océano'},{id:'serpientes',label:'🐍 Serpientes del mundo'},
+        {id:'civilizaciones',label:'🏛️ Civilizaciones antiguas'},{id:'monedas',label:'🪙 Monedas históricas'},
+        {id:'banderas',label:'🏳️ Banderas y su significado'},{id:'armas_hist',label:'⚔️ Armas históricas'},
+        {id:'inventos',label:'💡 Inventos que cambiaron el mundo'},{id:'vestimenta',label:'👘 Vestimenta típica'},
+        {id:'instrumentos',label:'🎻 Instrumentos del mundo'},{id:'castillos',label:'🏰 Castillos famosos'},
+        {id:'batallas',label:'🛡️ Batallas decisivas'},{id:'dinastias',label:'👑 Reyes y dinastías'},
+        {id:'platos',label:'🍲 Platos típicos'},{id:'cortes_carne',label:'🥩 Cortes de carne'},
+        {id:'quesos',label:'🧀 Quesos del mundo'},{id:'cafe',label:'☕ Variedades de café'},
+        {id:'frutas_raras',label:'🍈 Frutas raras'},{id:'especias',label:'🌶️ Especias'},
+        {id:'postres',label:'🍮 Postres tradicionales'},{id:'panes',label:'🍞 Panes del mundo'},
+        {id:'autos_clasicos',label:'🚗 Autos clásicos'},{id:'motos',label:'🏍️ Motos icónicas'},
+        {id:'aviones',label:'✈️ Aviones militares'},{id:'barcos',label:'🚢 Barcos y submarinos'},
+        {id:'motores',label:'⚙️ Cómo funciona un motor'},{id:'herramientas',label:'🔨 Herramientas y su uso'},
+        {id:'organos',label:'❤️ Órganos del cuerpo'},{id:'musculos',label:'💪 Músculos y ejercicios'},
+        {id:'vitaminas',label:'🍊 Vitaminas'},{id:'huesos',label:'🦴 Huesos del cuerpo'},
+        {id:'inmune',label:'🛡️ Sistema inmune'},{id:'planetas',label:'🪐 Planetas y lunas'},
+        {id:'elementos',label:'🧪 Elementos químicos'},{id:'fenomenos',label:'🌪️ Fenómenos naturales'},
+        {id:'dinosaurios',label:'🦖 Dinosaurios'},{id:'minerales',label:'💎 Minerales y gemas'},
+        {id:'paises',label:'🗺️ Países del mundo'},{id:'ciudades',label:'🌃 Ciudades increíbles'},
+        {id:'maravillas',label:'🌅 Maravillas naturales'},{id:'records_geo',label:'🏔️ Récords geográficos'},
+        {id:'profesiones',label:'👷 Profesiones'},{id:'oficios',label:'🧰 Herramientas de oficios'},
+        {id:'plantas',label:'🌿 Plantas y flores'},{id:'deportes',label:'🏅 Deportes del mundo'},
+        {id:'mitologia',label:'🐉 Criaturas mitológicas'},{id:'constelaciones',label:'✨ Constelaciones'},
+        {id:'tecnologia_hist',label:'📟 Tecnología de cada época'},{id:'religiones',label:'🕉️ Religiones del mundo'},
+        {id:'libre',label:'✨ Otro tema'}
+      ]
+    }
+  };
+
+  let FMT_SEL = 'despiece';
+  let NICHO_SEL = 'mecanica';
+  let IMG_B64 = '', IMG_MIME = '';
+
+  // pintar formatos
+  const fc = $('#formats');
+  fc.innerHTML = Object.keys(FORMATOS).map(k => {
+    const f = FORMATOS[k];
+    return '<button type="button" class="fmt'+(k===FMT_SEL?' on':'')+'" data-k="'+k+'">'
+      +'<span class="ic">'+f.ic+'</span><span class="nm">'+f.nm+'</span><span class="ds">'+f.ds+'</span></button>';
+  }).join('');
+  fc.querySelectorAll('.fmt').forEach(b => b.addEventListener('click', () => {
+    FMT_SEL = b.dataset.k;
+    fc.querySelectorAll('.fmt').forEach(x => x.classList.toggle('on', x===b));
+    pintarNichos();
+    aplicarFormato();
+  }));
+
+  function pintarNichos(){
+    const f = FORMATOS[FMT_SEL];
+    NICHO_SEL = f.nichos[0].id;
+    const nc = $('#nichos');
+    nc.innerHTML = f.nichos.map(n => '<button type="button" class="nicho'+(n.id===NICHO_SEL?' on':'')+'" data-id="'+n.id+'">'+n.label+'</button>').join('');
+    nc.querySelectorAll('.nicho').forEach(b => b.addEventListener('click', () => {
+      NICHO_SEL = b.dataset.id;
+      nc.querySelectorAll('.nicho').forEach(x => x.classList.toggle('on', x===b));
+    }));
+  }
+  function aplicarFormato(){
+    const f = FORMATOS[FMT_SEL];
+    $('#webNote').classList.toggle('show', !!f.web);
+    const ff = $('#fechaField'); if(ff) ff.style.display = f.web ? '' : 'none';
+    $('#imgField').style.display = f.img ? '' : 'none';
+    if(!f.img){ IMG_B64=''; IMG_MIME=''; $('#prev').classList.remove('show'); }
+  }
+  // inicializar fecha en hoy
+  (function(){ const fi=$('#fecha'); if(fi){ const d=new Date(); const z=n=>String(n).padStart(2,'0'); fi.value=d.getFullYear()+'-'+z(d.getMonth()+1)+'-'+z(d.getDate()); } })();
+  pintarNichos();
+  aplicarFormato();
+
+  // ══════════ Clave Gemini ══════════
+  function getKey(){
+    const kf = $('#geminiKey');
+    if(kf && kf.value.trim()) return kf.value.trim();
+    try{ const o = JSON.parse(localStorage.getItem('jmbots_keys')||'{}'); if(o && o.an) return o.an; }catch(e){}
+    return '';
+  }
+  function estadoClave(ok){
+    const s = $('#keyStatus');
+    if(ok){ s.textContent = '✓ Clave lista'; s.style.color = 'var(--lime)'; }
+    else { s.textContent = '⚠ Pegá tu clave de Gemini para poder generar'; s.style.color = '#ffb3d1'; }
+  }
+  const kf = $('#geminiKey');
+  const saved = getKey();
+  if(saved){ kf.value = saved; estadoClave(true); } else estadoClave(false);
+  kf.addEventListener('input', () => {
+    const v = kf.value.trim();
+    if(v){ try{ const o=JSON.parse(localStorage.getItem('jmbots_keys')||'{}'); o.an=v; localStorage.setItem('jmbots_keys',JSON.stringify(o)); }catch(e){} estadoClave(true); }
+    else estadoClave(false);
+  });
+
+  // ══════════ Imagen ══════════
+  const drop = $('#drop'), file = $('#file'), prev = $('#prev'), previmg = $('#previmg');
+  drop.addEventListener('click', () => file.click());
+  drop.addEventListener('dragover', e => { e.preventDefault(); drop.classList.add('over'); });
+  drop.addEventListener('dragleave', () => drop.classList.remove('over'));
+  drop.addEventListener('drop', e => { e.preventDefault(); drop.classList.remove('over'); if(e.dataTransfer.files[0]) cargarImg(e.dataTransfer.files[0]); });
+  file.addEventListener('change', e => { if(e.target.files[0]) cargarImg(e.target.files[0]); });
+  $('#rm').addEventListener('click', () => { IMG_B64=''; IMG_MIME=''; prev.classList.remove('show'); file.value=''; });
+  function cargarImg(f){
+    if(!f.type.startsWith('image/')) return;
+    IMG_MIME = f.type;
+    const r = new FileReader();
+    r.onload = () => { IMG_B64 = r.result.split(',')[1]; previmg.src = r.result; prev.classList.add('show'); };
+    r.readAsDataURL(f);
+  }
+
+  // ══════════ Construir la instrucción según el formato ══════════
+  function tema(){ return ($('#tema').value||'').trim(); }
+  function aspTxt(){
+    const a = $('#aspecto').value;
+    return a==='vertical'?'vertical 9:16':a==='horizontal'?'horizontal 16:9':a==='45'?'vertical 4:5':'cuadrado 1:1';
+  }
+  function nichoLabel(){
+    const f = FORMATOS[FMT_SEL];
+    const n = f.nichos.find(x=>x.id===NICHO_SEL);
+    return n ? n.label.replace(/^[^\s]+\s/,'') : NICHO_SEL;
+  }
+  function temaFinal(){
+    const t = tema();
+    if(t) return t;
+    if(NICHO_SEL==='libre') return 'un tema variado y sorprendente que vos elijas';
+    return nichoLabel();
+  }
+
+  const COMUN = [
+    'Escribí los prompts en prosa de LENGUAJE NATURAL para Nano Banana 2 (Gemini). NO uses parámetros de Midjourney (nada de --ar, --v, --style, --stylize, chaos). El aspecto se pide en palabras.',
+    'FORMATO DE SALIDA: un prompt por línea, texto plano, SIN numerar, SIN viñetas, SIN negritas, separados por UN salto de línea. Cada prompt en una sola línea continua.'
+  ].join('\n');
+
+  function bloqueCaptions(N){
+    return '\n\nDespués de los '+N+' prompts, escribí una línea con exactamente: --- TEXTOS ---\n'
+      + 'Después del separador, escribí '+N+' textos para publicar en redes (uno por cada imagen, en el mismo orden), numerados del 1 al '+N+'. '
+      + 'Cada texto en ESPAÑOL, de aproximadamente 200 caracteres (ni muy corto ni muy largo), atractivo y listo para copiar y pegar como descripción de la publicación. '
+      + 'Podés incluir 1 o 2 emojis y 2-3 hashtags relevantes al final de cada uno. NO repitas el prompt: es el copy de venta/enganche de esa imagen.';
+  }
+
+  function instruccion(){
+    const f = FORMATOS[FMT_SEL];
+    const N = $('#cantidad').value;
+    const idioma = $('#idiomaTexto').value==='en' ? 'inglés' : 'español';
+    const asp = aspTxt();
+    const t = temaFinal();
+    const objeto = ($('#objeto').value||'').trim();
+    const marca = ($('#marca').value||'').trim();
+    const marcaTxt = marca ? ('Integrá una marca de agua pequeña y discreta con el texto "'+marca+'", fusionada de forma natural con el entorno, sin tapar los elementos.') : 'No agregues ninguna marca de agua.';
+
+    let cab = 'Sos un director de arte y estratega de contenido viral experto en prompts para Nano Banana 2 (Gemini).\n\n';
+    cab += 'TAREA: generar un lote de '+N+' prompts sobre el tema: "'+t+'".\nAspecto de las imágenes: '+asp+'.\nIdioma del texto que aparece DENTRO de la imagen: '+idioma+' (entre comillas). TODO el resto (reportes, captions, historias, explicaciones) SIEMPRE en español.\n\n'+COMUN+'\n\n';
+
+    if(f.web){
+      const fi = $('#fecha'); let fechaTxt = '';
+      if(fi && fi.value){
+        const partes = fi.value.split('-');
+        fechaTxt = partes[2]+'/'+partes[1]+'/'+partes[0];
+      }
+      cab += 'FECHA OBJETIVO: '+(fechaTxt||'hoy')+'. Buscá y usá EXCLUSIVAMENTE noticias reales de esa fecha (o de las últimas 24-72 horas respecto a ella). ';
+      cab += 'Si tenés acceso a búsqueda web, basá cada prompt en una noticia REAL y verificable de ese día. Si no tenés web, generá '+N+' titulares plausibles y realistas del tema para esa fecha, sin inventar citas atribuidas a personas reales.\n\n';
+    }
+
+    // Bloques específicos por formato
+    if(FMT_SEL==='despiece'){
+      return cab
+        + 'ESTILO: cada prompt describe una ilustración 3D hiperrealista estilo CGI, composición técnica limpia, con el objeto principal mostrado en VISTA EXPLOTADA (despiece) — sus componentes separados y ordenados flotando, conectados con líneas limpias y etiquetas de texto en '+idioma+'.\n'
+        + 'CADA PROMPT DEBE INCLUIR: el objeto y sus componentes (lista cerrada, sin agregar ni quitar piezas), un entorno temático realista acorde al nicho ('+nichoLabel()+'), iluminación de estudio combinada con luz ambiental, materiales PBR detallados con reflejos, y un título técnico corto en '+idioma+' dentro de una etiqueta rectangular blanca en la parte superior. Pedí traducir cualquier texto a '+idioma+' y eliminar marcas de agua previas. '+marcaTxt+'\n'
+        + (objeto ? ('El objeto principal de referencia es: '+objeto+'. Variá el enfoque en cada prompt (distintos modelos, ángulos, subtipos).\n') : 'Elegí '+N+' objetos DISTINTOS y específicos dentro del nicho, evitando clichés.\n')
+        + (IMG_B64 ? 'Hay una imagen de referencia adjunta: usala como referencia estructural base para el primer prompt, respetando disposición y proporciones.\n' : '')
+        + '\nEntregá los '+N+' prompts, uno por línea.' + bloqueCaptions(N);
+    }
+
+    if(FMT_SEL==='noticias'){
+      return cab
+        + 'ESTILO: cada prompt describe una foto de prensa realista tipo fotoperiodismo (breaking news), sin estética artificial: luz natural dura, textura realista, grano de película, encuadre editorial. Alterná ambientes según el tema (calle, rueda de prensa, estadio, frontera, sala de redacción).\n'
+        + 'INTEGRACIÓN DE TEXTO: cada imagen lleva un rótulo inferior semitransparente (lower third) con un titular corto en '+idioma+' entre comillas.\n'
+        + marcaTxt+'\n\n'
+        + 'Luego de los '+N+' prompts, escribí una línea con exactamente: --- REPORTE ---\n'
+        + 'Después del separador, escribí '+N+' textos numerados (1 al '+N+') en español, cada uno de mínimo 30 palabras, explicando Qué, Quién (nombres reales si hay) e Impacto. Tono periodístico, serio, sin llamados a la acción (nada de "comentá" o "compartí").\n\n'
+        + 'Entregá: los '+N+' prompts, el separador, y los '+N+' textos.';
+    }
+
+    if(FMT_SEL==='memes'){
+      const jergaTxt = idioma==='inglés' ? "'real.', 'literally me', 'bro really thought', 'delulu', 'my intrusive thoughts won'" : "'soy yo', 'me siento atacado', 'el bro realmente pensó', 'mi lado tóxico ganó'";
+      return cab
+        + 'ESTILO ANTI-IA (CRUDO): los memes perfectos no son virales. Forzá estéticas crudas de baja calidad: "selfie con lente ultra-angular 0.5x", "foto borrosa de celular viejo", "flash sobreexpuesto años 2010", "grabación granulada de cámara de seguridad", "mal recortado". Alterná también con estilos caricatura (wojak, rage comic, cartoon cursed) según el nicho.\n'
+        + 'TEXTO EN IMAGEN: cada prompt DEBE incrustar un texto MUY CORTO (1 a 5 palabras máximo, para evitar errores) en '+idioma+', dentro de una barra blanca arriba o una barra estilo Snapchat. PROHIBIDO fuente Impact salvo que el nicho lo pida.\n\n'
+        + 'Luego de los '+N+' prompts, escribí una línea: --- CAPTIONS ---\n'
+        + 'Después, '+N+' captions numerados (1 al '+N+') en '+idioma+', en minúsculas, jerga de internet ('+jergaTxt+'), con emojis irónicos (💀 😭 🗣️ 🧍 🤡). El caption NO repite el texto de la imagen: es el remate.\n\n'
+        + 'Entregá: los '+N+' prompts, el separador, y los '+N+' captions.';
+    }
+
+    if(FMT_SEL==='relatos'){
+      return cab
+        + 'ESTILO: fotografía documental candid, íntima, multi-vista (una toma principal + un recuadro circular que amplía un detalle emocional clave). Luz natural o ambiental dramática, alto detalle realista. Momentos de conexión humano-animal (o el tema elegido) con un giro emotivo, evitando clichés.\n'
+        + 'INTEGRACIÓN DE TEXTO: cada imagen incluye un bloque con una observación sentimental breve en '+idioma+' entre comillas, y otro con una pregunta reflexiva en '+idioma+' entre comillas.\n\n'
+        + 'Luego de los '+N+' prompts, escribí una línea: --- HISTORIAS ---\n'
+        + 'Después, '+N+' historias numeradas (1 al '+N+') en español, de unas 150-250 palabras cada una, con arco: antes, el momento, la conexión y el después. Tono narrativo e íntimo.\n\n'
+        + 'Entregá: los '+N+' prompts, el separador, y las '+N+' historias.';
+    }
+
+    if(FMT_SEL==='religioso'){
+      return cab
+        + 'ESTILO: imágenes virales de alto impacto emocional para Facebook/TikTok. Alterná entre: ilustración split-screen (arriba/abajo o izquierda/derecha), arte cómic 2D con globos de diálogo, póster con tipografía 3D enorme, collage surrealista fotorrealista, boceto a lápiz con carteles rústicos de madera, y render cinemático emotivo.\n'
+        + 'TEXTO EN IMAGEN: cada prompt ancla una frase de fe/engagement en '+idioma+' MAYÚSCULAS entre comillas, usando fórmulas como "con una caja de texto negra abajo con texto blanco que dice", "con un globo de cómic que dice", "con un cartel de madera que dice". Inventá una frase distinta y potente para cada uno (ej. estilo "no seas tacaño con tu Amén", "hoy decreto abundancia"). Para split-screen usá textos opuestos (ej. "AMÉN" vs "SÁLTALO").\n'
+        + (NICHO_SEL==='jesus' ? 'Regla fija: si aparece Jesús de Nazaret, mostralo en la tradición iconográfica clásica, mirando de frente a cámara.\n' : '')
+        + marcaTxt+'\n\n'
+        + 'Entregá los '+N+' prompts, uno por línea.' + bloqueCaptions(N);
+    }
+
+    if(FMT_SEL==='pipeline'){
+      return cab.replace('generar un lote de '+N+' prompts', 'generar un lote de '+N+' FICHAS DE PERSONAJE')
+        + 'ESTILO del nicho '+nichoLabel()+': cada ficha describe UN personaje consistente y reutilizable, con apariencia hiper-específica (rostro, pelo, ropa, colores, rasgos) para mantener continuidad visual entre escenas.\n'
+        + 'CADA LÍNEA es el prompt de referencia de un personaje: nombre del personaje al inicio entre paréntesis mental, luego la descripción física completa en prosa natural, terminando con la estética del nicho. En '+idioma+' para cualquier texto visible.\n'
+        + (objeto ? ('Base temática: '+objeto+'.\n') : '')
+        + '\nEntregá las '+N+' fichas, una por línea.' + bloqueCaptions(N);
+    }
+
+    if(FMT_SEL==='ficha'){
+      return cab
+        + 'ESTILO: cada prompt describe una ILUSTRACIÓN EDUCATIVA hiperrealista tipo ficha/infografía, con el sujeto principal enfocado y nítido, rodeado de tarjetas o paneles informativos flotantes conectados con líneas limpias, y un título en una etiqueta blanca rectangular en la parte superior con texto en mayúsculas negras.\n'
+        + 'DATOS OBLIGATORIOS EN CADA IMAGEN (según el sujeto, en '+idioma+' entre comillas): el NOMBRE, el ORIGEN o región/época, un DATO de cantidad/población/tamaño/velocidad cuando aplique, y un dato de HISTORIA o característica clave. Todo texto de la imagen en '+idioma+'.\n'
+        + 'REGLA ANTI-CLICHÉ: elegí sujetos ESPECÍFICOS y variados dentro del nicho ('+nichoLabel()+'), evitando los más obvios. Cada uno de los '+N+' prompts debe ser un sujeto DISTINTO.\n'
+        + 'Adaptá el entorno, la iluminación y el tipo de plano a cada sujeto (estudio para objetos, hábitat natural para animales, vista aérea para lugares, vista explotada para máquinas/anatomía). Materiales realistas, iluminación profesional, render educativo de alta calidad.\n'
+        + (objeto ? ('Tema base indicado por el usuario: '+objeto+'.\n') : '')
+        + marcaTxt+'\n'
+        + '\nEntregá los '+N+' prompts, uno por línea.' + bloqueCaptions(N);
+    }
+
+    return cab + 'Entregá los '+N+' prompts, uno por línea.';
+  }
+
+  // ══════════ Generar ══════════
+  async function generar(){
+    const key = getKey();
+    const out = $('#out');
+    if(!key){ out.className='out show'; out.innerHTML='<div class="err">Pegá tu clave de Gemini para poder generar.</div>'; return; }
+
+    const btn = $('#gen'); btn.disabled=true; btn.innerHTML='<span class="spin"></span>Generando lote…';
+    out.className='out show'; out.innerHTML='<div class="loading">Armando tu lote… esto puede tardar unos segundos.</div>';
+
+    const modelos = ['gemini-2.5-flash','gemini-2.0-flash','gemini-1.5-flash'];
+    const parts = [];
+    if(IMG_B64 && FORMATOS[FMT_SEL].img) parts.push({ inline_data:{ mime_type: IMG_MIME||'image/jpeg', data: IMG_B64 } });
+    parts.push({ text: instruccion() });
+
+    async function intentar(i){
+      if(i >= modelos.length){ out.innerHTML='<div class="err">No se pudo conectar con Gemini. Revisá que tu clave sea válida y tenga acceso a la API.</div>'; btn.disabled=false; btn.innerHTML='✨ Generar lote'; return; }
+      try{
+        const r = await fetch('https://generativelanguage.googleapis.com/v1beta/models/'+modelos[i]+':generateContent?key='+encodeURIComponent(key),{
+          method:'POST', headers:{'Content-Type':'application/json'},
+          body: JSON.stringify({ contents:[{parts}], generationConfig:{ temperature:0.95, maxOutputTokens:16384 } })
+        });
+        const data = await r.json();
+        if(data.error){
+          if(data.error.code===404 || /not found|not supported|unavailable/i.test(data.error.message||'')){ return intentar(i+1); }
+          throw new Error(data.error.message||'Error de Gemini');
+        }
+        let txt='';
+        try{ txt = data.candidates[0].content.parts.map(p=>p.text||'').join(''); }catch(e){ throw new Error('La IA no devolvió contenido. Probá de nuevo.'); }
+        txt = txt.trim();
+        if(!txt){ throw new Error('Respuesta vacía. Probá de nuevo.'); }
+        render(txt);
+        btn.disabled=false; btn.innerHTML='✨ Generar lote';
+      }catch(e){
+        out.innerHTML='<div class="err">'+(e.message||'Algo falló')+'</div>';
+        btn.disabled=false; btn.innerHTML='✨ Generar lote';
+      }
+    }
+    intentar(0);
+  }
+
+  function render(txt){
+    const out = $('#out');
+    out.className='out show'; out.innerHTML='';
+
+    // Separar prompts / reporte-captions-historias si hay separador
+    const seps = ['--- REPORTE ---','--- CAPTIONS ---','--- HISTORIAS ---','--- TEXTOS ---'];
+    let sepFound = null;
+    for(const s of seps){ if(txt.includes(s)){ sepFound = s; break; } }
+
+    if(sepFound){
+      const idx = txt.indexOf(sepFound);
+      const bloque1 = txt.slice(0, idx).trim();
+      const bloque2 = txt.slice(idx + sepFound.length).trim();
+      const tit2 = sepFound.includes('REPORTE') ? '📄 Reporte / textos'
+        : sepFound.includes('CAPTIONS') ? '💬 Captions'
+        : sepFound.includes('HISTORIAS') ? '📖 Historias'
+        : '📝 Textos para publicar';
+      out.appendChild(caja('🎨 Prompts para Nano Banana 2', bloque1));
+      out.appendChild(caja(tit2, bloque2));
+    } else {
+      out.appendChild(caja('🎨 Prompts para Nano Banana 2', txt));
+    }
+  }
+
+  function caja(titulo, contenido){
+    const box = document.createElement('div'); box.className='promptbox';
+    const head = document.createElement('div'); head.className='phead';
+    const h4 = document.createElement('h4'); h4.textContent = titulo;
+    const cb = document.createElement('button'); cb.className='copybtn'; cb.textContent='copiar todo';
+    cb.onclick = () => navigator.clipboard.writeText(contenido).then(()=>{ cb.textContent='✓ copiado'; cb.classList.add('ok'); setTimeout(()=>{cb.textContent='copiar todo';cb.classList.remove('ok');},1600); });
+    head.appendChild(h4); head.appendChild(cb);
+    const pre = document.createElement('pre'); pre.textContent = contenido;
+    box.appendChild(head); box.appendChild(pre);
+    return box;
+  }
+
+  $('#gen').addEventListener('click', generar);
+})();
+</script>
+</body>
+</html>
