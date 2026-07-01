@@ -1261,9 +1261,10 @@
       "img": "img/milagrosjesus.jpg"
     },
     {
-      "id": "monetizacion-con-imagene",
+      "id": "despiece",
       "nombre": "Monetización con Imágenes",
-      "archivo": "despiece.html"
+      "archivo": "despiece.html",
+      "img": "img/despiece.jpg"
     }
   ],
   "accesos": {
