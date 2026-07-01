@@ -339,33 +339,42 @@
   pintarNichos();
   aplicarFormato();
 
-  // ══════════ Clave Gemini ══════════
+  // ══════════ Clave Gemini (soporta varias separadas por coma, como Outliers) ══════════
   function limpiarClave(k){
     // quita espacios, saltos de línea y caracteres invisibles que rompen la auth
     return String(k||'').replace(/[\s\u200B-\u200D\uFEFF]/g,'').trim();
   }
-  function claveGuardada(){
-    try{ const o = JSON.parse(localStorage.getItem('jmbots_keys')||'{}'); if(o && o.an) return limpiarClave(o.an); }catch(e){}
+  function claveGuardadaRaw(){
+    try{ const o = JSON.parse(localStorage.getItem('jmbots_keys')||'{}'); if(o && o.an) return o.an; }catch(e){}
     return '';
   }
-  function getKey(){
+  // Devuelve un ARRAY de claves válidas (separa por coma y limpia cada una)
+  function getKeys(){
     const kf = $('#geminiKey');
-    const escrita = kf ? limpiarClave(kf.value) : '';
-    // Si el usuario escribió una clave nueva válida, usarla; si no, la guardada de la suite
-    if(escrita && escrita.length > 20) return escrita;
-    return claveGuardada() || escrita;
+    const escrita = kf ? kf.value : '';
+    const fuente = (escrita && escrita.replace(/[,\s]/g,'').length > 20) ? escrita : claveGuardadaRaw();
+    return String(fuente||'')
+      .split(',')
+      .map(limpiarClave)
+      .filter(k => k.length > 20);
   }
   function estadoClave(ok){
     const s = $('#keyStatus');
-    if(ok){ s.textContent = '✓ Clave lista'; s.style.color = 'var(--lime)'; }
+    if(ok){
+      const n = getKeys().length;
+      s.textContent = n > 1 ? ('✓ '+n+' claves listas (rota entre ellas)') : '✓ Clave lista';
+      s.style.color = 'var(--lime)';
+    }
     else { s.textContent = '⚠ Pegá tu clave de Gemini para poder generar'; s.style.color = '#ffb3d1'; }
   }
   const kf = $('#geminiKey');
-  const saved = getKey();
-  if(saved){ kf.value = saved; estadoClave(true); } else estadoClave(false);
+  const savedRaw = (getKeys().length ? getKeys().join(', ') : '');
+  if(savedRaw){ kf.value = savedRaw; estadoClave(true); } else estadoClave(false);
   kf.addEventListener('input', () => {
-    const v = limpiarClave(kf.value);
-    if(v){ try{ const o=JSON.parse(localStorage.getItem('jmbots_keys')||'{}'); o.an=v; localStorage.setItem('jmbots_keys',JSON.stringify(o)); }catch(e){} estadoClave(true); }
+    // guardar el texto tal cual (respetando las comas entre varias claves)
+    const raw = kf.value.trim();
+    const validas = getKeys();
+    if(validas.length){ try{ const o=JSON.parse(localStorage.getItem('jmbots_keys')||'{}'); o.an=raw; localStorage.setItem('jmbots_keys',JSON.stringify(o)); }catch(e){} estadoClave(true); }
     else estadoClave(false);
   });
 
@@ -526,9 +535,9 @@
 
   // ══════════ Generar ══════════
   async function generar(){
-    const key = getKey();
+    const keys = getKeys();
     const out = $('#out');
-    if(!key){ out.className='out show'; out.innerHTML='<div class="err">Pegá tu clave de Gemini para poder generar.</div>'; return; }
+    if(!keys.length){ out.className='out show'; out.innerHTML='<div class="err">Pegá tu clave de Gemini para poder generar.</div>'; return; }
 
     const btn = $('#gen'); btn.disabled=true; btn.innerHTML='<span class="spin"></span>Generando lote…';
     out.className='out show'; out.innerHTML='<div class="loading">Armando tu lote… esto puede tardar unos segundos.</div>';
@@ -538,34 +547,57 @@
     if(IMG_B64 && FORMATOS[FMT_SEL].img) parts.push({ inline_data:{ mime_type: IMG_MIME||'image/jpeg', data: IMG_B64 } });
     parts.push({ text: instruccion() });
 
-    async function intentar(i){
-      if(i >= modelos.length){ out.innerHTML='<div class="err">No se pudo conectar con Gemini. Revisá que tu clave sea válida y tenga acceso a la API.</div>'; btn.disabled=false; btn.innerHTML='✨ Generar lote'; return; }
-      try{
-        const r = await fetch('https://generativelanguage.googleapis.com/v1beta/models/'+modelos[i]+':generateContent?key='+encodeURIComponent(key),{
-          method:'POST', headers:{'Content-Type':'application/json'},
-          body: JSON.stringify({ contents:[{parts}], generationConfig:{ temperature:0.95, maxOutputTokens:16384 } })
-        });
-        const data = await r.json();
-        if(data.error){
-          if(data.error.code===404 || /not found|not supported|unavailable/i.test(data.error.message||'')){ return intentar(i+1); }
-          const msg = data.error.message||'';
-          if(/invalid authentication|api key not valid|API_KEY_INVALID|credential/i.test(msg)){
-            throw new Error('Tu clave de Gemini no es válida para esta llamada. Abrí ⚙ claves en la suite, borrá la clave, volvé a pegarla desde aistudio.google.com/apikey y guardá. Después recargá esta app.');
-          }
-          throw new Error(msg||'Error de Gemini');
-        }
-        let txt='';
-        try{ txt = data.candidates[0].content.parts.map(p=>p.text||'').join(''); }catch(e){ throw new Error('La IA no devolvió contenido. Probá de nuevo.'); }
-        txt = txt.trim();
-        if(!txt){ throw new Error('Respuesta vacía. Probá de nuevo.'); }
-        render(txt);
-        btn.disabled=false; btn.innerHTML='✨ Generar lote';
-      }catch(e){
-        out.innerHTML='<div class="err">'+(e.message||'Algo falló')+'</div>';
-        btn.disabled=false; btn.innerHTML='✨ Generar lote';
+    // empezar por una clave al azar para repartir el uso
+    let ki = Math.floor(Math.random()*keys.length);
+    let ultimoError = '';
+
+    // intenta una llamada con una clave y un modelo; devuelve {ok, txt} o {retryKey} o lanza
+    async function llamar(key, modelo){
+      const r = await fetch('https://generativelanguage.googleapis.com/v1beta/models/'+modelo+':generateContent?key='+encodeURIComponent(key),{
+        method:'POST', headers:{'Content-Type':'application/json'},
+        body: JSON.stringify({ contents:[{parts}], generationConfig:{ temperature:0.95, maxOutputTokens:16384 } })
+      });
+      const data = await r.json();
+      if(data.error){
+        const msg = data.error.message||'';
+        const code = data.error.code;
+        // 404 / modelo no disponible -> probar otro MODELO
+        if(code===404 || /not found|not supported|unavailable/i.test(msg)) return {nextModel:true, msg};
+        // clave inválida o límite -> probar otra CLAVE
+        if(code===429 || /invalid authentication|api key not valid|API_KEY_INVALID|credential|quota|resource has been exhausted|rate/i.test(msg)) return {nextKey:true, msg};
+        return {nextKey:true, msg}; // cualquier otro error: probar otra clave por las dudas
       }
+      let txt='';
+      try{ txt = data.candidates[0].content.parts.map(p=>p.text||'').join(''); }catch(e){ return {nextKey:true, msg:'sin contenido'}; }
+      txt = txt.trim();
+      if(!txt) return {nextKey:true, msg:'respuesta vacía'};
+      return {ok:true, txt};
     }
-    intentar(0);
+
+    try{
+      // recorrer claves; por cada clave, probar los modelos
+      for(let intentoClave=0; intentoClave<keys.length; intentoClave++){
+        const key = keys[(ki+intentoClave) % keys.length];
+        let saltarClave = false;
+        for(let m=0; m<modelos.length; m++){
+          const res = await llamar(key, modelos[m]);
+          if(res.ok){ render(res.txt); btn.disabled=false; btn.innerHTML='✨ Generar lote'; return; }
+          if(res.nextModel){ ultimoError=res.msg; continue; }      // mismo key, otro modelo
+          if(res.nextKey){ ultimoError=res.msg; saltarClave=true; break; } // otra clave
+        }
+        if(!saltarClave) break;
+      }
+      // si llegó acá, todas fallaron
+      let human = 'No se pudo generar. ';
+      if(/invalid authentication|api key not valid|API_KEY_INVALID|credential/i.test(ultimoError)) human += 'Alguna de tus claves de Gemini no es válida. Revisá que estén bien copiadas (varias claves van separadas por coma).';
+      else if(/quota|exhausted|rate|429/i.test(ultimoError)) human += 'Tus claves llegaron al límite por hoy. Probá más tarde o agregá otra clave.';
+      else human += (ultimoError || 'Probá de nuevo en un momento.');
+      out.innerHTML='<div class="err">'+human+'</div>';
+      btn.disabled=false; btn.innerHTML='✨ Generar lote';
+    }catch(e){
+      out.innerHTML='<div class="err">'+(e.message||'Algo falló')+'</div>';
+      btn.disabled=false; btn.innerHTML='✨ Generar lote';
+    }
   }
 
   function render(txt){
