@@ -414,7 +414,8 @@
 
   const COMUN = [
     'Escribí los prompts en prosa de LENGUAJE NATURAL para Nano Banana 2 (Gemini). NO uses parámetros de Midjourney (nada de --ar, --v, --style, --stylize, chaos). El aspecto se pide en palabras.',
-    'FORMATO DE SALIDA: un prompt por línea, texto plano, SIN numerar, SIN viñetas, SIN negritas, separados por UN salto de línea. Cada prompt en una sola línea continua.'
+    'NIVEL DE DETALLE: cada prompt debe ser RICO Y DESCRIPTIVO, calidad editorial premium. Especificá con detalle: sujeto principal y su apariencia, composición y encuadre, iluminación (tipo, dirección, temperatura), materiales y texturas realistas, paleta de colores, ambiente/fondo, estilo de render y nivel de realismo. Prompts jugosos y precisos, no genéricos ni cortos.',
+    'FORMATO DE SALIDA: un prompt por línea, texto plano, SIN numerar, SIN viñetas, SIN negritas, separados por UN salto de línea. Cada prompt en UNA sola línea continua (aunque sea largo, nunca lo partas en varias líneas).'
   ].join('\n');
 
   function bloqueCaptions(N){
@@ -515,19 +516,17 @@
     }
 
     if(FMT_SEL==='infografia'){
+      const negBase = 'too much text, long paragraphs, tiny fonts, crowded layout, poor spacing, low contrast, blurry, low quality, cropped elements, distorted anatomy, generic stock design, unreadable text, any English text';
+      const neg = marca ? negBase : (negBase + ', watermark');
       return cab
-        + 'ESTILO: cada prompt genera una INFOGRAFÍA EDUCATIVA PREMIUM en formato cuadrado 1:1, calidad de revista editorial tipo Bloomberg, Visual Capitalist, Morning Brew o The Economist adaptada a redes sociales. Público objetivo: adultos de 35 a 60 años en Estados Unidos. Objetivo: que al verla respondan al instante "¿Por qué debería importarme esto?", que frenen el scroll, lo lean en segundos, lo guarden y lo compartan.\n\n'
-        + 'CADA PROMPT es un solo prompt en inglés (porque describe el diseño para la IA), PERO con una instrucción tajante e ineludible: TODO EL TEXTO QUE APAREZCA DENTRO DE LA INFOGRAFÍA DEBE ESTAR EN ESPAÑOL, sin una sola palabra en inglés. El TÍTULO grande de la infografía debe ser EXACTAMENTE el tema tratado.\n\n'
-        + 'ESTRUCTURA OBLIGATORIA que cada prompt debe pedir (con estos textos en español dentro de la imagen):\n'
-        + '- ARRIBA: título grande (el tema) + un subtítulo corto explicando por qué importa.\n'
-        + '- SECCIÓN 1 "¿Qué está pasando?": 2 puntos concisos + 1 comparación visual simple.\n'
-        + '- SECCIÓN 2 "¿Por qué importa?": 3 datos/beneficios/riesgos clave con íconos y visualización de datos simple.\n'
-        + '- SECCIÓN 3 "¿Qué puedes hacer?": 3 recomendaciones prácticas y accionables.\n'
-        + '- FRANJA INFERIOR "Dato rápido": 3 estadísticas o datos impactantes + 1 comparación memorable + 1 frase de cierre.\n\n'
-        + 'REGLAS DE DISEÑO que cada prompt debe incluir: fondo blanco suave/beige/gris claro con luz de estudio y mucho espacio en blanco; imagen central hiperrealista que representa el tema y ocupa ~45% de la composición; texto extremadamente conciso (máx 6-10 palabras por bloque, sin párrafos); tipografía grande y legible, jerarquía visual clara; priorizar íconos y gráficos sobre texto (70% visual, 30% texto); cada sección entendible en menos de 3 segundos.\n'
-        + 'Al final de cada prompt agregá un bloque negativo: "avoid: too much text, long paragraphs, tiny fonts, crowded layout, poor spacing, low contrast, blurry, low quality, watermark, cropped elements, distorted anatomy, generic stock design, unreadable text, any English text".\n\n'
-        + (objeto ? ('Tema base indicado por el usuario: '+objeto+'. Podés generar variantes o subtemas relacionados.\n') : 'Elegí '+N+' temas DISTINTOS y relevantes dentro del nicho ('+nichoLabel()+'), pensados para que a un adulto de 35-60 años en EE.UU. le importe.\n')
-        + '\nEntregá los '+N+' prompts, uno por línea (cada prompt es largo pero en UNA sola línea continua).' + bloqueCaptions(N);
+        + 'ESTILO: cada prompt genera una INFOGRAFÍA EDUCATIVA PREMIUM cuadrada 1:1, calidad de revista editorial tipo Bloomberg / Visual Capitalist / The Economist adaptada a redes sociales, hiperrealista, fondo blanco/beige/gris claro con luz de estudio y mucho espacio en blanco, imagen central hiperrealista del tema ocupando ~45%, tipografía grande y legible, jerarquía visual clara, 70% visual y 30% texto, íconos y gráficos sobre texto, cada bloque de texto de 6 a 10 palabras máximo sin párrafos. Público: adultos de 35 a 60 años en Estados Unidos.\n\n'
+        + 'REGLA DE FORMATO CRÍTICA E INELUDIBLE: generá EXACTAMENTE '+N+' prompts, ni uno más ni uno menos. CADA prompt debe ocupar UNA SOLA LÍNEA CONTINUA de texto corrido (prosa), sin saltos de línea internos, sin viñetas, sin numeración, sin encabezados de sección. Separá un prompt del siguiente con UNA sola línea en blanco. NUNCA partas un prompt en varias líneas.\n\n'
+        + 'CONTENIDO que cada prompt debe describir DENTRO de esa única línea (integrado como prosa, NO como lista): un título grande con el tema y un subtítulo de por qué importa; una sección titulada "¿Qué está pasando?" con 2 puntos y una comparación visual; una sección "¿Por qué importa?" con 3 datos clave e íconos; una sección "¿Qué puedes hacer?" con 3 recomendaciones accionables; y una franja inferior "Dato rápido" con 3 estadísticas, una comparación memorable y una frase de cierre.\n\n'
+        + 'IDIOMA: TODO el texto que aparezca DENTRO de la infografía debe estar en ESPAÑOL, sin una sola palabra en inglés (aunque el resto del prompt esté en inglés). El título grande debe ser EXACTAMENTE el tema.\n'
+        + marcaTxt+'\n'
+        + 'Cada prompt debe terminar con: "avoid: '+neg+'".\n\n'
+        + (objeto ? ('Tema base indicado por el usuario: "'+objeto+'". Usalo como título de todos o generá subtemas relacionados.\n') : 'Elegí '+N+' temas DISTINTOS y relevantes dentro del nicho ('+nichoLabel()+'), que a un adulto de 35-60 años en EE.UU. le importen.\n')
+        + '\nEntregá EXACTAMENTE '+N+' prompts, cada uno en UNA sola línea, separados por una línea en blanco.' + bloqueCaptions(N);
     }
 
     return cab + 'Entregá los '+N+' prompts, uno por línea.';
