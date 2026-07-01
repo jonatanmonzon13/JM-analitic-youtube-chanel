@@ -428,6 +428,8 @@
   function instruccion(){
     const f = FORMATOS[FMT_SEL];
     const N = $('#cantidad').value;
+    const idiomaImg = $('#idiomaTexto').value==='en' ? 'inglés (English)' : 'español (Spanish)';
+    const idiomaImgEN = $('#idiomaTexto').value==='en' ? 'English' : 'Spanish';
     const idioma = $('#idiomaTexto').value==='en' ? 'inglés' : 'español';
     const asp = aspTxt();
     const t = temaFinal();
@@ -436,7 +438,13 @@
     const marcaTxt = marca ? ('Integrá una marca de agua pequeña y discreta con el texto "'+marca+'", fusionada de forma natural con el entorno, sin tapar los elementos.') : 'No agregues ninguna marca de agua.';
 
     let cab = 'Sos un director de arte y estratega de contenido viral experto en prompts para Nano Banana 2 (Gemini).\n\n';
-    cab += 'TAREA: generar un lote de '+N+' prompts sobre el tema: "'+t+'".\nAspecto de las imágenes: '+asp+'.\nIdioma del texto que aparece DENTRO de la imagen: '+idioma+' (entre comillas). TODO el resto (reportes, captions, historias, explicaciones) SIEMPRE en español.\n\n'+COMUN+'\n\n';
+    cab += 'TAREA: generar un lote de '+N+' prompts sobre el tema: "'+t+'".\nAspecto de las imágenes: '+asp+'.\n\n';
+    cab += 'IDIOMA — REGLA ABSOLUTA E INELUDIBLE (lo más importante de todo):\n';
+    cab += '1) Escribí cada PROMPT en INGLÉS (los prompts en inglés dan mejor resultado en Nano Banana 2).\n';
+    cab += '2) PERO todo el TEXTO QUE APARECERÁ RENDERIZADO DENTRO DE LA IMAGEN (título, subtítulos, etiquetas, descripciones, datos, rótulos, cualquier palabra visible) DEBE estar en '+idiomaImg+'. Ni una sola palabra visible en otro idioma.\n';
+    cab += '3) Para forzarlo, dentro de cada prompt en inglés poné las palabras exactas a renderizar ENTRE COMILLAS y en '+idiomaImgEN+', y agregá la orden explícita: all in-image text must be written in '+idiomaImgEN+', do not translate it to English, render these exact '+idiomaImgEN+' words.\n';
+    cab += '4) Los CAPTIONS / reportes / historias que acompañan cada imagen para publicar van SIEMPRE en español.\n\n';
+    cab += COMUN+'\n\n';
 
     if(f.web){
       const fi = $('#fecha'); let fechaTxt = '';
@@ -516,13 +524,14 @@
     }
 
     if(FMT_SEL==='infografia'){
-      const negBase = 'too much text, long paragraphs, tiny fonts, crowded layout, poor spacing, low contrast, blurry, low quality, cropped elements, distorted anatomy, generic stock design, unreadable text, any English text';
+      const otroIdiomaEN = idiomaImgEN==='Spanish' ? 'English' : 'Spanish';
+      const negBase = 'too much text, long paragraphs, tiny fonts, crowded layout, poor spacing, low contrast, blurry, low quality, cropped elements, distorted anatomy, generic stock design, unreadable text, any '+otroIdiomaEN+' text in the image';
       const neg = marca ? negBase : (negBase + ', watermark');
       return cab
         + 'ESTILO: cada prompt genera una INFOGRAFÍA EDUCATIVA PREMIUM cuadrada 1:1, calidad de revista editorial tipo Bloomberg / Visual Capitalist / The Economist adaptada a redes sociales, hiperrealista, fondo blanco/beige/gris claro con luz de estudio y mucho espacio en blanco, imagen central hiperrealista del tema ocupando ~45%, tipografía grande y legible, jerarquía visual clara, 70% visual y 30% texto, íconos y gráficos sobre texto, cada bloque de texto de 6 a 10 palabras máximo sin párrafos. Público: adultos de 35 a 60 años en Estados Unidos.\n\n'
         + 'REGLA DE FORMATO CRÍTICA E INELUDIBLE: generá EXACTAMENTE '+N+' prompts, ni uno más ni uno menos. CADA prompt debe ocupar UNA SOLA LÍNEA CONTINUA de texto corrido (prosa), sin saltos de línea internos, sin viñetas, sin numeración, sin encabezados de sección. Separá un prompt del siguiente con UNA sola línea en blanco. NUNCA partas un prompt en varias líneas.\n\n'
         + 'CONTENIDO que cada prompt debe describir DENTRO de esa única línea (integrado como prosa, NO como lista): un título grande con el tema y un subtítulo de por qué importa; una sección titulada "¿Qué está pasando?" con 2 puntos y una comparación visual; una sección "¿Por qué importa?" con 3 datos clave e íconos; una sección "¿Qué puedes hacer?" con 3 recomendaciones accionables; y una franja inferior "Dato rápido" con 3 estadísticas, una comparación memorable y una frase de cierre.\n\n'
-        + 'IDIOMA: TODO el texto que aparezca DENTRO de la infografía debe estar en ESPAÑOL, sin una sola palabra en inglés (aunque el resto del prompt esté en inglés). El título grande debe ser EXACTAMENTE el tema.\n'
+        + 'IDIOMA — ABSOLUTO: TODO el texto que aparezca DENTRO de la infografía (título, subtítulos, secciones, datos, etiquetas) debe estar en '+idiomaImg+', sin una sola palabra en otro idioma, aunque el prompt esté en inglés. Escribí esas palabras exactas entre comillas y en '+idiomaImgEN+', con la orden explícita render these exact '+idiomaImgEN+' words, do not translate. El título grande debe ser EXACTAMENTE el tema.\n'
         + marcaTxt+'\n'
         + 'Cada prompt debe terminar con: "avoid: '+neg+'".\n\n'
         + (objeto ? ('Tema base indicado por el usuario: "'+objeto+'". Usalo como título de todos o generá subtemas relacionados.\n') : 'Elegí '+N+' temas DISTINTOS y relevantes dentro del nicho ('+nichoLabel()+'), que a un adulto de 35-60 años en EE.UU. le importen.\n')
