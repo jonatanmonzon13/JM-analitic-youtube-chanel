@@ -284,6 +284,18 @@
         {id:'tecnologia_hist',label:'📟 Tecnología de cada época'},{id:'religiones',label:'🕉️ Religiones del mundo'},
         {id:'libre',label:'✨ Otro tema'}
       ]
+    },
+    infografia: {
+      ic:'📊', nm:'Infografía editorial', ds:'Estilo Bloomberg: 3 secciones + dato rápido',
+      web:false, img:false,
+      nichos:[
+        {id:'salud',label:'🩺 Salud y prevención'},{id:'finanzas',label:'💵 Finanzas personales'},
+        {id:'jubilacion',label:'👴 Jubilación / retiro'},{id:'nutricion',label:'🥗 Nutrición'},
+        {id:'seguros',label:'🛡️ Seguros / Medicare'},{id:'impuestos',label:'📑 Impuestos'},
+        {id:'tecnologia',label:'📱 Tecnología cotidiana'},{id:'seguridad',label:'🔒 Estafas y seguridad'},
+        {id:'bienestar',label:'🧘 Bienestar mental'},{id:'hogar',label:'🏠 Hogar e inmuebles'},
+        {id:'economia',label:'📈 Economía / inflación'},{id:'libre',label:'✨ Tema libre'}
+      ]
     }
   };
 
@@ -482,6 +494,22 @@
         + (objeto ? ('Tema base indicado por el usuario: '+objeto+'.\n') : '')
         + marcaTxt+'\n'
         + '\nEntregá los '+N+' prompts, uno por línea.' + bloqueCaptions(N);
+    }
+
+    if(FMT_SEL==='infografia'){
+      return cab
+        + 'ESTILO: cada prompt genera una INFOGRAFÍA EDUCATIVA PREMIUM en formato cuadrado 1:1, calidad de revista editorial tipo Bloomberg, Visual Capitalist, Morning Brew o The Economist adaptada a redes sociales. Público objetivo: adultos de 35 a 60 años en Estados Unidos. Objetivo: que al verla respondan al instante "¿Por qué debería importarme esto?", que frenen el scroll, lo lean en segundos, lo guarden y lo compartan.\n\n'
+        + 'CADA PROMPT es un solo prompt en inglés (porque describe el diseño para la IA), PERO con una instrucción tajante e ineludible: TODO EL TEXTO QUE APAREZCA DENTRO DE LA INFOGRAFÍA DEBE ESTAR EN ESPAÑOL, sin una sola palabra en inglés. El TÍTULO grande de la infografía debe ser EXACTAMENTE el tema tratado.\n\n'
+        + 'ESTRUCTURA OBLIGATORIA que cada prompt debe pedir (con estos textos en español dentro de la imagen):\n'
+        + '- ARRIBA: título grande (el tema) + un subtítulo corto explicando por qué importa.\n'
+        + '- SECCIÓN 1 "¿Qué está pasando?": 2 puntos concisos + 1 comparación visual simple.\n'
+        + '- SECCIÓN 2 "¿Por qué importa?": 3 datos/beneficios/riesgos clave con íconos y visualización de datos simple.\n'
+        + '- SECCIÓN 3 "¿Qué puedes hacer?": 3 recomendaciones prácticas y accionables.\n'
+        + '- FRANJA INFERIOR "Dato rápido": 3 estadísticas o datos impactantes + 1 comparación memorable + 1 frase de cierre.\n\n'
+        + 'REGLAS DE DISEÑO que cada prompt debe incluir: fondo blanco suave/beige/gris claro con luz de estudio y mucho espacio en blanco; imagen central hiperrealista que representa el tema y ocupa ~45% de la composición; texto extremadamente conciso (máx 6-10 palabras por bloque, sin párrafos); tipografía grande y legible, jerarquía visual clara; priorizar íconos y gráficos sobre texto (70% visual, 30% texto); cada sección entendible en menos de 3 segundos.\n'
+        + 'Al final de cada prompt agregá un bloque negativo: "avoid: too much text, long paragraphs, tiny fonts, crowded layout, poor spacing, low contrast, blurry, low quality, watermark, cropped elements, distorted anatomy, generic stock design, unreadable text, any English text".\n\n'
+        + (objeto ? ('Tema base indicado por el usuario: '+objeto+'. Podés generar variantes o subtemas relacionados.\n') : 'Elegí '+N+' temas DISTINTOS y relevantes dentro del nicho ('+nichoLabel()+'), pensados para que a un adulto de 35-60 años en EE.UU. le importe.\n')
+        + '\nEntregá los '+N+' prompts, uno por línea (cada prompt es largo pero en UNA sola línea continua).' + bloqueCaptions(N);
     }
 
     return cab + 'Entregá los '+N+' prompts, uno por línea.';
