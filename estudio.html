@@ -1,0 +1,446 @@
+<!doctype html>
+<html lang="es">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Seedance Studio · JM BOTS</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Sora:wght@500;600;700;800&family=Inter:wght@400;500;600&family=JetBrains+Mono:wght@500;700&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --bg:#08070C; --bg2:#100D18; --bg3:#17131F;
+    --ink:#F6F3FE; --body:#C9C2DE; --muted:#7E7796; --line:#251F35;
+    --gold:#E7B85C; --gold2:#F8DA8E; --gold-soft:rgba(231,184,92,.14);
+    --violet:#9B5CFF; --cyan:#26D9FF; --pink:#FF3D9A; --lime:#5BF08E;
+    --grad:linear-gradient(100deg,#E7B85C,#9B5CFF 60%,#26D9FF);
+    --grad-gold:linear-gradient(100deg,#E7B85C,#F8DA8E);
+    --radius:16px;
+    --display:'Sora',sans-serif; --bodyf:'Inter',sans-serif; --mono:'JetBrains Mono',monospace;
+  }
+  *{box-sizing:border-box}
+  body{margin:0;color:var(--body);font-family:var(--bodyf);line-height:1.55;-webkit-font-smoothing:antialiased;
+    background:
+      radial-gradient(1100px 520px at 50% -10%, rgba(155,92,255,.12), transparent 60%),
+      radial-gradient(760px 440px at 90% 6%, rgba(38,217,255,.08), transparent 60%),
+      var(--bg);
+    min-height:100vh}
+  .wrap{max-width:960px;margin:0 auto;padding:0 22px}
+  a{color:var(--gold2);text-decoration:none}
+  header{display:flex;justify-content:space-between;align-items:center;padding:22px 0;border-bottom:1px solid var(--line)}
+  .brand{font-family:var(--display);font-weight:800;font-size:20px;letter-spacing:-.02em;color:var(--ink)}
+  .brand .ol{background:var(--grad-gold);-webkit-background-clip:text;background-clip:text;-webkit-text-fill-color:transparent}
+  .back{font-family:var(--mono);font-size:12.5px;color:var(--muted);border:1px solid var(--line);
+    padding:7px 14px;border-radius:999px;background:rgba(255,255,255,.02)}
+  .back:hover{border-color:var(--gold);color:var(--gold)}
+  .hero{padding:44px 0 22px}
+  .eyebrow{font-family:var(--mono);font-size:11px;letter-spacing:.22em;text-transform:uppercase;
+    background:var(--grad);-webkit-background-clip:text;background-clip:text;-webkit-text-fill-color:transparent;
+    font-weight:700;margin-bottom:16px}
+  h1{font-family:var(--display);font-weight:800;font-size:clamp(28px,4.6vw,42px);line-height:1.08;
+    letter-spacing:-.03em;margin:0 0 12px;color:var(--ink);max-width:22ch}
+  h1 em{font-style:normal;background:var(--grad);-webkit-background-clip:text;background-clip:text;-webkit-text-fill-color:transparent}
+  .sub{color:var(--muted);font-size:15px;max-width:64ch;margin:0}
+  .note{background:rgba(38,217,255,.06);border:1px solid rgba(38,217,255,.22);border-radius:12px;
+    padding:14px 16px;margin:20px 0 0;font-size:13.5px;color:#bfeaf5;line-height:1.55}
+  .note b{color:var(--cyan)}
+  .card{background:var(--bg2);border:1px solid var(--line);border-radius:var(--radius);
+    padding:24px;margin:22px 0;box-shadow:0 14px 40px rgba(0,0,0,.35)}
+  .step{font-family:var(--mono);font-size:10.5px;letter-spacing:.14em;text-transform:uppercase;color:var(--gold);margin-bottom:14px}
+  label.lbl{display:block;font-family:var(--mono);font-size:10.5px;color:var(--gold);letter-spacing:.1em;
+    text-transform:uppercase;margin-bottom:8px}
+  textarea,input,select{width:100%;border:1px solid var(--line);border-radius:11px;padding:13px 14px;
+    font-family:var(--bodyf);font-size:15px;color:var(--ink);background:var(--bg3);outline:none;resize:vertical}
+  textarea:focus,input:focus,select:focus{border-color:var(--violet);box-shadow:0 0 0 3px rgba(155,92,255,.22)}
+  textarea{min-height:80px;line-height:1.5}
+  .row{display:flex;gap:14px;flex-wrap:wrap;margin-top:16px}
+  .row > div{flex:1;min-width:160px}
+  .styles{display:grid;grid-template-columns:repeat(3,1fr);gap:12px;margin-top:6px}
+  @media(max-width:680px){.styles{grid-template-columns:1fr}}
+  .styleopt{cursor:pointer;border:1.5px solid var(--line);border-radius:13px;padding:14px;background:var(--bg3);transition:.15s}
+  .styleopt:hover{border-color:rgba(231,184,92,.5)}
+  .styleopt.on{border-color:var(--gold);background:var(--gold-soft);box-shadow:0 0 0 3px var(--gold-soft)}
+  .styleopt .t{font-family:var(--display);font-weight:700;font-size:14px;color:var(--ink);margin-bottom:4px}
+  .styleopt .d{font-size:12px;color:var(--muted);line-height:1.4}
+  button.gen{font-family:var(--display);font-weight:700;font-size:16px;cursor:pointer;border:0;border-radius:12px;
+    padding:15px 26px;width:100%;margin-top:20px;color:#150E24;background:var(--grad-gold);
+    box-shadow:0 10px 30px rgba(231,184,92,.28);transition:.12s}
+  button.gen:hover{transform:translateY(-1px);box-shadow:0 14px 36px rgba(231,184,92,.4)}
+  button.gen:disabled{opacity:.5;cursor:wait;transform:none}
+  button.sec{font-family:var(--display);font-weight:700;font-size:14px;cursor:pointer;border:1px solid var(--line);
+    border-radius:11px;padding:11px 18px;color:var(--body);background:var(--bg3);transition:.14s}
+  button.sec:hover{border-color:var(--gold);color:var(--gold)}
+  button.sec:disabled{opacity:.5;cursor:wait}
+  .keystatus{font-family:var(--mono);font-size:12px;margin-top:10px;color:var(--muted)}
+  .spin{display:inline-block;width:14px;height:14px;border:2px solid rgba(21,14,36,.3);border-top-color:#150E24;
+    border-radius:50%;animation:sp .7s linear infinite;vertical-align:-2px;margin-right:8px}
+  @keyframes sp{to{transform:rotate(360deg)}}
+  .out{margin-top:24px;display:none}
+  .out.show{display:block}
+  .loading{text-align:center;padding:32px;font-family:var(--mono);font-size:14px;color:var(--muted)}
+  .err{background:rgba(255,61,154,.08);border:1px solid rgba(255,61,154,.3);border-radius:12px;padding:16px;
+    color:#ffb3d1;font-size:14px}
+  .block{background:var(--bg2);border:1px solid var(--line);border-radius:14px;overflow:hidden;margin-bottom:18px}
+  .block .bh{display:flex;justify-content:space-between;align-items:center;gap:12px;padding:14px 18px;border-bottom:1px solid var(--line);flex-wrap:wrap}
+  .block.biblia .bh{background:linear-gradient(90deg,rgba(231,184,92,.14),transparent)}
+  .block.escena .bh{background:linear-gradient(90deg,rgba(155,92,255,.16),transparent)}
+  .block h3{margin:0;font-family:var(--display);font-size:15px;font-weight:700;color:var(--ink);display:flex;align-items:center;gap:8px}
+  .copybtn{font-family:var(--mono);font-size:12px;font-weight:700;color:var(--gold2);cursor:pointer;
+    border:1px solid rgba(231,184,92,.4);background:transparent;border-radius:9px;padding:8px 15px}
+  .copybtn:hover{border-color:var(--gold);background:var(--gold-soft)}
+  .copybtn.ok{color:var(--lime);border-color:var(--lime)}
+  .block pre{margin:0;padding:18px;white-space:pre-wrap;word-break:break-word;font-family:var(--mono);
+    font-size:13px;line-height:1.62;color:var(--body);max-height:460px;overflow:auto}
+  .caplist{display:flex;flex-direction:column;gap:8px;padding:16px 18px}
+  .capitem{display:flex;justify-content:space-between;align-items:center;gap:12px;background:var(--bg3);
+    border:1px solid var(--line);border-radius:11px;padding:12px 14px;flex-wrap:wrap}
+  .capitem .ci{min-width:0;flex:1}
+  .capitem .cn{font-family:var(--display);font-weight:600;font-size:14px;color:var(--ink);margin-bottom:2px}
+  .capitem .cd{font-size:12.5px;color:var(--muted);line-height:1.4}
+  .prodwrap{display:none;margin-top:12px}
+  .prodwrap.show{display:block}
+  footer{border-top:1px solid var(--line);margin-top:44px;padding:24px 0;font-family:var(--mono);font-size:12px;color:var(--muted);text-align:center}
+  footer b{color:var(--gold)}
+  @media (prefers-reduced-motion:reduce){*{animation:none!important;transition:none!important}}
+</style>
+</head>
+<body>
+<header class="wrap">
+  <div class="brand">JM<span class="ol"> BOTS</span></div>
+  <a class="back" href="app.html">← volver a la suite</a>
+</header>
+
+<div class="wrap">
+  <section class="hero">
+    <div class="eyebrow">seedance studio · dola / seedance 2.0</div>
+    <h1>Historias largas con <em>personajes consistentes</em>.</h1>
+    <p class="sub">Novelas por capítulos, películas o series virales. La app arma la biblia del proyecto (personajes y escenarios fijos) y el guion dividido en escenas. Después generás los prompts de cada escena, manteniendo todo consistente de principio a fin.</p>
+    <div class="note">⚠️ <b>Importante:</b> Dola/Seedance genera clips de máximo 10-15 segundos. Un video largo se arma con muchos clips cortos pegados en tu editor. Esta app te da todo el plan de producción (biblia + guion + prompts por escena) para que produzcas paso a paso con consistencia; no genera el video largo de un tirón.</div>
+  </section>
+
+  <!-- PASO 1: BIBLIA -->
+  <section class="card">
+    <div class="step">1 · Tu proyecto</div>
+    <label class="lbl">¿De qué trata tu historia? (una idea o sinopsis)</label>
+    <textarea id="idea" placeholder="Ej: una detective retirada vuelve a su pueblo natal para resolver la desaparición de su hermana veinte años atrás"></textarea>
+
+    <div class="row">
+      <div>
+        <label class="lbl">Formato</label>
+        <select id="formato">
+          <option value="novela">📖 Novela por capítulos</option>
+          <option value="pelicula">🎬 Película (varias escenas)</option>
+          <option value="serie">📺 Serie corta viral</option>
+        </select>
+      </div>
+      <div>
+        <label class="lbl">¿Cuántos capítulos / escenas?</label>
+        <select id="cantidad">
+          <option value="6">6</option>
+          <option value="10" selected>10</option>
+          <option value="20">20</option>
+          <option value="40">40</option>
+          <option value="80">80</option>
+        </select>
+      </div>
+    </div>
+
+    <div class="row">
+      <div>
+        <label class="lbl">Estilo visual</label>
+        <select id="estilo">
+          <option value="realista">🎥 Realista HD (boceto → real)</option>
+          <option value="animado">🎬 Animado 3D (DreamWorks)</option>
+          <option value="cine2d">🖌️ Cine 2D ilustrado</option>
+          <option value="fashion">✨ Fashion / lujo cinematográfico</option>
+        </select>
+      </div>
+      <div>
+        <label class="lbl">Duración por capítulo</label>
+        <select id="duracion">
+          <option value="1">10 segundos (1 clip)</option>
+          <option value="6" selected>1 minuto (6 clips)</option>
+          <option value="12">2 minutos (12 clips)</option>
+          <option value="18">3 minutos (18 clips)</option>
+          <option value="30">5 minutos (30 clips)</option>
+        </select>
+      </div>
+      <div>
+        <label class="lbl">Idioma de diálogos</label>
+        <select id="idioma">
+          <option value="es">Español</option>
+          <option value="en">Inglés</option>
+          <option value="none">Sin diálogos</option>
+        </select>
+      </div>
+    </div>
+
+    <div style="margin-top:16px">
+      <label class="lbl">Clave(s) de Gemini <span style="color:var(--muted);text-transform:none;letter-spacing:0">· podés pegar varias separadas por coma</span></label>
+      <input type="password" id="geminiKey" placeholder="AIza… , AIza… , AIza…" autocomplete="off">
+      <div class="keystatus" id="keyStatus"></div>
+    </div>
+
+    <button class="gen" id="genBiblia" onclick="generarBiblia()">📕 Crear la biblia + guion</button>
+  </section>
+
+  <section class="out" id="out"></section>
+</div>
+
+<footer>JM<b> BOTS</b> · seedance studio · corre en tu navegador</footer>
+
+<script>
+const $ = s => document.querySelector(s);
+let BIBLIA = '';       // texto de la biblia (personajes + escenarios) para reinyectar
+let CAPITULOS = [];    // lista de {n, titulo, desc}
+
+const ESTILOS = {
+  realista:{ videoStyle:'photorealistic live-action cinematic film look, hyperrealistic skin texture, natural hair and real fabric, realistic physics, cinematic lighting, shallow depth of field, film grain, anamorphic lens, 4K ultra detailed realism', neg:'cartoon, anime, CGI-looking textures, fake plastic skin, distorted faces, extra limbs, bad anatomy, low quality, blurry faces', transform:'Transform this reference sketch into a photorealistic live-action cinematic scene, converting the sketch into realistic skin, hair, fabric and materials while keeping the exact composition, poses and camera direction.' },
+  animado:{ videoStyle:'DreamWorks-inspired stylized 3D animated feature film style, colorful look, expressive facial acting, bold silhouettes, smooth squash-and-stretch animation, high contrast lighting, cinematic pacing', neg:'no stop motion, no freeze frame, no photorealism', transform:'Animate the storyboard as a stylized 3D animated feature film, colorful, expressive and cinematic.' },
+  cine2d:{ videoStyle:'cinematic 2D illustrated animation, manhwa-inspired art, clean bold lineart, rich cel shading, atmospheric lighting, fluid motion, expressive acting, dramatic camera work', neg:'no 3D plastic look, no photorealism, no stop motion', transform:'Animate the storyboard as a cinematic 2D illustrated film, adding rich color, shading and fluid motion.' },
+  fashion:{ videoStyle:'ultra cinematic luxury film, editorial Vogue aesthetic, old-money mood, warm golden-hour lighting, slow motion, rich textures, shallow depth of field, anamorphic lens, 4K cinematic realism', neg:'cartoon, anime, low quality, distorted faces, cheap look, harsh lighting', transform:'Transform this reference sketch into an ultra realistic cinematic luxury film, converting the sketch into photorealistic textures while keeping the exact framing and camera moves.' }
+};
+const FORMATO_NM = { novela:'novela por capítulos', pelicula:'película dividida en escenas', serie:'serie corta viral de capítulos de 1-3 minutos' };
+const UNIDAD = { novela:'capítulo', pelicula:'escena', serie:'capítulo' };
+
+// ── Claves (varias, con rotación) ──
+function limpiarClave(k){ return String(k||'').replace(/[\s\u200B-\u200D\uFEFF]/g,'').trim(); }
+function claveGuardadaRaw(){ try{ const o=JSON.parse(localStorage.getItem('jmbots_keys')||'{}'); if(o&&o.an) return o.an; }catch(e){} return ''; }
+function getKeys(){
+  const kf=$('#geminiKey'); const escrita=kf?kf.value:'';
+  const fuente=(escrita && escrita.replace(/[,\s]/g,'').length>20)?escrita:claveGuardadaRaw();
+  return String(fuente||'').split(',').map(limpiarClave).filter(k=>k.length>20);
+}
+function estadoClave(ok){
+  const s=$('#keyStatus');
+  if(ok){ const n=getKeys().length; s.textContent=n>1?('✓ '+n+' claves listas (rota entre ellas)'):'✓ Clave lista'; s.style.color='var(--lime)'; }
+  else { s.textContent='⚠ Pegá tu clave de Gemini para poder generar'; s.style.color='#ffb3d1'; }
+}
+(function(){
+  const kf=$('#geminiKey'); const saved=getKeys();
+  if(saved.length){ kf.value=saved.join(', '); estadoClave(true); } else estadoClave(false);
+  kf.addEventListener('input', ()=>{
+    if(getKeys().length){ try{ const o=JSON.parse(localStorage.getItem('jmbots_keys')||'{}'); o.an=kf.value.trim(); localStorage.setItem('jmbots_keys',JSON.stringify(o)); }catch(e){} estadoClave(true); }
+    else estadoClave(false);
+  });
+})();
+
+// ── Llamada a Gemini con rotación de claves ──
+async function pedirGemini(promptText){
+  const keys=getKeys();
+  if(!keys.length) throw new Error('Pegá tu clave de Gemini para poder generar.');
+  const modelos=['gemini-2.5-flash','gemini-2.0-flash','gemini-1.5-flash'];
+  let ki=Math.floor(Math.random()*keys.length), ultimoError='';
+  const parts=[{text:promptText}];
+  async function llamar(key,modelo){
+    const r=await fetch('https://generativelanguage.googleapis.com/v1beta/models/'+modelo+':generateContent?key='+encodeURIComponent(key),{
+      method:'POST',headers:{'Content-Type':'application/json'},
+      body:JSON.stringify({contents:[{parts}],generationConfig:{temperature:0.9,maxOutputTokens:16384}})
+    });
+    const data=await r.json();
+    if(data.error){ const msg=data.error.message||'',code=data.error.code;
+      if(code===404||/not found|not supported|unavailable/i.test(msg)) return {nextModel:true,msg};
+      return {nextKey:true,msg}; }
+    let txt=''; try{ txt=data.candidates[0].content.parts.map(p=>p.text||'').join(''); }catch(e){ return {nextKey:true,msg:'sin contenido'}; }
+    txt=txt.trim(); if(!txt) return {nextKey:true,msg:'respuesta vacía'};
+    return {ok:true,txt};
+  }
+  for(let ic=0; ic<keys.length; ic++){
+    const key=keys[(ki+ic)%keys.length]; let saltar=false;
+    for(let m=0;m<modelos.length;m++){
+      const res=await llamar(key,modelos[m]);
+      if(res.ok) return res.txt;
+      if(res.nextModel){ ultimoError=res.msg; continue; }
+      if(res.nextKey){ ultimoError=res.msg; saltar=true; break; }
+    }
+    if(!saltar) break;
+  }
+  if(/invalid authentication|api key not valid|API_KEY_INVALID|credential/i.test(ultimoError)) throw new Error('Alguna clave de Gemini no es válida (revisá que estén bien copiadas, separadas por coma).');
+  if(/quota|exhausted|rate|429/i.test(ultimoError)) throw new Error('Tus claves llegaron al límite por hoy. Probá más tarde o agregá otra.');
+  throw new Error(ultimoError||'No se pudo generar. Probá de nuevo.');
+}
+
+function esc(s){ const d=document.createElement('div'); d.textContent=s; return d.innerHTML; }
+
+// ══════════ PASO 1 · Generar la biblia + lista de capítulos ══════════
+async function generarBiblia(){
+  const idea=($('#idea').value||'').trim();
+  const out=$('#out');
+  if(!idea){ out.className='out show'; out.innerHTML='<div class="err">Escribí primero de qué trata tu historia.</div>'; return; }
+  if(!getKeys().length){ out.className='out show'; out.innerHTML='<div class="err">Pegá tu clave de Gemini para poder generar.</div>'; return; }
+
+  const fmt=$('#formato').value, N=$('#cantidad').value;
+  const btn=$('#genBiblia'); btn.disabled=true; btn.innerHTML='<span class="spin"></span>Creando la biblia…';
+  out.className='out show'; out.innerHTML='<div class="loading">Armando la biblia del proyecto y el guion de '+N+' '+UNIDAD[fmt]+'s… unos segundos.</div>';
+
+  const prompt = `Sos un guionista y showrunner profesional. A partir de esta idea: "${idea}", desarrollá la BIBLIA de una ${FORMATO_NM[fmt]} de ${N} ${UNIDAD[fmt]}s.
+
+Respondé en español, con EXACTAMENTE estos bloques y separadores:
+
+=== BIBLIA ===
+TÍTULO: (un título atractivo)
+LOGLINE: (una frase que resuma la historia)
+TONO Y GÉNERO: (breve)
+PERSONAJES: listá los personajes principales. Para CADA uno, en una línea: Nombre — descripción física detallada y fija (edad, rostro, pelo, cuerpo, vestuario característico, rasgos distintivos) + personalidad en pocas palabras. Esta descripción debe servir como referencia visual constante.
+ESCENARIOS: listá los escenarios recurrentes. Para CADA uno, en una línea: Nombre — descripción visual fija (lugar, época, iluminación, atmósfera, detalles).
+ARCO GENERAL: 3-4 frases sobre cómo evoluciona la historia de principio a fin.
+
+=== CAPITULOS ===
+Listá los ${N} ${UNIDAD[fmt]}s, uno por línea, con este formato EXACTO por línea:
+N| Título del ${UNIDAD[fmt]} | qué pasa en una frase
+(empezá en 1, sin viñetas, sin negritas, solo "número| título | descripción" separado por barras verticales)
+
+No agregues nada fuera de estos dos bloques.`;
+
+  try{
+    const txt = await pedirGemini(prompt);
+    // separar biblia y capitulos
+    const iB=txt.indexOf('=== BIBLIA ==='), iC=txt.indexOf('=== CAPITULOS ===');
+    let biblia='', capsRaw='';
+    if(iB!==-1 && iC!==-1 && iC>iB){
+      biblia=txt.slice(iB+'=== BIBLIA ==='.length, iC).trim();
+      capsRaw=txt.slice(iC+'=== CAPITULOS ==='.length).trim();
+    } else { biblia=txt.trim(); }
+    BIBLIA=biblia;
+    // parsear capitulos "N| titulo | desc"
+    CAPITULOS=[];
+    capsRaw.split('\n').forEach(l=>{
+      const m=l.match(/^\s*(\d+)\s*[|.\-)]\s*(.+)$/);
+      if(m){
+        const resto=m[2].split('|').map(s=>s.trim());
+        CAPITULOS.push({ n:m[1], titulo:resto[0]||('Capítulo '+m[1]), desc:resto[1]||'' });
+      }
+    });
+    renderBiblia();
+    btn.disabled=false; btn.innerHTML='📕 Crear la biblia + guion';
+  }catch(e){
+    out.innerHTML='<div class="err">'+esc(e.message||'Algo falló')+'</div>';
+    btn.disabled=false; btn.innerHTML='📕 Crear la biblia + guion';
+  }
+}
+
+function renderBiblia(){
+  const fmt=$('#formato').value;
+  let html = `<div class="block biblia">
+    <div class="bh"><h3>📕 Biblia del proyecto <span style="font-family:var(--mono);font-size:11px;color:var(--muted);font-weight:400">· personajes y escenarios fijos</span></h3>
+      <button class="copybtn" onclick="copiarPre(this)">copiar</button></div>
+    <pre>${esc(BIBLIA)}</pre></div>`;
+
+  if(CAPITULOS.length){
+    html += `<div class="block escena">
+      <div class="bh"><h3>🎬 ${CAPITULOS.length} ${UNIDAD[fmt]}s · producí cada uno</h3></div>
+      <div class="caplist">`;
+    CAPITULOS.forEach((c,i)=>{
+      html += `<div class="capitem" id="cap-${i}">
+        <div class="ci"><div class="cn">${esc(c.n)}. ${esc(c.titulo)}</div>
+          <div class="cd">${esc(c.desc)}</div></div>
+        <button class="sec" onclick="producirEscena(${i})">🎞️ Generar capítulo</button>
+        <div class="prodwrap" id="prod-${i}" style="flex:1 1 100%"></div>
+      </div>`;
+    });
+    html += `</div></div>`;
+  }
+  $('#out').innerHTML = html;
+}
+
+// ══════════ PASO 2 · Producir prompts de un capítulo (dividido en N escenas de 10s) ══════════
+async function producirEscena(i){
+  const c=CAPITULOS[i]; if(!c) return;
+  const cont=$('#prod-'+i);
+  const btn=document.querySelector('#cap-'+i+' button.sec');
+  const est=ESTILOS[$('#estilo').value];
+  const asp='16:9';
+  const idiomaSel=$('#idioma').value;
+  const idiomaTxt=idiomaSel==='es'?'en español':idiomaSel==='en'?'en inglés':'sin diálogos hablados (solo acción y ambiente)';
+  const fmt=$('#formato').value;
+  const nEscenas=Number($('#duracion').value)||1;
+  const segTot=nEscenas*10;
+
+  btn.disabled=true; btn.innerHTML='<span class="spin"></span>Generando…';
+  cont.className='prodwrap show';
+  cont.innerHTML='<div class="loading">Armando '+nEscenas+' escena'+(nEscenas>1?'s':'')+' de 10s ('+segTot+'s en total) para este '+UNIDAD[fmt]+'…</div>';
+
+  // Paso A: si el capítulo dura más de 1 escena, primero pedimos el desglose en N beats
+  let escenas = [{n:1, titulo:c.titulo, desc:c.desc}];
+  try{
+    if(nEscenas>1){
+      const promptDesglose = `Sos guionista. Este es el ${UNIDAD[fmt]} ${c.n} ("${c.titulo}": ${c.desc}) de una historia.
+Contexto de personajes y escenarios (respetalos):
+${BIBLIA}
+
+Dividí este ${UNIDAD[fmt]} en EXACTAMENTE ${nEscenas} escenas consecutivas de 10 segundos cada una, que juntas cuenten el ${UNIDAD[fmt]} completo con buen ritmo (planteo, desarrollo y cierre).
+Respondé SOLO con la lista, una escena por línea, con este formato EXACTO:
+N| título corto de la escena | qué pasa en esa escena en una frase
+Empezá en 1, sin viñetas, sin nada más.`;
+      const dtxt = await pedirGemini(promptDesglose);
+      const arr=[];
+      dtxt.split('\n').forEach(l=>{
+        const m=l.match(/^\s*(\d+)\s*[|.\-)]\s*(.+)$/);
+        if(m){ const r=m[2].split('|').map(s=>s.trim()); arr.push({n:m[1], titulo:r[0]||('Escena '+m[1]), desc:r[1]||''}); }
+      });
+      if(arr.length) escenas=arr;
+    }
+  }catch(e){
+    cont.innerHTML='<div class="err">'+esc(e.message||'Algo falló al dividir el capítulo')+'</div>';
+    btn.disabled=false; btn.innerHTML='🎞️ Generar prompts'; return;
+  }
+
+  // Paso B: generar los 2 prompts de cada escena
+  cont.innerHTML='<div class="loading">Generando prompts de '+escenas.length+' escenas… (esto puede tardar según la cantidad)</div>';
+  let htmlAll='';
+  for(let e=0; e<escenas.length; e++){
+    const sc=escenas[e];
+    cont.innerHTML=htmlAll+'<div class="loading">Escena '+(e+1)+' de '+escenas.length+'…</div>';
+    const prompt = `Sos director de cine y experto en prompts para Dola/Seedance 2.0 y storyboards con IA.
+
+Estás produciendo la ESCENA ${e+1} de ${escenas.length} del ${UNIDAD[fmt]} ${c.n} ("${c.titulo}").
+Esta escena: "${sc.titulo}": ${sc.desc}
+
+Para mantener consistencia ABSOLUTA de personajes y escenarios, respetá SIEMPRE estas fichas de la biblia (no cambies caras, ropa ni lugares):
+--- BIBLIA ---
+${BIBLIA}
+--- FIN BIBLIA ---
+
+Generá DOS prompts en INGLÉS para esta escena. REGLA DE FORMATO CRÍTICA: cada prompt debe ir en UNA SOLA LÍNEA CONTINUA (sin saltos internos, sin listas). Separá los dos con una línea en blanco. Usá estos separadores exactos:
+
+=== PROMPT STORYBOARD ===
+(una imagen ${asp} lámina de storyboard de 8 paneles a lápiz, blanco y negro con acentos dorados, NO fotorrealista, NO personas reales, personaje como dibujo animado estilizado, 8 paneles numerados con notas de cámara, flechas azules, guías rojas, márgenes blancos, usando los personajes y escenarios EXACTOS de la biblia, desglosando lo que pasa en ESTA escena en 8 viñetas secuenciales, cerrando con family-friendly, premium storyboard sheet, no realistic human faces, no text inside panels; todo en una sola línea)
+
+=== PROMPT DOLA (VIDEO 10s) ===
+(animar ese storyboard en Dola como video de EXACTAMENTE 10 segundos, todo en una sola línea, incluyendo: apertura "Use the provided 8-panel storyboard sheet as the direct sequential visual keyframe reference for the entire 10-second video, follow the exact 8-beat progression"; STYLE: ${est.videoStyle}, ${est.transform}; la regla IMPORTANT de no renderizar números, notas, flechas, guías ni marcas del storyboard, solo animar personajes, escenario, props, polvo, luz y acción; CHARACTER DESIGN RULES con las descripciones EXACTAS de los personajes de la biblia manteniendo misma cara, proporciones y vestuario en todos los shots; CONSISTENCY RULES con el escenario EXACTO de la biblia, misma luz y atmósfera; PHYSICS RULES de inercia de tela, pelo con viento, polvo, movimiento creíble; un TIMELINE de 8 shots que sumen EXACTAMENTE 10 segundos, en línea seguida con formato "[00:00-00:01.2] SHOT 1 — título: acción; camera: movimiento; dialogue ${idiomaTxt}: ..." separando shots con " // "; y cierre GLOBAL con continuidad y un negative "no visible arrows, no guide boxes, no notes, no panel numbers, no captions, no subtitles, no logos, no random text, ${est.neg}")
+
+No expliques nada fuera de los dos bloques.`;
+    try{
+      const txt=await pedirGemini(prompt);
+      let sb='',vid='';
+      const iSB=txt.indexOf('=== PROMPT STORYBOARD ==='), iV=txt.indexOf('=== PROMPT DOLA');
+      if(iSB!==-1 && iV!==-1 && iV>iSB){
+        sb=txt.slice(iSB+'=== PROMPT STORYBOARD ==='.length, iV).trim();
+        vid=txt.slice(iV).replace(/^=== PROMPT DOLA[^=]*===/,'').trim();
+      } else { sb=txt.trim(); }
+      const t0=String(Math.floor(e*10/60)).padStart(1,'0')+':'+String((e*10)%60).padStart(2,'0');
+      const t1=String(Math.floor((e+1)*10/60)).padStart(1,'0')+':'+String(((e+1)*10)%60).padStart(2,'0');
+      htmlAll += `<div style="margin:14px 0 6px;font-family:var(--mono);font-size:12px;color:var(--gold2)">🎞️ Escena ${e+1}/${escenas.length} · ${esc(sc.titulo)} <span style="color:var(--muted)">(${t0}–${t1})</span></div>`;
+      htmlAll += `<div class="block biblia"><div class="bh"><h3>🎨 Storyboard</h3><button class="copybtn" onclick="copiarPre(this)">copiar</button></div><pre>${esc(sb)}</pre></div>`;
+      if(vid) htmlAll += `<div class="block escena"><div class="bh"><h3>🎬 Prompt Dola (10s)</h3><button class="copybtn" onclick="copiarPre(this)">copiar</button></div><pre>${esc(vid)}</pre></div>`;
+      cont.innerHTML=htmlAll;
+    }catch(err){
+      htmlAll += '<div class="err">Escena '+(e+1)+': '+esc(err.message||'falló')+'</div>';
+      cont.innerHTML=htmlAll;
+      // si es error de límite, cortamos
+      if(/límite|inválida|no válida/i.test(err.message||'')) break;
+    }
+  }
+  btn.disabled=false; btn.innerHTML='↻ Regenerar';
+}
+
+function copiarPre(btn){
+  const pre=btn.closest('.block').querySelector('pre');
+  navigator.clipboard.writeText(pre.textContent).then(()=>{
+    btn.textContent='✓ copiado'; btn.classList.add('ok');
+    setTimeout(()=>{ btn.textContent='copiar'; btn.classList.remove('ok'); },1600);
+  });
+}
+</script>
+</body>
+</html>
