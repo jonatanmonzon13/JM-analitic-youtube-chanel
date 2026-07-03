@@ -33,7 +33,7 @@
     {
       "id": "outliers",
       "nombre": "Outliers",
-      "archivo": "app.html",
+      "archivo": "outliers.html",
       "img": "img/outliers.jpg"
     },
     {
@@ -1266,7 +1266,12 @@
       "archivo": "despiece.html",
       "img": "img/despiece.jpg"
     },
-   {"id":"estudio","nombre":"Seedance Studio","archivo":"estudio.html","img":"img/estudio.jpg"}
+    {
+      "id": "estudio",
+      "nombre": "Seedance Studio",
+      "archivo": "estudio.html",
+      "img": "img/estudio.jpg"
+    }
   ],
   "accesos": {
     "ruizgarza94@gmail.com": [
@@ -1475,7 +1480,215 @@
       "novelas",
       "milagrosjesus",
       "despiece",
-      "seedance-studio"
+      "estudio"
+    ],
+    "jonatanmonzon13@gmail.com": [
+      "outliers",
+      "glam",
+      "frutas",
+      "analizador",
+      "mascotas",
+      "comida",
+      "zodiaco",
+      "animales",
+      "objetos",
+      "terror",
+      "fabulas",
+      "mitologia",
+      "parabolas",
+      "tentacion",
+      "autos",
+      "dinosaurios",
+      "robots",
+      "plantas",
+      "insectos",
+      "paises",
+      "profesiones",
+      "utiles",
+      "superheroes",
+      "proverbios",
+      "redencion",
+      "viajealma",
+      "cartas",
+      "buenasnoches",
+      "valores",
+      "datos",
+      "trabalenguas",
+      "monstruos",
+      "terrorurbano",
+      "reflexiones",
+      "datosmiedo",
+      "timelapse",
+      "timelapse2",
+      "timelapse3",
+      "podcast",
+      "podfitness",
+      "podmujeres",
+      "podfe",
+      "poddating",
+      "podnegocios",
+      "abuelo",
+      "ninogenio",
+      "atleta",
+      "entrevista",
+      "streetint",
+      "storytime",
+      "datoshablados",
+      "woodenhands",
+      "woodenhands2",
+      "xray",
+      "cocinaviral",
+      "narekart",
+      "venganza",
+      "asmrsatisfying",
+      "aifruit",
+      "surreal",
+      "miniaturas",
+      "animalessurreal",
+      "finanzas",
+      "techia",
+      "saludbienestar",
+      "negociosfaceless",
+      "reddit",
+      "truecrime",
+      "povcine",
+      "tiendashop",
+      "streetpro",
+      "criaturas",
+      "motivacion",
+      "procesos",
+      "historiacuriosa",
+      "fractura",
+      "explainer",
+      "montanarusa",
+      "mundovegetal",
+      "resinadiy",
+      "timelapseobra",
+      "dreamnostalgia",
+      "cartoonkids",
+      "rescateanimal",
+      "junglabunker",
+      "animecine",
+      "animereal",
+      "ghibli",
+      "claymation",
+      "retratopixar",
+      "legomundo",
+      "motioncomic",
+      "pixelart",
+      "cartoon2d",
+      "futbolepico",
+      "extremospov",
+      "animalesdeporte",
+      "combateepico",
+      "carreras",
+      "trailersfake",
+      "scifi",
+      "western",
+      "noir",
+      "epocahist",
+      "accionhollywood",
+      "cinemudo",
+      "romance",
+      "kdrama",
+      "telenovela",
+      "dramaepoca",
+      "quesi",
+      "criaturasmito",
+      "kaiju",
+      "natimposible",
+      "cosmos",
+      "futuro3000",
+      "postapoc",
+      "microcosmos",
+      "ugcreview",
+      "testimonios",
+      "noticiero",
+      "standup",
+      "videoclip",
+      "pasarela",
+      "lookbook",
+      "glowup",
+      "psicologia",
+      "estoicismo",
+      "ciencia",
+      "espacioedu",
+      "inventos",
+      "foodporn",
+      "mukbang",
+      "recetaspov",
+      "comidagigante",
+      "docunatura",
+      "oceano",
+      "dinosdoc",
+      "hadasoscuras",
+      "paranormalpov",
+      "leyendas",
+      "viajes",
+      "supercars",
+      "mansiones",
+      "brainrot",
+      "stickanim",
+      "nightvision",
+      "biomech",
+      "beachsaga",
+      "evolution",
+      "wildbbc",
+      "cinedirector",
+      "dormir",
+      "microsalud",
+      "whiteboard",
+      "squishmelt",
+      "asmrreveal",
+      "cuentoviral",
+      "canioninfantil",
+      "aprendojugando",
+      "animalitos",
+      "vehiculos",
+      "cuentohadas",
+      "emociones",
+      "modales",
+      "espacioninos",
+      "granja",
+      "adivinanzas",
+      "mascotashablan",
+      "audiolibro",
+      "leyendaslatam",
+      "diosesmundo",
+      "animalesvida",
+      "objetoshistoria",
+      "refranes",
+      "comidatipica",
+      "versus",
+      "trailerfalso",
+      "cuentosclasicos",
+      "reaccionanimales",
+      "dialogospareja",
+      "terrorpais",
+      "vidassantos",
+      "megafauna",
+      "accionepica",
+      "mundosfantasia",
+      "bibliakids",
+      "idiomaskids",
+      "yogakids",
+      "seguridadkids",
+      "habitoskids",
+      "naturalezakids",
+      "toursprop",
+      "quepasaria",
+      "comosehace",
+      "lineatiempo",
+      "records",
+      "porquehacemos",
+      "antesdespues",
+      "menurest",
+      "ariafootball",
+      "stickstories",
+      "novelas",
+      "milagrosjesus",
+      "despiece",
+      "estudio"
     ],
     "darioperezlindo77@gmail.com": [
       "outliers",
@@ -1683,7 +1896,7 @@
       "novelas",
       "milagrosjesus",
       "despiece",
-      "seedance-studio"
+      "estudio"
     ],
     "diegoasalazarc70@gmail.com": [
       "outliers",
@@ -1891,7 +2104,7 @@
       "novelas",
       "milagrosjesus",
       "despiece",
-      "seedance-studio"
+      "estudio"
     ],
     "edison.herrera.m@gmail.com": [
       "outliers",
@@ -2099,7 +2312,7 @@
       "novelas",
       "milagrosjesus",
       "despiece",
-      "seedance-studio"
+      "estudio"
     ],
     "joxcimars2016@gmail.com": [
       "outliers",
@@ -2307,7 +2520,7 @@
       "novelas",
       "milagrosjesus",
       "despiece",
-      "seedance-studio"
+      "estudio"
     ],
     "osmedyalexander@gmail.com": [
       "outliers",
@@ -2515,7 +2728,7 @@
       "novelas",
       "milagrosjesus",
       "despiece",
-      "seedance-studio"
+      "estudio"
     ],
     "ayala.luis@correounivalle.edu.co": [
       "outliers",
@@ -2723,7 +2936,7 @@
       "novelas",
       "milagrosjesus",
       "despiece",
-      "seedance-studio"
+      "estudio"
     ],
     "febreromonetiza10@gmail.com": [
       "outliers",
@@ -2931,7 +3144,7 @@
       "novelas",
       "milagrosjesus",
       "despiece",
-      "seedance-studio"
+      "estudio"
     ],
     "creadordigital.82ia@gmail.com": [
       "outliers",
@@ -3139,7 +3352,7 @@
       "novelas",
       "milagrosjesus",
       "despiece",
-      "seedance-studio"
+      "estudio"
     ],
     "nichomedia3@gmail.com": [
       "outliers",
@@ -3346,7 +3559,7 @@
       "novelas",
       "milagrosjesus",
       "despiece",
-      "seedance-studio"
+      "estudio"
     ],
     "jonatanmonzon1126@gmail.com": [
       "outliers",
@@ -3554,7 +3767,7 @@
       "novelas",
       "milagrosjesus",
       "despiece",
-      "seedance-studio"
+      "estudio"
     ],
     "venturajosee@gmail.com": [
       "outliers",
@@ -3762,7 +3975,7 @@
       "novelas",
       "milagrosjesus",
       "despiece",
-      "seedance-studio"
+      "estudio"
     ],
     "valdesingrid258@gmail.com": [
       "outliers",
@@ -3970,7 +4183,7 @@
       "novelas",
       "milagrosjesus",
       "despiece",
-      "seedance-studio"
+      "estudio"
     ],
     "edu53554@gmail.com": [
       "outliers",
@@ -4178,7 +4391,7 @@
       "novelas",
       "milagrosjesus",
       "despiece",
-      "seedance-studio"
+      "estudio"
     ],
     "pomam7073@gmail.com": [
       "outliers",
@@ -4386,7 +4599,7 @@
       "novelas",
       "milagrosjesus",
       "despiece",
-      "seedance-studio"
+      "estudio"
     ],
     "libertopiemoran@gmail.com": [
       "outliers",
@@ -4594,7 +4807,7 @@
       "novelas",
       "milagrosjesus",
       "despiece",
-      "seedance-studio"
+      "estudio"
     ],
     "alexandersamchez000000@gmail.com": [
       "outliers",
@@ -4802,7 +5015,7 @@
       "novelas",
       "milagrosjesus",
       "despiece",
-      "seedance-studio"
+      "estudio"
     ],
     "damafelicali@gmail.com": [
       "outliers",
@@ -5010,7 +5223,7 @@
       "novelas",
       "milagrosjesus",
       "despiece",
-      "seedance-studio"
+      "estudio"
     ],
     "andresportillo371@gmail.com": [
       "outliers",
@@ -5218,7 +5431,7 @@
       "novelas",
       "milagrosjesus",
       "despiece",
-      "seedance-studio"
+      "estudio"
     ],
     "patchmx@gmail.com": [
       "outliers",
@@ -5426,7 +5639,7 @@
       "novelas",
       "milagrosjesus",
       "despiece",
-      "seedance-studio"
+      "estudio"
     ],
     "miguelyfer1985@gmail.com": [
       "outliers",
@@ -5634,7 +5847,7 @@
       "novelas",
       "milagrosjesus",
       "despiece",
-      "seedance-studio"
+      "estudio"
     ],
     "jjaassbb865@gmail.com": [
       "outliers",
@@ -5842,7 +6055,7 @@
       "novelas",
       "milagrosjesus",
       "despiece",
-      "seedance-studio"
+      "estudio"
     ],
     "elolvis356@gmail.com": [
       "outliers",
@@ -6050,13 +6263,12 @@
       "novelas",
       "milagrosjesus",
       "despiece",
-      "seedance-studio"
+      "estudio"
     ],
     "jeampier0100bt@gmail.com": [
       "outliers",
       "glam",
       "frutas",
-      "novelas",
       "analizador",
       "mascotas",
       "comida",
@@ -6256,9 +6468,10 @@
       "menurest",
       "ariafootball",
       "stickstories",
+      "novelas",
       "milagrosjesus",
       "despiece",
-      "seedance-studio"
+      "estudio"
     ],
     "maricuenta727@gmail.com": [
       "outliers",
@@ -6462,17 +6675,16 @@
       "antesdespues",
       "menurest",
       "ariafootball",
-      "milagrosjesus",
-      "novelas",
       "stickstories",
+      "novelas",
+      "milagrosjesus",
       "despiece",
-      "seedance-studio"
+      "estudio"
     ],
     "matiasmonzon1326@gmail.com": [
       "outliers",
       "glam",
       "frutas",
-      "novelas",
       "analizador",
       "mascotas",
       "comida",
@@ -6672,9 +6884,10 @@
       "menurest",
       "ariafootball",
       "stickstories",
+      "novelas",
       "milagrosjesus",
       "despiece",
-      "seedance-studio"
+      "estudio"
     ],
     "almareflexiva46@gmail.com": [
       "outliers",
@@ -6882,7 +7095,7 @@
       "novelas",
       "milagrosjesus",
       "despiece",
-      "seedance-studio"
+      "estudio"
     ]
   }
 }
