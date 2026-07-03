@@ -216,12 +216,28 @@ function estadoClave(ok){
   if(ok){ const n=getKeys().length; s.textContent=n>1?('✓ '+n+' claves listas (rota entre ellas)'):'✓ Clave lista'; s.style.color='var(--lime)'; }
   else { s.textContent='⚠ Pegá tu clave de Gemini para poder generar'; s.style.color='#ffb3d1'; }
 }
-(function(){
-  const kf=$('#geminiKey'); const saved=getKeys();
+function cargarClaveInicial(){
+  const kf=$('#geminiKey'); if(!kf) return;
+  const saved=getKeys();
   if(saved.length){ kf.value=saved.join(', '); estadoClave(true); } else estadoClave(false);
   kf.addEventListener('input', ()=>{
     if(getKeys().length){ try{ const o=JSON.parse(localStorage.getItem('jmbots_keys')||'{}'); o.an=kf.value.trim(); localStorage.setItem('jmbots_keys',JSON.stringify(o)); }catch(e){} estadoClave(true); }
     else estadoClave(false);
+  });
+}
+if(document.readyState==='loading') document.addEventListener('DOMContentLoaded', cargarClaveInicial);
+else cargarClaveInicial();
+
+// ── Protección: bloquear click derecho, F12, inspeccionar, ver código fuente ──
+(function(){
+  document.addEventListener('contextmenu', e => e.preventDefault());
+  document.addEventListener('keydown', e => {
+    const k = (e.key || '').toLowerCase();
+    if((e.ctrlKey || e.metaKey) && ['c','a','x','v'].includes(k)) return;
+    if(k === 'f12'){ e.preventDefault(); return; }
+    if((e.ctrlKey || e.metaKey) && e.shiftKey && ['i','j','c'].includes(k)){ e.preventDefault(); return; }
+    if((e.ctrlKey || e.metaKey) && k === 'u'){ e.preventDefault(); return; }
+    if((e.ctrlKey || e.metaKey) && k === 's'){ e.preventDefault(); return; }
   });
 })();
 
@@ -404,10 +420,10 @@ ${BIBLIA}
 Generá DOS prompts en INGLÉS para esta escena. REGLA DE FORMATO CRÍTICA: cada prompt debe ir en UNA SOLA LÍNEA CONTINUA (sin saltos internos, sin listas). Separá los dos con una línea en blanco. Usá estos separadores exactos:
 
 === PROMPT STORYBOARD ===
-(una imagen ${asp} lámina de storyboard de 8 paneles a lápiz, blanco y negro con acentos dorados, NO fotorrealista, NO personas reales, personaje como dibujo animado estilizado, 8 paneles numerados con notas de cámara, flechas azules, guías rojas, márgenes blancos, usando los personajes y escenarios EXACTOS de la biblia, desglosando lo que pasa en ESTA escena en 8 viñetas secuenciales, cerrando con family-friendly, premium storyboard sheet, no realistic human faces, no text inside panels; todo en una sola línea)
+(una imagen ${asp} lámina de storyboard de cine profesional de 8 paneles a lápiz, blanco y negro con acentos dorados, NO fotorrealista, NO personas reales, personaje como dibujo animado estilizado, 8 paneles numerados con márgenes blancos limpios. CADA panel debe ser SÚPER DETALLADO e incluir de forma legible: (a) el encuadre y tipo de plano escrito a mano (wide shot, medium, close-up, extreme close-up, over-the-shoulder, POV, low-angle, high-angle, aerial); (b) el movimiento de cámara con flechas azules y una nota manuscrita (push-in, pull-back, dolly, pan left/right, tilt, tracking, crash zoom, orbit); (c) guías rojas de encuadre y composición; (d) la acción y pose exacta de cada personaje en ese beat; (e) una nota corta de iluminación y atmósfera; (f) si el personaje habla, una pequeña burbuja de diálogo con la línea ${idiomaTxt}. Usá los personajes y escenarios EXACTOS de la biblia. Desglosá lo que pasa en ESTA escena en 8 viñetas secuenciales con progresión clara. Cerrá con: readable, dynamic, cinematic, family-friendly, premium production storyboard sheet, handwritten camera notes, blue movement arrows, red framing guides, no realistic human faces. Todo en una sola línea continua.)
 
 === PROMPT DOLA (VIDEO 10s) ===
-(animar ese storyboard en Dola como video de EXACTAMENTE 10 segundos, todo en una sola línea, incluyendo: apertura "Use the provided 8-panel storyboard sheet as the direct sequential visual keyframe reference for the entire 10-second video, follow the exact 8-beat progression"; STYLE: ${est.videoStyle}, ${est.transform}; la regla IMPORTANT de no renderizar números, notas, flechas, guías ni marcas del storyboard, solo animar personajes, escenario, props, polvo, luz y acción; CHARACTER DESIGN RULES con las descripciones EXACTAS de los personajes de la biblia manteniendo misma cara, proporciones y vestuario en todos los shots; CONSISTENCY RULES con el escenario EXACTO de la biblia, misma luz y atmósfera; PHYSICS RULES de inercia de tela, pelo con viento, polvo, movimiento creíble; un TIMELINE de 8 shots que sumen EXACTAMENTE 10 segundos, en línea seguida con formato "[00:00-00:01.2] SHOT 1 — título: acción; camera: movimiento; dialogue ${idiomaTxt}: ..." separando shots con " // "; y cierre GLOBAL con continuidad y un negative "no visible arrows, no guide boxes, no notes, no panel numbers, no captions, no subtitles, no logos, no random text, ${est.neg}")
+(animar ese storyboard en Dola como video de EXACTAMENTE 10 segundos, todo en una sola línea, incluyendo: apertura "Use the provided 8-panel storyboard sheet as the direct sequential visual keyframe reference for the entire 10-second video, follow the exact 8-beat progression and camera directions"; STYLE: ${est.videoStyle}, ${est.transform}; la regla IMPORTANT de no renderizar números, notas, flechas, guías ni marcas del storyboard, solo animar personajes, escenario, props, polvo, luz y acción; CHARACTER DESIGN RULES con las descripciones EXACTAS de los personajes de la biblia manteniendo misma cara, proporciones y vestuario en todos los shots; CONSISTENCY RULES con el escenario EXACTO de la biblia, misma luz y atmósfera; PHYSICS RULES de inercia de tela, pelo con viento, polvo, movimiento creíble; un TIMELINE MUY DETALLADO de 8 shots que sumen EXACTAMENTE 10 segundos, en línea seguida, donde CADA shot especifica: timestamp, tipo de plano y ángulo, movimiento de cámara concreto, la acción precisa, la emoción/expresión del personaje, la iluminación, y si hay diálogo la línea EXACTA de cada personaje ${idiomaTxt} con el nombre del personaje que la dice; formato por shot "[00:00-00:01.2] SHOT 1 — título | shot: tipo de plano y ángulo | camera: movimiento | action: qué hace el personaje | light: iluminación | dialogue ${idiomaTxt}: Nombre: «...»" y separá los shots con " // "; y cierre GLOBAL con continuidad, mismas proporciones y dirección de luz en cada shot, transiciones conectadas, y un negative "no visible arrows, no guide boxes, no notes, no panel numbers, no captions, no subtitles, no logos, no random text, ${est.neg}")
 
 No expliques nada fuera de los dos bloques.`;
     try{
