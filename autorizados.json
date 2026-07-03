@@ -1266,11 +1266,7 @@
       "archivo": "despiece.html",
       "img": "img/despiece.jpg"
     },
-    {
-      "id": "seedance-studio",
-      "nombre": "Seedance Studio",
-      "archivo": "estudio.html"
-    }
+   {"id":"estudio","nombre":"Seedance Studio","archivo":"estudio.html","img":"img/estudio.jpg"}
   ],
   "accesos": {
     "ruizgarza94@gmail.com": [
