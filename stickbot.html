@@ -186,13 +186,29 @@
   </section>
 
   <section class="out" id="outImg"></section>
+
+  <!-- AJUSTES / "FALTAN PROMPTS" / PEDIDOS LIBRES -->
+  <section class="card hide" id="cardAjuste">
+    <div class="step">✏️ ¿Falta algo o querés pedir un ajuste?</div>
+    <label class="lbl">Escribile a la IA (ej: «faltaron 3 prompts al final, agregalos», «el prompt 12 no queda claro, mejoralo», «cambiá el tono del cierre»)</label>
+    <textarea id="instrTxt" placeholder="Escribí acá tu pedido…" style="min-height:70px"></textarea>
+    <button class="sec" id="btnAjuste" style="margin-top:10px" onclick="pedirAjuste()">📨 Enviar pedido a la IA</button>
+    <div id="outAjuste" class="out" style="margin-top:14px"></div>
+  </section>
+
+  <!-- METADATA DE PUBLICACIÓN -->
+  <section class="card hide" id="cardMeta">
+    <div class="step">📋 Título, descripción y hashtags</div>
+    <button class="gen" id="btnMeta" onclick="generarMetadata()">✨ Generar título + descripción + hashtags</button>
+    <div id="outMeta" class="out" style="margin-top:14px"></div>
+  </section>
 </div>
 
 <footer>JM<b> BOTS</b> · stick bots · corre en tu navegador</footer>
 
 <script>
 const $ = s => document.querySelector(s);
-let BOTS = [], BOT = null, IDEAS_PREVIAS = [], GUION = '';
+let BOTS = [], BOT = null, IDEAS_PREVIAS = [], GUION = '', LAST_PROMPTS = '', LAST_TIEMPOS = '';
 
 /* ═══ Protección ═══ */
 (function(){
@@ -305,7 +321,7 @@ function elegirBot(slug){
   window.scrollTo({top:0,behavior:'smooth'});
 }
 function activarBot(b){
-  BOT=b; IDEAS_PREVIAS=[]; GUION=''; PROYECTO_ACTUAL=null;
+  BOT=b; IDEAS_PREVIAS=[]; GUION=''; LAST_PROMPTS=''; LAST_TIEMPOS=''; PROYECTO_ACTUAL=null;
   document.title=b.nombre+' · JM BOTS';
   $('#eyebrow').textContent=b.nombre.toLowerCase()+' · '+(b.gancho||'contenido faceless');
   const partes=esc(b.nombre).split(' ');
@@ -313,9 +329,9 @@ function activarBot(b){
   $('#subtitulo').textContent=b.desc||b.nicho;
   $('#cardCfg').classList.remove('hide');
   $('#tema').placeholder='Ej: un tema de '+(b.nicho||'').toLowerCase();
-  ['#outIdeas','#outGuion','#outImg'].forEach(s=>{ $(s).className='out'; $(s).innerHTML=''; });
-  ['#cardTema','#cardImg'].forEach(s=>$(s).classList.add('hide'));
-  $('#srt').value='';
+  ['#outIdeas','#outGuion','#outImg','#outAjuste','#outMeta'].forEach(s=>{ $(s).className='out'; $(s).innerHTML=''; });
+  ['#cardTema','#cardImg','#cardAjuste','#cardMeta'].forEach(s=>$(s).classList.add('hide'));
+  $('#srt').value=''; $('#instrTxt').value='';
   estadoClave(getKeys().length>0);
   renderHist();
 }
@@ -358,7 +374,10 @@ function guardarProyectoActual(){
     guion: GUION,
     srt: ($('#srt').value||''),
     outGuionHtml: $('#outGuion').innerHTML,
-    outImgHtml: $('#outImg').innerHTML
+    outImgHtml: $('#outImg').innerHTML,
+    outAjusteHtml: $('#outAjuste').innerHTML,
+    outMetaHtml: $('#outMeta').innerHTML,
+    lastPrompts: LAST_PROMPTS, lastTiempos: LAST_TIEMPOS
   });
   h=h.filter(p=>p.id!==PROYECTO_ACTUAL.id);
   h.unshift(PROYECTO_ACTUAL);
@@ -370,6 +389,7 @@ function continuarProyecto(id){
   PROYECTO_ACTUAL=p;
   IDEAS_PREVIAS=(p.ideasPrevias||[]).slice();
   GUION=p.guion||'';
+  LAST_PROMPTS=p.lastPrompts||''; LAST_TIEMPOS=p.lastTiempos||'';
   $('#tema').value=p.tema||'';
   if(p.idioma) $('#idioma').value=p.idioma;
   if(p.duracion) $('#duracion').value=p.duracion;
@@ -380,6 +400,10 @@ function continuarProyecto(id){
   if(GUION) $('#cardImg').classList.remove('hide');
   $('#outImg').className='out'+(p.outImgHtml?' show':'');
   $('#outImg').innerHTML=p.outImgHtml||'';
+  $('#outAjuste').className='out'; $('#outAjuste').innerHTML=p.outAjusteHtml||'';
+  $('#outMeta').className='out'; $('#outMeta').innerHTML=p.outMetaHtml||'';
+  if(p.outImgHtml){ $('#cardAjuste').classList.remove('hide'); $('#cardMeta').classList.remove('hide'); }
+  else { $('#cardAjuste').classList.add('hide'); $('#cardMeta').classList.add('hide'); }
   $('#outIdeas').className='out'; $('#outIdeas').innerHTML='';
   window.scrollTo({top:0,behavior:'smooth'});
 }
@@ -390,10 +414,10 @@ function borrarProyecto(id){
   renderHist();
 }
 function nuevaSesion(){
-  PROYECTO_ACTUAL=null; IDEAS_PREVIAS=[]; GUION='';
-  $('#tema').value=''; $('#srt').value='';
-  ['#outIdeas','#outGuion','#outImg'].forEach(s=>{ $(s).className='out'; $(s).innerHTML=''; });
-  ['#cardTema','#cardImg'].forEach(s=>$(s).classList.add('hide'));
+  PROYECTO_ACTUAL=null; IDEAS_PREVIAS=[]; GUION=''; LAST_PROMPTS=''; LAST_TIEMPOS='';
+  $('#tema').value=''; $('#srt').value=''; $('#instrTxt').value='';
+  ['#outIdeas','#outGuion','#outImg','#outAjuste','#outMeta'].forEach(s=>{ $(s).className='out'; $(s).innerHTML=''; });
+  ['#cardTema','#cardImg','#cardAjuste','#cardMeta'].forEach(s=>$(s).classList.add('hide'));
   window.scrollTo({top:0,behavior:'smooth'});
 }
 
@@ -615,6 +639,7 @@ Devolvé SOLO las ${sub.length} líneas de prompts, nada más (sin encabezados, 
   }
 
   const promptsTxt = prompts.join('\n');
+  LAST_PROMPTS = promptsTxt; LAST_TIEMPOS = tiemposTxt;
   const avisoFallas = fallas ? `<div class="warn">⚠️ ${fallas} de ${N} prompts se completaron con una versión básica de respaldo (la IA no devolvió esa línea). Podés tocar «↻ Regenerar» para reintentar.</div>` : '';
   out.innerHTML = avisoFallas + `<div class="hint"><b>✓ Sincronía garantizada:</b> ${N} prompts y ${N} tiempos, calculados exactos en tu navegador — no dependen de que la IA cuente bien.</div>
     <div class="block p"><div class="bh">
@@ -625,7 +650,128 @@ Devolvé SOLO las ${sub.length} líneas de prompts, nada más (sin encabezados, 
     <button class="copybtn" onclick="copiarPre(this)">copiar</button></div><pre>${esc(tiemposTxt)}</pre></div>
     <button class="sec" onclick="generarImagenes(${usarSrt})">↻ Regenerar</button>`;
   btn.disabled=false; otro.disabled=false; btn.innerHTML=txtBtn;
+  $('#cardAjuste').classList.remove('hide');
+  $('#cardMeta').classList.remove('hide');
   guardarProyectoActual();
+}
+
+/* ═══ PASO EXTRA A · pedir ajustes / avisar que faltan prompts / instrucción libre ═══ */
+async function pedirAjuste(){
+  const instr=($('#instrTxt').value||'').trim();
+  const out=$('#outAjuste');
+  if(!instr){ out.className='out show'; out.innerHTML='<div class="err">Escribí qué necesitás.</div>'; return; }
+  if(!getKeys().length){ out.className='out show'; out.innerHTML='<div class="err">Pegá tu clave de Gemini.</div>'; return; }
+  const btn=$('#btnAjuste'); const txtBtn=btn.innerHTML; btn.disabled=true; btn.innerHTML='<span class="spin"></span>Enviando…';
+  out.className='out show';
+  const tema=($('#tema').value||'').trim();
+
+  const prompt = `${BOT.prompt}
+
+──────────────────────────────
+Ya generaste este material para el usuario (tema: "${tema}"):
+
+PROMPTS DE IMAGEN YA GENERADOS:
+${(LAST_PROMPTS||'').slice(0,6000)}
+
+TIEMPOS YA GENERADOS:
+${(LAST_TIEMPOS||'').slice(0,3000)}
+
+El usuario pide ahora, textual: "${instr}"
+
+Instrucciones para tu respuesta:
+- Si pide AGREGAR más prompts de imagen (por ejemplo dice que faltan, o pide sumar escenas), devolvé SOLO los prompts NUEVOS a agregar, uno por línea, en INGLÉS, cada uno en una sola línea, con el ESTILO FIJO completo del bot y terminando en "no watermark, 16:9 horizontal cinematic". No repitas los que ya existen.
+- Si pide corregir, mejorar o ajustar algo puntual, respondé de forma directa y aplicable, dando el resultado final listo para usar.
+- Si es otra cosa, respondé de forma clara, breve y útil.
+No repitas el pedido del usuario ni expliques de más; andá directo a la solución.`;
+
+  try{
+    const txt=await pedirGemini(prompt, 8192);
+    const bloqueHtml = `<div class="block t" style="margin-top:12px"><div class="bh"><h3>💬 "${esc(instr.slice(0,60))}${instr.length>60?'…':''}"</h3><button class="copybtn" onclick="copiarPre(this)">copiar</button></div><pre>${esc(txt.trim())}</pre></div>`;
+    out.innerHTML = bloqueHtml + out.innerHTML;
+    $('#instrTxt').value='';
+    btn.disabled=false; btn.innerHTML=txtBtn;
+    guardarProyectoActual();
+  }catch(e){
+    out.innerHTML = `<div class="err">${esc(e.message||'Algo falló')}</div>` + out.innerHTML;
+    btn.disabled=false; btn.innerHTML=txtBtn;
+  }
+}
+
+/* ═══ PASO EXTRA B · título + descripción + emojis + hashtags ═══ */
+function unaSolaMayuscula(s){
+  s=(s||'').toLowerCase();
+  return s ? s.charAt(0).toUpperCase()+s.slice(1) : s;
+}
+function truncar200(s){
+  if(s.length<=200) return s;
+  let corte=s.slice(0,200);
+  const esp=corte.lastIndexOf(' ');
+  if(esp>150) corte=corte.slice(0,esp);
+  return corte.trim();
+}
+function bloqueMeta(txt, nombre){
+  const re=new RegExp('===\\s*'+nombre+'\\s*===([\\s\\S]*?)(?:===\\s*[A-Z]+\\s*===|$)','i');
+  const m=txt.match(re);
+  return m ? m[1].trim() : '';
+}
+function parsearMetadata(txt){
+  const titulo=bloqueMeta(txt,'TITULO').replace(/^["']|["']$/g,'').trim();
+  let desc=bloqueMeta(txt,'DESCRIPCION').replace(/^["']|["']$/g,'').trim();
+  desc=truncar200(unaSolaMayuscula(desc));
+  const emojis=(bloqueMeta(txt,'EMOJIS').match(/\p{Extended_Pictographic}/gu)||[]).slice(0,3);
+  let hashtags=(bloqueMeta(txt,'HASHTAGS').match(/#[\p{L}0-9_]+/gu)||[]);
+  hashtags=[...new Set(hashtags)].slice(0,5);
+  return {titulo,desc,emojis,hashtags};
+}
+function renderMetadata(m){
+  const emojisTxt=m.emojis.join(' '), hashTxt=m.hashtags.join(' ');
+  const avisoEmoji = m.emojis.length!==3 ? `<div class="warn">⚠️ Salieron ${m.emojis.length} emojis en vez de 3. Tocá regenerar.</div>` : '';
+  const avisoHash = m.hashtags.length!==5 ? `<div class="warn">⚠️ Salieron ${m.hashtags.length} hashtags en vez de 5. Tocá regenerar.</div>` : '';
+  const combinado=`${m.titulo}\n\n${m.desc} ${emojisTxt}\n\n${hashTxt}`;
+  return avisoEmoji+avisoHash+`
+    <div class="block g"><div class="bh"><h3>📌 Título</h3><button class="copybtn" onclick="copiarPre(this)">copiar</button></div><pre>${esc(m.titulo)}</pre></div>
+    <div class="block g"><div class="bh"><h3>📝 Descripción <span class="cnt">· ${m.desc.length} caracteres</span></h3><button class="copybtn" onclick="copiarPre(this)">copiar</button></div><pre>${esc(m.desc)}</pre></div>
+    <div class="block g"><div class="bh"><h3>😀 Emojis</h3><button class="copybtn" onclick="copiarPre(this)">copiar</button></div><pre>${esc(emojisTxt)}</pre></div>
+    <div class="block g"><div class="bh"><h3># Hashtags</h3><button class="copybtn" onclick="copiarPre(this)">copiar</button></div><pre>${esc(hashTxt)}</pre></div>
+    <div class="block t"><div class="bh"><h3>📋 Todo junto, listo para pegar</h3><button class="copybtn" onclick="copiarPre(this)">copiar</button></div><pre>${esc(combinado)}</pre></div>`;
+}
+async function generarMetadata(){
+  const out=$('#outMeta');
+  if(!getKeys().length){ out.className='out show'; out.innerHTML='<div class="err">Pegá tu clave de Gemini.</div>'; return; }
+  const tema=($('#tema').value||'').trim() || (BOT?BOT.nicho:'');
+  const btn=$('#btnMeta'); const txtBtn=btn.innerHTML; btn.disabled=true; btn.innerHTML='<span class="spin"></span>Generando…';
+  out.className='out show'; out.innerHTML='<div class="loading">Armando título, descripción y hashtags…</div>';
+
+  const prompt = `${BOT.prompt}
+
+──────────────────────────────
+Ejecutá el PASO FINAL: metadata de publicación para este video, acorde exactamente al tema elegido: "${tema}".
+
+Devolvé EXACTAMENTE este formato con estos separadores, nada más:
+
+=== TITULO ===
+(título corto, directo, gancho viral, acorde al tema, máximo 60 caracteres)
+
+=== DESCRIPCION ===
+(descripción de aproximadamente 200 caracteres, en minúsculas salvo la primera letra en mayúscula, acorde al tema, con gancho, en ${idiomaTxt()})
+
+=== EMOJIS ===
+(exactamente 3 emojis acordes al tema, separados por espacio, sin texto)
+
+=== HASHTAGS ===
+(exactamente 5 hashtags acordes al tema, cada uno empezando con #, separados por espacio, sin espacios internos en cada hashtag)
+
+No agregues nada fuera de estos 4 bloques.`;
+
+  try{
+    const txt=await pedirGemini(prompt, 2048);
+    out.innerHTML = renderMetadata(parsearMetadata(txt));
+    btn.disabled=false; btn.innerHTML=txtBtn;
+    guardarProyectoActual();
+  }catch(e){
+    out.innerHTML='<div class="err">'+esc(e.message||'Algo falló')+'</div>';
+    btn.disabled=false; btn.innerHTML=txtBtn;
+  }
 }
 
 function copiarPre(btn){

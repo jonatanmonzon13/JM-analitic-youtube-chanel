@@ -193,6 +193,22 @@
   </section>
 
   <section class="out" id="out"></section>
+
+  <!-- AJUSTES / "FALTAN PROMPTS" / PEDIDOS LIBRES -->
+  <section class="card hide" id="cardAjuste">
+    <div class="step">✏️ ¿Falta algo o querés pedir un ajuste?</div>
+    <label class="lbl">Escribile a la IA (ej: «faltan las escenas 4 y 5 del capítulo 2», «el prompt del storyboard del capítulo 1 no queda claro», «agregá un capítulo más»)</label>
+    <textarea id="instrTxt" placeholder="Escribí acá tu pedido…" style="min-height:70px"></textarea>
+    <button class="sec" id="btnAjuste" style="margin-top:10px" onclick="pedirAjuste()">📨 Enviar pedido a la IA</button>
+    <div id="outAjuste" class="out" style="margin-top:14px"></div>
+  </section>
+
+  <!-- METADATA DE PUBLICACIÓN -->
+  <section class="card hide" id="cardMeta">
+    <div class="step">📋 Título, descripción y hashtags</div>
+    <button class="gen" id="btnMeta" onclick="generarMetadata()">✨ Generar título + descripción + hashtags</button>
+    <div id="outMeta" class="out" style="margin-top:14px"></div>
+  </section>
 </div>
 
 <footer>JM<b> BOTS</b> · seedance studio · corre en tu navegador</footer>
@@ -232,7 +248,8 @@ function guardarProyectoActual(){
     formato: $('#formato').value, cantidad: $('#cantidad').value,
     estilo: $('#estilo').value, duracion: $('#duracion').value, idioma: $('#idioma').value,
     biblia: BIBLIA, capitulos: CAPITULOS.slice(),
-    outHtml: $('#out').innerHTML
+    outHtml: $('#out').innerHTML,
+    outAjusteHtml: $('#outAjuste').innerHTML, outMetaHtml: $('#outMeta').innerHTML
   });
   h=h.filter(p=>p.id!==PROYECTO_ACTUAL.id);
   h.unshift(PROYECTO_ACTUAL);
@@ -252,6 +269,10 @@ function continuarProyecto(id){
   const out=$('#out');
   out.className='out'+(p.outHtml?' show':'');
   out.innerHTML=p.outHtml||'';
+  $('#outAjuste').className='out'; $('#outAjuste').innerHTML=p.outAjusteHtml||'';
+  $('#outMeta').className='out'; $('#outMeta').innerHTML=p.outMetaHtml||'';
+  if(p.biblia){ $('#cardAjuste').classList.remove('hide'); $('#cardMeta').classList.remove('hide'); }
+  else { $('#cardAjuste').classList.add('hide'); $('#cardMeta').classList.add('hide'); }
   window.scrollTo({top:0,behavior:'smooth'});
 }
 function borrarProyecto(id){
@@ -262,8 +283,10 @@ function borrarProyecto(id){
 }
 function nuevaSesion(){
   PROYECTO_ACTUAL=null; BIBLIA=''; CAPITULOS=[];
-  $('#idea').value='';
+  $('#idea').value=''; $('#instrTxt').value='';
   const out=$('#out'); out.className='out'; out.innerHTML='';
+  ['#outAjuste','#outMeta'].forEach(s=>{ $(s).className='out'; $(s).innerHTML=''; });
+  ['#cardAjuste','#cardMeta'].forEach(s=>$(s).classList.add('hide'));
   window.scrollTo({top:0,behavior:'smooth'});
 }
 let CAPITULOS = [];    // lista de {n, titulo, desc}
@@ -403,6 +426,8 @@ No agregues nada fuera de estos dos bloques.`;
     });
     renderBiblia();
     btn.disabled=false; btn.innerHTML='📕 Crear la biblia + guion';
+    $('#cardAjuste').classList.remove('hide');
+    $('#cardMeta').classList.remove('hide');
     guardarProyectoActual();
   }catch(e){
     out.innerHTML='<div class="err">'+esc(e.message||'Algo falló')+'</div>';
@@ -532,6 +557,126 @@ function copiarPre(btn){
     btn.textContent='✓ copiado'; btn.classList.add('ok');
     setTimeout(()=>{ btn.textContent='copiar'; btn.classList.remove('ok'); },1600);
   });
+}
+
+/* ═══ PASO EXTRA A · pedir ajustes / avisar que faltan escenas / instrucción libre ═══ */
+async function pedirAjuste(){
+  const instr=($('#instrTxt').value||'').trim();
+  const out=$('#outAjuste');
+  if(!instr){ out.className='out show'; out.innerHTML='<div class="err">Escribí qué necesitás.</div>'; return; }
+  if(!getKeys().length){ out.className='out show'; out.innerHTML='<div class="err">Pegá tu clave de Gemini.</div>'; return; }
+  const btn=$('#btnAjuste'); const txtBtn=btn.innerHTML; btn.disabled=true; btn.innerHTML='<span class="spin"></span>Enviando…';
+  out.className='out show';
+  const idea=($('#idea').value||'').trim();
+
+  const prompt = `Sos director de cine y guionista, ya trabajando en este proyecto: "${idea}".
+
+--- BIBLIA DEL PROYECTO ---
+${BIBLIA}
+--- FIN BIBLIA ---
+
+Capítulos del proyecto: ${CAPITULOS.map(c=>c.n+'. '+c.titulo).join(' | ')}
+
+El usuario pide ahora, textual: "${instr}"
+
+Instrucciones para tu respuesta:
+- Si pide AGREGAR escenas, un capítulo nuevo o prompts faltantes, generá exactamente eso, respetando el estilo, personajes y escenarios EXACTOS de la biblia, en el mismo formato de prompts en una sola línea usado en el resto del proyecto.
+- Si pide corregir o ajustar algo puntual (un prompt, un capítulo, un personaje), respondé de forma directa y aplicable, dando el resultado final listo para usar.
+- Si es otra cosa, respondé de forma clara, breve y útil.
+No repitas el pedido del usuario ni expliques de más; andá directo a la solución.`;
+
+  try{
+    const txt=await pedirGemini(prompt);
+    const bloqueHtml = `<div class="block escena" style="margin-top:12px"><div class="bh"><h3>💬 "${esc(instr.slice(0,60))}${instr.length>60?'…':''}"</h3><button class="copybtn" onclick="copiarPre(this)">copiar</button></div><pre>${esc(txt.trim())}</pre></div>`;
+    out.innerHTML = bloqueHtml + out.innerHTML;
+    $('#instrTxt').value='';
+    btn.disabled=false; btn.innerHTML=txtBtn;
+    guardarProyectoActual();
+  }catch(e){
+    out.innerHTML = `<div class="err">${esc(e.message||'Algo falló')}</div>` + out.innerHTML;
+    btn.disabled=false; btn.innerHTML=txtBtn;
+  }
+}
+
+/* ═══ PASO EXTRA B · título + descripción + emojis + hashtags ═══ */
+function unaSolaMayuscula(s){
+  s=(s||'').toLowerCase();
+  return s ? s.charAt(0).toUpperCase()+s.slice(1) : s;
+}
+function truncar200(s){
+  if(s.length<=200) return s;
+  let corte=s.slice(0,200);
+  const esp=corte.lastIndexOf(' ');
+  if(esp>150) corte=corte.slice(0,esp);
+  return corte.trim();
+}
+function bloqueMeta(txt, nombre){
+  const re=new RegExp('===\\s*'+nombre+'\\s*===([\\s\\S]*?)(?:===\\s*[A-Z]+\\s*===|$)','i');
+  const m=txt.match(re);
+  return m ? m[1].trim() : '';
+}
+function parsearMetadata(txt){
+  const titulo=bloqueMeta(txt,'TITULO').replace(/^["']|["']$/g,'').trim();
+  let desc=bloqueMeta(txt,'DESCRIPCION').replace(/^["']|["']$/g,'').trim();
+  desc=truncar200(unaSolaMayuscula(desc));
+  const emojis=(bloqueMeta(txt,'EMOJIS').match(/\p{Extended_Pictographic}/gu)||[]).slice(0,3);
+  let hashtags=(bloqueMeta(txt,'HASHTAGS').match(/#[\p{L}0-9_]+/gu)||[]);
+  hashtags=[...new Set(hashtags)].slice(0,5);
+  return {titulo,desc,emojis,hashtags};
+}
+function renderMetadata(m){
+  const emojisTxt=m.emojis.join(' '), hashTxt=m.hashtags.join(' ');
+  const avisoEmoji = m.emojis.length!==3 ? `<div class="hint">⚠️ Salieron ${m.emojis.length} emojis en vez de 3. Tocá regenerar.</div>` : '';
+  const avisoHash = m.hashtags.length!==5 ? `<div class="hint">⚠️ Salieron ${m.hashtags.length} hashtags en vez de 5. Tocá regenerar.</div>` : '';
+  const combinado=`${m.titulo}\n\n${m.desc} ${emojisTxt}\n\n${hashTxt}`;
+  return avisoEmoji+avisoHash+`
+    <div class="block biblia"><div class="bh"><h3>📌 Título</h3><button class="copybtn" onclick="copiarPre(this)">copiar</button></div><pre>${esc(m.titulo)}</pre></div>
+    <div class="block biblia"><div class="bh"><h3>📝 Descripción <span class="cnt">· ${m.desc.length} caracteres</span></h3><button class="copybtn" onclick="copiarPre(this)">copiar</button></div><pre>${esc(m.desc)}</pre></div>
+    <div class="block biblia"><div class="bh"><h3>😀 Emojis</h3><button class="copybtn" onclick="copiarPre(this)">copiar</button></div><pre>${esc(emojisTxt)}</pre></div>
+    <div class="block biblia"><div class="bh"><h3># Hashtags</h3><button class="copybtn" onclick="copiarPre(this)">copiar</button></div><pre>${esc(hashTxt)}</pre></div>
+    <div class="block escena"><div class="bh"><h3>📋 Todo junto, listo para pegar</h3><button class="copybtn" onclick="copiarPre(this)">copiar</button></div><pre>${esc(combinado)}</pre></div>`;
+}
+async function generarMetadata(){
+  const out=$('#outMeta');
+  if(!getKeys().length){ out.className='out show'; out.innerHTML='<div class="err">Pegá tu clave de Gemini.</div>'; return; }
+  const idea=($('#idea').value||'').trim();
+  const idiomaSel=$('#idioma').value;
+  const idiomaTxtV = idiomaSel==='en' ? 'inglés americano' : 'español neutro latino';
+  const btn=$('#btnMeta'); const txtBtn=btn.innerHTML; btn.disabled=true; btn.innerHTML='<span class="spin"></span>Generando…';
+  out.className='out show'; out.innerHTML='<div class="loading">Armando título, descripción y hashtags…</div>';
+
+  const prompt = `Sos director de cine y experto en marketing de contenido. Este es el proyecto:
+
+IDEA: "${idea}"
+${BIBLIA?('BIBLIA (para contexto):\n'+BIBLIA.slice(0,2000)):''}
+
+Ejecutá el PASO FINAL: metadata de publicación para este video/serie, acorde exactamente al proyecto de arriba.
+
+Devolvé EXACTAMENTE este formato con estos separadores, nada más:
+
+=== TITULO ===
+(título corto, directo, gancho viral, acorde al proyecto, máximo 60 caracteres)
+
+=== DESCRIPCION ===
+(descripción de aproximadamente 200 caracteres, en minúsculas salvo la primera letra en mayúscula, acorde al proyecto, con gancho, en ${idiomaTxtV})
+
+=== EMOJIS ===
+(exactamente 3 emojis acordes al proyecto, separados por espacio, sin texto)
+
+=== HASHTAGS ===
+(exactamente 5 hashtags acordes al proyecto, cada uno empezando con #, separados por espacio, sin espacios internos en cada hashtag)
+
+No agregues nada fuera de estos 4 bloques.`;
+
+  try{
+    const txt=await pedirGemini(prompt);
+    out.innerHTML = renderMetadata(parsearMetadata(txt));
+    btn.disabled=false; btn.innerHTML=txtBtn;
+    guardarProyectoActual();
+  }catch(e){
+    out.innerHTML='<div class="err">'+esc(e.message||'Algo falló')+'</div>';
+    btn.disabled=false; btn.innerHTML=txtBtn;
+  }
 }
 </script>
 </body>
