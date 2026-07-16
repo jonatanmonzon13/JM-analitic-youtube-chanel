@@ -882,6 +882,9 @@
 
       <h3 class="adminh">🔐 ¿Qué apps ve cada usuario?</h3>
       <p class="vsub" style="margin-top:-2px">Los administradores ven todas automáticamente. Si no tocás nada, cada usuario ve todas por defecto.</p>
+      <div class="addrow" style="margin-bottom:14px">
+        <button class="btn-gold" onclick="adminAllUsersAll()">✓ Dar TODAS las apps a TODOS los usuarios</button>
+      </div>
       <div id="accessGrid"></div>
 
       <div class="jsonout">
@@ -1991,6 +1994,21 @@ function adminAdd10(email){
 function adminAllAccess(email, on){
   ADMIN_ACCESOS[email] = on ? ADMIN_APPS.map(a => a.id) : [];
   sbAdminSave(email); renderAdmin();
+}
+const ADMIN_ALL_EXCLUIR = ['workflows', 'estudio']; // Workflows IA y Seedance Studio quedan afuera del "Todas"
+async function adminAllUsersAll(){
+  const admins = ADMINS.map(a => String(a).trim().toLowerCase());
+  const ids = ADMIN_APPS.map(a => a.id).filter(id => !ADMIN_ALL_EXCLUIR.includes(id));
+  const users = ADMIN_LIST.filter(e => !admins.includes(e));
+  if(!users.length){ adminFlash('⚠ No hay usuarios para actualizar'); return; }
+  if(!confirm('¿Dar acceso a TODAS las apps (menos Workflows IA y Seedance Studio) a los ' + users.length + ' usuarios? Esto sobreescribe sus accesos actuales.')) return;
+  adminFlash('Actualizando ' + users.length + ' usuarios…');
+  for(const e of users){
+    ADMIN_ACCESOS[e] = ids.slice();
+    await sbAdminSave(e);
+  }
+  renderAdmin();
+  adminFlash('✓ Listo: ' + users.length + ' usuarios actualizados');
 }
 function adminAdd(){
   const inp = $('#newEmail'), e = (inp.value || '').trim().toLowerCase();
