@@ -1,0 +1,458 @@
+<!doctype html>
+<html lang="es">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Stick Bots · JM BOTS</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Sora:wght@500;600;700;800&family=Inter:wght@400;500;600&family=JetBrains+Mono:wght@500;700&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --bg:#07060A; --bg2:#0F0D14; --bg3:#16131C;
+    --ink:#F6F3FE; --body:#C7C0D6; --muted:#7C7590; --line:#241F30;
+    --gold:#E7B85C; --gold2:#F8DA8E; --gold-soft:rgba(231,184,92,.14);
+    --blood:#D62839; --blood-soft:rgba(214,40,57,.12);
+    --violet:#9B5CFF; --cyan:#26D9FF; --lime:#5BF08E;
+    --grad:linear-gradient(100deg,#D62839,#E7B85C 55%,#9B5CFF);
+    --grad-gold:linear-gradient(100deg,#E7B85C,#F8DA8E);
+    --display:'Sora',sans-serif; --bodyf:'Inter',sans-serif; --mono:'JetBrains Mono',monospace;
+  }
+  *{box-sizing:border-box}
+  body{margin:0;color:var(--body);font-family:var(--bodyf);line-height:1.55;-webkit-font-smoothing:antialiased;
+    background:radial-gradient(1100px 520px at 50% -10%, rgba(214,40,57,.10), transparent 60%),
+      radial-gradient(760px 440px at 90% 6%, rgba(155,92,255,.08), transparent 60%), var(--bg);
+    min-height:100vh}
+  .wrap{max-width:960px;margin:0 auto;padding:0 22px}
+  a{color:var(--gold2);text-decoration:none}
+  header{display:flex;justify-content:space-between;align-items:center;padding:22px 0;border-bottom:1px solid var(--line)}
+  .brand{font-family:var(--display);font-weight:800;font-size:20px;letter-spacing:-.02em;color:var(--ink)}
+  .brand .ol{background:var(--grad-gold);-webkit-background-clip:text;background-clip:text;-webkit-text-fill-color:transparent}
+  .back{font-family:var(--mono);font-size:12.5px;color:var(--muted);border:1px solid var(--line);
+    padding:7px 14px;border-radius:999px;background:rgba(255,255,255,.02)}
+  .back:hover{border-color:var(--gold);color:var(--gold)}
+  .hero{padding:40px 0 18px}
+  .eyebrow{font-family:var(--mono);font-size:11px;letter-spacing:.2em;text-transform:uppercase;
+    background:var(--grad);-webkit-background-clip:text;background-clip:text;-webkit-text-fill-color:transparent;
+    font-weight:700;margin-bottom:14px}
+  h1{font-family:var(--display);font-weight:800;font-size:clamp(26px,4.4vw,40px);line-height:1.08;
+    letter-spacing:-.03em;margin:0 0 10px;color:var(--ink)}
+  h1 em{font-style:normal;background:var(--grad);-webkit-background-clip:text;background-clip:text;-webkit-text-fill-color:transparent}
+  .sub{color:var(--muted);font-size:15px;max-width:66ch;margin:0}
+  .card{background:var(--bg2);border:1px solid var(--line);border-radius:16px;padding:24px;margin:22px 0;
+    box-shadow:0 14px 40px rgba(0,0,0,.4)}
+  .step{font-family:var(--mono);font-size:10.5px;letter-spacing:.14em;text-transform:uppercase;color:var(--gold);margin-bottom:14px}
+  label.lbl{display:block;font-family:var(--mono);font-size:10.5px;color:var(--gold);letter-spacing:.1em;
+    text-transform:uppercase;margin-bottom:8px}
+  textarea,input,select{width:100%;border:1px solid var(--line);border-radius:11px;padding:13px 14px;
+    font-family:var(--bodyf);font-size:15px;color:var(--ink);background:var(--bg3);outline:none;resize:vertical}
+  textarea:focus,input:focus,select:focus{border-color:var(--blood);box-shadow:0 0 0 3px var(--blood-soft)}
+  textarea{min-height:80px;line-height:1.5}
+  .row{display:flex;gap:14px;flex-wrap:wrap;margin-top:16px}
+  .row > div{flex:1;min-width:170px}
+  button.gen{font-family:var(--display);font-weight:700;font-size:16px;cursor:pointer;border:0;border-radius:12px;
+    padding:15px 26px;width:100%;margin-top:20px;color:#150E24;background:var(--grad-gold);
+    box-shadow:0 10px 30px rgba(231,184,92,.26);transition:.12s}
+  button.gen:hover{transform:translateY(-1px)}
+  button.gen:disabled{opacity:.5;cursor:wait;transform:none}
+  button.sec{font-family:var(--display);font-weight:700;font-size:13.5px;cursor:pointer;border:1px solid var(--line);
+    border-radius:11px;padding:10px 16px;color:var(--body);background:var(--bg3);transition:.14s}
+  button.sec:hover{border-color:var(--gold);color:var(--gold)}
+  button.sec:disabled{opacity:.5;cursor:wait}
+  .keystatus{font-family:var(--mono);font-size:12px;margin-top:10px;color:var(--muted)}
+  .spin{display:inline-block;width:14px;height:14px;border:2px solid rgba(21,14,36,.3);border-top-color:#150E24;
+    border-radius:50%;animation:sp .7s linear infinite;vertical-align:-2px;margin-right:8px}
+  @keyframes sp{to{transform:rotate(360deg)}}
+  .out{margin-top:24px;display:none}
+  .out.show{display:block}
+  .loading{text-align:center;padding:30px;font-family:var(--mono);font-size:14px;color:var(--muted)}
+  .err{background:var(--blood-soft);border:1px solid rgba(214,40,57,.35);border-radius:12px;padding:16px;color:#ffb3bd;font-size:14px}
+  .ideas{display:flex;flex-direction:column;gap:8px;padding:16px 18px}
+  .idea{display:flex;gap:12px;align-items:flex-start;background:var(--bg3);border:1px solid var(--line);
+    border-radius:11px;padding:12px 14px;cursor:pointer;transition:.14s}
+  .idea:hover{border-color:var(--gold);background:var(--gold-soft)}
+  .idea .n{font-family:var(--mono);font-weight:700;font-size:13px;color:var(--gold);min-width:22px}
+  .idea .tx{font-size:14px;color:var(--ink);line-height:1.45}
+  .idea .tx small{display:block;color:var(--muted);font-size:12.5px;margin-top:2px}
+  .block{background:var(--bg2);border:1px solid var(--line);border-radius:14px;overflow:hidden;margin-bottom:16px}
+  .block .bh{display:flex;justify-content:space-between;align-items:center;gap:12px;padding:14px 18px;
+    border-bottom:1px solid var(--line);flex-wrap:wrap}
+  .block.g .bh{background:linear-gradient(90deg,rgba(231,184,92,.14),transparent)}
+  .block.p .bh{background:linear-gradient(90deg,rgba(214,40,57,.16),transparent)}
+  .block.t .bh{background:linear-gradient(90deg,rgba(155,92,255,.16),transparent)}
+  .block h3{margin:0;font-family:var(--display);font-size:15px;font-weight:700;color:var(--ink)}
+  .block .cnt{font-family:var(--mono);font-size:11px;color:var(--muted);font-weight:400}
+  .copybtn{font-family:var(--mono);font-size:12px;font-weight:700;color:var(--gold2);cursor:pointer;
+    border:1px solid rgba(231,184,92,.4);background:transparent;border-radius:9px;padding:8px 15px}
+  .copybtn:hover{border-color:var(--gold);background:var(--gold-soft)}
+  .copybtn.ok{color:var(--lime);border-color:var(--lime)}
+  .block pre{margin:0;padding:18px;white-space:pre-wrap;word-break:break-word;font-family:var(--mono);
+    font-size:12.5px;line-height:1.62;color:var(--body);max-height:440px;overflow:auto}
+  .hint{background:rgba(38,217,255,.06);border:1px solid rgba(38,217,255,.2);border-left:3px solid var(--cyan);
+    border-radius:11px;padding:14px 16px;margin:16px 0;font-size:13.5px;color:#bfeaf5}
+  .hint b{color:var(--cyan)}
+  .warn{background:var(--gold-soft);border:1px solid rgba(231,184,92,.3);border-left:3px solid var(--gold);
+    border-radius:11px;padding:14px 16px;margin:16px 0;font-size:13.5px;color:#f8da8e}
+  .hide{display:none}
+  .picker{display:grid;grid-template-columns:repeat(auto-fill,minmax(215px,1fr));gap:10px;margin-top:6px}
+  .bopt{cursor:pointer;border:1.5px solid var(--line);border-radius:12px;padding:13px;background:var(--bg3);transition:.14s}
+  .bopt:hover{border-color:rgba(231,184,92,.55)}
+  .bopt.on{border-color:var(--gold);background:var(--gold-soft);box-shadow:0 0 0 3px var(--gold-soft)}
+  .bopt .bn{font-family:var(--display);font-weight:700;font-size:14px;color:var(--ink);margin-bottom:3px}
+  .bopt .bd{font-size:12px;color:var(--muted);line-height:1.4}
+  .tanda{font-family:var(--mono);font-size:10.5px;letter-spacing:.12em;text-transform:uppercase;
+    color:var(--gold);margin:20px 0 8px}
+  footer{border-top:1px solid var(--line);margin-top:44px;padding:24px 0;font-family:var(--mono);font-size:12px;color:var(--muted);text-align:center}
+  footer b{color:var(--gold)}
+  @media (prefers-reduced-motion:reduce){*{animation:none!important;transition:none!important}}
+</style>
+</head>
+<body>
+<header class="wrap">
+  <div class="brand">JM<span class="ol"> BOTS</span></div>
+  <a class="back" href="app.html">← volver a la suite</a>
+</header>
+
+<div class="wrap">
+  <section class="hero">
+    <div class="eyebrow" id="eyebrow">stick bots · cargando…</div>
+    <h1 id="titulo">Stick Bots</h1>
+    <p class="sub" id="subtitulo">Elegí un nicho para empezar.</p>
+  </section>
+
+  <!-- SELECTOR (solo si no vino ?bot=) -->
+  <section class="card hide" id="cardPick">
+    <div class="step">Elegí tu nicho</div>
+    <div id="picker"></div>
+  </section>
+
+  <!-- CONFIG -->
+  <section class="card hide" id="cardCfg">
+    <div class="step">1 · Configuración</div>
+    <div class="row" style="margin-top:0">
+      <div>
+        <label class="lbl">Idioma del contenido</label>
+        <select id="idioma">
+          <option value="es">Español neutro latino</option>
+          <option value="en">Inglés americano</option>
+        </select>
+      </div>
+      <div>
+        <label class="lbl">Duración del video</label>
+        <select id="duracion">
+          <option value="5">5 minutos (~750 palabras)</option>
+          <option value="10" selected>10 minutos (~1500 palabras)</option>
+          <option value="15">15 minutos (~2250 palabras)</option>
+          <option value="20">20 minutos (~3000 palabras)</option>
+        </select>
+      </div>
+    </div>
+    <div style="margin-top:16px">
+      <label class="lbl">Clave(s) de Gemini <span style="color:var(--muted);text-transform:none;letter-spacing:0">· podés pegar varias separadas por coma</span></label>
+      <input type="password" id="geminiKey" placeholder="AIza… , AIza… , AIza…" autocomplete="off">
+      <div class="keystatus" id="keyStatus"></div>
+    </div>
+    <button class="gen" id="btnIdeas" onclick="generarIdeas()">💡 Generar 15 ideas</button>
+  </section>
+
+  <section class="out" id="outIdeas"></section>
+
+  <section class="card hide" id="cardTema">
+    <div class="step">2 · Tema elegido</div>
+    <label class="lbl">Tema del video (elegí una idea arriba o escribí el tuyo)</label>
+    <textarea id="tema" placeholder="Escribí tu tema o tocá una idea de la lista"></textarea>
+    <button class="gen" id="btnGuion" onclick="generarGuion()">📜 Escribir el guion</button>
+  </section>
+
+  <section class="out" id="outGuion"></section>
+
+  <section class="card hide" id="cardImg">
+    <div class="step">3 · Imágenes + tiempos</div>
+    <div class="hint">Elegí cómo calcular los tiempos: <b>estimados</b> por el guion, o <b>exactos</b> pegando el SRT de tu audio ya transcrito (Fish Audio).</div>
+    <label class="lbl">SRT (opcional · pegalo para tiempos exactos)</label>
+    <textarea id="srt" placeholder="00:00:00,000 --> 00:00:03,480&#10;Texto del subtítulo…" style="min-height:100px;font-family:var(--mono);font-size:12.5px"></textarea>
+    <div class="row">
+      <div><button class="sec" style="width:100%" id="btnEst" onclick="generarImagenes(false)">⏱️ Tiempos estimados</button></div>
+      <div><button class="sec" style="width:100%" id="btnSrt" onclick="generarImagenes(true)">🎯 Tiempos exactos (SRT)</button></div>
+    </div>
+  </section>
+
+  <section class="out" id="outImg"></section>
+</div>
+
+<footer>JM<b> BOTS</b> · stick bots · corre en tu navegador</footer>
+
+<script>
+const $ = s => document.querySelector(s);
+let BOTS = [], BOT = null, IDEAS_PREVIAS = [], GUION = '';
+
+/* ═══ Protección ═══ */
+(function(){
+  document.addEventListener('contextmenu', e => e.preventDefault());
+  document.addEventListener('keydown', e => {
+    const k=(e.key||'').toLowerCase();
+    if((e.ctrlKey||e.metaKey) && ['c','a','x','v'].includes(k)) return;
+    if(k==='f12'){ e.preventDefault(); return; }
+    if((e.ctrlKey||e.metaKey) && e.shiftKey && ['i','j','c'].includes(k)){ e.preventDefault(); return; }
+    if((e.ctrlKey||e.metaKey) && k==='u'){ e.preventDefault(); return; }
+    if((e.ctrlKey||e.metaKey) && k==='s'){ e.preventDefault(); return; }
+  });
+})();
+
+/* ═══ Claves ═══ */
+function limpiarClave(k){ return String(k||'').replace(/[\s\u200B-\u200D\uFEFF]/g,'').trim(); }
+function claveGuardadaRaw(){ try{ const o=JSON.parse(localStorage.getItem('jmbots_keys')||'{}'); if(o&&o.an) return o.an; }catch(e){} return ''; }
+function getKeys(){
+  const kf=$('#geminiKey'); const escrita=kf?kf.value:'';
+  const fuente=(escrita && escrita.replace(/[,\s]/g,'').length>20)?escrita:claveGuardadaRaw();
+  return String(fuente||'').split(',').map(limpiarClave).filter(k=>k.length>20);
+}
+function estadoClave(ok){
+  const s=$('#keyStatus'); if(!s) return;
+  if(ok){ const n=getKeys().length; s.textContent=n>1?('✓ '+n+' claves listas (rota entre ellas)'):'✓ Clave lista'; s.style.color='var(--lime)'; }
+  else { s.textContent='⚠ Pegá tu clave de Gemini para poder generar'; s.style.color='#ffb3bd'; }
+}
+function cargarClaveInicial(){
+  const kf=$('#geminiKey'); if(!kf) return;
+  const saved=getKeys();
+  if(saved.length){ kf.value=saved.join(', '); estadoClave(true); } else estadoClave(false);
+  kf.addEventListener('input', ()=>{
+    if(getKeys().length){ try{ const o=JSON.parse(localStorage.getItem('jmbots_keys')||'{}'); o.an=kf.value.trim(); localStorage.setItem('jmbots_keys',JSON.stringify(o)); }catch(e){} estadoClave(true); }
+    else estadoClave(false);
+  });
+}
+
+/* ═══ Gemini con rotación ═══ */
+async function pedirGemini(promptText, maxTok){
+  const keys=getKeys();
+  if(!keys.length) throw new Error('Pegá tu clave de Gemini para poder generar.');
+  const modelos=['gemini-2.5-flash','gemini-2.0-flash','gemini-1.5-flash'];
+  let ki=Math.floor(Math.random()*keys.length), ultimoError='';
+  const parts=[{text:promptText}];
+  async function llamar(key,modelo){
+    const r=await fetch('https://generativelanguage.googleapis.com/v1beta/models/'+modelo+':generateContent?key='+encodeURIComponent(key),{
+      method:'POST',headers:{'Content-Type':'application/json'},
+      body:JSON.stringify({contents:[{parts}],generationConfig:{temperature:0.95,maxOutputTokens:(maxTok||32768)}})
+    });
+    const data=await r.json();
+    if(data.error){ const msg=data.error.message||'',code=data.error.code;
+      if(code===404||/not found|not supported|unavailable/i.test(msg)) return {nextModel:true,msg};
+      return {nextKey:true,msg}; }
+    let txt=''; try{ txt=data.candidates[0].content.parts.map(p=>p.text||'').join(''); }catch(e){ return {nextKey:true,msg:'sin contenido'}; }
+    txt=txt.trim(); if(!txt) return {nextKey:true,msg:'respuesta vacía'};
+    return {ok:true,txt};
+  }
+  for(let ic=0; ic<keys.length; ic++){
+    const key=keys[(ki+ic)%keys.length]; let saltar=false;
+    for(let m=0;m<modelos.length;m++){
+      const res=await llamar(key,modelos[m]);
+      if(res.ok) return res.txt;
+      if(res.nextModel){ ultimoError=res.msg; continue; }
+      if(res.nextKey){ ultimoError=res.msg; saltar=true; break; }
+    }
+    if(!saltar) break;
+  }
+  if(/invalid authentication|api key not valid|API_KEY_INVALID|credential/i.test(ultimoError)) throw new Error('Alguna clave de Gemini no es válida (revisá que estén bien copiadas, separadas por coma).');
+  if(/quota|exhausted|rate|429/i.test(ultimoError)) throw new Error('Tus claves llegaron al límite por hoy. Probá más tarde o agregá otra.');
+  throw new Error(ultimoError||'No se pudo generar. Probá de nuevo.');
+}
+
+function esc(s){ const d=document.createElement('div'); d.textContent=s; return d.innerHTML; }
+function idiomaTxt(){ return $('#idioma').value==='es' ? 'español neutro latino' : 'inglés americano'; }
+function qs(n){ return new URLSearchParams(location.search).get(n); }
+
+/* ═══ Carga de bots ═══ */
+async function init(){
+  cargarClaveInicial();
+  try{
+    const r=await fetch('stickbots.json'); BOTS=await r.json();
+  }catch(e){
+    $('#subtitulo').innerHTML='<span style="color:#ffb3bd">No se pudo cargar stickbots.json. Verificá que esté subido al repo.</span>'; return;
+  }
+  const slug=(qs('bot')||'').toLowerCase();
+  const found=BOTS.find(b=>b.slug===slug);
+  if(found){ activarBot(found); }
+  else { mostrarPicker(); }
+}
+function mostrarPicker(){
+  $('#eyebrow').textContent='stick bots · '+BOTS.length+' nichos';
+  $('#titulo').innerHTML='45 bots de <em>contenido faceless</em>.';
+  $('#subtitulo').textContent='Elegí el nicho con el que querés trabajar.';
+  const grupos=[['TANDA I · Psicología oscura',0,15],['TANDA II · Nichos generales A',15,30],['TANDA III · Nichos generales B',30,45]];
+  let h='';
+  grupos.forEach(([t,a,b])=>{
+    h+=`<div class="tanda">${t}</div><div class="picker">`;
+    BOTS.slice(a,b).forEach(x=>{
+      h+=`<div class="bopt" onclick="elegirBot('${esc(x.slug)}')"><div class="bn">${esc(x.nombre)}</div><div class="bd">${esc(x.nicho)}</div></div>`;
+    });
+    h+='</div>';
+  });
+  $('#picker').innerHTML=h;
+  $('#cardPick').classList.remove('hide');
+}
+function elegirBot(slug){
+  const b=BOTS.find(x=>x.slug===slug); if(!b) return;
+  $('#cardPick').classList.add('hide');
+  activarBot(b);
+  window.scrollTo({top:0,behavior:'smooth'});
+}
+function activarBot(b){
+  BOT=b; IDEAS_PREVIAS=[]; GUION='';
+  document.title=b.nombre+' · JM BOTS';
+  $('#eyebrow').textContent=b.nombre.toLowerCase()+' · '+(b.gancho||'contenido faceless');
+  const partes=esc(b.nombre).split(' ');
+  $('#titulo').innerHTML = partes.length>1 ? partes[0]+' <em>'+partes.slice(1).join(' ')+'</em>' : esc(b.nombre);
+  $('#subtitulo').textContent=b.desc||b.nicho;
+  $('#cardCfg').classList.remove('hide');
+  $('#tema').placeholder='Ej: un tema de '+(b.nicho||'').toLowerCase();
+  ['#outIdeas','#outGuion','#outImg'].forEach(s=>{ $(s).className='out'; $(s).innerHTML=''; });
+  ['#cardTema','#cardImg'].forEach(s=>$(s).classList.add('hide'));
+  estadoClave(getKeys().length>0);
+}
+
+/* ═══ PASO 1 · IDEAS ═══ */
+async function generarIdeas(){
+  const out=$('#outIdeas');
+  if(!getKeys().length){ out.className='out show'; out.innerHTML='<div class="err">Pegá tu clave de Gemini para poder generar.</div>'; return; }
+  const btn=$('#btnIdeas'); btn.disabled=true; btn.innerHTML='<span class="spin"></span>Generando ideas…';
+  out.className='out show'; out.innerHTML='<div class="loading">Buscando 15 ángulos…</div>';
+
+  const evitar = IDEAS_PREVIAS.length ? `\n\nREGLA ANTI-REPETICION ESTRICTA: NO repitas ni reformules ninguna de estas ideas ya entregadas en esta sesión (aunque le cambies una palabra o el enfoque superficial):\n- ${IDEAS_PREVIAS.slice(-60).join('\n- ')}` : '';
+  const prompt = `${BOT.prompt}
+
+──────────────────────────────
+Ejecutá AHORA el PASO 1 (IDEAS). El idioma ya está definido: ${idiomaTxt()}. No preguntes nada.
+Devolvé las 15 ideas con este FORMATO EXACTO, una por línea, sin viñetas, sin negritas, sin texto antes ni después:
+N| Título viral | ángulo en media línea${evitar}`;
+
+  try{
+    const txt=await pedirGemini(prompt, 4096);
+    const ideas=[];
+    txt.split('\n').forEach(l=>{
+      const m=l.match(/^\s*(\d+)\s*[|.\-)]\s*(.+)$/);
+      if(m){ const r=m[2].split('|').map(s=>s.trim()); ideas.push({n:m[1], t:r[0]||'', a:r[1]||''}); }
+    });
+    if(!ideas.length){ out.innerHTML='<div class="err">No se pudo leer la lista. Probá de nuevo.</div>'; btn.disabled=false; btn.innerHTML='💡 Generar 15 ideas'; return; }
+    ideas.forEach(i=>IDEAS_PREVIAS.push(i.t));
+    let h=`<div class="block g"><div class="bh"><h3>💡 15 ideas <span class="cnt">· ${esc(BOT.nombre)} · tocá una para usarla</span></h3><button class="sec" onclick="generarIdeas()">↻ Otras 15</button></div><div class="ideas">`;
+    ideas.forEach(i=>{ h+=`<div class="idea" onclick="usarIdea(this)" data-t="${esc(i.t)}"><div class="n">${esc(i.n)}</div><div class="tx">${esc(i.t)}<small>${esc(i.a)}</small></div></div>`; });
+    h+='</div></div>';
+    out.innerHTML=h;
+    $('#cardTema').classList.remove('hide');
+    btn.disabled=false; btn.innerHTML='💡 Generar 15 ideas';
+  }catch(e){
+    out.innerHTML='<div class="err">'+esc(e.message||'Algo falló')+'</div>';
+    btn.disabled=false; btn.innerHTML='💡 Generar 15 ideas';
+  }
+}
+function usarIdea(el){
+  $('#tema').value=el.dataset.t;
+  $('#cardTema').classList.remove('hide');
+  $('#cardTema').scrollIntoView({behavior:'smooth',block:'center'});
+}
+
+/* ═══ PASO 2 · GUION ═══ */
+async function generarGuion(){
+  const tema=($('#tema').value||'').trim(); const out=$('#outGuion');
+  if(!tema){ out.className='out show'; out.innerHTML='<div class="err">Elegí una idea o escribí tu tema.</div>'; return; }
+  if(!getKeys().length){ out.className='out show'; out.innerHTML='<div class="err">Pegá tu clave de Gemini.</div>'; return; }
+  const min=Number($('#duracion').value)||10, minPal=min*150;
+  const btn=$('#btnGuion'); btn.disabled=true; btn.innerHTML='<span class="spin"></span>Escribiendo…';
+  out.className='out show'; out.innerHTML='<div class="loading">Escribiendo el guion de ~'+min+' min ('+minPal+'+ palabras)… esto tarda un poco.</div>';
+
+  const prompt = `${BOT.prompt}
+
+──────────────────────────────
+Ejecutá AHORA el PASO 2 (GUION). No preguntes nada.
+TEMA: "${tema}"
+DURACIÓN: ${min} minutos → AL MENOS ${minPal} palabras (obligatorio, no entregues menos).
+IDIOMA: ${idiomaTxt()}.
+Devolvé SOLO el texto narrado corrido, sin encabezados, sin acotaciones, sin marcas de tiempo, sin bloques de código y sin texto antes ni después.`;
+
+  try{
+    const txt=await pedirGemini(prompt, 32768);
+    GUION=txt.trim().replace(/^```[a-z]*\n?|```$/g,'').trim();
+    const pal=GUION.split(/\s+/).filter(Boolean).length;
+    const alerta = pal < minPal*0.9 ? `<div class="warn">⚠️ Salió más corto de lo pedido (${pal} de ${minPal}). Tocá <b>↻ Reescribir</b> para intentar de nuevo, o usalo igual.</div>` : '';
+    out.innerHTML = alerta + `<div class="block g"><div class="bh">
+      <h3>📜 Guion <span class="cnt">· ${pal} palabras · ~${(pal/150).toFixed(1)} min</span></h3>
+      <div style="display:flex;gap:8px"><button class="sec" onclick="generarGuion()">↻ Reescribir</button>
+      <button class="copybtn" onclick="copiarPre(this)">copiar</button></div></div>
+      <pre>${esc(GUION)}</pre></div>`;
+    $('#cardImg').classList.remove('hide');
+    btn.disabled=false; btn.innerHTML='📜 Escribir el guion';
+  }catch(e){
+    out.innerHTML='<div class="err">'+esc(e.message||'Algo falló')+'</div>';
+    btn.disabled=false; btn.innerHTML='📜 Escribir el guion';
+  }
+}
+
+/* ═══ PASO 3/4 · IMÁGENES ═══ */
+async function generarImagenes(usarSrt){
+  const out=$('#outImg'), srt=($('#srt').value||'').trim();
+  if(!GUION){ out.className='out show'; out.innerHTML='<div class="err">Primero generá el guion.</div>'; return; }
+  if(usarSrt && !srt){ out.className='out show'; out.innerHTML='<div class="err">Pegá el SRT para usar tiempos exactos.</div>'; return; }
+  if(!getKeys().length){ out.className='out show'; out.innerHTML='<div class="err">Pegá tu clave de Gemini.</div>'; return; }
+  const btn = usarSrt?$('#btnSrt'):$('#btnEst'), otro = usarSrt?$('#btnEst'):$('#btnSrt');
+  const txtBtn=btn.innerHTML; btn.disabled=true; otro.disabled=true; btn.innerHTML='<span class="spin"></span>Generando…';
+  out.className='out show'; out.innerHTML='<div class="loading">Armando el lote completo de prompts y tiempos… puede tardar bastante si el guion es largo.</div>';
+
+  const paso = usarSrt
+    ? `Ejecutá AHORA el PASO 4 (SINCRONIA EXACTA CON SRT) usando este SRT real del audio:\n\n${srt}`
+    : `Ejecutá AHORA el PASO 3 (IMAGENES + LISTA PARA RENOMBRAR) usando este GUION:\n\n${GUION}`;
+
+  const prompt = `${BOT.prompt}
+
+──────────────────────────────
+${paso}
+
+IDIOMA del texto dentro de las imágenes: ${idiomaTxt()}. Los prompts van en INGLÉS.
+Respetá el ESTILO FIJO completo en cada prompt, uno por línea, y que cada línea termine con "no watermark, 16:9 horizontal cinematic".
+Entregá TODOS los tramos, sin cortar ni resumir.
+En vez de bloques de código markdown, devolvé EXACTAMENTE este formato:
+
+=== PROMPTS ===
+(un prompt por línea)
+
+=== TIEMPOS ===
+(una línea por imagen con el formato N= m:ss a m:ss)
+
+Sin texto antes, entre ni después de los dos bloques.`;
+
+  try{
+    const txt=await pedirGemini(prompt, 65536);
+    let prompts='', tiempos='';
+    const iT=txt.indexOf('=== TIEMPOS ===');
+    if(iT!==-1){
+      prompts=txt.slice(0,iT).replace(/^[\s\S]*?===\s*PROMPTS\s*===/,'').trim();
+      tiempos=txt.slice(iT+'=== TIEMPOS ==='.length).trim();
+    } else { prompts=txt.replace(/^[\s\S]*?===\s*PROMPTS\s*===/,'').trim(); }
+    prompts=prompts.replace(/```/g,'').trim(); tiempos=tiempos.replace(/```/g,'').trim();
+    const nP=prompts.split('\n').filter(l=>l.trim()).length, nT=tiempos.split('\n').filter(l=>l.trim()).length;
+    const aviso=(nP&&nT&&nP!==nT)?`<div class="warn">⚠️ Salieron ${nP} prompts y ${nT} tiempos (deberían coincidir). Regenerá si te desincroniza.</div>`:'';
+    out.innerHTML = aviso + `<div class="block p"><div class="bh">
+      <h3>🎨 Prompts de imagen <span class="cnt">· ${nP} prompts · ${usarSrt?'SRT real':'estimado'}</span></h3>
+      <button class="copybtn" onclick="copiarPre(this)">copiar</button></div><pre>${esc(prompts)}</pre></div>
+      <div class="block t"><div class="bh">
+      <h3>⏱️ Lista para renombrar <span class="cnt">· ${nT} tiempos</span></h3>
+      <button class="copybtn" onclick="copiarPre(this)">copiar</button></div><pre>${esc(tiempos)}</pre></div>`;
+    btn.disabled=false; otro.disabled=false; btn.innerHTML=txtBtn;
+  }catch(e){
+    out.innerHTML='<div class="err">'+esc(e.message||'Algo falló')+'</div>';
+    btn.disabled=false; otro.disabled=false; btn.innerHTML=txtBtn;
+  }
+}
+
+function copiarPre(btn){
+  const pre=btn.closest('.block').querySelector('pre');
+  navigator.clipboard.writeText(pre.textContent).then(()=>{
+    btn.textContent='✓ copiado'; btn.classList.add('ok');
+    setTimeout(()=>{ btn.textContent='copiar'; btn.classList.remove('ok'); },1600);
+  });
+}
+
+if(document.readyState==='loading') document.addEventListener('DOMContentLoaded', init);
+else init();
+</script>
+</body>
+</html>
