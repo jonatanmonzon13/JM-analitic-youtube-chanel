@@ -101,6 +101,7 @@
 </style>
 </head>
 <body>
+<script src="jmbots-resilience.js"></script>
 <header class="wrap">
   <div class="brand">JM<span class="ol"> BOTS</span></div>
   <a class="back" href="app.html">← volver a la suite</a>
@@ -142,6 +143,13 @@
     <button class="gen" id="btnIdeas" onclick="generarIdeas()">💀 Generar 15 ideas</button>
   </section>
 
+  <!-- HISTORIAL / CONTINUAR PROYECTOS -->
+  <section class="card hide" id="cardHist">
+    <div class="step">🕘 Tus sesiones guardadas</div>
+    <div id="histList"></div>
+    <button class="sec" style="margin-top:10px" onclick="nuevaSesion()">+ Empezar sesión nueva</button>
+  </section>
+
   <section class="out" id="outIdeas"></section>
 
   <!-- TEMA -->
@@ -176,6 +184,73 @@ const $ = s => document.querySelector(s);
 let IDEAS_PREVIAS = [];
 let GUION = '';
 
+/* ═══ HISTORIAL (continuar donde quedó / sobrevive a que se apague la PC) ═══ */
+let PROYECTO_ACTUAL=null;
+const LS_HIST_KEY='jmbots_sticknoir_hist';
+function loadHist(){ try{ return JSON.parse(localStorage.getItem(LS_HIST_KEY)||'[]'); }catch(e){ return []; } }
+function saveHist(arr){ try{ localStorage.setItem(LS_HIST_KEY, JSON.stringify(arr.slice(0,20))); }catch(e){} }
+function renderHistInicial(){ renderHist(); }
+function renderHist(){
+  const cont=$('#histList'), card=$('#cardHist');
+  const h=loadHist();
+  if(!h.length){ card.classList.add('hide'); return; }
+  card.classList.remove('hide');
+  cont.innerHTML=h.map(p=>{
+    const f=new Date(p.ts).toLocaleString('es',{day:'2-digit',month:'2-digit',hour:'2-digit',minute:'2-digit'});
+    const pasos=[p.tema?'tema':'', p.guion?'guion':'', p.promptsTxt?'imágenes':''].filter(Boolean).join(' → ')||'sin empezar';
+    return `<div class="idea" style="cursor:default">
+      <div style="flex:1"><div class="tx" style="font-weight:700">${esc(p.tema||'(sin tema todavía)')}</div>
+        <small style="color:var(--muted)">${esc(pasos)} · ${f}</small></div>
+      <div style="display:flex;gap:8px;flex-shrink:0">
+        <button class="sec" onclick="continuarProyecto('${esc(p.id)}')">▶ continuar</button>
+        <button class="sec" onclick="borrarProyecto('${esc(p.id)}')">🗑</button>
+      </div></div>`;
+  }).join('');
+}
+function guardarProyectoActual(){
+  const tema=($('#tema').value||'').trim();
+  if(!tema && !GUION) return;
+  let h=loadHist();
+  if(!PROYECTO_ACTUAL) PROYECTO_ACTUAL={ id:'p'+Date.now() };
+  Object.assign(PROYECTO_ACTUAL, {
+    ts: Date.now(), tema, idioma: $('#idioma').value, duracion: $('#duracion').value,
+    guion: GUION, srt: ($('#srt').value||''),
+    outGuionHtml: $('#outGuion').innerHTML, outImgHtml: $('#outImg').innerHTML
+  });
+  h=h.filter(p=>p.id!==PROYECTO_ACTUAL.id);
+  h.unshift(PROYECTO_ACTUAL);
+  saveHist(h);
+  renderHist();
+}
+function continuarProyecto(id){
+  const p=loadHist().find(x=>x.id===id); if(!p) return;
+  PROYECTO_ACTUAL=p; GUION=p.guion||'';
+  $('#tema').value=p.tema||'';
+  if(p.idioma) $('#idioma').value=p.idioma;
+  if(p.duracion) $('#duracion').value=p.duracion;
+  $('#srt').value=p.srt||'';
+  $('#cardTema').classList.remove('hide');
+  $('#outGuion').className='out'+(p.outGuionHtml?' show':'');
+  $('#outGuion').innerHTML=p.outGuionHtml||'';
+  if(GUION) $('#cardImg').classList.remove('hide');
+  $('#outImg').className='out'+(p.outImgHtml?' show':'');
+  $('#outImg').innerHTML=p.outImgHtml||'';
+  window.scrollTo({top:0,behavior:'smooth'});
+}
+function borrarProyecto(id){
+  if(!confirm('¿Borrar esta sesión guardada? No se puede deshacer.')) return;
+  saveHist(loadHist().filter(p=>p.id!==id));
+  if(PROYECTO_ACTUAL && PROYECTO_ACTUAL.id===id) PROYECTO_ACTUAL=null;
+  renderHist();
+}
+function nuevaSesion(){
+  PROYECTO_ACTUAL=null; GUION='';
+  $('#tema').value=''; $('#srt').value='';
+  ['#outIdeas','#outGuion','#outImg'].forEach(s=>{ $(s).className='out'; $(s).innerHTML=''; });
+  ['#cardTema','#cardImg'].forEach(s=>$(s).classList.add('hide'));
+  window.scrollTo({top:0,behavior:'smooth'});
+}
+
 /* ═══ Claves (varias por coma, con rotación) ═══ */
 function limpiarClave(k){ return String(k||'').replace(/[\s\u200B-\u200D\uFEFF]/g,'').trim(); }
 function claveGuardadaRaw(){ try{ const o=JSON.parse(localStorage.getItem('jmbots_keys')||'{}'); if(o&&o.an) return o.an; }catch(e){} return ''; }
@@ -198,8 +273,8 @@ function cargarClaveInicial(){
     else estadoClave(false);
   });
 }
-if(document.readyState==='loading') document.addEventListener('DOMContentLoaded', cargarClaveInicial);
-else cargarClaveInicial();
+if(document.readyState==='loading') document.addEventListener('DOMContentLoaded', function(){ cargarClaveInicial(); renderHist(); });
+else{ cargarClaveInicial(); renderHist(); }
 
 /* ═══ Protección ═══ */
 (function(){
@@ -346,6 +421,7 @@ No escribas nada fuera del guion.`;
       <pre>${esc(GUION)}</pre></div>`;
     $('#cardImg').classList.remove('hide');
     btn.disabled=false; btn.innerHTML='📜 Escribir el guion';
+    guardarProyectoActual();
   }catch(e){
     out.innerHTML='<div class="err">'+esc(e.message||'Algo falló')+'</div>';
     btn.disabled=false; btn.innerHTML='📜 Escribir el guion';
@@ -354,6 +430,66 @@ No escribas nada fuera del guion.`;
 
 /* ═══ PASO 3/4 · IMÁGENES + TIEMPOS ═══ */
 const ESTILO_FIJO = `highly expressive stick-figure character with exaggerated emotive body language and clear facial expression using simple but readable features (eyes, eyebrows, mouth showing emotion like fear, greed, envy, arrogance, despair, shock), dynamic cinematic pose, thick clean black outlines with slightly rough hand-drawn edge, semi-flat modern vector illustration with soft cel-shading and subtle textures, rich moody color palette combining deep dark tones (black, charcoal, navy, dark burgundy, forest green, deep purple) with strong accent colors (blood red, gold, neon cyan, sickly green or acid yellow) chosen to fit the emotion of the scene, dramatic contextual background that fits the story (dim luxury office, shadowy bank vault, empty mansion, gloomy stock exchange, neon-lit city at night, cracked golden throne, dark boardroom, red-lit casino, moody street, abstract psychological space with floating symbols like eyes, chains, dollar signs, brain, masks, spider webs), cinematic lighting with dark shadows and one strong accent light source, film-noir psychological thriller mood, high visual detail while keeping the character as a stick figure`;
+
+function msToMMSS(ms){
+  const s=Math.round(ms/1000), m=Math.floor(s/60), r=s%60;
+  return m+':'+String(r).padStart(2,'0');
+}
+function parseSRT(srtText){
+  const blocks=srtText.replace(/\r/g,'').split(/\n\s*\n/).map(b=>b.trim()).filter(Boolean);
+  const timeRe=/(\d\d):(\d\d):(\d\d)[,.](\d\d\d)\s*-->\s*(\d\d):(\d\d):(\d\d)[,.](\d\d\d)/;
+  const out=[];
+  blocks.forEach(b=>{
+    const lines=b.split('\n').filter(Boolean);
+    const idx=lines.findIndex(l=>timeRe.test(l));
+    if(idx===-1) return;
+    const m=lines[idx].match(timeRe);
+    const start=((+m[1])*3600+(+m[2])*60+(+m[3]))*1000+(+m[4]);
+    const end=((+m[5])*3600+(+m[6])*60+(+m[7]))*1000+(+m[8]);
+    const text=lines.slice(idx+1).join(' ').replace(/<[^>]+>/g,'').trim();
+    if(text) out.push({start,end,text});
+  });
+  out.sort((a,b)=>a.start-b.start);
+  return out;
+}
+function agruparSRT(subs){
+  const groups=[]; let cur=null;
+  subs.forEach(s=>{
+    if(!cur){ cur={start:s.start,end:s.end,texts:[s.text]}; return; }
+    if((s.end-cur.start)<=6000){ cur.end=s.end; cur.texts.push(s.text); }
+    else { groups.push(cur); cur={start:s.start,end:s.end,texts:[s.text]}; }
+  });
+  if(cur) groups.push(cur);
+  return groups.map(g=>({ini:g.start, fin:g.end, texto:g.texts.join(' ')}));
+}
+function estimarTramos(guion){
+  const frases=(guion.match(/[^.!?…\n]+[.!?…]?/g)||[guion]).map(s=>s.trim()).filter(Boolean);
+  const bloques=[];
+  frases.forEach(fr=>{
+    const palabras=fr.split(/\s+/).filter(Boolean);
+    let i=0;
+    while(i<palabras.length){
+      let tomar=palabras.slice(i,i+13);
+      if(palabras.length-i<=17 && palabras.length-i>13){ tomar=palabras.slice(i); }
+      bloques.push(tomar.join(' '));
+      i+=tomar.length;
+    }
+  });
+  const fusion=[];
+  bloques.forEach(b=>{
+    const nPal=b.split(/\s+/).length;
+    if(fusion.length && nPal<5){ fusion[fusion.length-1]+=' '+b; }
+    else fusion.push(b);
+  });
+  let cursor=0;
+  return fusion.map(texto=>{
+    const nPal=texto.split(/\s+/).filter(Boolean).length;
+    let seg=Math.round(nPal/2.5); seg=Math.max(2,Math.min(6,seg));
+    const ini=cursor, fin=cursor+seg*1000;
+    cursor=fin;
+    return {ini,fin,texto};
+  });
+}
 
 async function generarImagenes(usarSrt){
   const out=$('#outImg');
@@ -365,64 +501,77 @@ async function generarImagenes(usarSrt){
   const btn = usarSrt ? $('#btnSrt') : $('#btnEst');
   const otro = usarSrt ? $('#btnEst') : $('#btnSrt');
   btn.disabled=true; otro.disabled=true;
-  const txtBtn=btn.innerHTML; btn.innerHTML='<span class="spin"></span>Generando…';
-  out.className='out show'; out.innerHTML='<div class="loading">Armando el lote completo de prompts y tiempos… puede tardar bastante si el guion es largo.</div>';
+  const txtBtn=btn.innerHTML;
+  out.className='out show';
 
-  const base = usarSrt
-    ? `Te paso el SRT REAL del audio. Recorré los bloques del SRT EN ORDEN. Agrupá subtítulos contiguos hasta juntar entre 2 y 6 segundos de narración: cada grupo = UNA imagen (así ninguna imagen dura más de 6s y coincide EXACTO con el audio). La duración de cada imagen = (fin del último subtítulo del grupo) - (inicio del primero), usando los TIEMPOS REALES del SRT convertidos a m:ss. UNA imagen por grupo, en ORDEN. Entregá TODOS los grupos del SRT, sin cortar ni resumir.
+  let tramos;
+  try{ tramos = usarSrt ? agruparSRT(parseSRT(srt)) : estimarTramos(GUION); }
+  catch(e){
+    out.innerHTML='<div class="err">No se pudo leer el '+(usarSrt?'SRT':'guion')+'. Revisá el formato.</div>';
+    btn.disabled=false; otro.disabled=false; btn.innerHTML=txtBtn; return;
+  }
+  if(!tramos.length){
+    out.innerHTML='<div class="err">No se detectaron tramos.</div>';
+    btn.disabled=false; otro.disabled=false; btn.innerHTML=txtBtn; return;
+  }
+  const N=tramos.length;
+  const tiemposTxt = tramos.map((t,i)=>(i+1)+'= '+msToMMSS(t.ini)+' a '+msToMMSS(t.fin)).join('\n');
 
-SRT:
-${srt}`
-    : `Te paso el GUION. DIVIDÍ el guion en TRAMOS cortos según el sentido de la narración (frases o ideas completas). La DURACIÓN de cada imagen = la duración hablada de SU tramo (NO un tiempo fijo): estimala por las palabras del tramo a razón de 2.5 palabras por segundo (segundos = palabras_del_tramo / 2.5, redondeado; mínimo 2s, máximo 6s; si una frase es muy larga, partila en dos tramos para no pasar de 6s). UNA imagen por tramo, en ORDEN del guion. La CANTIDAD de imágenes = la cantidad de tramos (depende del guion, NO es un número fijo). Cada imagen ilustra EXACTAMENTE lo que se narra en su tramo.
+  const LOTE=35;
+  let prompts=new Array(N).fill('');
+  let fallas=0;
 
-GUION:
-${GUION}`;
+  async function pedirLote(desde,hasta){
+    const sub=tramos.slice(desde,hasta);
+    const listado=sub.map((t,i)=>(desde+i+1)+'. '+t.texto).join('\n');
+    const prompt = `${rolBase()}
 
-  const prompt = `${rolBase()}
+Ya tenés la lista EXACTA y DEFINITIVA de tramos del ${usarSrt?'audio (SRT real)':'guion'}, numerada del ${desde+1} al ${hasta}. NO agregues, NO quites, NO fusiones ni dividas tramos: son EXACTAMENTE estos, uno por línea:
 
-${base}
+${listado}
 
-Devolvé EXACTAMENTE DOS bloques separados por la línea "=== TIEMPOS ===", sin texto entre ellos ni antes ni después:
-
-=== PROMPTS ===
-Un prompt por línea, en INGLÉS SIEMPRE, sin numeración, sin viñetas, sin comillas, cada uno en UNA SOLA LÍNEA continua.
-ESTILO FIJO IDÉNTICO en TODAS (incluilo COMPLETO en cada prompt): ${ESTILO_FIJO}
-Cada prompt DEBE describir CON DETALLE la escena exacta que ilustra el tramo: la acción y emoción del stick figure, los otros personajes si los hay, el objeto/símbolo psicológico-financiero clave (coins, bills, rising or falling chart, bank, scale, lock, clock, wallet, piggy bank, chains, crown, mask, puppet strings, brain, eye, mirror, skull, spider, cage, throne, etc.), el fondo específico y la iluminación, variando pose, ángulo, plano (close-up, wide shot, low-angle, top-down) y composición en cada toma para que se sienta cinematográfico.
-En momentos clave podés agregar UNA palabra o frase corta en tipografía hand-drawn, bold e irregular, en blanco o negro con la palabra clave en rojo sangre o dorado (ej: the words "LA TRAMPA" in bold irregular hand-drawn white and blood-red font), y flechas o marcas sketchy si ayudan. Cualquier texto DENTRO de la imagen va en ${idiomaTxt()}.
+Generá EXACTAMENTE ${sub.length} prompts de imagen, uno por cada tramo de arriba EN EL MISMO ORDEN. Cada prompt en INGLÉS, en UNA SOLA LÍNEA continua, sin numerar, sin viñetas.
+ESTILO FIJO IDÉNTICO en TODOS (incluilo COMPLETO en cada prompt): ${ESTILO_FIJO}
+Cada prompt DEBE describir CON DETALLE la escena exacta de ESE tramo: la acción y emoción del stick figure, el objeto/símbolo psicológico-financiero clave (coins, bills, chart, bank, scale, lock, clock, wallet, chains, crown, mask, puppet strings, brain, eye, mirror, skull, spider, cage, throne, etc.), el fondo y la iluminación, variando pose, ángulo y plano para que se sienta cinematográfico. Cualquier texto DENTRO de la imagen va en ${idiomaTxt()}.
 Cada línea TERMINA con: no watermark, 16:9 horizontal cinematic
 
-=== TIEMPOS ===
-La lista para renombrar las imágenes en ORDEN, uno por línea, EXACTAMENTE la misma cantidad que los prompts.
-Formato EXACTO por línea: N= m:ss a m:ss  (ejemplo: 1= 0:00 a 0:04)
-El INICIO del tramo N = el FIN del anterior (el 1 empieza en 0:00); el FIN = inicio + la duración de ESE tramo (variable, entre 2 y 6 seg). Sin huecos, encadenados.
-
-REGLAS: entregá TODOS los prompts y TODOS los tiempos, uno por CADA tramo. PROHIBIDO cortar, resumir, abreviar, usar "etc." o "..." o saltear tramos. Cantidad de prompts = cantidad de tiempos, en el MISMO orden. Nunca dos escenas seguidas idénticas de fondo, plano o paleta.`;
+Devolvé SOLO las ${sub.length} líneas de prompts, nada más.`;
+    const txt=await pedirGemini(prompt, 32768);
+    const clean=txt.replace(/```[a-z]*/gi,'').trim();
+    return clean.split('\n').map(l=>l.trim()).filter(Boolean);
+  }
 
   try{
-    const txt=await pedirGemini(prompt, 65536);
-    let prompts='', tiempos='';
-    const iT=txt.indexOf('=== TIEMPOS ===');
-    if(iT!==-1){
-      prompts=txt.slice(0,iT).replace(/^===\s*PROMPTS\s*===/,'').trim();
-      tiempos=txt.slice(iT+'=== TIEMPOS ==='.length).trim();
-    } else { prompts=txt.replace(/^===\s*PROMPTS\s*===/,'').trim(); }
-    const nP=prompts.split('\n').filter(l=>l.trim()).length;
-    const nT=tiempos.split('\n').filter(l=>l.trim()).length;
-    const aviso = (nP && nT && nP!==nT) ? `<div class="hint" style="border-left-color:var(--gold);background:var(--gold-soft);border-color:rgba(231,184,92,.3);color:#f8da8e">⚠️ Salieron ${nP} prompts y ${nT} tiempos (deberían coincidir). Regenerá si te desincroniza.</div>` : '';
-
-    out.innerHTML = aviso + `<div class="block p">
-      <div class="bh"><h3>🎨 Prompts de imagen <span class="cnt">· ${nP} prompts · ${usarSrt?'SRT real':'estimado'}</span></h3>
-        <button class="copybtn" onclick="copiarPre(this)">copiar</button></div>
-      <pre>${esc(prompts)}</pre></div>
-    <div class="block t">
-      <div class="bh"><h3>⏱️ Lista para renombrar <span class="cnt">· ${nT} tiempos</span></h3>
-        <button class="copybtn" onclick="copiarPre(this)">copiar</button></div>
-      <pre>${esc(tiempos)}</pre></div>`;
-    btn.disabled=false; otro.disabled=false; btn.innerHTML=txtBtn;
+    for(let d=0; d<N; d+=LOTE){
+      const h=Math.min(d+LOTE,N);
+      out.innerHTML='<div class="loading">Generando prompts '+(d+1)+'–'+h+' de '+N+'…</div>';
+      let lineas=[];
+      try{ lineas=await pedirLote(d,h); }catch(e){ lineas=[]; }
+      if(lineas.length!==(h-d)){ try{ lineas=await pedirLote(d,h); }catch(e){} }
+      for(let i=0;i<(h-d);i++){
+        if(lineas[i]) prompts[d+i]=lineas[i];
+        else{ fallas++; prompts[d+i]=ESTILO_FIJO+', no watermark, 16:9 horizontal cinematic, illustrating: '+tramos[d+i].texto.replace(/"/g,"'").slice(0,180); }
+      }
+    }
   }catch(e){
-    out.innerHTML='<div class="err">'+esc(e.message||'Algo falló')+'</div>';
-    btn.disabled=false; otro.disabled=false; btn.innerHTML=txtBtn;
+    out.innerHTML='<div class="err">'+esc(e.message||'Algo falló generando los prompts')+'</div>';
+    btn.disabled=false; otro.disabled=false; btn.innerHTML=txtBtn; return;
   }
+
+  const promptsTxt=prompts.join('\n');
+  const avisoFallas = fallas ? `<div class="hint" style="border-left-color:var(--gold);background:var(--gold-soft);border-color:rgba(231,184,92,.3);color:#f8da8e">⚠️ ${fallas} de ${N} prompts se completaron con una versión básica de respaldo. Tocá «↻ Regenerar» para reintentar.</div>` : '';
+  out.innerHTML = avisoFallas + `<div class="hint"><b>✓ Sincronía garantizada:</b> ${N} prompts y ${N} tiempos, calculados exactos en tu navegador.</div>
+    <div class="block p">
+      <div class="bh"><h3>🎨 Prompts de imagen <span class="cnt">· ${N} prompts · ${usarSrt?'SRT real':'estimado'}</span></h3>
+        <button class="copybtn" onclick="copiarPre(this)">copiar</button></div>
+      <pre>${esc(promptsTxt)}</pre></div>
+    <div class="block t">
+      <div class="bh"><h3>⏱️ Lista para renombrar <span class="cnt">· ${N} tiempos</span></h3>
+        <button class="copybtn" onclick="copiarPre(this)">copiar</button></div>
+      <pre>${esc(tiemposTxt)}</pre></div>
+    <button class="sec" onclick="generarImagenes(${usarSrt})">↻ Regenerar</button>`;
+  btn.disabled=false; otro.disabled=false; btn.innerHTML=txtBtn;
+  guardarProyectoActual();
 }
 
 function copiarPre(btn){

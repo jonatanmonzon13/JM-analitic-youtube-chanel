@@ -105,6 +105,7 @@
 </style>
 </head>
 <body>
+<script src="jmbots-resilience.js"></script>
 <header class="wrap">
   <div class="brand">JM<span class="ol"> BOTS</span></div>
   <a class="back" href="app.html">← volver a la suite</a>
@@ -184,6 +185,13 @@
     <button class="gen" id="genBiblia" onclick="generarBiblia()">📕 Crear la biblia + guion</button>
   </section>
 
+  <!-- HISTORIAL / CONTINUAR PROYECTOS -->
+  <section class="card hide" id="cardHist">
+    <div class="step">🕘 Tus historias guardadas</div>
+    <div id="histList"></div>
+    <button class="sec" style="margin-top:10px" onclick="nuevaSesion()">+ Empezar historia nueva</button>
+  </section>
+
   <section class="out" id="out"></section>
 </div>
 
@@ -192,6 +200,72 @@
 <script>
 const $ = s => document.querySelector(s);
 let BIBLIA = '';       // texto de la biblia (personajes + escenarios) para reinyectar
+
+/* ═══ HISTORIAL (continuar donde quedó / sobrevive a que se apague la PC) ═══ */
+let PROYECTO_ACTUAL=null;
+const LS_HIST_KEY='jmbots_estudio_hist';
+function loadHist(){ try{ return JSON.parse(localStorage.getItem(LS_HIST_KEY)||'[]'); }catch(e){ return []; } }
+function saveHist(arr){ try{ localStorage.setItem(LS_HIST_KEY, JSON.stringify(arr.slice(0,20))); }catch(e){} }
+function renderHist(){
+  const cont=$('#histList'), card=$('#cardHist');
+  const h=loadHist();
+  if(!h.length){ card.classList.add('hide'); return; }
+  card.classList.remove('hide');
+  cont.innerHTML='<div class="caplist">'+h.map(p=>{
+    const f=new Date(p.ts).toLocaleString('es',{day:'2-digit',month:'2-digit',hour:'2-digit',minute:'2-digit'});
+    const nCap=(p.capitulos||[]).length;
+    return `<div class="capitem">
+      <div class="ci"><div class="cn">${esc(p.idea? (p.idea.slice(0,60)+(p.idea.length>60?'…':'')) : '(historia sin título todavía)')}</div>
+        <div class="cd">${nCap?nCap+' capítulos · ':''}${f}</div></div>
+      <button class="sec" onclick="continuarProyecto('${esc(p.id)}')">▶ continuar</button>
+      <button class="sec" onclick="borrarProyecto('${esc(p.id)}')">🗑</button>
+    </div>`;
+  }).join('')+'</div>';
+}
+function guardarProyectoActual(){
+  const idea=($('#idea').value||'').trim();
+  if(!idea) return;
+  let h=loadHist();
+  if(!PROYECTO_ACTUAL) PROYECTO_ACTUAL={ id:'p'+Date.now() };
+  Object.assign(PROYECTO_ACTUAL, {
+    ts: Date.now(), idea,
+    formato: $('#formato').value, cantidad: $('#cantidad').value,
+    estilo: $('#estilo').value, duracion: $('#duracion').value, idioma: $('#idioma').value,
+    biblia: BIBLIA, capitulos: CAPITULOS.slice(),
+    outHtml: $('#out').innerHTML
+  });
+  h=h.filter(p=>p.id!==PROYECTO_ACTUAL.id);
+  h.unshift(PROYECTO_ACTUAL);
+  saveHist(h);
+  renderHist();
+}
+function continuarProyecto(id){
+  const p=loadHist().find(x=>x.id===id); if(!p) return;
+  PROYECTO_ACTUAL=p;
+  BIBLIA=p.biblia||''; CAPITULOS=(p.capitulos||[]).slice();
+  $('#idea').value=p.idea||'';
+  if(p.formato) $('#formato').value=p.formato;
+  if(p.cantidad) $('#cantidad').value=p.cantidad;
+  if(p.estilo) $('#estilo').value=p.estilo;
+  if(p.duracion) $('#duracion').value=p.duracion;
+  if(p.idioma) $('#idioma').value=p.idioma;
+  const out=$('#out');
+  out.className='out'+(p.outHtml?' show':'');
+  out.innerHTML=p.outHtml||'';
+  window.scrollTo({top:0,behavior:'smooth'});
+}
+function borrarProyecto(id){
+  if(!confirm('¿Borrar esta historia guardada? No se puede deshacer.')) return;
+  saveHist(loadHist().filter(p=>p.id!==id));
+  if(PROYECTO_ACTUAL && PROYECTO_ACTUAL.id===id) PROYECTO_ACTUAL=null;
+  renderHist();
+}
+function nuevaSesion(){
+  PROYECTO_ACTUAL=null; BIBLIA=''; CAPITULOS=[];
+  $('#idea').value='';
+  const out=$('#out'); out.className='out'; out.innerHTML='';
+  window.scrollTo({top:0,behavior:'smooth'});
+}
 let CAPITULOS = [];    // lista de {n, titulo, desc}
 
 const ESTILOS = {
@@ -225,8 +299,8 @@ function cargarClaveInicial(){
     else estadoClave(false);
   });
 }
-if(document.readyState==='loading') document.addEventListener('DOMContentLoaded', cargarClaveInicial);
-else cargarClaveInicial();
+if(document.readyState==='loading') document.addEventListener('DOMContentLoaded', function(){ cargarClaveInicial(); renderHist(); });
+else{ cargarClaveInicial(); renderHist(); }
 
 // ── Protección: bloquear click derecho, F12, inspeccionar, ver código fuente ──
 (function(){
@@ -329,6 +403,7 @@ No agregues nada fuera de estos dos bloques.`;
     });
     renderBiblia();
     btn.disabled=false; btn.innerHTML='📕 Crear la biblia + guion';
+    guardarProyectoActual();
   }catch(e){
     out.innerHTML='<div class="err">'+esc(e.message||'Algo falló')+'</div>';
     btn.disabled=false; btn.innerHTML='📕 Crear la biblia + guion';
@@ -448,6 +523,7 @@ No expliques nada fuera de los dos bloques.`;
     }
   }
   btn.disabled=false; btn.innerHTML='↻ Regenerar';
+  guardarProyectoActual();
 }
 
 function copiarPre(btn){

@@ -108,6 +108,7 @@
 </style>
 </head>
 <body>
+<script src="jmbots-resilience.js"></script>
 <header class="wrap">
   <div class="brand">JM<span class="ol"> BOTS</span></div>
   <a class="back" href="app.html">← volver a la suite</a>
@@ -124,6 +125,13 @@
   <section class="card hide" id="cardPick">
     <div class="step">Elegí tu nicho</div>
     <div id="picker"></div>
+  </section>
+
+  <!-- HISTORIAL / CONTINUAR PROYECTOS -->
+  <section class="card hide" id="cardHist">
+    <div class="step">🕘 Tus sesiones guardadas de este bot</div>
+    <div id="histList"></div>
+    <button class="sec" style="margin-top:10px" onclick="nuevaSesion()">+ Empezar sesión nueva</button>
   </section>
 
   <!-- CONFIG -->
@@ -297,7 +305,7 @@ function elegirBot(slug){
   window.scrollTo({top:0,behavior:'smooth'});
 }
 function activarBot(b){
-  BOT=b; IDEAS_PREVIAS=[]; GUION='';
+  BOT=b; IDEAS_PREVIAS=[]; GUION=''; PROYECTO_ACTUAL=null;
   document.title=b.nombre+' · JM BOTS';
   $('#eyebrow').textContent=b.nombre.toLowerCase()+' · '+(b.gancho||'contenido faceless');
   const partes=esc(b.nombre).split(' ');
@@ -307,7 +315,86 @@ function activarBot(b){
   $('#tema').placeholder='Ej: un tema de '+(b.nicho||'').toLowerCase();
   ['#outIdeas','#outGuion','#outImg'].forEach(s=>{ $(s).className='out'; $(s).innerHTML=''; });
   ['#cardTema','#cardImg'].forEach(s=>$(s).classList.add('hide'));
+  $('#srt').value='';
   estadoClave(getKeys().length>0);
+  renderHist();
+}
+
+/* ═══ HISTORIAL POR BOT (continuar donde quedó / sobrevive a que se apague la PC) ═══ */
+let PROYECTO_ACTUAL=null;
+function lsHistKey(){ return 'jmbots_stick_hist_'+(BOT?BOT.slug:'x'); }
+function loadHist(){ try{ return JSON.parse(localStorage.getItem(lsHistKey())||'[]'); }catch(e){ return []; } }
+function saveHist(arr){ try{ localStorage.setItem(lsHistKey(), JSON.stringify(arr.slice(0,20))); }catch(e){} }
+function renderHist(){
+  const cont=$('#histList'), card=$('#cardHist');
+  if(!BOT){ card.classList.add('hide'); return; }
+  const h=loadHist();
+  if(!h.length){ card.classList.add('hide'); return; }
+  card.classList.remove('hide');
+  cont.innerHTML=h.map(p=>{
+    const f=new Date(p.ts).toLocaleString('es',{day:'2-digit',month:'2-digit',hour:'2-digit',minute:'2-digit'});
+    const pasos=[p.tema?'tema':'', p.guion?'guion':'', p.promptsTxt?'imágenes':''].filter(Boolean).join(' → ')||'sin empezar';
+    return `<div class="idea" style="cursor:default" data-i="${esc(p.id)}">
+      <div style="flex:1">
+        <div class="tx" style="font-weight:700">${esc(p.tema||'(sin tema todavía)')}</div>
+        <small style="color:var(--muted)">${esc(pasos)} · ${f}</small>
+      </div>
+      <div style="display:flex;gap:8px;flex-shrink:0">
+        <button class="sec" onclick="continuarProyecto('${esc(p.id)}')">▶ continuar</button>
+        <button class="sec" onclick="borrarProyecto('${esc(p.id)}')">🗑</button>
+      </div></div>`;
+  }).join('');
+}
+function guardarProyectoActual(){
+  if(!BOT) return;
+  const tema=($('#tema').value||'').trim();
+  if(!tema && !GUION) return; // nada que guardar todavía
+  let h=loadHist();
+  if(!PROYECTO_ACTUAL) PROYECTO_ACTUAL={ id:'p'+Date.now() };
+  Object.assign(PROYECTO_ACTUAL, {
+    ts: Date.now(),
+    tema, idioma: $('#idioma').value, duracion: $('#duracion').value,
+    ideasPrevias: IDEAS_PREVIAS.slice(),
+    guion: GUION,
+    srt: ($('#srt').value||''),
+    outGuionHtml: $('#outGuion').innerHTML,
+    outImgHtml: $('#outImg').innerHTML
+  });
+  h=h.filter(p=>p.id!==PROYECTO_ACTUAL.id);
+  h.unshift(PROYECTO_ACTUAL);
+  saveHist(h);
+  renderHist();
+}
+function continuarProyecto(id){
+  const p=loadHist().find(x=>x.id===id); if(!p) return;
+  PROYECTO_ACTUAL=p;
+  IDEAS_PREVIAS=(p.ideasPrevias||[]).slice();
+  GUION=p.guion||'';
+  $('#tema').value=p.tema||'';
+  if(p.idioma) $('#idioma').value=p.idioma;
+  if(p.duracion) $('#duracion').value=p.duracion;
+  $('#srt').value=p.srt||'';
+  $('#cardTema').classList.remove('hide');
+  $('#outGuion').className='out'+(p.outGuionHtml?' show':'');
+  $('#outGuion').innerHTML=p.outGuionHtml||'';
+  if(GUION) $('#cardImg').classList.remove('hide');
+  $('#outImg').className='out'+(p.outImgHtml?' show':'');
+  $('#outImg').innerHTML=p.outImgHtml||'';
+  $('#outIdeas').className='out'; $('#outIdeas').innerHTML='';
+  window.scrollTo({top:0,behavior:'smooth'});
+}
+function borrarProyecto(id){
+  if(!confirm('¿Borrar esta sesión guardada? No se puede deshacer.')) return;
+  saveHist(loadHist().filter(p=>p.id!==id));
+  if(PROYECTO_ACTUAL && PROYECTO_ACTUAL.id===id) PROYECTO_ACTUAL=null;
+  renderHist();
+}
+function nuevaSesion(){
+  PROYECTO_ACTUAL=null; IDEAS_PREVIAS=[]; GUION='';
+  $('#tema').value=''; $('#srt').value='';
+  ['#outIdeas','#outGuion','#outImg'].forEach(s=>{ $(s).className='out'; $(s).innerHTML=''; });
+  ['#cardTema','#cardImg'].forEach(s=>$(s).classList.add('hide'));
+  window.scrollTo({top:0,behavior:'smooth'});
 }
 
 /* ═══ PASO 1 · IDEAS ═══ */
@@ -381,66 +468,164 @@ Devolvé SOLO el texto narrado corrido, sin encabezados, sin acotaciones, sin ma
       <pre>${esc(GUION)}</pre></div>`;
     $('#cardImg').classList.remove('hide');
     btn.disabled=false; btn.innerHTML='📜 Escribir el guion';
+    guardarProyectoActual();
   }catch(e){
     out.innerHTML='<div class="err">'+esc(e.message||'Algo falló')+'</div>';
     btn.disabled=false; btn.innerHTML='📜 Escribir el guion';
   }
 }
 
-/* ═══ PASO 3/4 · IMÁGENES ═══ */
+/* ═══ PASO 3/4 · IMÁGENES (segmentación exacta calculada en JS, no por la IA) ═══ */
+function msToMMSS(ms){
+  const s=Math.round(ms/1000), m=Math.floor(s/60), r=s%60;
+  return m+':'+String(r).padStart(2,'0');
+}
+function parseSRT(srtText){
+  const blocks=srtText.replace(/\r/g,'').split(/\n\s*\n/).map(b=>b.trim()).filter(Boolean);
+  const timeRe=/(\d\d):(\d\d):(\d\d)[,.](\d\d\d)\s*-->\s*(\d\d):(\d\d):(\d\d)[,.](\d\d\d)/;
+  const out=[];
+  blocks.forEach(b=>{
+    const lines=b.split('\n').filter(Boolean);
+    const idx=lines.findIndex(l=>timeRe.test(l));
+    if(idx===-1) return;
+    const m=lines[idx].match(timeRe);
+    const start=((+m[1])*3600+(+m[2])*60+(+m[3]))*1000+(+m[4]);
+    const end=((+m[5])*3600+(+m[6])*60+(+m[7]))*1000+(+m[8]);
+    const text=lines.slice(idx+1).join(' ').replace(/<[^>]+>/g,'').trim();
+    if(text) out.push({start,end,text});
+  });
+  out.sort((a,b)=>a.start-b.start);
+  return out;
+}
+// agrupa subtitulos consecutivos hasta juntar entre 2 y 6s reales del SRT
+function agruparSRT(subs){
+  const groups=[]; let cur=null;
+  subs.forEach(s=>{
+    if(!cur){ cur={start:s.start,end:s.end,texts:[s.text]}; return; }
+    if((s.end-cur.start)<=6000){ cur.end=s.end; cur.texts.push(s.text); }
+    else { groups.push(cur); cur={start:s.start,end:s.end,texts:[s.text]}; }
+  });
+  if(cur) groups.push(cur);
+  return groups.map(g=>({ini:g.start, fin:g.end, texto:g.texts.join(' ')}));
+}
+// divide el guion en tramos de ~2-6s estimados a 2.5 palabras/seg, encadenados desde 0:00
+function estimarTramos(guion){
+  const frases=(guion.match(/[^.!?…\n]+[.!?…]?/g)||[guion]).map(s=>s.trim()).filter(Boolean);
+  const bloques=[];
+  frases.forEach(fr=>{
+    const palabras=fr.split(/\s+/).filter(Boolean);
+    let i=0;
+    while(i<palabras.length){
+      let tomar=palabras.slice(i,i+13); // ~13 palabras ≈ 5.2s a 2.5 pal/seg
+      // si queda un resto muy chico al final de la frase, lo pega al bloque anterior
+      if(palabras.length-i<=17 && palabras.length-i>13){ tomar=palabras.slice(i); }
+      bloques.push(tomar.join(' '));
+      i+=tomar.length;
+    }
+  });
+  // fusiona bloques demasiado cortos (<5 palabras) con el anterior para no generar tramos de <2s
+  const fusion=[];
+  bloques.forEach(b=>{
+    const nPal=b.split(/\s+/).length;
+    if(fusion.length && nPal<5){ fusion[fusion.length-1]+=' '+b; }
+    else fusion.push(b);
+  });
+  let cursor=0;
+  return fusion.map(texto=>{
+    const nPal=texto.split(/\s+/).filter(Boolean).length;
+    let seg=Math.round(nPal/2.5); seg=Math.max(2,Math.min(6,seg));
+    const ini=cursor, fin=cursor+seg*1000;
+    cursor=fin;
+    return {ini,fin,texto};
+  });
+}
+const ESTILO_STICK_FALLBACK = 'highly expressive stick-figure character with exaggerated emotive body language and clear facial expression, dynamic cinematic pose, thick clean black outlines, semi-flat modern vector illustration with cel-shading, moody cinematic color palette, dramatic contextual background, cinematic lighting, film-noir psychological thriller mood, no watermark, 16:9 horizontal cinematic';
+
 async function generarImagenes(usarSrt){
   const out=$('#outImg'), srt=($('#srt').value||'').trim();
   if(!GUION){ out.className='out show'; out.innerHTML='<div class="err">Primero generá el guion.</div>'; return; }
   if(usarSrt && !srt){ out.className='out show'; out.innerHTML='<div class="err">Pegá el SRT para usar tiempos exactos.</div>'; return; }
   if(!getKeys().length){ out.className='out show'; out.innerHTML='<div class="err">Pegá tu clave de Gemini.</div>'; return; }
   const btn = usarSrt?$('#btnSrt'):$('#btnEst'), otro = usarSrt?$('#btnEst'):$('#btnSrt');
-  const txtBtn=btn.innerHTML; btn.disabled=true; otro.disabled=true; btn.innerHTML='<span class="spin"></span>Generando…';
-  out.className='out show'; out.innerHTML='<div class="loading">Armando el lote completo de prompts y tiempos… puede tardar bastante si el guion es largo.</div>';
+  const txtBtn=btn.innerHTML; btn.disabled=true; otro.disabled=true;
+  out.className='out show';
 
-  const paso = usarSrt
-    ? `Ejecutá AHORA el PASO 4 (SINCRONIA EXACTA CON SRT) usando este SRT real del audio:\n\n${srt}`
-    : `Ejecutá AHORA el PASO 3 (IMAGENES + LISTA PARA RENOMBRAR) usando este GUION:\n\n${GUION}`;
+  // 1) SEGMENTACIÓN EXACTA calculada en JS (no depende de la IA) — esto GARANTIZA que prompts = tiempos
+  let tramos;
+  try{
+    tramos = usarSrt ? agruparSRT(parseSRT(srt)) : estimarTramos(GUION);
+  }catch(e){
+    out.innerHTML='<div class="err">No se pudo leer el '+(usarSrt?'SRT':'guion')+'. Revisá el formato.</div>';
+    btn.disabled=false; otro.disabled=false; btn.innerHTML=txtBtn; return;
+  }
+  if(!tramos.length){
+    out.innerHTML='<div class="err">No se detectaron tramos. '+(usarSrt?'Revisá que el SRT tenga el formato 00:00:00,000 --> 00:00:00,000.':'El guion está vacío.')+'</div>';
+    btn.disabled=false; otro.disabled=false; btn.innerHTML=txtBtn; return;
+  }
+  const N=tramos.length;
+  const tiemposTxt = tramos.map((t,i)=>(i+1)+'= '+msToMMSS(t.ini)+' a '+msToMMSS(t.fin)).join('\n');
 
-  const prompt = `${BOT.prompt}
+  // 2) Pedirle a Gemini SOLO los prompts (uno por tramo YA definido), en lotes para no perder precisión con guiones largos
+  const LOTE=35;
+  const est=usarSrt?null:null; // estilo ya está embebido en BOT.prompt
+  const idiomaSel=idiomaTxt();
+  let prompts=new Array(N).fill('');
+  let fallas=0;
+
+  async function pedirLote(desde, hasta){
+    const sub=tramos.slice(desde,hasta);
+    const listado=sub.map((t,i)=>(desde+i+1)+'. '+t.texto).join('\n');
+    const prompt = `${BOT.prompt}
 
 ──────────────────────────────
-${paso}
+Ya tenés la lista EXACTA y DEFINITIVA de tramos del ${usarSrt?'audio (SRT real)':'guion'}, numerada del ${desde+1} al ${hasta}. NO agregues, NO quites, NO fusiones ni dividas tramos: son EXACTAMENTE estos, uno por línea:
 
-IDIOMA del texto dentro de las imágenes: ${idiomaTxt()}. Los prompts van en INGLÉS.
-Respetá el ESTILO FIJO completo en cada prompt, uno por línea, y que cada línea termine con "no watermark, 16:9 horizontal cinematic".
-Entregá TODOS los tramos, sin cortar ni resumir.
-En vez de bloques de código markdown, devolvé EXACTAMENTE este formato:
+${listado}
 
-=== PROMPTS ===
-(un prompt por línea)
+Generá EXACTAMENTE ${sub.length} prompts de imagen, uno por cada tramo de arriba EN EL MISMO ORDEN (el prompt 1 ilustra el tramo ${desde+1}, y así sucesivamente). Cada prompt en INGLÉS, en UNA SOLA LÍNEA continua, sin numerar, sin viñetas. Respetá el ESTILO FIJO completo del bot en cada prompt (tal como está definido en tus instrucciones), describiendo con detalle la acción/emoción/símbolo de ESE tramo puntual. Cualquier texto dentro de la imagen va en ${idiomaSel}. Cada línea TERMINA con: no watermark, 16:9 horizontal cinematic
 
-=== TIEMPOS ===
-(una línea por imagen con el formato N= m:ss a m:ss)
-
-Sin texto antes, entre ni después de los dos bloques.`;
+Devolvé SOLO las ${sub.length} líneas de prompts, nada más (sin encabezados, sin bloques de código, sin texto antes ni después).`;
+    const txt=await pedirGemini(prompt, 32768);
+    const clean=txt.replace(/```[a-z]*/gi,'').trim();
+    return clean.split('\n').map(l=>l.trim()).filter(Boolean);
+  }
 
   try{
-    const txt=await pedirGemini(prompt, 65536);
-    let prompts='', tiempos='';
-    const iT=txt.indexOf('=== TIEMPOS ===');
-    if(iT!==-1){
-      prompts=txt.slice(0,iT).replace(/^[\s\S]*?===\s*PROMPTS\s*===/,'').trim();
-      tiempos=txt.slice(iT+'=== TIEMPOS ==='.length).trim();
-    } else { prompts=txt.replace(/^[\s\S]*?===\s*PROMPTS\s*===/,'').trim(); }
-    prompts=prompts.replace(/```/g,'').trim(); tiempos=tiempos.replace(/```/g,'').trim();
-    const nP=prompts.split('\n').filter(l=>l.trim()).length, nT=tiempos.split('\n').filter(l=>l.trim()).length;
-    const aviso=(nP&&nT&&nP!==nT)?`<div class="warn">⚠️ Salieron ${nP} prompts y ${nT} tiempos (deberían coincidir). Regenerá si te desincroniza.</div>`:'';
-    out.innerHTML = aviso + `<div class="block p"><div class="bh">
-      <h3>🎨 Prompts de imagen <span class="cnt">· ${nP} prompts · ${usarSrt?'SRT real':'estimado'}</span></h3>
-      <button class="copybtn" onclick="copiarPre(this)">copiar</button></div><pre>${esc(prompts)}</pre></div>
-      <div class="block t"><div class="bh">
-      <h3>⏱️ Lista para renombrar <span class="cnt">· ${nT} tiempos</span></h3>
-      <button class="copybtn" onclick="copiarPre(this)">copiar</button></div><pre>${esc(tiempos)}</pre></div>`;
-    btn.disabled=false; otro.disabled=false; btn.innerHTML=txtBtn;
+    for(let d=0; d<N; d+=LOTE){
+      const h=Math.min(d+LOTE,N);
+      out.innerHTML='<div class="loading">Generando prompts '+(d+1)+'–'+h+' de '+N+'…</div>';
+      let lineas=[];
+      try{ lineas=await pedirLote(d,h); }catch(e){ lineas=[]; }
+      // si el lote no devolvió la cantidad exacta, reintentamos una vez
+      if(lineas.length!==(h-d)){
+        try{ lineas=await pedirLote(d,h); }catch(e){ /* seguimos con lo que haya */ }
+      }
+      for(let i=0;i<(h-d);i++){
+        if(lineas[i]){ prompts[d+i]=lineas[i]; }
+        else{
+          // red de seguridad: nunca dejamos un hueco, generamos un prompt básico coherente con el tramo
+          fallas++;
+          prompts[d+i]=`${ESTILO_STICK_FALLBACK}, illustrating: ${tramos[d+i].texto.replace(/"/g,"'").slice(0,180)}`;
+        }
+      }
+    }
   }catch(e){
-    out.innerHTML='<div class="err">'+esc(e.message||'Algo falló')+'</div>';
-    btn.disabled=false; otro.disabled=false; btn.innerHTML=txtBtn;
+    out.innerHTML='<div class="err">'+esc(e.message||'Algo falló generando los prompts')+'</div>';
+    btn.disabled=false; otro.disabled=false; btn.innerHTML=txtBtn; return;
   }
+
+  const promptsTxt = prompts.join('\n');
+  const avisoFallas = fallas ? `<div class="warn">⚠️ ${fallas} de ${N} prompts se completaron con una versión básica de respaldo (la IA no devolvió esa línea). Podés tocar «↻ Regenerar» para reintentar.</div>` : '';
+  out.innerHTML = avisoFallas + `<div class="hint"><b>✓ Sincronía garantizada:</b> ${N} prompts y ${N} tiempos, calculados exactos en tu navegador — no dependen de que la IA cuente bien.</div>
+    <div class="block p"><div class="bh">
+    <h3>🎨 Prompts de imagen <span class="cnt">· ${N} prompts · ${usarSrt?'SRT real':'estimado'}</span></h3>
+    <button class="copybtn" onclick="copiarPre(this)">copiar</button></div><pre>${esc(promptsTxt)}</pre></div>
+    <div class="block t"><div class="bh">
+    <h3>⏱️ Lista para renombrar <span class="cnt">· ${N} tiempos</span></h3>
+    <button class="copybtn" onclick="copiarPre(this)">copiar</button></div><pre>${esc(tiemposTxt)}</pre></div>
+    <button class="sec" onclick="generarImagenes(${usarSrt})">↻ Regenerar</button>`;
+  btn.disabled=false; otro.disabled=false; btn.innerHTML=txtBtn;
+  guardarProyectoActual();
 }
 
 function copiarPre(btn){
