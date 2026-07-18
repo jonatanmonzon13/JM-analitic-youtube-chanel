@@ -1553,9 +1553,270 @@
       "nombre": "Generador Viral 3D",
       "archivo": "viral3d.html",
       "img": "img/viral3d.jpg"
+    },
+    {
+      "id": "jesus",
+      "nombre": "Narraciones de Jesús",
+      "archivo": "jesus.html",
+      "img": "img/jesus.jpg"
     }
   ],
   "accesos": {
+    "diegoasalazarc70@gmail.com": [
+      "outliers",
+      "glam",
+      "frutas",
+      "novelas",
+      "analizador",
+      "mascotas",
+      "comida",
+      "zodiaco",
+      "animales",
+      "objetos",
+      "terror",
+      "fabulas",
+      "mitologia",
+      "parabolas",
+      "tentacion",
+      "autos",
+      "dinosaurios",
+      "robots",
+      "plantas",
+      "insectos",
+      "paises",
+      "profesiones",
+      "utiles",
+      "superheroes",
+      "proverbios",
+      "redencion",
+      "viajealma",
+      "cartas",
+      "buenasnoches",
+      "valores",
+      "datos",
+      "trabalenguas",
+      "monstruos",
+      "terrorurbano",
+      "reflexiones",
+      "datosmiedo",
+      "timelapse",
+      "timelapse2",
+      "timelapse3",
+      "podcast",
+      "podfitness",
+      "podmujeres",
+      "podfe",
+      "poddating",
+      "podnegocios",
+      "abuelo",
+      "ninogenio",
+      "atleta",
+      "entrevista",
+      "streetint",
+      "storytime",
+      "datoshablados",
+      "woodenhands",
+      "woodenhands2",
+      "xray",
+      "cocinaviral",
+      "narekart",
+      "venganza",
+      "asmrsatisfying",
+      "aifruit",
+      "surreal",
+      "miniaturas",
+      "animalessurreal",
+      "finanzas",
+      "techia",
+      "saludbienestar",
+      "negociosfaceless",
+      "reddit",
+      "truecrime",
+      "povcine",
+      "tiendashop",
+      "streetpro",
+      "criaturas",
+      "motivacion",
+      "procesos",
+      "historiacuriosa",
+      "fractura",
+      "explainer",
+      "montanarusa",
+      "mundovegetal",
+      "resinadiy",
+      "timelapseobra",
+      "dreamnostalgia",
+      "cartoonkids",
+      "rescateanimal",
+      "junglabunker",
+      "animecine",
+      "animereal",
+      "ghibli",
+      "claymation",
+      "retratopixar",
+      "legomundo",
+      "motioncomic",
+      "pixelart",
+      "cartoon2d",
+      "futbolepico",
+      "extremospov",
+      "animalesdeporte",
+      "combateepico",
+      "carreras",
+      "trailersfake",
+      "scifi",
+      "western",
+      "noir",
+      "epocahist",
+      "accionhollywood",
+      "cinemudo",
+      "romance",
+      "kdrama",
+      "telenovela",
+      "dramaepoca",
+      "quesi",
+      "criaturasmito",
+      "kaiju",
+      "natimposible",
+      "cosmos",
+      "futuro3000",
+      "postapoc",
+      "microcosmos",
+      "ugcreview",
+      "testimonios",
+      "noticiero",
+      "standup",
+      "videoclip",
+      "pasarela",
+      "lookbook",
+      "glowup",
+      "psicologia",
+      "estoicismo",
+      "ciencia",
+      "espacioedu",
+      "inventos",
+      "foodporn",
+      "mukbang",
+      "recetaspov",
+      "comidagigante",
+      "docunatura",
+      "oceano",
+      "dinosdoc",
+      "hadasoscuras",
+      "paranormalpov",
+      "leyendas",
+      "viajes",
+      "supercars",
+      "mansiones",
+      "brainrot",
+      "stickanim",
+      "nightvision",
+      "biomech",
+      "beachsaga",
+      "evolution",
+      "wildbbc",
+      "cinedirector",
+      "dormir",
+      "microsalud",
+      "whiteboard",
+      "squishmelt",
+      "asmrreveal",
+      "cuentoviral",
+      "canioninfantil",
+      "aprendojugando",
+      "animalitos",
+      "vehiculos",
+      "cuentohadas",
+      "emociones",
+      "modales",
+      "espacioninos",
+      "granja",
+      "adivinanzas",
+      "mascotashablan",
+      "audiolibro",
+      "leyendaslatam",
+      "diosesmundo",
+      "animalesvida",
+      "objetoshistoria",
+      "refranes",
+      "comidatipica",
+      "versus",
+      "trailerfalso",
+      "cuentosclasicos",
+      "reaccionanimales",
+      "dialogospareja",
+      "terrorpais",
+      "vidassantos",
+      "megafauna",
+      "accionepica",
+      "mundosfantasia",
+      "bibliakids",
+      "idiomaskids",
+      "yogakids",
+      "seguridadkids",
+      "habitoskids",
+      "naturalezakids",
+      "toursprop",
+      "quepasaria",
+      "comosehace",
+      "lineatiempo",
+      "records",
+      "porquehacemos",
+      "antesdespues",
+      "menurest",
+      "ariafootball",
+      "stickstories",
+      "milagrosjesus",
+      "despiece",
+      "sticknoir",
+      "sb_corazon",
+      "sb_poder",
+      "sb_feed",
+      "sb_culto",
+      "sb_crime",
+      "sb_fama",
+      "sb_marca",
+      "sb_espejo",
+      "sb_guru",
+      "sb_casino",
+      "sb_oficina",
+      "sb_bisturi",
+      "sb_viral",
+      "sb_consumo",
+      "sb_familia",
+      "sb_confesion",
+      "sb_dato",
+      "sb_wealth",
+      "sb_historia",
+      "sb_mito",
+      "sb_mente",
+      "sb_disciplina",
+      "sb_caso",
+      "sb_cosmos",
+      "sb_guerra",
+      "sb_cita",
+      "sb_habito",
+      "sb_paranormal",
+      "sb_founder",
+      "sb_salvaje",
+      "sb_lujo",
+      "sb_mundo",
+      "sb_juicio",
+      "sb_futuro",
+      "sb_idioma",
+      "sb_pantalla",
+      "sb_survivor",
+      "sb_longevidad",
+      "sb_estafa",
+      "sb_cerebro",
+      "sb_motor",
+      "sb_sabor",
+      "sb_arquitectura",
+      "sb_record",
+      "sb_cripto",
+      "viral3d",
+      "jesus"
+    ],
     "ruizgarza94@gmail.com": [
       "outliers",
       "glam",
@@ -1807,7 +2068,9 @@
       "sb_sabor",
       "sb_arquitectura",
       "sb_record",
-      "sb_cripto"
+      "sb_cripto",
+      "viral3d",
+      "jesus"
     ],
     "darioperezlindo77@gmail.com": [
       "outliers",
@@ -2060,7 +2323,9 @@
       "sb_sabor",
       "sb_arquitectura",
       "sb_record",
-      "sb_cripto"
+      "sb_cripto",
+      "viral3d",
+      "jesus"
     ],
     "edison.herrera.m@gmail.com": [
       "outliers",
@@ -2313,7 +2578,9 @@
       "sb_sabor",
       "sb_arquitectura",
       "sb_record",
-      "sb_cripto"
+      "sb_cripto",
+      "viral3d",
+      "jesus"
     ],
     "joxcimars2016@gmail.com": [
       "outliers",
@@ -2566,7 +2833,9 @@
       "sb_sabor",
       "sb_arquitectura",
       "sb_record",
-      "sb_cripto"
+      "sb_cripto",
+      "viral3d",
+      "jesus"
     ],
     "osmedyalexander@gmail.com": [
       "outliers",
@@ -2819,7 +3088,9 @@
       "sb_sabor",
       "sb_arquitectura",
       "sb_record",
-      "sb_cripto"
+      "sb_cripto",
+      "viral3d",
+      "jesus"
     ],
     "ayala.luis@correounivalle.edu.co": [
       "outliers",
@@ -3072,7 +3343,9 @@
       "sb_sabor",
       "sb_arquitectura",
       "sb_record",
-      "sb_cripto"
+      "sb_cripto",
+      "viral3d",
+      "jesus"
     ],
     "febreromonetiza10@gmail.com": [
       "outliers",
@@ -3325,7 +3598,9 @@
       "sb_sabor",
       "sb_arquitectura",
       "sb_record",
-      "sb_cripto"
+      "sb_cripto",
+      "viral3d",
+      "jesus"
     ],
     "creadordigital.82ia@gmail.com": [
       "outliers",
@@ -3578,7 +3853,9 @@
       "sb_sabor",
       "sb_arquitectura",
       "sb_record",
-      "sb_cripto"
+      "sb_cripto",
+      "viral3d",
+      "jesus"
     ],
     "jonatanmonzon1126@gmail.com": [
       "outliers",
@@ -3832,7 +4109,8 @@
       "sb_arquitectura",
       "sb_record",
       "sb_cripto",
-      "viral3d"
+      "viral3d",
+      "jesus"
     ],
     "venturajosee@gmail.com": [
       "outliers",
@@ -4085,7 +4363,9 @@
       "sb_sabor",
       "sb_arquitectura",
       "sb_record",
-      "sb_cripto"
+      "sb_cripto",
+      "viral3d",
+      "jesus"
     ],
     "valdesingrid258@gmail.com": [
       "outliers",
@@ -4338,7 +4618,9 @@
       "sb_sabor",
       "sb_arquitectura",
       "sb_record",
-      "sb_cripto"
+      "sb_cripto",
+      "viral3d",
+      "jesus"
     ],
     "edu53554@gmail.com": [
       "outliers",
@@ -4591,7 +4873,9 @@
       "sb_sabor",
       "sb_arquitectura",
       "sb_record",
-      "sb_cripto"
+      "sb_cripto",
+      "viral3d",
+      "jesus"
     ],
     "pomam7073@gmail.com": [
       "outliers",
@@ -4844,7 +5128,9 @@
       "sb_sabor",
       "sb_arquitectura",
       "sb_record",
-      "sb_cripto"
+      "sb_cripto",
+      "viral3d",
+      "jesus"
     ],
     "libertopiemoran@gmail.com": [
       "outliers",
@@ -5098,7 +5384,8 @@
       "sb_arquitectura",
       "sb_record",
       "sb_cripto",
-      "viral3d"
+      "viral3d",
+      "jesus"
     ],
     "alexandersamchez000000@gmail.com": [
       "outliers",
@@ -5351,7 +5638,9 @@
       "sb_sabor",
       "sb_arquitectura",
       "sb_record",
-      "sb_cripto"
+      "sb_cripto",
+      "viral3d",
+      "jesus"
     ],
     "damafelicali@gmail.com": [
       "outliers",
@@ -5604,7 +5893,9 @@
       "sb_sabor",
       "sb_arquitectura",
       "sb_record",
-      "sb_cripto"
+      "sb_cripto",
+      "viral3d",
+      "jesus"
     ],
     "andresportillo371@gmail.com": [
       "outliers",
@@ -5857,7 +6148,9 @@
       "sb_sabor",
       "sb_arquitectura",
       "sb_record",
-      "sb_cripto"
+      "sb_cripto",
+      "viral3d",
+      "jesus"
     ],
     "patchmx@gmail.com": [
       "outliers",
@@ -6110,7 +6403,9 @@
       "sb_sabor",
       "sb_arquitectura",
       "sb_record",
-      "sb_cripto"
+      "sb_cripto",
+      "viral3d",
+      "jesus"
     ],
     "miguelyfer1985@gmail.com": [
       "outliers",
@@ -6363,7 +6658,9 @@
       "sb_sabor",
       "sb_arquitectura",
       "sb_record",
-      "sb_cripto"
+      "sb_cripto",
+      "viral3d",
+      "jesus"
     ],
     "jjaassbb865@gmail.com": [
       "outliers",
@@ -6616,7 +6913,9 @@
       "sb_sabor",
       "sb_arquitectura",
       "sb_record",
-      "sb_cripto"
+      "sb_cripto",
+      "viral3d",
+      "jesus"
     ],
     "elolvis356@gmail.com": [
       "outliers",
@@ -6869,7 +7168,9 @@
       "sb_sabor",
       "sb_arquitectura",
       "sb_record",
-      "sb_cripto"
+      "sb_cripto",
+      "viral3d",
+      "jesus"
     ],
     "jeampier0100bt@gmail.com": [
       "outliers",
@@ -7122,7 +7423,9 @@
       "sb_sabor",
       "sb_arquitectura",
       "sb_record",
-      "sb_cripto"
+      "sb_cripto",
+      "viral3d",
+      "jesus"
     ],
     "maricuenta727@gmail.com": [
       "outliers",
@@ -7375,7 +7678,9 @@
       "sb_sabor",
       "sb_arquitectura",
       "sb_record",
-      "sb_cripto"
+      "sb_cripto",
+      "viral3d",
+      "jesus"
     ],
     "matiasmonzon1326@gmail.com": [
       "outliers",
@@ -7628,7 +7933,9 @@
       "sb_sabor",
       "sb_arquitectura",
       "sb_record",
-      "sb_cripto"
+      "sb_cripto",
+      "viral3d",
+      "jesus"
     ],
     "almareflexiva46@gmail.com": [
       "outliers",
@@ -7881,7 +8188,9 @@
       "sb_sabor",
       "sb_arquitectura",
       "sb_record",
-      "sb_cripto"
+      "sb_cripto",
+      "viral3d",
+      "jesus"
     ],
     "nichomedia3@gmail.com": [
       "outliers",
@@ -8134,7 +8443,9 @@
       "sb_sabor",
       "sb_arquitectura",
       "sb_record",
-      "sb_cripto"
+      "sb_cripto",
+      "viral3d",
+      "jesus"
     ]
   }
 }
