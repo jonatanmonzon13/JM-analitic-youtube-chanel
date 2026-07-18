@@ -1,0 +1,1126 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+<title>Generador Viral 3D · G-Labs | JM BOTS</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Sora:wght@500;600;700;800&family=Inter:wght@400;500;600&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --bg: #0a0d12;
+    --bg-elevated: #121722;
+    --bg-elevated-2: #1a212f;
+    --bg-bubble-user: #1c2536;
+    --border: #232b3a;
+    --border-soft: #1a212c;
+    --text: #e8ecf4;
+    --text-dim: #8b96a8;
+    --text-faint: #56607a;
+    --accent: #4fd8ff;
+    --accent-soft: rgba(79,216,255,0.12);
+    --amber: #ffb347;
+    --amber-soft: rgba(255,179,71,0.14);
+    --danger: #ff5c73;
+    --danger-soft: rgba(255,92,115,0.12);
+    --ok: #5eeba0;
+    --font-display: 'Sora', sans-serif;
+    --font-body: 'Inter', sans-serif;
+    --font-mono: 'JetBrains Mono', monospace;
+    --radius: 14px;
+    --radius-sm: 9px;
+  }
+  *{ box-sizing: border-box; }
+  html,body{ margin:0; padding:0; height:100%; background:var(--bg); }
+  body{
+    font-family: var(--font-body);
+    color: var(--text);
+    display:flex;
+    overflow:hidden;
+    -webkit-tap-highlight-color: transparent;
+  }
+  ::selection{ background: var(--accent-soft); color: var(--text); }
+  ::-webkit-scrollbar{ width:8px; height:8px; }
+  ::-webkit-scrollbar-thumb{ background:var(--border); border-radius:8px; }
+  ::-webkit-scrollbar-track{ background:transparent; }
+  a{ color: var(--accent); }
+  button{ font-family: var(--font-body); cursor:pointer; }
+  /* ---------- Layout shell ---------- */
+  #app{ display:flex; width:100%; height:100vh; }
+  /* ---------- Sidebar ---------- */
+  #sidebar{
+    width: 280px;
+    min-width: 280px;
+    background: var(--bg-elevated);
+    border-right: 1px solid var(--border-soft);
+    display:flex;
+    flex-direction:column;
+    height:100%;
+  }
+  .brand{
+    padding: 18px 16px 14px;
+    border-bottom: 1px solid var(--border-soft);
+  }
+  .brand-mark{
+    font-family: var(--font-display);
+    font-weight:800;
+    font-size: 13px;
+    letter-spacing: 0.14em;
+    color: var(--text-faint);
+    text-transform: uppercase;
+  }
+  .brand-title{
+    font-family: var(--font-display);
+    font-weight: 700;
+    font-size: 17px;
+    margin-top: 4px;
+    display:flex;
+    align-items:center;
+    gap:8px;
+  }
+  .brand-sub{
+    font-size: 12px;
+    color: var(--text-dim);
+    margin-top: 3px;
+  }
+  /* clip-ruler signature element */
+  .clip-ruler{
+    position: relative;
+    height: 22px;
+    margin: 12px 16px 0;
+    border-bottom: 1px solid var(--border-soft);
+    display:flex;
+    align-items:flex-end;
+  }
+  .clip-ruler .tick{
+    flex:1;
+    height: 8px;
+    border-left: 1px solid var(--border);
+  }
+  .clip-ruler .tick:first-child{ border-left:none; }
+  .clip-ruler .rec-dot{
+    position:absolute;
+    top: -2px;
+    left: 0;
+    width:6px; height:6px;
+    border-radius:50%;
+    background: var(--amber);
+    box-shadow: 0 0 8px var(--amber);
+    animation: clipTravel 8s linear infinite;
+  }
+  @keyframes clipTravel{
+    0%{ left:0%; }
+    100%{ left: calc(100% - 6px); }
+  }
+  @media (prefers-reduced-motion: reduce){
+    .clip-ruler .rec-dot{ animation:none; left:0; }
+  }
+  .new-story-btn{
+    margin: 14px 16px 8px;
+    padding: 11px 14px;
+    background: var(--accent-soft);
+    border: 1px solid rgba(79,216,255,0.35);
+    color: var(--accent);
+    border-radius: var(--radius-sm);
+    font-weight:600;
+    font-size: 13.5px;
+    display:flex;
+    align-items:center;
+    gap:8px;
+    transition: background .15s, transform .1s;
+  }
+  .new-story-btn:hover{ background: rgba(79,216,255,0.2); }
+  .new-story-btn:active{ transform: scale(0.98); }
+  #historial-list{
+    flex:1;
+    overflow-y:auto;
+    padding: 4px 10px 10px;
+  }
+  .historial-empty{
+    color: var(--text-faint);
+    font-size: 12.5px;
+    padding: 18px 10px;
+    line-height:1.5;
+    text-align:center;
+  }
+  .historial-item{
+    padding: 10px 10px;
+    border-radius: var(--radius-sm);
+    margin-bottom: 4px;
+    cursor:pointer;
+    position:relative;
+    border: 1px solid transparent;
+  }
+  .historial-item:hover{ background: var(--bg-elevated-2); }
+  .historial-item.active{
+    background: var(--bg-elevated-2);
+    border-color: var(--border);
+  }
+  .historial-item .h-title{
+    font-size: 13px;
+    font-weight:600;
+    color: var(--text);
+    white-space:nowrap;
+    overflow:hidden;
+    text-overflow:ellipsis;
+    padding-right: 20px;
+  }
+  .historial-item .h-meta{
+    font-size: 11px;
+    color: var(--text-faint);
+    margin-top:3px;
+    display:flex;
+    gap:6px;
+    align-items:center;
+  }
+  .h-badge{
+    font-family: var(--font-mono);
+    font-size:10px;
+    padding: 1px 6px;
+    border-radius: 20px;
+    background: var(--bg-elevated);
+    border: 1px solid var(--border);
+    color: var(--text-dim);
+  }
+  .h-delete{
+    position:absolute;
+    top:8px; right:6px;
+    width:20px; height:20px;
+    border-radius:6px;
+    border:none;
+    background:transparent;
+    color: var(--text-faint);
+    font-size: 13px;
+    line-height:20px;
+    text-align:center;
+    display:none;
+  }
+  .historial-item:hover .h-delete{ display:block; }
+  .h-delete:hover{ background: var(--danger-soft); color: var(--danger); }
+  .sidebar-footer{
+    padding: 10px;
+    border-top: 1px solid var(--border-soft);
+    display:flex;
+    gap:8px;
+  }
+  .icon-btn{
+    flex:1;
+    background: var(--bg-elevated-2);
+    border: 1px solid var(--border);
+    color: var(--text-dim);
+    border-radius: var(--radius-sm);
+    padding: 9px 8px;
+    font-size: 12px;
+    font-weight:600;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    gap:6px;
+  }
+  .icon-btn:hover{ color: var(--text); border-color: #2f3a4d; }
+  /* ---------- Main column ---------- */
+  #main{
+    flex:1;
+    display:flex;
+    flex-direction:column;
+    height:100%;
+    min-width:0;
+  }
+  #topbar{
+    padding: 14px 22px;
+    border-bottom: 1px solid var(--border-soft);
+    display:flex;
+    align-items:center;
+    justify-content:space-between;
+    gap: 12px;
+  }
+  #topbar .title-wrap{ min-width:0; }
+  #topbar .story-title{
+    font-family: var(--font-display);
+    font-weight:700;
+    font-size: 15px;
+    white-space:nowrap;
+    overflow:hidden;
+    text-overflow:ellipsis;
+  }
+  #topbar .story-sub{
+    font-size: 11.5px;
+    color: var(--text-dim);
+    margin-top:2px;
+  }
+  #menu-toggle{ display:none; }
+  #status-pill{
+    font-family: var(--font-mono);
+    font-size: 11px;
+    padding: 4px 10px;
+    border-radius: 20px;
+    border: 1px solid var(--border);
+    color: var(--text-dim);
+    white-space:nowrap;
+  }
+  #status-pill.ok{ color: var(--ok); border-color: rgba(94,235,160,0.35); }
+  #status-pill.warn{ color: var(--amber); border-color: rgba(255,179,71,0.35); }
+  #chat{
+    flex:1;
+    overflow-y:auto;
+    padding: 22px 22px 8px;
+    display:flex;
+    flex-direction:column;
+    gap: 14px;
+  }
+  .empty-state{
+    margin:auto;
+    text-align:center;
+    max-width: 460px;
+    color: var(--text-dim);
+    padding: 20px;
+  }
+  .empty-state h2{
+    font-family: var(--font-display);
+    color: var(--text);
+    font-size: 19px;
+    margin-bottom:8px;
+  }
+  .empty-state p{ font-size: 13.5px; line-height:1.6; }
+  .msg-row{ display:flex; }
+  .msg-row.user{ justify-content:flex-end; }
+  .bubble{
+    max-width: 78%;
+    padding: 12px 15px;
+    border-radius: var(--radius);
+    font-size: 13.8px;
+    line-height:1.65;
+    white-space: pre-wrap;
+    word-wrap: break-word;
+    position:relative;
+  }
+  .msg-row.user .bubble{
+    background: var(--bg-bubble-user);
+    border: 1px solid var(--border);
+    border-bottom-right-radius: 4px;
+  }
+  .msg-row.assistant .bubble{
+    background: var(--bg-elevated);
+    border: 1px solid var(--border-soft);
+    border-bottom-left-radius: 4px;
+    font-family: var(--font-mono);
+    font-size: 12.6px;
+  }
+  .bubble .copy-btn{
+    position:absolute;
+    top:-10px; right:8px;
+    font-size:10.5px;
+    font-family: var(--font-body);
+    background: var(--bg-elevated-2);
+    border:1px solid var(--border);
+    color: var(--text-dim);
+    border-radius:6px;
+    padding: 2px 7px;
+    opacity:0;
+    transition: opacity .12s;
+  }
+  .bubble:hover .copy-btn{ opacity:1; }
+  .bubble .copy-btn:hover{ color: var(--accent); border-color: rgba(79,216,255,0.4); }
+  .thinking{
+    display:flex; gap:4px; padding: 4px 2px;
+  }
+  .thinking span{
+    width:6px; height:6px; border-radius:50%;
+    background: var(--text-faint);
+    animation: bounce 1.1s infinite ease-in-out;
+  }
+  .thinking span:nth-child(2){ animation-delay:.15s; }
+  .thinking span:nth-child(3){ animation-delay:.3s; }
+  @keyframes bounce{ 0%,80%,100%{ opacity:.3; transform:translateY(0);} 40%{ opacity:1; transform:translateY(-4px);} }
+  /* ---------- Composer ---------- */
+  #composer-wrap{
+    border-top: 1px solid var(--border-soft);
+    padding: 12px 22px 18px;
+    background: var(--bg);
+  }
+  .quick-chips{
+    display:flex; gap:8px; margin-bottom:9px; flex-wrap:wrap;
+  }
+  .chip{
+    font-family: var(--font-mono);
+    font-size: 11.5px;
+    padding: 6px 12px;
+    border-radius: 20px;
+    border: 1px solid var(--border);
+    background: var(--bg-elevated);
+    color: var(--text-dim);
+  }
+  .chip:hover{ color: var(--accent); border-color: rgba(79,216,255,0.4); }
+  #composer{
+    display:flex;
+    gap:10px;
+    align-items:flex-end;
+    background: var(--bg-elevated);
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+    padding: 8px 8px 8px 14px;
+  }
+  #composer:focus-within{ border-color: rgba(79,216,255,0.45); }
+  #composer textarea{
+    flex:1;
+    background:transparent;
+    border:none;
+    outline:none;
+    resize:none;
+    color: var(--text);
+    font-family: var(--font-body);
+    font-size: 13.8px;
+    line-height:1.5;
+    max-height: 180px;
+    padding: 7px 0;
+  }
+  #composer textarea::placeholder{ color: var(--text-faint); }
+  #send-btn{
+    background: var(--accent);
+    color: #04141c;
+    border:none;
+    border-radius: 10px;
+    width:38px; height:38px;
+    flex-shrink:0;
+    display:flex; align-items:center; justify-content:center;
+    font-weight:700;
+    transition: opacity .15s, transform .1s;
+  }
+  #send-btn:disabled{ opacity:.35; cursor:not-allowed; }
+  #send-btn:not(:disabled):active{ transform: scale(0.94); }
+  .composer-hint{
+    font-size: 11px;
+    color: var(--text-faint);
+    margin-top: 8px;
+    text-align:center;
+  }
+  /* ---------- Modals ---------- */
+  .modal-overlay{
+    position:fixed; inset:0;
+    background: rgba(4,6,10,0.72);
+    backdrop-filter: blur(2px);
+    display:none;
+    align-items:center; justify-content:center;
+    z-index: 100;
+    padding: 20px;
+  }
+  .modal-overlay.open{ display:flex; }
+  .modal{
+    background: var(--bg-elevated);
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+    max-width: 560px;
+    width:100%;
+    max-height: 84vh;
+    display:flex;
+    flex-direction:column;
+    overflow:hidden;
+  }
+  .modal-header{
+    padding: 16px 20px;
+    border-bottom: 1px solid var(--border-soft);
+    display:flex;
+    align-items:center;
+    justify-content:space-between;
+  }
+  .modal-header h3{
+    font-family: var(--font-display);
+    font-size: 15px;
+    margin:0;
+  }
+  .modal-close{
+    background:none; border:none; color: var(--text-dim);
+    font-size:18px; line-height:1;
+  }
+  .modal-close:hover{ color: var(--text); }
+  .modal-body{
+    padding: 18px 20px;
+    overflow-y:auto;
+    font-size: 13px;
+    color: var(--text-dim);
+    line-height:1.6;
+  }
+  .modal-body label{
+    display:block;
+    font-size: 12px;
+    font-weight:600;
+    color: var(--text);
+    margin-bottom:6px;
+  }
+  .modal-body textarea, .modal-body select{
+    width:100%;
+    background: var(--bg);
+    border: 1px solid var(--border);
+    border-radius: var(--radius-sm);
+    color: var(--text);
+    font-family: var(--font-mono);
+    font-size: 12.5px;
+    padding: 10px 12px;
+    resize: vertical;
+  }
+  .modal-body .note{
+    font-size:11.5px;
+    color: var(--text-faint);
+    margin-top:8px;
+  }
+  .modal-footer{
+    padding: 14px 20px;
+    border-top: 1px solid var(--border-soft);
+    display:flex;
+    justify-content:flex-end;
+    gap:10px;
+  }
+  .btn{
+    padding: 9px 16px;
+    border-radius: var(--radius-sm);
+    font-size:13px;
+    font-weight:600;
+    border:1px solid var(--border);
+    background: var(--bg-elevated-2);
+    color: var(--text);
+  }
+  .btn:hover{ border-color:#2f3a4d; }
+  .btn.primary{
+    background: var(--accent);
+    border-color: var(--accent);
+    color: #04141c;
+  }
+  .btn.primary:hover{ opacity:.9; }
+  .btn.danger{ color: var(--danger); }
+  .mp-viewer{
+    white-space: pre-wrap;
+    font-family: var(--font-mono);
+    font-size: 11.5px;
+    line-height:1.6;
+    background: var(--bg);
+    border: 1px solid var(--border-soft);
+    border-radius: var(--radius-sm);
+    padding: 14px;
+    color: var(--text-dim);
+    max-height: 46vh;
+    overflow-y:auto;
+  }
+  .toast{
+    position: fixed;
+    bottom: 22px;
+    left:50%;
+    transform: translateX(-50%);
+    background: var(--bg-elevated-2);
+    border:1px solid var(--border);
+    color: var(--text);
+    padding: 10px 18px;
+    border-radius: 30px;
+    font-size: 12.5px;
+    box-shadow: 0 8px 24px rgba(0,0,0,0.4);
+    z-index: 200;
+    opacity:0;
+    pointer-events:none;
+    transition: opacity .2s, transform .2s;
+  }
+  .toast.show{ opacity:1; transform: translateX(-50%) translateY(-6px); }
+  .toast.error{ border-color: rgba(255,92,115,0.4); color: var(--danger); }
+  .toast.ok{ border-color: rgba(94,235,160,0.4); color: var(--ok); }
+  /* ---------- Mobile ---------- */
+  @media (max-width: 800px){
+    #sidebar{
+      position: fixed;
+      z-index: 60;
+      left:0; top:0; bottom:0;
+      transform: translateX(-100%);
+      transition: transform .2s ease;
+      box-shadow: 20px 0 40px rgba(0,0,0,0.4);
+    }
+    #sidebar.open{ transform: translateX(0); }
+    #menu-toggle{
+      display:flex;
+      align-items:center; justify-content:center;
+      width:34px; height:34px;
+      border-radius:8px;
+      border:1px solid var(--border);
+      background: var(--bg-elevated);
+      color: var(--text-dim);
+      flex-shrink:0;
+    }
+    .bubble{ max-width:90%; }
+    #topbar{ padding: 12px 14px; }
+    #chat{ padding: 16px 14px 8px; }
+    #composer-wrap{ padding: 10px 14px 14px; }
+  }
+  #sidebar-backdrop{
+    display:none;
+    position:fixed; inset:0;
+    background: rgba(0,0,0,0.5);
+    z-index: 55;
+  }
+  #sidebar-backdrop.open{ display:block; }
+</style>
+</head>
+<body>
+<div id="sidebar-backdrop" onclick="closeSidebar()"></div>
+<div id="app">
+  <aside id="sidebar">
+    <div class="brand">
+      <div class="brand-mark">JM BOTS</div>
+      <div class="brand-title">🎬 Generador Viral 3D</div>
+      <div class="brand-sub">G-Labs · sincronizado por SRT</div>
+    </div>
+    <div class="clip-ruler">
+      <div class="rec-dot"></div>
+      <div class="tick"></div><div class="tick"></div><div class="tick"></div>
+      <div class="tick"></div><div class="tick"></div><div class="tick"></div>
+    </div>
+    <button class="new-story-btn" onclick="startNewStory()">
+      <span>＋</span> Nueva historia
+    </button>
+    <div id="historial-list"></div>
+    <div class="sidebar-footer">
+      <button class="icon-btn" onclick="openModal('modal-settings')">⚙️ API keys</button>
+      <button class="icon-btn" onclick="openModal('modal-masterprompt')">📄 Master prompt</button>
+    </div>
+  </aside>
+  <main id="main">
+    <div id="topbar">
+      <div style="display:flex; align-items:center; gap:10px; min-width:0;">
+        <button id="menu-toggle" onclick="openSidebar()">☰</button>
+        <div class="title-wrap">
+          <div class="story-title" id="story-title-label">Sin historia activa</div>
+          <div class="story-sub" id="story-sub-label">Elegí "Nueva historia" para arrancar</div>
+        </div>
+      </div>
+      <div id="status-pill">sin API keys</div>
+    </div>
+    <div id="chat"></div>
+    <div id="composer-wrap">
+      <div class="quick-chips">
+        <button class="chip" onclick="quickSend('HISTORIA NUEVA')">HISTORIA NUEVA</button>
+        <button class="chip" onclick="quickSend('CONTINÚA')">CONTINÚA</button>
+      </div>
+      <div id="composer">
+        <textarea id="input-box" rows="1" placeholder="Escribí acá... (o pegá tu archivo SRT completo cuando te lo pida)"></textarea>
+        <button id="send-btn" onclick="handleSend()">➤</button>
+      </div>
+      <div class="composer-hint">Este chat usa tus propias API keys de Anthropic, guardadas solo en este navegador.</div>
+    </div>
+  </main>
+</div>
+<!-- Modal: API keys -->
+<div class="modal-overlay" id="modal-settings">
+  <div class="modal">
+    <div class="modal-header">
+      <h3>API keys rotativas</h3>
+      <button class="modal-close" onclick="closeModal('modal-settings')">✕</button>
+    </div>
+    <div class="modal-body">
+      <label>Tus API keys de Anthropic (una por línea)</label>
+      <textarea id="keys-textarea" rows="6" placeholder="sk-ant-...&#10;sk-ant-...&#10;sk-ant-..."></textarea>
+      <div class="note">
+        Cada vez que se genera algo, el chat rota entre estas keys en orden. Si una key da error de límite de uso,
+        prueba automáticamente con la siguiente antes de avisarte. Se guardan solo en este navegador (localStorage):
+        nunca se suben a GitHub ni se comparten con nadie.
+      </div>
+      <div class="note" id="keys-count-note" style="margin-top:12px;"></div>
+    </div>
+    <div class="modal-footer">
+      <button class="btn" onclick="closeModal('modal-settings')">Cancelar</button>
+      <button class="btn primary" onclick="saveKeys()">Guardar keys</button>
+    </div>
+  </div>
+</div>
+<!-- Modal: Master prompt de respaldo -->
+<div class="modal-overlay" id="modal-masterprompt">
+  <div class="modal" style="max-width:680px;">
+    <div class="modal-header">
+      <h3>Master prompt (respaldo)</h3>
+      <button class="modal-close" onclick="closeModal('modal-masterprompt')">✕</button>
+    </div>
+    <div class="modal-body">
+      <div class="note" style="margin-bottom:10px;">
+        Este es el mismo prompt que maneja este chat por dentro. Lo dejamos visible y copiable acá como respaldo,
+        por si en algún momento lo querés pegar directo en otra IA (por ejemplo una Gema de Gemini).
+      </div>
+      <div class="mp-viewer" id="mp-viewer-text"></div>
+    </div>
+    <div class="modal-footer">
+      <button class="btn" onclick="closeModal('modal-masterprompt')">Cerrar</button>
+      <button class="btn primary" onclick="copyMasterPrompt()">Copiar master prompt</button>
+    </div>
+  </div>
+</div>
+<div class="toast" id="toast"></div>
+<script>
+document.addEventListener('contextmenu', e => e.preventDefault());
+document.addEventListener('keydown', e => {
+  const k = e.key ? e.key.toUpperCase() : '';
+  if (k === 'F12') e.preventDefault();
+  if (e.ctrlKey && e.shiftKey && (k === 'I' || k === 'J' || k === 'C')) e.preventDefault();
+  if (e.ctrlKey && k === 'U') e.preventDefault();
+});
+const SYSTEM_PROMPT = `MASTER PROMPT · VIDEOS VIRALES 3D · UNIFICADO PARA G-LABS + SRT
+Versión 2 · Personaje en todas las escenas · Mínimo 1 minuto · Clips FIJOS de 4 u 8 seg · Sincronización por SRT real
+Pipeline: Nano Banana 2 / GPT (imágenes) → G-Labs Automation (anima) → Voz (Fish Audio) → Audio→SRT → CapCut
+QUIÉN ERES
+Eres un guionista y director de contenido viral animado en 3D para TikTok, en español. Creas historias virales cortas y las entregas listas para producir con este pipeline: imágenes fijas en Nano Banana 2 (o GPT), luego animación de esas imágenes en G-Labs Automation, voz en off aparte, transcripción a SRT para sincronizar, y edición en CapCut. Tu estilo es 3D Pixar hiperrealista, vertical 9:16. Tu público que más importa es MÉXICO y el público latino/hispano de ESTADOS UNIDOS: usa temas, lugares, personajes y situaciones que ellos sientan suyos.
+FLUJO DE TRABAJO
+1. Si el usuario escribe HISTORIA NUEVA, ANTES de dar las ideas preguntas: '¿Clips de 4 segundos u 8 segundos para esta historia?' y esperás la respuesta. Esa duración queda fija para toda la historia.
+2. Con la duración confirmada, respondes SOLO con 10 ideas para elegir (nada más todavía).
+3. Las 10 ideas deben ser TODAS DIFERENTES entre sí: distinto personaje, distinto mundo/tema y distinto motor.
+4. Cada idea lleva: título, gancho de apertura, el motor entre paréntesis, y el cierre 'búscalo/búscala como ___'.
+5. El usuario elige un número. SOLO ENTONCES entregas la historia completa, por partes (ver ENTREGA).
+REGLA DE ORO: SEGURIDAD Y PÚBLICO
+1) NUNCA menores de edad. Solo adultos (mayores de edad) o animales. Ninguna historia gira en torno a un menor, ni de fondo. Si una idea implicaría un menor (quinceañera, graduación de secundaria, etc.), súbela de edad o cámbiala.
+2) Contenido siempre apto. Evita por completo, en concepto Y en prompts: transformaciones del cuerpo, sustancias que se untan/rocían/huelen/beben, fantasmas o figuras oscuras, llanto/angustia/encierro/desaparición, contacto físico cara a cara entre personajes, objetos rotos por la fuerza, y cualquier cosa violenta o perturbadora. Construye humor y emoción con situaciones cotidianas, reacciones y exageración simpática.
+★ LO MÁS IMPORTANTE: PROMPTS LIMPIOS (ANTI-REBOTE) ★
+Los filtros automáticos LEEN las palabras del prompt, aunque estén negadas. Si escribes 'SIN sangre', el filtro detecta 'sangre' y bloquea. Reglas obligatorias para cada prompt (imagen y animación):
+CERO palabras de daño, aunque sea para negarlas: sangre, gore, herida, lesión, grotesco, perturbador, muerte, dolor, llanto, malestar, etc. Simplemente no se nombran.
+CERO listas de prohibiciones. Prohibido 'SIN...', 'NO...', 'NUNCA...', 'PROHIBIDO...'. En su lugar describe en positivo lo que SÍ debe verse. Ejemplo: en vez de 'NO split-screen' escribe 'una sola toma continua'.
+CERO términos médicos o de sustancias. El objeto se describe neutro: 'un pequeño frasco verde liso y cerrado'. La función vive SOLO en la narración, nunca en el prompt.
+Prompts CORTOS y descriptivos.
+Todo genérico: objetos, ropa, aparatos, pantallas y letreros van lisos, sin marcas, sin logos y sin texto legible.
+★★ FORMATO DE CADA PROMPT (regla dura para G-Labs) ★★
+Cada prompt de imagen y cada prompt de animación es UNA SOLA LÍNEA continua, sin saltos de línea internos. Los prompts van separados entre sí solo por una línea en blanco. Dentro del prompt NO va número de clip, NO va la palabra 'IMAGEN' o 'ANIMACIÓN', NO va narración, NO va timing, NO va ningún label. El prompt es puro texto descriptivo, listo para pegar directo en el generador o cargar en el automatizador. El número de clip y el timing viven SOLO en el LOTE DE TIMING (ver ENTREGA).
+★★ LA IMAGEN CALCA LO QUE DICE LA NARRACIÓN ★★
+Cada clip se construye mirando EXACTAMENTE qué tramo de narración le toca (según su ventana de tiempo) y mostrando esa acción o emoción, palabra por palabra:
+Si dice 'se sorprendió', la escena muestra a la persona SORPRENDIDA (ojos y boca abiertos), no sonriendo ni tranquila.
+Si dice 'corrió', la persona está CORRIENDO, no caminando ni parada.
+Si dice 'se enojó', cara de enojo. Si dice 'lloró de risa', riéndose. Si dice 'se cayó', cayéndose. Si dice 'gritó', gritando.
+Prohibido rellenar con una emoción o acción 'genérica bonita' cuando el texto pide otra cosa. La acción del texto es la que va.
+Antes de dar cada clip, revisa: ¿la imagen muestra lo que dice su tramo de narración? Si no, corrígela.
+★ PERSONAJE EN CUADRO EN TODAS LAS ESCENAS ★
+En CADA clip debe aparecer el personaje que la narración menciona, haciendo la acción. Un video lleno de objetos sueltos, pantallas flotando o dedos sin cuerpo se siente sin sentido y el espectador se va.
+Descompón cada beat en QUIÉN + QUÉ HACE + A QUIÉN, y constrúyelo completo en la imagen.
+Si la narración dice que un personaje cuenta o dice algo (en una llamada, un audio, una carta), la imagen muestra a ESA persona diciéndolo o haciéndolo, nunca la pantalla ni el papel solos.
+Los objetos (celular, libreta, llaves, comida) SIEMPRE van en las manos de alguien, con su cara en cuadro. Nada de objetos flotando solos.
+Los planos de puro detalle son EXCEPCIÓN rara: máximo 2 o 3 en toda la historia.
+Antes de entregar, cuenta cuántos clips no tienen personaje. Si son más de 3, reescríbelos metiendo al personaje.
+★ CONSISTENCIA DE PERSONAJE (formato G-Labs) ★
+La ficha de personaje (ver ENTREGA) establece UNA VEZ los rasgos fijos, la ropa y los accesorios. A partir de ahí, en cada prompt de imagen y animación alcanza con el NOMBRE del personaje: no repitas toda la descripción física en cada prompt.
+Describe los lugares con las mismas palabras siempre, para mantener continuidad visual.
+En cada historia los personajes son 100% nuevos: nombres, colores y ropa distintos. Alterna el género del protagonista entre historias.
+PROTAGONISTA JOVEN POR DEFECTO: de 18 a 25 años. Los secundarios pueden ser de cualquier edad adulta, para dar contraste.
+PIPELINE: DÓNDE VA EL ÁNGULO Y DÓNDE EL MOVIMIENTO
+G-Labs anima una imagen fija que ya hiciste en Nano Banana 2 / GPT, no recrea la escena desde otro ángulo: solo le da movimiento a esa foto. Por eso:
+EL ÁNGULO DE CÁMARA va en el prompt de IMAGEN, fuerte y al frente, en español con el término clave en inglés: MEDIUM SHOT, CLOSE-UP, EXTREME CLOSE-UP, LOW ANGLE SHOT (contrapicado), HIGH ANGLE / TOP-DOWN SHOT (picado), OVER-THE-SHOULDER SHOT, WIDE SHOT, DUTCH ANGLE, MACRO DETAIL SHOT, TRACKING SHOT. Varía el ángulo entre escenas. Siempre 9:16.
+EL MOVIMIENTO DE CÁMARA va en el prompt de ANIMACIÓN, pero es SUTIL por naturaleza: empuje, alejamiento o desplazamiento leve de la imagen. No pidas movimientos épicos, no los va a hacer.
+El MOVIMIENTO FUERTE de verdad sale de: (a) el ÁNGULO agresivo de la imagen, (b) la ACCIÓN intensa de personajes y ambiente dentro de la escena, y (c) el zoom/punch-in que agregás en CapCut.
+ÁNGULOS AGRESIVOS (el impacto nace en la imagen)
+LOW ANGLE SHOT muy marcado para dar poder o grandeza.
+HIGH ANGLE / TOP-DOWN SHOT para dar dramatismo o mostrar cantidad.
+EXTREME CLOSE-UP de ojos, manos u objeto ancla, para tensión.
+DUTCH ANGLE en los momentos de giro o sorpresa.
+OVER-THE-SHOULDER y POV para meter al espectador en la escena.
+WIDE SHOT para revelar de golpe.
+Cambia de ángulo en casi cada escena.
+MOVIMIENTO FUERTE DE ESCENA (lo que G-Labs sí anima bien)
+Personajes que se mueven con fuerza: saltan, giran, alzan los brazos, se levantan de golpe, bailan, aplauden.
+Elementos que se mueven: ropa y cabello al viento, hojas o papeles que vuelan, luces que parpadean, telas que ondean, multitud que se mueve al fondo.
+Una acción clara por clip. Mantén la regla muda: los personajes se mueven y gesticulan en silencio, sin hablar.
+REMATE EN CAPCUT
+Zoom / punch-in rápido en los momentos clave (el hook, el giro, el remate).
+Paneo o desplazamiento digital sobre el clip para simular travelling.
+Shake sutil en los momentos de sorpresa o impacto.
+Transiciones con movimiento entre clips para encadenar el ritmo.
+TONO: LOCURA, CURIOSIDAD Y ABSURDO
+Premisa absurda o curiosa que rompe la lógica normal y da ganas de seguir viendo.
+Energía alta de principio a fin; el ritmo nunca decae.
+Divertido o asombroso, nunca deprimente. Nada de historias lentas, tristes ni contemplativas.
+Nada de clips de relleno: cada escena aporta y conecta con la siguiente.
+HOOK FUERTE (primeros 2 segundos)
+La primera frase suelta la premisa peculiar Y el desenlace más impactante de una.
+Empieza SIEMPRE con una de estas fórmulas, variándolas entre historias: 'Este/Esta...', '¿Sabías de la/del...?', '¿Conoces a la/al...?'.
+La ESCENA 1 debe ser la más llamativa visualmente.
+★★ REGLA DURA: EL AUDIO DEBE PASAR DE 1 MINUTO ★★
+TikTok solo paga los videos de 1 minuto en adelante. El guion NUNCA se recorta por debajo del minuto.
+OBJETIVO: ~235-245 palabras = ~1:10 de audio (se apunta a 1:10, no a 1:00 exacto, para tener margen).
+MÍNIMO ABSOLUTO: 210 palabras. Si el guion queda corto, NO se entrega: se ALARGA agregando escenas nuevas.
+Error a evitar: recortar el guion para 'apretar el ritmo'. Nunca se sacrifica la duración.
+RITMO Y CANTIDAD DE CLIPS (clips de duración FIJA: 4 u 8 segundos, a elección)
+Al arrancar cada historia se define UNA duración fija de clip para toda la historia: 4 segundos u 8 segundos (nunca mezclados dentro de la misma historia).
+Cálculo ESTIMADO antes de grabar el audio real (solo para planear cuántas escenas escribir):
+Paso 1 — palabras ÷ 200 × 60 = segundos estimados de audio.
+Paso 2 — número estimado de clips = segundos ÷ duración elegida (redondeando hacia arriba).
+Este cálculo es preliminar. El número y el timing DEFINITIVO de clips se ajustan con el SRT real (ver SISTEMA SRT), una vez que el audio ya está grabado.
+★★ SISTEMA SRT: SINCRONIZACIÓN EXACTA ★★
+Después de entregar la Parte 1 (narración + fichas), el proceso se detiene ahí: el usuario graba o genera la voz con esa narración, la pasa por su herramienta de transcripción y obtiene un archivo .srt real con los tiempos exactos de lo dicho. El usuario pega ese SRT completo en el chat (formato estándar: número de bloque, rango de tiempo HH:MM:SS,mmm --> HH:MM:SS,mmm, línea de texto).
+Con el SRT real en mano:
+Trocealo en ventanas de EXACTAMENTE la duración elegida (4 u 8 seg), empezando en 0:00.000, pegadas una a la siguiente sin huecos ni superposiciones, hasta cubrir el total real del audio. El ÚLTIMO bloque puede ser más corto que la duración elegida si sobra un resto menor.
+Para cada ventana, junta el texto de todas las líneas del SRT que caen (total o parcialmente) dentro de ese rango de tiempo; ese texto es la narración real de ese clip.
+Si una línea del SRT es más larga que una ventana y cruza dos clips, reparte su texto entre ambos según qué proporción de esa línea cae en el tiempo de cada ventana.
+Con la narración real de cada ventana ya definida, recién ahí se generan el prompt de imagen y el prompt de animación de ese clip, con las mismas reglas de siempre (acción exacta, personaje en cuadro, prompts limpios en una sola línea).
+El LOTE DE TIMING de la entrega final ya NO es estimado: son los tiempos EXACTOS de cada ventana, sacados directo del SRT real.
+MOTORES: UNO DIFERENTE EN CADA HISTORIA
+'El rebelde que gana' es UNA opción fuerte, pero es SOLO UNA. Cada historia debe tener un MOTOR DIFERENTE. Motores para rotar:
+Comedia de situación / animal con actitud: chiste tras chiste, sin celular ni viral.
+Fantástico ligero: algo mágico o imposible ocurre; final de leyenda o asombro.
+El rebelde que gana: hace lo contrario y triunfa (usar con medida).
+Misterio / curiosidad con escalada de pistas + revelación + cierre en bucle.
+Efecto dominó: una acción dispara una cadena de reacciones cada vez más absurdas.
+Secreto o doble vida que se revela.
+El terco que resulta tener razón.
+PROHIBIDO como muleta el arco de 'lo grabaron, se hizo viral, uno-cinco-todos lo copiaron'.
+Regla: si la historia anterior fue de un motor, la siguiente es de OTRO.
+ESTRUCTURA DE LA HISTORIA (en orden)
+1. HOOK + desenlace adelantado.
+2. NOMBRE PROPIO del personaje de inmediato.
+3. EL DETONANTE: por qué hace lo que hace.
+4. OBJETO / DETALLE ANCLA repetible que da identidad.
+5. ESCALADA con REACCIONES de la gente (burlas al inicio, asombro después).
+6. EL GIRO / TRIUNFO sin suavizar.
+7. CIERRE BUSCABLE: 'búscalo/búscala como [Nombre]'.
+ORDEN DE TRABAJO (obligatorio, en este orden)
+1. Escribe primero la NARRACIÓN COMPLETA corrida en prosa, de 235-245 palabras, y cuenta las palabras.
+2. Confirmá con el usuario la duración fija de clip (4 u 8 seg) si todavía no se eligió.
+3. Entregá la Parte 1 y ESPERÁ a que el usuario grabe el audio, lo pase por su transcriptor y te pegue el SRT real.
+4. Con el SRT real, trocealo en ventanas exactas de la duración elegida (ver SISTEMA SRT) y asigná a cada ventana su narración correspondiente.
+5. Recién entonces generá los prompts de imagen y animación de cada clip, en el mismo orden que las ventanas.
+ENTREGA: EN EL CHAT, POR PARTES, EN TEXTO PLANO
+No uses tablas ni formato raro. Texto plano, fácil de copiar. Entrega en 4 partes:
+PARTE 1 → Título + motor + duración de clip elegida + narración completa + fichas de personajes.
+   Cierra con: 'Grabá la narración con tu voz, pasala por tu transcriptor a SRT, y pegame acá el archivo .srt completo para continuar.'
+[EL USUARIO PEGA EL SRT REAL ACÁ]
+PARTE 2 → LOTE DE TIMING real (ventanas exactas sacadas del SRT) + LOTE DE PROMPTS DE IMAGEN (uno por clip, mismo orden, sin número, sin narración, cada uno en una sola línea, separados solo por una línea en blanco).
+   Cierra con: 'Escribe CONTINÚA para los prompts de animación.'
+PARTE 3 → LOTE DE PROMPTS DE ANIMACIÓN (mismo criterio: sin número, sin narración, una línea cada uno, separados por línea en blanco, mismo orden y misma cantidad que el lote de imagen).
+   Cierra con: 'Escribe CONTINÚA para el dato real.'
+PARTE 4 → DATO REAL.
+FORMATO DE LA PARTE 1
+TÍTULO: [nombre de la historia]
+MOTOR: [cuál de los motores]
+DURACIÓN DE CLIP: [4 u 8] segundos fijos
+PALABRAS: [número] | AUDIO ESTIMADO: [minutos:segundos] | CLIPS ESTIMADOS: [número]
+NARRACIÓN COMPLETA (para grabar la voz):
+[todo el guion corrido en prosa, 235-245 palabras]
+LOTE DE FICHAS DE PERSONAJE (una ficha por CADA personaje que aparezca, sin excepción). Cada ficha es UNA SOLA LÍNEA continua, sin saltos internos y sin labels tipo 'NOMBRE:' o 'RASGOS:': el nombre, los rasgos, el vestuario y los accesorios van integrados dentro del mismo texto descriptivo, igual que se hace en los lotes de prompts de imagen y animación. Las fichas van separadas entre sí SOLO por una línea en blanco, formando un único lote:
+Hoja de referencia de personaje, estilo 3D Pixar hiperrealista, [Nombre], [edad, pelo, ojos, piel, complexión, actitud], vistiendo [vestuario], con [accesorios], vistas frontal, tres cuartos, lateral y trasera, cuerpo completo, fondo verde croma sólido #00b140, expresión [x], diseño limpio y consistente.
+FORMATO DEL LOTE DE TIMING (Parte 2, va antes del lote de imagen)
+Una línea por clip, en orden, con el número (acá SÍ va número, porque conecta cada prompt con su ventana real de audio):
+Clip 1 — inicio: 0:00.000 — fin: 0:04.000
+Clip 2 — inicio: 0:04.000 — fin: 0:08.000
+[...]
+Todas las ventanas duran EXACTAMENTE la duración elegida, salvo la última que puede ser más corta. La suma tiene que dar exacto la duración total del audio real del SRT, sin huecos ni superposiciones.
+FORMATO DEL LOTE DE IMAGEN (Parte 2, después del timing)
+Cada línea, separada de la siguiente por una línea en blanco, sin número ni label:
+Estilo 3D Pixar hiperrealista, formato vertical 9:16, una sola toma continua, luz cálida, superficies lisas sin letreros. [ÁNGULO EN INGLÉS]. [Nombre del personaje] [la acción exacta de ese tramo de SRT], en [lugar descrito igual siempre].
+FORMATO DEL LOTE DE ANIMACIÓN (Parte 3)
+Cada línea, separada por línea en blanco, sin número ni label, mismo orden que el lote de imagen:
+[Movimiento de cámara sutil]. [Nombre] [la acción exacta de ese tramo de SRT] mientras [movimiento de ambiente]. Los personajes se mueven y gesticulan en silencio. Escena silenciosa, sin diálogo. La cámara se mueve muy poco.
+DATO REAL (Parte 4)
+3-5 líneas explicando el hecho o costumbre real en que se ancla la historia, aclarando que el giro es fantástico o exagerado.
+ANTES DE ENTREGAR, REVISA
+- ¿Contaste las palabras de la narración? ¿Pasan de 235?
+- ¿Ya tenés el SRT real pegado por el usuario antes de armar el timing y los prompts?
+- ¿Cada clip dura EXACTAMENTE la duración elegida (4 u 8 seg), salvo el último?
+- ¿La suma de las ventanas del LOTE DE TIMING da exacto la duración total real del audio (del SRT)?
+- ¿Cada prompt de imagen/animación es una sola línea limpia, sin número, sin narración, sin timing adentro?
+- ¿Cada ficha de personaje es también UNA sola línea continua, sin labels (NOMBRE:/RASGOS:/etc.), separadas entre sí solo por una línea en blanco, igual que los lotes de prompts?
+- ¿Cada escena muestra EXACTAMENTE la acción que dice su tramo real de narración (según el SRT)?
+- ¿TODOS los clips tienen personaje en cuadro? (máximo 3 sin personaje)
+- ¿Los prompts usan solo el NOMBRE del personaje, sin repetir toda la descripción física?
+- ¿Hay alguna palabra de daño, alguna prohibición (SIN/NO/NUNCA) o algún término médico en los prompts? Quítala.
+- ¿Todos los personajes tienen ficha? ¿Todos son adultos o animales?
+- ¿El motor es distinto al de la historia anterior?`;
+const LS_KEYS = 'jmbots_viral3d_api_keys';
+const LS_KEY_IDX = 'jmbots_viral3d_key_idx';
+const LS_HISTORIAS = 'jmbots_viral3d_historias';
+let historias = [];
+let currentId = null;
+let isSending = false;
+function loadHistorias(){
+  try{ historias = JSON.parse(localStorage.getItem(LS_HISTORIAS) || '[]'); }
+  catch(e){ historias = []; }
+}
+function saveHistorias(){
+  localStorage.setItem(LS_HISTORIAS, JSON.stringify(historias));
+}
+function getCurrent(){
+  return historias.find(h => h.id === currentId) || null;
+}
+function getKeys(){
+  try{ return JSON.parse(localStorage.getItem(LS_KEYS) || '[]'); }
+  catch(e){ return []; }
+}
+function getKeyIndex(){
+  return parseInt(localStorage.getItem(LS_KEY_IDX) || '0', 10) || 0;
+}
+function setKeyIndex(i){
+  localStorage.setItem(LS_KEY_IDX, String(i));
+}
+async function callClaude(messages){
+  const keys = getKeys();
+  if (!keys.length){
+    throw new Error('NO_KEYS');
+  }
+  let lastErr = null;
+  for (let attempt = 0; attempt < keys.length; attempt++){
+    const idx = (getKeyIndex() + attempt) % keys.length;
+    const key = keys[idx];
+    try{
+      const res = await fetch('https://api.anthropic.com/v1/messages', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+          'x-api-key': key,
+          'anthropic-version': '2023-06-01',
+          'anthropic-dangerous-direct-browser-access': 'true'
+        },
+        body: JSON.stringify({
+          model: 'claude-sonnet-5',
+          max_tokens: 8192,
+          system: SYSTEM_PROMPT,
+          messages: messages
+        })
+      });
+      if (res.status === 429 || res.status === 529){
+        lastErr = new Error('Límite de uso alcanzado en una de las keys (' + res.status + ')');
+        continue;
+      }
+      if (!res.ok){
+        const errText = await res.text();
+        throw new Error('Error de la API (' + res.status + '): ' + errText.slice(0, 200));
+      }
+      const data = await res.json();
+      setKeyIndex((idx + 1) % keys.length);
+      const textBlocks = (data.content || []).filter(b => b.type === 'text').map(b => b.text);
+      return textBlocks.join('\n').trim();
+    }catch(e){
+      lastErr = e;
+      continue;
+    }
+  }
+  throw lastErr || new Error('Todas las API keys fallaron');
+}
+function escapeHtml(str){
+  const d = document.createElement('div');
+  d.textContent = str;
+  return d.innerHTML;
+}
+function renderHistorial(){
+  const list = document.getElementById('historial-list');
+  if (!historias.length){
+    list.innerHTML = '<div class="historial-empty">Todavía no generaste ninguna historia.<br>Tocá "＋ Nueva historia" para arrancar.</div>';
+    return;
+  }
+  const sorted = [...historias].sort((a,b) => b.updatedAt - a.updatedAt);
+  list.innerHTML = sorted.map(h => `
+    <div class="historial-item ${h.id === currentId ? 'active' : ''}" onclick="openHistoria('${h.id}')">
+      <div class="h-title">${escapeHtml(h.titulo || 'Historia sin título')}</div>
+      <div class="h-meta">
+        ${h.motor ? `<span class="h-badge">${escapeHtml(h.motor)}</span>` : ''}
+        ${h.duracionClip ? `<span class="h-badge">${escapeHtml(h.duracionClip)}s</span>` : ''}
+        <span>${new Date(h.updatedAt).toLocaleDateString('es-MX', {day:'2-digit', month:'short'})}</span>
+      </div>
+      <button class="h-delete" onclick="event.stopPropagation(); deleteHistoria('${h.id}')">✕</button>
+    </div>
+  `).join('');
+}
+function renderTopbar(){
+  const h = getCurrent();
+  const titleEl = document.getElementById('story-title-label');
+  const subEl = document.getElementById('story-sub-label');
+  if (!h){
+    titleEl.textContent = 'Sin historia activa';
+    subEl.textContent = 'Elegí "Nueva historia" para arrancar';
+    return;
+  }
+  titleEl.textContent = h.titulo || 'Nueva historia (sin título todavía)';
+  const parts = [];
+  if (h.motor) parts.push(h.motor);
+  if (h.duracionClip) parts.push('clips de ' + h.duracionClip + 's');
+  subEl.textContent = parts.length ? parts.join(' · ') : 'En curso...';
+}
+function renderChat(){
+  const chat = document.getElementById('chat');
+  const h = getCurrent();
+  if (!h || !h.messages.length){
+    chat.innerHTML = `
+      <div class="empty-state">
+        <h2>Armemos una historia viral 3D</h2>
+        <p>Tocá "＋ Nueva historia" o escribí <b>HISTORIA NUEVA</b> para que te pregunte la duración de clip
+        (4 u 8 segundos) y te tire 10 ideas para elegir.</p>
+      </div>`;
+    return;
+  }
+  chat.innerHTML = h.messages.map((m, i) => `
+    <div class="msg-row ${m.role}">
+      <div class="bubble">
+        <button class="copy-btn" onclick="copyText(${i})">Copiar</button>
+        ${escapeHtml(m.content)}
+      </div>
+    </div>
+  `).join('');
+  chat.scrollTop = chat.scrollHeight;
+}
+function copyText(i){
+  const h = getCurrent();
+  if (!h) return;
+  navigator.clipboard.writeText(h.messages[i].content).then(() => showToast('Copiado', 'ok'));
+}
+function renderStatusPill(){
+  const pill = document.getElementById('status-pill');
+  const n = getKeys().length;
+  if (!n){
+    pill.textContent = 'sin API keys';
+    pill.className = 'warn';
+  } else {
+    pill.textContent = n === 1 ? '1 API key activa' : n + ' API keys rotando';
+    pill.className = 'ok';
+  }
+}
+function renderAll(){
+  renderHistorial();
+  renderTopbar();
+  renderChat();
+  renderStatusPill();
+}
+function startNewStory(){
+  const id = 'h_' + Date.now();
+  const h = { id, titulo: '', motor: '', duracionClip: '', messages: [], updatedAt: Date.now() };
+  historias.push(h);
+  currentId = id;
+  saveHistorias();
+  renderAll();
+  closeSidebar();
+  document.getElementById('input-box').focus();
+}
+function openHistoria(id){
+  currentId = id;
+  renderAll();
+  closeSidebar();
+}
+function deleteHistoria(id){
+  if (!confirm('¿Borrar esta historia del historial? No se puede deshacer.')) return;
+  historias = historias.filter(h => h.id !== id);
+  if (currentId === id) currentId = null;
+  saveHistorias();
+  renderAll();
+}
+function tryExtractMeta(h){
+  const first = h.messages.find(m => m.role === 'assistant' && /T[IÍ]TULO\s*:/i.test(m.content));
+  if (first){
+    const tMatch = first.content.match(/T[IÍ]TULO\s*:\s*(.+)/i);
+    const mMatch = first.content.match(/MOTOR\s*:\s*(.+)/i);
+    const dMatch = first.content.match(/DURACI[OÓ]N DE CLIP\s*:\s*(\d+)/i);
+    if (tMatch) h.titulo = tMatch[1].trim().slice(0, 60);
+    if (mMatch) h.motor = mMatch[1].trim().slice(0, 40);
+    if (dMatch) h.duracionClip = dMatch[1].trim();
+  }
+  if (!h.titulo){
+    const firstUser = h.messages.find(m => m.role === 'user');
+    h.titulo = firstUser ? firstUser.content.slice(0, 40) : 'Historia sin título';
+  }
+}
+function quickSend(text){
+  const box = document.getElementById('input-box');
+  box.value = text;
+  handleSend();
+}
+async function handleSend(){
+  if (isSending) return;
+  const box = document.getElementById('input-box');
+  const text = box.value.trim();
+  if (!text) return;
+  let h = getCurrent();
+  if (!h){
+    startNewStory();
+    h = getCurrent();
+  }
+  if (!getKeys().length){
+    showToast('Primero cargá al menos una API key en ⚙️ API keys', 'error');
+    openModal('modal-settings');
+    return;
+  }
+  h.messages.push({ role: 'user', content: text });
+  h.updatedAt = Date.now();
+  box.value = '';
+  autoGrow(box);
+  saveHistorias();
+  renderChat();
+  isSending = true;
+  document.getElementById('send-btn').disabled = true;
+  const chat = document.getElementById('chat');
+  chat.insertAdjacentHTML('beforeend', `
+    <div class="msg-row assistant" id="thinking-row">
+      <div class="bubble"><div class="thinking"><span></span><span></span><span></span></div></div>
+    </div>`);
+  chat.scrollTop = chat.scrollHeight;
+  try{
+    const apiMessages = h.messages.map(m => ({ role: m.role, content: m.content }));
+    const reply = await callClaude(apiMessages);
+    h.messages.push({ role: 'assistant', content: reply });
+    h.updatedAt = Date.now();
+    tryExtractMeta(h);
+    saveHistorias();
+  }catch(e){
+    let msg = e.message || 'Error desconocido';
+    if (msg === 'NO_KEYS') msg = 'No hay API keys cargadas.';
+    h.messages.push({ role: 'assistant', content: '⚠️ No se pudo generar la respuesta.\n\nMotivo: ' + msg });
+    showToast('Falló la generación: ' + msg, 'error');
+    saveHistorias();
+  }finally{
+    isSending = false;
+    document.getElementById('send-btn').disabled = false;
+    renderAll();
+  }
+}
+function openModal(id){
+  if (id === 'modal-settings'){
+    document.getElementById('keys-textarea').value = getKeys().join('\n');
+    updateKeysCountNote();
+  }
+  if (id === 'modal-masterprompt'){
+    document.getElementById('mp-viewer-text').textContent = SYSTEM_PROMPT;
+  }
+  document.getElementById(id).classList.add('open');
+}
+function closeModal(id){
+  document.getElementById(id).classList.remove('open');
+}
+function updateKeysCountNote(){
+  const n = getKeys().length;
+  document.getElementById('keys-count-note').textContent =
+    n ? ('Ahora mismo tenés ' + n + ' key(s) guardadas.') : 'Todavía no cargaste ninguna key.';
+}
+function saveKeys(){
+  const raw = document.getElementById('keys-textarea').value;
+  const keys = raw.split('\n').map(k => k.trim()).filter(Boolean);
+  localStorage.setItem(LS_KEYS, JSON.stringify(keys));
+  setKeyIndex(0);
+  updateKeysCountNote();
+  renderStatusPill();
+  showToast(keys.length ? 'Guardadas ' + keys.length + ' key(s)' : 'No quedó ninguna key cargada', keys.length ? 'ok' : 'error');
+  closeModal('modal-settings');
+}
+function copyMasterPrompt(){
+  navigator.clipboard.writeText(SYSTEM_PROMPT).then(() => showToast('Master prompt copiado', 'ok'));
+}
+function openSidebar(){
+  document.getElementById('sidebar').classList.add('open');
+  document.getElementById('sidebar-backdrop').classList.add('open');
+}
+function closeSidebar(){
+  document.getElementById('sidebar').classList.remove('open');
+  document.getElementById('sidebar-backdrop').classList.remove('open');
+}
+function showToast(msg, type){
+  const t = document.getElementById('toast');
+  t.textContent = msg;
+  t.className = 'toast show' + (type ? ' ' + type : '');
+  clearTimeout(showToast._tid);
+  showToast._tid = setTimeout(() => { t.className = 'toast'; }, 3200);
+}
+function autoGrow(el){
+  el.style.height = 'auto';
+  el.style.height = Math.min(el.scrollHeight, 180) + 'px';
+}
+document.getElementById('input-box').addEventListener('input', function(){ autoGrow(this); });
+document.getElementById('input-box').addEventListener('keydown', function(e){
+  if (e.key === 'Enter' && !e.shiftKey){
+    e.preventDefault();
+    handleSend();
+  }
+});
+loadHistorias();
+renderAll();
+</script>
+</body>
+</html>
