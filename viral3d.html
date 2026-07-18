@@ -62,6 +62,21 @@
     padding: 18px 16px 14px;
     border-bottom: 1px solid var(--border-soft);
   }
+  .back-link{
+    display:inline-flex;
+    align-items:center;
+    gap:5px;
+    font-family: var(--font-mono);
+    font-size: 11.5px;
+    color: var(--text-dim);
+    text-decoration:none;
+    border:1px solid var(--border);
+    border-radius: 999px;
+    padding: 5px 11px;
+    margin-bottom: 10px;
+    transition: color .12s, border-color .12s;
+  }
+  .back-link:hover{ color: var(--accent); border-color: rgba(79,216,255,0.4); }
   .brand-mark{
     font-family: var(--font-display);
     font-weight:800;
@@ -70,6 +85,11 @@
     color: var(--text-faint);
     text-transform: uppercase;
   }
+  .brand-mark a{
+    color: inherit;
+    text-decoration: none;
+  }
+  .brand-mark a:hover{ color: var(--accent); }
   .brand-title{
     font-family: var(--font-display);
     font-weight: 700;
@@ -561,7 +581,8 @@
 <div id="app">
   <aside id="sidebar">
     <div class="brand">
-      <div class="brand-mark">JM BOTS</div>
+      <a href="app.html" class="back-link">← Mis Apps</a>
+      <div class="brand-mark"><a href="app.html">JM BOTS</a></div>
       <div class="brand-title">🎬 Generador Viral 3D</div>
       <div class="brand-sub">G-Labs · sincronizado por SRT</div>
     </div>
@@ -575,7 +596,7 @@
     </button>
     <div id="historial-list"></div>
     <div class="sidebar-footer">
-      <button class="icon-btn" onclick="openModal('modal-settings')">⚙️ API keys</button>
+      <button class="icon-btn" onclick="openModal('modal-settings')">⚙️ Claves Gemini</button>
       <button class="icon-btn" onclick="openModal('modal-masterprompt')">📄 Master prompt</button>
     </div>
   </aside>
@@ -600,7 +621,7 @@
         <textarea id="input-box" rows="1" placeholder="Escribí acá... (o pegá tu archivo SRT completo cuando te lo pida)"></textarea>
         <button id="send-btn" onclick="handleSend()">➤</button>
       </div>
-      <div class="composer-hint">Este chat usa tus propias API keys de Anthropic, guardadas solo en este navegador.</div>
+      <div class="composer-hint">Este chat usa tus claves de Gemini, las mismas de toda la suite JM BOTS, guardadas solo en este navegador.</div>
     </div>
   </main>
 </div>
@@ -608,22 +629,23 @@
 <div class="modal-overlay" id="modal-settings">
   <div class="modal">
     <div class="modal-header">
-      <h3>API keys rotativas</h3>
+      <h3>Claves de Gemini</h3>
       <button class="modal-close" onclick="closeModal('modal-settings')">✕</button>
     </div>
     <div class="modal-body">
-      <label>Tus API keys de Anthropic (una por línea)</label>
-      <textarea id="keys-textarea" rows="6" placeholder="sk-ant-...&#10;sk-ant-...&#10;sk-ant-..."></textarea>
+      <label>Tus claves de Gemini (separadas por coma)</label>
+      <input type="password" id="keys-textarea" placeholder="AIza... , AIza... , AIza..." autocomplete="off">
       <div class="note">
-        Cada vez que se genera algo, el chat rota entre estas keys en orden. Si una key da error de límite de uso,
-        prueba automáticamente con la siguiente antes de avisarte. Se guardan solo en este navegador (localStorage):
-        nunca se suben a GitHub ni se comparten con nadie.
+        Son las mismas claves que ya usás en el resto de la suite JM BOTS (Outliers y las demás apps) — si ya las
+        cargaste ahí, esta app las toma solas. Podés pegar varias separadas por coma: si una llega al límite de uso,
+        el chat prueba automáticamente con la siguiente antes de avisarte. Se guardan solo en este navegador
+        (localStorage): nunca se suben a GitHub ni se comparten con nadie.
       </div>
       <div class="note" id="keys-count-note" style="margin-top:12px;"></div>
     </div>
     <div class="modal-footer">
       <button class="btn" onclick="closeModal('modal-settings')">Cancelar</button>
-      <button class="btn primary" onclick="saveKeys()">Guardar keys</button>
+      <button class="btn primary" onclick="saveKeys()">Guardar claves</button>
     </div>
   </div>
 </div>
@@ -819,8 +841,6 @@ ANTES DE ENTREGAR, REVISA
 - ¿Hay alguna palabra de daño, alguna prohibición (SIN/NO/NUNCA) o algún término médico en los prompts? Quítala.
 - ¿Todos los personajes tienen ficha? ¿Todos son adultos o animales?
 - ¿El motor es distinto al de la historia anterior?`;
-const LS_KEYS = 'jmbots_viral3d_api_keys';
-const LS_KEY_IDX = 'jmbots_viral3d_key_idx';
 const LS_HISTORIAS = 'jmbots_viral3d_historias';
 let historias = [];
 let currentId = null;
@@ -835,59 +855,49 @@ function saveHistorias(){
 function getCurrent(){
   return historias.find(h => h.id === currentId) || null;
 }
+/* ═══ Claves de Gemini compartidas con toda la suite (jmbots_keys, separadas por coma) ═══ */
+function limpiarClave(k){ return String(k||'').replace(/[\s\u200B-\u200D\uFEFF]/g,'').trim(); }
+function claveGuardadaRaw(){ try{ const o=JSON.parse(localStorage.getItem('jmbots_keys')||'{}'); if(o&&o.an) return o.an; }catch(e){} return ''; }
 function getKeys(){
-  try{ return JSON.parse(localStorage.getItem(LS_KEYS) || '[]'); }
-  catch(e){ return []; }
+  return String(claveGuardadaRaw()||'').split(',').map(limpiarClave).filter(k=>k.length>20);
 }
-function getKeyIndex(){
-  return parseInt(localStorage.getItem(LS_KEY_IDX) || '0', 10) || 0;
-}
-function setKeyIndex(i){
-  localStorage.setItem(LS_KEY_IDX, String(i));
-}
-async function callClaude(messages){
-  const keys = getKeys();
-  if (!keys.length){
-    throw new Error('NO_KEYS');
-  }
-  let lastErr = null;
-  for (let attempt = 0; attempt < keys.length; attempt++){
-    const idx = (getKeyIndex() + attempt) % keys.length;
-    const key = keys[idx];
-    try{
-      const res = await fetch('https://api.anthropic.com/v1/messages', {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-          'x-api-key': key,
-          'anthropic-version': '2023-06-01',
-          'anthropic-dangerous-direct-browser-access': 'true'
-        },
-        body: JSON.stringify({
-          model: 'claude-sonnet-5',
-          max_tokens: 8192,
-          system: SYSTEM_PROMPT,
-          messages: messages
-        })
-      });
-      if (res.status === 429 || res.status === 529){
-        lastErr = new Error('Límite de uso alcanzado en una de las keys (' + res.status + ')');
-        continue;
-      }
-      if (!res.ok){
-        const errText = await res.text();
-        throw new Error('Error de la API (' + res.status + '): ' + errText.slice(0, 200));
-      }
-      const data = await res.json();
-      setKeyIndex((idx + 1) % keys.length);
-      const textBlocks = (data.content || []).filter(b => b.type === 'text').map(b => b.text);
-      return textBlocks.join('\n').trim();
-    }catch(e){
-      lastErr = e;
-      continue;
+async function pedirGemini(historyContents){
+  const keys=getKeys();
+  if(!keys.length) throw new Error('NO_KEYS');
+  const modelos=['gemini-2.5-flash','gemini-2.0-flash','gemini-1.5-flash'];
+  let ki=Math.floor(Math.random()*keys.length), ultimoError='';
+  async function llamar(key,modelo){
+    const r=await fetch('https://generativelanguage.googleapis.com/v1beta/models/'+modelo+':generateContent?key='+encodeURIComponent(key),{
+      method:'POST', headers:{'Content-Type':'application/json'},
+      body:JSON.stringify({
+        system_instruction:{ parts:[{ text: SYSTEM_PROMPT }] },
+        contents: historyContents,
+        generationConfig:{ temperature:0.9, maxOutputTokens:8192 }
+      })
+    });
+    const data=await r.json();
+    if(data.error){
+      const msg=data.error.message||'', code=data.error.code;
+      if(code===404||/not found|not supported|unavailable/i.test(msg)) return {nextModel:true,msg};
+      return {nextKey:true,msg};
     }
+    let txt=''; try{ txt=data.candidates[0].content.parts.map(p=>p.text||'').join(''); }catch(e){ return {nextKey:true,msg:'sin contenido'}; }
+    txt=txt.trim(); if(!txt) return {nextKey:true,msg:'respuesta vacía'};
+    return {ok:true,txt};
   }
-  throw lastErr || new Error('Todas las API keys fallaron');
+  for(let ic=0; ic<keys.length; ic++){
+    const key=keys[(ki+ic)%keys.length]; let saltar=false;
+    for(let m=0;m<modelos.length;m++){
+      const res=await llamar(key,modelos[m]);
+      if(res.ok) return res.txt;
+      if(res.nextModel){ ultimoError=res.msg; continue; }
+      if(res.nextKey){ ultimoError=res.msg; saltar=true; break; }
+    }
+    if(!saltar) break;
+  }
+  if(/invalid authentication|api key not valid|API_KEY_INVALID|credential/i.test(ultimoError)) throw new Error('Alguna clave de Gemini no es válida (revisá que estén bien copiadas, separadas por coma).');
+  if(/quota|exhausted|rate|429/i.test(ultimoError)) throw new Error('Tus claves llegaron al límite por hoy. Probá más tarde o agregá otra.');
+  throw new Error(ultimoError||'No se pudo generar. Probá de nuevo.');
 }
 function escapeHtml(str){
   const d = document.createElement('div');
@@ -959,10 +969,10 @@ function renderStatusPill(){
   const pill = document.getElementById('status-pill');
   const n = getKeys().length;
   if (!n){
-    pill.textContent = 'sin API keys';
+    pill.textContent = 'sin claves de Gemini';
     pill.className = 'warn';
   } else {
-    pill.textContent = n === 1 ? '1 API key activa' : n + ' API keys rotando';
+    pill.textContent = n === 1 ? '1 clave activa' : n + ' claves rotando';
     pill.className = 'ok';
   }
 }
@@ -1025,7 +1035,7 @@ async function handleSend(){
     h = getCurrent();
   }
   if (!getKeys().length){
-    showToast('Primero cargá al menos una API key en ⚙️ API keys', 'error');
+    showToast('Primero cargá al menos una clave de Gemini en ⚙️ Claves Gemini', 'error');
     openModal('modal-settings');
     return;
   }
@@ -1044,15 +1054,15 @@ async function handleSend(){
     </div>`);
   chat.scrollTop = chat.scrollHeight;
   try{
-    const apiMessages = h.messages.map(m => ({ role: m.role, content: m.content }));
-    const reply = await callClaude(apiMessages);
+    const apiMessages = h.messages.map(m => ({ role: m.role === 'assistant' ? 'model' : 'user', parts: [{ text: m.content }] }));
+    const reply = await pedirGemini(apiMessages);
     h.messages.push({ role: 'assistant', content: reply });
     h.updatedAt = Date.now();
     tryExtractMeta(h);
     saveHistorias();
   }catch(e){
     let msg = e.message || 'Error desconocido';
-    if (msg === 'NO_KEYS') msg = 'No hay API keys cargadas.';
+    if (msg === 'NO_KEYS') msg = 'Pegá al menos una clave de Gemini en ⚙️ Claves Gemini.';
     h.messages.push({ role: 'assistant', content: '⚠️ No se pudo generar la respuesta.\n\nMotivo: ' + msg });
     showToast('Falló la generación: ' + msg, 'error');
     saveHistorias();
@@ -1064,7 +1074,7 @@ async function handleSend(){
 }
 function openModal(id){
   if (id === 'modal-settings'){
-    document.getElementById('keys-textarea').value = getKeys().join('\n');
+    document.getElementById('keys-textarea').value = getKeys().join(', ');
     updateKeysCountNote();
   }
   if (id === 'modal-masterprompt'){
@@ -1078,16 +1088,17 @@ function closeModal(id){
 function updateKeysCountNote(){
   const n = getKeys().length;
   document.getElementById('keys-count-note').textContent =
-    n ? ('Ahora mismo tenés ' + n + ' key(s) guardadas.') : 'Todavía no cargaste ninguna key.';
+    n ? ('Ahora mismo tenés ' + n + ' clave(s) guardadas (rota entre ellas).') : 'Todavía no cargaste ninguna clave.';
 }
 function saveKeys(){
-  const raw = document.getElementById('keys-textarea').value;
-  const keys = raw.split('\n').map(k => k.trim()).filter(Boolean);
-  localStorage.setItem(LS_KEYS, JSON.stringify(keys));
-  setKeyIndex(0);
+  const raw = document.getElementById('keys-textarea').value.trim();
+  let o = {}; try{ o = JSON.parse(localStorage.getItem('jmbots_keys')||'{}'); }catch(e){}
+  o.an = raw;
+  localStorage.setItem('jmbots_keys', JSON.stringify(o));
+  const n = getKeys().length;
   updateKeysCountNote();
   renderStatusPill();
-  showToast(keys.length ? 'Guardadas ' + keys.length + ' key(s)' : 'No quedó ninguna key cargada', keys.length ? 'ok' : 'error');
+  showToast(n ? 'Guardadas ' + n + ' clave(s)' : 'No quedó ninguna clave cargada', n ? 'ok' : 'error');
   closeModal('modal-settings');
 }
 function copyMasterPrompt(){
