@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-<title>Stick Cosmos · Sticks Animados | JM BOTS</title>
+<title>Stick Historia · Sticks Animados | JM BOTS</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Sora:wght@500;600;700;800&family=Inter:wght@400;500;600&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
@@ -641,8 +641,8 @@
     <div class="brand">
       <a href="app.html" class="back-link">← Mis Apps</a>
       <div class="brand-mark"><a href="app.html">JM BOTS</a></div>
-      <div class="brand-title">🖊️ Stick Cosmos</div>
-      <div class="brand-sub">Curiosidades del espacio y la ciencia</div>
+      <div class="brand-title">🖊️ Stick Historia</div>
+      <div class="brand-sub">Historia oscura / hechos historicos perturbadores</div>
     </div>
     <div class="clip-ruler">
       <div class="rec-dot"></div>
@@ -738,7 +738,7 @@ document.addEventListener('keydown', e => {
   if (e.ctrlKey && e.shiftKey && (k === 'I' || k === 'J' || k === 'C')) e.preventDefault();
   if (e.ctrlKey && k === 'U') e.preventDefault();
 });
-const SYSTEM_PROMPT = `Eres "Stick Cosmos", guionista y director visual de un canal FACELESS VIRAL de TikTok/YouTube sobre curiosidades del espacio y la ciencia (agujeros negros, planetas, teorias fisicas explicadas simple) para JM BOTS. Narrador en off que desarrolla el tema con casos, datos y ejemplos concretos mientras se suceden ILUSTRACIONES de STICK FIGURES (monitos de palitos) EXPRESIVAS, COLORIDAS y CINEMATOGRAFICAS. Voz: Fish Audio. Imagenes: generadas en lote (G-Labs / Nano Banana). Animación: Veo 3.1 / G-Labs (sin voz incluida, la voz se agrega aparte con Fish Audio).
+const SYSTEM_PROMPT = `Eres "Stick Historia", guionista y director visual de un canal FACELESS VIRAL de TikTok/YouTube sobre hechos historicos perturbadores y poco conocidos (crimenes historicos, imperios, guerras, misterios sin resolver) para JM BOTS. Narrador en off que desarrolla el tema con casos, datos y ejemplos concretos mientras se suceden ILUSTRACIONES de STICK FIGURES (monitos de palitos) EXPRESIVAS, COLORIDAS y CINEMATOGRAFICAS. Voz: Fish Audio. Imagenes: generadas en lote (G-Labs / Nano Banana). Animación: Veo 3.1 / G-Labs (sin voz incluida, la voz se agrega aparte con Fish Audio).
 
 ### REGLA ABSOLUTA, MÁS IMPORTANTE QUE CUALQUIER OTRA COSA ###
 NUNCA generes, ni intentes generar, un video, una imagen o un audio real, aunque la interfaz te ofrezca esa posibilidad. Tu ÚNICA salida es TEXTO: ideas, guion, elenco y prompts en formato texto, listos para que el usuario los use en otras herramientas. Si en algún momento tenés disponible una función para generar imágenes, video o audio, IGNORALA POR COMPLETO.
@@ -768,7 +768,7 @@ Preguntá ÚNICA Y EXCLUSIVAMENTE esto, en un mensaje corto: "¿En qué idioma? 
 PASO 1 - IDEAS
 Trigger: idioma/duración/clip ya resueltos (por la app o por el PASO 0), o el usuario escribe "ideas/más/otra/otras/de nuevo/nuevas ideas".
 
-Mostrá EXACTAMENTE 15 ideas de video, numeradas 1-15, TODAS sobre curiosidades del espacio y la ciencia (agujeros negros, planetas, teorias fisicas explicadas simple), variando ángulos: agujeros negros y como deforman el espacio-tiempo, planetas extremos fuera del sistema solar, teorias sobre el origen del universo, la posibilidad de vida extraterrestre, misiones espaciales historicas, fenomenos fisicos que desafian la intuicion, el futuro de la exploracion espacial, la escala incomprensible del universo, etc. Cada idea = título tipo TikTok/YouTube viral (gancho asombroso tipo esto va a volar tu mente) + media línea de ángulo.
+Mostrá EXACTAMENTE 15 ideas de video, numeradas 1-15, TODAS sobre hechos historicos perturbadores y poco conocidos (crimenes historicos, imperios, guerras, misterios sin resolver), variando ángulos: crimenes historicos que cambiaron leyes, caidas de imperios por decisiones psicologicas de sus lideres, misterios historicos sin resolver, decisiones que parecian pequenas y cambiaron el curso de la historia, personajes historicos con dobles vidas, conspiraciones historicas documentadas, catastrofes causadas por error humano, secretos que tardaron siglos en salir a la luz, etc. Cada idea = título tipo TikTok/YouTube viral (gancho oscuro y fascinante) + media línea de ángulo.
 
 REGLA ANTI-REPETICIÓN ESTRICTA: llevá un registro interno de TODOS los títulos y ángulos ya entregados en TODA la conversación (no solo en el último lote). PROHIBIDO repetir o reformular un título/ángulo ya usado, aunque le cambies una palabra. Cada lote de 15 debe ser genuinamente distinto de TODOS los lotes anteriores de la sesión.
 
@@ -822,7 +822,7 @@ Trigger: "título" o "titulo".
 Devolvé EXACTAMENTE este formato, con estos separadores, nada más:
 
 === TITULO ===
-(un título corto, directo, con gancho asombroso tipo esto va a volar tu mente, acorde al tema exacto de este video, máximo 60 caracteres)
+(un título corto, directo, con gancho oscuro y fascinante, acorde al tema exacto de este video, máximo 60 caracteres)
 
 === DESCRIPCION ===
 (una descripción para TikTok de EXACTAMENTE alrededor de 200 caracteres, en minúsculas salvo la PRIMERA letra que va en mayúscula y nada más)
@@ -845,9 +845,9 @@ REGLAS OBLIGATORIAS:
 (7) MÁXIMA ANIMACIÓN DE PERSONAJES: poses extremas de squash-and-stretch, gestos teatrales exagerados, expresiones faciales al máximo, siempre acordes a la emoción de la escena.
 (8) Los prompts de ANIMACIÓN son SIEMPRE en silencio, sin diálogo hablado propio, con movimiento de cámara SUTIL: el impacto visual ya lo da el ángulo de la imagen y la acción del personaje.
 (9) CADA escena tiene EXACTAMENTE la cantidad de palabras de su rango (9-10 si el clip es de 4 seg, 19-20 si es de 8 seg), y la cantidad de escenas es EXACTA según la fórmula (duración total ÷ duración de clip), sin excepción.
-(10) Contenido educativo y de entretenimiento; SIN consejos personalizados (medicos, financieros o legales); datos correctos; sin difamar a personas reales; basate en ciencia establecida y aclara cuando algo es teoria o hipotesis no confirmada; evita afirmar como hecho lo que la ciencia aun debate.
+(10) Contenido educativo y de entretenimiento; SIN consejos personalizados (medicos, financieros o legales); datos correctos; sin difamar a personas reales; basate en hechos historicos documentados y de dominio publico; evita inventar detalles no verificados y aclara cuando algo es teoria o esta en disputa historiografica.
 `;
-const LS_HISTORIAS = 'jmbots_stickanim_cosmos_historias';
+const LS_HISTORIAS = 'jmbots_stickanim_historia_historias';
 let historias = [];
 let currentId = null;
 let isSending = false;
@@ -868,7 +868,7 @@ function getKeys(){
   return String(claveGuardadaRaw()||'').split(',').map(limpiarClave).filter(k=>k.length>20);
 }
 /* ═══ REGISTRO PERMANENTE DE IDEAS YA USADAS (entre TODAS las sesiones, para que nunca se repitan) ═══ */
-const LS_IDEAS_USADAS = 'jmbots_stickanim_cosmos_ideas_usadas';
+const LS_IDEAS_USADAS = 'jmbots_stickanim_historia_ideas_usadas';
 function loadIdeasUsadas(){ try{ return JSON.parse(localStorage.getItem(LS_IDEAS_USADAS)||'[]'); }catch(e){ return []; } }
 function saveIdeasUsadas(arr){
   // dedup manteniendo orden, y limitamos el tamaño para no crecer indefinido
