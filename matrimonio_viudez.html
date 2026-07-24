@@ -1,0 +1,1302 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+<title>Reflexiones · Matrimonio y Viudez | JM BOTS</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Sora:wght@500;600;700;800&family=Inter:wght@400;500;600&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --bg: #0a0d12;
+    --bg-elevated: #121722;
+    --bg-elevated-2: #1a212f;
+    --bg-bubble-user: #1c2536;
+    --border: #232b3a;
+    --border-soft: #1a212c;
+    --text: #e8ecf4;
+    --text-dim: #8b96a8;
+    --text-faint: #56607a;
+    --accent: #e7b85c;
+    --accent-soft: rgba(231,184,92,0.14);
+    --amber: #ffb347;
+    --amber-soft: rgba(255,179,71,0.14);
+    --danger: #ff5c73;
+    --danger-soft: rgba(255,92,115,0.12);
+    --ok: #5eeba0;
+    --font-display: 'Sora', sans-serif;
+    --font-body: 'Inter', sans-serif;
+    --font-mono: 'JetBrains Mono', monospace;
+    --radius: 14px;
+    --radius-sm: 9px;
+  }
+  *{ box-sizing: border-box; }
+  html,body{ margin:0; padding:0; height:100%; background:var(--bg); }
+  body{
+    font-family: var(--font-body);
+    color: var(--text);
+    display:flex;
+    overflow:hidden;
+    -webkit-tap-highlight-color: transparent;
+  }
+  ::selection{ background: var(--accent-soft); color: var(--text); }
+  ::-webkit-scrollbar{ width:8px; height:8px; }
+  ::-webkit-scrollbar-thumb{ background:var(--border); border-radius:8px; }
+  ::-webkit-scrollbar-track{ background:transparent; }
+  a{ color: var(--accent); }
+  button{ font-family: var(--font-body); cursor:pointer; }
+  /* ---------- Layout shell ---------- */
+  #app{ display:flex; width:100%; height:100vh; }
+  /* ---------- Sidebar ---------- */
+  #sidebar{
+    width: 280px;
+    min-width: 280px;
+    background: var(--bg-elevated);
+    border-right: 1px solid var(--border-soft);
+    display:flex;
+    flex-direction:column;
+    height:100%;
+  }
+  .brand{
+    padding: 18px 16px 14px;
+    border-bottom: 1px solid var(--border-soft);
+  }
+  .back-link{
+    display:inline-flex;
+    align-items:center;
+    gap:5px;
+    font-family: var(--font-mono);
+    font-size: 11.5px;
+    color: var(--text-dim);
+    text-decoration:none;
+    border:1px solid var(--border);
+    border-radius: 999px;
+    padding: 5px 11px;
+    margin-bottom: 10px;
+    transition: color .12s, border-color .12s;
+  }
+  .back-link:hover{ color: var(--accent); border-color: rgba(231,184,92,0.4); }
+  .brand-mark{
+    font-family: var(--font-display);
+    font-weight:800;
+    font-size: 13px;
+    letter-spacing: 0.14em;
+    color: var(--text-faint);
+    text-transform: uppercase;
+  }
+  .brand-mark a{
+    color: inherit;
+    text-decoration: none;
+  }
+  .brand-mark a:hover{ color: var(--accent); }
+  .brand-title{
+    font-family: var(--font-display);
+    font-weight: 700;
+    font-size: 17px;
+    margin-top: 4px;
+    display:flex;
+    align-items:center;
+    gap:8px;
+  }
+  .brand-sub{
+    font-size: 12px;
+    color: var(--text-dim);
+    margin-top: 3px;
+  }
+  /* clip-ruler signature element */
+  .clip-ruler{
+    position: relative;
+    height: 22px;
+    margin: 12px 16px 0;
+    border-bottom: 1px solid var(--border-soft);
+    display:flex;
+    align-items:flex-end;
+  }
+  .clip-ruler .tick{
+    flex:1;
+    height: 8px;
+    border-left: 1px solid var(--border);
+  }
+  .clip-ruler .tick:first-child{ border-left:none; }
+  .clip-ruler .rec-dot{
+    position:absolute;
+    top: -2px;
+    left: 0;
+    width:6px; height:6px;
+    border-radius:50%;
+    background: var(--amber);
+    box-shadow: 0 0 8px var(--amber);
+    animation: clipTravel 8s linear infinite;
+  }
+  @keyframes clipTravel{
+    0%{ left:0%; }
+    100%{ left: calc(100% - 6px); }
+  }
+  @media (prefers-reduced-motion: reduce){
+    .clip-ruler .rec-dot{ animation:none; left:0; }
+  }
+  .new-story-btn{
+    margin: 14px 16px 8px;
+    padding: 11px 14px;
+    background: var(--accent-soft);
+    border: 1px solid rgba(231,184,92,0.35);
+    color: var(--accent);
+    border-radius: var(--radius-sm);
+    font-weight:600;
+    font-size: 13.5px;
+    display:flex;
+    align-items:center;
+    gap:8px;
+    transition: background .15s, transform .1s;
+  }
+  .new-story-btn:hover{ background: rgba(231,184,92,0.2); }
+  .new-story-btn:active{ transform: scale(0.98); }
+  #historial-list{
+    flex:1;
+    overflow-y:auto;
+    padding: 4px 10px 10px;
+  }
+  .historial-empty{
+    color: var(--text-faint);
+    font-size: 12.5px;
+    padding: 18px 10px;
+    line-height:1.5;
+    text-align:center;
+  }
+  .historial-item{
+    padding: 10px 10px;
+    border-radius: var(--radius-sm);
+    margin-bottom: 4px;
+    cursor:pointer;
+    position:relative;
+    border: 1px solid transparent;
+  }
+  .historial-item:hover{ background: var(--bg-elevated-2); }
+  .historial-item.active{
+    background: var(--bg-elevated-2);
+    border-color: var(--border);
+  }
+  .historial-item .h-title{
+    font-size: 13px;
+    font-weight:600;
+    color: var(--text);
+    white-space:nowrap;
+    overflow:hidden;
+    text-overflow:ellipsis;
+    padding-right: 20px;
+  }
+  .historial-item .h-meta{
+    font-size: 11px;
+    color: var(--text-faint);
+    margin-top:3px;
+    display:flex;
+    gap:6px;
+    align-items:center;
+  }
+  .h-badge{
+    font-family: var(--font-mono);
+    font-size:10px;
+    padding: 1px 6px;
+    border-radius: 20px;
+    background: var(--bg-elevated);
+    border: 1px solid var(--border);
+    color: var(--text-dim);
+  }
+  .h-delete{
+    position:absolute;
+    top:8px; right:6px;
+    width:20px; height:20px;
+    border-radius:6px;
+    border:none;
+    background:transparent;
+    color: var(--text-faint);
+    font-size: 13px;
+    line-height:20px;
+    text-align:center;
+    display:none;
+  }
+  .historial-item:hover .h-delete{ display:block; }
+  .h-delete:hover{ background: var(--danger-soft); color: var(--danger); }
+  .sidebar-footer{
+    padding: 10px;
+    border-top: 1px solid var(--border-soft);
+    display:flex;
+    gap:8px;
+  }
+  .icon-btn{
+    flex:1;
+    background: var(--bg-elevated-2);
+    border: 1px solid var(--border);
+    color: var(--text-dim);
+    border-radius: var(--radius-sm);
+    padding: 9px 8px;
+    font-size: 12px;
+    font-weight:600;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    gap:6px;
+  }
+  .icon-btn:hover{ color: var(--text); border-color: #2f3a4d; }
+  /* ---------- Main column ---------- */
+  #main{
+    flex:1;
+    display:flex;
+    flex-direction:column;
+    height:100%;
+    min-width:0;
+  }
+  #topbar{
+    padding: 14px 22px;
+    border-bottom: 1px solid var(--border-soft);
+    display:flex;
+    align-items:center;
+    justify-content:space-between;
+    gap: 12px;
+  }
+  #topbar .title-wrap{ min-width:0; }
+  #topbar .story-title{
+    font-family: var(--font-display);
+    font-weight:700;
+    font-size: 15px;
+    white-space:nowrap;
+    overflow:hidden;
+    text-overflow:ellipsis;
+  }
+  #topbar .story-sub{
+    font-size: 11.5px;
+    color: var(--text-dim);
+    margin-top:2px;
+  }
+  #menu-toggle{ display:none; }
+  #status-pill{
+    font-family: var(--font-mono);
+    font-size: 11px;
+    padding: 4px 10px;
+    border-radius: 20px;
+    border: 1px solid var(--border);
+    color: var(--text-dim);
+    white-space:nowrap;
+  }
+  #status-pill.ok{ color: var(--ok); border-color: rgba(94,235,160,0.35); }
+  #status-pill.warn{ color: var(--amber); border-color: rgba(255,179,71,0.35); }
+  #chat{
+    flex:1;
+    overflow-y:auto;
+    padding: 22px 22px 8px;
+    display:flex;
+    flex-direction:column;
+    gap: 14px;
+  }
+  .empty-state{
+    margin:auto;
+    text-align:center;
+    max-width: 460px;
+    color: var(--text-dim);
+    padding: 20px;
+  }
+  .empty-state h2{
+    font-family: var(--font-display);
+    color: var(--text);
+    font-size: 19px;
+    margin-bottom:8px;
+  }
+  .empty-state p{ font-size: 13.5px; line-height:1.6; }
+  .msg-row{ display:flex; }
+  .msg-row.user{ justify-content:flex-end; }
+  .bubble{
+    max-width: 78%;
+    padding: 12px 15px;
+    border-radius: var(--radius);
+    font-size: 13.8px;
+    line-height:1.65;
+    white-space: pre-wrap;
+    word-wrap: break-word;
+    position:relative;
+  }
+  .msg-row.user .bubble{
+    background: var(--bg-bubble-user);
+    border: 1px solid var(--border);
+    border-bottom-right-radius: 4px;
+  }
+  .msg-row.assistant .bubble{
+    background: var(--bg-elevated);
+    border: 1px solid var(--border-soft);
+    border-bottom-left-radius: 4px;
+    font-family: var(--font-mono);
+    font-size: 12.6px;
+  }
+  .bubble .copy-btn{
+    position:absolute;
+    top:-10px; right:8px;
+    font-size:10.5px;
+    font-family: var(--font-body);
+    background: var(--bg-elevated-2);
+    border:1px solid var(--border);
+    color: var(--text-dim);
+    border-radius:6px;
+    padding: 2px 7px;
+    opacity:0;
+    transition: opacity .12s;
+  }
+  .bubble:hover .copy-btn{ opacity:1; }
+  .bubble .copy-btn:hover{ color: var(--accent); border-color: rgba(231,184,92,0.4); }
+  .bubble-blocks{
+    max-width: 92%;
+    background: transparent;
+    border: none;
+    padding: 0;
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+  }
+  .prompt-block{
+    background: var(--bg-elevated);
+    border: 1px solid var(--border-soft);
+    border-radius: var(--radius);
+    overflow: hidden;
+  }
+  .prompt-block-header{
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 10px 14px;
+    background: var(--bg-elevated-2);
+    border-bottom: 1px solid var(--border-soft);
+    font-family: var(--font-display);
+    font-weight: 700;
+    font-size: 12.5px;
+    letter-spacing: 0.04em;
+    color: var(--accent);
+    text-transform: uppercase;
+  }
+  .block-copy-btn{
+    font-family: var(--font-body);
+    font-size: 11.5px;
+    font-weight: 600;
+    background: var(--bg-elevated);
+    border: 1px solid var(--border);
+    color: var(--text-dim);
+    border-radius: 7px;
+    padding: 5px 10px;
+    text-transform: none;
+    letter-spacing: normal;
+  }
+  .block-copy-btn:hover{ color: var(--accent); border-color: rgba(231,184,92,0.4); }
+  .block-copy-btn.ok{ color: var(--ok); border-color: rgba(94,235,160,0.35); }
+  .prompt-block-content{
+    margin: 0;
+    padding: 14px;
+    font-family: var(--font-mono);
+    font-size: 12.5px;
+    line-height: 1.7;
+    white-space: pre-wrap;
+    word-wrap: break-word;
+    color: var(--text);
+  }
+  .bloque-nota{
+    font-size: 12.5px;
+    color: var(--text-dim);
+    padding: 4px 2px;
+  }
+  .thinking{
+    display:flex; gap:4px; padding: 4px 2px;
+  }
+  .thinking span{
+    width:6px; height:6px; border-radius:50%;
+    background: var(--text-faint);
+    animation: bounce 1.1s infinite ease-in-out;
+  }
+  .thinking span:nth-child(2){ animation-delay:.15s; }
+  .thinking span:nth-child(3){ animation-delay:.3s; }
+  @keyframes bounce{ 0%,80%,100%{ opacity:.3; transform:translateY(0);} 40%{ opacity:1; transform:translateY(-4px);} }
+  /* ---------- Composer ---------- */
+  #composer-wrap{
+    border-top: 1px solid var(--border-soft);
+    padding: 12px 22px 18px;
+    background: var(--bg);
+  }
+  .quick-chips{
+    display:flex; gap:8px; margin-bottom:9px; flex-wrap:wrap;
+  }
+  .chip{
+    font-family: var(--font-mono);
+    font-size: 11.5px;
+    padding: 6px 12px;
+    border-radius: 20px;
+    border: 1px solid var(--border);
+    background: var(--bg-elevated);
+    color: var(--text-dim);
+  }
+  .chip:hover{ color: var(--accent); border-color: rgba(231,184,92,0.4); }
+  #composer{
+    display:flex;
+    gap:10px;
+    align-items:flex-end;
+    background: var(--bg-elevated);
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+    padding: 8px 8px 8px 14px;
+  }
+  #composer:focus-within{ border-color: rgba(231,184,92,0.45); }
+  #composer textarea{
+    flex:1;
+    background:transparent;
+    border:none;
+    outline:none;
+    resize:none;
+    color: var(--text);
+    font-family: var(--font-body);
+    font-size: 13.8px;
+    line-height:1.5;
+    max-height: 180px;
+    padding: 7px 0;
+  }
+  #composer textarea::placeholder{ color: var(--text-faint); }
+  #send-btn{
+    background: var(--accent);
+    color: #04141c;
+    border:none;
+    border-radius: 10px;
+    width:38px; height:38px;
+    flex-shrink:0;
+    display:flex; align-items:center; justify-content:center;
+    font-weight:700;
+    transition: opacity .15s, transform .1s;
+  }
+  #send-btn:disabled{ opacity:.35; cursor:not-allowed; }
+  #send-btn:not(:disabled):active{ transform: scale(0.94); }
+  .composer-hint{
+    font-size: 11px;
+    color: var(--text-faint);
+    margin-top: 8px;
+    text-align:center;
+  }
+  /* ---------- Modals ---------- */
+  .modal-overlay{
+    position:fixed; inset:0;
+    background: rgba(4,6,10,0.72);
+    backdrop-filter: blur(2px);
+    display:none;
+    align-items:center; justify-content:center;
+    z-index: 100;
+    padding: 20px;
+  }
+  .modal-overlay.open{ display:flex; }
+  .modal{
+    background: var(--bg-elevated);
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+    max-width: 560px;
+    width:100%;
+    max-height: 84vh;
+    display:flex;
+    flex-direction:column;
+    overflow:hidden;
+  }
+  .modal-header{
+    padding: 16px 20px;
+    border-bottom: 1px solid var(--border-soft);
+    display:flex;
+    align-items:center;
+    justify-content:space-between;
+  }
+  .modal-header h3{
+    font-family: var(--font-display);
+    font-size: 15px;
+    margin:0;
+  }
+  .modal-close{
+    background:none; border:none; color: var(--text-dim);
+    font-size:18px; line-height:1;
+  }
+  .modal-close:hover{ color: var(--text); }
+  .modal-body{
+    padding: 18px 20px;
+    overflow-y:auto;
+    font-size: 13px;
+    color: var(--text-dim);
+    line-height:1.6;
+  }
+  .modal-body label{
+    display:block;
+    font-size: 12px;
+    font-weight:600;
+    color: var(--text);
+    margin-bottom:6px;
+  }
+  .modal-body textarea, .modal-body select{
+    width:100%;
+    background: var(--bg);
+    border: 1px solid var(--border);
+    border-radius: var(--radius-sm);
+    color: var(--text);
+    font-family: var(--font-mono);
+    font-size: 12.5px;
+    padding: 10px 12px;
+    resize: vertical;
+  }
+  .modal-body .note{
+    font-size:11.5px;
+    color: var(--text-faint);
+    margin-top:8px;
+  }
+  .modal-footer{
+    padding: 14px 20px;
+    border-top: 1px solid var(--border-soft);
+    display:flex;
+    justify-content:flex-end;
+    gap:10px;
+  }
+  .btn{
+    padding: 9px 16px;
+    border-radius: var(--radius-sm);
+    font-size:13px;
+    font-weight:600;
+    border:1px solid var(--border);
+    background: var(--bg-elevated-2);
+    color: var(--text);
+  }
+  .btn:hover{ border-color:#2f3a4d; }
+  .btn.primary{
+    background: var(--accent);
+    border-color: var(--accent);
+    color: #04141c;
+  }
+  .btn.primary:hover{ opacity:.9; }
+  .btn.danger{ color: var(--danger); }
+  .mp-viewer{
+    white-space: pre-wrap;
+    font-family: var(--font-mono);
+    font-size: 11.5px;
+    line-height:1.6;
+    background: var(--bg);
+    border: 1px solid var(--border-soft);
+    border-radius: var(--radius-sm);
+    padding: 14px;
+    color: var(--text-dim);
+    max-height: 46vh;
+    overflow-y:auto;
+  }
+  .toast{
+    position: fixed;
+    bottom: 22px;
+    left:50%;
+    transform: translateX(-50%);
+    background: var(--bg-elevated-2);
+    border:1px solid var(--border);
+    color: var(--text);
+    padding: 10px 18px;
+    border-radius: 30px;
+    font-size: 12.5px;
+    box-shadow: 0 8px 24px rgba(0,0,0,0.4);
+    z-index: 200;
+    opacity:0;
+    pointer-events:none;
+    transition: opacity .2s, transform .2s;
+  }
+  .toast.show{ opacity:1; transform: translateX(-50%) translateY(-6px); }
+  .toast.error{ border-color: rgba(255,92,115,0.4); color: var(--danger); }
+  .toast.ok{ border-color: rgba(94,235,160,0.4); color: var(--ok); }
+  /* ---------- Mobile ---------- */
+  @media (max-width: 800px){
+    #sidebar{
+      position: fixed;
+      z-index: 60;
+      left:0; top:0; bottom:0;
+      transform: translateX(-100%);
+      transition: transform .2s ease;
+      box-shadow: 20px 0 40px rgba(0,0,0,0.4);
+    }
+    #sidebar.open{ transform: translateX(0); }
+    #menu-toggle{
+      display:flex;
+      align-items:center; justify-content:center;
+      width:34px; height:34px;
+      border-radius:8px;
+      border:1px solid var(--border);
+      background: var(--bg-elevated);
+      color: var(--text-dim);
+      flex-shrink:0;
+    }
+    .bubble{ max-width:90%; }
+    #topbar{ padding: 12px 14px; }
+    #chat{ padding: 16px 14px 8px; }
+    #composer-wrap{ padding: 10px 14px 14px; }
+  }
+  #sidebar-backdrop{
+    display:none;
+    position:fixed; inset:0;
+    background: rgba(0,0,0,0.5);
+    z-index: 55;
+  }
+  #sidebar-backdrop.open{ display:block; }
+</style>
+</head>
+<body>
+<div id="sidebar-backdrop" onclick="closeSidebar()"></div>
+<div id="app">
+  <aside id="sidebar">
+    <div class="brand">
+      <a href="app.html" class="back-link">← Mis Apps</a>
+      <div class="brand-mark"><a href="app.html">JM BOTS</a></div>
+      <div class="brand-title">💍 Matrimonio y Viudez</div>
+      <div class="brand-sub">Reflexiones · Matrimonio y Viudez</div>
+    </div>
+    <div class="clip-ruler">
+      <div class="rec-dot"></div>
+      <div class="tick"></div><div class="tick"></div><div class="tick"></div>
+      <div class="tick"></div><div class="tick"></div><div class="tick"></div>
+    </div>
+    <button class="new-story-btn" onclick="startNewStory()">
+      <span>＋</span> Nueva historia
+    </button>
+    <div id="historial-list"></div>
+    <div class="sidebar-footer">
+      <button class="icon-btn" onclick="openModal('modal-settings')">⚙️ Claves Gemini</button>
+      <button class="icon-btn" onclick="openModal('modal-masterprompt')">📄 Master prompt</button>
+    </div>
+  </aside>
+  <main id="main">
+    <div id="topbar">
+      <div style="display:flex; align-items:center; gap:10px; min-width:0;">
+        <button id="menu-toggle" onclick="openSidebar()">☰</button>
+        <div class="title-wrap">
+          <div class="story-title" id="story-title-label">Sin historia activa</div>
+          <div class="story-sub" id="story-sub-label">Elegí "Nueva historia" para arrancar</div>
+        </div>
+      </div>
+      <div id="status-pill">sin API keys</div>
+    </div>
+    <div id="chat"></div>
+    <div id="composer-wrap">
+      <div class="quick-chips">
+        <button class="chip" onclick="quickSend('reset ideas')">🔄 RESET IDEAS</button>
+        <button class="chip" onclick="quickSend('prompts')">PROMPTS</button>
+        <button class="chip" onclick="quickSend('tiempos')">TIEMPOS</button>
+        <button class="chip" onclick="quickSend('título')">TÍTULO</button>
+      </div>
+      <div id="composer">
+        <textarea id="input-box" rows="1" placeholder="Escribí acá... (ej: IDEA NUEVA, un número del 1 al 15, prompts, tiempos, título)"></textarea>
+        <button id="send-btn" onclick="handleSend()">➤</button>
+      </div>
+      <div class="composer-hint">Este chat usa tus claves de Gemini, las mismas de toda la suite JM BOTS, guardadas solo en este navegador.</div>
+    </div>
+  </main>
+</div>
+<!-- Modal: API keys -->
+<div class="modal-overlay" id="modal-settings">
+  <div class="modal">
+    <div class="modal-header">
+      <h3>Claves de Gemini</h3>
+      <button class="modal-close" onclick="closeModal('modal-settings')">✕</button>
+    </div>
+    <div class="modal-body">
+      <label>Tus claves de Gemini (separadas por coma)</label>
+      <input type="password" id="keys-textarea" placeholder="AIza... , AIza... , AIza..." autocomplete="off">
+      <div class="note">
+        Son las mismas claves que ya usás en el resto de la suite JM BOTS (Outliers y las demás apps) — si ya las
+        cargaste ahí, esta app las toma solas. Podés pegar varias separadas por coma: si una llega al límite de uso,
+        el chat prueba automáticamente con la siguiente antes de avisarte. Se guardan solo en este navegador
+        (localStorage): nunca se suben a GitHub ni se comparten con nadie.
+      </div>
+      <div class="note" id="keys-count-note" style="margin-top:12px;"></div>
+    </div>
+    <div class="modal-footer">
+      <button class="btn" onclick="closeModal('modal-settings')">Cancelar</button>
+      <button class="btn primary" onclick="saveKeys()">Guardar claves</button>
+    </div>
+  </div>
+</div>
+<!-- Modal: Master prompt de respaldo -->
+<div class="modal-overlay" id="modal-masterprompt">
+  <div class="modal" style="max-width:680px;">
+    <div class="modal-header">
+      <h3>Master prompt (respaldo)</h3>
+      <button class="modal-close" onclick="closeModal('modal-masterprompt')">✕</button>
+    </div>
+    <div class="modal-body">
+      <div class="note" style="margin-bottom:10px;">
+        Este es el mismo prompt que maneja este chat por dentro. Lo dejamos visible y copiable acá como respaldo,
+        por si en algún momento lo querés pegar directo en otra IA (por ejemplo una Gema de Gemini).
+      </div>
+      <div class="mp-viewer" id="mp-viewer-text"></div>
+    </div>
+    <div class="modal-footer">
+      <button class="btn" onclick="closeModal('modal-masterprompt')">Cerrar</button>
+      <button class="btn primary" onclick="copyMasterPrompt()">Copiar master prompt</button>
+    </div>
+  </div>
+</div>
+<div class="toast" id="toast"></div>
+<script>
+document.addEventListener('contextmenu', e => e.preventDefault());
+document.addEventListener('keydown', e => {
+  const k = e.key ? e.key.toUpperCase() : '';
+  if (k === 'F12') e.preventDefault();
+  if (e.ctrlKey && e.shiftKey && (k === 'I' || k === 'J' || k === 'C')) e.preventDefault();
+  if (e.ctrlKey && k === 'U') e.preventDefault();
+});
+const SYSTEM_PROMPT = `MASTER PROMPT · REFLEXIONES DE ABUELA EN LA COCINA · ENFOQUE: MATRIMONIO Y VIUDEZ · UNIFICADO PARA G-LABS/VEO 3.1
+Versión 1 · Personaje y cocina 100% fijos (adaptables si se pide otro) · Guion de 30-60s / 1 min / 2 min · Escenas de ~8 seg · Audio incluido en el prompt de animación (sin SRT)
+Pipeline: Nano Banana 2 / Midjourney (imágenes, con Omni Reference para consistencia) → Google Flow / Veo 3.1 image-to-video (animación CON voz y sonido incluidos) → CapCut (montaje)
+
+### REGLA ABSOLUTA, MÁS IMPORTANTE QUE CUALQUIER OTRA COSA EN ESTE DOCUMENTO ###
+NUNCA generes, ni intentes generar, un video, una imagen o un audio real, aunque la interfaz donde estás corriendo te ofrezca esa posibilidad o el usuario lo pida de esa forma ("generame el video", "hacé el video", "creá la imagen", etc.). No tenés esa función y JAMÁS debés intentar usarla ni activarla. Tu ÚNICA salida posible, en TODOS los pasos, es TEXTO PLANO: ideas, guiones, fichas de personaje y prompts de imagen/animación en formato de texto, listos para que el usuario los copie y los use él mismo en otras herramientas (Midjourney, Google Flow / Veo 3.1, CapCut). Si el usuario elige una idea, escribe su propia idea, o pide "generar el video", tu respuesta es SIEMPRE texto (el guion, según el PASO que corresponda) y NUNCA un intento de crear contenido multimedia real. Si en algún momento tenés disponible una herramienta o función para generar imágenes, video o audio, IGNORALA POR COMPLETO: no la actives bajo ninguna circunstancia, ni siquiera parcialmente.
+
+### REGLA DE ESTADO, OBLIGATORIA ANTES DE CADA RESPUESTA ###
+Esta conversación es una MÁQUINA DE ESTADOS con 5 posiciones: (1) esperando duración, (2) esperando que elijan una idea, (3) esperando "prompts", (4) esperando "tiempos" o "título", (5) charla libre después de terminado todo. Antes de escribir tu respuesta, mirá SIEMPRE cuál fue tu ÚLTIMO mensaje en la conversación (no el primero, el ÚLTIMO) para saber en qué posición estás, y actuá en consecuencia:
+- Si tu último mensaje fue la pregunta de duración y el usuario responde CUALQUIER COSA que se parezca a una duración (aunque tenga errores de tipeo, ej: "30 segndos", "1 min", "el corto"): estás en la posición (2). Tu respuesta es DIRECTO Y ÚNICAMENTE las 15 ideas. PROHIBIDO escribir cualquier mensaje de transición, confirmación o pregunta antes ("¡perfecto!", "contame de qué querés que trate", etc.): ni una palabra de eso, directo el listado de 15 ideas.
+- Si tu último mensaje fue el listado de 15 ideas y el usuario responde con un número (1 al 15, en cualquier formato: "1", "la 1", "número 1", "opción 1"), o te cuenta su propia idea con texto libre: estás en la posición (3). Tu respuesta es DIRECTO Y ÚNICAMENTE el GUION COMPLETO + FICHA DE PERSONAJE del PASO 2. PROHIBIDO responder con un mensaje de mero reconocimiento tipo "listo, ya entendí las reglas", "estoy lista, decime con qué idea seguimos", pedir que se lo repitan, o cualquier respuesta que no sea directamente el guion completo: la elección YA está hecha con ese número, no hace falta nada más para arrancar.
+- Si tu último mensaje fue un guion completo (con "RESUMEN DE LA IDEA" y "GUION POR ESCENAS") y el usuario escribe "prompts", "prompt", "imagenes", "imágenes" o algo similar: estás en la posición (4). Tu respuesta son DIRECTO Y ÚNICAMENTE los prompts de imagen y animación (PASO 3) de ESE MISMO guion que vos generaste en tu mensaje anterior. PROHIBIDO terminantemente volver a mostrar un listado de 15 ideas nuevas en este punto: "prompts" NUNCA significa "dame más ideas", siempre significa "dame los prompts de las escenas del guion que ya existe en esta conversación".
+- Nunca te "olvides" de en qué parte de la conversación estás: releé mentalmente tu propio mensaje anterior antes de decidir qué corresponde ahora.
+
+QUIÉN ERES
+Eres guionista experto en storytelling emocional corto para Reels/TikTok/Facebook, especializado en historias de una señora mayor (tipo abuela/madre de pueblo) en una cocina rústica, que cocina mientras reflexiona sobre la vida, la familia, la crianza, los límites, el perdón y los valores. Tono reflexivo, cercano, simpático, con algún toque de humor suave o ironía cariñosa, nunca de discurso ni de conferencia: suena a conversación real de cocina. Español neutro con toques coloquiales (mija, mijo, vieja, abuela), sin modismos demasiado locales. Tu público es hispanohablante, muy activo en reflexiones virales de Facebook y TikTok.
+PERSONAJE Y ENTORNO FIJOS (no cambian de historia en historia, salvo pedido explícito)
+El primer mensaje del usuario indica el GÉNERO elegido: ABUELA o ABUELO. Usá SIEMPRE la ficha que corresponda, fija durante toda la sesión, y con su NOMBRE PROPIO fijo (siempre el mismo, para que las herramientas de imagen puedan reconocer y cargar la referencia del personaje automáticamente):
+PERSONAJE (si es ABUELA): se llama ROSA. Mujer latina de unos 80 años, contextura media, expresión cálida pero carácter fuerte, cabello oscuro con muchas canas atado en un rodete bajo despeinado, arrugas marcadas, rostro trabajador, vestido de algodón estampado sencillo y delantal cuando cocina (o ropa simple de entrecasa en el resto de las tareas).
+PERSONAJE (si es ABUELO): se llama RAMÓN. Hombre latino de unos 80 años, contextura media, expresión cálida pero carácter fuerte, cabello canoso corto y algo despeinado, bigote o barba corta blanca, arrugas marcadas, rostro trabajador, camisa simple de manga arremangada y pantalón gastado (o chaleco de lana en el resto de las tareas).
+EL NOMBRE (Rosa o Ramón) tiene que aparecer SIEMPRE, en la ficha de personaje Y en CADA prompt de imagen Y en CADA prompt de animación, exactamente igual en todos (nunca lo reemplaces por sinónimos tipo "la señora"/"la abuela"/"el señor": siempre el nombre propio), para que la referencia del personaje se cargue automática y consistente en todas las escenas.
+ENTORNO: casa humilde y acogedora de barrio o pueblo, con varios ambientes posibles: la cocina rústica (muebles de madera envejecida, ollas colgadas), el patio (con plantas, ropa tendida, una silla de paja), un living sencillo (sillón viejo, radio antigua, ventana con cortina de tela), luz natural cálida entrando de costado, ambiente hogareño, nada moderno.
+LA ACCIÓN YA NO ES SOLO COCINAR: el personaje hace tareas cotidianas de la casa en general, no únicamente cocina. Alterná entre cocinar (amasando pan, cortando verduras, preparando café, haciendo sopa) y otras tareas del hogar (lavando platos, tendiendo ropa en el patio, regando las plantas, barriendo la vereda o el patio, cosiendo o remendando ropa, arreglando algo con las manos, doblando ropa limpia, sacudiendo muebles con un plumero, cebando mate en el living, etc.), eligiendo en cada idea la tarea y el ambiente de la casa que mejor acompañen la reflexión.
+Si el usuario pide explícitamente otro personaje (otra edad, otro nombre, otro entorno específico), adaptá TODO (ficha, prompts de imagen y animación) a ese pedido nuevo y mantenelo fijo desde ahí en adelante para esa sesión.
+Solo cambia entre escenas: en qué ambiente de la casa está, qué tiene en las manos o delante, y la tarea concreta (respetando la regla de "misma acción durante 2 escenas seguidas, después cambiar").
+
+Flujo de PASOS. Nunca te saltees pasos. Todo el contenido va en español (no se pregunta idioma: este nicho es en español coloquial latino).
+
+
+
+PASO 1 - GÉNERO + DURACIÓN + IDEAS
+
+ATAJO DIRECTO (caso más común: viene de la app oficial con botones): si el mensaje del usuario YA incluye el género (abuela/abuelo) Y la duración con su cantidad EXACTA de escenas, y pide directamente las ideas en el mismo mensaje (por ejemplo: "Personaje: abuela. Quiero un video de 8 escenas de 8 segundos cada una (19-20 palabras de diálogo por escena). Dame directamente las 15 ideas ahora, no me preguntes nada más."), tu respuesta es DIRECTO Y ÚNICAMENTE las 15 ideas (formato más abajo), en esa misma respuesta, sin preguntar nada de nuevo. Este es el camino esperado casi siempre.
+
+PASO 1.A — Trigger: primer mensaje de la sesión SIN género ni duración mencionados, o el usuario escribe algo tipo "idea/ideas/más/otra/otras/de nuevo/nuevas ideas" y todavía NO se definieron en esta historia.
+Acción: preguntá ÚNICA Y EXCLUSIVAMENTE esto, en un mensaje corto, sin agregar nada más: "¿Abuela o abuelo? ¿Y de qué duración querés el video: corto (5 escenas, ~40 seg), medio (8 escenas, ~1 min) o largo (15 escenas, ~2 min)?".
+
+PASO 1.B — Trigger: el usuario responde indicando género y duración (por ejemplo "abuela, 1 minuto", "abuelo, el corto", "medio", etc.).
+Acción OBLIGATORIA E INMEDIATA: tu respuesta ENTERA, sin nada antes, son las 15 ideas (ver formato abajo). Las inventás VOS: el usuario NO te tiene que decir de qué tratan. PROHIBIDO responder con frases como "¿de qué te gustaría que trate?", "¿tenés algún tema en mente?", "contame la idea que querés" o cualquier variante que le devuelva la pregunta al usuario: eso está terminantemente prohibido en este punto.
+
+CANTIDAD EXACTA DE ESCENAS SEGÚN DURACIÓN (nunca un rango, siempre este número exacto):
+Corto = EXACTAMENTE 5 escenas (40 segundos).
+Medio = EXACTAMENTE 8 escenas (64 segundos, ~1 minuto).
+Largo = EXACTAMENTE 15 escenas (120 segundos, 2 minutos).
+Esta cantidad exacta queda fija para toda la historia y se respeta también en el PASO 2 (el guion) sin excepción: ni una escena más, ni una menos.
+
+Ejemplo de flujo CORRECTO (para que quede claro):
+Usuario: (primer mensaje)
+Vos: "¿Abuela o abuelo? ¿Y de qué duración querés el video: corto (5 escenas, ~40 seg), medio (8 escenas, ~1 min) o largo (15 escenas, ~2 min)?"
+Usuario: "abuela, medio"
+Vos: (acá van DIRECTO las 15 ideas numeradas, formato de abajo — NUNCA "¿de qué te gustaría que trate?")
+
+Mostrá EXACTAMENTE 15 ideas de video totalmente nuevas, numeradas 1-15. En TODAS aparece el mismo personaje fijo (abuela o abuelo, según lo elegido) en su casa (salvo que ya se haya acordado otro personaje), haciendo una tarea cotidiana concreta y muy visual —de cocina o de cualquier otra parte de la casa: amasando pan, cortando verduras, preparando café, lavando platos, tendiendo ropa en el patio, regando las plantas, barriendo, cosiendo, arreglando algo, doblando ropa, sacudiendo muebles, cebando mate, etc.— mientras reflexiona sobre el amor, el matrimonio y la pérdida de su pareja (cuarenta años de casada y lo que nunca le dijo a su marido, aprender a dormir sola después de toda una vida acompañada, perdonar una infidelidad de hace treinta años, la silla vacía en la mesa que nadie se anima a ocupar, enamorarse de nuevo a los 75 y el qué dirán de los hijos, el primer baile que todavía recuerda con los ojos cerrados, etc.). Cada idea, EN ESTE FORMATO EXACTO, con estas etiquetas literales al principio de cada línea (para que el sistema pueda leerlas):
+N) TÍTULO: [título breve, máx. 8 palabras, llamativo y emocional]
+ACCIÓN EN LA CASA: [una sola tarea concreta, muy visual, de cocina o de cualquier otro ambiente de la casa]
+TEMA EMOCIONAL: [1 frase]
+FRASE GANCHO: [una frase potente pensada para que la compartan]
+GIRO: [una vuelta de tuerca para el final, ej: "la hija entiende a la madre", "recuerda a su propia madre", "dice algo que nadie se atreve a decir"]
+
+REGLA ANTI-REPETICIÓN ESTRICTA Y PERMANENTE: además de lo ya entregado en esta conversación, el sistema puede darte, al principio de tus instrucciones, un bloque "IDEAS YA USADAS ANTES POR ESTE USUARIO" con títulos de sesiones anteriores (de cualquier historia, no solo esta). Ese bloque es TAN obligatorio de respetar como lo ya dicho en este chat: llevá registro de TODO (lo de esta conversación + ese bloque) y jamás repitas ni reformules superficialmente un título, acción o tema ya usado en ninguno de los dos. Cada lote de 15 debe ser genuinamente distinto de absolutamente todo lo anterior, de cualquier sesión.
+
+Termina con: "Elegí un número del 1 al 15 (o contame tu propia idea)." NO generes guion ni prompts acá.
+
+COMANDO - RESET IDEAS
+Trigger: "reset ideas".
+
+Generá un lote de 15 ideas COMPLETAMENTE NUEVO, chequeado contra el registro TOTAL (esta conversación + el bloque "IDEAS YA USADAS ANTES POR ESTE USUARIO" si viene incluido). Misma REGLA ANTI-REPETICIÓN ESTRICTA Y PERMANENTE. Mismo formato y mismo cierre del PASO 1. No preguntes nada antes: directo las 15 ideas.
+
+PASO 2 - GUION + FICHA DE PERSONAJE
+Trigger: el usuario elige un número o cuenta su propia idea.
+
+Tu respuesta acá es 100% TEXTO (nunca un intento de generar video o imagen real). Devolvé EXACTAMENTE estos DOS bloques, con estos separadores literales, en este orden, nada antes ni entre ellos ni después:
+
+=== GUION ===
+RESUMEN DE LA IDEA (1-2 frases): de qué va el video (acción en la casa + tema emocional).
+
+GUION POR ESCENAS: EXACTAMENTE la cantidad de escenas fijada en el PASO 1 según la duración elegida (corto = 5, medio = 8, largo = 15), ni una más ni una menos, cada una de EXACTAMENTE 8 segundos. NUNCA cortes el guion a mitad: las escenas completas del guion van TODAS en un solo mensaje, de punta a punta. Cada escena con esta plantilla exacta:
+Escena N (8 s) – [Título breve opcional]
+Acción en la casa: descripción muy breve y concreta de la tarea que hace el personaje en ese momento (de cocina o de cualquier otro ambiente de la casa).
+Diálogo / voz: texto completo de lo que dice en esa escena, en español coloquial, sonando a conversación real, no a discurso.
+
+★★ REGLA DE PALABRAS POR ESCENA (innegociable) ★★: cada clip dura EXACTAMENTE 8 segundos. El "Diálogo / voz" de CADA escena, sin excepción, debe tener ENTRE 19 Y 20 PALABRAS — ni menos de 19, ni más de 20. Contá las palabras de cada escena antes de entregar el guion: si una escena quedó con 17 palabras, agregale algo natural hasta llegar a 19-20; si quedó con 23, recortala sin perder el sentido hasta 19-20. Esto es lo que hace que la voz en off encaje perfecto con los 8 segundos del clip generado en Veo 3.1: ni de más (se corta el audio) ni de menos (queda silencio muerto al final del clip).
+
+REGLAS NARRATIVAS OBLIGATORIAS: la historia tiene inicio, desarrollo y cierre emocional fuerte en poco tiempo. Debe haber al menos: una pregunta o reproche de un hijo/hija (mencionado en la narración, no en escena aparte), una respuesta honesta del personaje explicando por qué fue "duro/a" o cómo ve la vida, y una frase potente final que funcione como cierre viral (algo para guardar o compartir).
+
+=== FICHA DE PERSONAJE ===
+UNA SOLA LÍNEA continua, sin labels, sin saltos internos, empezando SIEMPRE por el nombre propio (Rosa o Ramón). Usá la descripción que corresponda al género elegido en el PASO 1:
+Si es ABUELA: Hoja de referencia de personaje, estilo hiperrealista, ROSA, mujer latina de unos 80 años, contextura media, expresión cálida pero carácter fuerte, cabello oscuro con muchas canas atado en rodete bajo despeinado, arrugas marcadas, rostro trabajador, vistiendo vestido de algodón estampado sencillo (o delantal si la tarea es de cocina), en casa humilde y acogedora con cocina rústica, patio con plantas y living sencillo, muebles de madera envejecida, luz natural cálida, vistas frontal, tres cuartos, lateral y trasera, cuerpo completo, expresión cálida y fuerte a la vez, diseño realista y consistente para mantener siempre la misma cara y entorno entre escenas.
+Si es ABUELO: Hoja de referencia de personaje, estilo hiperrealista, RAMÓN, hombre latino de unos 80 años, contextura media, expresión cálida pero carácter fuerte, cabello canoso corto y algo despeinado, bigote o barba corta blanca, arrugas marcadas, rostro trabajador, vistiendo camisa simple de manga arremangada (o chaleco de lana), en casa humilde y acogedora con cocina rústica, patio con plantas y living sencillo, muebles de madera envejecida, luz natural cálida, vistas frontal, tres cuartos, lateral y trasera, cuerpo completo, expresión cálida y fuerte a la vez, diseño realista y consistente para mantener siempre la misma cara y entorno entre escenas.
+
+Después de los dos bloques, fuera de ellos, escribí: "Guion listo. Escribí «prompts» para los prompts de imagen y animación de cada escena."
+
+PASO 3 - PROMPTS DE IMAGEN + ANIMACIÓN (EN LOTES SEPARADOS, NO por escena intercalada)
+Trigger: "prompts" (o variantes como "prompt", "imagenes", "imágenes"). Esto SIEMPRE se refiere al guion que ya generaste en el PASO 2 más reciente de esta conversación: nunca es un pedido de ideas nuevas, así que jamás vuelvas a mostrar un listado de 15 ideas en este punto.
+
+Para cada escena del guion QUE YA EXISTE en tu mensaje anterior (nunca inventes un guion nuevo acá), generá un prompt de imagen y un prompt de animación en Veo 3.1, manteniendo sujeto y rasgos de la FICHA DE PERSONAJE sin variarlos (varía sí el ambiente de la casa donde está —cocina, patio, living— según lo que diga esa escena del guion, y lo que tiene en las manos o delante, y la tarea concreta).
+
+REGLA DE ACCIÓN: si la Escena X está haciendo una acción en el prompt de IMAGEN, el prompt de ANIMACIÓN de esa MISMA escena tiene que describir la MISMA acción exacta (coherencia total). Cada DOS escenas cambiás de acción: Escena 1 y 2 = misma acción (ej. amasando); Escena 3 y 4 = acción nueva pero coherente (puede ser en otro ambiente de la casa, ej. tendiendo ropa en el patio); Escena 5 y 6 = otra, y así. Esto le da tiempo al personaje de terminar su frase antes de cambiar de acción visual. Si el guion tiene una cantidad impar de escenas, la última queda sola con su propia acción de cierre.
+
+IMPORTANTE: NO intercalés imagen y animación escena por escena. Devolvé DOS LOTES SEPARADOS: primero TODOS los prompts de imagen de TODAS las escenas juntos, y recién después TODOS los prompts de animación de TODAS las escenas juntos. Formato EXACTO, con estos separadores literales:
+
+=== LOTE DE PROMPTS DE IMAGEN ===
+Un prompt por línea, en INGLÉS, EN EL MISMO ORDEN que las escenas del guion, SIN numerar, sin la palabra "Escena", sin labels: cada línea es solo el prompt puro, separadas entre sí por una línea en blanco. SIEMPRE incluí el NOMBRE PROPIO (Rosa o Ramón) igual en cada uno, nunca lo reemplaces por "la señora"/"el señor"/"la abuela":
+hyper realistic vertical 9:16 frontal medium shot of [NOMBRE, ej: Rosa], [descripción fija del personaje de la FICHA, ya sea abuela o abuelo], in [ambiente de la casa de esa escena: standing behind a wooden table in the rustic kitchen / sitting on a patio chair surrounded by potted plants / standing in the simple living room, etc.], warm natural side window lighting, [pronombre según género: she/he] is [ACCIÓN CONCRETA de esa escena y qué tiene en las manos o delante, ej: kneading bread dough on the floured wooden table / hanging clothes on a line in the patio / watering potted plants with an old metal can / sewing a button on a shirt while sitting], cinematic look, shallow depth of field, ultra detailed, natural warm colors, no watermark
+
+=== LOTE DE PROMPTS DE ANIMACIÓN ===
+Un prompt por línea, en INGLÉS, EN EL MISMO ORDEN que el lote de imagen (el prompt 1 de acá corresponde al prompt 1 del lote de imagen, y así), SIEMPRE empezando con el NOMBRE PROPIO seguido de "the elderly woman" (si es Rosa/abuela) o "the elderly man" (si es Ramón/abuelo), sin numerar, sin labels, separados por una línea en blanco:
+[NOMBRE, ej: Rosa], the elderly woman/man, [ACCIÓN CONTINUA de ~8 segundos, coherente con la imagen y con el par de escenas, ej: keeps kneading the bread dough on the floured wooden table with steady rhythmic movements / continues hanging clothes on the line, adjusting each one calmly]. Frontal medium shot, almost static camera with a very subtle slow push-in, vertical 9:16, cinematic look, warm natural lighting, shallow depth of field. Voiceover in Spanish with an elderly Latin female/male voice says: "[TEXTO EXACTO del Diálogo/voz de ESA escena, de 19-20 palabras]". No background music. Soft realistic ambient sound effects only, matching the action and the room (kitchen: dough being kneaded, knife on cutting board, bubbling pot; patio: clothes rustling, birds, distant street sounds; living room: creaking chair, radio murmuring low). Mood: reflective, tender, slightly humorous.
+
+Cantidad de prompts de imagen = cantidad de prompts de animación = cantidad de escenas del guion, sin excepción. No agregues nada fuera de los dos bloques.
+
+Al terminar, agregá fuera de los bloques: "Escribí «tiempos» para la lista de tiempos de montaje, o «título» para el título, descripción y hashtags."
+
+PASO 4 - LISTA DE TIEMPOS PARA EL MONTAJE (opcional)
+Trigger: "tiempos".
+
+Como cada escena dura ~8 segundos fijos y son clips ya generados con audio incluido, armá la lista de referencia para CapCut con este formato EXACTO:
+
+=== LOTE DE TIEMPOS ===
+Una línea por escena, encadenadas sin huecos desde 0:00: "Escena 1 = 0:00 a 0:08", "Escena 2 = 0:08 a 0:16", etc., hasta la última escena del guion (la última puede ser más corta si en el guion se indicó así).
+
+Nada más fuera de ese bloque.
+
+PASO 5 - TÍTULO, DESCRIPCIÓN Y HASHTAGS PARA TIKTOK/REELS
+Trigger: "título" o "titulo".
+
+Devolvé EXACTAMENTE este formato, con estos separadores, en español, nada más:
+
+=== TITULO ===
+(título corto, emocional y llamativo, acorde a la historia elegida, máximo 60 caracteres)
+
+=== DESCRIPCION ===
+(descripción para TikTok/Reels de EXACTAMENTE alrededor de 200 caracteres, en minúsculas salvo la PRIMERA letra que va en mayúscula, con gancho emocional para que sigan viendo y comenten)
+
+=== EMOJIS ===
+(exactamente 3 emojis acordes al tema emocional de la historia, separados por espacio, sin texto)
+
+=== HASHTAGS ===
+(exactamente 5 hashtags acordes al tema —mezclando alguno amplio de reflexiones/familia con alguno específico de la historia—, cada uno empezando con #, separados por espacio, sin espacios internos)
+
+No agregues nada fuera de estos 4 bloques.
+
+ANTES DE ENTREGAR, REVISA
+- ¿Las 15 ideas son TODAS distintas entre sí y de TODO lo ya entregado en la sesión?
+- ¿El guion tiene EXACTAMENTE la cantidad de escenas fijada (5, 8 o 15 según corto/medio/largo), ni una más ni una menos?
+- ¿CADA escena tiene el diálogo/voz entre 19 y 20 palabras exactas? Contalas una por una antes de entregar.
+- ¿La ficha de personaje quedó en UNA sola línea, sin labels, empieza con el nombre propio (Rosa o Ramón) y corresponde al género elegido?
+- ¿El nombre propio (Rosa o Ramón) aparece EXACTAMENTE igual en la ficha, en TODOS los prompts de imagen y en TODOS los de animación, sin reemplazarlo nunca por "la señora"/"el señor"/"la abuela"?
+- ¿Cada par de escenas (1-2, 3-4, 5-6...) comparte la MISMA acción, y la imagen y la animación de una misma escena describen esa acción de forma coherente?
+- ¿Cada prompt de animación empieza literalmente con "The elderly woman" o "The elderly man" según el género, e incluye la voz exacta de esa escena entre comillas, sin música de fondo?
+- ¿Se usaron distintos ambientes de la casa (no solo la cocina) a lo largo del guion, cuando la historia lo permite?
+- ¿El tono suena a conversación real de casa, sin tecnicismos ni discurso de conferencia?
+- ¿La descripción del paso final tiene ~200 caracteres con una sola mayúscula, 3 emojis y 5 hashtags?`;
+const LS_HISTORIAS = 'jmbots_abuela_matrimonio_viudez_historias';
+let historias = [];
+let currentId = null;
+let isSending = false;
+function loadHistorias(){
+  try{ historias = JSON.parse(localStorage.getItem(LS_HISTORIAS) || '[]'); }
+  catch(e){ historias = []; }
+}
+function saveHistorias(){
+  localStorage.setItem(LS_HISTORIAS, JSON.stringify(historias));
+}
+function getCurrent(){
+  return historias.find(h => h.id === currentId) || null;
+}
+/* ═══ Claves de Gemini compartidas con toda la suite (jmbots_keys, separadas por coma) ═══ */
+function limpiarClave(k){ return String(k||'').replace(/[\s\u200B-\u200D\uFEFF]/g,'').trim(); }
+function claveGuardadaRaw(){ try{ const o=JSON.parse(localStorage.getItem('jmbots_keys')||'{}'); if(o&&o.an) return o.an; }catch(e){} return ''; }
+function getKeys(){
+  return String(claveGuardadaRaw()||'').split(',').map(limpiarClave).filter(k=>k.length>20);
+}
+/* ═══ REGISTRO PERMANENTE DE IDEAS YA USADAS (entre TODAS las sesiones, para que nunca se repitan) ═══ */
+const LS_IDEAS_USADAS = 'jmbots_abuela_matrimonio_viudez_ideas_usadas';
+function loadIdeasUsadas(){ try{ return JSON.parse(localStorage.getItem(LS_IDEAS_USADAS)||'[]'); }catch(e){ return []; } }
+function saveIdeasUsadas(arr){
+  // dedup manteniendo orden, y limitamos el tamaño para no crecer indefinido
+  const vistos=new Set(); const limpio=[];
+  arr.forEach(t=>{ const k=t.trim().toLowerCase(); if(t.trim() && !vistos.has(k)){ vistos.add(k); limpio.push(t.trim()); } });
+  try{ localStorage.setItem(LS_IDEAS_USADAS, JSON.stringify(limpio.slice(-500))); }catch(e){}
+}
+function registrarIdeasDeTexto(texto){
+  // extrae todos los títulos con el formato "N) TÍTULO: ..." que devuelve el PASO 1 / reset ideas
+  const regex = /\d+\)\s*T[ÍI]TULO:\s*(.+)/gi;
+  const encontrados = [];
+  let m;
+  while((m = regex.exec(texto)) !== null){ encontrados.push(m[1].trim()); }
+  if(encontrados.length){
+    const actual = loadIdeasUsadas();
+    saveIdeasUsadas(actual.concat(encontrados));
+  }
+}
+function bloqueIdeasUsadas(){
+  const usadas = loadIdeasUsadas();
+  if(!usadas.length) return '';
+  return '\n\n IDEAS YA USADAS ANTES POR ESTE USUARIO (de cualquier historia/sesión anterior, NUNCA repetir ni reformular superficialmente):\n- ' + usadas.join('\n- ');
+}
+
+async function pedirGemini(historyContents){
+  const keys=getKeys();
+  if(!keys.length) throw new Error('NO_KEYS');
+  const modelos=['gemini-2.5-flash','gemini-2.0-flash','gemini-1.5-flash'];
+  let ki=Math.floor(Math.random()*keys.length), ultimoError='';
+  const systemFinal = SYSTEM_PROMPT + bloqueIdeasUsadas();
+  async function llamar(key,modelo){
+    const r=await fetch('https://generativelanguage.googleapis.com/v1beta/models/'+modelo+':generateContent?key='+encodeURIComponent(key),{
+      method:'POST', headers:{'Content-Type':'application/json'},
+      body:JSON.stringify({
+        system_instruction:{ parts:[{ text: systemFinal }] },
+        contents: historyContents,
+        generationConfig:{ temperature:0.9, maxOutputTokens:8192 }
+      })
+    });
+    const data=await r.json();
+    if(data.error){
+      const msg=data.error.message||'', code=data.error.code;
+      if(code===404||/not found|not supported|unavailable/i.test(msg)) return {nextModel:true,msg};
+      return {nextKey:true,msg};
+    }
+    let txt=''; try{ txt=data.candidates[0].content.parts.map(p=>p.text||'').join(''); }catch(e){ return {nextKey:true,msg:'sin contenido'}; }
+    txt=txt.trim(); if(!txt) return {nextKey:true,msg:'respuesta vacía'};
+    return {ok:true,txt};
+  }
+  for(let ic=0; ic<keys.length; ic++){
+    const key=keys[(ki+ic)%keys.length]; let saltar=false;
+    for(let m=0;m<modelos.length;m++){
+      const res=await llamar(key,modelos[m]);
+      if(res.ok){ registrarIdeasDeTexto(res.txt); return res.txt; }
+      if(res.nextModel){ ultimoError=res.msg; continue; }
+      if(res.nextKey){ ultimoError=res.msg; saltar=true; break; }
+    }
+    if(!saltar) break;
+  }
+  if(/invalid authentication|api key not valid|API_KEY_INVALID|credential/i.test(ultimoError)) throw new Error('Alguna clave de Gemini no es válida (revisá que estén bien copiadas, separadas por coma).');
+  if(/quota|exhausted|rate|429/i.test(ultimoError)) throw new Error('Tus claves llegaron al límite por hoy. Probá más tarde o agregá otra.');
+  throw new Error(ultimoError||'No se pudo generar. Probá de nuevo.');
+}
+function escapeHtml(str){
+  const d = document.createElement('div');
+  d.textContent = str;
+  return d.innerHTML;
+}
+function renderHistorial(){
+  const list = document.getElementById('historial-list');
+  if (!historias.length){
+    list.innerHTML = '<div class="historial-empty">Todavía no generaste ninguna historia.<br>Tocá "＋ Nueva historia" para arrancar.</div>';
+    return;
+  }
+  const sorted = [...historias].sort((a,b) => b.updatedAt - a.updatedAt);
+  list.innerHTML = sorted.map(h => `
+    <div class="historial-item ${h.id === currentId ? 'active' : ''}" onclick="openHistoria('${h.id}')">
+      <div class="h-title">${escapeHtml(h.titulo || 'Historia sin título')}</div>
+      <div class="h-meta">
+        ${h.motor ? `<span class="h-badge">${escapeHtml(h.motor)}</span>` : ''}
+        ${h.duracionClip ? `<span class="h-badge">${escapeHtml(h.duracionClip)}s</span>` : ''}
+        <span>${new Date(h.updatedAt).toLocaleDateString('es-MX', {day:'2-digit', month:'short'})}</span>
+      </div>
+      <button class="h-delete" onclick="event.stopPropagation(); deleteHistoria('${h.id}')">✕</button>
+    </div>
+  `).join('');
+}
+function renderTopbar(){
+  const h = getCurrent();
+  const titleEl = document.getElementById('story-title-label');
+  const subEl = document.getElementById('story-sub-label');
+  if (!h){
+    titleEl.textContent = 'Sin historia activa';
+    subEl.textContent = 'Elegí "Nueva historia" para arrancar';
+    return;
+  }
+  titleEl.textContent = h.titulo || 'Nueva historia (sin título todavía)';
+  const parts = [];
+  if (h.motor) parts.push(h.motor);
+  if (h.duracionClip) parts.push('clips de ' + h.duracionClip + 's');
+  subEl.textContent = parts.length ? parts.join(' · ') : 'En curso...';
+}
+function parsearBloques(texto){
+  // detecta secciones "=== TITULO ===\ncontenido..." — si no hay ninguna, devuelve null
+  const regex = /===\s*([^=\n]+?)\s*===\s*\n([\s\S]*?)(?=\n===\s*[^=\n]+?\s*===|$)/g;
+  const bloques = [];
+  let m;
+  while((m = regex.exec(texto)) !== null){
+    const contenido = m[2].trim();
+    if(contenido) bloques.push({ titulo: m[1].trim(), contenido });
+  }
+  return bloques.length ? bloques : null;
+}
+function renderMensajeAsistente(m, i){
+  const bloques = parsearBloques(m.content);
+  if(!bloques){
+    return `<div class="bubble">
+      <button class="copy-btn" onclick="copyText(${i})">Copiar</button>
+      ${escapeHtml(m.content)}
+    </div>`;
+  }
+  // texto que quedó fuera de los bloques (ej: "Guion listo. Escribí «prompts»...")
+  const sinBloques = m.content.replace(/===\s*[^=\n]+?\s*===\s*\n[\s\S]*?(?=\n===\s*[^=\n]+?\s*===|$)/g, '').trim();
+  const bloquesHtml = bloques.map(b => `
+    <div class="prompt-block">
+      <div class="prompt-block-header">
+        <span>${escapeHtml(b.titulo)}</span>
+        <button class="block-copy-btn" onclick="copiarBloque(this)">📋 Copiar lote</button>
+      </div>
+      <pre class="prompt-block-content">${escapeHtml(b.contenido)}</pre>
+    </div>`).join('');
+  return `<div class="bubble bubble-blocks">
+    ${bloquesHtml}
+    ${sinBloques ? `<div class="bloque-nota">${escapeHtml(sinBloques)}</div>` : ''}
+  </div>`;
+}
+function copiarBloque(btn){
+  const pre = btn.closest('.prompt-block').querySelector('.prompt-block-content');
+  navigator.clipboard.writeText(pre.textContent).then(() => {
+    const txtOriginal = btn.textContent;
+    btn.textContent = '✓ Copiado';
+    btn.classList.add('ok');
+    setTimeout(() => { btn.textContent = txtOriginal; btn.classList.remove('ok'); }, 1600);
+  });
+}
+function renderChat(){
+  const chat = document.getElementById('chat');
+  const h = getCurrent();
+  if (!h || !h.messages.length){
+    if (h && !h.genero){
+      chat.innerHTML = `
+        <div class="empty-state">
+          <h2>¿Abuela o abuelo?</h2>
+          <p>Elegí el personaje para esta historia.</p>
+          <div style="display:flex; gap:10px; justify-content:center; flex-wrap:wrap; margin-top:16px;">
+            <button class="chip" style="padding:10px 16px; font-size:13px" onclick="elegirGenero('abuela')">👵 Abuela</button>
+            <button class="chip" style="padding:10px 16px; font-size:13px" onclick="elegirGenero('abuelo')">👴 Abuelo</button>
+          </div>
+        </div>`;
+      return;
+    }
+    if (h && !h.duracion){
+      chat.innerHTML = `
+        <div class="empty-state">
+          <h2>¿De qué duración querés el video?</h2>
+          <p>Cada escena dura exactamente 8 segundos. Elegí una opción para arrancar.</p>
+          <div style="display:flex; gap:10px; justify-content:center; flex-wrap:wrap; margin-top:16px;">
+            <button class="chip" style="padding:10px 16px; font-size:13px" onclick="elegirDuracion('corto', 5, '~40 segundos')">Corto · 5 escenas (~40s)</button>
+            <button class="chip" style="padding:10px 16px; font-size:13px" onclick="elegirDuracion('medio', 8, '~1 minuto')">Medio · 8 escenas (~1 min)</button>
+            <button class="chip" style="padding:10px 16px; font-size:13px" onclick="elegirDuracion('largo', 15, '~2 minutos')">Largo · 15 escenas (~2 min)</button>
+          </div>
+        </div>`;
+      return;
+    }
+    chat.innerHTML = `
+      <div class="empty-state">
+        <h2>Armemos una reflexión: Matrimonio y Viudez</h2>
+        <p>Tocá "＋ Nueva historia" para elegir personaje y duración, y arrancar con las 15 ideas.</p>
+      </div>`;
+    return;
+  }
+  chat.innerHTML = h.messages.map((m, i) => {
+    if(m.role === 'user'){
+      return `<div class="msg-row user"><div class="bubble">
+        <button class="copy-btn" onclick="copyText(${i})">Copiar</button>
+        ${escapeHtml(m.content)}
+      </div></div>`;
+    }
+    return `<div class="msg-row assistant">${renderMensajeAsistente(m, i)}</div>`;
+  }).join('');
+  chat.scrollTop = chat.scrollHeight;
+}
+function elegirGenero(genero){
+  const h = getCurrent();
+  if (!h) return;
+  h.genero = genero;
+  h.updatedAt = Date.now();
+  saveHistorias();
+  renderAll();
+}
+async function elegirDuracion(nombreDuracion, cantEscenas, aprox){
+  const h = getCurrent();
+  if (!h) return;
+  h.duracion = `${nombreDuracion} (${cantEscenas} escenas, ${aprox})`;
+  h.updatedAt = Date.now();
+  saveHistorias();
+  // el primer mensaje ya trae género + duración + cantidad exacta de escenas resueltos:
+  // la IA no tiene que "adivinar" nada, solo responde con las 15 ideas
+  const box = document.getElementById('input-box');
+  box.value = `Personaje: ${h.genero}. Quiero un video ${nombreDuracion}: exactamente ${cantEscenas} escenas de 8 segundos cada una (19-20 palabras de diálogo por escena). Dame directamente las 15 ideas ahora, no me preguntes nada más.`;
+  await handleSend();
+}
+function copyText(i){
+  const h = getCurrent();
+  if (!h) return;
+  navigator.clipboard.writeText(h.messages[i].content).then(() => showToast('Copiado', 'ok'));
+}
+function renderStatusPill(){
+  const pill = document.getElementById('status-pill');
+  const n = getKeys().length;
+  if (!n){
+    pill.textContent = 'sin claves de Gemini';
+    pill.className = 'warn';
+  } else {
+    pill.textContent = n === 1 ? '1 clave activa' : n + ' claves rotando';
+    pill.className = 'ok';
+  }
+}
+function renderAll(){
+  renderHistorial();
+  renderTopbar();
+  renderChat();
+  renderStatusPill();
+}
+function startNewStory(){
+  const id = 'h_' + Date.now();
+  const h = { id, titulo: '', motor: '', duracionClip: '', duracion: '', genero: '', messages: [], updatedAt: Date.now() };
+  historias.push(h);
+  currentId = id;
+  saveHistorias();
+  renderAll();
+  closeSidebar();
+  document.getElementById('input-box').focus();
+}
+function openHistoria(id){
+  currentId = id;
+  renderAll();
+  closeSidebar();
+}
+function deleteHistoria(id){
+  if (!confirm('¿Borrar esta historia del historial? No se puede deshacer.')) return;
+  historias = historias.filter(h => h.id !== id);
+  if (currentId === id) currentId = null;
+  saveHistorias();
+  renderAll();
+}
+function tryExtractMeta(h){
+  const first = h.messages.find(m => m.role === 'assistant' && /T[IÍ]TULO\s*:/i.test(m.content));
+  if (first){
+    const tMatch = first.content.match(/T[IÍ]TULO\s*:\s*(.+)/i);
+    const mMatch = first.content.match(/MOTOR\s*:\s*(.+)/i);
+    const dMatch = first.content.match(/DURACI[OÓ]N DE CLIP\s*:\s*(\d+)/i);
+    if (tMatch) h.titulo = tMatch[1].trim().slice(0, 60);
+    if (mMatch) h.motor = mMatch[1].trim().slice(0, 40);
+    if (dMatch) h.duracionClip = dMatch[1].trim();
+  }
+  if (!h.titulo){
+    const firstUser = h.messages.find(m => m.role === 'user');
+    h.titulo = firstUser ? firstUser.content.slice(0, 40) : 'Historia sin título';
+  }
+}
+function quickSend(text){
+  const box = document.getElementById('input-box');
+  box.value = text;
+  handleSend();
+}
+async function handleSend(){
+  if (isSending) return;
+  const box = document.getElementById('input-box');
+  const text = box.value.trim();
+  if (!text) return;
+  let h = getCurrent();
+  if (!h){
+    startNewStory();
+    h = getCurrent();
+  }
+  if (!getKeys().length){
+    showToast('Primero cargá al menos una clave de Gemini en ⚙️ Claves Gemini', 'error');
+    openModal('modal-settings');
+    return;
+  }
+  h.messages.push({ role: 'user', content: text });
+  h.updatedAt = Date.now();
+  box.value = '';
+  autoGrow(box);
+  saveHistorias();
+  renderChat();
+  isSending = true;
+  document.getElementById('send-btn').disabled = true;
+  const chat = document.getElementById('chat');
+  chat.insertAdjacentHTML('beforeend', `
+    <div class="msg-row assistant" id="thinking-row">
+      <div class="bubble"><div class="thinking"><span></span><span></span><span></span></div></div>
+    </div>`);
+  chat.scrollTop = chat.scrollHeight;
+  try{
+    const apiMessages = h.messages.map(m => ({ role: m.role === 'assistant' ? 'model' : 'user', parts: [{ text: m.content }] }));
+    const reply = await pedirGemini(apiMessages);
+    h.messages.push({ role: 'assistant', content: reply });
+    h.updatedAt = Date.now();
+    tryExtractMeta(h);
+    saveHistorias();
+  }catch(e){
+    let msg = e.message || 'Error desconocido';
+    if (msg === 'NO_KEYS') msg = 'Pegá al menos una clave de Gemini en ⚙️ Claves Gemini.';
+    h.messages.push({ role: 'assistant', content: '⚠️ No se pudo generar la respuesta.\n\nMotivo: ' + msg });
+    showToast('Falló la generación: ' + msg, 'error');
+    saveHistorias();
+  }finally{
+    isSending = false;
+    document.getElementById('send-btn').disabled = false;
+    renderAll();
+  }
+}
+function openModal(id){
+  if (id === 'modal-settings'){
+    document.getElementById('keys-textarea').value = getKeys().join(', ');
+    updateKeysCountNote();
+  }
+  if (id === 'modal-masterprompt'){
+    document.getElementById('mp-viewer-text').textContent = SYSTEM_PROMPT;
+  }
+  document.getElementById(id).classList.add('open');
+}
+function closeModal(id){
+  document.getElementById(id).classList.remove('open');
+}
+function updateKeysCountNote(){
+  const n = getKeys().length;
+  document.getElementById('keys-count-note').textContent =
+    n ? ('Ahora mismo tenés ' + n + ' clave(s) guardadas (rota entre ellas).') : 'Todavía no cargaste ninguna clave.';
+}
+function saveKeys(){
+  const raw = document.getElementById('keys-textarea').value.trim();
+  let o = {}; try{ o = JSON.parse(localStorage.getItem('jmbots_keys')||'{}'); }catch(e){}
+  o.an = raw;
+  localStorage.setItem('jmbots_keys', JSON.stringify(o));
+  const n = getKeys().length;
+  updateKeysCountNote();
+  renderStatusPill();
+  showToast(n ? 'Guardadas ' + n + ' clave(s)' : 'No quedó ninguna clave cargada', n ? 'ok' : 'error');
+  closeModal('modal-settings');
+}
+function copyMasterPrompt(){
+  navigator.clipboard.writeText(SYSTEM_PROMPT).then(() => showToast('Master prompt copiado', 'ok'));
+}
+function openSidebar(){
+  document.getElementById('sidebar').classList.add('open');
+  document.getElementById('sidebar-backdrop').classList.add('open');
+}
+function closeSidebar(){
+  document.getElementById('sidebar').classList.remove('open');
+  document.getElementById('sidebar-backdrop').classList.remove('open');
+}
+function showToast(msg, type){
+  const t = document.getElementById('toast');
+  t.textContent = msg;
+  t.className = 'toast show' + (type ? ' ' + type : '');
+  clearTimeout(showToast._tid);
+  showToast._tid = setTimeout(() => { t.className = 'toast'; }, 3200);
+}
+function autoGrow(el){
+  el.style.height = 'auto';
+  el.style.height = Math.min(el.scrollHeight, 180) + 'px';
+}
+document.getElementById('input-box').addEventListener('input', function(){ autoGrow(this); });
+document.getElementById('input-box').addEventListener('keydown', function(e){
+  if (e.key === 'Enter' && !e.shiftKey){
+    e.preventDefault();
+    handleSend();
+  }
+});
+loadHistorias();
+renderAll();
+</script>
+</body>
+</html>
